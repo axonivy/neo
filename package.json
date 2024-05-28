@@ -6,13 +6,18 @@
   "scripts": {
     "build": "remix vite:build",
     "dev": "remix vite:dev",
+    "start:mock": "node --watch ./mock-server.js",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "preview": "vite preview",
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@axonivy/ui-components": "^11.4.0-next",
+    "@axonivy/ui-icons": "^11.4.0-next",
     "@remix-run/node": "^2.9.2",
     "@remix-run/react": "^2.9.2",
+    "@tanstack/react-query": "^5.40.0",
+    "@tanstack/react-query-devtools": "^5.40.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -28,6 +33,7 @@
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "express": "^4.19.2",
     "typescript": "^5.1.6",
     "vite": "^5.1.0",
     "vite-tsconfig-paths": "^4.2.1"
