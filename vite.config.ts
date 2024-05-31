@@ -19,8 +19,9 @@ export default defineConfig({
   base: '/neo/',
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:8081',
+      '/neo/api': {
+        target: 'http://localhost:8081/',
+        rewrite: path => path.replace(/^\/neo/, ''),
         auth: 'Developer:Developer'
       }
     }
