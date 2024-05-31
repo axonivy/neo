@@ -24,7 +24,7 @@ const ProcessCard = ({ name, path }: { name: string; path: string }) => {
       onClick={() => navigate(`/processes/${path}`)}
     >
       <div style={{ background: 'var(--background)', borderRadius: 8, flex: '1 0 auto' }}>
-        <img className='process-preview' src='/process.svg' alt='process-prev' />
+        <img className='process-preview' src='/neo/process.svg' alt='process-prev' />
       </div>
       <Flex alignItems='center' justifyContent='space-between' gap={1}>
         <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: 'calc(200px - var(--size-1) - 12px)' }}>{name}</span>
