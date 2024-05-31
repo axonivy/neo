@@ -3,14 +3,6 @@ import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  server: {
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8081',
-        auth: 'Developer:Developer'
-      }
-    }
-  },
   plugins: [
     remix({
       ssr: false,
@@ -18,8 +10,19 @@ export default defineConfig({
         v3_fetcherPersist: true,
         v3_relativeSplatPath: true,
         v3_throwAbortReason: true
-      }
+      },
+      buildDirectory: 'dist',
+      basename: '/neo/'
     }),
     tsconfigPaths()
-  ]
+  ],
+  base: '/neo/',
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8081',
+        auth: 'Developer:Developer'
+      }
+    }
+  }
 });

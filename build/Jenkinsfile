@@ -1,0 +1,48 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '5'))
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  stages {
+    stage('Build') {
+      steps {
+        script {
+          catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+            docker.build('node', '-f build/Dockerfile .').inside {
+              sh 'npm run ci'
+              archiveArtifacts 'dist/**'
+            }
+          }
+          withChecks('ESLint') {
+            recordIssues enabledForFailure: true, publishAllIssues: true, aggregatingResults: true, tools: [esLint(pattern: 'packages/**/eslint.xml,integration/**/eslint.xml', skipSymbolicLinks: true)], qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+          }
+        }
+      }
+    }
+
+    stage('Deploy (Maven)') {
+      when {
+        expression { isReleasingBranch() }
+      }
+      steps {
+        script {
+          docker.image('maven:3.8.6-eclipse-temurin-17').inside {
+            maven cmd: '-ntp clean deploy -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
+          }
+          archiveArtifacts 'target/neo-designer-*.jar'
+        }
+      }
+    }
+  }
+  post {
+    always {
+      discoverGitReferenceBuild()
+    }
+  }
+}
