@@ -1,6 +1,7 @@
 import { vitePlugin as remix } from '@remix-run/dev';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
   plugins: [
@@ -14,7 +15,8 @@ export default defineConfig({
       buildDirectory: 'dist',
       basename: '/neo/'
     }),
-    tsconfigPaths()
+    tsconfigPaths(),
+    svgr()
   ],
   base: '/neo/',
   server: {

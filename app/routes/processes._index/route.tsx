@@ -1,11 +1,11 @@
 import { Flex, IvyIcon, SearchInput } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
-import { useNavigate } from '@remix-run/react';
 import { useState } from 'react';
 import { useProcesses } from '~/data/processes';
-
-import processStyles from '~/styles/processes.css?url';
+import ProcessPreviewSVG from './process-preview.svg?react';
+import processStyles from './processes.css?url';
+import { editorId, useEditors } from '~/neo/useEditors';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: processStyles }];
 
@@ -14,17 +14,17 @@ export const meta: MetaFunction = () => {
 };
 
 const ProcessCard = ({ name, path }: { name: string; path: string }) => {
-  const navigate = useNavigate();
+  const { openEditor } = useEditors();
   return (
     <Flex
       direction='column'
       justifyContent='space-between'
       gap={2}
       style={{ background: 'var(--N75)', padding: 'var(--size-2)', borderRadius: 10, height: 150, flex: '0 1 200px' }}
-      onClick={() => navigate(`/processes/${path}`)}
+      onClick={() => openEditor({ icon: IvyIcons.Process, name, id: editorId('processes', path) })}
     >
       <div style={{ background: 'var(--background)', borderRadius: 8, flex: '1 0 auto' }}>
-        <img className='process-preview' src='/neo/process.svg' alt='process-prev' />
+        <ProcessPreviewSVG className='process-preview' />
       </div>
       <Flex alignItems='center' justifyContent='space-between' gap={1}>
         <span style={{ textOverflow: 'ellipsis', overflow: 'hidden', maxWidth: 'calc(200px - var(--size-1) - 12px)' }}>{name}</span>
