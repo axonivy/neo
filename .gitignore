@@ -1,9 +1,10 @@
 node_modules
 
 /.cache
-/dist
+**/dist
 /target
 /public/build
+/public/process-editor
 .env
 
 eslint.xml
