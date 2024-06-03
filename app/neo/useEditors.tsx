@@ -93,8 +93,13 @@ export const useRestoreEditor = (editorType: EditorType, pathname?: string) => {
   if (navigationType !== NavigationType.Pop || !pathname) {
     return;
   }
-  const id = editorId(editorType, pathname);
-  if (!editors.has(id)) {
-    addEditor({ icon: IvyIcons.Process, name: pathname.split('/').at(-1) ?? pathname, id });
+  const editor = editorOfPath(editorType, pathname);
+  if (!editors.has(editor.id)) {
+    addEditor(editor);
   }
+};
+
+export const editorOfPath = (editorType: EditorType, pathname: string) => {
+  const id = editorId(editorType, pathname);
+  return { icon: IvyIcons.Process, name: pathname.split('/').at(-1) ?? pathname, id };
 };

@@ -15,7 +15,7 @@ export default defineConfig({
       buildDirectory: 'dist',
       basename: '/neo/'
     }),
-    tsconfigPaths(),
+    tsconfigPaths({ projects: ['tsconfig.json'] }),
     svgr()
   ],
   base: '/neo/',
