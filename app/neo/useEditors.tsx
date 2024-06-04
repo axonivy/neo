@@ -1,14 +1,15 @@
+import { indexOf } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { NavigationType, useNavigate, useNavigationType } from '@remix-run/react';
 import { create } from 'zustand';
-import { StorageValue, persist } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
 
 export type Editor = { icon: IvyIcons; name: string; id: string };
 
 type EditorType = 'processes';
 
 type EditorState = {
-  editors: Map<string, Editor>;
+  editors: Array<Editor>;
   close: (id: string) => void;
   open: (editor: Editor) => void;
 };
@@ -16,49 +17,25 @@ type EditorState = {
 const useStore = create<EditorState>()(
   persist(
     set => ({
-      editors: new Map(),
+      editors: [],
       close: id =>
         set(state => {
           const editors = state.editors;
-          editors.delete(id);
+          const index = indexOf(editors, e => e.id === id);
+          editors.splice(index, 1);
           return { editors };
         }),
       open: editor =>
         set(state => {
           const editors = state.editors;
-          if (!editors.has(editor.id)) {
-            editors.set(editor.id, editor);
+          const index = indexOf(editors, e => e.id === editor.id);
+          if (index === -1) {
+            editors.push(editor);
           }
           return { editors };
         })
     }),
-    {
-      name: 'neo-editor-storage',
-      storage: {
-        getItem: name => {
-          const str = localStorage.getItem(name);
-          if (!str) return null;
-          const { state } = JSON.parse(str);
-          return {
-            state: {
-              ...state,
-              editors: new Map(state.editors)
-            }
-          };
-        },
-        setItem: (name, newValue: StorageValue<EditorState>) => {
-          // functions cannot be JSON encoded
-          const str = JSON.stringify({
-            state: {
-              ...newValue.state,
-              editors: Array.from(newValue.state.editors.entries())
-            }
-          });
-          localStorage.setItem(name, str);
-        },
-        removeItem: name => localStorage.removeItem(name)
-      }
-    }
+    { name: 'neo-open-editors' }
   )
 );
 
@@ -68,12 +45,16 @@ export const useEditors = () => {
 
   const closeEditor = (id: string) => {
     close(id);
-    navigate(-1);
+    let nav = '/';
+    if (editors.length > 0) {
+      nav = editors[0].id;
+    }
+    navigate(nav, { replace: true });
   };
 
   const openEditor = (editor: Editor) => {
-    open(editor);
     navigate(editor.id);
+    open(editor);
   };
 
   const addEditor = (editor: Editor) => {
@@ -94,7 +75,8 @@ export const useRestoreEditor = (editorType: EditorType, pathname?: string) => {
     return;
   }
   const editor = editorOfPath(editorType, pathname);
-  if (!editors.has(editor.id)) {
+  const index = indexOf(editors, e => e.id === editor.id);
+  if (index === -1) {
     addEditor(editor);
   }
 };
