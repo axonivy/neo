@@ -1,7 +1,13 @@
 import { vitePlugin as remix } from '@remix-run/dev';
-import { defineConfig } from 'vite';
+import { ProxyOptions, defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import svgr from 'vite-plugin-svgr';
+
+const DESIGNER_URL = 'http://localhost:8081/';
+const WEBSOCKET_PROXY: ProxyOptions = {
+  target: DESIGNER_URL,
+  ws: true
+};
 
 export default defineConfig({
   plugins: [
@@ -22,14 +28,13 @@ export default defineConfig({
   server: {
     proxy: {
       '/neo/api': {
-        target: 'http://localhost:8081/',
+        target: DESIGNER_URL,
         rewrite: path => path.replace(/^\/neo/, ''),
         auth: 'Developer:Developer'
       },
-      '/designer': {
-        target: 'http://localhost:8081/',
-        ws: true
-      }
+      '/designer': WEBSOCKET_PROXY,
+      '/ivy-script-lsp': WEBSOCKET_PROXY,
+      '/ivy-inscription-lsp': WEBSOCKET_PROXY
     }
   }
 });
