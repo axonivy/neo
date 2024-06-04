@@ -24,7 +24,15 @@ const EditorTab = ({ icon, name, id }: Editor) => {
     >
       <IvyIcon style={{ fontSize: '16px' }} icon={icon} />
       {name}
-      {active && <Button icon={IvyIcons.Close} onClick={() => closeEditor(id)} />}
+      {active && (
+        <Button
+          icon={IvyIcons.Close}
+          onClick={event => {
+            event.stopPropagation();
+            closeEditor(id);
+          }}
+        />
+      )}
     </Flex>
   );
 };
@@ -40,7 +48,7 @@ export const ControlBar = () => {
         <Button icon={IvyIcons.Market} size='large' />
       </Flex>
       <Flex alignItems='center'>
-        {Array.from(editors.values()).map(editor => (
+        {editors.map(editor => (
           <EditorTab key={editor.id} {...editor} />
         ))}
       </Flex>
