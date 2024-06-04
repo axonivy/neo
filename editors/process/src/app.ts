@@ -1,5 +1,5 @@
 import { MonacoEditorUtil } from '@axonivy/inscription-editor';
-import { IvyBaseJsonrpcGLSPClient, SwitchThemeActionHandler } from '@axonivy/process-editor';
+import { IvyBaseJsonrpcGLSPClient } from '@axonivy/process-editor';
 import { ThemeMode } from '@axonivy/process-editor-protocol';
 import { DiagramLoader, EditMode, GLSPActionDispatcher, GLSPWebSocketProvider, MessageAction, StatusAction } from '@eclipse-glsp/client';
 import { ApplicationIdProvider, GLSPClient } from '@eclipse-glsp/protocol';
@@ -20,7 +20,6 @@ const pmv = parameters.get('pmv') ?? '';
 const pid = parameters.get('pid') ?? '';
 const sourceUri = parameters.get('file') ?? '';
 const select = parameters.get('select');
-const theme = (parameters.get('theme') as ThemeMode) ?? SwitchThemeActionHandler.prefsColorScheme();
 const debug = parameters.has('debug', 'true');
 
 const id = 'ivy-glsp-process-editor';
@@ -45,7 +44,6 @@ async function initialize(connectionProvider: MessageConnection, isReconnecting 
     sourceUri,
     editMode: isReadonly() ? EditMode.READONLY : EditMode.EDITABLE,
     select,
-    theme,
     inscriptionContext: {
       app,
       pmv,
@@ -81,5 +79,11 @@ async function initMonaco(): Promise<void> {
   // packaging with vite has it's own handling of workers so it can be properly accessed
   // we therefore import the worker here and use that instead of the default mechanism
   const worker = await import('monaco-editor/esm/vs/editor/editor.worker?worker');
-  MonacoEditorUtil.configureInstance({ theme, debug, worker: { workerConstructor: worker.default } });
+  MonacoEditorUtil.configureInstance({ theme: 'light', debug, worker: { workerConstructor: worker.default } });
 }
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+window.setMonacoTheme = (theme: ThemeMode) => {
+  MonacoEditorUtil.setTheme(theme);
+};
