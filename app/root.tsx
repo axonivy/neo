@@ -36,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <ThemeProvider>
+    <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
         <Neo />
         <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} />

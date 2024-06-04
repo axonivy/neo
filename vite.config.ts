@@ -25,6 +25,10 @@ export default defineConfig({
         target: 'http://localhost:8081/',
         rewrite: path => path.replace(/^\/neo/, ''),
         auth: 'Developer:Developer'
+      },
+      '/designer': {
+        target: 'http://localhost:8081/',
+        ws: true
       }
     }
   }
