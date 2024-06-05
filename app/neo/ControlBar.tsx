@@ -3,6 +3,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useLocation, useNavigate } from '@remix-run/react';
 import IvyLogoSVG from './axonivy.svg?react';
 import { Editor, useEditors } from './useEditors';
+import { useRef } from 'react';
 
 const EditorTab = ({ icon, name, id }: Editor) => {
   const { closeEditor } = useEditors();
@@ -39,6 +40,7 @@ const EditorTab = ({ icon, name, id }: Editor) => {
 export const ControlBar = () => {
   const navigate = useNavigate();
   const { editors } = useEditors();
+  const scroller = useRef<HTMLDivElement>(null);
   return (
     <Flex style={{ height: '40px', borderBottom: 'var(--basic-border)', background: 'var(--N50)' }}>
       <Flex alignItems='center' gap={4} style={{ paddingInline: 'var(--size-4)', borderInlineEnd: 'var(--basic-border)' }}>
@@ -47,7 +49,16 @@ export const ControlBar = () => {
         </Button>
         <Button icon={IvyIcons.Market} size='large' />
       </Flex>
-      <Flex alignItems='center'>
+      <Flex
+        ref={scroller}
+        alignItems='center'
+        style={{ overflowX: 'hidden' }}
+        onWheel={event => {
+          if (scroller.current) {
+            scroller.current.scrollLeft += event.deltaY;
+          }
+        }}
+      >
         {editors.map(editor => (
           <EditorTab key={editor.id} {...editor} />
         ))}

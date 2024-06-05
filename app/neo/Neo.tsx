@@ -2,8 +2,10 @@ import { Outlet } from '@remix-run/react';
 import { ControlBar } from './ControlBar';
 import { Navigation } from './Navigation';
 import { Flex } from '@axonivy/ui-components';
+import { renderEditor, useEditors } from './useEditors';
 
 export const Neo = () => {
+  const { editors } = useEditors();
   return (
     <div className='neo-layout'>
       <ControlBar />
@@ -11,6 +13,7 @@ export const Neo = () => {
         <Navigation />
         <div style={{ width: '100%' }}>
           <Outlet />
+          {editors.map(renderEditor)}
         </div>
       </Flex>
     </div>

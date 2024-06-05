@@ -3,10 +3,11 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { NavigationType, useNavigate, useNavigationType } from '@remix-run/react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-
-export type Editor = { icon: IvyIcons; name: string; id: string };
+import { ProcessEditor } from '~/routes/processes.$/ProcessEditor';
 
 type EditorType = 'processes';
+
+export type Editor = { type: EditorType; icon: IvyIcons; name: string; id: string };
 
 type EditorState = {
   editors: Array<Editor>;
@@ -81,7 +82,14 @@ export const useRestoreEditor = (editorType: EditorType, pathname?: string) => {
   }
 };
 
-export const editorOfPath = (editorType: EditorType, pathname: string) => {
-  const id = editorId(editorType, pathname);
-  return { icon: IvyIcons.Process, name: pathname.split('/').at(-1) ?? pathname, id };
+export const editorOfPath = (type: EditorType, pathname: string): Editor => {
+  const id = editorId(type, pathname);
+  return { type, icon: IvyIcons.Process, name: pathname.split('/').at(-1) ?? pathname, id };
+};
+
+export const renderEditor = (editor: Editor) => {
+  switch (editor.type) {
+    case 'processes':
+      return <ProcessEditor key={editor.id} url={editor.id} />;
+  }
 };
