@@ -15,13 +15,14 @@ export const meta: MetaFunction = () => {
 
 const ProcessCard = ({ name, path }: { name: string; path: string }) => {
   const { openEditor } = useEditors();
+  const id = editorId('processes', path);
   return (
     <Flex
       direction='column'
       justifyContent='space-between'
       gap={2}
       style={{ background: 'var(--N75)', padding: 'var(--size-2)', borderRadius: 10, height: 150, flex: '0 1 200px' }}
-      onClick={() => openEditor({ icon: IvyIcons.Process, name, id: editorId('processes', path) })}
+      onClick={() => openEditor({ type: 'processes', icon: IvyIcons.Process, name, id })}
     >
       <div style={{ background: 'var(--background)', borderRadius: 8, flex: '1 0 auto' }}>
         <ProcessPreviewSVG className='process-preview' />
