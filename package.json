@@ -7,6 +7,7 @@
     "ci": "npm install && npm run type && npm run lint:ci && npm run build:editor && npm run build",
     "build": "remix vite:build",
     "dev": "remix vite:dev",
+    "dev:debug": "export DEBUG=vite:* && remix vite:dev",
     "build:editor": "npm run -w editors/process build",
     "start:mock": "node --watch ./mock-server.js",
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
