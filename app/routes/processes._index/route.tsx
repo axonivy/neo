@@ -1,4 +1,4 @@
-import { Flex, IvyIcon, SearchInput } from '@axonivy/ui-components';
+import { Flex, IvyIcon, SearchInput, Spinner } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useState } from 'react';
@@ -48,7 +48,7 @@ export default function Index() {
       </Flex>
       <SearchInput value={search} onChange={setSearch} />
       <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-        {isLoading && 'Loading...'}
+        {isLoading && <Spinner size='small' />}
         {processes.map(process => (
           <ProcessCard key={process.path ?? process.name} {...process} />
         ))}
