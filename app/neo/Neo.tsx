@@ -1,7 +1,7 @@
 import { Outlet } from '@remix-run/react';
 import { ControlBar } from './ControlBar';
 import { Navigation } from './Navigation';
-import { Flex } from '@axonivy/ui-components';
+import { Flex, Toaster } from '@axonivy/ui-components';
 import { renderEditor, useEditors } from './useEditors';
 
 export const Neo = () => {
@@ -16,6 +16,7 @@ export const Neo = () => {
           {editors.map(renderEditor)}
         </div>
       </Flex>
+      <Toaster closeButton={true} />
     </div>
   );
 };
