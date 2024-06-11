@@ -6,6 +6,13 @@ import { toast } from '@axonivy/ui-components';
 export type Process = {
   name: string;
   path: string;
+  processIdentifier: ProcessIdentifier;
+};
+
+export type ProcessIdentifier = {
+  app: string;
+  pmv: string;
+  pid: string;
 };
 
 export const useProcesses = () => {
@@ -39,7 +46,8 @@ export const useCreateProcess = () => {
     const res = await post('process', process);
     if (res?.ok) {
       client.invalidateQueries({ queryKey: ['processes'] });
-      openEditor(editorOfPath('processes', `${process.namespace}/${process.name}`));
+      // FIXME hardcode app and pmv for now. Must be queried form the backend in the end
+      openEditor(editorOfPath('processes', 'designer', 'workflow-demos', `${process.namespace}/${process.name}`));
     } else {
       toast.error('Failed to add new process', { description: 'Maybe the server is not correclty started' });
     }
