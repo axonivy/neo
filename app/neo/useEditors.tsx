@@ -3,11 +3,11 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { NavigationType, useNavigate, useNavigationType } from '@remix-run/react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ProcessEditor } from '~/routes/processes.$/ProcessEditor';
+import { ProcessEditor } from '~/routes/processes.$app.$pmv.$/ProcessEditor';
 
 type EditorType = 'processes';
 
-export type Editor = { type: EditorType; icon: IvyIcons; name: string; id: string };
+export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; app: string; pmv: string; path: string };
 
 type EditorState = {
   editors: Array<Editor>;
@@ -65,31 +65,31 @@ export const useEditors = () => {
   return { editors, closeEditor, openEditor, addEditor };
 };
 
-export const editorId = (editorType: EditorType, path: string) => {
-  return `/${editorType}/${path}`;
+export const editorId = (editorType: EditorType, app: string, pmv: string, path: string) => {
+  return `/${editorType}/${app}/${pmv}/${path}`;
 };
 
-export const useRestoreEditor = (editorType: EditorType, pathname?: string) => {
+export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: string, path?: string) => {
   const navigationType = useNavigationType();
   const { editors, addEditor } = useEditors();
-  if (navigationType !== NavigationType.Pop || !pathname) {
+  if (navigationType !== NavigationType.Pop || !app || !pmv || !path) {
     return;
   }
-  const editor = editorOfPath(editorType, pathname);
+  const editor = editorOfPath(editorType, app, pmv, path);
   const index = indexOf(editors, e => e.id === editor.id);
   if (index === -1) {
     addEditor(editor);
   }
 };
 
-export const editorOfPath = (type: EditorType, pathname: string): Editor => {
-  const id = editorId(type, pathname);
-  return { type, icon: IvyIcons.Process, name: pathname.split('/').at(-1) ?? pathname, id };
+export const editorOfPath = (type: EditorType, app: string, pmv: string, path: string): Editor => {
+  const id = editorId(type, app, pmv, path);
+  return { id, type, icon: IvyIcons.Process, name: path.split('/').at(-1) ?? path, app, pmv, path };
 };
 
 export const renderEditor = (editor: Editor) => {
   switch (editor.type) {
     case 'processes':
-      return <ProcessEditor key={editor.id} url={editor.id} />;
+      return <ProcessEditor key={editor.id} {...editor} />;
   }
 };

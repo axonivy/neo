@@ -8,6 +8,6 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const param = useParams();
-  useRestoreEditor('processes', param['*']);
+  useRestoreEditor('processes', param.app, param.pmv, param['*']);
   return <></>;
 }

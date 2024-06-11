@@ -14,16 +14,16 @@ export const meta: MetaFunction = () => {
   return [{ title: 'Axon Ivy Processes' }, { name: 'description', content: 'Axon Ivy Processes Overview' }];
 };
 
-const ProcessCard = ({ name, path }: { name: string; path: string }) => {
+const ProcessCard = ({ name, app, pmv, path }: { name: string; app: string; pmv: string; path: string }) => {
   const { openEditor } = useEditors();
-  const id = editorId('processes', path);
+  const id = editorId('processes', app, pmv, path);
   return (
     <Flex
       direction='column'
       justifyContent='space-between'
       gap={2}
       style={{ background: 'var(--N75)', padding: 'var(--size-2)', borderRadius: 10, height: 150, flex: '0 1 200px' }}
-      onClick={() => openEditor({ type: 'processes', icon: IvyIcons.Process, name, id })}
+      onClick={() => openEditor({ id, type: 'processes', icon: IvyIcons.Process, name, app, pmv, path })}
     >
       <div style={{ background: 'var(--background)', borderRadius: 8, flex: '1 0 auto' }}>
         <ProcessPreviewSVG className='process-preview' />
@@ -50,7 +50,12 @@ export default function Index() {
       <Flex gap={4} style={{ flexWrap: 'wrap' }}>
         {isLoading && <Spinner size='small' />}
         {processes.map(process => (
-          <ProcessCard key={process.path ?? process.name} {...process} />
+          <ProcessCard
+            key={process.path ?? process.name}
+            app={process.processIdentifier.app}
+            pmv={process.processIdentifier.pmv}
+            {...process}
+          />
         ))}
       </Flex>
     </Flex>
