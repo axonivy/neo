@@ -5,7 +5,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ProcessEditor } from '~/routes/processes.$app.$pmv.$/ProcessEditor';
 
-type EditorType = 'processes';
+export type EditorType = 'processes' | 'forms';
 
 export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; app: string; pmv: string; path: string };
 

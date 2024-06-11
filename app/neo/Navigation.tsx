@@ -26,7 +26,7 @@ export const Navigation = () => {
       <Flex direction='column' gap={4}>
         <Button icon={IvyIcons.Process} size='large' toggle={pathname.startsWith('/processes')} onClick={() => navigate('processes')} />
         <Button icon={IvyIcons.Database} size='large' onClick={() => navigate('processes')} />
-        <Button icon={IvyIcons.File} size='large' onClick={() => navigate('processes')} />
+        <Button icon={IvyIcons.File} size='large' onClick={() => navigate('forms')} />
         <Button icon={IvyIcons.Tool} size='large' onClick={() => navigate('processes')} />
       </Flex>
       <Popover>
