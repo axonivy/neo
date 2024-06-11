@@ -37,7 +37,7 @@ const EditorTab = ({ icon, name, id }: Editor) => {
     </Flex>
   );
 };
-export const ControlBar = () => {
+export const ControlBar = ({ toggleBrowser }: { toggleBrowser: () => void }) => {
   const navigate = useNavigate();
   const { editors } = useEditors();
   const scroller = useRef<HTMLDivElement>(null);
@@ -62,6 +62,11 @@ export const ControlBar = () => {
         {editors.map(editor => (
           <EditorTab key={editor.id} {...editor} />
         ))}
+      </Flex>
+      <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-4)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
+        <Button icon={IvyIcons.Play} size='large' variant='primary' onClick={toggleBrowser}>
+          Run process
+        </Button>
       </Flex>
     </Flex>
   );
