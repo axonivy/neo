@@ -1,9 +1,20 @@
 import { Button, Flex, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useRef } from 'react';
+import { useRef, RefObject } from 'react';
+import { useUpdateTheme } from '~/theme/useUpdateTheme';
+
+const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const setTheme = frame.current?.contentWindow?.setTheme;
+  if (setTheme) {
+    setTheme(theme);
+  }
+};
 
 export const WebBrowser = () => {
   const frameRef = useRef<HTMLIFrameElement>(null);
+  useUpdateTheme(frameRef, updateFrameTheme);
   return (
     <Flex direction='column' gap={1} style={{ height: '100%' }}>
       <Flex
@@ -42,6 +53,7 @@ export const WebBrowser = () => {
         src='/dev-workflow-ui/faces/home.xhtml'
         title='Dev Browser'
         style={{ width: '100%', height: '100%', border: 'none' }}
+        loading='lazy'
       />
     </Flex>
   );

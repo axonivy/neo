@@ -1,8 +1,23 @@
-import { useEffect, useRef, useState } from 'react';
-import { updateFrameTheme, useThemeMode, useUpdateTheme } from './useUpdateTheme';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { useHref, useLocation } from '@remix-run/react';
 import { useNavigateAction } from './useNavigateAction';
 import { Editor } from '~/neo/useEditors';
+import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
+
+const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) => {
+  const frameRoot = frame.current?.contentWindow?.document.documentElement;
+  if (frameRoot) {
+    frameRoot.classList.remove('light', 'dark');
+    frameRoot.classList.add(theme);
+    frameRoot.dataset.theme = theme;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const monaco = frame.current?.contentWindow?.setMonacoTheme;
+    if (monaco) {
+      monaco(theme);
+    }
+  }
+};
 
 export const ProcessEditor = ({ id, app, pmv, path }: Editor) => {
   const frame = useRef<HTMLIFrameElement>(null);
@@ -10,7 +25,7 @@ export const ProcessEditor = ({ id, app, pmv, path }: Editor) => {
   const editorUrl = useHref(`/process-editor/index.html?app=${app}&pmv=${pmv}&file=/processes/${path}.p.json`);
   const { pathname } = useLocation();
   useNavigateAction(frame, app);
-  useUpdateTheme(frame);
+  useUpdateTheme(frame, updateFrameTheme);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     if (pathname === id) {
