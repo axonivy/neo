@@ -17,8 +17,8 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
   "dependencies": {
-    "@axonivy/ui-components": "^11.4.0-next.174",
-    "@axonivy/ui-icons": "^11.4.0-next.174",
+    "@axonivy/ui-components": "^11.4.0-next.182",
+    "@axonivy/ui-icons": "^11.4.0-next.182",
     "@remix-run/node": "^2.9.2",
     "@remix-run/react": "^2.9.2",
     "@tanstack/react-query": "5.32.1",
