@@ -20,7 +20,7 @@ export const Neo = () => {
   return (
     <div className='neo-layout'>
       <ControlBar toggleBrowser={toggleBrowser} />
-      <ResizablePanelGroup direction='horizontal' style={{ height: '100vh' }}>
+      <ResizablePanelGroup direction='horizontal' style={{ height: '100vh' }} autoSaveId='neo-layout'>
         <ResizablePanel title='Neo'>
           <Flex direction='row' style={{ height: 'calc(100vh - 41px)' }}>
             <Navigation />
