@@ -18,16 +18,17 @@ export const FormEditor = ({ id, app, pmv, path }: Editor) => {
   const [client, setClient] = useState<FormClient>();
 
   useEffect(() => {
-    FormClientJsonRpc.startWebSocketClient('localhost:8081').then(c => setClient(c));
+    FormClientJsonRpc.startWebSocketClient('ws://localhost:8081/').then(formClient => setClient(formClient));
   });
 
+  console.log(path);
   return (
     <>
       {mounted && client && (
         <ClientContextProvider client={client}>
           <QueryProvider client={queryClient}>
             <ReadonlyProvider readonly={false}>
-              <App app={app} pmv={pmv} file={path} />
+              <App app={app} pmv={pmv} file={path.split('src_hd')[1]} />
             </ReadonlyProvider>
           </QueryProvider>
         </ClientContextProvider>
