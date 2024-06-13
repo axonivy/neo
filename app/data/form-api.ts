@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { get } from './engine-api';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { deleteReq, get } from './engine-api';
 import { toast } from '@axonivy/ui-components';
 
 export type Form = {
@@ -28,4 +28,17 @@ export const useForms = () => {
       }),
     initialData: []
   });
+};
+
+export const useDeleteForm = () => {
+  const client = useQueryClient();
+  const deleteForm = async (identifier: FormIdentifier) => {
+    const res = await deleteReq('form', identifier);
+    if (res?.ok) {
+      client.invalidateQueries({ queryKey: ['forms'] });
+    } else {
+      toast.error('Failed to add new process', { description: 'Maybe the server is not correclty started' });
+    }
+  };
+  return { deleteForm };
 };
