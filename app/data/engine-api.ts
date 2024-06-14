@@ -14,3 +14,14 @@ export const post = (url: string, data: unknown) => {
     body: JSON.stringify(data)
   });
 };
+
+export const deleteReq = (url: string, data: unknown) => {
+  return fetch(`${BASE}${url}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Requested-By': 'Neo'
+    },
+    body: JSON.stringify(data)
+  });
+};
