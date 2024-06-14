@@ -17,11 +17,11 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
   "dependencies": {
-    "@axonivy/form-editor": "^11.4.0-next.110",
-    "@axonivy/form-editor-core": "^11.4.0-next.110",
-    "@axonivy/form-editor-protocol": "^11.4.0-next.110",
-    "@axonivy/ui-components": "^11.4.0-next.191",
-    "@axonivy/ui-icons": "^11.4.0-next.191",
+    "@axonivy/form-editor": "^11.4.0-next.111",
+    "@axonivy/form-editor-core": "^11.4.0-next.111",
+    "@axonivy/form-editor-protocol": "^11.4.0-next.111",
+    "@axonivy/ui-components": "^11.4.0-next.194",
+    "@axonivy/ui-icons": "^11.4.0-next.194",
     "@remix-run/node": "^2.9.2",
     "@remix-run/react": "^2.9.2",
     "@tanstack/react-query": "5.32.1",
