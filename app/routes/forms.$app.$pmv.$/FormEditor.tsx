@@ -1,27 +1,29 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from '@remix-run/react';
 import { Editor } from '~/neo/useEditors';
 import { ReadonlyProvider } from '@axonivy/ui-components';
 import { FormClient } from '@axonivy/form-editor-protocol';
 import { FormClientJsonRpc } from '@axonivy/form-editor-core';
 import { App, ClientContextProvider, QueryProvider, initQueryClient } from '@axonivy/form-editor';
+import { useLocation } from '@remix-run/react';
+
+const wsBase = () => window.location.origin.replace('https://', 'wss://').replace('http://', 'ws://');
 
 export const FormEditor = ({ id, app, pmv, path }: Editor) => {
+  const queryClient = initQueryClient();
+  const [client, setClient] = useState<FormClient>();
+  useEffect(() => {
+    FormClientJsonRpc.startWebSocketClient(wsBase()).then(formClient => setClient(formClient));
+  }, [id]);
   const { pathname } = useLocation();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     if (pathname === id) {
       setMounted(true);
+    } else {
+      setMounted(false);
     }
   }, [pathname, id]);
-  const queryClient = initQueryClient();
-  const [client, setClient] = useState<FormClient>();
 
-  useEffect(() => {
-    FormClientJsonRpc.startWebSocketClient('ws://localhost:8081/').then(formClient => setClient(formClient));
-  });
-
-  console.log(path);
   return (
     <>
       {mounted && client && (
