@@ -9,6 +9,7 @@ export const post = (url: string, data: unknown) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Accept: 'application/json',
       'X-Requested-By': 'Neo'
     },
     body: JSON.stringify(data)
