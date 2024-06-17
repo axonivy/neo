@@ -49,10 +49,13 @@ export const useCreateProcess = () => {
       // FIXME hardcode app and pmv for now. Must be queried form the backend in the end
       openEditor(editorOfPath('processes', 'designer', 'workflow-demos', `${process.namespace}/${process.name}`));
     } else {
-      toast.error('Failed to add new process', { description: 'Maybe the server is not correclty started' });
+      throw new Error('Failed to create process');
     }
   };
-  return { createProcess };
+  return {
+    createProcess: (process: NewProcessParams) =>
+      toast.promise(() => createProcess(process), { loading: 'Creating process', success: 'Process created', error: e => e.message })
+  };
 };
 
 export const useDeleteProcess = () => {
@@ -62,8 +65,11 @@ export const useDeleteProcess = () => {
     if (res?.ok) {
       client.invalidateQueries({ queryKey: ['processes'] });
     } else {
-      toast.error(`Failed to remove process '${identifier.pid}'`, { description: 'Maybe the server is not correclty started' });
+      throw new Error(`Failed to remove process '${identifier.pid}'`);
     }
   };
-  return { deleteProcess };
+  return {
+    deleteProcess: (identifier: ProcessIdentifier) =>
+      toast.promise(() => deleteProcess(identifier), { loading: 'Remove process', success: 'Process removed', error: e => e.message })
+  };
 };
