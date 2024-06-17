@@ -13,6 +13,7 @@ export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: strin
 type EditorState = {
   editors: Array<Editor>;
   close: (id: string) => void;
+  closeAll: () => void;
   open: (editor: Editor) => void;
 };
 
@@ -27,6 +28,7 @@ const useStore = create<EditorState>()(
           editors.splice(index, 1);
           return { editors };
         }),
+      closeAll: () => set({ editors: [] }),
       open: editor =>
         set(state => {
           const editors = state.editors;
@@ -43,7 +45,7 @@ const useStore = create<EditorState>()(
 
 export const useEditors = () => {
   const navigate = useNavigate();
-  const { editors, open, close } = useStore();
+  const { editors, open, close, closeAll } = useStore();
 
   const closeEditor = (id: string) => {
     close(id);
@@ -52,6 +54,11 @@ export const useEditors = () => {
       nav = editors[0].id;
     }
     navigate(nav, { replace: true });
+  };
+
+  const closeAllEditors = () => {
+    closeAll();
+    navigate('/', { replace: true });
   };
 
   const openEditor = (editor: Editor) => {
@@ -67,7 +74,7 @@ export const useEditors = () => {
     open(editor);
   };
 
-  return { editors, closeEditor, openEditor, removeEditor, addEditor };
+  return { editors, closeEditor, openEditor, removeEditor, addEditor, closeAllEditors };
 };
 
 export const editorId = (editorType: EditorType, app: string, pmv: string, path: string) => {
