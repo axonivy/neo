@@ -1,7 +1,7 @@
 import { Flex, SearchInput, Spinner } from '@axonivy/ui-components';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useState } from 'react';
-import { useProcesses } from '~/data/process-api';
+import { useDeleteProcess, useProcesses } from '~/data/process-api';
 import { NewProcessPopup } from './NewProcessPopup';
 import { ProjectArtifactCard, cardLinks } from '~/neo/card/ProjectArtifactCard';
 
@@ -15,6 +15,7 @@ export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isLoading } = useProcesses();
   const processes = data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+  const { deleteProcess } = useDeleteProcess();
   return (
     <Flex direction='column' gap={4} style={{ padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }}>
       <Flex direction='row' alignItems='center' justifyContent='space-between'>
@@ -31,6 +32,7 @@ export default function Index() {
             pmv={process.processIdentifier.pmv}
             editorType={'processes'}
             {...process}
+            actions={{ delete: () => deleteProcess(process.processIdentifier) }}
           />
         ))}
       </Flex>

@@ -37,7 +37,7 @@ export const useDeleteForm = () => {
     if (res?.ok) {
       client.invalidateQueries({ queryKey: ['forms'] });
     } else {
-      toast.error('Failed to delete form', { description: 'Maybe the server is not correclty started' });
+      toast.error(`Failed to remove from '${identifier.id}'`, { description: 'Maybe the server is not correclty started' });
     }
   };
   return { deleteForm };

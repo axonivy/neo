@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { get, post } from './engine-api';
+import { deleteReq, get, post } from './engine-api';
 import { editorOfPath, useEditors } from '~/neo/useEditors';
 import { toast } from '@axonivy/ui-components';
 
@@ -53,4 +53,17 @@ export const useCreateProcess = () => {
     }
   };
   return { createProcess };
+};
+
+export const useDeleteProcess = () => {
+  const client = useQueryClient();
+  const deleteProcess = async (identifier: ProcessIdentifier) => {
+    const res = await deleteReq('process', identifier);
+    if (res?.ok) {
+      client.invalidateQueries({ queryKey: ['processes'] });
+    } else {
+      toast.error(`Failed to remove process '${identifier.pid}'`, { description: 'Maybe the server is not correclty started' });
+    }
+  };
+  return { deleteProcess };
 };

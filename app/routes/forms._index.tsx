@@ -1,5 +1,4 @@
-import { Button, Flex, SearchInput, Spinner } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
+import { Flex, SearchInput, Spinner } from '@axonivy/ui-components';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useState } from 'react';
 import { useDeleteForm, useForms } from '~/data/form-api';
@@ -25,16 +24,14 @@ export default function Index() {
       <Flex gap={4} style={{ flexWrap: 'wrap' }}>
         {isLoading && <Spinner size='small' />}
         {forms.map(form => (
-          <>
-            <Button size='large' icon={IvyIcons.Trash} onClick={() => deleteForm(form.identifier)}></Button>
-            <ProjectArtifactCard
-              key={form.path ?? form.name}
-              app={form.identifier.app}
-              pmv={form.identifier.pmv}
-              editorType={'forms'}
-              {...form}
-            />
-          </>
+          <ProjectArtifactCard
+            key={form.path ?? form.name}
+            app={form.identifier.app}
+            pmv={form.identifier.pmv}
+            editorType={'forms'}
+            {...form}
+            actions={{ delete: () => deleteForm(form.identifier) }}
+          />
         ))}
       </Flex>
     </Flex>
