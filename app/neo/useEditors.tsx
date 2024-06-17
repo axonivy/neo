@@ -3,6 +3,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { NavigationType, useNavigate, useNavigationType } from '@remix-run/react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { FormEditor } from '~/routes/forms.$app.$pmv.$/FormEditor';
 import { ProcessEditor } from '~/routes/processes.$app.$pmv.$/ProcessEditor';
 
 export type EditorType = 'processes' | 'forms';
@@ -70,7 +71,7 @@ export const useEditors = () => {
 };
 
 export const editorId = (editorType: EditorType, app: string, pmv: string, path: string) => {
-  return `/${editorType}/${app}/${pmv}/${path}`;
+  return `/${editorType}/${app}/${pmv}/${path}`.replaceAll('//', '/');
 };
 
 export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: string, path?: string) => {
@@ -95,5 +96,7 @@ export const renderEditor = (editor: Editor) => {
   switch (editor.type) {
     case 'processes':
       return <ProcessEditor key={editor.id} {...editor} />;
+    case 'forms':
+      return <FormEditor key={editor.id} {...editor} />;
   }
 };
