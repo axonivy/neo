@@ -71,7 +71,7 @@ export const useEditors = () => {
 };
 
 export const editorId = (editorType: EditorType, app: string, pmv: string, path: string) => {
-  return `/${editorType}/${app}/${pmv}/${path}`.replaceAll('//', '/');
+  return `/${editorType}/${app}/${pmv}/${path}`;
 };
 
 export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: string, path?: string) => {
