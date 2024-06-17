@@ -58,11 +58,15 @@ export const useEditors = () => {
     open(editor);
   };
 
+  const removeEditor = (id: string) => {
+    close(id);
+  };
+
   const addEditor = (editor: Editor) => {
     open(editor);
   };
 
-  return { editors, closeEditor, openEditor, addEditor };
+  return { editors, closeEditor, openEditor, removeEditor, addEditor };
 };
 
 export const editorId = (editorType: EditorType, app: string, pmv: string, path: string) => {
