@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteReq, get, post } from './engine-api';
 import { editorOfPath, useEditors } from '~/neo/useEditors';
 import { toast } from '@axonivy/ui-components';
+import { ProjectIdentifier } from './project-api';
 
 export type Process = {
   name: string;
@@ -10,8 +11,7 @@ export type Process = {
 };
 
 export type ProcessIdentifier = {
-  app: string;
-  pmv: string;
+  projectIdentifier: ProjectIdentifier;
   pid: string;
 };
 
@@ -47,7 +47,7 @@ export const useCreateProcess = () => {
     if (res?.ok) {
       const process = (await res.json()) as Process;
       client.invalidateQueries({ queryKey: ['processes'] });
-      openEditor(editorOfPath('processes', process.processIdentifier.app, process.processIdentifier.pmv, process.path));
+      openEditor(editorOfPath('processes', process.processIdentifier.projectIdentifier, process.path));
     } else {
       throw new Error('Failed to create process');
     }

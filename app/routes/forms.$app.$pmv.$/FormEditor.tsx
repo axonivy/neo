@@ -8,7 +8,7 @@ import { useLocation } from '@remix-run/react';
 
 const wsBase = () => window.location.origin.replace('https://', 'wss://').replace('http://', 'ws://');
 
-export const FormEditor = ({ id, app, pmv, path }: Editor) => {
+export const FormEditor = ({ id, projectIdentifier, path }: Editor) => {
   const [client, setClient] = useState<FormClient>();
   useEffect(() => {
     FormClientJsonRpc.startWebSocketClient(wsBase()).then(formClient => setClient(formClient));
@@ -27,7 +27,7 @@ export const FormEditor = ({ id, app, pmv, path }: Editor) => {
         <div style={{ display: pathname !== id ? 'none' : undefined }}>
           <ClientContextProvider client={client}>
             <ReadonlyProvider readonly={false}>
-              <App app={app} pmv={pmv} file={path} />
+              <App app={projectIdentifier.app} pmv={projectIdentifier.pmv} file={path} />
             </ReadonlyProvider>
           </ClientContextProvider>
         </div>

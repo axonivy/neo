@@ -26,8 +26,7 @@ export default function Index() {
         {forms.map(form => (
           <ProjectArtifactCard
             key={form.path ?? form.name}
-            app={form.identifier.app}
-            pmv={form.identifier.pmv}
+            projectIdentifier={form.identifier.projectIdentifier}
             editorType={'forms'}
             {...form}
             actions={{ delete: () => deleteForm(form.identifier) }}
