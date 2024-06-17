@@ -18,19 +18,19 @@ export const FormEditor = ({ id, app, pmv, path }: Editor) => {
   useEffect(() => {
     if (pathname === id) {
       setMounted(true);
-    } else {
-      setMounted(false);
     }
   }, [pathname, id]);
 
   return (
     <>
       {mounted && client && (
-        <ClientContextProvider client={client}>
-          <ReadonlyProvider readonly={false}>
-            <App app={app} pmv={pmv} file={path.split('src_hd')[1]} />
-          </ReadonlyProvider>
-        </ClientContextProvider>
+        <div style={{ display: pathname !== id ? 'none' : undefined }}>
+          <ClientContextProvider client={client}>
+            <ReadonlyProvider readonly={false}>
+              <App app={app} pmv={pmv} file={path} />
+            </ReadonlyProvider>
+          </ClientContextProvider>
+        </div>
       )}
     </>
   );
