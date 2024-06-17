@@ -45,9 +45,9 @@ export const useCreateProcess = () => {
   const createProcess = async (process: NewProcessParams) => {
     const res = await post('process', process);
     if (res?.ok) {
+      const process = (await res.json()) as Process;
       client.invalidateQueries({ queryKey: ['processes'] });
-      // FIXME hardcode app and pmv for now. Must be queried form the backend in the end
-      openEditor(editorOfPath('processes', 'designer', 'workflow-demos', `${process.namespace}/${process.name}`));
+      openEditor(editorOfPath('processes', process.processIdentifier.app, process.processIdentifier.pmv, process.path));
     } else {
       throw new Error('Failed to create process');
     }
