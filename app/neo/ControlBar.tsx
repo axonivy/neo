@@ -1,9 +1,9 @@
-import { Button, Flex, IvyIcon } from '@axonivy/ui-components';
+import { Button, Flex, IvyIcon, Popover, PopoverContent, PopoverTrigger, Separator } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useLocation, useNavigate } from '@remix-run/react';
 import IvyLogoSVG from './axonivy.svg?react';
 import { Editor, useEditors } from './useEditors';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 const EditorTab = ({ icon, name, id }: Editor) => {
   const { closeEditor } = useEditors();
@@ -37,13 +37,42 @@ const EditorTab = ({ icon, name, id }: Editor) => {
     </Flex>
   );
 };
+
+const EditorsControl = () => {
+  const [subMenu, setSubMenu] = useState(false);
+  const { editors, closeAllEditors } = useEditors();
+  if (editors.length === 0) {
+    return null;
+  }
+  return (
+    <Popover open={subMenu} onOpenChange={setSubMenu}>
+      <PopoverTrigger asChild>
+        <Button icon={IvyIcons.Dots} size='large' />
+      </PopoverTrigger>
+      <PopoverContent sideOffset={6} collisionPadding={10} side='bottom' align='end' style={{ border: 'var(--basic-border)' }}>
+        <Flex direction='column'>
+          <Button
+            icon={IvyIcons.Close}
+            onClick={() => {
+              closeAllEditors();
+              setSubMenu(false);
+            }}
+          >
+            Close all
+          </Button>
+        </Flex>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
 export const ControlBar = ({ toggleBrowser }: { toggleBrowser: () => void }) => {
   const navigate = useNavigate();
   const { editors } = useEditors();
   const scroller = useRef<HTMLDivElement>(null);
   return (
     <Flex style={{ height: '40px', borderBottom: 'var(--basic-border)', background: 'var(--N50)' }}>
-      <Flex alignItems='center' gap={4} style={{ paddingInline: 'var(--size-4)', borderInlineEnd: 'var(--basic-border)' }}>
+      <Flex alignItems='center' gap={4} style={{ paddingInline: 'var(--size-3)', borderInlineEnd: 'var(--basic-border)' }}>
         <Button size='large' style={{ aspectRatio: 1, padding: 0 }} onClick={() => navigate('/')}>
           <IvyLogoSVG />
         </Button>
@@ -63,7 +92,9 @@ export const ControlBar = ({ toggleBrowser }: { toggleBrowser: () => void }) => 
           <EditorTab key={editor.id} {...editor} />
         ))}
       </Flex>
-      <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-4)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
+      <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
+        <EditorsControl />
+        <Separator orientation='vertical' style={{ margin: 'var(--size-2)' }} />
         <Button icon={IvyIcons.Play} size='large' variant='primary' onClick={toggleBrowser}>
           Run process
         </Button>
