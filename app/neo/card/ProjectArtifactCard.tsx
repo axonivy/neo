@@ -9,7 +9,7 @@ import { ProjectIdentifier } from '~/data/project-api';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 
-type Card = { name: string; projectIdentifier: ProjectIdentifier; path: string; editorType: EditorType; actions?: { delete?: () => void } };
+type Card = { name: string; project: ProjectIdentifier; path: string; editorType: EditorType; actions?: { delete?: () => void } };
 
 const icon = (editorType: EditorType) => {
   if (editorType === 'forms') {
@@ -25,16 +25,16 @@ const cardPreview = (editorType: EditorType) => {
   return <ProcessPreviewSVG className='card-preview' />;
 };
 
-export const ProjectArtifactCard = ({ name, projectIdentifier, path, editorType, actions }: Card) => {
+export const ProjectArtifactCard = ({ name, project, path, editorType, actions }: Card) => {
   const { openEditor, removeEditor } = useEditors();
-  const id = editorId(editorType, projectIdentifier, path);
+  const id = editorId(editorType, project, path);
   return (
     <Flex
       direction='column'
       justifyContent='space-between'
       gap={2}
       style={{ background: 'var(--N75)', padding: 'var(--size-2)', borderRadius: 10, height: 150, flex: '0 1 200px' }}
-      onClick={() => openEditor({ id, type: editorType, icon: icon(editorType), name, projectIdentifier, path })}
+      onClick={() => openEditor({ id, type: editorType, icon: icon(editorType), name, project, path })}
     >
       <div style={{ background: 'var(--background)', borderRadius: 8, flex: '1 0 auto' }}>{cardPreview(editorType)}</div>
       <Flex alignItems='center' justifyContent='space-between' gap={1}>

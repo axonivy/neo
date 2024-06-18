@@ -10,7 +10,7 @@ export type Form = {
 };
 
 export type FormIdentifier = {
-  projectIdentifier: ProjectIdentifier;
+  project: ProjectIdentifier;
   id: string;
 };
 

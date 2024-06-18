@@ -20,8 +20,8 @@ export const NewProcessPopup = () => {
   const [namespace, setNamespace] = useState('Neo');
   const { createProcess } = useCreateProcess();
   const { data, isLoading } = useProjects();
-  const [projectIdentifier, setProjectIdentifier] = useState<ProcessIdentifier>();
-  const projectIds = data ?? [];
+  const [project, setProject] = useState<ProcessIdentifier>();
+  const projects = data ?? [];
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -39,11 +39,11 @@ export const NewProcessPopup = () => {
           <Fieldset>
             <BasicSelect
               placeholder={isLoading && <Spinner size='small' />}
-              items={projectIds.map(id => ({
-                value: JSON.stringify(id),
-                label: `${id.app}/${id.pmv}`
+              items={projects.map(p => ({
+                value: JSON.stringify(p),
+                label: `${p.app}/${p.pmv}`
               }))}
-              onValueChange={value => setProjectIdentifier(JSON.parse(value))}
+              onValueChange={value => setProject(JSON.parse(value))}
             />
           </Fieldset>
           <Button
@@ -53,7 +53,7 @@ export const NewProcessPopup = () => {
               createProcess({
                 name,
                 namespace,
-                projectIdentifier,
+                project,
                 kind: 'Business Process'
               })
             }

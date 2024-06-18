@@ -19,14 +19,12 @@ const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) =>
   }
 };
 
-export const ProcessEditor = ({ id, projectIdentifier, path }: Editor) => {
+export const ProcessEditor = ({ id, project, path }: Editor) => {
   const frame = useRef<HTMLIFrameElement>(null);
   const theme = useThemeMode();
-  const editorUrl = useHref(
-    `/process-editor/index.html?app=${projectIdentifier.app}&pmv=${projectIdentifier.pmv}&file=/processes/${path}.p.json`
-  );
+  const editorUrl = useHref(`/process-editor/index.html?app=${project.app}&pmv=${project.pmv}&file=/processes/${path}.p.json`);
   const { pathname } = useLocation();
-  useNavigateAction(frame, projectIdentifier.app);
+  useNavigateAction(frame, project.app);
   useUpdateTheme(frame, updateFrameTheme);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {

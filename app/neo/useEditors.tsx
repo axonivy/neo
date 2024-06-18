@@ -9,7 +9,7 @@ import { ProcessEditor } from '~/routes/processes.$app.$pmv.$/ProcessEditor';
 
 export type EditorType = 'processes' | 'forms';
 
-export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; projectIdentifier: ProjectIdentifier; path: string };
+export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
 
 type EditorState = {
   editors: Array<Editor>;
@@ -78,8 +78,8 @@ export const useEditors = () => {
   return { editors, closeEditor, openEditor, removeEditor, addEditor, closeAllEditors };
 };
 
-export const editorId = (editorType: EditorType, projectIdentifier: ProjectIdentifier, path: string) => {
-  return `/${editorType}/${projectIdentifier.app}/${projectIdentifier.pmv}/${path}`;
+export const editorId = (editorType: EditorType, project: ProjectIdentifier, path: string) => {
+  return `/${editorType}/${project.app}/${project.pmv}/${path}`;
 };
 
 export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: string, path?: string) => {
@@ -95,9 +95,9 @@ export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: str
   }
 };
 
-export const editorOfPath = (type: EditorType, projectIdentifier: ProjectIdentifier, path: string): Editor => {
-  const id = editorId(type, projectIdentifier, path);
-  return { id, type, icon: IvyIcons.Process, name: path.split('/').at(-1) ?? path, projectIdentifier, path };
+export const editorOfPath = (type: EditorType, project: ProjectIdentifier, path: string): Editor => {
+  const id = editorId(type, project, path);
+  return { id, type, icon: IvyIcons.Process, name: path.split('/').at(-1) ?? path, project, path };
 };
 
 export const renderEditor = (editor: Editor) => {

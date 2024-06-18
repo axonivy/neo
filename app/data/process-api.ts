@@ -11,7 +11,7 @@ export type Process = {
 };
 
 export type ProcessIdentifier = {
-  projectIdentifier: ProjectIdentifier;
+  project: ProjectIdentifier;
   pid: string;
 };
 
@@ -35,7 +35,7 @@ type NewProcessParams = {
   name: string;
   namespace: string;
   kind: string;
-  projectIdentifier?: ProcessIdentifier;
+  project?: ProcessIdentifier;
 };
 
 export const useCreateProcess = () => {
@@ -46,7 +46,7 @@ export const useCreateProcess = () => {
     if (res?.ok) {
       const process = (await res.json()) as Process;
       client.invalidateQueries({ queryKey: ['processes'] });
-      openEditor(editorOfPath('processes', process.processIdentifier.projectIdentifier, process.path));
+      openEditor(editorOfPath('processes', process.processIdentifier.project, process.path));
     } else {
       throw new Error('Failed to create process');
     }

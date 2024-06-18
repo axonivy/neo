@@ -28,7 +28,7 @@ export default function Index() {
         {processes.map(process => (
           <ProjectArtifactCard
             key={process.path ?? process.name}
-            projectIdentifier={process.processIdentifier.projectIdentifier}
+            project={process.processIdentifier.project}
             editorType={'processes'}
             {...process}
             actions={{ delete: () => deleteProcess(process.processIdentifier) }}
