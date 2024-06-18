@@ -4,6 +4,7 @@ import { IDiagramOptions, createDiagramOptionsModule, standaloneSelectModule, un
 import { Container } from 'inversify';
 import ivyStandaloneCopyPasteModule from './copy-paste/di.config';
 import ivyNavigationModule from './navigate/di.config';
+import ivyStartActionModule from './start/di.config';
 import { InscriptionContext } from '@axonivy/inscription-protocol';
 import { ivyStartupDiagramModule } from './startup';
 
@@ -24,7 +25,8 @@ export default function createContainer(options: IvyDiagramOptions): Container {
     // ivyNavigationModule is a replacement for navigationModule but it is already removed in the default IvyDiagramContainer
     ivyNavigationModule,
     ivyInscriptionModule,
-    ivyStartupDiagramModule
+    ivyStartupDiagramModule,
+    ivyStartActionModule
   );
   return container;
 }

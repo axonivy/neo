@@ -1,8 +1,8 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { useHref, useLocation } from '@remix-run/react';
-import { useNavigateAction } from './useNavigateAction';
 import { Editor } from '~/neo/useEditors';
 import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
+import { useFrameMessageHandler } from './useFrameMessageHandler';
 
 const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) => {
   const frameRoot = frame.current?.contentWindow?.document.documentElement;
@@ -24,7 +24,7 @@ export const ProcessEditor = ({ id, project, path }: Editor) => {
   const theme = useThemeMode();
   const editorUrl = useHref(`/process-editor/index.html?app=${project.app}&pmv=${project.pmv}&file=/processes/${path}.p.json`);
   const { pathname } = useLocation();
-  useNavigateAction(frame, project.app);
+  useFrameMessageHandler(frame, project.app);
   useUpdateTheme(frame, updateFrameTheme);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
