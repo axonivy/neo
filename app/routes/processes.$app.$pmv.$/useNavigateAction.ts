@@ -19,7 +19,7 @@ export const useNavigateAction = (frame: RefObject<HTMLIFrameElement>, app: stri
       const process = data.uri.split('/processes/')[1];
       if (process) {
         const endIndex = process.lastIndexOf('.p.json');
-        const editor = editorOfPath('processes', app, data.args.pmv, process.substring(0, endIndex));
+        const editor = editorOfPath('processes', { app, pmv: data.args.pmv }, process.substring(0, endIndex));
         openEditor(editor);
       }
     };

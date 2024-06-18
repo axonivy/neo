@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteReq, get } from './engine-api';
 import { toast } from '@axonivy/ui-components';
+import { ProjectIdentifier } from './project-api';
 
 export type Form = {
   name: string;
@@ -9,8 +10,7 @@ export type Form = {
 };
 
 export type FormIdentifier = {
-  app: string;
-  pmv: string;
+  project: ProjectIdentifier;
   id: string;
 };
 

@@ -3,12 +3,13 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { NavigationType, useNavigate, useNavigationType } from '@remix-run/react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { ProjectIdentifier } from '~/data/project-api';
 import { FormEditor } from '~/routes/forms.$app.$pmv.$/FormEditor';
 import { ProcessEditor } from '~/routes/processes.$app.$pmv.$/ProcessEditor';
 
 export type EditorType = 'processes' | 'forms';
 
-export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; app: string; pmv: string; path: string };
+export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
 
 type EditorState = {
   editors: Array<Editor>;
@@ -77,8 +78,8 @@ export const useEditors = () => {
   return { editors, closeEditor, openEditor, removeEditor, addEditor, closeAllEditors };
 };
 
-export const editorId = (editorType: EditorType, app: string, pmv: string, path: string) => {
-  return `/${editorType}/${app}/${pmv}/${path}`;
+export const editorId = (editorType: EditorType, project: ProjectIdentifier, path: string) => {
+  return `/${editorType}/${project.app}/${project.pmv}/${path}`;
 };
 
 export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: string, path?: string) => {
@@ -87,16 +88,16 @@ export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: str
   if (navigationType !== NavigationType.Pop || !app || !pmv || !path) {
     return;
   }
-  const editor = editorOfPath(editorType, app, pmv, path);
+  const editor = editorOfPath(editorType, { app, pmv }, path);
   const index = indexOf(editors, e => e.id === editor.id);
   if (index === -1) {
     addEditor(editor);
   }
 };
 
-export const editorOfPath = (type: EditorType, app: string, pmv: string, path: string): Editor => {
-  const id = editorId(type, app, pmv, path);
-  return { id, type, icon: IvyIcons.Process, name: path.split('/').at(-1) ?? path, app, pmv, path };
+export const editorOfPath = (type: EditorType, project: ProjectIdentifier, path: string): Editor => {
+  const id = editorId(type, project, path);
+  return { id, type, icon: IvyIcons.Process, name: path.split('/').at(-1) ?? path, project, path };
 };
 
 export const renderEditor = (editor: Editor) => {
