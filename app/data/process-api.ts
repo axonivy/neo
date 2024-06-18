@@ -35,7 +35,8 @@ type NewProcessParams = {
   name: string;
   namespace: string;
   kind: string;
-  project?: ProcessIdentifier;
+  project?: ProjectIdentifier;
+  pid?: string;
 };
 
 export const useCreateProcess = () => {

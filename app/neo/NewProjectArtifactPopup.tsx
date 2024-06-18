@@ -12,15 +12,24 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
-import { ProcessIdentifier, useCreateProcess } from '~/data/process-api';
-import { useProjects } from '~/data/project-api';
+import { useCreateProcess } from '~/data/process-api';
+import { ProjectIdentifier, useProjects } from '~/data/project-api';
+import { EditorType } from './useEditors';
+import { useCreateForm } from '~/data/form-api';
 
-export const NewProcessPopup = () => {
-  const [name, setName] = useState('MyNewProcess');
+type Popup = { editorType: EditorType; defaultName: string };
+
+export const NewProjectArtifactPopup = ({ editorType, defaultName }: Popup) => {
+  const [name, setName] = useState(defaultName);
   const [namespace, setNamespace] = useState('Neo');
-  const { createProcess } = useCreateProcess();
   const { data, isLoading } = useProjects();
-  const [project, setProject] = useState<ProcessIdentifier>();
+  const { createProcess } = useCreateProcess();
+  const { createForm } = useCreateForm();
+  const create = () => {
+    if (editorType === 'forms') return createForm({ name, namespace, type: 'Form', project });
+    return createProcess({ name, namespace, kind: 'Business Process', project });
+  };
+  const [project, setProject] = useState<ProjectIdentifier>();
   const projects = data ?? [];
   return (
     <Popover>
@@ -46,18 +55,7 @@ export const NewProcessPopup = () => {
               onValueChange={value => setProject(JSON.parse(value))}
             />
           </Fieldset>
-          <Button
-            icon={IvyIcons.Plus}
-            variant='primary'
-            onClick={() =>
-              createProcess({
-                name,
-                namespace,
-                project,
-                kind: 'Business Process'
-              })
-            }
-          >
+          <Button icon={IvyIcons.Plus} variant='primary' onClick={() => create()}>
             Create
           </Button>
         </Flex>
