@@ -97,7 +97,7 @@ export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: str
 
 export const editorOfPath = (type: EditorType, project: ProjectIdentifier, path: string): Editor => {
   const id = editorId(type, project, path);
-  return { id, type, icon: IvyIcons.Process, name: path.split('/').at(-1) ?? path, project, path };
+  return { id, type, icon: editorIcon(type), name: path.split('/').at(-1) ?? path, project, path };
 };
 
 export const renderEditor = (editor: Editor) => {
@@ -107,4 +107,11 @@ export const renderEditor = (editor: Editor) => {
     case 'forms':
       return <FormEditor key={editor.id} {...editor} />;
   }
+};
+
+export const editorIcon = (editorType: EditorType) => {
+  if (editorType === 'forms') {
+    return IvyIcons.File;
+  }
+  return IvyIcons.Process;
 };
