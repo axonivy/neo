@@ -27,7 +27,7 @@ export const FormEditor = ({ id, project, path }: Editor) => {
         <div style={{ display: pathname !== id ? 'none' : undefined }}>
           <ClientContextProvider client={client}>
             <ReadonlyProvider readonly={false}>
-              <App app={project.app} pmv={project.pmv} file={path} />
+              <App app={project.app} pmv={project.pmv} file={path.endsWith('.f.json') ? path : `${path}.f.json`} />
             </ReadonlyProvider>
           </ClientContextProvider>
         </div>

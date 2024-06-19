@@ -1,5 +1,5 @@
 import { Button, Flex, IvyIcon, Popover, PopoverContent, PopoverTrigger } from '@axonivy/ui-components';
-import { EditorType, editorId, useEditors } from '../useEditors';
+import { EditorType, editorIcon, editorId, useEditors } from '../useEditors';
 import { IvyIcons } from '@axonivy/ui-icons';
 import ProcessPreviewSVG from './process-preview.svg?react';
 import FormPreviewSVG from './form-preview.svg?react';
@@ -10,13 +10,6 @@ import { ProjectIdentifier } from '~/data/project-api';
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 
 type Card = { name: string; project: ProjectIdentifier; path: string; editorType: EditorType; actions?: { delete?: () => void } };
-
-const icon = (editorType: EditorType) => {
-  if (editorType === 'forms') {
-    return IvyIcons.File;
-  }
-  return IvyIcons.Process;
-};
 
 const cardPreview = (editorType: EditorType) => {
   if (editorType === 'forms') {
@@ -34,7 +27,7 @@ export const ProjectArtifactCard = ({ name, project, path, editorType, actions }
       justifyContent='space-between'
       gap={2}
       style={{ background: 'var(--N75)', padding: 'var(--size-2)', borderRadius: 10, height: 150, flex: '0 1 200px' }}
-      onClick={() => openEditor({ id, type: editorType, icon: icon(editorType), name, project, path })}
+      onClick={() => openEditor({ id, type: editorType, icon: editorIcon(editorType), name, project, path })}
     >
       <div style={{ background: 'var(--background)', borderRadius: 8, flex: '1 0 auto' }}>{cardPreview(editorType)}</div>
       <Flex alignItems='center' justifyContent='space-between' gap={1}>
