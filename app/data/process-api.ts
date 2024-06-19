@@ -26,8 +26,7 @@ export const useProcesses = () => {
           toast.error('Failed to load processes', { description: 'Maybe the server is not correclty started' });
         }
         return [];
-      }),
-    initialData: []
+      })
   });
 };
 

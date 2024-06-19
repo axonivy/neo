@@ -19,12 +19,32 @@ type Popup = {
   create: (name: string, namespace: string, project?: ProjectIdentifier) => string | number;
 };
 
+const ProjectSelect = ({ setProject }: { setProject: (project: ProjectIdentifier) => void }) => {
+  const { data, isPending } = useProjects();
+  const projects = data ?? [];
+  return (
+    <Fieldset label='Project'>
+      {isPending ? (
+        <Spinner size='small' />
+      ) : (
+        <BasicSelect
+          placeholder={isPending && <Spinner size='small' />}
+          items={projects.map(p => ({
+            value: JSON.stringify(p),
+            label: `${p.app}/${p.pmv}`
+          }))}
+          defaultValue={JSON.stringify(projects[0])}
+          onValueChange={value => setProject(JSON.parse(value))}
+        />
+      )}
+    </Fieldset>
+  );
+};
+
 export const NewProjectArtifactPopup = ({ defaultName, create }: Popup) => {
   const [name, setName] = useState(defaultName);
   const [namespace, setNamespace] = useState('Neo');
-  const { data, isLoading } = useProjects();
   const [project, setProject] = useState<ProjectIdentifier>();
-  const projects = data ?? [];
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -39,16 +59,7 @@ export const NewProjectArtifactPopup = ({ defaultName, create }: Popup) => {
           <Fieldset label='Namespace'>
             <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
           </Fieldset>
-          <Fieldset>
-            <BasicSelect
-              placeholder={isLoading && <Spinner size='small' />}
-              items={projects.map(p => ({
-                value: JSON.stringify(p),
-                label: `${p.app}/${p.pmv}`
-              }))}
-              onValueChange={value => setProject(JSON.parse(value))}
-            />
-          </Fieldset>
+          <ProjectSelect setProject={setProject} />
           <Button icon={IvyIcons.Plus} variant='primary' onClick={() => create(name, namespace, project)}>
             Create
           </Button>

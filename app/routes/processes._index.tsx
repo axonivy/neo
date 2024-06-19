@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const [search, setSearch] = useState('');
-  const { data, isLoading } = useProcesses();
+  const { data, isPending } = useProcesses();
   const processes = data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const { deleteProcess } = useDeleteProcess();
   const { createProcess } = useCreateProcess();
@@ -28,16 +28,19 @@ export default function Index() {
       </Flex>
       <SearchInput value={search} onChange={setSearch} />
       <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-        {isLoading && <Spinner size='small' />}
-        {processes.map(process => (
-          <ProjectArtifactCard
-            key={process.path ?? process.name}
-            project={process.processIdentifier.project}
-            editorType={'processes'}
-            {...process}
-            actions={{ delete: () => deleteProcess(process.processIdentifier) }}
-          />
-        ))}
+        {isPending ? (
+          <Spinner size='small' />
+        ) : (
+          processes.map(process => (
+            <ProjectArtifactCard
+              key={process.path ?? process.name}
+              project={process.processIdentifier.project}
+              editorType={'processes'}
+              {...process}
+              actions={{ delete: () => deleteProcess(process.processIdentifier) }}
+            />
+          ))
+        )}
       </Flex>
     </Flex>
   );

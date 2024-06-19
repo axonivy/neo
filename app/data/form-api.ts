@@ -34,8 +34,7 @@ export const useForms = () => {
           toast.error('Failed to load forms', { description: 'Maybe the server is not correclty started' });
         }
         return [];
-      }),
-    initialData: []
+      })
   });
 };
 

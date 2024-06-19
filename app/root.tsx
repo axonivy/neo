@@ -6,13 +6,13 @@ import componentsStylesHref from '@axonivy/ui-components/lib/style.css?url';
 import rootStylesHref from '~/styles/root.css?url';
 import { LinksFunction } from '@remix-run/node';
 import { Neo } from './neo/Neo';
-import { ThemeProvider } from '@axonivy/ui-components';
+import { Flex, Spinner, ThemeProvider } from '@axonivy/ui-components';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 
 const queryClient = new QueryClient();
 
 export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: iconStylesHref },
+  { rel: 'preload stylesheet', href: iconStylesHref, as: 'style' },
   { rel: 'stylesheet', href: componentsStylesHref },
   { rel: 'stylesheet', href: rootStylesHref }
 ];
@@ -49,5 +49,9 @@ export default function App() {
 }
 
 export function HydrateFallback() {
-  return <p>Loading...</p>;
+  return (
+    <Flex alignItems='center' justifyContent='center' style={{ width: '100%', height: '100%' }}>
+      <Spinner />
+    </Flex>
+  );
 }
