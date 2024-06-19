@@ -79,7 +79,11 @@ export const useEditors = () => {
 };
 
 export const editorId = (editorType: EditorType, project: ProjectIdentifier, path: string) => {
-  return `/${editorType}/${project.app}/${project.pmv}/${path}`;
+  const id = `/${editorType}/${project.app}/${project.pmv}/${path}`;
+  if (editorType === 'forms') {
+    return id.split('.f.json')[0];
+  }
+  return id;
 };
 
 export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: string, path?: string) => {
