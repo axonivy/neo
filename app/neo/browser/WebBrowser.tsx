@@ -1,7 +1,8 @@
 import { Button, Flex, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useRef, RefObject } from 'react';
+import { RefObject } from 'react';
 import { useUpdateTheme } from '~/theme/useUpdateTheme';
+import { useWebBrowser } from './useWebBrowser';
 
 const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -13,8 +14,8 @@ const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) =>
 };
 
 export const WebBrowser = () => {
-  const frameRef = useRef<HTMLIFrameElement>(null);
-  useUpdateTheme(frameRef, updateFrameTheme);
+  const { nav } = useWebBrowser();
+  useUpdateTheme(nav.frameRef, updateFrameTheme);
   return (
     <Flex direction='column' gap={1} style={{ height: '100%' }}>
       <Flex
@@ -29,27 +30,15 @@ export const WebBrowser = () => {
           Web Browser
         </Flex>
         <Flex alignItems='center' gap={1}>
-          <Button icon={IvyIcons.ArrowRight} rotate={180} title='Back' onClick={() => frameRef.current?.contentWindow?.history.back()} />
-          <Button icon={IvyIcons.ArrowRight} title='Forward' onClick={() => frameRef.current?.contentWindow?.history.forward()} />
-          <Button icon={IvyIcons.Redo} title='Redo' onClick={() => frameRef.current?.contentWindow?.location.reload()} />
-          <Button
-            icon={IvyIcons.Home}
-            title='Home'
-            onClick={() => {
-              if (frameRef.current?.contentWindow) {
-                frameRef.current.contentWindow.location = '/dev-workflow-ui/faces/home.xhtml';
-              }
-            }}
-          />
-          <Button
-            icon={IvyIcons.ExitEnd}
-            title='Open in new tab'
-            onClick={() => window.open(frameRef.current?.contentWindow?.location.href)}
-          />
+          <Button icon={IvyIcons.ArrowRight} rotate={180} title='Back' onClick={nav.back} />
+          <Button icon={IvyIcons.ArrowRight} title='Forward' onClick={nav.forward} />
+          <Button icon={IvyIcons.Redo} title='Reload' onClick={nav.reload} />
+          <Button icon={IvyIcons.Home} title='Home' onClick={nav.home} />
+          <Button icon={IvyIcons.ExitEnd} title='Open in new tab' onClick={nav.openExternal} />
         </Flex>
       </Flex>
       <iframe
-        ref={frameRef}
+        ref={nav.frameRef}
         src='/dev-workflow-ui/faces/home.xhtml'
         title='Dev Browser'
         style={{ width: '100%', height: '100%', border: 'none' }}

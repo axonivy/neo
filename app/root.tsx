@@ -7,6 +7,7 @@ import rootStylesHref from '~/styles/root.css?url';
 import { LinksFunction } from '@remix-run/node';
 import { Neo } from './neo/Neo';
 import { ThemeProvider } from '@axonivy/ui-components';
+import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 
 const queryClient = new QueryClient();
 
@@ -38,7 +39,9 @@ export default function App() {
   return (
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
-        <Neo />
+        <WebBrowserProvider>
+          <Neo />
+        </WebBrowserProvider>
         <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} />
       </QueryClientProvider>
     </ThemeProvider>

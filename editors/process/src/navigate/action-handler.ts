@@ -5,7 +5,7 @@ import { Action, IActionHandler, NavigateToExternalTargetAction } from '@eclipse
 export class NavigateToExternalTargetActionHandler implements IActionHandler {
   handle(action: Action): void {
     if (NavigateToExternalTargetAction.is(action)) {
-      window.parent.postMessage(JSON.stringify(action.target));
+      window.parent.postMessage(JSON.stringify(action));
     }
   }
 }
