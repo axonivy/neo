@@ -30,6 +30,8 @@ export const ProcessEditor = ({ id, project, path }: Editor) => {
   useEffect(() => {
     if (pathname === id) {
       setMounted(true);
+      // trigger rerender of process to fix invisible connectors
+      frame.current?.contentWindow?.dispatchEvent(new CustomEvent('resize'));
     }
   }, [pathname, id]);
   return (
