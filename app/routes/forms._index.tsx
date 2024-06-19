@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const [search, setSearch] = useState('');
-  const { data, isLoading } = useForms();
+  const { data, isPending } = useForms();
   const forms = data?.filter(form => form.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const { deleteForm } = useDeleteForm();
   const { createForm } = useCreateForm();
@@ -27,16 +27,19 @@ export default function Index() {
       </Flex>
       <SearchInput value={search} onChange={setSearch} />
       <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-        {isLoading && <Spinner size='small' />}
-        {forms.map(form => (
-          <ProjectArtifactCard
-            key={form.path ?? form.name}
-            project={form.identifier.project}
-            editorType={'forms'}
-            {...form}
-            actions={{ delete: () => deleteForm(form.identifier) }}
-          />
-        ))}
+        {isPending ? (
+          <Spinner size='small' />
+        ) : (
+          forms.map(form => (
+            <ProjectArtifactCard
+              key={form.path ?? form.name}
+              project={form.identifier.project}
+              editorType={'forms'}
+              {...form}
+              actions={{ delete: () => deleteForm(form.identifier) }}
+            />
+          ))
+        )}
       </Flex>
     </Flex>
   );

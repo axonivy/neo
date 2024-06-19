@@ -18,7 +18,6 @@ export const useProjects = () => {
           toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
         }
         return [];
-      }),
-    initialData: []
+      })
   });
 };

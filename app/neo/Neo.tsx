@@ -13,7 +13,7 @@ export const Neo = () => {
     <div className='neo-layout'>
       <ControlBar toggleBrowser={browser.toggle} />
       <ResizablePanelGroup direction='horizontal' style={{ height: '100vh' }} autoSaveId='neo-layout'>
-        <ResizablePanel title='Neo'>
+        <ResizablePanel id='Neo'>
           <Flex direction='row' style={{ height: 'calc(100vh - 41px)' }}>
             <Navigation />
             <div style={{ width: '100%' }}>
@@ -24,7 +24,7 @@ export const Neo = () => {
           <Toaster closeButton={true} />
         </ResizablePanel>
         <ResizableHandle style={{ width: 3, backgroundColor: 'var(--N200)' }} />
-        <ResizablePanel ref={browser.panelRef} title='Browser' collapsible defaultSize={0} maxSize={70} minSize={10}>
+        <ResizablePanel ref={browser.panelRef} id='Browser' collapsible defaultSize={0} maxSize={70} minSize={10}>
           <WebBrowser />
         </ResizablePanel>
       </ResizablePanelGroup>

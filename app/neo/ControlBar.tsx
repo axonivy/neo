@@ -1,6 +1,6 @@
 import { Button, Flex, IvyIcon, Popover, PopoverContent, PopoverTrigger, Separator } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useLocation, useNavigate } from '@remix-run/react';
+import { Link, useLocation, useNavigate } from '@remix-run/react';
 import IvyLogoSVG from './axonivy.svg?react';
 import { Editor, useEditors } from './useEditors';
 import { useRef, useState } from 'react';
@@ -67,15 +67,16 @@ const EditorsControl = () => {
 };
 
 export const ControlBar = ({ toggleBrowser }: { toggleBrowser: () => void }) => {
-  const navigate = useNavigate();
   const { editors } = useEditors();
   const scroller = useRef<HTMLDivElement>(null);
   return (
     <Flex style={{ height: '40px', borderBottom: 'var(--basic-border)', background: 'var(--N50)' }}>
       <Flex alignItems='center' gap={4} style={{ paddingInline: 'var(--size-3)', borderInlineEnd: 'var(--basic-border)' }}>
-        <Button size='large' style={{ aspectRatio: 1, padding: 0 }} onClick={() => navigate('/')}>
-          <IvyLogoSVG />
-        </Button>
+        <Link to='/' prefetch='intent' style={{ all: 'unset' }}>
+          <Button size='large' style={{ aspectRatio: 1, padding: 0 }}>
+            <IvyLogoSVG />
+          </Button>
+        </Link>
         <Button icon={IvyIcons.Market} size='large' />
       </Flex>
       <Flex
