@@ -1,7 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteReq, get } from './engine-api';
+import { deleteReq, get, post } from './engine-api';
 import { toast } from '@axonivy/ui-components';
 import { ProjectIdentifier } from './project-api';
+import { editorOfPath, useEditors } from '~/neo/useEditors';
 
 export type Form = {
   name: string;
@@ -12,6 +13,14 @@ export type Form = {
 export type FormIdentifier = {
   project: ProjectIdentifier;
   id: string;
+};
+
+type NewFormParams = {
+  name: string;
+  namespace: string;
+  type: 'Form';
+  project?: ProjectIdentifier;
+  pid?: string;
 };
 
 export const useForms = () => {
@@ -43,5 +52,24 @@ export const useDeleteForm = () => {
   return {
     deleteForm: (identifier: FormIdentifier) =>
       toast.promise(() => deleteForm(identifier), { loading: 'Remove form', success: 'From removed', error: e => e.message })
+  };
+};
+
+export const useCreateForm = () => {
+  const client = useQueryClient();
+  const { openEditor } = useEditors();
+  const createForm = async (form: NewFormParams) => {
+    const res = await post('hd', form);
+    if (res?.ok) {
+      const form = (await res.json()) as Form;
+      client.invalidateQueries({ queryKey: ['forms'] });
+      openEditor(editorOfPath('forms', form.identifier.project, form.path));
+    } else {
+      throw new Error('Failed to create form');
+    }
+  };
+  return {
+    createForm: (form: NewFormParams) =>
+      toast.promise(() => createForm(form), { loading: 'Creating form', success: 'Form created', error: e => e.message })
   };
 };
