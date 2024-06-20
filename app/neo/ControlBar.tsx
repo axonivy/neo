@@ -14,7 +14,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useLocation, useNavigate } from '@remix-run/react';
 import IvyLogoSVG from './axonivy.svg?react';
 import { Editor, useEditors } from './useEditors';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const EditorTab = ({ icon, name, id }: Editor) => {
   const { closeEditor } = useEditors();
@@ -55,10 +55,15 @@ const EditorTabs = () => {
   const scroller = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const [tab, setTab] = useState('');
+  useEffect(() => {
+    const openEditor = editors.find(editor => editor.id === pathname);
+    setTab(openEditor?.id ?? '');
+  }, [editors, pathname]);
   return (
     <Tabs
       ref={scroller}
-      defaultValue={(editors.find(editor => editor.id === pathname) ?? editors[0])?.id ?? ''}
+      value={tab}
       onValueChange={value => navigate(value)}
       style={{ overflowX: 'hidden' }}
       onWheel={event => {

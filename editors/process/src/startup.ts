@@ -1,11 +1,12 @@
 import { EnableInscriptionAction } from '@axonivy/process-editor-inscription';
-import { EnableViewportAction, ShowGridAction, UpdatePaletteItems } from '@axonivy/process-editor-protocol';
+import { EnableViewportAction, UpdatePaletteItems } from '@axonivy/process-editor-protocol';
 import {
   EnableToolPaletteAction,
   GLSPActionDispatcher,
   IDiagramStartup,
   NavigationTarget,
   SelectAction,
+  ShowGridAction,
   TYPES
 } from '@eclipse-glsp/client';
 import { ContainerModule, inject, injectable } from 'inversify';
