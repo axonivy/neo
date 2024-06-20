@@ -58,7 +58,7 @@ const EditorTabs = () => {
   return (
     <Tabs
       ref={scroller}
-      defaultValue={(editors.find(editor => editor.id === pathname) ?? editors[0]).id}
+      defaultValue={(editors.find(editor => editor.id === pathname) ?? editors[0])?.id ?? ''}
       onValueChange={value => navigate(value)}
       style={{ overflowX: 'hidden' }}
       onWheel={event => {
