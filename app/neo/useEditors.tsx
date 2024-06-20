@@ -9,6 +9,7 @@ import { ProcessEditor } from '~/routes/processes.$app.$pmv.$/ProcessEditor';
 
 export type EditorType = 'processes' | 'forms';
 
+// if you change the Editor type increase the persist version too
 export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
 
 type EditorState = {
@@ -40,7 +41,7 @@ const useStore = create<EditorState>()(
           return { editors };
         })
     }),
-    { name: 'neo-open-editors' }
+    { name: 'neo-open-editors', version: 1 }
   )
 );
 

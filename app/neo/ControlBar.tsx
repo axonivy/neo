@@ -14,10 +14,9 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useLocation, useNavigate } from '@remix-run/react';
 import IvyLogoSVG from './axonivy.svg?react';
 import { Editor, useEditors } from './useEditors';
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
 const EditorTab = ({ icon, name, id }: Editor) => {
-  const { closeEditor } = useEditors();
   const active = useLocation().pathname === id;
   return (
     <TabsTrigger
@@ -25,33 +24,22 @@ const EditorTab = ({ icon, name, id }: Editor) => {
       value={id}
       style={{
         borderBottom: 'none',
-        borderInlineEnd: 'var(--basic-border)',
+        borderInlineEnd: active ? undefined : 'var(--basic-border)',
         fontWeight: 'normal',
         fontSize: '12px',
         background: active ? 'var(--background)' : undefined,
         height: '100%',
-        padding: '0 var(--size-4)'
+        padding: '0 var(--size-3)'
       }}
     >
       <IvyIcon style={{ fontSize: '16px' }} icon={icon} />
       {name}
-      {active && (
-        <Button
-          icon={IvyIcons.Close}
-          onClick={event => {
-            event.stopPropagation();
-            closeEditor(id);
-          }}
-          onKeyDown={e => e.stopPropagation()}
-          aria-label='Close tab'
-        />
-      )}
     </TabsTrigger>
   );
 };
 
 const EditorTabs = () => {
-  const { editors } = useEditors();
+  const { editors, closeEditor } = useEditors();
   const scroller = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
@@ -74,7 +62,30 @@ const EditorTabs = () => {
     >
       <TabsList style={{ height: '100%' }}>
         {editors.map(editor => (
-          <EditorTab key={editor.id} {...editor} />
+          <Fragment key={editor.id}>
+            <EditorTab {...editor} />
+            {editor.id === pathname && (
+              <Flex
+                alignItems='center'
+                style={{
+                  height: '100%',
+                  background: 'var(--background)',
+                  borderInlineEnd: 'var(--basic-border)',
+                  paddingInlineEnd: 'var(--size-2)'
+                }}
+              >
+                <Button
+                  icon={IvyIcons.Close}
+                  onClick={event => {
+                    event.stopPropagation();
+                    closeEditor(editor.id);
+                  }}
+                  onKeyDown={e => e.stopPropagation()}
+                  aria-label='Close tab'
+                />
+              </Flex>
+            )}
+          </Fragment>
         ))}
       </TabsList>
     </Tabs>
