@@ -1,6 +1,7 @@
 import { RefObject, useCallback, useEffect } from 'react';
 import { editorOfPath, useEditors } from '~/neo/useEditors';
-import { NavigateToExternalTargetAction, Action } from '@eclipse-glsp/protocol/lib/action-protocol';
+import { NavigateToExternalTargetAction } from '@eclipse-glsp/protocol/lib/action-protocol/element-navigation';
+import { Action } from '@eclipse-glsp/protocol/lib/action-protocol/base-protocol';
 import { useWebBrowser } from '~/neo/browser/useWebBrowser';
 
 const asString = (argValue?: string | number | boolean): string | undefined => {
