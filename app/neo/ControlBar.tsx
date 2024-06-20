@@ -1,4 +1,15 @@
-import { Button, Flex, IvyIcon, Popover, PopoverContent, PopoverTrigger, Separator } from '@axonivy/ui-components';
+import {
+  Button,
+  Flex,
+  IvyIcon,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Separator,
+  Tabs,
+  TabsList,
+  TabsTrigger
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useLocation, useNavigate } from '@remix-run/react';
 import IvyLogoSVG from './axonivy.svg?react';
@@ -7,21 +18,20 @@ import { useRef, useState } from 'react';
 
 const EditorTab = ({ icon, name, id }: Editor) => {
   const { closeEditor } = useEditors();
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const active = id === pathname;
+  const active = useLocation().pathname === id;
   return (
-    <Flex
-      alignItems='center'
-      gap={1}
+    <TabsTrigger
+      key={id}
+      value={id}
       style={{
-        paddingInline: 'var(--size-4)',
-        height: '100%',
+        borderBottom: 'none',
         borderInlineEnd: 'var(--basic-border)',
+        fontWeight: 'normal',
+        fontSize: '12px',
         background: active ? 'var(--background)' : undefined,
-        cursor: 'pointer'
+        height: '100%',
+        padding: '0 var(--size-4)'
       }}
-      onClick={() => navigate(id)}
     >
       <IvyIcon style={{ fontSize: '16px' }} icon={icon} />
       {name}
@@ -32,9 +42,37 @@ const EditorTab = ({ icon, name, id }: Editor) => {
             event.stopPropagation();
             closeEditor(id);
           }}
+          onKeyDown={e => e.stopPropagation()}
+          aria-label='Close tab'
         />
       )}
-    </Flex>
+    </TabsTrigger>
+  );
+};
+
+const EditorTabs = () => {
+  const { editors } = useEditors();
+  const scroller = useRef<HTMLDivElement>(null);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  return (
+    <Tabs
+      ref={scroller}
+      defaultValue={pathname}
+      onValueChange={value => navigate(value)}
+      style={{ overflowX: 'hidden' }}
+      onWheel={event => {
+        if (scroller.current) {
+          scroller.current.scrollLeft += event.deltaY + event.deltaX;
+        }
+      }}
+    >
+      <TabsList style={{ height: '100%' }}>
+        {editors.map(editor => (
+          <EditorTab key={editor.id} {...editor} />
+        ))}
+      </TabsList>
+    </Tabs>
   );
 };
 
@@ -67,8 +105,6 @@ const EditorsControl = () => {
 };
 
 export const ControlBar = ({ toggleBrowser }: { toggleBrowser: () => void }) => {
-  const { editors } = useEditors();
-  const scroller = useRef<HTMLDivElement>(null);
   return (
     <Flex style={{ height: '40px', borderBottom: 'var(--basic-border)', background: 'var(--N50)' }}>
       <Flex alignItems='center' gap={4} style={{ paddingInline: 'var(--size-3)', borderInlineEnd: 'var(--basic-border)' }}>
@@ -79,20 +115,7 @@ export const ControlBar = ({ toggleBrowser }: { toggleBrowser: () => void }) => 
         </Link>
         <Button icon={IvyIcons.Market} size='large' />
       </Flex>
-      <Flex
-        ref={scroller}
-        alignItems='center'
-        style={{ overflowX: 'hidden' }}
-        onWheel={event => {
-          if (scroller.current) {
-            scroller.current.scrollLeft += event.deltaY;
-          }
-        }}
-      >
-        {editors.map(editor => (
-          <EditorTab key={editor.id} {...editor} />
-        ))}
-      </Flex>
+      <EditorTabs />
       <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
         <EditorsControl />
         <Separator orientation='vertical' style={{ margin: 'var(--size-2)' }} />
