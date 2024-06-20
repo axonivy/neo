@@ -7,6 +7,7 @@ import ivyNavigationModule from './navigate/di.config';
 import ivyStartActionModule from './start/di.config';
 import { InscriptionContext } from '@axonivy/inscription-protocol';
 import { ivyStartupDiagramModule } from './startup';
+import ivyAutoSaveModule from './auto-save/di.config';
 
 export interface IvyDiagramOptions extends IDiagramOptions {
   select: string | null;
@@ -26,7 +27,8 @@ export default function createContainer(options: IvyDiagramOptions): Container {
     ivyNavigationModule,
     ivyInscriptionModule,
     ivyStartupDiagramModule,
-    ivyStartActionModule
+    ivyStartActionModule,
+    ivyAutoSaveModule
   );
   return container;
 }
