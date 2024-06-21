@@ -41,7 +41,11 @@ export default defineConfig({
       '/designer': WEBSOCKET_PROXY,
       '/ivy-script-lsp': WEBSOCKET_PROXY,
       '/ivy-inscription-lsp': WEBSOCKET_PROXY,
-      '/ivy-form-lsp': WEBSOCKET_PROXY
+      '/ivy-form-lsp': WEBSOCKET_PROXY,
+      '/ivy-neo-lsp': WEBSOCKET_PROXY
     }
+  },
+  build: {
+    target: 'es2022'
   }
 });
