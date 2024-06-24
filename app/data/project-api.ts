@@ -21,3 +21,13 @@ export const useProjects = () => {
       })
   });
 };
+
+export const watchProjects = () => {
+  get('projects/watch').then(res => {
+    if (res?.ok) {
+      return;
+    } else {
+      toast.error('Failed to watch projects', { description: 'Maybe the server is not correclty started' });
+    }
+  });
+};
