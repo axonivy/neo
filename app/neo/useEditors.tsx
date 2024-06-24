@@ -1,6 +1,7 @@
 import { indexOf } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { NavigationType, useNavigate, useNavigationType } from '@remix-run/react';
+import { useCallback } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { ProjectIdentifier } from '~/data/project-api';
@@ -49,32 +50,44 @@ export const useEditors = () => {
   const navigate = useNavigate();
   const { editors, open, close, closeAll } = useStore();
 
-  const closeEditor = (id: string) => {
-    close(id);
-    let nav = '/';
-    if (editors.length > 0) {
-      nav = editors[0].id;
-    }
-    navigate(nav, { replace: true });
-  };
+  const closeEditor = useCallback(
+    (id: string) => {
+      close(id);
+      let nav = '/';
+      if (editors.length > 0) {
+        nav = editors[0].id;
+      }
+      navigate(nav, { replace: true });
+    },
+    [close, editors, navigate]
+  );
 
-  const closeAllEditors = () => {
+  const closeAllEditors = useCallback(() => {
     closeAll();
     navigate('/', { replace: true });
-  };
+  }, [closeAll, navigate]);
 
-  const openEditor = (editor: Editor) => {
-    navigate(editor.id);
-    open(editor);
-  };
+  const openEditor = useCallback(
+    (editor: Editor) => {
+      navigate(editor.id);
+      open(editor);
+    },
+    [navigate, open]
+  );
 
-  const removeEditor = (id: string) => {
-    close(id);
-  };
+  const removeEditor = useCallback(
+    (id: string) => {
+      close(id);
+    },
+    [close]
+  );
 
-  const addEditor = (editor: Editor) => {
-    open(editor);
-  };
+  const addEditor = useCallback(
+    (editor: Editor) => {
+      open(editor);
+    },
+    [open]
+  );
 
   return { editors, closeEditor, openEditor, removeEditor, addEditor, closeAllEditors };
 };
