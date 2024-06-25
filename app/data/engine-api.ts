@@ -12,7 +12,7 @@ export const post = (url: string, data: unknown) => {
       Accept: 'application/json',
       'X-Requested-By': 'Neo'
     },
-    body: JSON.stringify(data)
+    body: stringify(data)
   });
 };
 
@@ -23,6 +23,10 @@ export const deleteReq = (url: string, data: unknown) => {
       'Content-Type': 'application/json',
       'X-Requested-By': 'Neo'
     },
-    body: JSON.stringify(data)
+    body: stringify(data)
   });
 };
+
+function stringify(data: unknown) {
+  return typeof data === 'string' ? data : JSON.stringify(data);
+}
