@@ -19,7 +19,13 @@ type Popup = {
   create: (name: string, namespace: string, project?: ProjectIdentifier) => string | number;
 };
 
-const ProjectSelect = ({ setProject }: { setProject: (project: ProjectIdentifier) => void }) => {
+const ProjectSelect = ({
+  project,
+  setProject
+}: {
+  project: ProjectIdentifier | undefined;
+  setProject: (project: ProjectIdentifier) => void;
+}) => {
   const { data, isPending } = useProjects();
   const projects = data ?? [];
   return (
@@ -33,7 +39,10 @@ const ProjectSelect = ({ setProject }: { setProject: (project: ProjectIdentifier
             value: JSON.stringify(p),
             label: `${p.app}/${p.pmv}`
           }))}
-          defaultValue={JSON.stringify(projects[0])}
+          defaultValue={(() => {
+            project ?? setProject(projects[0]);
+            return JSON.stringify(projects[0]);
+          })()}
           onValueChange={value => setProject(JSON.parse(value))}
         />
       )}
@@ -59,7 +68,7 @@ export const NewProjectArtifactPopup = ({ defaultName, create }: Popup) => {
           <Fieldset label='Namespace'>
             <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
           </Fieldset>
-          <ProjectSelect setProject={setProject} />
+          <ProjectSelect project={project} setProject={setProject} />
           <Button icon={IvyIcons.Plus} variant='primary' onClick={() => create(name, namespace, project)}>
             Create
           </Button>
