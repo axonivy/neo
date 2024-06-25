@@ -17,9 +17,15 @@ export const useNeoClient = () => {
   const { openEditor } = useEditors();
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
-  client.onOpenEditor.set(({ name, path, processIdentifier }) => {
-    const id = editorId('processes', processIdentifier.project, path);
-    openEditor({ id, type: 'processes', icon: editorIcon('processes'), name, project: processIdentifier.project, path });
+  client.onOpenEditor.set(({ name, path, processIdentifier, ...process }) => {
+    if (process.kind === 3) {
+      const path = `${process.namespace}/${name}`;
+      const id = editorId('src_hd', processIdentifier.project, path);
+      openEditor({ id, type: 'src_hd', icon: editorIcon('processes'), name, project: processIdentifier.project, path });
+    } else {
+      const id = editorId('processes', processIdentifier.project, path);
+      openEditor({ id, type: 'processes', icon: editorIcon('processes'), name, project: processIdentifier.project, path });
+    }
     //TODO: wait on editor to be ready
   });
   return client;

@@ -5,9 +5,14 @@ import { toast } from '@axonivy/ui-components';
 import { ProjectIdentifier } from './project-api';
 
 export type Process = {
+  kind: number;
   name: string;
+  namespace: string;
   path: string;
+  processGroup: string;
   processIdentifier: ProcessIdentifier;
+  requestPath: string;
+  type: string;
 };
 
 export type ProcessIdentifier = {
