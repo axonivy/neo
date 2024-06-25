@@ -31,7 +31,7 @@ export interface NeoOnRequestTypes {
   openEditor: [Process, void];
 }
 
-type AnimationSettings = {
+export type AnimationSettings = {
   animate: boolean;
   speed: number;
 };
