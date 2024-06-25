@@ -8,6 +8,7 @@ import { LinksFunction } from '@remix-run/node';
 import { Neo } from './neo/Neo';
 import { Flex, Spinner, ThemeProvider } from '@axonivy/ui-components';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
+import { watchProjects } from './data/project-api';
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  watchProjects();
   return (
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
