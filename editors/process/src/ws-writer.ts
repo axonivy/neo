@@ -20,11 +20,18 @@ export class IvyWebSocketMessageWriter extends WebSocketMessageWriter {
   override async write(msg: Message): Promise<void> {
     try {
       const content = JSON.stringify(msg);
+      if (isAction(msg)) {
+        window.parent.postMessage(content);
+        return;
+      }
       this.socket.send(content);
-      window.parent.postMessage(content);
     } catch (e) {
       this.errorCount++;
       this.fireError(e, msg, this.errorCount);
     }
   }
 }
+
+const isAction = (obj: unknown): obj is { method: string } => {
+  return typeof obj === 'object' && obj !== null && 'method' in obj && obj.method === 'action';
+};
