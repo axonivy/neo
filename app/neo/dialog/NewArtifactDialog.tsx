@@ -53,14 +53,12 @@ export const NewArtifactDialog = () => {
   const [namespace, setNamespace] = useState('Neo');
   const [project, setProject] = useState<ProjectIdentifier>();
   useEffect(() => {
-    if (dialogContext) {
-      setName(dialogContext.defaultName);
-      setProject(dialogContext.project);
-    }
+    if (dialogContext) setName(dialogContext.defaultName);
+    setProject(dialogContext?.project);
   }, [dialogContext]);
   return (
     dialogContext && (
-      <Dialog open={openState}>
+      <Dialog open={openState} onOpenChange={() => close()}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{dialogContext.title}</DialogTitle>
@@ -79,8 +77,8 @@ export const NewArtifactDialog = () => {
               icon={IvyIcons.Plus}
               variant='primary'
               onClick={() => {
-                close();
                 dialogContext.create(name, namespace, project, dialogContext.pid);
+                close();
               }}
             >
               Create
