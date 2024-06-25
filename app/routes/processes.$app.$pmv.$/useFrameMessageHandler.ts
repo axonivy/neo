@@ -1,5 +1,5 @@
 import { RefObject, useCallback, useEffect } from 'react';
-import { editorOfPath, useEditors } from '~/neo/useEditors';
+import { EditorType, editorOfPath, useEditors } from '~/neo/useEditors';
 import { NavigateToExternalTargetAction } from '@eclipse-glsp/protocol/lib/action-protocol/element-navigation';
 import { Action } from '@eclipse-glsp/protocol/lib/action-protocol/base-protocol';
 import { useWebBrowser } from '~/neo/browser/useWebBrowser';
@@ -31,11 +31,16 @@ const useNavigateActionHandler = (app: string) => {
         return;
       }
       const { uri, args } = data.target;
-      const pmv = asString(args?.pmv);
-      const process = uri.split('/processes/')[1];
+      const pmv = asString(args?.pmv)?.split('$')[0];
+      let process = uri.split('/processes/')[1];
+      let type: EditorType = 'processes';
+      if (!process) {
+        process = uri.split('/src_hd/')[1];
+        type = 'src_hd';
+      }
       if (process && pmv) {
         const endIndex = process.lastIndexOf('.p.json');
-        const editor = editorOfPath('processes', { app, pmv }, process.substring(0, endIndex));
+        const editor = editorOfPath(type, { app, pmv }, process.substring(0, endIndex));
         openEditor(editor);
       }
     },

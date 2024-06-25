@@ -8,7 +8,7 @@ import { ProjectIdentifier } from '~/data/project-api';
 import { FormEditor } from '~/routes/forms.$app.$pmv.$/FormEditor';
 import { ProcessEditor } from '~/routes/processes.$app.$pmv.$/ProcessEditor';
 
-export type EditorType = 'processes' | 'forms';
+export type EditorType = 'processes' | 'forms' | 'src_hd';
 
 // if you change the Editor type increase the persist version too
 export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
@@ -121,6 +121,7 @@ export const editorOfPath = (type: EditorType, project: ProjectIdentifier, path:
 export const renderEditor = (editor: Editor) => {
   switch (editor.type) {
     case 'processes':
+    case 'src_hd':
       return <ProcessEditor key={editor.id} {...editor} />;
     case 'forms':
       return <FormEditor key={editor.id} {...editor} />;
