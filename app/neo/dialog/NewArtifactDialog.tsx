@@ -53,7 +53,10 @@ export const NewArtifactDialog = () => {
   const [namespace, setNamespace] = useState('Neo');
   const [project, setProject] = useState<ProjectIdentifier>();
   useEffect(() => {
-    if (dialogContext) setName(dialogContext?.defaultName);
+    if (dialogContext) {
+      setName(dialogContext.defaultName);
+      setProject(dialogContext.project);
+    }
   }, [dialogContext]);
   return (
     dialogContext && (
@@ -77,7 +80,7 @@ export const NewArtifactDialog = () => {
               variant='primary'
               onClick={() => {
                 close();
-                dialogContext.create(name, namespace, project);
+                dialogContext.create(name, namespace, project, dialogContext.pid);
               }}
             >
               Create

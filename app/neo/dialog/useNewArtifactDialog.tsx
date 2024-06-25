@@ -5,6 +5,8 @@ export type DialogContext = {
   title: string;
   defaultName: string;
   create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) => string | number;
+  project?: ProjectIdentifier;
+  pid?: string;
 };
 
 type NewArtifactDialogState = {
