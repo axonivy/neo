@@ -9,17 +9,16 @@
     "url": "https://github.com/axonivy/glsp-editor-client"
   },
   "dependencies": {
-    "@axonivy/jsonrpc": "~11.4.0-next.209",
-    "@axonivy/process-editor": "~11.4.0-next.1076",
-    "@axonivy/process-editor-inscription": "~11.4.0-next.1076",
-    "@axonivy/process-editor-protocol": "~11.4.0-next.1076",
+    "@axonivy/jsonrpc": "~11.4.0-next.211",
+    "@axonivy/process-editor": "~11.4.0-next.1080",
+    "@axonivy/process-editor-inscription": "~11.4.0-next.1080",
+    "@axonivy/process-editor-protocol": "~11.4.0-next.1080",
     "@codingame/monaco-vscode-editor-service-override": "1.83.3",
     "@codingame/monaco-vscode-languages-service-override": "1.83.3",
     "@codingame/monaco-vscode-model-service-override": "1.83.3",
     "@eclipse-glsp/client": "2.2.0-next.349",
     "@eclipse-glsp/protocol": "2.2.0-next.349",
-    "inversify": "^6.0.1",
-    "vscode-ws-jsonrpc": "^3.3.2"
+    "inversify": "^6.0.1"
   },
   "devDependencies": {
     "reflect-metadata": "^0.2.2"
