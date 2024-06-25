@@ -1,66 +1,7 @@
-import {
-  Button,
-  Flex,
-  IvyIcon,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  ReadonlyProvider,
-  Separator,
-  useTheme
-} from '@axonivy/ui-components';
+import { Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useNavigate, NavLink } from '@remix-run/react';
-import { useState } from 'react';
-import { useNeoClient } from './client/useNeoClient';
-
-const SettingsMenu = () => {
-  const { theme, setTheme } = useTheme();
-  const [simulate, setSimulate] = useState(false);
-  const client = useNeoClient();
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button icon={IvyIcons.Settings} size='large' />
-      </PopoverTrigger>
-      <PopoverContent sideOffset={6} collisionPadding={10} side='right' style={{ border: 'var(--basic-border)' }}>
-        <ReadonlyProvider readonly={false}>
-          <Flex direction='column' gap={2}>
-            <Flex alignItems='center' gap={1}>
-              <IvyIcon icon={IvyIcons.User} />
-              Developer
-            </Flex>
-            <Separator style={{ margin: 0 }} />
-            <Flex
-              alignItems='center'
-              gap={1}
-              style={{ cursor: 'pointer', textTransform: 'capitalize' }}
-              onClick={() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}
-            >
-              <IvyIcon icon={IvyIcons.DarkMode} />
-              {theme}
-            </Flex>
-            <Flex
-              alignItems='center'
-              gap={1}
-              style={{ cursor: 'pointer' }}
-              onClick={() =>
-                setSimulate(old => {
-                  const animate = !old;
-                  client.animationSettings({ animate, speed: 50 });
-                  return animate;
-                })
-              }
-            >
-              <IvyIcon icon={simulate ? IvyIcons.Check : IvyIcons.Close} />
-              Simulate Process
-            </Flex>
-          </Flex>
-        </ReadonlyProvider>
-      </PopoverContent>
-    </Popover>
-  );
-};
+import { SettingsMenu } from './settings/SettingsMenu';
 
 export const Navigation = () => {
   const navigate = useNavigate();
