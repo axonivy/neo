@@ -70,7 +70,7 @@ export const NewArtifactDialog = () => {
             <Fieldset label='Namespace'>
               <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
             </Fieldset>
-            <ProjectSelect project={project} setProject={setProject}></ProjectSelect>
+            {dialogContext.project ? <></> : <ProjectSelect project={project} setProject={setProject}></ProjectSelect>}
           </Flex>
           <DialogFooter>
             <Button
