@@ -9,6 +9,7 @@ import { Neo } from './neo/Neo';
 import { Flex, Spinner, ThemeProvider } from '@axonivy/ui-components';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { watchProjects } from './data/project-api';
+import { NewArtifactDialogProvider } from './neo/dialog/useNewArtifactDialog';
 
 const queryClient = new QueryClient();
 
@@ -42,7 +43,9 @@ export default function App() {
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
         <WebBrowserProvider>
-          <Neo />
+          <NewArtifactDialogProvider>
+            <Neo />
+          </NewArtifactDialogProvider>
         </WebBrowserProvider>
         <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} />
       </QueryClientProvider>

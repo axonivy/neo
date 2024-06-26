@@ -13,6 +13,7 @@ import { ContainerModule, inject, injectable } from 'inversify';
 import { IvyDiagramOptions } from './di.config';
 
 import './index.css';
+import { createWebSocketConnection } from './ws-writer';
 
 @injectable()
 export class StandaloneDiagramStartup implements IDiagramStartup {
@@ -33,9 +34,12 @@ export class StandaloneDiagramStartup implements IDiagramStartup {
   }
 
   async postModelInitialization(): Promise<void> {
+    const server = this.options.inscriptionContext.server;
+    const url = new URL('ivy-inscription-lsp', server);
+    const inscription = await createWebSocketConnection(url);
     this.actionDispatcher.dispatch(
       EnableInscriptionAction.create({
-        connection: { server: this.options.inscriptionContext.server },
+        connection: { inscription, server },
         inscriptionContext: this.options.inscriptionContext
       })
     );
