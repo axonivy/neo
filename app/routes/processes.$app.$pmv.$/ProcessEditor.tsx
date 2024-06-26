@@ -2,7 +2,7 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { useHref, useLocation } from '@remix-run/react';
 import { Editor } from '~/neo/useEditors';
 import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
-import { useFrameMessageHandler } from './useFrameMessageHandler';
+import { useFrameMessageHandler } from './message/useFrameMessageHandler';
 
 const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) => {
   const frameRoot = frame.current?.contentWindow?.document.documentElement;
