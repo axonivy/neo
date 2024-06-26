@@ -5,6 +5,7 @@ import { Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Toaster } f
 import { renderEditor, useEditors } from './useEditors';
 import { WebBrowser } from './browser/WebBrowser';
 import { useWebBrowser } from './browser/useWebBrowser';
+import { NewArtifactDialog } from './dialog/NewArtifactDialog';
 
 export const Neo = () => {
   const { editors } = useEditors();
@@ -28,6 +29,7 @@ export const Neo = () => {
           <WebBrowser />
         </ResizablePanel>
       </ResizablePanelGroup>
+      <NewArtifactDialog />
     </div>
   );
 };
