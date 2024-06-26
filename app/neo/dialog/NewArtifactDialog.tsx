@@ -48,7 +48,7 @@ const ProjectSelect = ({
 };
 
 export const NewArtifactDialog = () => {
-  const { close, openState, dialogContext } = useNewArtifactDialog();
+  const { close, dialogState, dialogContext } = useNewArtifactDialog();
   const [name, setName] = useState('');
   const [namespace, setNamespace] = useState('Neo');
   const [project, setProject] = useState<ProjectIdentifier>();
@@ -58,7 +58,7 @@ export const NewArtifactDialog = () => {
   }, [dialogContext]);
   return (
     dialogContext && (
-      <Dialog open={openState} onOpenChange={() => close()}>
+      <Dialog open={dialogState} onOpenChange={() => close()}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{dialogContext.title}</DialogTitle>
