@@ -50,7 +50,7 @@ export const useDeleteForm = () => {
   };
   return {
     deleteForm: (identifier: FormIdentifier) =>
-      toast.promise(() => deleteForm(identifier), { loading: 'Remove form', success: 'From removed', error: e => e.message })
+      toast.promise(() => deleteForm(identifier), { loading: 'Remove form', success: 'Form removed', error: e => e.message })
   };
 };
 
