@@ -46,9 +46,10 @@ type NewProcessParams = {
 export const useCreateProcess = () => {
   const client = useQueryClient();
   const { openEditor } = useEditors();
-  const createProcess = async (process: NewProcessParams) => {
+  const createProcess = async (process: NewProcessParams, postCreateAction: () => void = () => {}) => {
     const res = await post('process', process);
     if (res?.ok) {
+      postCreateAction();
       const process = (await res.json()) as Process;
       client.invalidateQueries({ queryKey: ['processes'] });
       openEditor(editorOfPath('processes', process.processIdentifier.project, process.path));
@@ -57,8 +58,12 @@ export const useCreateProcess = () => {
     }
   };
   return {
-    createProcess: (process: NewProcessParams) =>
-      toast.promise(() => createProcess(process), { loading: 'Creating process', success: 'Process created', error: e => e.message })
+    createProcess: (process: NewProcessParams, postCreateAction?: () => void) =>
+      toast.promise(() => createProcess(process, postCreateAction), {
+        loading: 'Creating process',
+        success: 'Process created',
+        error: e => e.message
+      })
   };
 };
 

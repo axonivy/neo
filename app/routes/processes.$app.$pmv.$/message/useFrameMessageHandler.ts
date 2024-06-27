@@ -9,14 +9,15 @@ export const useFrameMessageHandler = (frame: RefObject<HTMLIFrameElement>, app:
   const newFormHandler = useNewFormActionHandler();
   useEffect(() => {
     const handler = (event: MessageEvent) => {
-      if (frame.current?.contentWindow !== event.source) {
+      const contentWindow = frame.current?.contentWindow;
+      if (contentWindow !== event.source) {
         return;
       }
       const data = JSON.parse(event.data);
       navigationHandler(data);
       startHandler(data);
-      newProcessHandler(data, event.source);
-      newFormHandler(data);
+      newProcessHandler(data, contentWindow);
+      newFormHandler(data, contentWindow);
     };
     window.addEventListener('message', handler);
     return () => window.removeEventListener('message', handler);

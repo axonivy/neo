@@ -19,7 +19,6 @@ export async function createWebSocketConnection(url: string | URL): Promise<Conn
 
 const forwardClientMessages = (reader: IvyWebSocketMessageReader) => {
   window.addEventListener('message', event => {
-    console.log(event.data);
     reader.readMessage(JSON.stringify(event.data));
   });
 };

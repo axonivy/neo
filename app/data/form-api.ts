@@ -57,9 +57,10 @@ export const useDeleteForm = () => {
 export const useCreateForm = () => {
   const client = useQueryClient();
   const { openEditor } = useEditors();
-  const createForm = async (form: NewFormParams) => {
+  const createForm = async (form: NewFormParams, postCreateAction: () => void = () => {}) => {
     const res = await post('hd', form);
     if (res?.ok) {
+      postCreateAction();
       const form = (await res.json()) as Form;
       client.invalidateQueries({ queryKey: ['forms'] });
       openEditor(editorOfPath('forms', form.identifier.project, form.path));
@@ -68,7 +69,7 @@ export const useCreateForm = () => {
     }
   };
   return {
-    createForm: (form: NewFormParams) =>
-      toast.promise(() => createForm(form), { loading: 'Creating form', success: 'Form created', error: e => e.message })
+    createForm: (form: NewFormParams, postCreateAction?: () => void) =>
+      toast.promise(() => createForm(form, postCreateAction), { loading: 'Creating form', success: 'Form created', error: e => e.message })
   };
 };
