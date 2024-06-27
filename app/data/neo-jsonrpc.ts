@@ -19,14 +19,14 @@ class Callback<T, R = void> implements Disposable {
 }
 
 export interface NeoClient {
-  onOpenEditor: Callback<Process>;
+  onOpenEditor: Callback<Process, boolean>;
   animationSettings(settings: AnimationSettings): void;
 }
 
 export interface NeoOnNotificationTypes {}
 
 export interface NeoOnRequestTypes {
-  openEditor: [Process, void];
+  openEditor: [Process, boolean];
 }
 
 export type AnimationSettings = {
@@ -41,11 +41,11 @@ export interface NeoNotificationTypes {
 }
 
 export class NeoClientJsonRpc extends BaseRpcClient implements NeoClient {
-  onOpenEditor = new Callback<Process>();
+  onOpenEditor = new Callback<Process, boolean>();
   protected override setupConnection(): void {
     super.setupConnection();
     this.toDispose.push(this.onOpenEditor);
-    this.onRequest('openEditor', data => this.onOpenEditor.call(data));
+    this.onRequest('openEditor', data => this.onOpenEditor.call(data) ?? false);
   }
 
   animationSettings(settings: AnimationSettings) {

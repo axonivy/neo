@@ -18,11 +18,11 @@ import {
   useTheme
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useSettings } from './useSettings';
+import { AnimationFollowMode, useSettings } from './useSettings';
 
 export const SettingsMenu = () => {
   const { theme, setTheme } = useTheme();
-  const { animation, enableAnimation, animationSpeed } = useSettings();
+  const { animation, enableAnimation, animationSpeed, animationMode } = useSettings();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -54,6 +54,23 @@ export const SettingsMenu = () => {
                   <DropdownMenuRadioItem value='50'>50</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value='75'>75</DropdownMenuRadioItem>
                   <DropdownMenuRadioItem value='100'>100</DropdownMenuRadioItem>
+                </DropdownMenuRadioGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <IvyIcon icon={IvyIcons.Process} />
+              <span>Mode</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuRadioGroup value={animation.mode} onValueChange={mode => animationMode(mode as AnimationFollowMode)}>
+                  <DropdownMenuRadioItem value='all'>All processes</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value='currentProcess'>Only current open process</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value='openProcesses'>All open processes</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value='noDialogProcesses'>No dialog processes</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value='noEmbeddedProcesses'>No embedded processes</DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
