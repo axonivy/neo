@@ -5,10 +5,13 @@
   border-radius: 10px;
   .card {
     border: none;
+    border-radius: 10px;
     padding: 0;
     background: transparent;
     height: 150px;
+    width: 100%;
     cursor: pointer;
+    color: inherit;
     .card-content {
       padding: var(--size-2);
       height: calc(100% - 2 * var(--size-2));
@@ -17,6 +20,7 @@
       background: var(--background);
       border-radius: 8px;
       flex: 1 0 auto;
+      width: 200px;
       svg {
         height: 100px;
         width: 200px;
@@ -33,6 +37,11 @@
     bottom: var(--size-1);
     right: var(--size-2);
   }
+}
+
+.new-artifact-card {
+  background: var(--P50);
+  color: var(--P300);
 }
 
 .card-menu .card-delete {

@@ -13,6 +13,7 @@ import { LinksFunction } from '@remix-run/node';
 import cardStyles from './card.css?url';
 import { DeleteConfirm } from './DeleteConfirm';
 import { ReactNode } from 'react';
+import { NewArtifact, useNewArtifact } from './useNewArtifact';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 
@@ -22,7 +23,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
   <div className='artifact-card'>
     <button className='card' onClick={onClick}>
       <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
-        <Flex alignItems='center' justifyContent='center' className='card-preview' tabIndex={-1}>
+        <Flex alignItems='center' justifyContent='center' className='card-preview'>
           {preview}
         </Flex>
         <Flex alignItems='center' justifyContent='space-between' gap={1}>
@@ -50,3 +51,20 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
     )}
   </div>
 );
+
+export const NewArtifactCard = (context: NewArtifact) => {
+  const open = useNewArtifact();
+  return (
+    <div className='artifact-card new-artifact-card'>
+      <button className='card' onClick={() => open(context)}>
+        <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
+          <Flex alignItems='center' justifyContent='center' className='card-preview'></Flex>
+          <Flex alignItems='center' justifyContent='space-between' gap={1}>
+            <span className='card-name'>{context.title}</span>
+            <IvyIcon icon={IvyIcons.Plus} />
+          </Flex>
+        </Flex>
+      </button>
+    </div>
+  );
+};

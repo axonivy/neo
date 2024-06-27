@@ -9,7 +9,7 @@ import { Neo } from './neo/Neo';
 import { Flex, Spinner, ThemeProvider } from '@axonivy/ui-components';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { watchProjects } from './data/project-api';
-import { NewArtifactDialogProvider } from './neo/dialog/useNewArtifactDialog';
+import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 
 const queryClient = new QueryClient();
 

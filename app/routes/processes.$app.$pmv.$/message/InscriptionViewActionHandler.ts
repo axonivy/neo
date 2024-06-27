@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { InscriptionActionArgs } from '@axonivy/inscription-protocol';
-import { useNewArtifactDialog } from '~/neo/dialog/useNewArtifactDialog';
+import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateProcess } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { useCreateForm } from '~/data/form-api';
@@ -24,7 +24,7 @@ const isActionWithId = (
 
 export const useNewProcessActionHandler = () => {
   const { createProcess } = useCreateProcess();
-  const { open } = useNewArtifactDialog();
+  const open = useNewArtifact();
   return useCallback(
     (data: unknown) => {
       if (!isActionWithId(data, 'newProcess')) {
@@ -47,7 +47,7 @@ export const useNewProcessActionHandler = () => {
 
 export const useNewFormActionHandler = () => {
   const { createForm } = useCreateForm();
-  const { open } = useNewArtifactDialog();
+  const open = useNewArtifact();
   return useCallback(
     (data: unknown) => {
       if (!isActionWithId(data, 'newHtmlDialog')) {
