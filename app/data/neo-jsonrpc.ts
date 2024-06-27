@@ -1,6 +1,4 @@
-import { BaseRpcClient } from '@axonivy/jsonrpc/lib/base-rpc-client';
-import { urlBuilder, createWebSocketConnection, type Connection } from '@axonivy/jsonrpc/lib/connection-util';
-import { Disposable, createMessageConnection } from '@axonivy/jsonrpc/lib/re-exports';
+import { BaseRpcClient, urlBuilder, createWebSocketConnection, Connection, createMessageConnection, Disposable } from '@axonivy/jsonrpc';
 import { Process } from './process-api';
 import { wsBaseUrl } from './ws-base';
 
