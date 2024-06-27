@@ -4,29 +4,33 @@ import { AnimationSettings } from '~/data/neo-jsonrpc';
 import { useNeoClient } from '../client/useNeoClient';
 import { useCallback, useEffect } from 'react';
 
+export type AnimationFollowMode = 'all' | 'currentProcess' | 'openProcesses' | 'noDialogProcesses' | 'noEmbeddedProcesses';
+
 type SettingsState = {
-  animation: AnimationSettings;
+  animation: AnimationSettings & { mode: AnimationFollowMode };
   enable: (enable: boolean) => void;
   speed: (speed: number) => void;
+  mode: (mode: AnimationFollowMode) => void;
 };
 
 const useStore = create<SettingsState>()(
   persist(
     set => ({
-      animation: { animate: false, speed: 50 },
+      animation: { animate: false, speed: 50, mode: 'all' },
       enable: enable => set(state => ({ animation: { ...state.animation, animate: enable } })),
-      speed: speed => set(state => ({ animation: { ...state.animation, speed: speed } }))
+      speed: speed => set(state => ({ animation: { ...state.animation, speed } })),
+      mode: mode => set(state => ({ animation: { ...state.animation, mode } }))
     }),
-    { name: 'neo-settings', version: 1 }
+    { name: 'neo-settings', version: 2 }
   )
 );
 
 export const useSettings = () => {
-  const { animation, enable, speed } = useStore();
-  const client = useNeoClient();
+  const { animation, enable, speed, mode } = useStore();
+  const client = useNeoClient(animation.mode);
   useEffect(() => {
     client.animationSettings(animation);
   }, [animation, client]);
   const animationSpeed = useCallback((value: string) => speed(parseInt(value)), [speed]);
-  return { animation, enableAnimation: enable, animationSpeed };
+  return { animation, enableAnimation: enable, animationSpeed, animationMode: mode };
 };

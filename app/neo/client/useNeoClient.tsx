@@ -1,6 +1,8 @@
 import { createContext, useContext } from 'react';
 import { NeoClient } from '~/data/neo-jsonrpc';
-import { editorIcon, editorId, useEditors } from '../useEditors';
+import { Editor, editorIcon, editorId, useEditors } from '../useEditors';
+import { useLocation, useNavigate } from '@remix-run/react';
+import { AnimationFollowMode } from '../settings/useSettings';
 
 type NeoClientProviderState = {
   client: NeoClient;
@@ -12,19 +14,46 @@ export const NeoClientProvider = ({ children, ...context }: NeoClientProviderSta
   return <NeoClientProviderContext.Provider value={context}>{children}</NeoClientProviderContext.Provider>;
 };
 
-export const useNeoClient = () => {
+export const useNeoClient = (mode: AnimationFollowMode) => {
   const context = useContext(NeoClientProviderContext);
-  const { openEditor } = useEditors();
+  const { editors, openEditor } = useEditors();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
   client.onOpenEditor.set(({ name, path, processIdentifier, ...process }) => {
+    let id = '';
+    let editor: Editor;
     if (process.kind === 3) {
       const path = `${process.namespace}/${name}`;
-      const id = editorId('src_hd', processIdentifier.project, path);
-      openEditor({ id, type: 'src_hd', icon: editorIcon('processes'), name, project: processIdentifier.project, path });
+      id = editorId('src_hd', processIdentifier.project, path);
+      editor = { id, type: 'src_hd', icon: editorIcon('processes'), name, project: processIdentifier.project, path };
     } else {
-      const id = editorId('processes', processIdentifier.project, path);
-      openEditor({ id, type: 'processes', icon: editorIcon('processes'), name, project: processIdentifier.project, path });
+      id = editorId('processes', processIdentifier.project, path);
+      editor = { id, type: 'processes', icon: editorIcon('processes'), name, project: processIdentifier.project, path };
+    }
+    switch (mode) {
+      case 'all':
+        openEditor(editor);
+        return true;
+      case 'currentProcess':
+        return id === pathname;
+      case 'openProcesses':
+        if (editors.find(e => e.id === id)) {
+          navigate(id);
+          return true;
+        }
+        return false;
+      case 'noDialogProcesses':
+        if (process.kind === 3) {
+          return false;
+        }
+        openEditor(editor);
+        return true;
+      case 'noEmbeddedProcesses':
+        //TODO: check if embedded
+        openEditor(editor);
+        return true;
     }
     //TODO: wait on editor to be ready
   });
