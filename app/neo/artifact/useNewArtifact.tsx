@@ -61,7 +61,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
               <Fieldset label='Namespace'>
                 <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
               </Fieldset>
-              {newArtifact.project ? <></> : <ProjectSelect project={project} setProject={setProject} />}
+              {newArtifact.project ? <></> : <ProjectSelect setProject={setProject} />}
             </Flex>
             <DialogFooter>
               <DialogClose asChild>
