@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useRef, useState } from 'react';
 import { useHref, useLocation } from '@remix-run/react';
-import { Editor } from '~/neo/useEditors';
+import { Editor } from '~/neo/editors/useEditors';
 import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
 import { useFrameMessageHandler } from './message/useFrameMessageHandler';
 

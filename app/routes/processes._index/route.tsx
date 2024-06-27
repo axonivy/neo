@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useProcesses, useDeleteProcess, useCreateProcess, Process } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
-import { useEditors, editorId, editorIcon } from '~/neo/useEditors';
+import { useEditors, createProcessEditor } from '~/neo/editors/useEditors';
 import ProcessPreviewSVG from './process-preview.svg?react';
 
 export const links = cardLinks;
@@ -40,17 +40,18 @@ export default function Index() {
   );
 }
 
-export const ProcessCard = ({ name, path, processIdentifier }: Process) => {
+export const ProcessCard = (process: Process) => {
   const { deleteProcess } = useDeleteProcess();
   const { openEditor, removeEditor } = useEditors();
-  const project = processIdentifier.project;
-  const id = editorId('processes', project, path);
+  const editor = createProcessEditor(process);
   const open = () => {
-    openEditor({ id, type: 'processes', icon: editorIcon('processes'), name, project, path });
+    openEditor(editor);
   };
   const deleteAction = () => {
-    removeEditor(id);
-    deleteProcess(processIdentifier);
+    removeEditor(editor.id);
+    deleteProcess(process.processIdentifier);
   };
-  return <ArtifactCard name={name} type='process' preview={<ProcessPreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
+  return (
+    <ArtifactCard name={editor.name} type='process' preview={<ProcessPreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />
+  );
 };

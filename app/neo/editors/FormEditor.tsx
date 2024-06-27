@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Editor } from '~/neo/useEditors';
+import { Editor } from '~/neo/editors/useEditors';
 import { ReadonlyProvider } from '@axonivy/ui-components';
 import { FormClient } from '@axonivy/form-editor-protocol';
 import { FormClientJsonRpc } from '@axonivy/form-editor-core';

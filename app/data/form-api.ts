@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteReq, get, post } from './engine-api';
 import { toast } from '@axonivy/ui-components';
 import { ProjectIdentifier } from './project-api';
-import { editorOfPath, useEditors } from '~/neo/useEditors';
+import { createFormEditor, useEditors } from '~/neo/editors/useEditors';
 
 export type Form = {
   name: string;
@@ -63,7 +63,7 @@ export const useCreateForm = () => {
       postCreateAction();
       const form = (await res.json()) as Form;
       client.invalidateQueries({ queryKey: ['forms'] });
-      openEditor(editorOfPath('forms', form.identifier.project, form.path));
+      openEditor(createFormEditor(form));
     } else {
       throw new Error('Failed to create form');
     }

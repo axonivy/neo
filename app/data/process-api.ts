@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteReq, get, post } from './engine-api';
-import { editorOfPath, useEditors } from '~/neo/useEditors';
+import { createProcessEditor, useEditors } from '~/neo/editors/useEditors';
 import { toast } from '@axonivy/ui-components';
 import { ProjectIdentifier } from './project-api';
 
@@ -52,7 +52,7 @@ export const useCreateProcess = () => {
       postCreateAction();
       const process = (await res.json()) as Process;
       client.invalidateQueries({ queryKey: ['processes'] });
-      openEditor(editorOfPath('processes', process.processIdentifier.project, process.path));
+      openEditor(createProcessEditor(process));
     } else {
       throw new Error('Failed to create process');
     }
