@@ -9,20 +9,20 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter
+  DialogFooter,
+  DialogClose
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { ProjectIdentifier, useProjects } from '~/data/project-api';
 import { useEffect, useState } from 'react';
 import { useNewArtifactDialog } from './useNewArtifactDialog';
 
-const ProjectSelect = ({
-  project,
-  setProject
-}: {
+type ProjectSelectProps = {
   project: ProjectIdentifier | undefined;
   setProject: (project: ProjectIdentifier) => void;
-}) => {
+};
+
+const ProjectSelect = ({ project, setProject }: ProjectSelectProps) => {
   const { data, isPending } = useProjects();
   const projects = data ?? [];
   return (
@@ -56,36 +56,41 @@ export const NewArtifactDialog = () => {
     setName(dialogContext?.defaultName ?? '');
     setProject(dialogContext?.project);
   }, [dialogContext]);
+  if (dialogContext === undefined) {
+    return null;
+  }
   return (
-    dialogContext && (
-      <Dialog open={dialogState} onOpenChange={() => close()}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{dialogContext.title}</DialogTitle>
-          </DialogHeader>
-          <Flex direction='column' gap={2}>
-            <Fieldset label='Name'>
-              <Input value={name} onChange={e => setName(e.target.value)} />
-            </Fieldset>
-            <Fieldset label='Namespace'>
-              <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
-            </Fieldset>
-            {dialogContext.project ? <></> : <ProjectSelect project={project} setProject={setProject}></ProjectSelect>}
-          </Flex>
-          <DialogFooter>
+    <Dialog open={dialogState} onOpenChange={() => close()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{dialogContext.title}</DialogTitle>
+        </DialogHeader>
+        <Flex direction='column' gap={2}>
+          <Fieldset label='Name'>
+            <Input value={name} onChange={e => setName(e.target.value)} />
+          </Fieldset>
+          <Fieldset label='Namespace'>
+            <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
+          </Fieldset>
+          {dialogContext.project ? <></> : <ProjectSelect project={project} setProject={setProject}></ProjectSelect>}
+        </Flex>
+        <DialogFooter>
+          <DialogClose asChild>
             <Button
               icon={IvyIcons.Plus}
               variant='primary'
-              onClick={() => {
-                dialogContext.create(name, namespace, project, dialogContext.pid);
-                close();
-              }}
+              onClick={() => dialogContext.create(name, namespace, project, dialogContext.pid)}
             >
               Create
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-    )
+          </DialogClose>
+          <DialogClose asChild>
+            <Button icon={IvyIcons.Close} variant='outline'>
+              Cancel
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
