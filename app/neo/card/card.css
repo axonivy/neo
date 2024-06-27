@@ -1,3 +1,44 @@
-.dark .card-preview {
+.artifact-card {
+  position: relative;
+  flex: 0 1 200px;
+  background: var(--N75);
+  border-radius: 10px;
+  .card {
+    border: none;
+    padding: 0;
+    background: transparent;
+    height: 150px;
+    cursor: pointer;
+    .card-content {
+      padding: var(--size-2);
+      height: calc(100% - 2 * var(--size-2));
+    }
+    .card-preview {
+      background: var(--background);
+      border-radius: 8px;
+      flex: 1 0 auto;
+      svg {
+        height: 100px;
+        width: 200px;
+      }
+    }
+    .card-name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: calc(200px - var(--size-1) - 20px);
+    }
+  }
+  .card-menu-trigger {
+    position: absolute;
+    bottom: var(--size-1);
+    right: var(--size-2);
+  }
+}
+
+.card-menu .card-delete {
+  color: var(--error-color);
+}
+
+.dark .card-preview svg {
   filter: invert(1);
 }

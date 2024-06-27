@@ -1,13 +1,15 @@
-import { Button, Flex, SearchInput, Spinner } from '@axonivy/ui-components';
+import { Flex, Button, SearchInput, Spinner } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import { MetaFunction } from '@remix-run/node';
 import { useState } from 'react';
-import { useCreateProcess, useDeleteProcess, useProcesses } from '~/data/process-api';
+import { useProcesses, useDeleteProcess, useCreateProcess, Process } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
-import { ProjectArtifactCard, cardLinks } from '~/neo/card/ProjectArtifactCard';
+import { ArtifactCard, cardLinks } from '~/neo/card/ArtifactCard';
 import { useNewArtifactDialog } from '~/neo/dialog/useNewArtifactDialog';
+import { useEditors, editorId, editorIcon } from '~/neo/useEditors';
+import ProcessPreviewSVG from './process-preview.svg?react';
 
-export const links: LinksFunction = cardLinks;
+export const links = cardLinks;
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Axon Ivy Processes' }, { name: 'description', content: 'Axon Ivy Processes Overview' }];
@@ -17,7 +19,6 @@ export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useProcesses();
   const processes = data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const { deleteProcess } = useDeleteProcess();
   const { createProcess } = useCreateProcess();
   const { open } = useNewArtifactDialog();
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
@@ -34,20 +35,23 @@ export default function Index() {
       </Flex>
       <SearchInput value={search} onChange={setSearch} />
       <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-        {isPending ? (
-          <Spinner size='small' />
-        ) : (
-          processes.map(process => (
-            <ProjectArtifactCard
-              key={process.path ?? process.name}
-              project={process.processIdentifier.project}
-              editorType={'processes'}
-              {...process}
-              actions={{ delete: () => deleteProcess(process.processIdentifier) }}
-            />
-          ))
-        )}
+        {isPending ? <Spinner size='small' /> : processes.map(process => <ProcessCard key={process.path ?? process.name} {...process} />)}
       </Flex>
     </Flex>
   );
 }
+
+export const ProcessCard = ({ name, path, processIdentifier }: Process) => {
+  const { deleteProcess } = useDeleteProcess();
+  const { openEditor, removeEditor } = useEditors();
+  const project = processIdentifier.project;
+  const id = editorId('processes', project, path);
+  const open = () => {
+    openEditor({ id, type: 'processes', icon: editorIcon('processes'), name, project, path });
+  };
+  const deleteAction = () => {
+    removeEditor(id);
+    deleteProcess(processIdentifier);
+  };
+  return <ArtifactCard name={name} type='process' preview={<ProcessPreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
+};
