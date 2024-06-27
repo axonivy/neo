@@ -7,14 +7,22 @@ export async function createWebSocketConnection(url: string | URL): Promise<Conn
     const webSocket = new WebSocket(url);
     webSocket.onopen = async () => {
       const socket = toSocket(webSocket);
-      const reader = new WebSocketMessageReader(socket);
+      const reader = new IvyWebSocketMessageReader(socket);
       const writer = new IvyWebSocketMessageWriter(socket);
       const connection: Connection = { reader, writer };
+      forwardClientMessages(reader);
       resolve(connection);
     };
     webSocket.onerror = () => reject('Connection could not be established.');
   });
 }
+
+const forwardClientMessages = (reader: IvyWebSocketMessageReader) => {
+  window.addEventListener('message', event => {
+    console.log(event.data);
+    reader.readMessage(JSON.stringify(event.data));
+  });
+};
 
 class IvyWebSocketMessageWriter extends WebSocketMessageWriter {
   override async write(msg: Message): Promise<void> {
@@ -29,6 +37,12 @@ class IvyWebSocketMessageWriter extends WebSocketMessageWriter {
       this.errorCount++;
       this.fireError(e, msg, this.errorCount);
     }
+  }
+}
+
+class IvyWebSocketMessageReader extends WebSocketMessageReader {
+  readMessage(message: unknown): void {
+    super.readMessage(message);
   }
 }
 

@@ -15,7 +15,7 @@ export const useFrameMessageHandler = (frame: RefObject<HTMLIFrameElement>, app:
       const data = JSON.parse(event.data);
       navigationHandler(data);
       startHandler(data);
-      newProcessHandler(data);
+      newProcessHandler(data, event.source);
       newFormHandler(data);
     };
     window.addEventListener('message', handler);

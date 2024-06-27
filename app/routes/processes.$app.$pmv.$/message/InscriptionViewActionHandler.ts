@@ -22,19 +22,34 @@ const isActionWithId = (
   );
 };
 
+// const sendInscriptionNotification = (window: WindowProxy | null, type: keyof InscriptionNotificationTypes) => {
+//   window?.postMessage({ method: type });
+// };
+
+// const createAndNotifyInscription = (create: () => string | number, window: WindowProxy | null) => {
+//   const result = create();
+//   sendInscriptionNotification(window, 'dataChanged');
+//   sendInscriptionNotification(window, 'validation');
+//   return result;
+// };
+
 export const useNewProcessActionHandler = () => {
   const { createProcess } = useCreateProcess();
   const open = useNewArtifact();
   return useCallback(
-    (data: unknown) => {
+    (data: unknown, frame: WindowProxy | null) => {
       if (!isActionWithId(data, 'newProcess')) {
         return;
       }
       const project = { app: data.params.context.app, pmv: data.params.context.pmv };
       const pid = data.params.context.pid;
       open({
-        create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
-          createProcess({ name, namespace, kind: '', project, pid }),
+        create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) => {
+          const result = createProcess({ name, namespace, kind: '', project, pid });
+          frame?.postMessage({ method: 'dataChanged' });
+          frame?.postMessage({ method: 'validation' });
+          return result;
+        },
         defaultName: 'NewCallable',
         title: 'Create new Process',
         project,
