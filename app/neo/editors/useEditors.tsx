@@ -1,12 +1,14 @@
 import { indexOf } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { NavigationType, useNavigate, useNavigationType } from '@remix-run/react';
+import { NavigationType, useNavigate, useNavigationType, useParams } from '@remix-run/react';
 import { useCallback } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { Form } from '~/data/form-api';
+import { Process } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
-import { FormEditor } from '~/routes/forms.$app.$pmv.$/FormEditor';
-import { ProcessEditor } from '~/routes/processes.$app.$pmv.$/ProcessEditor';
+import { FormEditor } from './FormEditor';
+import { ProcessEditor } from './process/ProcessEditor';
 
 export type EditorType = 'processes' | 'forms' | 'src_hd';
 
@@ -92,30 +94,18 @@ export const useEditors = () => {
   return { editors, closeEditor, openEditor, removeEditor, addEditor, closeAllEditors };
 };
 
-export const editorId = (editorType: EditorType, project: ProjectIdentifier, path: string) => {
-  const id = `/${editorType}/${project.app}/${project.pmv}/${path}`;
-  if (editorType === 'forms') {
-    return id.split('.f.json')[0];
-  }
-  return id;
-};
-
-export const useRestoreEditor = (editorType: EditorType, app?: string, pmv?: string, path?: string) => {
+export const useRestoreEditor = (editorType: EditorType) => {
+  const { app, pmv, '*': path } = useParams();
   const navigationType = useNavigationType();
   const { editors, addEditor } = useEditors();
   if (navigationType !== NavigationType.Pop || !app || !pmv || !path) {
     return;
   }
-  const editor = editorOfPath(editorType, { app, pmv }, path);
+  const editor = createEditorFromPath(editorType, { app, pmv }, path);
   const index = indexOf(editors, e => e.id === editor.id);
   if (index === -1) {
     addEditor(editor);
   }
-};
-
-export const editorOfPath = (type: EditorType, project: ProjectIdentifier, path: string): Editor => {
-  const id = editorId(type, project, path);
-  return { id, type, icon: editorIcon(type), name: path.split('/').at(-1) ?? path, project, path };
 };
 
 export const renderEditor = (editor: Editor) => {
@@ -128,7 +118,39 @@ export const renderEditor = (editor: Editor) => {
   }
 };
 
-export const editorIcon = (editorType: EditorType) => {
+export const createProcessEditor = ({ name, path, processIdentifier: { project }, kind, namespace }: Process): Editor => {
+  if (kind === 3) {
+    path = `${namespace}/${name}`;
+    return createEditor('src_hd', project, path, name);
+  }
+  return createEditor('processes', project, path, name);
+};
+
+export const createFormEditor = ({ name, path, identifier: { project } }: Form): Editor => {
+  return createEditor('forms', project, path, name);
+};
+
+export const createEditorFromPath = (editorType: EditorType, project: ProjectIdentifier, path: string): Editor => {
+  return createEditor(editorType, project, path, path.split('/').at(-1) ?? path);
+};
+
+const createEditor = (editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {
+  const id = `/${editorType}/${project.app}/${project.pmv}/${path}`;
+  return {
+    id: removeExtension(id),
+    type: editorType,
+    icon: editorIcon(editorType),
+    name: removeExtension(name),
+    project,
+    path: removeExtension(path)
+  };
+};
+
+const removeExtension = (path: string) => {
+  return path.split('.p.json')[0].split('.f.json')[0];
+};
+
+const editorIcon = (editorType: EditorType) => {
   if (editorType === 'forms') {
     return IvyIcons.File;
   }

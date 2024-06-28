@@ -2,7 +2,7 @@ import { Outlet } from '@remix-run/react';
 import { ControlBar } from './ControlBar';
 import { Navigation } from './Navigation';
 import { Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Toaster } from '@axonivy/ui-components';
-import { renderEditor, useEditors } from './useEditors';
+import { renderEditor, useEditors } from './editors/useEditors';
 import { WebBrowser } from './browser/WebBrowser';
 import { useWebBrowser } from './browser/useWebBrowser';
 

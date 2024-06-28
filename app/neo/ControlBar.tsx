@@ -13,7 +13,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useLocation, useNavigate } from '@remix-run/react';
 import IvyLogoSVG from './axonivy.svg?react';
-import { Editor, useEditors } from './useEditors';
+import { Editor, useEditors } from './editors/useEditors';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
 const EditorTab = ({ icon, name, id }: Editor) => {

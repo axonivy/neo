@@ -5,7 +5,7 @@ import { Form, useCreateForm, useDeleteForm, useForms } from '~/data/form-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
 import FormPreviewSVG from './form-preview.svg?react';
-import { editorIcon, editorId, useEditors } from '~/neo/useEditors';
+import { createFormEditor, useEditors } from '~/neo/editors/useEditors';
 
 export const links = cardLinks;
 
@@ -39,17 +39,16 @@ export default function Index() {
   );
 }
 
-export const FormCard = ({ name, path, identifier }: Form) => {
+export const FormCard = (form: Form) => {
   const { deleteForm } = useDeleteForm();
   const { openEditor, removeEditor } = useEditors();
-  const project = identifier.project;
-  const id = editorId('forms', project, path);
+  const editor = createFormEditor(form);
   const open = () => {
-    openEditor({ id, type: 'forms', icon: editorIcon('forms'), name, project, path });
+    openEditor(editor);
   };
   const deleteAction = () => {
-    removeEditor(id);
-    deleteForm(identifier);
+    removeEditor(editor.id);
+    deleteForm(form.identifier);
   };
-  return <ArtifactCard name={name} type='process' preview={<FormPreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
+  return <ArtifactCard name={editor.name} type='form' preview={<FormPreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
 };
