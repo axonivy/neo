@@ -31,10 +31,14 @@ export default defineConfig({
   base: '/neo/',
   server: {
     proxy: {
-      '/neo/api': {
+      '/api': {
         target: DESIGNER_URL,
-        rewrite: path => path.replace(/^\/neo/, ''),
         auth: 'Developer:Developer'
+      },
+      '^/ivy-dev-.*': {
+        target: DESIGNER_URL,
+        auth: 'Developer:Developer',
+        ws: true
       },
       '/dev-workflow-ui': DEV_PROXY,
       '/system': DEV_PROXY,

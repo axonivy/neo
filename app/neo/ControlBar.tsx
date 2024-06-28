@@ -1,20 +1,9 @@
-import {
-  Button,
-  Flex,
-  IvyIcon,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-  Separator,
-  Tabs,
-  TabsList,
-  TabsTrigger
-} from '@axonivy/ui-components';
+import { Button, Flex, IvyIcon, Popover, PopoverContent, PopoverTrigger, Tabs, TabsList, TabsTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useLocation, useNavigate } from '@remix-run/react';
 import IvyLogoSVG from './axonivy.svg?react';
 import { Editor, useEditors } from './editors/useEditors';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 
 const EditorTab = ({ icon, name, id }: Editor) => {
   const active = useLocation().pathname === id;
@@ -38,7 +27,7 @@ const EditorTab = ({ icon, name, id }: Editor) => {
   );
 };
 
-const EditorTabs = () => {
+export const EditorTabs = () => {
   const { editors, closeEditor } = useEditors();
   const scroller = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
@@ -92,7 +81,7 @@ const EditorTabs = () => {
   );
 };
 
-const EditorsControl = () => {
+export const EditorsControl = () => {
   const [subMenu, setSubMenu] = useState(false);
   const { editors, closeAllEditors } = useEditors();
   if (editors.length === 0) {
@@ -120,7 +109,7 @@ const EditorsControl = () => {
   );
 };
 
-export const ControlBar = ({ toggleBrowser }: { toggleBrowser: () => void }) => {
+export const ControlBar = ({ children }: { children?: ReactNode }) => {
   return (
     <Flex style={{ height: '40px', borderBottom: 'var(--basic-border)', background: 'var(--N50)' }}>
       <Flex alignItems='center' gap={4} style={{ paddingInline: 'var(--size-3)', borderInlineEnd: 'var(--basic-border)' }}>
@@ -131,14 +120,7 @@ export const ControlBar = ({ toggleBrowser }: { toggleBrowser: () => void }) => 
         </Link>
         <Button icon={IvyIcons.Market} size='large' />
       </Flex>
-      <EditorTabs />
-      <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
-        <EditorsControl />
-        <Separator orientation='vertical' style={{ margin: 'var(--size-2)' }} />
-        <Button icon={IvyIcons.Play} size='large' variant='primary' onClick={toggleBrowser}>
-          Run process
-        </Button>
-      </Flex>
+      {children}
     </Flex>
   );
 };

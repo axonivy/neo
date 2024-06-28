@@ -13,14 +13,14 @@ export const Navigation = () => {
       style={{ paddingBlock: 'var(--size-4)', borderInlineEnd: 'var(--basic-border)', flex: '0 0 50px' }}
     >
       <Flex direction='column' gap={4}>
-        <NavLink to='/processes' prefetch='intent' style={{ all: 'unset' }}>
+        <NavLink to='processes' prefetch='intent' style={{ all: 'unset' }}>
           {({ isActive }) => <Button title='Processes' icon={IvyIcons.Process} size='large' toggle={isActive} />}
         </NavLink>
         <Button icon={IvyIcons.Database} size='large' onClick={() => navigate('processes')} />
-        <NavLink to='/forms' prefetch='intent' style={{ all: 'unset' }}>
+        <NavLink to='forms' prefetch='intent' style={{ all: 'unset' }}>
           {({ isActive }) => <Button title='Forms' icon={IvyIcons.File} size='large' toggle={isActive} />}
         </NavLink>
-        <NavLink to='/configurations' prefetch='intent' style={{ all: 'unset' }}>
+        <NavLink to='configurations' prefetch='intent' style={{ all: 'unset' }}>
           {({ isActive }) => <Button title='Configurations' icon={IvyIcons.Tool} size='large' toggle={isActive} />}
         </NavLink>
       </Flex>

@@ -14,7 +14,7 @@ const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) =>
 };
 
 export const WebBrowser = () => {
-  const { nav } = useWebBrowser();
+  const { nav, homeUrl } = useWebBrowser();
   useUpdateTheme(nav.frameRef, updateFrameTheme);
   return (
     <Flex direction='column' gap={1} style={{ height: '100%' }}>
@@ -39,7 +39,7 @@ export const WebBrowser = () => {
       </Flex>
       <iframe
         ref={nav.frameRef}
-        src='/dev-workflow-ui/faces/home.xhtml'
+        src={homeUrl}
         title='Dev Browser'
         style={{ width: '100%', height: '100%', border: 'none' }}
         loading='lazy'

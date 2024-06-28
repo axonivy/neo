@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { NavigateToExternalTargetAction } from '@eclipse-glsp/protocol/lib/action-protocol/element-navigation';
 import { EditorType, createEditorFromPath, useEditors } from '~/neo/editors/useEditors';
+import { useParams } from '@remix-run/react';
 
 const asString = (argValue?: string | number | boolean): string | undefined => {
   return typeof argValue === 'string' ? argValue : undefined;
@@ -8,6 +9,7 @@ const asString = (argValue?: string | number | boolean): string | undefined => {
 
 export const useNavigateActionHandler = (app: string) => {
   const { openEditor } = useEditors();
+  const ws = useParams().ws ?? 'designer';
   return useCallback(
     (data: unknown) => {
       if (!NavigateToExternalTargetAction.is(data)) {
@@ -22,9 +24,9 @@ export const useNavigateActionHandler = (app: string) => {
         type = 'src_hd';
       }
       if (process && pmv) {
-        openEditor(createEditorFromPath(type, { app, pmv }, process));
+        openEditor(createEditorFromPath(ws, type, { app, pmv }, process));
       }
     },
-    [openEditor, app]
+    [openEditor, ws, app]
   );
 };

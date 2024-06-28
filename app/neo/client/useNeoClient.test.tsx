@@ -70,7 +70,7 @@ describe('useNeoClient', () => {
     const { result } = renderNeoClientHook('all');
     const shouldAnimate = await act(() => result.current.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.true;
-    expect(useNavigate()).toHaveBeenLastCalledWith('/processes/designer/glsp-test-project/info');
+    expect(useNavigate()).toHaveBeenLastCalledWith('/designer/processes/designer/glsp-test-project/info');
   });
 
   it('current process', async () => {
@@ -79,7 +79,7 @@ describe('useNeoClient', () => {
     expect(shouldAnimate).to.be.false;
     expect(useNavigate()).toBeCalledTimes(0);
 
-    locationFn.mockImplementation(() => ({ pathname: '/processes/designer/glsp-test-project/info' }));
+    locationFn.mockImplementation(() => ({ pathname: '/designer/processes/designer/glsp-test-project/info' }));
     rerender();
     shouldAnimate = await act(() => result.current.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.true;
@@ -98,7 +98,7 @@ describe('useNeoClient', () => {
         current: { openEditor }
       }
     } = renderHook(() => useEditors());
-    act(() => openEditor(createProcessEditor(process)));
+    act(() => openEditor(createProcessEditor({ ws: 'designer', ...process })));
 
     shouldAnimate = await act(() => result.current.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.true;
