@@ -4,6 +4,7 @@ import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateProcess } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { useCreateForm } from '~/data/form-api';
+import { createFormEditor, createProcessEditor, useEditors } from '../../useEditors';
 
 const isActionWithId = (
   obj: unknown,
@@ -24,6 +25,7 @@ const isActionWithId = (
 
 export const useNewProcessActionHandler = () => {
   const { createProcess } = useCreateProcess();
+  const { openEditor } = useEditors();
   const open = useNewArtifact();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
@@ -32,17 +34,20 @@ export const useNewProcessActionHandler = () => {
       }
       const project = { app: data.params.context.app, pmv: data.params.context.pmv };
       const pid = data.params.context.pid;
-      const postCreateAction = refreshInscriptionView(window);
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
-        createProcess({ name, namespace, kind: '', project, pid }, postCreateAction);
+        createProcess({ name, namespace, kind: '', project, pid }).then(process => {
+          refreshInscriptionView(window);
+          openEditor(createProcessEditor(process));
+        });
       open({ create, defaultName: 'NewCallable', title: 'Create new Process', project, pid });
     },
-    [createProcess, open]
+    [createProcess, open, openEditor]
   );
 };
 
 export const useNewFormActionHandler = () => {
   const { createForm } = useCreateForm();
+  const { openEditor } = useEditors();
   const open = useNewArtifact();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
@@ -51,20 +56,20 @@ export const useNewFormActionHandler = () => {
       }
       const project = { app: data.params.context.app, pmv: data.params.context.pmv };
       const pid = data.params.context.pid;
-      const postCreateAction = refreshInscriptionView(window);
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
-        createForm({ name, namespace, type: 'Form', project, pid }, postCreateAction);
+        createForm({ name, namespace, type: 'Form', project, pid }).then(form => {
+          refreshInscriptionView(window);
+          openEditor(createFormEditor(form));
+        });
       open({ create, defaultName: 'NewForm', title: 'Create new Form', project, pid });
     },
-    [createForm, open]
+    [createForm, open, openEditor]
   );
 };
 
 const refreshInscriptionView = (window: WindowProxy | null) => {
-  return () => {
-    sendInscriptionNotification(window, 'dataChanged');
-    sendInscriptionNotification(window, 'validation');
-  };
+  sendInscriptionNotification(window, 'dataChanged');
+  sendInscriptionNotification(window, 'validation');
 };
 
 const sendInscriptionNotification = (window: WindowProxy | null, type: keyof InscriptionNotificationTypes) => {
