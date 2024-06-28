@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { ProjectIdentifier } from '~/data/project-api';
 import {
   Dialog,
@@ -39,6 +39,11 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const [name, setName] = useState('');
   const [namespace, setNamespace] = useState('Neo');
   const [project, setProject] = useState<ProjectIdentifier>();
+
+  useEffect(() => {
+    setName(newArtifact?.defaultName ?? '');
+    setProject(newArtifact?.project);
+  }, [newArtifact]);
 
   const open = (context: NewArtifact) => {
     setDialogState(true);
