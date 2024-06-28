@@ -35,12 +35,10 @@ export const useNewProcessActionHandler = () => {
       const project = { app: data.params.context.app, pmv: data.params.context.pmv };
       const pid = data.params.context.pid;
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
-        createProcess({ name, namespace, kind: '', project, pid })
-          .then(process => {
-            refreshInscriptionView(window);
-            return process;
-          })
-          .then(process => openEditor(createProcessEditor(process)));
+        createProcess({ name, namespace, kind: '', project, pid }).then(process => {
+          refreshInscriptionView(window);
+          openEditor(createProcessEditor(process));
+        });
       open({ create, defaultName: 'NewCallable', title: 'Create new Process', project, pid });
     },
     [createProcess, open, openEditor]
@@ -59,12 +57,10 @@ export const useNewFormActionHandler = () => {
       const project = { app: data.params.context.app, pmv: data.params.context.pmv };
       const pid = data.params.context.pid;
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
-        createForm({ name, namespace, type: 'Form', project, pid })
-          .then(form => {
-            refreshInscriptionView(window);
-            return form;
-          })
-          .then(form => openEditor(createFormEditor(form)));
+        createForm({ name, namespace, type: 'Form', project, pid }).then(form => {
+          refreshInscriptionView(window);
+          openEditor(createFormEditor(form));
+        });
       open({ create, defaultName: 'NewForm', title: 'Create new Form', project, pid });
     },
     [createForm, open, openEditor]
