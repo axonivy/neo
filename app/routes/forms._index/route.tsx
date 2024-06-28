@@ -18,7 +18,9 @@ export default function Index() {
   const { data, isPending } = useForms();
   const forms = data?.filter(form => form.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const { createForm } = useCreateForm();
-  const create = (name: string, namespace: string, project?: ProjectIdentifier) => createForm({ name, namespace, type: 'Form', project });
+  const { openEditor } = useEditors();
+  const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
+    createForm({ name, namespace, type: 'Form', project }).then(form => openEditor(createFormEditor(form)));
   return (
     <Flex direction='column' gap={4} style={{ padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }}>
       <span style={{ fontWeight: 600, fontSize: 16 }}>Forms</span>

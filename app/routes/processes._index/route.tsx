@@ -18,8 +18,9 @@ export default function Index() {
   const { data, isPending } = useProcesses();
   const processes = data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const { createProcess } = useCreateProcess();
+  const { openEditor } = useEditors();
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
-    createProcess({ name, namespace, kind: 'Business Process', project });
+    createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
   return (
     <Flex direction='column' gap={4} style={{ padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }}>
       <span style={{ fontWeight: 600, fontSize: 16 }}>Processes</span>

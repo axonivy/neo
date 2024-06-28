@@ -2,7 +2,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteReq, get, post } from './engine-api';
 import { toast } from '@axonivy/ui-components';
 import { ProjectIdentifier } from './project-api';
-import { createFormEditor, useEditors } from '~/neo/editors/useEditors';
 
 export type Form = {
   name: string;
@@ -56,20 +55,21 @@ export const useDeleteForm = () => {
 
 export const useCreateForm = () => {
   const client = useQueryClient();
-  const { openEditor } = useEditors();
-  const createForm = async (form: NewFormParams, postCreateAction: () => void = () => {}) => {
+  const createForm = async (form: NewFormParams) => {
     const res = await post('hd', form);
     if (res?.ok) {
-      postCreateAction();
       const form = (await res.json()) as Form;
       client.invalidateQueries({ queryKey: ['forms'] });
-      openEditor(createFormEditor(form));
+      return form;
     } else {
       throw new Error('Failed to create form');
     }
   };
   return {
-    createForm: (form: NewFormParams, postCreateAction?: () => void) =>
-      toast.promise(() => createForm(form, postCreateAction), { loading: 'Creating form', success: 'Form created', error: e => e.message })
+    createForm: (form: NewFormParams) => {
+      const newForm = createForm(form);
+      toast.promise(() => newForm, { loading: 'Creating form', success: 'Form created', error: e => e.message });
+      return newForm;
+    }
   };
 };

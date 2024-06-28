@@ -1,6 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteReq, get, post } from './engine-api';
-import { createProcessEditor, useEditors } from '~/neo/editors/useEditors';
 import { toast } from '@axonivy/ui-components';
 import { ProjectIdentifier } from './project-api';
 
@@ -45,25 +44,22 @@ type NewProcessParams = {
 
 export const useCreateProcess = () => {
   const client = useQueryClient();
-  const { openEditor } = useEditors();
-  const createProcess = async (process: NewProcessParams, postCreateAction: () => void = () => {}) => {
+  const createProcess = async (process: NewProcessParams) => {
     const res = await post('process', process);
     if (res?.ok) {
-      postCreateAction();
       const process = (await res.json()) as Process;
       client.invalidateQueries({ queryKey: ['processes'] });
-      openEditor(createProcessEditor(process));
+      return process;
     } else {
       throw new Error('Failed to create process');
     }
   };
   return {
-    createProcess: (process: NewProcessParams, postCreateAction?: () => void) =>
-      toast.promise(() => createProcess(process, postCreateAction), {
-        loading: 'Creating process',
-        success: 'Process created',
-        error: e => e.message
-      })
+    createProcess: (process: NewProcessParams) => {
+      const newProcess = createProcess(process);
+      toast.promise(() => newProcess, { loading: 'Creating process', success: 'Process created', error: e => e.message });
+      return newProcess;
+    }
   };
 };
 

@@ -18,7 +18,7 @@ import { ProjectSelect } from './ProjectSelect';
 export type NewArtifact = {
   title: string;
   defaultName: string;
-  create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) => string | number;
+  create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) => void;
   project?: ProjectIdentifier;
   pid?: string;
 };
