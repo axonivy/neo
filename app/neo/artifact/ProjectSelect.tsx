@@ -1,14 +1,15 @@
 import { Fieldset, Spinner, BasicSelect } from '@axonivy/ui-components';
+import { useEffect, useMemo } from 'react';
 import { ProjectIdentifier, useProjects } from '~/data/project-api';
 
 type ProjectSelectProps = {
-  project: ProjectIdentifier | undefined;
   setProject: (project: ProjectIdentifier) => void;
 };
 
-export const ProjectSelect = ({ project, setProject }: ProjectSelectProps) => {
+export const ProjectSelect = ({ setProject }: ProjectSelectProps) => {
   const { data, isPending } = useProjects();
-  const projects = data ?? [];
+  const projects = useMemo(() => data ?? [], [data]);
+  useEffect(() => setProject(projects[0]), [projects, setProject]);
   return (
     <Fieldset label='Project'>
       {isPending ? (
@@ -20,10 +21,7 @@ export const ProjectSelect = ({ project, setProject }: ProjectSelectProps) => {
             value: JSON.stringify(p),
             label: `${p.app}/${p.pmv}`
           }))}
-          defaultValue={(() => {
-            project ?? setProject(projects[0]);
-            return JSON.stringify(projects[0]);
-          })()}
+          defaultValue={JSON.stringify(projects[0])}
           onValueChange={value => setProject(JSON.parse(value))}
         />
       )}
