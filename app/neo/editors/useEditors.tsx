@@ -28,7 +28,7 @@ const useStore = create<EditorState>()(
       editors: [],
       close: id =>
         set(state => {
-          const editors = state.editors;
+          const editors = structuredClone(state.editors);
           const index = indexOf(editors, e => e.id === id);
           editors.splice(index, 1);
           return { editors };
@@ -36,7 +36,7 @@ const useStore = create<EditorState>()(
       closeAll: () => set({ editors: [] }),
       open: editor =>
         set(state => {
-          const editors = state.editors;
+          const editors = structuredClone(state.editors);
           const index = indexOf(editors, e => e.id === editor.id);
           if (index === -1) {
             editors.push(editor);
@@ -123,7 +123,7 @@ export const createProcessEditor = ({ name, path, processIdentifier: { project }
     path = `${namespace}/${name}`;
     return createEditor('src_hd', project, path, name);
   }
-  return createEditor('processes', project, path, name);
+  return createEditor('processes', project, path ?? name, name);
 };
 
 export const createFormEditor = ({ name, path, identifier: { project } }: Form): Editor => {
