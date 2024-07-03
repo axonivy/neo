@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react';
-import { NeoClient } from '~/data/neo-jsonrpc';
-import { createProcessEditor, useEditors } from '../editors/useEditors';
+import { createProcessEditor, useEditors } from '~/neo/editors/useEditors';
 import { useLocation, useNavigate } from '@remix-run/react';
 import { AnimationFollowMode } from '../settings/useSettings';
+import { NeoClient } from '~/data/neo-protocol';
 
 type NeoClientProviderState = {
   client: NeoClient;
@@ -22,17 +22,16 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
   client.onOpenEditor.set(process => {
-    const id = '';
     const editor = createProcessEditor(process);
     switch (mode) {
       case 'all':
         openEditor(editor);
         return true;
       case 'currentProcess':
-        return id === pathname;
+        return editor.id === pathname;
       case 'openProcesses':
-        if (editors.find(e => e.id === id)) {
-          navigate(id);
+        if (editors.find(e => e.id === editor.id)) {
+          navigate(editor.id);
           return true;
         }
         return false;

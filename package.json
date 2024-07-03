@@ -4,7 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "ci": "npm install && npm run type && npm run lint:ci && npm run build:editor && npm run build",
+    "ci": "npm install && npm run type && npm run lint:ci && npm run test:ci && npm run build:editor && npm run build",
     "build": "remix vite:build",
     "dev": "remix vite:dev",
     "dev:debug": "export DEBUG=vite:* && remix vite:dev",
@@ -13,6 +13,8 @@
     "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:ci": "npm run lint -- -o eslint.xml -f checkstyle",
     "preview": "vite preview",
+    "test": "vitest",
+    "test:ci": "vitest --watch=false",
     "type": "tsc && npm run -w webviews/process-editor type",
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
@@ -20,9 +22,9 @@
     "@axonivy/form-editor": "~11.4.0-next.120",
     "@axonivy/form-editor-core": "~11.4.0-next.120",
     "@axonivy/form-editor-protocol": "~11.4.0-next.120",
+    "@axonivy/jsonrpc": "~11.4.0-next.217",
     "@axonivy/ui-components": "~11.4.0-next.217",
     "@axonivy/ui-icons": "~11.4.0-next.217",
-    "@axonivy/jsonrpc": "~11.4.0-next.217",
     "@remix-run/node": "^2.10.0",
     "@remix-run/react": "^2.10.0",
     "@tanstack/react-query": "5.32.1",
@@ -33,21 +35,27 @@
   },
   "devDependencies": {
     "@remix-run/dev": "^2.10.0",
+    "@remix-run/testing": "^2.10.0",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.14.1",
     "@typescript-eslint/parser": "^7.14.1",
     "@vanilla-extract/recipes": "^0.5.3",
+    "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^8.38.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.9.0",
     "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "happy-dom": "^14.12.3",
     "typescript": "^5.5.2",
     "vite": "^5.3.1",
     "vite-plugin-svgr": "^4.2.0",
-    "vite-tsconfig-paths": "^4.3.2"
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest": "^1.6.0"
   },
   "engines": {
     "node": ">=20.0.0"

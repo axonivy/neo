@@ -1,27 +1,7 @@
 import { BaseRpcClient, urlBuilder, createWebSocketConnection, Connection, createMessageConnection, Disposable } from '@axonivy/jsonrpc';
 import { Process } from './process-api';
 import { wsBaseUrl } from './ws-base';
-
-class Callback<T, R = void> implements Disposable {
-  private callback?: (e: T) => R;
-
-  set(callback: (e: T) => R) {
-    this.callback = callback;
-  }
-
-  call(e: T) {
-    return this.callback?.(e);
-  }
-
-  dispose() {
-    this.callback = undefined;
-  }
-}
-
-export interface NeoClient {
-  onOpenEditor: Callback<Process, boolean>;
-  animationSettings(settings: AnimationSettings): void;
-}
+import { Callback, NeoClient } from './neo-protocol';
 
 export interface NeoOnNotificationTypes {}
 
