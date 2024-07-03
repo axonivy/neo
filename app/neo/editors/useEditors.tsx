@@ -133,12 +133,12 @@ export const createFormEditor = ({ name, path, identifier: { project } }: Form):
   return createEditor('forms', project, path, name);
 };
 
-export const createEditorFromPath = (editorType: EditorType, project: ProjectIdentifier, path: string): Editor => {
-  return createEditor(editorType, project, path, path.split('/').at(-1) ?? path);
-};
-
 export const createVariableEditor = (project: ProjectIdentifier): Editor => {
   return createEditor('configurations', project, 'variables', 'variables');
+};
+
+export const createEditorFromPath = (editorType: EditorType, project: ProjectIdentifier, path: string): Editor => {
+  return createEditor(editorType, project, path, path.split('/').at(-1) ?? path);
 };
 
 const createEditor = (editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {

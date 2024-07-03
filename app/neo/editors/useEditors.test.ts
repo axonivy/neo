@@ -156,6 +156,18 @@ describe('createEditorFromPath', () => {
       result
     );
   });
+
+  it('variables', () => {
+    const result: Editor = {
+      id: '/configurations/designer/workflow-demos/variables',
+      type: 'configurations',
+      icon: IvyIcons.Tool,
+      name: 'variables',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'variables'
+    };
+    expect(createEditorFromPath('configurations', { app: 'designer', pmv: 'workflow-demos' }, 'variables')).to.be.deep.equals(result);
+  });
 });
 
 describe('useEditors', () => {
