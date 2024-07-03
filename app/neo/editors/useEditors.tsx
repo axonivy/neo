@@ -9,8 +9,9 @@ import { Process } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { FormEditor } from './FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
+import { VariableEditor } from './VariableEditor';
 
-export type EditorType = 'processes' | 'forms' | 'src_hd';
+export type EditorType = 'processes' | 'forms' | 'src_hd' | 'configurations';
 
 // if you change the Editor type increase the persist version too
 export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
@@ -115,6 +116,8 @@ export const renderEditor = (editor: Editor) => {
       return <ProcessEditor key={editor.id} {...editor} />;
     case 'forms':
       return <FormEditor key={editor.id} {...editor} />;
+    case 'configurations':
+      return <VariableEditor key={editor.id} {...editor} />;
   }
 };
 
@@ -134,6 +137,10 @@ export const createEditorFromPath = (editorType: EditorType, project: ProjectIde
   return createEditor(editorType, project, path, path.split('/').at(-1) ?? path);
 };
 
+export const createVariableEditor = (project: ProjectIdentifier): Editor => {
+  return createEditor('configurations', project, 'variables', 'variables');
+};
+
 const createEditor = (editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {
   const id = `/${editorType}/${project.app}/${project.pmv}/${path}`;
   return {
@@ -151,8 +158,11 @@ const removeExtension = (path: string) => {
 };
 
 const editorIcon = (editorType: EditorType) => {
-  if (editorType === 'forms') {
-    return IvyIcons.File;
+  switch (editorType) {
+    case 'forms':
+      return IvyIcons.File;
+    case 'configurations':
+      return IvyIcons.Tool;
   }
   return IvyIcons.Process;
 };

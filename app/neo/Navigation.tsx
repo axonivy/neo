@@ -20,7 +20,9 @@ export const Navigation = () => {
         <NavLink to='/forms' prefetch='intent' style={{ all: 'unset' }}>
           {({ isActive }) => <Button title='Forms' icon={IvyIcons.File} size='large' toggle={isActive} />}
         </NavLink>
-        <Button icon={IvyIcons.Tool} size='large' onClick={() => navigate('processes')} />
+        <NavLink to='/configurations' prefetch='intent' style={{ all: 'unset' }}>
+          {({ isActive }) => <Button title='Configurations' icon={IvyIcons.Tool} size='large' toggle={isActive} />}
+        </NavLink>
       </Flex>
       <SettingsMenu />
     </Flex>
