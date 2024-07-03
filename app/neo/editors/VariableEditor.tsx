@@ -4,13 +4,12 @@ import { ReadonlyProvider } from '@axonivy/ui-components';
 import { useLocation } from '@remix-run/react';
 import { ClientContextProvider, ClientJsonRpc, VariableEditor as App } from '@axonivy/variable-editor';
 import { Client } from '@axonivy/variable-editor/lib/protocol/types';
-
-const wsBase = () => window.location.origin.replace('https://', 'wss://').replace('http://', 'ws://');
+import { wsBaseUrl } from '~/data/ws-base';
 
 export const VariableEditor = ({ id, project }: Editor) => {
   const [client, setClient] = useState<Client>();
   useEffect(() => {
-    ClientJsonRpc.startWebSocketClient(wsBase()).then(client => setClient(client));
+    ClientJsonRpc.startWebSocketClient(wsBaseUrl()).then(client => setClient(client));
   }, [id]);
   const { pathname } = useLocation();
   const [mounted, setMounted] = useState(false);
