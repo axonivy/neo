@@ -1,9 +1,9 @@
 import { vitePlugin as remix } from '@remix-run/dev';
 import { ProxyOptions, defineConfig } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import svgr from 'vite-plugin-svgr';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
-const DESIGNER_URL = 'http://localhost:8081/';
+const DESIGNER_URL = process.env.BASE_URL ?? 'http://localhost:8081/';
 const WEBSOCKET_PROXY: ProxyOptions = {
   target: DESIGNER_URL,
   ws: true

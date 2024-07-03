@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>neo.test.project</groupId>
+  <artifactId>neo-test-project</artifactId>
+  <version>11.4.0-SNAPSHOT</version>
+  <packaging>iar</packaging>
+
+  <properties>
+    <engine.page.url>https://product.ivyteam.io/</engine.page.url>
+    <project.build.plugin.version>11.4.0-SNAPSHOT</project.build.plugin.version>
+    <engine.test.ws>test-ws</engine.test.ws>
+    <webtest.cmd>webtest</webtest.cmd>
+    <engine.dir>../.ivy-engine</engine.dir>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>create-workspace</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>
+                ${engine.dir}/neo-designer-workspaces/${engine.test.ws}/neo-test-project
+              </outputDirectory>
+              <resources>
+                <resource>
+                  <directory>.</directory>
+                  <excludes>
+                    <exclude>.DS_Store</exclude>
+                  </excludes>
+                </resource>
+              </resources>
+              <overwrite>true</overwrite>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>com.axonivy.ivy.ci</groupId>
+        <artifactId>project-build-plugin</artifactId>
+        <version>${project.build.plugin.version}</version>
+        <extensions>true</extensions>
+        <configuration>
+          <useLatestMinor>true</useLatestMinor>
+          <engineListPageUrl>${engine.page.url}</engineListPageUrl>
+          <deployToEngineApplication>${engine.test.app}</deployToEngineApplication>
+          <engineDirectory>${engine.dir}</engineDirectory>
+          <additionalVmOptions>
+            -Divy.enable.lsp=true -Ddev.mode=true
+          </additionalVmOptions>
+        </configuration>
+        <executions>
+          <execution>
+            <id>start.test.engine</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start-test-engine</goal>
+            </goals>
+          </execution>
+
+          <execution>
+            <id>stop.test.engine</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop-test-engine</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>npm</executable>
+              <arguments>
+                <argument>run</argument>
+                <argument>${webtest.cmd}</argument>
+              </arguments>
+              <environmentVariables>
+                <BASE_URL>${test.engine.url}</BASE_URL>
+                <WORKSPACE>${engine.test.ws}</WORKSPACE>
+                <SCREENSHOT_DIR>${project.build.directory}</SCREENSHOT_DIR>
+              </environmentVariables>
+              <successCodes>
+                <successCode>0</successCode>
+                <successCode>1</successCode>
+              </successCodes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>central.snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+</project>

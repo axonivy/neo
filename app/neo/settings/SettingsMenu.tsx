@@ -26,7 +26,7 @@ export const SettingsMenu = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button icon={IvyIcons.Settings} size='large' />
+        <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' title='Settings' />
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
         <DropdownMenuGroup>

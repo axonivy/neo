@@ -1,0 +1,8 @@
+QuickStartTutorial #class
+neo.test.project #namespace
+product String #field
+product PERSISTENT #fieldModifier
+releaseDate Date #field
+releaseDate PERSISTENT #fieldModifier
+price Number #field
+price PERSISTENT #fieldModifier

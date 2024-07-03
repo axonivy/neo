@@ -1,10 +1,10 @@
-import { RefObject, useEffect, useRef, useState } from 'react';
 import { useHref, useLocation } from '@remix-run/react';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { useWorkspace } from '~/data/workspace-api';
+import { baseUrl } from '~/data/ws-base';
 import { Editor } from '~/neo/editors/useEditors';
 import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
 import { useFrameMessageHandler } from './message/useFrameMessageHandler';
-import { baseUrl } from '~/data/ws-base';
-import { useWorkspace } from '~/data/workspace-api';
 
 const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) => {
   const frameRoot = frame.current?.contentWindow?.document.documentElement;
@@ -21,7 +21,7 @@ const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) =>
   }
 };
 
-export const ProcessEditor = ({ id, project, type, path }: Editor) => {
+export const ProcessEditor = ({ id, project, type, path, name }: Editor) => {
   const frame = useRef<HTMLIFrameElement>(null);
   const theme = useThemeMode();
   const ws = useWorkspace();
@@ -44,7 +44,7 @@ export const ProcessEditor = ({ id, project, type, path }: Editor) => {
       {mounted && (
         <iframe
           ref={frame}
-          title='process'
+          title={name}
           src={editorUrl}
           style={{ width: '100%', height: '100%', border: 'none', display: pathname !== id ? 'none' : undefined }}
           onLoad={() => updateFrameTheme(frame, theme)}

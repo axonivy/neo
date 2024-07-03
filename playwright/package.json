@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "playwright",
+  "version": "11.4.0-next",
+  "description": "Playwright tests for the Axon Ivy Neo Designer",
+  "author": "Axon Ivy AG",
+  "homepage": "https://developer.axonivy.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/axonivy/neo"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.45.1"
+  },
+  "type": "module",
+  "scripts": {
+    "type": "tsc",
+    "lint": "eslint --ext .ts,.tsx ./tests",
+    "lint:fix": "eslint --fix --ext .ts,.tsx ./tests",
+    "webtest": "playwright test --project=integration-chrome",
+    "webtest:screenshots": "playwright test --project=screenshots",
+    "webtest:*": "playwright test --project=integration-*",
+    "webtest:chrome": "playwright test --project=integration-chrome",
+    "webtest:firefox": "playwright test --project=integration-firefox",
+    "webtest:webkit": "playwright test --project=integration-webkit"
+  }
+}

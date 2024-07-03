@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "rootDirs": ["tests"],
+    "outDir": "lib",
+    "noImplicitAny": false,
+    "types": ["node"]
+  },
+  "exclude": [],
+  "include": ["tests", "custom-reporter.ts"]
+}
