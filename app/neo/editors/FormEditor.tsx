@@ -19,14 +19,16 @@ export const FormEditor = ({ id, project, path }: Editor) => {
       setMounted(true);
     }
   }, [pathname, id]);
-
   return (
     <>
       {mounted && client && (
         <div style={{ display: pathname !== id ? 'none' : undefined }}>
           <ClientContextProvider client={client}>
             <ReadonlyProvider readonly={false}>
-              <App app={project.app} pmv={project.pmv} file={path.endsWith('.f.json') ? path : `${path}.f.json`} />
+              <App
+                context={{ app: project.app, pmv: project.pmv, file: path.endsWith('.f.json') ? path : `${path}.f.json` }}
+                directSave={true}
+              />
             </ReadonlyProvider>
           </ClientContextProvider>
         </div>
