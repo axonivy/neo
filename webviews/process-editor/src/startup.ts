@@ -13,7 +13,7 @@ import { ContainerModule, inject, injectable } from 'inversify';
 import { IvyDiagramOptions } from './di.config';
 
 import './index.css';
-import { createWebSocketConnection } from './ws-writer';
+import { createWebSocketConnection } from './ws-connection';
 
 @injectable()
 export class StandaloneDiagramStartup implements IDiagramStartup {
