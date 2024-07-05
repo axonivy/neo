@@ -1,17 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
 import { get } from './engine-api';
 import { toast } from '@axonivy/ui-components';
+import { useWorkspace } from './workspace-api';
 
 export type ProjectIdentifier = {
   app: string;
   pmv: string;
 };
 
+export const useProjectsApi = () => {
+  const ws = useWorkspace();
+  return { queryKey: ['neo', ws?.id, 'projects'], apiUrl: { url: 'projects', base: ws?.baseUrl } };
+};
+
 export const useProjects = () => {
+  const { queryKey, apiUrl } = useProjectsApi();
   return useQuery({
-    queryKey: ['projects'],
+    queryKey,
     queryFn: () =>
-      get('projects').then(res => {
+      get(apiUrl).then(res => {
         if (res?.ok) {
           return res.json() as Promise<Array<ProjectIdentifier>>;
         } else {
@@ -19,15 +26,5 @@ export const useProjects = () => {
         }
         return [];
       })
-  });
-};
-
-export const watchProjects = () => {
-  get('projects/watch').then(res => {
-    if (res?.ok) {
-      return;
-    } else {
-      toast.error('Failed to watch projects', { description: 'Maybe the server is not correclty started' });
-    }
   });
 };

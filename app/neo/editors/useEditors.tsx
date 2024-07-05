@@ -17,92 +17,103 @@ export type EditorType = 'processes' | 'forms' | 'src_hd' | 'configurations';
 export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
 
 type EditorState = {
-  editors: Array<Editor>;
-  close: (id: string) => void;
-  closeAll: () => void;
-  open: (editor: Editor) => void;
+  workspaces: Record<string, Array<Editor>>;
+  close: (ws: string, id: string) => void;
+  closeAll: (ws: string) => void;
+  open: (ws: string, editor: Editor) => void;
 };
 
 const useStore = create<EditorState>()(
   persist(
     set => ({
-      editors: [],
-      close: id =>
+      workspaces: {},
+      close: (ws, id) =>
         set(state => {
-          const editors = structuredClone(state.editors);
+          const workspaces = structuredClone(state.workspaces);
+          const editors = workspaces[ws] ?? [];
           const index = indexOf(editors, e => e.id === id);
           editors.splice(index, 1);
-          return { editors };
+          workspaces[ws] = editors;
+          return { workspaces };
         }),
-      closeAll: () => set({ editors: [] }),
-      open: editor =>
+      closeAll: ws =>
         set(state => {
-          const editors = structuredClone(state.editors);
+          const workspaces = structuredClone(state.workspaces);
+          delete workspaces[ws];
+          return { workspaces };
+        }),
+      open: (ws, editor) =>
+        set(state => {
+          const workspaces = structuredClone(state.workspaces);
+          const editors = workspaces[ws] ?? [];
           const index = indexOf(editors, e => e.id === editor.id);
           if (index === -1) {
             editors.push(editor);
           }
-          return { editors };
+          workspaces[ws] = editors;
+          return { workspaces };
         })
     }),
-    { name: 'neo-open-editors', version: 1 }
+    { name: 'neo-open-editors', version: 2 }
   )
 );
 
 export const useEditors = () => {
   const navigate = useNavigate();
-  const { editors, open, close, closeAll } = useStore();
+  const ws = useParams().ws ?? '';
+  const rootNav = `/${ws}`;
+  const { workspaces, open, close, closeAll } = useStore();
 
   const closeEditor = useCallback(
     (id: string) => {
-      close(id);
-      let nav = '/';
-      if (editors.length > 0) {
-        nav = editors[0].id;
+      close(ws, id);
+      let nav = rootNav;
+      if (workspaces[ws]?.length > 0) {
+        nav = workspaces[ws][0].id;
       }
       navigate(nav, { replace: true });
     },
-    [close, editors, navigate]
+    [close, navigate, rootNav, workspaces, ws]
   );
 
   const closeAllEditors = useCallback(() => {
-    closeAll();
-    navigate('/', { replace: true });
-  }, [closeAll, navigate]);
+    closeAll(ws);
+    navigate(rootNav, { replace: true });
+  }, [closeAll, navigate, rootNav, ws]);
 
   const openEditor = useCallback(
     (editor: Editor) => {
       navigate(editor.id);
-      open(editor);
+      open(ws, editor);
     },
-    [navigate, open]
+    [navigate, open, ws]
   );
 
   const removeEditor = useCallback(
     (id: string) => {
-      close(id);
+      close(ws, id);
     },
-    [close]
+    [close, ws]
   );
 
   const addEditor = useCallback(
     (editor: Editor) => {
-      open(editor);
+      open(ws, editor);
     },
-    [open]
+    [open, ws]
   );
 
-  return { editors, closeEditor, openEditor, removeEditor, addEditor, closeAllEditors };
+  return { editors: workspaces[ws] ?? [], closeEditor, openEditor, removeEditor, addEditor, closeAllEditors };
 };
 
 export const useRestoreEditor = (editorType: EditorType) => {
-  const { app, pmv, '*': path } = useParams();
+  const { ws, app, pmv, '*': path } = useParams();
   const navigationType = useNavigationType();
   const { editors, addEditor } = useEditors();
-  if (navigationType !== NavigationType.Pop || !app || !pmv || !path) {
+  if (navigationType !== NavigationType.Pop || !ws || !app || !pmv || !path) {
     return;
   }
-  const editor = createEditorFromPath(editorType, { app, pmv }, path);
+  const editor = createEditorFromPath(ws, editorType, { app, pmv }, path);
   const index = indexOf(editors, e => e.id === editor.id);
   if (index === -1) {
     addEditor(editor);
@@ -121,28 +132,35 @@ export const renderEditor = (editor: Editor) => {
   }
 };
 
-export const createProcessEditor = ({ name, path, processIdentifier: { project }, kind, namespace }: Process): Editor => {
+export const createProcessEditor = ({
+  ws,
+  name,
+  path,
+  processIdentifier: { project },
+  kind,
+  namespace
+}: { ws: string } & Process): Editor => {
   if (kind === 3) {
     path = `${namespace}/${name}`;
-    return createEditor('src_hd', project, path, name);
+    return createEditor(ws, 'src_hd', project, path, name);
   }
-  return createEditor('processes', project, path ?? name, name);
+  return createEditor(ws, 'processes', project, path ?? name, name);
 };
 
-export const createFormEditor = ({ name, path, identifier: { project } }: Form): Editor => {
-  return createEditor('forms', project, path, name);
+export const createFormEditor = ({ ws, name, path, identifier: { project } }: { ws: string } & Form): Editor => {
+  return createEditor(ws, 'forms', project, path, name);
 };
 
-export const createVariableEditor = (project: ProjectIdentifier): Editor => {
-  return createEditor('configurations', project, 'variables', 'variables');
+export const createVariableEditor = ({ ws, ...project }: { ws: string } & ProjectIdentifier): Editor => {
+  return createEditor(ws, 'configurations', project, 'variables', 'variables');
 };
 
-export const createEditorFromPath = (editorType: EditorType, project: ProjectIdentifier, path: string): Editor => {
-  return createEditor(editorType, project, path, path.split('/').at(-1) ?? path);
+export const createEditorFromPath = (ws: string, editorType: EditorType, project: ProjectIdentifier, path: string): Editor => {
+  return createEditor(ws, editorType, project, path, path.split('/').at(-1) ?? path);
 };
 
-const createEditor = (editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {
-  const id = `/${editorType}/${project.app}/${project.pmv}/${path}`;
+const createEditor = (ws: string, editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {
+  const id = `/${ws}/${editorType}/${project.app}/${project.pmv}/${path}`;
   return {
     id: removeExtension(id),
     type: editorType,

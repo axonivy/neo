@@ -2,6 +2,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { deleteReq, get, post } from './engine-api';
 import { toast } from '@axonivy/ui-components';
 import { ProjectIdentifier } from './project-api';
+import { useWorkspace } from './workspace-api';
 
 export type Form = {
   name: string;
@@ -22,11 +23,17 @@ type NewFormParams = {
   pid?: string;
 };
 
+export const useFormsApi = () => {
+  const ws = useWorkspace();
+  return { queryKey: ['neo', ws?.id, 'forms'], base: ws?.baseUrl };
+};
+
 export const useForms = () => {
+  const { queryKey, base } = useFormsApi();
   return useQuery({
-    queryKey: ['forms'],
+    queryKey,
     queryFn: () =>
-      get('forms').then(res => {
+      get({ url: 'forms', base }).then(res => {
         if (res?.ok) {
           return res.json() as Promise<Array<Form>>;
         } else {
@@ -39,10 +46,11 @@ export const useForms = () => {
 
 export const useDeleteForm = () => {
   const client = useQueryClient();
+  const { queryKey, base } = useFormsApi();
   const deleteForm = async (identifier: FormIdentifier) => {
-    const res = await deleteReq('form', identifier);
+    const res = await deleteReq({ url: 'form', base, data: identifier });
     if (res?.ok) {
-      client.invalidateQueries({ queryKey: ['forms'] });
+      client.invalidateQueries({ queryKey });
     } else {
       throw new Error(`Failed to remove from '${identifier.id}'`);
     }
@@ -55,11 +63,12 @@ export const useDeleteForm = () => {
 
 export const useCreateForm = () => {
   const client = useQueryClient();
+  const { queryKey, base } = useFormsApi();
   const createForm = async (form: NewFormParams) => {
-    const res = await post('hd', form);
+    const res = await post({ url: 'hd', base, data: form });
     if (res?.ok) {
       const form = (await res.json()) as Form;
-      client.invalidateQueries({ queryKey: ['forms'] });
+      client.invalidateQueries({ queryKey });
       return form;
     } else {
       throw new Error('Failed to create form');

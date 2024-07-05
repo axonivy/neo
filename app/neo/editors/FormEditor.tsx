@@ -6,12 +6,14 @@ import { FormClientJsonRpc } from '@axonivy/form-editor-core';
 import { App, ClientContextProvider } from '@axonivy/form-editor';
 import { useLocation } from '@remix-run/react';
 import { wsBaseUrl } from '~/data/ws-base';
+import { useWorkspace } from '~/data/workspace-api';
 
 export const FormEditor = ({ id, project, path }: Editor) => {
   const [client, setClient] = useState<FormClient>();
+  const ws = useWorkspace();
   useEffect(() => {
-    FormClientJsonRpc.startWebSocketClient(wsBaseUrl()).then(formClient => setClient(formClient));
-  }, [id]);
+    FormClientJsonRpc.startWebSocketClient(`${wsBaseUrl()}${ws?.baseUrl}`).then(formClient => setClient(formClient));
+  }, [id, ws?.baseUrl]);
   const { pathname } = useLocation();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {

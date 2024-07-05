@@ -1,5 +1,6 @@
-import { createContext, useContext, useRef } from 'react';
+import { createContext, useContext, useMemo, useRef } from 'react';
 import { ImperativePanelHandle } from 'react-resizable-panels';
+import { useWorkspace } from '~/data/workspace-api';
 
 type WebBrowserProviderState = {
   panelRef: React.RefObject<ImperativePanelHandle>;
@@ -16,6 +17,8 @@ export const WebBrowserProvider = ({ children }: { children: React.ReactNode }) 
 
 export const useWebBrowser = () => {
   const context = useContext(WebBrowserProviderContext);
+  const ws = useWorkspace();
+  const homeUrl = useMemo(() => (ws ? `${ws?.baseUrl}/dev-workflow-ui/faces/home.xhtml` : ''), [ws]);
   if (context === undefined) throw new Error('useWebBrowser must be used within a WebBrowserProvider');
   const { panelRef, frameRef } = context;
   const open = (url: string) => {
@@ -44,9 +47,9 @@ export const useWebBrowser = () => {
     back: () => frameRef.current?.contentWindow?.history.back(),
     forward: () => frameRef.current?.contentWindow?.history.forward(),
     reload: () => frameRef.current?.contentWindow?.location.reload(),
-    home: () => open('/dev-workflow-ui/faces/home.xhtml'),
+    home: () => open(homeUrl),
     open,
     openExternal: () => window.open(frameRef.current?.contentWindow?.location.href)
   };
-  return { browser, nav };
+  return { browser, nav, homeUrl };
 };

@@ -5,6 +5,7 @@ import { useCreateProcess } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { useCreateForm } from '~/data/form-api';
 import { createFormEditor, createProcessEditor, useEditors } from '../../useEditors';
+import { useParams } from '@remix-run/react';
 
 const isActionWithId = (
   obj: unknown,
@@ -27,6 +28,7 @@ export const useNewProcessActionHandler = () => {
   const { createProcess } = useCreateProcess();
   const { openEditor } = useEditors();
   const open = useNewArtifact();
+  const ws = useParams().ws ?? 'designer';
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newProcess')) {
@@ -37,11 +39,11 @@ export const useNewProcessActionHandler = () => {
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
         createProcess({ name, namespace, kind: '', project, pid }).then(process => {
           refreshInscriptionView(window);
-          openEditor(createProcessEditor(process));
+          openEditor(createProcessEditor({ ws, ...process }));
         });
       open({ create, defaultName: 'NewCallable', title: 'Create new Process', project, pid });
     },
-    [createProcess, open, openEditor]
+    [createProcess, open, openEditor, ws]
   );
 };
 
@@ -49,6 +51,7 @@ export const useNewFormActionHandler = () => {
   const { createForm } = useCreateForm();
   const { openEditor } = useEditors();
   const open = useNewArtifact();
+  const ws = useParams().ws ?? 'designer';
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newHtmlDialog')) {
@@ -59,11 +62,11 @@ export const useNewFormActionHandler = () => {
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
         createForm({ name, namespace, type: 'Form', project, pid }).then(form => {
           refreshInscriptionView(window);
-          openEditor(createFormEditor(form));
+          openEditor(createFormEditor({ ws, ...form }));
         });
       open({ create, defaultName: 'NewForm', title: 'Create new Form', project, pid });
     },
-    [createForm, open, openEditor]
+    [createForm, open, openEditor, ws]
   );
 };
 

@@ -1,11 +1,18 @@
-const BASE = '/neo/api/web-ide/';
+const API_URL = '/api/web-ide/';
 
-export const get = (url: string) => {
-  return fetch(`${BASE}${url}`);
+type ApiProps = { url: string; base?: string };
+type ApiDataProps = ApiProps & { data: unknown };
+
+const apiUrl = ({ url, base }: ApiProps) => {
+  return `${base ?? ''}${API_URL}${url}`;
 };
 
-export const post = (url: string, data: unknown) => {
-  return fetch(`${BASE}${url}`, {
+export const get = (api: ApiProps) => {
+  return fetch(apiUrl(api));
+};
+
+export const post = ({ data, ...api }: ApiDataProps) => {
+  return fetch(apiUrl(api), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,8 +23,8 @@ export const post = (url: string, data: unknown) => {
   });
 };
 
-export const deleteReq = (url: string, data: unknown) => {
-  return fetch(`${BASE}${url}`, {
+export const deleteReq = ({ data, ...api }: ApiDataProps) => {
+  return fetch(apiUrl(api), {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

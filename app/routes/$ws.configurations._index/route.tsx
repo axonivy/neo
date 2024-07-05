@@ -5,6 +5,7 @@ import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
 import VariablesPreviewSVG from './variables-preview.svg?react';
 import { ProjectIdentifier, useProjects } from '~/data/project-api';
 import { createVariableEditor, useEditors } from '~/neo/editors/useEditors';
+import { useParams } from '@remix-run/react';
 
 type Variables = {
   path: string;
@@ -47,7 +48,8 @@ export default function Index() {
 
 export const VariablesCard = (vars: Variables) => {
   const { openEditor } = useEditors();
-  const editor = createVariableEditor(vars.project);
+  const ws = useParams().ws ?? 'designer';
+  const editor = createVariableEditor({ ws, ...vars.project });
   const open = () => openEditor(editor);
   return <ArtifactCard name={vars.path} type='variable' preview={<VariablesPreviewSVG />} onClick={open} />;
 };
