@@ -10,10 +10,10 @@ export class Overview {
     this.page = page;
     this.overview = page.locator('.overview');
     this.title = this.overview.locator('span').first();
-    this.cards = this.overview.locator('.artifact-card');
+    this.cards = this.overview.locator('.artifact-card:not(.new-artifact-card)');
   }
 
-  card(name: string) {
+  card(name: string | RegExp) {
     return this.cards.filter({ hasText: name }).first();
   }
 

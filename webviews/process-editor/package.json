@@ -24,8 +24,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "vite build --mode development --emptyOutDir",
-    "build:production": "vite build --emptyOutDir",
+    "build": "vite build --emptyOutDir",
     "watch": "vite build --mode development --watch --emptyOutDir",
     "type": "tsc"
   }
