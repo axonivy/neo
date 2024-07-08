@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Editor } from '~/neo/editors/useEditors';
-import { ReadonlyProvider } from '@axonivy/ui-components';
-import { FormClient } from '@axonivy/form-editor-protocol';
-import { FormClientJsonRpc } from '@axonivy/form-editor-core';
 import { App, ClientContextProvider } from '@axonivy/form-editor';
+import { FormClientJsonRpc } from '@axonivy/form-editor-core';
+import { FormClient } from '@axonivy/form-editor-protocol';
+import { ReadonlyProvider } from '@axonivy/ui-components';
 import { useLocation } from '@remix-run/react';
-import { wsBaseUrl } from '~/data/ws-base';
+import { useEffect, useState } from 'react';
 import { useWorkspace } from '~/data/workspace-api';
+import { wsBaseUrl } from '~/data/ws-base';
+import { Editor } from '~/neo/editors/useEditors';
 
-export const FormEditor = ({ id, project, path }: Editor) => {
+export const FormEditor = ({ id, project, path, name }: Editor) => {
   const [client, setClient] = useState<FormClient>();
   const ws = useWorkspace();
   useEffect(() => {
@@ -24,7 +24,7 @@ export const FormEditor = ({ id, project, path }: Editor) => {
   return (
     <>
       {mounted && client && (
-        <div style={{ display: pathname !== id ? 'none' : undefined }}>
+        <div data-editor-name={name} className='form-editor' style={{ display: pathname !== id ? 'none' : undefined }}>
           <ClientContextProvider client={client}>
             <ReadonlyProvider readonly={false}>
               <App

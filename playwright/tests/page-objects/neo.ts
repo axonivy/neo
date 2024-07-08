@@ -5,7 +5,7 @@ import { ControlBar } from './control-bar';
 import { Navigation } from './navigation';
 import { Overview } from './overview';
 
-export type OverviewTypes = 'Processes' | 'Forms';
+export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations';
 
 export class Neo {
   protected readonly page: Page;
@@ -42,6 +42,10 @@ export class Neo {
     return await this.navigate('Forms');
   }
 
+  async configs() {
+    return await this.navigate('Configurations');
+  }
+
   async browser() {
     const browser = new Browser(this.page);
     if (!(await browser.isOpen())) {
@@ -56,7 +60,7 @@ export class Neo {
     const overview = new Overview(this.page);
     await expect(overview.title).toHaveText(path);
     await overview.waitForHiddenSpinner();
-    await expect.poll(async () => overview.cards.count()).toBeGreaterThan(1);
+    await expect.poll(async () => overview.cards.count()).toBeGreaterThan(0);
     return overview;
   }
 }

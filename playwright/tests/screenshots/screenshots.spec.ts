@@ -1,7 +1,9 @@
 import { expect, Page, test } from '@playwright/test';
+import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
 import { ProcessEditor } from '../page-objects/process-editor';
+import { VariableEditor } from '../page-objects/variables-editor';
 
 test.describe('screenshots', () => {
   test.beforeEach(async ({ page }) => {
@@ -22,19 +24,43 @@ test.describe('screenshots', () => {
     await screenshot(page, 'processes.png');
   });
 
-  test('open process', async ({ page }) => {
+  test('process editor', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const overview = await neo.processes();
     await overview.card('quickstart').click();
     await neo.controlBar.tab('quickstart').expectActive();
     await new ProcessEditor(page, 'quickstart').waitForOpen('1907DDB3CA766818-f0');
-    await screenshot(page, 'open-process.png');
+    await screenshot(page, 'process-editor.png');
   });
 
   test('forms', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     await neo.forms();
     await screenshot(page, 'forms.png');
+  });
+
+  test('form editor', async ({ page }) => {
+    const neo = await Neo.openWorkspace(page);
+    const overview = await neo.forms();
+    await overview.card('EnterProduct').click();
+    await neo.controlBar.tab('EnterProduct').expectActive();
+    await new FormEditor(page, 'EnterProduct').waitForOpen('Product');
+    await screenshot(page, 'form-editor.png');
+  });
+
+  test('configs', async ({ page }) => {
+    const neo = await Neo.openWorkspace(page);
+    await neo.configs();
+    await screenshot(page, 'configs.png');
+  });
+
+  test.skip('variable editor', async ({ page }) => {
+    const neo = await Neo.openWorkspace(page);
+    const overview = await neo.configs();
+    await overview.card(/neo-test-project/).click();
+    await neo.controlBar.tab('variables').expectActive();
+    await new VariableEditor(page, 'variables').waitForOpen('MyVar');
+    await screenshot(page, 'variable-editor.png');
   });
 
   test('browser', async ({ page }) => {

@@ -1,11 +1,11 @@
-import { Flex, SearchInput, Spinner } from '@axonivy/ui-components';
 import type { MetaFunction } from '@remix-run/node';
-import { useState } from 'react';
-import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
-import VariablesPreviewSVG from './variables-preview.svg?react';
-import { ProjectIdentifier, useProjects } from '~/data/project-api';
-import { createVariableEditor, useEditors } from '~/neo/editors/useEditors';
 import { useParams } from '@remix-run/react';
+import { useState } from 'react';
+import { ProjectIdentifier, useProjects } from '~/data/project-api';
+import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
+import { createVariableEditor, Editor, useEditors } from '~/neo/editors/useEditors';
+import { Overview } from '~/neo/Overview';
+import VariablesPreviewSVG from './variables-preview.svg?react';
 
 type Variables = {
   path: string;
@@ -25,31 +25,20 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useProjects();
+  const ws = useParams().ws ?? 'designer';
   const variables =
     data?.map(project => toVariables(project)).filter(vars => vars.path.toLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   return (
-    <Flex direction='column' gap={4} style={{ padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }}>
-      <span style={{ fontWeight: 600, fontSize: 16 }}>Configurations</span>
-      <SearchInput value={search} onChange={setSearch} />
-      <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-        {isPending ? (
-          <Spinner size='small' />
-        ) : (
-          <>
-            {variables.map(vars => (
-              <VariablesCard key={vars.path} {...vars} />
-            ))}
-          </>
-        )}
-      </Flex>
-    </Flex>
+    <Overview title='Configurations' search={search} onSearchChange={setSearch} isPending={isPending}>
+      {variables.map(vars => {
+        const editor = createVariableEditor({ ws, ...vars.project });
+        return <VariablesCard key={editor.id} cardName={vars.path} {...editor} />;
+      })}
+    </Overview>
   );
 }
 
-export const VariablesCard = (vars: Variables) => {
+export const VariablesCard = ({ cardName, ...editor }: Editor & { cardName: string }) => {
   const { openEditor } = useEditors();
-  const ws = useParams().ws ?? 'designer';
-  const editor = createVariableEditor({ ws, ...vars.project });
-  const open = () => openEditor(editor);
-  return <ArtifactCard name={vars.path} type='variable' preview={<VariablesPreviewSVG />} onClick={open} />;
+  return <ArtifactCard name={cardName} type='variable' preview={<VariablesPreviewSVG />} onClick={() => openEditor(editor)} />;
 };
