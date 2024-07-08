@@ -3,9 +3,13 @@ node_modules
 /.cache
 **/dist
 /target
+/logs
 /public/build
 /public/process-editor
 .env
 
 eslint.xml
 report.xml
+playwright-report
+test-results
+.ivy-engine

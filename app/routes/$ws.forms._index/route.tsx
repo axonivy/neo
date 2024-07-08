@@ -1,13 +1,13 @@
-import { Flex, SearchInput, Spinner } from '@axonivy/ui-components';
 import type { MetaFunction } from '@remix-run/node';
-import { useState } from 'react';
-import { Form, useCreateForm, useDeleteForm, useForms } from '~/data/form-api';
-import { ProjectIdentifier } from '~/data/project-api';
-import { ArtifactCard, NewArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
-import FormPreviewSVG from './form-preview.svg?react';
-import { createFormEditor, useEditors } from '~/neo/editors/useEditors';
 import { useParams } from '@remix-run/react';
+import { useState } from 'react';
+import { FormIdentifier, useCreateForm, useDeleteForm, useForms } from '~/data/form-api';
+import { ProjectIdentifier } from '~/data/project-api';
+import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { createFormEditor, Editor, useEditors } from '~/neo/editors/useEditors';
+import { Overview } from '~/neo/Overview';
+import FormPreviewSVG from './form-preview.svg?react';
 
 export const links = cardLinks;
 
@@ -18,38 +18,28 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useForms();
+  const ws = useParams().ws ?? 'designer';
   const forms = data?.filter(form => form.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   return (
-    <Flex direction='column' gap={4} style={{ padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }}>
-      <span style={{ fontWeight: 600, fontSize: 16 }}>Forms</span>
-      <SearchInput value={search} onChange={setSearch} />
-      <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-        {isPending ? (
-          <Spinner size='small' />
-        ) : (
-          <>
-            <NewFormCard />
-            {forms.map(form => (
-              <FormCard key={form.path ?? form.name} {...form} />
-            ))}
-          </>
-        )}
-      </Flex>
-    </Flex>
+    <Overview title='Forms' search={search} onSearchChange={setSearch} isPending={isPending}>
+      <NewFormCard />
+      {forms.map(form => {
+        const editor = createFormEditor({ ws, ...form });
+        return <FormCard key={editor.id} formId={form.identifier} {...editor} />;
+      })}
+    </Overview>
   );
 }
 
-const FormCard = (form: Form) => {
+export const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) => {
   const { deleteForm } = useDeleteForm();
   const { openEditor, removeEditor } = useEditors();
-  const ws = useParams().ws ?? 'designer';
-  const editor = createFormEditor({ ws, ...form });
   const open = () => {
     openEditor(editor);
   };
   const deleteAction = () => {
     removeEditor(editor.id);
-    deleteForm(form.identifier);
+    deleteForm(formId);
   };
   return <ArtifactCard name={editor.name} type='form' preview={<FormPreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
 };

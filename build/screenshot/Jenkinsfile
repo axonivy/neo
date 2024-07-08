@@ -1,0 +1,51 @@
+pipeline {
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '30', artifactNumToKeepStr: '5'))
+    disableConcurrentBuilds()
+  }
+
+  triggers {
+    cron '@midnight'
+  }
+
+  parameters {
+    string(name: 'engineSource', defaultValue: 'https://product.ivyteam.io/', description: 'Engine page url')
+  }
+
+  stages {
+    stage('Screenshots') {
+      steps {
+        script {
+          docker.build('node-webtest', '-f build/playwright/Dockerfile .').inside {
+            sh 'npm run update:axonivy:next'
+            sh 'npm run ci:prepare'
+            dir ('playwright/neo-test-project') {
+              maven cmd: "-ntp verify -Dengine.page.url=${params.engineSource} -Dwebtest.cmd=webtest:screenshots"
+            }
+          }
+          archiveArtifacts artifacts: 'playwright/test-results/**', allowEmptyArchive: true
+          archiveArtifacts artifacts: 'playwright/neo-test-project/target/**/ivy.log', allowEmptyArchive: true
+          archiveArtifacts artifacts: 'playwright/neo-test-project/target/screenshots/**', allowEmptyArchive: true
+          withChecks('Screenshots') {
+            junit testDataPublishers: [[$class: 'StabilityTestDataPublisher']], testResults: 'node_modules/**/report.xml'
+          }
+        }
+      }
+    }
+    stage('Deploy') {
+      when {
+        expression { isReleasingBranch() && currentBuild.currentResult == 'SUCCESS' }
+      }
+      steps {
+        script {
+          docker.image('maven:3.8.6-eclipse-temurin-17').inside {
+            maven cmd: '-ntp -f playwright/tests/screenshots deploy -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
+          }
+          archiveArtifacts 'playwright/tests/**/target/neo-designer-screenshots-*.zip'
+        }
+      }
+    }
+  }
+}

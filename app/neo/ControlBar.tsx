@@ -1,9 +1,9 @@
 import { Button, Flex, IvyIcon, Popover, PopoverContent, PopoverTrigger, Tabs, TabsList, TabsTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useLocation, useNavigate } from '@remix-run/react';
+import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import IvyLogoSVG from './axonivy.svg?react';
 import { Editor, useEditors } from './editors/useEditors';
-import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 
 const EditorTab = ({ icon, name, id }: Editor) => {
   const active = useLocation().pathname === id;
@@ -111,7 +111,7 @@ export const EditorsControl = () => {
 
 export const ControlBar = ({ children }: { children?: ReactNode }) => {
   return (
-    <Flex style={{ height: '40px', borderBottom: 'var(--basic-border)', background: 'var(--N50)' }}>
+    <Flex style={{ height: '40px', borderBottom: 'var(--basic-border)', background: 'var(--N50)' }} className='control-bar'>
       <Flex alignItems='center' gap={4} style={{ paddingInline: 'var(--size-3)', borderInlineEnd: 'var(--basic-border)' }}>
         <Link to='/' prefetch='intent' style={{ all: 'unset' }}>
           <Button size='large' style={{ aspectRatio: 1, padding: 0 }}>

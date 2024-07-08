@@ -7,18 +7,16 @@ import {
   DialogHeader,
   DialogTitle,
   Fieldset,
-  Flex,
-  Input,
-  SearchInput,
-  Spinner
+  Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useNavigate } from '@remix-run/react';
 import { useState } from 'react';
-import { useWorkspaces, useDeleteWorkspace, useCreateWorkspace, Workspace } from '~/data/workspace-api';
+import { useCreateWorkspace, useDeleteWorkspace, useWorkspaces, Workspace } from '~/data/workspace-api';
 import { ControlBar } from '~/neo/ControlBar';
-import { ArtifactCard, NewArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
+import { Overview } from '~/neo/Overview';
+import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 
 export const links: LinksFunction = cardLinks;
 
@@ -33,25 +31,18 @@ export default function Index() {
   return (
     <>
       <ControlBar />
-      <Flex direction='column' gap={4} style={{ padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }}>
-        <span style={{ fontWeight: 600, fontSize: 16 }}>Welcome to Axon Ivy NEO Designer</span>
-        <Flex direction='row' alignItems='center' justifyContent='space-between'>
-          <span style={{ fontWeight: 600, fontSize: 14 }}>Please choose a workspace or create one</span>
-        </Flex>
-        <SearchInput value={search} onChange={setSearch} />
-        <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-          {isPending ? (
-            <Spinner size='small' />
-          ) : (
-            <>
-              <NewWorkspaceCard />
-              {workspaces.map(workspace => (
-                <WorkspaceCard key={workspace.name} {...workspace} />
-              ))}
-            </>
-          )}
-        </Flex>
-      </Flex>
+      <Overview
+        title='Welcome to Axon Ivy NEO Designer'
+        description='Please choose a workspace or create one'
+        search={search}
+        onSearchChange={setSearch}
+        isPending={isPending}
+      >
+        <NewWorkspaceCard />
+        {workspaces.map(workspace => (
+          <WorkspaceCard key={workspace.name} {...workspace} />
+        ))}
+      </Overview>
     </>
   );
 }

@@ -4,7 +4,8 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "ci": "npm install && npm run type && npm run lint:ci && npm run test:ci && npm run build:editor && npm run build",
+    "ci": "npm run ci:prepare && npm run type && npm run lint:ci && npm run test:ci && npm run build",
+    "ci:prepare": "npm install && npm run build:editor",
     "build": "remix vite:build",
     "dev": "remix vite:dev",
     "dev:debug": "export DEBUG=vite:* && remix vite:dev",
@@ -15,7 +16,8 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:ci": "vitest --watch=false",
-    "type": "tsc && npm run -w webviews/process-editor type",
+    "playwright": "npm run -w playwright --",
+    "type": "tsc && npm run -w webviews/process-editor type && npm run -w playwright type",
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
   "dependencies": {
@@ -62,6 +64,7 @@
     "node": ">=20.0.0"
   },
   "workspaces": [
-    "webviews/process-editor"
+    "webviews/process-editor",
+    "playwright"
   ]
 }

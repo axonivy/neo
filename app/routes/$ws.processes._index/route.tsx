@@ -1,13 +1,13 @@
-import { Flex, SearchInput, Spinner } from '@axonivy/ui-components';
 import { MetaFunction } from '@remix-run/node';
-import { useState } from 'react';
-import { useProcesses, useDeleteProcess, useCreateProcess, Process } from '~/data/process-api';
-import { ProjectIdentifier } from '~/data/project-api';
-import { ArtifactCard, NewArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
-import { useEditors, createProcessEditor } from '~/neo/editors/useEditors';
-import ProcessPreviewSVG from './process-preview.svg?react';
 import { useParams } from '@remix-run/react';
+import { useState } from 'react';
+import { ProcessIdentifier, useCreateProcess, useDeleteProcess, useProcesses } from '~/data/process-api';
+import { ProjectIdentifier } from '~/data/project-api';
+import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { createProcessEditor, Editor, useEditors } from '~/neo/editors/useEditors';
+import { Overview } from '~/neo/Overview';
+import ProcessPreviewSVG from './process-preview.svg?react';
 
 export const links = cardLinks;
 
@@ -18,38 +18,28 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useProcesses();
+  const ws = useParams().ws ?? 'designer';
   const processes = data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   return (
-    <Flex direction='column' gap={4} style={{ padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }}>
-      <span style={{ fontWeight: 600, fontSize: 16 }}>Processes</span>
-      <SearchInput value={search} onChange={setSearch} />
-      <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-        {isPending ? (
-          <Spinner size='small' />
-        ) : (
-          <>
-            <NewProcessCard />
-            {processes.map(process => (
-              <ProcessCard key={process.path ?? process.name} {...process} />
-            ))}
-          </>
-        )}
-      </Flex>
-    </Flex>
+    <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
+      <NewProcessCard />
+      {processes.map(process => {
+        const editor = createProcessEditor({ ws, ...process });
+        return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
+      })}
+    </Overview>
   );
 }
 
-const ProcessCard = (process: Process) => {
+export const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
   const { deleteProcess } = useDeleteProcess();
   const { openEditor, removeEditor } = useEditors();
-  const ws = useParams().ws ?? 'designer';
-  const editor = createProcessEditor({ ws, ...process });
   const open = () => {
     openEditor(editor);
   };
   const deleteAction = () => {
     removeEditor(editor.id);
-    deleteProcess(process.processIdentifier);
+    deleteProcess(processId);
   };
   return (
     <ArtifactCard name={editor.name} type='process' preview={<ProcessPreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />
