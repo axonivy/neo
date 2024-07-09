@@ -1,18 +1,18 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { ProjectIdentifier } from '~/data/project-api';
 import {
+  Button,
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  Flex,
   Fieldset,
-  Input,
-  DialogFooter,
-  DialogClose,
-  Button
+  Flex,
+  Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { ProjectIdentifier } from '~/data/project-api';
 import { ProjectSelect } from './ProjectSelect';
 
 export type NewArtifact = {
@@ -37,7 +37,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const [newArtifact, setNewArtifact] = useState<NewArtifact>();
 
   const [name, setName] = useState('');
-  const [namespace, setNamespace] = useState('Neo');
+  const [namespace, setNamespace] = useState('neo');
   const [project, setProject] = useState<ProjectIdentifier>();
 
   useEffect(() => {

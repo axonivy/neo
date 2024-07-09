@@ -80,6 +80,8 @@ export const SettingsMenu = () => {
         <DropdownMenuItem
           onClick={() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'system' : 'dark')}
           style={{ textTransform: 'capitalize' }}
+          aria-label='Theme switch'
+          data-state={theme}
         >
           <IvyIcon icon={IvyIcons.DarkMode} />
           {theme}

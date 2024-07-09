@@ -26,7 +26,7 @@ pipeline {
             }
           }
           archiveArtifacts artifacts: 'playwright/test-results/**', allowEmptyArchive: true
-          archiveArtifacts artifacts: 'playwright/neo-test-project/target/**/ivy.log', allowEmptyArchive: true
+          archiveArtifacts artifacts: 'playwright/.ivy-engine/logs/ivy.log', allowEmptyArchive: true
           archiveArtifacts artifacts: 'playwright/neo-test-project/target/screenshots/**', allowEmptyArchive: true
           withChecks('Screenshots') {
             junit testDataPublishers: [[$class: 'StabilityTestDataPublisher']], testResults: 'node_modules/**/report.xml'
