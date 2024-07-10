@@ -3,7 +3,7 @@ import { expect, FrameLocator, type Locator, type Page } from '@playwright/test'
 export class Browser {
   protected readonly page: Page;
   protected readonly browser: Locator;
-  protected readonly browserView: FrameLocator;
+  readonly browserView: FrameLocator;
 
   constructor(page: Page) {
     this.page = page;

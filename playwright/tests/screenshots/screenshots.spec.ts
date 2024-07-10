@@ -14,7 +14,7 @@ test.describe('screenshots', () => {
     await Neo.open(page);
     const overview = new Overview(page);
     await expect(overview.title).toHaveText(/Welcome/);
-    await overview.waitForHiddenSpinner();
+    await overview.expectCardsCountGreaterThan(0);
     await screenshot(page, 'home.png');
   });
 
@@ -28,8 +28,7 @@ test.describe('screenshots', () => {
     const neo = await Neo.openWorkspace(page);
     const overview = await neo.processes();
     await overview.card('quickstart').click();
-    await neo.controlBar.tab('quickstart').expectActive();
-    await new ProcessEditor(page, 'quickstart').waitForOpen('1907DDB3CA766818-f0');
+    await new ProcessEditor(neo, 'quickstart').waitForOpen('1907DDB3CA766818-f0');
     await screenshot(page, 'process-editor.png');
   });
 
@@ -43,8 +42,7 @@ test.describe('screenshots', () => {
     const neo = await Neo.openWorkspace(page);
     const overview = await neo.forms();
     await overview.card('EnterProduct').click();
-    await neo.controlBar.tab('EnterProduct').expectActive();
-    await new FormEditor(page, 'EnterProduct').waitForOpen('Product');
+    await new FormEditor(neo, 'EnterProduct').waitForOpen('Product');
     await screenshot(page, 'form-editor.png');
   });
 
@@ -54,12 +52,11 @@ test.describe('screenshots', () => {
     await screenshot(page, 'configs.png');
   });
 
-  test.skip('variable editor', async ({ page }) => {
+  test('variable editor', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const overview = await neo.configs();
     await overview.card(/neo-test-project/).click();
-    await neo.controlBar.tab('variables').expectActive();
-    await new VariableEditor(page, 'variables').waitForOpen('MyVar');
+    await new VariableEditor(neo, 'variables').waitForOpen('MyVar');
     await screenshot(page, 'variable-editor.png');
   });
 

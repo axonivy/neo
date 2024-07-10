@@ -27,7 +27,7 @@ pipeline {
             }
           }
           archiveArtifacts artifacts: 'playwright/test-results/**', allowEmptyArchive: true
-          archiveArtifacts artifacts: 'playwright/glsp-test-project/target/**/ivy.log', allowEmptyArchive: true
+          archiveArtifacts artifacts: 'playwright/.ivy-engine/logs/ivy.log', allowEmptyArchive: true
           withChecks('Integration WebTest') {
             junit testDataPublishers: [[$class: 'StabilityTestDataPublisher']], testResults: 'node_modules/**/report.xml'
           }

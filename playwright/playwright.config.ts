@@ -6,6 +6,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['./custom-reporter.ts'], ['junit', { outputFile: 'report.xml' }], ['list']] : 'html',
+  workers: process.env.CI ? 1 : undefined,
   use: {
     actionTimeout: 0,
     baseURL: 'http://localhost:5173/neo/',

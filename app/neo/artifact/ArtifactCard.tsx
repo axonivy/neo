@@ -10,9 +10,9 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { LinksFunction } from '@remix-run/node';
+import { ReactNode } from 'react';
 import cardStyles from './card.css?url';
 import { DeleteConfirm } from './DeleteConfirm';
-import { ReactNode } from 'react';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 

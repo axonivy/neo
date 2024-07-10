@@ -8,7 +8,7 @@ import { Overview } from './overview';
 export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations';
 
 export class Neo {
-  protected readonly page: Page;
+  readonly page: Page;
   readonly navigation: Navigation;
   readonly controlBar: ControlBar;
 
@@ -25,6 +25,11 @@ export class Neo {
 
   static async openWorkspace(page: Page) {
     await page.goto(`/neo/${process.env.WORKSPACE ?? 'designer'}/`);
+    return await Neo.createNeo(page);
+  }
+
+  static async openEditor(page: Page, url: string) {
+    await page.goto(`/neo/${process.env.WORKSPACE ?? 'designer'}/${url}`);
     return await Neo.createNeo(page);
   }
 
@@ -59,8 +64,7 @@ export class Neo {
     await this.navigation.open(path);
     const overview = new Overview(this.page);
     await expect(overview.title).toHaveText(path);
-    await overview.waitForHiddenSpinner();
-    await expect.poll(async () => overview.cards.count()).toBeGreaterThan(0);
+    await overview.expectCardsCountGreaterThan(0);
     return overview;
   }
 }

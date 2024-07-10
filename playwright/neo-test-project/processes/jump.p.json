@@ -28,7 +28,7 @@
       "type" : "TriggerCall",
       "name" : "info",
       "config" : {
-        "processCall" : "jump:triggerStart()"
+        "processCall" : "quickstart:start()"
       },
       "visual" : {
         "at" : { "x" : 544, "y" : 64 }
@@ -100,23 +100,6 @@
       },
       "connect" : [
         { "id" : "f12", "to" : "f1" }
-      ]
-    }, {
-      "id" : "f2",
-      "type" : "RequestStart",
-      "name" : "triggerStart",
-      "config" : {
-        "signature" : "triggerStart",
-        "request" : {
-          "isVisibleOnStartList" : false
-        },
-        "triggerable" : true
-      },
-      "visual" : {
-        "at" : { "x" : 544, "y" : 160 }
-      },
-      "connect" : [
-        { "id" : "f9", "to" : "f1", "via" : [ { "x" : 832, "y" : 160 } ] }
       ]
     } ]
 }

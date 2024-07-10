@@ -21,6 +21,17 @@ export class Navigation {
     const settings = this.navBar.getByRole('button', { name: 'Settings' });
     await expect(settings).toHaveAttribute('data-state', 'closed');
     await settings.click();
-    await expect(this.page.getByRole('menu')).toHaveAttribute('data-state', 'open');
+    const settingsMenu = this.page.getByRole('menu');
+    await expect(settingsMenu).toHaveAttribute('data-state', 'open');
+    return settingsMenu;
+  }
+
+  async changeTheme(theme: 'light' | 'dark') {
+    const menu = await this.openSettings();
+    const themeSwitch = menu.getByRole('menuitem', { name: 'Theme switch' });
+    await expect(themeSwitch).toBeVisible();
+    if ((await themeSwitch.getAttribute('data-state')) !== theme) {
+      await themeSwitch.click();
+    }
   }
 }

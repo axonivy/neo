@@ -1,18 +1,44 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { expect, type Locator } from '@playwright/test';
+import { Inscription } from './inscription';
+import { Neo } from './neo';
 
 export class VariableEditor {
-  protected readonly page: Page;
-  protected readonly editor: Locator;
+  readonly editor: Locator;
 
-  constructor(page: Page, name: string) {
-    this.page = page;
-    this.editor = page.locator(`.variable-editor[data-editor-name="${name}"]`);
+  constructor(readonly neo: Neo, readonly name: string) {
+    this.editor = neo.page.locator(`.variable-editor[data-editor-name="${name}"]`);
   }
 
   async waitForOpen(variable?: string) {
+    await this.neo.controlBar.tab(this.name).expectActive();
     await expect(this.editor).toBeVisible();
     if (variable) {
-      await expect(this.editor.locator(`.ui-table-row:has-text("${variable}")`)).toBeVisible();
+      await expect(this.rowByName(variable).row).toBeVisible();
     }
+  }
+
+  rowByName(name: string) {
+    return new VariableEditorRow(this, name);
+  }
+}
+
+export class VariableEditorRow {
+  readonly row: Locator;
+
+  constructor(readonly editor: VariableEditor, readonly name: string) {
+    this.row = editor.editor.locator(`.ui-table-row:has-text("${name}")`);
+  }
+
+  async openInscription() {
+    await this.row.click();
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator(`.details-container`));
+  }
+
+  async expectSelected() {
+    await expect(this.row).toHaveAttribute('data-state', 'selected');
+  }
+
+  async expectValue(value: string) {
+    await expect(this.row.getByRole('cell').last()).toHaveText(value);
   }
 }

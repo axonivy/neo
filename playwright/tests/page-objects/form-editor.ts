@@ -1,21 +1,47 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { expect, type Locator } from '@playwright/test';
+import { Inscription } from './inscription';
+import { Neo } from './neo';
 
 export class FormEditor {
-  protected readonly page: Page;
-  protected readonly editor: Locator;
-  protected readonly canvas: Locator;
+  readonly editor: Locator;
+  readonly canvas: Locator;
 
-  constructor(page: Page, name: string) {
-    this.page = page;
-    this.editor = page.locator(`.form-editor[data-editor-name="${name}"]`);
+  constructor(readonly neo: Neo, readonly name: string) {
+    this.editor = neo.page.locator(`.form-editor[data-editor-name="${name}"]`);
     this.canvas = this.editor.locator('#canvas');
   }
 
   async waitForOpen(block?: string) {
+    await this.neo.controlBar.tab(this.name).expectActive();
     await expect(this.editor).toBeVisible();
     await expect(this.canvas).toBeVisible();
     if (block) {
-      await expect(this.canvas.locator(`.block-input:has-text("${block}")`)).toBeVisible();
+      await expect(this.blockByName(block).block).toBeVisible();
     }
+  }
+
+  blockByName(name: string) {
+    return new FormEditorBlock(this, name);
+  }
+}
+
+export class FormEditorBlock {
+  readonly block: Locator;
+
+  constructor(readonly editor: FormEditor, readonly name: string) {
+    this.block = editor.canvas.locator(`.draggable:has-text("${name}")`);
+  }
+
+  async openInscription() {
+    await this.block.click();
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator(`.properties`));
+  }
+
+  async expectSelected() {
+    await expect(this.block).toHaveClass(/selected/);
+  }
+
+  async expectInputValue(value: string) {
+    await expect(this.block.getByRole('textbox')).toHaveValue(value);
   }
 }

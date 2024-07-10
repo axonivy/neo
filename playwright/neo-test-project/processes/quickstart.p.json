@@ -9,7 +9,11 @@
       "type" : "RequestStart",
       "name" : "start.ivp",
       "config" : {
-        "signature" : "start"
+        "signature" : "start",
+        "triggerable" : true,
+        "task" : {
+          "name" : "Enter Product Task"
+        }
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
