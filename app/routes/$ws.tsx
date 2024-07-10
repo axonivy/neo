@@ -4,9 +4,10 @@ import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import { ControlBar, EditorTabs, EditorsControl } from '~/neo/ControlBar';
 import { Navigation } from '~/neo/Navigation';
+import { cardLinks } from '~/neo/artifact/ArtifactCard';
 import { WebBrowser } from '~/neo/browser/WebBrowser';
 import { useWebBrowser } from '~/neo/browser/useWebBrowser';
-import { cardLinks } from '~/neo/artifact/ArtifactCard';
+import { NeoClientProvider } from '~/neo/client/useNeoClient';
 import { renderEditor, useEditors } from '~/neo/editors/useEditors';
 
 export const links: LinksFunction = cardLinks;
@@ -19,7 +20,7 @@ export default function Index() {
   const { editors } = useEditors();
   const { browser } = useWebBrowser();
   return (
-    <>
+    <NeoClientProvider>
       <ControlBar>
         <>
           <EditorTabs />
@@ -48,6 +49,6 @@ export default function Index() {
           <WebBrowser />
         </ResizablePanel>
       </ResizablePanelGroup>
-    </>
+    </NeoClientProvider>
   );
 }

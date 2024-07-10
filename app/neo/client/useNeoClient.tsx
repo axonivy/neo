@@ -1,17 +1,45 @@
-import { createContext, useContext } from 'react';
-import { createProcessEditor, useEditors } from '~/neo/editors/useEditors';
+import { urlBuilder } from '@axonivy/jsonrpc/lib/connection-util';
 import { useLocation, useNavigate, useParams } from '@remix-run/react';
-import { AnimationFollowMode } from '../settings/useSettings';
+import { createContext, useContext, useEffect, useRef } from 'react';
+import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from 'vscode-ws-jsonrpc';
+import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
 import { NeoClient } from '~/data/neo-protocol';
+import { useWorkspace } from '~/data/workspace-api';
+import { wsBaseUrl } from '~/data/ws-base';
+import { createProcessEditor, useEditors } from '~/neo/editors/useEditors';
+import { AnimationFollowMode } from '../settings/useSettings';
 
 type NeoClientProviderState = {
-  client: NeoClient;
+  client: React.MutableRefObject<NeoClient | undefined>;
 };
 
-const NeoClientProviderContext = createContext<NeoClientProviderState | undefined>(undefined);
+export const NeoClientProviderContext = createContext<NeoClientProviderState | undefined>(undefined);
 
-export const NeoClientProvider = ({ children, ...context }: NeoClientProviderState & { children: React.ReactNode }) => {
-  return <NeoClientProviderContext.Provider value={context}>{children}</NeoClientProviderContext.Provider>;
+export const NeoClientProvider = ({ children }: { children: React.ReactNode }) => {
+  const workspace = useWorkspace();
+  const client = useRef<NeoClient>();
+  const connection = useRef<WebSocket>();
+  useEffect(() => {
+    if (!workspace) return;
+    const webSocketUrl = urlBuilder(wsBaseUrl(), `${workspace.baseUrl}/ivy-neo-lsp`);
+    const webSocket = new WebSocket(webSocketUrl);
+    webSocket.onopen = async () => {
+      const socket = toSocket(webSocket);
+      const reader = new WebSocketMessageReader(socket);
+      const writer = new WebSocketMessageWriter(socket);
+      NeoClientJsonRpc.startClient({ reader, writer }).then(neoClient => {
+        client.current = neoClient;
+      });
+    };
+    connection.current = webSocket;
+    webSocket.onerror = () => console.log('Connection could not be established.');
+    return () => {
+      connection.current?.close();
+      client.current?.stop();
+      connection.current = undefined;
+    };
+  }, [workspace]);
+  return <NeoClientProviderContext.Provider value={{ client }}>{children}</NeoClientProviderContext.Provider>;
 };
 
 export const useNeoClient = (mode: AnimationFollowMode) => {
@@ -22,7 +50,7 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
   const ws = useParams().ws ?? 'designer';
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
-  client.onOpenEditor.set(process => {
+  client.current?.onOpenEditor.set(process => {
     const editor = createProcessEditor({ ws, ...process });
     switch (mode) {
       case 'all':
@@ -49,5 +77,5 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
     }
     //TODO: wait on editor to be ready
   });
-  return client;
+  return client.current;
 };

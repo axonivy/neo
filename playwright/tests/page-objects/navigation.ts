@@ -34,4 +34,20 @@ export class Navigation {
       await themeSwitch.click();
     }
   }
+
+  async enableAnimation() {
+    const menu = await this.openSettings();
+    const animationSwitch = menu.getByRole('menuitemcheckbox', { name: 'Toggle animation' });
+    await expect(animationSwitch).toBeVisible();
+    if ((await animationSwitch.getAttribute('data-state')) !== 'checked') {
+      await animationSwitch.click();
+    }
+  }
+
+  async changeAnimationSpeed(speed: '0' | '25' | '50' | '75' | '100') {
+    const menu = await this.openSettings();
+    const speedTrigger = menu.getByRole('menuitem', { name: 'Speed' });
+    await speedTrigger.click();
+    await this.page.getByRole('menu').last().getByRole('menuitemradio', { name: speed, exact: true }).click();
+  }
 }

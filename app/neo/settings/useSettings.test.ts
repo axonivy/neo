@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
-import { useSettings } from './useSettings';
 import { useNeoClient } from '../client/useNeoClient';
+import { useSettings } from './useSettings';
 
 vi.mock('~/neo/client/useNeoClient', () => {
   const animationSettingsFn = vi.fn();
@@ -14,7 +14,7 @@ afterEach(() => {
 });
 
 describe('useSettings', () => {
-  const { animationSettings } = useNeoClient('all');
+  const { animationSettings } = useNeoClient('all')!;
 
   it('default settings', () => {
     const { result } = renderHook(() => useSettings());
