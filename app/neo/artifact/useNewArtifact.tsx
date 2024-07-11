@@ -60,13 +60,24 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
               <DialogTitle>{newArtifact.title}</DialogTitle>
             </DialogHeader>
             <Flex direction='column' gap={2}>
-              <Fieldset label='Name'>
-                <Input value={name} onChange={e => setName(e.target.value)} />
-              </Fieldset>
-              <Fieldset label='Namespace'>
-                <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
-              </Fieldset>
-              {newArtifact.project ? <></> : <ProjectSelect setProject={setProject} />}
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  newArtifact.create(name, namespace, project, newArtifact.pid);
+                  close();
+                }}
+              >
+                <Fieldset label='Name'>
+                  <Input value={name} onChange={e => setName(e.target.value)} />
+                </Fieldset>
+                <Fieldset label='Namespace'>
+                  <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
+                </Fieldset>
+                {newArtifact.project ? <></> : <ProjectSelect setProject={setProject} />}
+                <button style={{ display: 'none' }} type='submit'>
+                  Create
+                </button>
+              </form>
             </Flex>
             <DialogFooter>
               <DialogClose asChild>
@@ -79,7 +90,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                 </Button>
               </DialogClose>
               <DialogClose asChild>
-                <Button icon={IvyIcons.Close} variant='outline'>
+                <Button icon={IvyIcons.Close} variant='outline' type='submit'>
                   Cancel
                 </Button>
               </DialogClose>

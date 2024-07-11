@@ -1,4 +1,4 @@
-import { Button, Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Toaster } from '@axonivy/ui-components';
+import { Button, Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
@@ -42,7 +42,6 @@ export default function Index() {
               {editors.map(renderEditor)}
             </div>
           </Flex>
-          <Toaster closeButton={true} />
         </ResizablePanel>
         <ResizableHandle style={{ width: 3, backgroundColor: 'var(--N200)' }} />
         <ResizablePanel ref={browser.panelRef} id='Browser' collapsible defaultSize={0} maxSize={70} minSize={10}>

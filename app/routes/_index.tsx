@@ -69,9 +69,16 @@ const NewWorkspaceCard = () => {
           <DialogHeader>
             <DialogTitle>Create new Workspace</DialogTitle>
           </DialogHeader>
-          <Fieldset label='Name'>
-            <Input value={name} onChange={e => setName(e.target.value)} />
-          </Fieldset>
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              create(name);
+            }}
+          >
+            <Fieldset label='Name'>
+              <Input value={name} onChange={e => setName(e.target.value)} />
+            </Fieldset>
+          </form>
           <DialogFooter>
             <DialogClose asChild>
               <Button icon={IvyIcons.Plus} variant='primary' onClick={() => create(name)}>
