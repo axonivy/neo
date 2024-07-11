@@ -36,7 +36,7 @@ pipeline {
       }
       steps {
         script {
-          docker.image('maven:3.8.6-eclipse-temurin-17').inside {
+          docker.image('maven:3.9.8-eclipse-temurin-21').inside {
             maven cmd: '-ntp clean deploy -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
           }
           archiveArtifacts 'target/neo-designer-*.jar'
