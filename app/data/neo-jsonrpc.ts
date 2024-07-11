@@ -1,7 +1,8 @@
-import { BaseRpcClient, urlBuilder, createWebSocketConnection, Connection, createMessageConnection, Disposable } from '@axonivy/jsonrpc';
-import { Process } from './process-api';
-import { wsBaseUrl } from './ws-base';
+import { BaseRpcClient } from '@axonivy/jsonrpc/lib/base-rpc-client';
+import { Connection } from '@axonivy/jsonrpc/lib/connection-util';
+import { createMessageConnection, Disposable } from '@axonivy/jsonrpc/lib/re-exports';
 import { Callback, NeoClient } from './neo-protocol';
+import { Process } from './process-api';
 
 export interface NeoOnNotificationTypes {}
 
@@ -46,12 +47,6 @@ export class NeoClientJsonRpc extends BaseRpcClient implements NeoClient {
 
   onRequest<K extends keyof NeoOnRequestTypes>(kind: K, listener: (args: NeoOnRequestTypes[K][0]) => NeoOnRequestTypes[K][1]): Disposable {
     return this.connection.onRequest(kind, listener);
-  }
-
-  public static async startWebSocketClient(): Promise<NeoClient> {
-    const webSocketUrl = urlBuilder(wsBaseUrl(), 'ivy-neo-lsp');
-    const connection = await createWebSocketConnection(webSocketUrl);
-    return NeoClientJsonRpc.startClient(connection);
   }
 
   public static async startClient(connection: Connection): Promise<NeoClient> {

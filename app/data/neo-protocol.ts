@@ -1,4 +1,4 @@
-import type { Disposable } from '@axonivy/jsonrpc';
+import type { Disposable } from '@axonivy/jsonrpc/lib/re-exports';
 import { AnimationSettings } from './neo-jsonrpc';
 import { Process } from './process-api';
 
@@ -21,4 +21,6 @@ export class Callback<T, R = void> implements Disposable {
 export interface NeoClient {
   onOpenEditor: Callback<Process, boolean>;
   animationSettings(settings: AnimationSettings): void;
+
+  stop(): void;
 }

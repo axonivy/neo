@@ -13,6 +13,10 @@ export class ControlBar {
     return new EditorTab(this.page, this.bar, name);
   }
 
+  tabs() {
+    return this.bar.getByRole('tab');
+  }
+
   async toggleBrowser() {
     const button = this.bar.getByRole('button', { name: 'Run process' });
     await button.click();

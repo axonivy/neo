@@ -7,18 +7,12 @@
 import { RemixBrowser } from '@remix-run/react';
 import { startTransition, StrictMode } from 'react';
 import { hydrateRoot } from 'react-dom/client';
-import { NeoClientProvider } from './neo/client/useNeoClient';
-import { NeoClientJsonRpc } from './data/neo-jsonrpc';
-
-const neoClient = await NeoClientJsonRpc.startWebSocketClient();
 
 startTransition(() => {
   hydrateRoot(
     document,
     <StrictMode>
-      <NeoClientProvider client={neoClient}>
-        <RemixBrowser />
-      </NeoClientProvider>
+      <RemixBrowser />
     </StrictMode>
   );
 });

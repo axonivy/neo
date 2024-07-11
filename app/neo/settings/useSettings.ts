@@ -1,8 +1,8 @@
+import { useCallback, useEffect } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { AnimationSettings } from '~/data/neo-jsonrpc';
 import { useNeoClient } from '~/neo/client/useNeoClient';
-import { useCallback, useEffect } from 'react';
 
 export type AnimationFollowMode = 'all' | 'currentProcess' | 'openProcesses' | 'noDialogProcesses' | 'noEmbeddedProcesses';
 
@@ -29,7 +29,7 @@ export const useSettings = () => {
   const { animation, enable, speed, mode } = useStore();
   const client = useNeoClient(animation.mode);
   useEffect(() => {
-    client.animationSettings(animation);
+    client?.animationSettings(animation);
   }, [animation, client]);
   const animationSpeed = useCallback((value: string) => speed(parseInt(value)), [speed]);
   return { animation, enableAnimation: enable, animationSpeed, animationMode: mode };

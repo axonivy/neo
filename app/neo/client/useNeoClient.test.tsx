@@ -1,11 +1,11 @@
-import { act, renderHook } from '@testing-library/react';
-import { NeoClientProvider, useNeoClient } from './useNeoClient';
 import { useLocation, useNavigate } from '@remix-run/react';
+import { act, renderHook } from '@testing-library/react';
 import { Mock } from 'vitest';
+import { Callback, NeoClient } from '~/data/neo-protocol';
 import { Process } from '~/data/process-api';
-import { NeoClient, Callback } from '~/data/neo-protocol';
 import { createProcessEditor, useEditors } from '../editors/useEditors';
 import { AnimationFollowMode } from '../settings/useSettings';
+import { NeoClientProviderContext, useNeoClient } from './useNeoClient';
 
 vi.mock('@remix-run/react', async importOriginal => {
   const navigateFn = vi.fn();
@@ -58,30 +58,31 @@ describe('useNeoClient', () => {
   const renderNeoClientHook = (mode: AnimationFollowMode) => {
     const mockClient: NeoClient = {
       onOpenEditor: new Callback<Process, boolean>(),
-      animationSettings: vi.fn()
+      animationSettings: vi.fn(),
+      stop: vi.fn()
     };
 
     return renderHook(() => useNeoClient(mode), {
-      wrapper: ({ children }) => <NeoClientProvider client={mockClient}>{children}</NeoClientProvider>
+      wrapper: props => <NeoClientProviderContext.Provider value={{ client: { current: mockClient } }} {...props} />
     });
   };
 
   it('all', async () => {
     const { result } = renderNeoClientHook('all');
-    const shouldAnimate = await act(() => result.current.onOpenEditor.call(process));
+    const shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.true;
     expect(useNavigate()).toHaveBeenLastCalledWith('/designer/processes/designer/glsp-test-project/info');
   });
 
   it('current process', async () => {
     const { result, rerender } = renderNeoClientHook('currentProcess');
-    let shouldAnimate = await act(() => result.current.onOpenEditor.call(process));
+    let shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.false;
     expect(useNavigate()).toBeCalledTimes(0);
 
     locationFn.mockImplementation(() => ({ pathname: '/designer/processes/designer/glsp-test-project/info' }));
     rerender();
-    shouldAnimate = await act(() => result.current.onOpenEditor.call(process));
+    shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.true;
     expect(useNavigate()).toBeCalledTimes(0);
   });
@@ -89,7 +90,7 @@ describe('useNeoClient', () => {
   it('open processes - closed', async () => {
     locationFn.mockImplementation(() => ({}));
     const { result } = renderNeoClientHook('openProcesses');
-    let shouldAnimate = await act(() => result.current.onOpenEditor.call(process));
+    let shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.false;
     expect(useNavigate()).toBeCalledTimes(0);
 
@@ -100,18 +101,18 @@ describe('useNeoClient', () => {
     } = renderHook(() => useEditors());
     act(() => openEditor(createProcessEditor({ ws: 'designer', ...process })));
 
-    shouldAnimate = await act(() => result.current.onOpenEditor.call(process));
+    shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.true;
     expect(useNavigate()).toBeCalledTimes(2);
   });
 
   it('no dialog processes', async () => {
     const { result } = renderNeoClientHook('noDialogProcesses');
-    let shouldAnimate = await act(() => result.current.onOpenEditor.call(hdProcess));
+    let shouldAnimate = await act(() => result.current?.onOpenEditor.call(hdProcess));
     expect(shouldAnimate).to.be.false;
     expect(useNavigate()).toBeCalledTimes(0);
 
-    shouldAnimate = await act(() => result.current.onOpenEditor.call(process));
+    shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.true;
     expect(useNavigate()).toBeCalledTimes(1);
   });

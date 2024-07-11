@@ -23,4 +23,9 @@ export class Browser {
   async expectClosed() {
     await expect(this.browser).toBeHidden();
   }
+
+  async startProcess(name: string) {
+    await this.browserView.locator(`#menuform\\:sr_starts`).click();
+    await this.browserView.locator(`.start-link:has-text("${name}")`).click();
+  }
 }

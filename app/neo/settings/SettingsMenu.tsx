@@ -38,22 +38,32 @@ export const SettingsMenu = () => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuLabel>Animation</DropdownMenuLabel>
-          <DropdownMenuCheckboxItem checked={animation.animate} onCheckedChange={enableAnimation}>
-            Enable
+          <DropdownMenuCheckboxItem checked={animation.animate} onCheckedChange={enableAnimation} aria-label='Toggle animation'>
+            Enabled
           </DropdownMenuCheckboxItem>
           <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
+            <DropdownMenuSubTrigger aria-label='Animation speed'>
               <IvyIcon icon={IvyIcons.Clock} />
               <span>Speed</span>
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
                 <DropdownMenuRadioGroup value={animation.speed.toString()} onValueChange={animationSpeed}>
-                  <DropdownMenuRadioItem value='0'>0</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value='25'>25</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value='50'>50</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value='75'>75</DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value='100'>100</DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value='0' aria-label='0'>
+                    0
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value='25' aria-label='25'>
+                    25
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value='50' aria-label='50'>
+                    50
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value='75' aria-label='75'>
+                    75
+                  </DropdownMenuRadioItem>
+                  <DropdownMenuRadioItem value='100' aria-label='100'>
+                    100
+                  </DropdownMenuRadioItem>
                 </DropdownMenuRadioGroup>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>

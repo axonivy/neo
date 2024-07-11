@@ -49,7 +49,7 @@ test('switch theme', async ({ page }) => {
   await expect(monacoTheme).toHaveClass(/vs-dark/);
 });
 
-test('start process', async ({ page, browserName }) => {
+test('start from process - without animation', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException instead of the form dialog');
   const { neo, editor } = await openQuickStartProcess(page);
   await editor.waitForOpen('1907DDB3CA766818-f0');
@@ -59,6 +59,17 @@ test('start process', async ({ page, browserName }) => {
   const browser = await neo.browser();
   await browser.expectOpen();
   await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText('Enter Product Task');
+});
+
+test('start from browser - with animation', async ({ page, browserName }) => {
+  test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException instead of the form dialog');
+  const neo = await Neo.openWorkspace(page);
+  await expect(neo.controlBar.tabs()).toHaveCount(0);
+  await neo.navigation.enableAnimation();
+  await neo.navigation.changeAnimationSpeed('0');
+  const browser = await neo.browser();
+  await browser.startProcess('jump/start.ivp');
+  await expect(neo.controlBar.tabs()).toHaveCount(3, { timeout: 10000 });
 });
 
 test.describe('jump to process', () => {
