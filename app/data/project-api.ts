@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { get } from './engine-api';
 import { toast } from '@axonivy/ui-components';
+import { useQuery } from '@tanstack/react-query';
+import { headers, ok } from './custom-fetch';
+import { projects } from './generated/openapi-dev';
 import { useWorkspace } from './workspace-api';
 
 export type ProjectIdentifier = {
@@ -10,20 +11,19 @@ export type ProjectIdentifier = {
 
 export const useProjectsApi = () => {
   const ws = useWorkspace();
-  return { queryKey: ['neo', ws?.id, 'projects'], apiUrl: { url: 'projects', base: ws?.baseUrl } };
+  return { queryKey: ['neo', ws?.id, 'projects'], base: ws?.baseUrl };
 };
 
 export const useProjects = () => {
-  const { queryKey, apiUrl } = useProjectsApi();
+  const { queryKey, base } = useProjectsApi();
   return useQuery({
     queryKey,
     queryFn: () =>
-      get(apiUrl).then(res => {
-        if (res?.ok) {
-          return res.json() as Promise<Array<ProjectIdentifier>>;
-        } else {
-          toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
+      projects({ headers: headers(base) }).then(res => {
+        if (ok(res)) {
+          return res.data;
         }
+        toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
         return [];
       })
   });

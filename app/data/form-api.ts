@@ -1,6 +1,7 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteReq, get, post } from './engine-api';
 import { toast } from '@axonivy/ui-components';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { headers, ok } from './custom-fetch';
+import { createHd, deleteForm as deleteFormReq, forms } from './generated/openapi-dev';
 import { ProjectIdentifier } from './project-api';
 import { useWorkspace } from './workspace-api';
 
@@ -33,12 +34,11 @@ export const useForms = () => {
   return useQuery({
     queryKey,
     queryFn: () =>
-      get({ url: 'forms', base }).then(res => {
-        if (res?.ok) {
-          return res.json() as Promise<Array<Form>>;
-        } else {
-          toast.error('Failed to load forms', { description: 'Maybe the server is not correclty started' });
+      forms({ headers: headers(base) }).then(res => {
+        if (ok(res)) {
+          return res.data;
         }
+        toast.error('Failed to load forms', { description: 'Maybe the server is not correclty started' });
         return [];
       })
   });
@@ -48,12 +48,12 @@ export const useDeleteForm = () => {
   const client = useQueryClient();
   const { queryKey, base } = useFormsApi();
   const deleteForm = async (identifier: FormIdentifier) => {
-    const res = await deleteReq({ url: 'form', base, data: identifier });
-    if (res?.ok) {
+    const res = await deleteFormReq(identifier, { headers: headers(base) });
+    if (ok(res)) {
       client.invalidateQueries({ queryKey });
-    } else {
-      throw new Error(`Failed to remove from '${identifier.id}'`);
+      return;
     }
+    throw new Error(`Failed to remove from '${identifier.id}'`);
   };
   return {
     deleteForm: (identifier: FormIdentifier) =>
@@ -65,14 +65,12 @@ export const useCreateForm = () => {
   const client = useQueryClient();
   const { queryKey, base } = useFormsApi();
   const createForm = async (form: NewFormParams) => {
-    const res = await post({ url: 'hd', base, data: form });
-    if (res?.ok) {
-      const form = (await res.json()) as Form;
+    const res = await createHd(form, { headers: headers(base) });
+    if (ok(res)) {
       client.invalidateQueries({ queryKey });
-      return form;
-    } else {
-      throw new Error('Failed to create form');
+      return res.data;
     }
+    throw new Error('Failed to create form');
   };
   return {
     createForm: (form: NewFormParams) => {

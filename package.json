@@ -7,6 +7,7 @@
   "scripts": {
     "ci": "npm run ci:prepare && npm run type && npm run lint:ci && npm run test:ci && npm run build",
     "ci:prepare": "npm install && npm run build:editor",
+    "codegen:openapi": "orval",
     "build": "remix vite:build",
     "dev": "remix vite:dev",
     "dev:debug": "export DEBUG=vite:* && remix vite:dev",
@@ -55,6 +56,8 @@
     "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-react-hooks": "^4.6.2",
     "happy-dom": "^14.12.3",
+    "orval": "^6.31.0",
+    "prettier": "^3.3.2",
     "typescript": "^5.5.2",
     "vite": "^5.3.1",
     "vite-plugin-svgr": "^4.2.0",
