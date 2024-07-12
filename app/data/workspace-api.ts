@@ -1,7 +1,8 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteReq, get, post } from './engine-api';
 import { toast } from '@axonivy/ui-components';
 import { useParams } from '@remix-run/react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { ok } from './custom-fetch';
+import { createWorkspace as createWorkspaceReq, deleteWorkspace as deleteWorkspaceReq, workspaces } from './generated/openapi-dev';
 
 export type Workspace = {
   id: string;
@@ -20,12 +21,11 @@ export const useWorkspaces = () => {
   return useQuery({
     queryKey,
     queryFn: () =>
-      get({ url: 'workspaces' }).then(res => {
-        if (res?.ok) {
-          return res.json() as Promise<Array<Workspace>>;
-        } else {
-          toast.error('Failed to load workspaces', { description: 'Maybe the server is not correclty started' });
+      workspaces().then(res => {
+        if (ok(res)) {
+          return res.data as Array<Workspace>;
         }
+        toast.error('Failed to load workspaces', { description: 'Maybe the server is not correclty started' });
         return [];
       })
   });
@@ -43,12 +43,11 @@ export const useWorkspace = () => {
 export const useDeleteWorkspace = () => {
   const client = useQueryClient();
   const deleteWorkspace = async (id: string) => {
-    const res = await deleteReq({ url: 'workspace', data: id });
-    if (res?.ok) {
+    const res = await deleteWorkspaceReq(id);
+    if (ok(res)) {
       client.invalidateQueries({ queryKey });
-    } else {
-      throw new Error(`Failed to remove from '${id}'`);
     }
+    throw new Error(`Failed to remove from '${id}'`);
   };
   return {
     deleteWorkspace: (id: string) =>
@@ -59,14 +58,12 @@ export const useDeleteWorkspace = () => {
 export const useCreateWorkspace = () => {
   const client = useQueryClient();
   const createWorkspace = async (workspaceInit: WorkspaceInit) => {
-    const res = await post({ url: 'workspace', data: workspaceInit });
-    if (res?.ok) {
-      const workspace = (await res.json()) as Workspace;
+    const res = await createWorkspaceReq(workspaceInit);
+    if (ok(res)) {
       client.invalidateQueries({ queryKey });
-      return workspace;
-    } else {
-      throw new Error('Failed to create workspace');
+      return res.data as Workspace;
     }
+    throw new Error('Failed to create workspace');
   };
   return {
     createWorkspace: (workspaceInit: WorkspaceInit) => {

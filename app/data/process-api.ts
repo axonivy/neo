@@ -1,6 +1,7 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteReq, get, post } from './engine-api';
 import { toast } from '@axonivy/ui-components';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { headers, ok } from './custom-fetch';
+import { createProcess as createProcessReq, deleteProcess as deleteProcessReq, getProcesses } from './generated/openapi-dev';
 import { ProjectIdentifier } from './project-api';
 import { useWorkspace } from './workspace-api';
 
@@ -30,12 +31,11 @@ export const useProcesses = () => {
   return useQuery({
     queryKey,
     queryFn: () =>
-      get({ url: 'processes', base }).then(res => {
-        if (res?.ok) {
-          return res.json() as Promise<Array<Process>>;
-        } else {
-          toast.error('Failed to load processes', { description: 'Maybe the server is not correclty started' });
+      getProcesses({ headers: headers(base) }).then(res => {
+        if (ok(res)) {
+          return res.data as Array<Process>;
         }
+        toast.error('Failed to load processes', { description: 'Maybe the server is not correclty started' });
         return [];
       })
   });
@@ -53,14 +53,12 @@ export const useCreateProcess = () => {
   const { queryKey, base } = useProcessesApi();
   const client = useQueryClient();
   const createProcess = async (process: NewProcessParams) => {
-    const res = await post({ url: 'process', base, data: process });
-    if (res?.ok) {
-      const process = (await res.json()) as Process;
+    const res = await createProcessReq(process, { headers: headers(base) });
+    if (ok(res)) {
       client.invalidateQueries({ queryKey });
-      return process;
-    } else {
-      throw new Error('Failed to create process');
+      return res.data as Process;
     }
+    throw new Error('Failed to create process');
   };
   return {
     createProcess: (process: NewProcessParams) => {
@@ -75,12 +73,13 @@ export const useDeleteProcess = () => {
   const { queryKey, base } = useProcessesApi();
   const client = useQueryClient();
   const deleteProcess = async (identifier: ProcessIdentifier) => {
-    const res = await deleteReq({ url: 'process', base, data: identifier });
-    if (res?.ok) {
-      client.invalidateQueries({ queryKey });
-    } else {
+    await deleteProcessReq(identifier, { headers: headers(base) }).then(res => {
+      if (ok(res)) {
+        client.invalidateQueries({ queryKey });
+        return;
+      }
       throw new Error(`Failed to remove process '${identifier.pid}'`);
-    }
+    });
   };
   return {
     deleteProcess: (identifier: ProcessIdentifier) =>
