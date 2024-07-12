@@ -1,5 +1,5 @@
-const getUrl = (contextUrl: string, headers?: [string, string][]): string => {
-  const base = headers && headers.length > 0 ? headers[0] : '';
+const getUrl = (contextUrl: string, headers?: Record<string, string>): string => {
+  const base = headers && headers['base'] ? headers['base'] : '';
   return `${base}/api${contextUrl} `;
 };
 
@@ -24,7 +24,7 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 };
 
 export const customFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
-  const requestUrl = getUrl(url, options.headers as [string, string][]);
+  const requestUrl = getUrl(url, options.headers as Record<string, string>);
   const requestHeaders = getHeaders(options.headers);
   const requestInit: RequestInit = {
     ...options,
