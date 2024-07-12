@@ -33,7 +33,7 @@ export const useProcesses = () => {
     queryFn: () =>
       getProcesses({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data;
+          return res.data as Array<Process>;
         }
         toast.error('Failed to load processes', { description: 'Maybe the server is not correclty started' });
         return [];
@@ -56,7 +56,7 @@ export const useCreateProcess = () => {
     const res = await createProcessReq(process, { headers: headers(base) });
     if (ok(res)) {
       client.invalidateQueries({ queryKey });
-      return res.data;
+      return res.data as Process;
     }
     throw new Error('Failed to create process');
   };

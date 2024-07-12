@@ -36,7 +36,7 @@ export const useForms = () => {
     queryFn: () =>
       forms({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data;
+          return res.data as Array<Form>;
         }
         toast.error('Failed to load forms', { description: 'Maybe the server is not correclty started' });
         return [];
@@ -68,7 +68,7 @@ export const useCreateForm = () => {
     const res = await createHd(form, { headers: headers(base) });
     if (ok(res)) {
       client.invalidateQueries({ queryKey });
-      return res.data;
+      return res.data as Form;
     }
     throw new Error('Failed to create form');
   };

@@ -23,7 +23,7 @@ export const useWorkspaces = () => {
     queryFn: () =>
       workspaces().then(res => {
         if (ok(res)) {
-          return res.data;
+          return res.data as Array<Workspace>;
         }
         toast.error('Failed to load workspaces', { description: 'Maybe the server is not correclty started' });
         return [];
@@ -61,7 +61,7 @@ export const useCreateWorkspace = () => {
     const res = await createWorkspaceReq(workspaceInit);
     if (ok(res)) {
       client.invalidateQueries({ queryKey });
-      return res.data;
+      return res.data as Workspace;
     }
     throw new Error('Failed to create workspace');
   };

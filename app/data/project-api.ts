@@ -21,7 +21,7 @@ export const useProjects = () => {
     queryFn: () =>
       projects({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data;
+          return res.data as Array<ProjectIdentifier>;
         }
         toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
         return [];
