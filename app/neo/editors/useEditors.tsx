@@ -108,12 +108,13 @@ export const useEditors = () => {
 
 export const useRestoreEditor = (editorType: EditorType) => {
   const { ws, app, pmv, '*': path } = useParams();
+  const { createEditorFromPath } = useCreateEditor();
   const navigationType = useNavigationType();
   const { editors, addEditor } = useEditors();
   if (navigationType !== NavigationType.Pop || !ws || !app || !pmv || !path) {
     return;
   }
-  const editor = createEditorFromPath(ws, editorType, { app, pmv }, path);
+  const editor = createEditorFromPath(editorType, { app, pmv }, path);
   const index = indexOf(editors, e => e.id === editor.id);
   if (index === -1) {
     addEditor(editor);
@@ -132,31 +133,21 @@ export const renderEditor = (editor: Editor) => {
   }
 };
 
-export const createProcessEditor = ({
-  ws,
-  name,
-  path,
-  processIdentifier: { project },
-  kind,
-  namespace
-}: { ws: string } & Process): Editor => {
-  if (kind === 3) {
-    path = `${namespace}/${name}`;
-    return createEditor(ws, 'src_hd', project, path, name);
-  }
-  return createEditor(ws, 'processes', project, path ?? name, name);
-};
-
-export const createFormEditor = ({ ws, name, path, identifier: { project } }: { ws: string } & Form): Editor => {
-  return createEditor(ws, 'forms', project, path, name);
-};
-
-export const createVariableEditor = ({ ws, ...project }: { ws: string } & ProjectIdentifier): Editor => {
-  return createEditor(ws, 'configurations', project, 'variables', 'variables');
-};
-
-export const createEditorFromPath = (ws: string, editorType: EditorType, project: ProjectIdentifier, path: string): Editor => {
-  return createEditor(ws, editorType, project, path, path.split('/').at(-1) ?? path);
+export const useCreateEditor = () => {
+  const ws = useParams().ws ?? 'designer';
+  return {
+    createFormEditor: ({ name, path, identifier: { project } }: Form): Editor => createEditor(ws, 'forms', project, path, name),
+    createProcessEditor: ({ name, path, processIdentifier: { project }, kind, namespace }: Process): Editor => {
+      if (kind === 'HTML_DIALOG') {
+        path = `${namespace}/${name}`;
+        return createEditor(ws, 'src_hd', project, path, name);
+      }
+      return createEditor(ws, 'processes', project, path ?? name, name);
+    },
+    createVariableEditor: (project: ProjectIdentifier): Editor => createEditor(ws, 'configurations', project, 'variables', 'variables'),
+    createEditorFromPath: (editorType: EditorType, project: ProjectIdentifier, path: string): Editor =>
+      createEditor(ws, editorType, project, path, path.split('/').at(-1) ?? path)
+  };
 };
 
 const createEditor = (ws: string, editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {

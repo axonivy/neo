@@ -1,13 +1,10 @@
 import { toast } from '@axonivy/ui-components';
 import { useQuery } from '@tanstack/react-query';
 import { headers, ok } from './custom-fetch';
-import { projects } from './generated/openapi-dev';
+import { projects, type ProjectIdentifier as ProjectId } from './generated/openapi-dev';
 import { useWorkspace } from './workspace-api';
 
-export type ProjectIdentifier = {
-  app: string;
-  pmv: string;
-};
+export type ProjectIdentifier = ProjectId;
 
 export const useProjectsApi = () => {
   const ws = useWorkspace();
@@ -21,7 +18,7 @@ export const useProjects = () => {
     queryFn: () =>
       projects({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data as Array<ProjectIdentifier>;
+          return res.data;
         }
         toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
         return [];

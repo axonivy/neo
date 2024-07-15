@@ -1,11 +1,10 @@
-import { useCallback } from 'react';
 import { InscriptionActionArgs, InscriptionNotificationTypes } from '@axonivy/inscription-protocol';
-import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { useCallback } from 'react';
+import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
-import { useCreateForm } from '~/data/form-api';
-import { createFormEditor, createProcessEditor, useEditors } from '../../useEditors';
-import { useParams } from '@remix-run/react';
+import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { useCreateEditor, useEditors } from '../../useEditors';
 
 const isActionWithId = (
   obj: unknown,
@@ -28,7 +27,7 @@ export const useNewProcessActionHandler = () => {
   const { createProcess } = useCreateProcess();
   const { openEditor } = useEditors();
   const open = useNewArtifact();
-  const ws = useParams().ws ?? 'designer';
+  const { createProcessEditor } = useCreateEditor();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newProcess')) {
@@ -39,11 +38,11 @@ export const useNewProcessActionHandler = () => {
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
         createProcess({ name, namespace, kind: '', project, pid }).then(process => {
           refreshInscriptionView(window);
-          openEditor(createProcessEditor({ ws, ...process }));
+          openEditor(createProcessEditor(process));
         });
       open({ create, defaultName: 'NewCallable', title: 'Create new Process', project, pid });
     },
-    [createProcess, open, openEditor, ws]
+    [createProcess, createProcessEditor, open, openEditor]
   );
 };
 
@@ -51,7 +50,7 @@ export const useNewFormActionHandler = () => {
   const { createForm } = useCreateForm();
   const { openEditor } = useEditors();
   const open = useNewArtifact();
-  const ws = useParams().ws ?? 'designer';
+  const { createFormEditor } = useCreateEditor();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newHtmlDialog')) {
@@ -60,13 +59,13 @@ export const useNewFormActionHandler = () => {
       const project = { app: data.params.context.app, pmv: data.params.context.pmv };
       const pid = data.params.context.pid;
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
-        createForm({ name, namespace, type: 'Form', project, pid }).then(form => {
+        createForm({ name, namespace, project, pid }).then(form => {
           refreshInscriptionView(window);
-          openEditor(createFormEditor({ ws, ...form }));
+          openEditor(createFormEditor(form));
         });
       open({ create, defaultName: 'NewForm', title: 'Create new Form', project, pid });
     },
-    [createForm, open, openEditor, ws]
+    [createForm, createFormEditor, open, openEditor]
   );
 };
 

@@ -3,7 +3,7 @@ import { act, renderHook } from '@testing-library/react';
 import { Mock } from 'vitest';
 import { Callback, NeoClient } from '~/data/neo-protocol';
 import { Process } from '~/data/process-api';
-import { createProcessEditor, useEditors } from '../editors/useEditors';
+import { useCreateEditor, useEditors } from '../editors/useEditors';
 import { AnimationFollowMode } from '../settings/useSettings';
 import { NeoClientProviderContext, useNeoClient } from './useNeoClient';
 
@@ -51,7 +51,7 @@ describe('useNeoClient', () => {
     },
     requestPath: 'glsp/test/project/hd/hdProcess.p',
     processGroup: 'User Dialog Processes',
-    kind: 3,
+    kind: 'HTML_DIALOG',
     type: 'glsp.test.project.hd.hdData'
   };
 
@@ -99,7 +99,12 @@ describe('useNeoClient', () => {
         current: { openEditor }
       }
     } = renderHook(() => useEditors());
-    act(() => openEditor(createProcessEditor({ ws: 'designer', ...process })));
+    const {
+      result: {
+        current: { createProcessEditor }
+      }
+    } = renderHook(() => useCreateEditor());
+    act(() => openEditor(createProcessEditor(process)));
 
     shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
     expect(shouldAnimate).to.be.true;

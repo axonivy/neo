@@ -1,12 +1,12 @@
 import { urlBuilder } from '@axonivy/jsonrpc/lib/connection-util';
-import { useLocation, useNavigate, useParams } from '@remix-run/react';
+import { useLocation, useNavigate } from '@remix-run/react';
 import { createContext, useContext, useEffect, useRef } from 'react';
 import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from 'vscode-ws-jsonrpc';
 import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
 import { NeoClient } from '~/data/neo-protocol';
 import { useWorkspace } from '~/data/workspace-api';
 import { wsBaseUrl } from '~/data/ws-base';
-import { createProcessEditor, useEditors } from '~/neo/editors/useEditors';
+import { useCreateEditor, useEditors } from '~/neo/editors/useEditors';
 import { AnimationFollowMode } from '../settings/useSettings';
 
 type NeoClientProviderState = {
@@ -47,11 +47,11 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
   const { editors, openEditor } = useEditors();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const ws = useParams().ws ?? 'designer';
+  const { createProcessEditor } = useCreateEditor();
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
   client.current?.onOpenEditor.set(process => {
-    const editor = createProcessEditor({ ws, ...process });
+    const editor = createProcessEditor(process);
     switch (mode) {
       case 'all':
         openEditor(editor);
@@ -65,7 +65,7 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
         }
         return false;
       case 'noDialogProcesses':
-        if (process.kind === 3) {
+        if (process.kind === 'HTML_DIALOG') {
           return false;
         }
         openEditor(editor);

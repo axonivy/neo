@@ -112,14 +112,14 @@ export interface AggBean {
 }
 
 export interface WorkspaceInit {
-  name?: string;
+  name: string;
 }
 
 export interface WorkspaceBean {
-  baseUrl?: string;
-  id?: string;
-  name?: string;
-  running?: boolean;
+  baseUrl: string;
+  id: string;
+  name: string;
+  running: boolean;
 }
 
 export interface NewProjectParams {
@@ -131,8 +131,8 @@ export interface NewProjectParams {
 }
 
 export interface ProcessIdentifier {
-  pid?: string;
-  project?: ProjectIdentifier;
+  pid: string;
+  project: ProjectIdentifier;
 }
 
 export type ProcessBeanKind = (typeof ProcessBeanKind)[keyof typeof ProcessBeanKind];
@@ -146,26 +146,26 @@ export const ProcessBeanKind = {
 } as const;
 
 export interface ProcessBean {
-  kind?: ProcessBeanKind;
-  name?: string;
-  namespace?: string;
+  kind: ProcessBeanKind;
+  name: string;
+  namespace: string;
   path?: string;
   processGroup?: string;
-  processIdentifier?: ProcessIdentifier;
+  processIdentifier: ProcessIdentifier;
   requestPath?: string;
   type?: string;
   uri?: string;
 }
 
 export interface ProjectIdentifier {
-  app?: string;
-  pmv?: string;
+  app: string;
+  pmv: string;
 }
 
 export interface ProcessInit {
-  kind?: string;
-  name?: string;
-  namespace?: string;
+  kind: string;
+  name: string;
+  namespace: string;
   path?: string;
   pid?: string;
   project?: ProjectIdentifier;
@@ -173,8 +173,8 @@ export interface ProcessInit {
 
 export interface HdInit {
   layout?: string;
-  name?: string;
-  namespace?: string;
+  name: string;
+  namespace: string;
   pid?: string;
   project?: ProjectIdentifier;
   projectDir?: string;
@@ -183,15 +183,15 @@ export interface HdInit {
 }
 
 export interface FormIdentifier {
-  id?: string;
-  project?: ProjectIdentifier;
+  id: string;
+  project: ProjectIdentifier;
 }
 
 export interface HdBean {
-  identifier?: FormIdentifier;
-  name?: string;
+  identifier: FormIdentifier;
+  name: string;
   namespace?: string;
-  path?: string;
+  path: string;
   type?: string;
   uri?: string;
 }
