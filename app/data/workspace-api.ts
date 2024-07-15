@@ -46,6 +46,7 @@ export const useDeleteWorkspace = () => {
     const res = await deleteWorkspaceReq(id);
     if (ok(res)) {
       client.invalidateQueries({ queryKey });
+      return;
     }
     throw new Error(`Failed to remove from '${id}'`);
   };

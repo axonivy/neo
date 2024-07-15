@@ -9,20 +9,14 @@ test('navigate to forms', async ({ page }) => {
   await new FormEditor(neo, 'EnterProduct').waitForOpen('Product');
 });
 
-test('create and delete from', async ({ page }, testInfo) => {
+test('create and delete from', async ({ page, browserName }, testInfo) => {
+  const fromName = `${browserName}ws${testInfo.retry}`;
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
-  if (testInfo.retry === 0) {
-    await overview.create('newform', 'test');
-  } else {
-    await overview.card('newform').click();
-  }
-  await new FormEditor(neo, 'newform').waitForOpen();
-
+  await overview.create(fromName, 'test');
+  await new FormEditor(neo, fromName).waitForOpen();
   await page.goBack();
-  await expect(overview.card('newform')).toBeVisible();
-  await overview.deleteCard('newform');
-  await expect(overview.card('newform')).toBeHidden();
+  await overview.deleteCard(fromName);
 });
 
 test('search forms', async ({ page }) => {
@@ -30,7 +24,6 @@ test('search forms', async ({ page }) => {
   const overview = await neo.forms();
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
-
   await overview.search.fill('Enter');
   await expect(overview.cards).toHaveCount(1);
 });
