@@ -9,20 +9,14 @@ test('navigate to process', async ({ page }) => {
   await new ProcessEditor(neo, 'quickstart').waitForOpen('1907DDB3CA766818-f0');
 });
 
-test('create and delete process', async ({ page }, testInfo) => {
+test('create and delete process', async ({ page, browserName }, testInfo) => {
+  const processName = `${browserName}ws${testInfo.retry}`;
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.processes();
-  if (testInfo.retry === 0) {
-    await overview.create('newproc');
-  } else {
-    await overview.card('newproc').click();
-  }
-  await new ProcessEditor(neo, 'newproc').waitForOpen();
-
+  await overview.create(processName);
+  await new ProcessEditor(neo, processName).waitForOpen();
   await page.goBack();
-  await expect(overview.card('newproc')).toBeVisible();
-  await overview.deleteCard('newproc');
-  await expect(overview.card('newproc')).toBeHidden();
+  await overview.deleteCard(processName);
 });
 
 test('search processes', async ({ page }) => {
@@ -30,7 +24,6 @@ test('search processes', async ({ page }) => {
   const overview = await neo.processes();
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
-
   await overview.search.fill('quick');
   await expect(overview.cards).toHaveCount(1);
 });

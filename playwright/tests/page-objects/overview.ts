@@ -28,6 +28,7 @@ export class Overview {
     if (reload) {
       // TODO: remove this after fix delete workspace
       await this.page.reload();
+      await this.expectCardsCountGreaterThan(0);
     }
     await expect(card).toBeHidden();
   }
