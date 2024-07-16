@@ -2,18 +2,15 @@ import { toast } from '@axonivy/ui-components';
 import { useParams } from '@remix-run/react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { ok } from './custom-fetch';
-import { createWorkspace as createWorkspaceReq, deleteWorkspace as deleteWorkspaceReq, workspaces } from './generated/openapi-dev';
+import {
+  createWorkspace as createWorkspaceReq,
+  deleteWorkspace as deleteWorkspaceReq,
+  type WorkspaceBean,
+  type WorkspaceInit,
+  workspaces
+} from './generated/openapi-dev';
 
-export type Workspace = {
-  id: string;
-  name: string;
-  baseUrl: string;
-  running: boolean;
-};
-
-type WorkspaceInit = {
-  name: string;
-};
+export type Workspace = WorkspaceBean;
 
 const queryKey = ['neo', 'workspaces'];
 
@@ -23,7 +20,7 @@ export const useWorkspaces = () => {
     queryFn: () =>
       workspaces().then(res => {
         if (ok(res)) {
-          return res.data as Array<Workspace>;
+          return res.data;
         }
         toast.error('Failed to load workspaces', { description: 'Maybe the server is not correclty started' });
         return [];
@@ -62,7 +59,7 @@ export const useCreateWorkspace = () => {
     const res = await createWorkspaceReq(workspaceInit);
     if (ok(res)) {
       client.invalidateQueries({ queryKey });
-      return res.data as Workspace;
+      return res.data;
     }
     throw new Error('Failed to create workspace');
   };

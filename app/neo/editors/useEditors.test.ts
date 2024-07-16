@@ -1,10 +1,10 @@
 import { IvyIcons } from '@axonivy/ui-icons';
-import { Editor, createEditorFromPath, createFormEditor, createProcessEditor, useEditors, useRestoreEditor } from './useEditors';
-import { Process } from '~/data/process-api';
-import { Form } from '~/data/form-api';
-import { act, renderHook } from '@testing-library/react';
 import { NavigationType, useNavigate, useNavigationType, useParams } from '@remix-run/react';
+import { act, renderHook } from '@testing-library/react';
 import { Mock } from 'vitest';
+import { Form } from '~/data/form-api';
+import { Process } from '~/data/process-api';
+import { Editor, useCreateEditor, useEditors, useRestoreEditor } from './useEditors';
 
 vi.mock('@remix-run/react', async importOriginal => {
   const navigateFn = vi.fn();
@@ -31,7 +31,7 @@ afterEach(() => {
 describe('createProcessEditor', () => {
   it('business process', () => {
     const result: Editor = {
-      id: '/designer/processes/designer/glsp-test-project/info',
+      id: '/test-ws/processes/designer/glsp-test-project/info',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'info',
@@ -48,12 +48,13 @@ describe('createProcessEditor', () => {
       requestPath: 'info.p',
       type: 'glsp.test.project.Data'
     };
-    expect(createProcessEditor({ ws: 'designer', ...process })).to.be.deep.equals(result);
+    const view = renderHook(() => useCreateEditor());
+    expect(view.result.current.createProcessEditor(process)).to.be.deep.equals(result);
   });
 
   it('sub process', () => {
     const result: Editor = {
-      id: '/designer/processes/designer/glsp-test-project/subproc',
+      id: '/test-ws/processes/designer/glsp-test-project/subproc',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'subproc',
@@ -70,12 +71,13 @@ describe('createProcessEditor', () => {
       kind: 'CALLABLE_SUB',
       type: 'glsp.test.project.subprocData'
     };
-    expect(createProcessEditor({ ws: 'designer', ...process })).to.be.deep.equals(result);
+    const view = renderHook(() => useCreateEditor());
+    expect(view.result.current.createProcessEditor(process)).to.be.deep.equals(result);
   });
 
   it('hd process', () => {
     const result: Editor = {
-      id: '/designer/src_hd/designer/glsp-test-project/glsp/test/project/hd/hdProcess',
+      id: '/test-ws/src_hd/designer/glsp-test-project/glsp/test/project/hd/hdProcess',
       type: 'src_hd',
       icon: IvyIcons.Process,
       name: 'hdProcess',
@@ -94,17 +96,18 @@ describe('createProcessEditor', () => {
       },
       requestPath: 'glsp/test/project/hd/hdProcess.p',
       processGroup: 'User Dialog Processes',
-      kind: 3,
+      kind: 'HTML_DIALOG',
       type: 'glsp.test.project.hd.hdData'
     };
-    expect(createProcessEditor({ ws: 'designer', ...process })).to.be.deep.equals(result);
+    const view = renderHook(() => useCreateEditor());
+    expect(view.result.current.createProcessEditor(process)).to.be.deep.equals(result);
   });
 });
 
 describe('createFormEditor', () => {
   it('form', () => {
     const result: Editor = {
-      id: '/designer/forms/designer/workflow-demos/workflow/demo/form/form',
+      id: '/test-ws/forms/designer/workflow-demos/workflow/demo/form/form',
       type: 'forms',
       icon: IvyIcons.File,
       name: 'form',
@@ -116,50 +119,54 @@ describe('createFormEditor', () => {
       name: 'form',
       path: 'workflow/demo/form/form.f.json'
     };
-    expect(createFormEditor({ ws: 'designer', ...form })).to.be.deep.equals(result);
+    const view = renderHook(() => useCreateEditor());
+    expect(view.result.current.createFormEditor(form)).to.be.deep.equals(result);
   });
 });
 
 describe('createEditorFromPath', () => {
   it('form', () => {
     const result: Editor = {
-      id: '/designer/forms/designer/workflow-demos/workflow/demo/form/form',
+      id: '/test-ws/forms/designer/workflow-demos/workflow/demo/form/form',
       type: 'forms',
       icon: IvyIcons.File,
       name: 'form',
       project: { app: 'designer', pmv: 'workflow-demos' },
       path: 'workflow/demo/form/form'
     };
+    const view = renderHook(() => useCreateEditor());
     expect(
-      createEditorFromPath('designer', 'forms', { app: 'designer', pmv: 'workflow-demos' }, 'workflow/demo/form/form.f.json')
+      view.result.current.createEditorFromPath('forms', { app: 'designer', pmv: 'workflow-demos' }, 'workflow/demo/form/form.f.json')
     ).to.be.deep.equals(result);
   });
 
   it('business process', () => {
     const result: Editor = {
-      id: '/designer/processes/designer/workflow-demos/path/test/proc',
+      id: '/test-ws/processes/designer/workflow-demos/path/test/proc',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'proc',
       project: { app: 'designer', pmv: 'workflow-demos' },
       path: 'path/test/proc'
     };
+    const view = renderHook(() => useCreateEditor());
     expect(
-      createEditorFromPath('designer', 'processes', { app: 'designer', pmv: 'workflow-demos' }, 'path/test/proc.p.json')
+      view.result.current.createEditorFromPath('processes', { app: 'designer', pmv: 'workflow-demos' }, 'path/test/proc.p.json')
     ).to.be.deep.equals(result);
   });
 
   it('hd process', () => {
     const result: Editor = {
-      id: '/designer/src_hd/designer/workflow-demos/workflow/demo/form/form',
+      id: '/test-ws/src_hd/designer/workflow-demos/workflow/demo/form/form',
       type: 'src_hd',
       icon: IvyIcons.Process,
       name: 'form',
       project: { app: 'designer', pmv: 'workflow-demos' },
       path: 'workflow/demo/form/form'
     };
+    const view = renderHook(() => useCreateEditor());
     expect(
-      createEditorFromPath('designer', 'src_hd', { app: 'designer', pmv: 'workflow-demos' }, 'workflow/demo/form/form.p.json')
+      view.result.current.createEditorFromPath('src_hd', { app: 'designer', pmv: 'workflow-demos' }, 'workflow/demo/form/form.p.json')
     ).to.be.deep.equals(result);
   });
 
@@ -172,9 +179,10 @@ describe('createEditorFromPath', () => {
       project: { app: 'designer', pmv: 'workflow-demos' },
       path: 'variables'
     };
-    expect(createEditorFromPath('test-ws', 'configurations', { app: 'designer', pmv: 'workflow-demos' }, 'variables')).to.be.deep.equals(
-      result
-    );
+    const view = renderHook(() => useCreateEditor());
+    expect(
+      view.result.current.createEditorFromPath('configurations', { app: 'designer', pmv: 'workflow-demos' }, 'variables')
+    ).to.be.deep.equals(result);
   });
 });
 

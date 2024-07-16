@@ -1,28 +1,18 @@
 import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { headers, ok } from './custom-fetch';
-import { createHd, deleteForm as deleteFormReq, forms } from './generated/openapi-dev';
-import { ProjectIdentifier } from './project-api';
+import {
+  createHd,
+  deleteForm as deleteFormReq,
+  forms,
+  HdBean,
+  HdInit,
+  type FormIdentifier as FormIdentifierBean
+} from './generated/openapi-dev';
 import { useWorkspace } from './workspace-api';
 
-export type Form = {
-  name: string;
-  path: string;
-  identifier: FormIdentifier;
-};
-
-export type FormIdentifier = {
-  project: ProjectIdentifier;
-  id: string;
-};
-
-type NewFormParams = {
-  name: string;
-  namespace: string;
-  type: 'Form';
-  project?: ProjectIdentifier;
-  pid?: string;
-};
+export type Form = HdBean;
+export type FormIdentifier = FormIdentifierBean;
 
 export const useFormsApi = () => {
   const ws = useWorkspace();
@@ -36,7 +26,7 @@ export const useForms = () => {
     queryFn: () =>
       forms({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data as Array<Form>;
+          return res.data;
         }
         toast.error('Failed to load forms', { description: 'Maybe the server is not correclty started' });
         return [];
@@ -64,16 +54,16 @@ export const useDeleteForm = () => {
 export const useCreateForm = () => {
   const client = useQueryClient();
   const { queryKey, base } = useFormsApi();
-  const createForm = async (form: NewFormParams) => {
-    const res = await createHd(form, { headers: headers(base) });
+  const createForm = async (form: HdInit) => {
+    const res = await createHd({ ...form, type: 'Form' }, { headers: headers(base) });
     if (ok(res)) {
       client.invalidateQueries({ queryKey });
-      return res.data as Form;
+      return res.data;
     }
     throw new Error('Failed to create form');
   };
   return {
-    createForm: (form: NewFormParams) => {
+    createForm: (form: HdInit) => {
       const newForm = createForm(form);
       toast.promise(() => newForm, { loading: 'Creating form', success: 'Form created', error: e => e.message });
       return newForm;

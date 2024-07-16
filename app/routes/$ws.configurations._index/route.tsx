@@ -1,9 +1,8 @@
 import type { MetaFunction } from '@remix-run/node';
-import { useParams } from '@remix-run/react';
 import { useState } from 'react';
 import { ProjectIdentifier, useProjects } from '~/data/project-api';
 import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
-import { createVariableEditor, Editor, useEditors } from '~/neo/editors/useEditors';
+import { Editor, useCreateEditor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import VariablesPreviewSVG from './variables-preview.svg?react';
 
@@ -25,13 +24,13 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useProjects();
-  const ws = useParams().ws ?? 'designer';
+  const { createVariableEditor } = useCreateEditor();
   const variables =
     data?.map(project => toVariables(project)).filter(vars => vars.path.toLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   return (
     <Overview title='Configurations' search={search} onSearchChange={setSearch} isPending={isPending}>
       {variables.map(vars => {
-        const editor = createVariableEditor({ ws, ...vars.project });
+        const editor = createVariableEditor(vars.project);
         return <VariablesCard key={editor.id} cardName={vars.path} {...editor} />;
       })}
     </Overview>
