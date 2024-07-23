@@ -21,7 +21,7 @@ export const NeoClientProvider = ({ children }: { children: React.ReactNode }) =
   const connection = useRef<WebSocket>();
   useEffect(() => {
     if (!workspace) return;
-    const webSocketUrl = urlBuilder(wsBaseUrl(), `${workspace.baseUrl}/ivy-neo-lsp`);
+    const webSocketUrl = urlBuilder(wsBaseUrl(), `${workspace.baseUrl}/ivy-web-ide-lsp`);
     const webSocket = new WebSocket(webSocketUrl);
     webSocket.onopen = async () => {
       const socket = toSocket(webSocket);
