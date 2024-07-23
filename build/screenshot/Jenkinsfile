@@ -18,7 +18,7 @@ pipeline {
     stage('Screenshots') {
       steps {
         script {
-          docker.build('node-webtest', '-f build/playwright/Dockerfile .').inside {
+          docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
             sh 'npm run update:axonivy:next'
             sh 'npm run ci:prepare'
             dir ('playwright/neo-test-project') {
@@ -40,7 +40,7 @@ pipeline {
       }
       steps {
         script {
-          docker.build('maven-build', '-f build/screenshot/Dockerfile .').inside {
+          docker.build('maven-build', '-f build/Dockerfile.maven .').inside {
             maven cmd: '-ntp -f playwright/tests/screenshots deploy -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
           }
           archiveArtifacts 'playwright/tests/**/target/neo-designer-screenshots-*.zip'
