@@ -19,7 +19,7 @@ pipeline {
     stage('Integration Test') {
       steps {
         script {
-          docker.build('node-webtest', '-f build/playwright/Dockerfile .').inside {
+          docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
             sh 'npm run update:axonivy:next'
             sh 'npm run ci:prepare'
             dir ('playwright/neo-test-project') {
@@ -42,7 +42,7 @@ pipeline {
       steps {
         script {
           catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
-            docker.build('node-webtest', '-f build/playwright/Dockerfile .').inside {
+            docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
               sh 'npm run download:openapi https://dev.demo.ivyteam.io/api/openapi.yaml'
               sh 'npm run codegen:openapi'
               sh 'npm run type'

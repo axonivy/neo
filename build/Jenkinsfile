@@ -14,7 +14,7 @@ pipeline {
       steps {
         script {
           catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
-            docker.build('node', '-f build/Dockerfile .').inside {
+            docker.build('node', '-f build/Dockerfile.node .').inside {
               sh 'npm run update:axonivy:next'
               sh 'npm run ci'
               archiveArtifacts 'dist/**'
@@ -36,7 +36,7 @@ pipeline {
       }
       steps {
         script {
-          docker.build('maven-build', '-f build/screenshot/Dockerfile .').inside {
+          docker.build('maven-build', '-f build/Dockerfile.maven .').inside {
             maven cmd: '-ntp clean deploy -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
           }
           archiveArtifacts 'target/neo-designer-*.jar'
