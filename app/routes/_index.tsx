@@ -61,7 +61,7 @@ const WorkspaceCard = (workspace: Workspace) => {
       const url = window.URL.createObjectURL(zip);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `${name}.zip`);
+      link.download = `${name}.zip`;
       link.click();
     });
   };
