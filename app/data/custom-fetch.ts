@@ -3,11 +3,12 @@ const getUrl = (contextUrl: string, headers?: Record<string, string>): string =>
   return `${base}/api${contextUrl} `;
 };
 
-const getHeaders = (headers?: HeadersInit): HeadersInit => {
+const getHeaders = (headersInit?: HeadersInit): HeadersInit => {
+  const headers = new Headers(headersInit);
   return {
-    ...headers,
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
+    ...headersInit,
+    'Content-Type': headers.get('Content-Type') ?? 'application/json',
+    Accept: headers.get('Accept') ?? 'application/json',
     'X-Requested-By': 'Neo'
   };
 };
@@ -17,7 +18,7 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
   if (contentType && contentType.includes('application/json')) {
     return c.json();
   }
-  if (contentType && contentType.includes('application/pdf')) {
+  if (contentType && contentType.includes('application/octet-stream')) {
     return c.blob() as Promise<T>;
   }
   return c.text() as Promise<T>;

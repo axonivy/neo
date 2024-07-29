@@ -4,6 +4,10 @@
  * Axon Ivy
  */
 import { customFetch } from '../custom-fetch';
+export type ExportWorkspaceParams = {
+  id?: string;
+};
+
 export type WatchParams = {
   projectDir?: string[];
 };
@@ -525,6 +529,32 @@ export const getWorkspacesUrl = () => {
 
 export const workspaces = async (options?: RequestInit): Promise<workspacesResponse> => {
   return customFetch<Promise<workspacesResponse>>(getWorkspacesUrl(), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type exportWorkspaceResponse = {
+  data: unknown;
+  status: number;
+};
+
+export const getExportWorkspaceUrl = (params?: ExportWorkspaceParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value === null) {
+      normalizedParams.append(key, 'null');
+    } else if (value !== undefined) {
+      normalizedParams.append(key, value.toString());
+    }
+  });
+
+  return `/web-ide/workspace?${normalizedParams.toString()}`;
+};
+
+export const exportWorkspace = async (params?: ExportWorkspaceParams, options?: RequestInit): Promise<exportWorkspaceResponse> => {
+  return customFetch<Promise<exportWorkspaceResponse>>(getExportWorkspaceUrl(params), {
     ...options,
     method: 'GET'
   });
