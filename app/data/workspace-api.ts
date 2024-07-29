@@ -5,6 +5,7 @@ import { ok } from './custom-fetch';
 import {
   createWorkspace as createWorkspaceReq,
   deleteWorkspace as deleteWorkspaceReq,
+  exportWorkspace as exportWorkspaceReq,
   type WorkspaceBean,
   type WorkspaceInit,
   workspaces
@@ -68,6 +69,27 @@ export const useCreateWorkspace = () => {
       const workspace = createWorkspace(workspaceInit);
       toast.promise(() => workspace, { loading: 'Creating workspace', success: 'Workspace created', error: e => e.message });
       return workspace;
+    }
+  };
+};
+
+export const useExportWorkspace = () => {
+  const headers = {
+    Accept: 'application/octet-stream',
+    'Content-Type': 'application/octet-stream'
+  };
+  const exportWorkspace = async (id: string) => {
+    const res = await exportWorkspaceReq({ id }, { headers });
+    if (ok(res)) {
+      return res.data;
+    }
+    throw new Error(`Failed to export workspace '${id}'`);
+  };
+  return {
+    exportWorkspace: (id: string) => {
+      const zip = exportWorkspace(id);
+      toast.promise(() => zip, { loading: 'Export workspace', success: 'Workspace exported', error: e => e.message });
+      return zip;
     }
   };
 };

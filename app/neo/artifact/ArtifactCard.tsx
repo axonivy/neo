@@ -16,7 +16,13 @@ import { DeleteConfirm } from './DeleteConfirm';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 
-type Card = { name: string; type: string; preview?: ReactNode; onClick: () => void; actions?: { delete?: () => void } };
+type Card = {
+  name: string;
+  type: string;
+  preview?: ReactNode;
+  onClick: () => void;
+  actions?: { delete?: () => void; export?: (name: string) => void };
+};
 
 export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) => (
   <div className='artifact-card'>
@@ -44,6 +50,12 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
                 <span>Delete</span>
               </DropdownMenuItem>
             </DeleteConfirm>
+            {actions.export && (
+              <DropdownMenuItem onSelect={() => actions.export!(name)}>
+                <IvyIcon icon={IvyIcons.Download} />
+                <span>Download</span>
+              </DropdownMenuItem>
+            )}
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
