@@ -13,7 +13,14 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useNavigate } from '@remix-run/react';
 import { useState } from 'react';
-import { useCreateWorkspace, useDeleteWorkspace, useExportWorkspace, useWorkspaces, Workspace } from '~/data/workspace-api';
+import {
+  useCreateWorkspace,
+  useDeleteWorkspace,
+  useExportWorkspace,
+  useImportWorkspace,
+  useWorkspaces,
+  Workspace
+} from '~/data/workspace-api';
 import { ControlBar } from '~/neo/ControlBar';
 import { Overview } from '~/neo/Overview';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
@@ -51,9 +58,10 @@ const WorkspaceCard = (workspace: Workspace) => {
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
   const { exportWorkspace } = useExportWorkspace();
+  const { importWorkspace } = useImportWorkspace();
   const open = () => navigate(workspace.name);
   const deleteAction = () => deleteWorkspace(workspace.id);
-  const exportAction = (name: string) => {
+  const exportAction = () => {
     exportWorkspace(workspace.id).then(zip => {
       if (!(zip instanceof Blob)) {
         return;
@@ -61,11 +69,30 @@ const WorkspaceCard = (workspace: Workspace) => {
       const url = window.URL.createObjectURL(zip);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `${name}.zip`;
+      link.download = `${workspace.name}.zip`;
       link.click();
     });
   };
-  return <ArtifactCard name={workspace.name} type='workspace' onClick={open} actions={{ delete: deleteAction, export: exportAction }} />;
+  const importAction = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.zip,.iar';
+    input.onchange = ev => {
+      if (ev.target instanceof HTMLInputElement && ev.target.files && ev.target.files.length > 0) {
+        const file = ev.target.files[0];
+        importWorkspace(workspace.id, file, file.name);
+      }
+    };
+    input.click();
+  };
+  return (
+    <ArtifactCard
+      name={workspace.name}
+      type='workspace'
+      onClick={open}
+      actions={{ delete: deleteAction, export: exportAction, import: importAction }}
+    />
+  );
 };
 
 const NewWorkspaceCard = () => {

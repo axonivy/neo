@@ -21,7 +21,7 @@ type Card = {
   type: string;
   preview?: ReactNode;
   onClick: () => void;
-  actions?: { delete?: () => void; export?: (name: string) => void };
+  actions?: { delete?: () => void; export?: () => void; import?: () => void };
 };
 
 export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) => (
@@ -51,9 +51,15 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
               </DropdownMenuItem>
             </DeleteConfirm>
             {actions.export && (
-              <DropdownMenuItem onSelect={() => actions.export!(name)}>
+              <DropdownMenuItem onSelect={() => actions.export!()}>
                 <IvyIcon icon={IvyIcons.Download} />
-                <span>Download</span>
+                <span>Export</span>
+              </DropdownMenuItem>
+            )}
+            {actions.import && (
+              <DropdownMenuItem onSelect={() => actions.import!()}>
+                <IvyIcon icon={IvyIcons.Upload} />
+                <span>Import</span>
               </DropdownMenuItem>
             )}
           </DropdownMenuGroup>

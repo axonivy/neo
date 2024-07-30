@@ -6,6 +6,7 @@ import {
   createWorkspace as createWorkspaceReq,
   deleteWorkspace as deleteWorkspaceReq,
   exportWorkspace as exportWorkspaceReq,
+  importWorkspace as importWorkspaceReq,
   type WorkspaceBean,
   type WorkspaceInit,
   workspaces
@@ -74,12 +75,8 @@ export const useCreateWorkspace = () => {
 };
 
 export const useExportWorkspace = () => {
-  const headers = {
-    Accept: 'application/octet-stream',
-    'Content-Type': 'application/octet-stream'
-  };
   const exportWorkspace = async (id: string) => {
-    const res = await exportWorkspaceReq({ id }, { headers });
+    const res = await exportWorkspaceReq(id);
     if (ok(res)) {
       return res.data;
     }
@@ -91,5 +88,23 @@ export const useExportWorkspace = () => {
       toast.promise(() => zip, { loading: 'Export workspace', success: 'Workspace exported', error: e => e.message });
       return zip;
     }
+  };
+};
+
+export const useImportWorkspace = () => {
+  const importWorkspace = async (id: string, file: Blob, fileName: string) => {
+    const res = await importWorkspaceReq(id, { file, fileName });
+    if (ok(res)) {
+      return;
+    }
+    throw new Error(`Failed to import workspace '${id}'`);
+  };
+  return {
+    importWorkspace: (id: string, file: Blob, fileName: string) =>
+      toast.promise(() => importWorkspace(id, file, fileName), {
+        loading: 'Import workspace',
+        success: 'Workspace imported',
+        error: e => e.message
+      })
   };
 };
