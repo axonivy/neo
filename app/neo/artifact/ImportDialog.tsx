@@ -38,10 +38,9 @@ export const ImportDialog = ({
           </DialogDescription>
         </DialogHeader>
         <Flex direction='column' gap={2}>
-          <form id='upload-form' onSubmit={() => (file ? importAction(file) : {})}>
+          <form>
             <Fieldset label='Select an .iar file or a .zip file that contains .iar files'>
               <Input
-                required={true}
                 accept='.zip,.iar'
                 type='file'
                 onChange={e => {
@@ -54,9 +53,11 @@ export const ImportDialog = ({
           </form>
         </Flex>
         <DialogFooter>
-          <Button form='upload-form' type='submit' variant='primary' size='large' icon={IvyIcons.Upload}>
-            Import
-          </Button>
+          <DialogClose asChild>
+            <Button variant='primary' size='large' onClick={() => (file ? importAction(file) : {})} icon={IvyIcons.Upload}>
+              Import
+            </Button>
+          </DialogClose>
           <Button variant='primary' size='large' onClick={() => exportAction()} icon={IvyIcons.Download}>
             Export
           </Button>
