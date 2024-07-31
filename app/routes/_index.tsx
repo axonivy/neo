@@ -3,10 +3,12 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   Fieldset,
+  Flex,
   Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -24,6 +26,7 @@ import {
 import { ControlBar } from '~/neo/ControlBar';
 import { Overview } from '~/neo/Overview';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { FileInput } from '~/neo/artifact/ImportDialog';
 
 export const links: LinksFunction = cardLinks;
 
@@ -90,7 +93,13 @@ const NewWorkspaceCard = () => {
   const [name, setName] = useState('MyNewWorkspace');
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
-  const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.name));
+  const { importWorkspace } = useImportWorkspace();
+  const [file, setFile] = useState<File>();
+  const create = (name: string) =>
+    createWorkspace({ name }).then(ws => {
+      file ? importWorkspace(ws.id, file, file.name) : {};
+      navigate(ws.name);
+    });
   return (
     <>
       <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />
@@ -98,6 +107,9 @@ const NewWorkspaceCard = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Create new Workspace</DialogTitle>
+            <DialogDescription>
+              Optionally, you can select and upload existing Axon Ivy projects, which are then added to the workspace.
+            </DialogDescription>
           </DialogHeader>
           <form
             onSubmit={e => {
@@ -105,9 +117,12 @@ const NewWorkspaceCard = () => {
               create(name);
             }}
           >
-            <Fieldset label='Name'>
-              <Input value={name} onChange={e => setName(e.target.value)} />
-            </Fieldset>
+            <Flex direction='column' gap={2}>
+              <Fieldset label='Name'>
+                <Input value={name} onChange={e => setName(e.target.value)} />
+              </Fieldset>
+              {FileInput(setFile)}
+            </Flex>
           </form>
           <DialogFooter>
             <DialogClose asChild>

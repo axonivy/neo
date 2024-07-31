@@ -16,6 +16,20 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { Link } from '@remix-run/react';
 import { ReactNode, useState } from 'react';
 
+export const FileInput = (setFile: (file: File) => void) => (
+  <Fieldset label='Select an .iar file or a .zip file that contains .iar files'>
+    <Input
+      accept='.zip,.iar'
+      type='file'
+      onChange={e => {
+        if (e.target.files && e.target.files.length > 0) {
+          setFile(e.target.files[0]);
+        }
+      }}
+    />
+  </Fieldset>
+);
+
 export const ImportDialog = ({
   children,
   name,
@@ -44,19 +58,7 @@ export const ImportDialog = ({
           </DialogDescription>
         </DialogHeader>
         <Flex direction='column' gap={2}>
-          <form>
-            <Fieldset label='Select an .iar file or a .zip file that contains .iar files'>
-              <Input
-                accept='.zip,.iar'
-                type='file'
-                onChange={e => {
-                  if (e.target.files && e.target.files.length > 0) {
-                    setFile(e.target.files[0]);
-                  }
-                }}
-              />
-            </Fieldset>
-          </form>
+          <form>{FileInput(setFile)}</form>
         </Flex>
         <DialogFooter>
           <DialogClose asChild>
