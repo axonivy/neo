@@ -6,7 +6,10 @@ export class FormEditor {
   readonly editor: Locator;
   readonly canvas: Locator;
 
-  constructor(readonly neo: Neo, readonly name: string) {
+  constructor(
+    readonly neo: Neo,
+    readonly name: string
+  ) {
     this.editor = neo.page.locator(`.form-editor[data-editor-name="${name}"]`);
     this.canvas = this.editor.locator('#canvas');
   }
@@ -28,12 +31,15 @@ export class FormEditor {
 export class FormEditorBlock {
   readonly block: Locator;
 
-  constructor(readonly editor: FormEditor, readonly name: string) {
+  constructor(
+    readonly editor: FormEditor,
+    readonly name: string
+  ) {
     this.block = editor.canvas.locator(`.draggable:has-text("${name}")`);
   }
 
   async openInscription() {
-    await this.block.click();
+    await this.block.dblclick();
     return new Inscription(this.editor.neo.page, this.editor.editor.locator(`.properties`));
   }
 
