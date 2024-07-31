@@ -13,6 +13,7 @@ import { LinksFunction } from '@remix-run/node';
 import { ReactNode } from 'react';
 import cardStyles from './card.css?url';
 import { DeleteConfirm } from './DeleteConfirm';
+import { ImportDialog } from './ImportDialog';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 
@@ -21,7 +22,7 @@ type Card = {
   type: string;
   preview?: ReactNode;
   onClick: () => void;
-  actions?: { delete?: () => void; export?: () => void; import?: () => void };
+  actions?: { delete?: () => void; export?: () => void; import?: (file: File) => void };
 };
 
 export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) => (
@@ -50,17 +51,19 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
                 <span>Delete</span>
               </DropdownMenuItem>
             </DeleteConfirm>
-            {actions.export && (
-              <DropdownMenuItem onSelect={() => actions.export!()}>
-                <IvyIcon icon={IvyIcons.Download} />
-                <span>Export</span>
-              </DropdownMenuItem>
-            )}
-            {actions.import && (
-              <DropdownMenuItem onSelect={() => actions.import!()}>
-                <IvyIcon icon={IvyIcons.Upload} />
-                <span>Import</span>
-              </DropdownMenuItem>
+            {actions.export && actions.import && (
+              <>
+                <DropdownMenuItem onSelect={() => actions.export!()}>
+                  <IvyIcon icon={IvyIcons.Download} />
+                  <span>Export</span>
+                </DropdownMenuItem>
+                <ImportDialog name={name} importAction={actions.import!} exportAction={actions.export!}>
+                  <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                    <IvyIcon icon={IvyIcons.Upload} />
+                    <span>Import</span>
+                  </DropdownMenuItem>
+                </ImportDialog>
+              </>
             )}
           </DropdownMenuGroup>
         </DropdownMenuContent>

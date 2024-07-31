@@ -73,18 +73,8 @@ const WorkspaceCard = (workspace: Workspace) => {
       link.click();
     });
   };
-  const importAction = () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.zip,.iar';
-    input.onchange = ev => {
-      if (ev.target instanceof HTMLInputElement && ev.target.files && ev.target.files.length > 0) {
-        const file = ev.target.files[0];
-        importWorkspace(workspace.id, file, file.name);
-      }
-    };
-    input.click();
-  };
+  const importAction = (file: File) => importWorkspace(workspace.id, file, file.name);
+
   return (
     <ArtifactCard
       name={workspace.name}
