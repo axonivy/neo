@@ -5,12 +5,12 @@ const getUrl = (contextUrl: string, headers?: Record<string, string>): string =>
 
 const getHeaders = (headersInit?: HeadersInit): HeadersInit => {
   const headers = new Headers(headersInit);
-  return {
-    ...headersInit,
-    'Content-Type': headers.get('Content-Type') ?? 'application/json',
-    Accept: headers.get('Accept') ?? 'application/json',
-    'X-Requested-By': 'Neo'
-  };
+  headers.append('X-Requested-By', 'Neo');
+  // multipart/form-data should not be set in fetch -> see https://github.com/orval-labs/orval/issues/1531
+  if (headers.get('Content-Type') === 'multipart/form-data') {
+    headers.delete('Content-Type');
+  }
+  return headers;
 };
 
 const getBody = <T>(c: Response | Request): Promise<T> => {
@@ -26,10 +26,10 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 
 export const customFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
   const requestUrl = getUrl(url, options.headers as Record<string, string>);
-  const requestHeaders = getHeaders(options.headers);
+  const headers = getHeaders(options.headers);
   const requestInit: RequestInit = {
     ...options,
-    headers: requestHeaders
+    headers
   };
   const request = new Request(requestUrl, requestInit);
   const response = await fetch(request);
