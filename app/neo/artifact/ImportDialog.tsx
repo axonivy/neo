@@ -42,11 +42,6 @@ export const ImportDialog = ({
   exportAction: () => void;
 }) => {
   const [file, setFile] = useState<File>();
-  const exportLink = (
-    <Link onClick={exportAction} to={'/'}>
-      Consider exporting the workspace beforehand.
-    </Link>
-  );
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -54,7 +49,10 @@ export const ImportDialog = ({
         <DialogHeader>
           <DialogTitle>Import Axon Ivy Projects into: {name}</DialogTitle>
           <DialogDescription>
-            The import cannot be undone. It could overwrite existing projects in {name}. {exportLink}
+            The import cannot be undone. It could overwrite existing projects in {name}.
+            <Link onClick={exportAction} to={'/'}>
+              Consider exporting the workspace beforehand.
+            </Link>
           </DialogDescription>
         </DialogHeader>
         <Flex direction='column' gap={2}>
