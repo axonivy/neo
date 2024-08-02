@@ -15,6 +15,13 @@ const exportWs = async (page: Page, fileName: string) => {
   expect(fs.existsSync(zipFile)).toBeTruthy();
   return { neo, overview, zipFile };
 };
+const verifyImport = async (overview: Overview, wsName: string, neo: Neo, page: Page) => {
+  await page.goto('');
+  await overview.card(wsName).click();
+  await neo.processes();
+  await overview.search.fill('quick');
+  await expect(overview.cards).toHaveCount(1);
+};
 
 test('navigate to workspace', async ({ page }) => {
   await Neo.open(page);
@@ -64,12 +71,8 @@ test.describe('export & import', () => {
     await page.goBack();
     await overview.import(wsName, zipFile);
 
-    await page.reload();
-    await overview.card(wsName).click();
-    await neo.processes();
-    await overview.search.fill('quick');
-    await expect(overview.cards).toHaveCount(1);
-    await Neo.open(page);
+    await verifyImport(overview, wsName, neo, page);
+    await page.goto('');
     await overview.deleteCard(wsName, true);
   });
 
@@ -79,13 +82,9 @@ test.describe('export & import', () => {
     await overview.create(wsName, undefined, zipFile);
 
     await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
-    await page.goBack();
 
-    await overview.card(wsName).click();
-    await neo.processes();
-    await overview.search.fill('quick');
-    await expect(overview.cards).toHaveCount(1);
-    await Neo.open(page);
+    await verifyImport(overview, wsName, neo, page);
+    await page.goto('');
     await overview.deleteCard(wsName, true);
   });
 });
