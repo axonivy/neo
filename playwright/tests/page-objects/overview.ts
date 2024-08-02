@@ -21,9 +21,7 @@ export class Overview {
 
   async deleteCard(name: string, reload = false) {
     const card = this.card(name);
-    await expect(card).toBeVisible();
-    await card.locator('.card-menu-trigger').click();
-    await this.page.getByRole('menu').getByRole('menuitem', { name: 'Delete' }).click();
+    await this.clickCardAction(card, 'Delete');
     await this.page.getByRole('dialog').getByRole('button', { name: 'Delete' }).click();
     if (reload) {
       // TODO: remove this after fix delete workspace
@@ -33,7 +31,36 @@ export class Overview {
     await expect(card).toBeHidden();
   }
 
-  async create(name: string, namespace?: string) {
+  async export(name: string, zipFile: string) {
+    const downloadPromise = this.page.waitForEvent('download');
+    const card = this.card(name);
+    await this.clickCardAction(card, 'Export');
+    const download = await downloadPromise;
+    await download.saveAs(zipFile);
+  }
+
+  async import(name: string, file: string) {
+    const card = this.card(name);
+    await this.clickCardAction(card, 'Import');
+    const dialog = this.page.getByRole('dialog');
+    await this.selectImport(dialog, file);
+    await dialog.getByRole('button', { name: 'Import' }).click();
+  }
+
+  private async selectImport(dialog: Locator, file: string) {
+    const fileInput = dialog.locator('input[type=file]');
+    const fileChooserPromise = this.page.waitForEvent('filechooser');
+    await fileInput.click();
+    const fileChooser = await fileChooserPromise;
+    await fileChooser.setFiles(file);
+  }
+
+  private async clickCardAction(card: Locator, actionName: string) {
+    await card.locator('.card-menu-trigger').click();
+    await this.page.getByRole('menu').getByRole('menuitem', { name: actionName }).click();
+  }
+
+  async create(name: string, namespace?: string, file?: string) {
     await this.waitForHiddenSpinner();
     const createCard = this.overview.locator('.new-artifact-card');
     await expect(createCard).toBeVisible();
@@ -43,6 +70,9 @@ export class Overview {
     await dialog.getByLabel('Name').first().fill(name);
     if (namespace) {
       await dialog.getByLabel('Namespace').first().fill(namespace);
+    }
+    if (file) {
+      await this.selectImport(dialog, file);
     }
     await dialog.getByRole('button', { name: 'Create' }).click();
   }

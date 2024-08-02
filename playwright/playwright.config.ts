@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   timeout: 1000 * (process.env.CI ? 60 : 30),
-  fullyParallel: true,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['./custom-reporter.ts'], ['junit', { outputFile: 'report.xml' }], ['list']] : 'html',
