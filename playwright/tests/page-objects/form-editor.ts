@@ -48,6 +48,6 @@ export class FormEditorBlock {
   }
 
   async expectInputValue(value: string) {
-    await expect(this.block.getByRole('textbox')).toHaveValue(value);
+    await expect(this.block.locator('.block-input__input')).toHaveText(value);
   }
 }

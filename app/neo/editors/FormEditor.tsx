@@ -24,7 +24,7 @@ export const FormEditor = ({ id, project, path, name }: Editor) => {
   return (
     <>
       {mounted && client && (
-        <div data-editor-name={name} className='form-editor' style={{ display: pathname !== id ? 'none' : undefined }}>
+        <div data-editor-name={name} className='form-editor' style={{ height: '100%', display: pathname !== id ? 'none' : undefined }}>
           <ClientContextProvider client={client}>
             <ReadonlyProvider readonly={false}>
               <App
