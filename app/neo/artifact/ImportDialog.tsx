@@ -49,7 +49,7 @@ export const ImportDialog = ({
         <DialogHeader>
           <DialogTitle>Import Axon Ivy Projects into: {name}</DialogTitle>
           <DialogDescription>
-            The import cannot be undone. It could overwrite existing projects in {name}.&nbsp;
+            The import cannot be undone. It could overwrite existing projects in {name}.{' '}
             <Link onClick={exportAction} to={'/'}>
               Consider exporting the workspace beforehand.
             </Link>
