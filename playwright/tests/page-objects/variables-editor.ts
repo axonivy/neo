@@ -5,7 +5,10 @@ import { Neo } from './neo';
 export class VariableEditor {
   readonly editor: Locator;
 
-  constructor(readonly neo: Neo, readonly name: string) {
+  constructor(
+    readonly neo: Neo,
+    readonly name: string
+  ) {
     this.editor = neo.page.locator(`.variable-editor[data-editor-name="${name}"]`);
   }
 
@@ -25,8 +28,11 @@ export class VariableEditor {
 export class VariableEditorRow {
   readonly row: Locator;
 
-  constructor(readonly editor: VariableEditor, readonly name: string) {
-    this.row = editor.editor.locator(`.ui-table-row:has-text("${name}")`);
+  constructor(
+    readonly editor: VariableEditor,
+    readonly name: string
+  ) {
+    this.row = editor.editor.locator(`.ui-table-row:not(.ui-message-row):has-text("${name}")`);
   }
 
   async openInscription() {
