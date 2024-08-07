@@ -77,7 +77,7 @@ test.describe('export & import', () => {
   });
 
   test('create workspace with import', async ({ page, browserName }, testInfo) => {
-    const { neo, overview, zipFile } = await exportWs(page, 'imoport-and-create.zip');
+    const { neo, overview, zipFile } = await exportWs(page, 'import-and-create.zip');
     const wsName = `${browserName}ws-create-and-import${testInfo.retry}`;
     await overview.create(wsName, undefined, zipFile);
 
