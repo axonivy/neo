@@ -100,11 +100,14 @@ export const useImportWorkspace = () => {
     throw new Error(`Failed to import workspace '${id}'`);
   };
   return {
-    importWorkspace: (id: string, file: Blob, fileName: string) =>
-      toast.promise(() => importWorkspace(id, file, fileName), {
+    importWorkspace: (id: string, file: Blob, fileName: string) => {
+      const importWs = importWorkspace(id, file, fileName);
+      toast.promise(() => importWs, {
         loading: 'Import workspace',
         success: 'Workspace imported',
         error: e => e.message
-      })
+      });
+      return importWs;
+    }
   };
 };
