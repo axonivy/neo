@@ -96,10 +96,9 @@ const NewWorkspaceCard = () => {
   const { importWorkspace } = useImportWorkspace();
   const [file, setFile] = useState<File>();
   const create = (name: string) =>
-    createWorkspace({ name }).then(ws => {
-      file ? importWorkspace(ws.id, file, file.name) : {};
-      navigate(ws.name);
-    });
+    createWorkspace({ name }).then(ws =>
+      file ? importWorkspace(ws.id, file, file.name).then(() => navigate(ws.name)) : navigate(ws.name)
+    );
   return (
     <>
       <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />
