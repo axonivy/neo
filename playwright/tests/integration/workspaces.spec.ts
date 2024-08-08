@@ -77,6 +77,7 @@ test.describe('export & import', () => {
   });
 
   test('create workspace with import', async ({ page, browserName }, testInfo) => {
+    test.skip(browserName === 'webkit' || browserName === 'firefox', 'WebSocket connection problem that only occurs when using vite proxy');
     const { neo, overview, zipFile } = await exportWs(page, 'import-and-create.zip');
     const wsName = `${browserName}ws-create-and-import${testInfo.retry}`;
     await overview.create(wsName, undefined, zipFile);
