@@ -6,7 +6,7 @@ import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/Artifac
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { Editor, useCreateEditor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
-import FormPreviewSVG from './form-preview.svg?react';
+import PreviewSVG from './form-preview.svg?react';
 
 export const links = cardLinks;
 
@@ -40,7 +40,7 @@ export const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifie
     removeEditor(editor.id);
     deleteForm(formId);
   };
-  return <ArtifactCard name={editor.name} type='form' preview={<FormPreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
+  return <ArtifactCard name={editor.name} type='form' preview={<PreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
 };
 
 const NewFormCard = () => {

@@ -4,7 +4,7 @@ import { ProjectIdentifier, useProjects } from '~/data/project-api';
 import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
 import { Editor, useCreateEditor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
-import VariablesPreviewSVG from './variables-preview.svg?react';
+import PreviewSVG from './variables-preview.svg?react';
 
 type Variables = {
   path: string;
@@ -39,5 +39,5 @@ export default function Index() {
 
 export const VariablesCard = ({ cardName, ...editor }: Editor & { cardName: string }) => {
   const { openEditor } = useEditors();
-  return <ArtifactCard name={cardName} type='variable' preview={<VariablesPreviewSVG />} onClick={() => openEditor(editor)} />;
+  return <ArtifactCard name={cardName} type='variable' preview={<PreviewSVG />} onClick={() => openEditor(editor)} />;
 };

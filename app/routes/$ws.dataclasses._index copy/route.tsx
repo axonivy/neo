@@ -6,12 +6,12 @@ import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/Artifac
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { Editor, useCreateEditor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
-import PreviewSVG from './process-preview.svg?react';
+import PreviewSVG from './dataclass-preview.svg?react';
 
 export const links = cardLinks;
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Axon Ivy Processes' }, { name: 'description', content: 'Axon Ivy Processes Overview' }];
+  return [{ title: 'Axon Ivy Data Classes' }, { name: 'description', content: 'Axon Ivy Data Classes Overview' }];
 };
 
 export default function Index() {
@@ -20,17 +20,17 @@ export default function Index() {
   const { createProcessEditor } = useCreateEditor();
   const processes = data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   return (
-    <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
-      <NewProcessCard />
+    <Overview title='Data Classes' search={search} onSearchChange={setSearch} isPending={isPending}>
+      <NewDataClassCard />
       {processes.map(process => {
         const editor = createProcessEditor(process);
-        return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
+        return <DataClassCard key={editor.id} processId={process.processIdentifier} {...editor} />;
       })}
     </Overview>
   );
 }
 
-export const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
+export const DataClassCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
   const { deleteProcess } = useDeleteProcess();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
@@ -43,13 +43,13 @@ export const ProcessCard = ({ processId, ...editor }: Editor & { processId: Proc
   return <ArtifactCard name={editor.name} type='process' preview={<PreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
 };
 
-const NewProcessCard = () => {
+const NewDataClassCard = () => {
   const open = useNewArtifact();
   const { createProcess } = useCreateProcess();
   const { openEditor } = useEditors();
   const { createProcessEditor } = useCreateEditor();
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
-  const title = 'Create new Process';
-  return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewProcess' })} />;
+  const title = 'Create new Data Class';
+  return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewDataClass' })} />;
 };
