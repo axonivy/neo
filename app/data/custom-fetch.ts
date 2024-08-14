@@ -6,8 +6,11 @@ const getUrl = (contextUrl: string, headers?: Record<string, string>): string =>
 const getHeaders = (headersInit?: HeadersInit): HeadersInit => {
   const headers = new Headers(headersInit);
   headers.append('X-Requested-By', 'Neo');
-  // multipart/form-data should not be set in fetch -> see https://github.com/orval-labs/orval/issues/1531
-  if (headers.get('Content-Type') === 'multipart/form-data') {
+  const contentType = headers.get('Content-Type');
+  if (!contentType) {
+    headers.append('Content-Type', 'application/json');
+    // multipart/form-data should not be set in fetch -> see https://github.com/orval-labs/orval/issues/1531
+  } else if (contentType === 'multipart/form-data') {
     headers.delete('Content-Type');
   }
   return headers;
