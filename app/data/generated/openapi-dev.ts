@@ -4,20 +4,6 @@
  * Axon Ivy
  */
 import { customFetch } from '../custom-fetch';
-export type ImportWorkspaceBody = {
-  file?: Blob;
-  fileName?: string;
-};
-
-export type WatchParams = {
-  projectDir?: string[];
-};
-
-export type InitProjectParams = {
-  projectName?: string;
-  projectDir?: string;
-};
-
 export type DeployProjectsParams = {
   projectDir?: string[];
 };
@@ -116,15 +102,9 @@ export interface AggBean {
   [key: string]: unknown;
 }
 
-export interface WorkspaceInit {
-  name: string;
-}
-
-export interface WorkspaceBean {
-  baseUrl: string;
-  id: string;
-  name: string;
-  running: boolean;
+export interface InitProjectParams {
+  name?: string;
+  path?: string;
 }
 
 export interface NewProjectParams {
@@ -269,7 +249,6 @@ export const deleteForm = async (formIdentifier: FormIdentifier, options?: Reque
   return customFetch<Promise<deleteFormResponse>>(getDeleteFormUrl(), {
     ...options,
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formIdentifier)
   });
 };
@@ -287,7 +266,6 @@ export const createHd = async (hdInit: HdInit, options?: RequestInit): Promise<c
   return customFetch<Promise<createHdResponse>>(getCreateHdUrl(), {
     ...options,
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(hdInit)
   });
 };
@@ -321,7 +299,6 @@ export const createProcess = async (processInit: ProcessInit, options?: RequestI
   return customFetch<Promise<createProcessResponse>>(getCreateProcessUrl(), {
     ...options,
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(processInit)
   });
 };
@@ -339,7 +316,6 @@ export const deleteProcess = async (processIdentifier: ProcessIdentifier, option
   return customFetch<Promise<deleteProcessResponse>>(getDeleteProcessUrl(), {
     ...options,
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(processIdentifier)
   });
 };
@@ -415,7 +391,6 @@ export const createProject = async (newProjectParams: NewProjectParams, options?
   return customFetch<Promise<createProjectResponse>>(getCreateProjectUrl(), {
     ...options,
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newProjectParams)
   });
 };
@@ -472,150 +447,22 @@ export const deployProjects = async (params?: DeployProjectsParams, options?: Re
   });
 };
 
-export type initProjectResponse = {
+export type initExistingProjectResponse = {
   data: unknown;
   status: number;
 };
 
-export const getInitProjectUrl = (params?: InitProjectParams) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value === null) {
-      normalizedParams.append(key, 'null');
-    } else if (value !== undefined) {
-      normalizedParams.append(key, value.toString());
-    }
-  });
-
-  return normalizedParams.size ? `/web-ide/project/init?${normalizedParams.toString()}` : `/web-ide/project/init`;
+export const getInitExistingProjectUrl = () => {
+  return `/web-ide/project/init`;
 };
 
-export const initProject = async (params?: InitProjectParams, options?: RequestInit): Promise<initProjectResponse> => {
-  return customFetch<Promise<initProjectResponse>>(getInitProjectUrl(params), {
-    ...options,
-    method: 'GET'
-  });
-};
-
-export type watchResponse = {
-  data: unknown;
-  status: number;
-};
-
-export const getWatchUrl = (params?: WatchParams) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value === null) {
-      normalizedParams.append(key, 'null');
-    } else if (value !== undefined) {
-      normalizedParams.append(key, value.toString());
-    }
-  });
-
-  return normalizedParams.size ? `/web-ide/project/watch?${normalizedParams.toString()}` : `/web-ide/project/watch`;
-};
-
-export const watch = async (params?: WatchParams, options?: RequestInit): Promise<watchResponse> => {
-  return customFetch<Promise<watchResponse>>(getWatchUrl(params), {
-    ...options,
-    method: 'GET'
-  });
-};
-
-export type workspacesResponse = {
-  data: WorkspaceBean[];
-  status: number;
-};
-
-export const getWorkspacesUrl = () => {
-  return `/web-ide/workspaces`;
-};
-
-export const workspaces = async (options?: RequestInit): Promise<workspacesResponse> => {
-  return customFetch<Promise<workspacesResponse>>(getWorkspacesUrl(), {
-    ...options,
-    method: 'GET'
-  });
-};
-
-export type createWorkspaceResponse = {
-  data: WorkspaceBean;
-  status: number;
-};
-
-export const getCreateWorkspaceUrl = () => {
-  return `/web-ide/workspace`;
-};
-
-export const createWorkspace = async (workspaceInit: WorkspaceInit, options?: RequestInit): Promise<createWorkspaceResponse> => {
-  return customFetch<Promise<createWorkspaceResponse>>(getCreateWorkspaceUrl(), {
-    ...options,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(workspaceInit)
-  });
-};
-
-export type exportWorkspaceResponse = {
-  data: unknown;
-  status: number;
-};
-
-export const getExportWorkspaceUrl = (id: string) => {
-  return `/web-ide/workspace/${id}`;
-};
-
-export const exportWorkspace = async (id: string, options?: RequestInit): Promise<exportWorkspaceResponse> => {
-  return customFetch<Promise<exportWorkspaceResponse>>(getExportWorkspaceUrl(id), {
-    ...options,
-    method: 'GET'
-  });
-};
-
-export type importWorkspaceResponse = {
-  data: unknown;
-  status: number;
-};
-
-export const getImportWorkspaceUrl = (id: string) => {
-  return `/web-ide/workspace/${id}`;
-};
-
-export const importWorkspace = async (
-  id: string,
-  importWorkspaceBody: ImportWorkspaceBody,
+export const initExistingProject = async (
+  initProjectParams: InitProjectParams,
   options?: RequestInit
-): Promise<importWorkspaceResponse> => {
-  const formData = new FormData();
-  if (importWorkspaceBody.file !== undefined) {
-    formData.append('file', importWorkspaceBody.file);
-  }
-  if (importWorkspaceBody.fileName !== undefined) {
-    formData.append('fileName', importWorkspaceBody.fileName);
-  }
-
-  return customFetch<Promise<importWorkspaceResponse>>(getImportWorkspaceUrl(id), {
+): Promise<initExistingProjectResponse> => {
+  return customFetch<Promise<initExistingProjectResponse>>(getInitExistingProjectUrl(), {
     ...options,
     method: 'POST',
-    headers: { 'Content-Type': 'multipart/form-data' },
-    body: formData
-  });
-};
-
-export type deleteWorkspaceResponse = {
-  data: unknown;
-  status: number;
-};
-
-export const getDeleteWorkspaceUrl = (id: string) => {
-  return `/web-ide/workspace/${id}`;
-};
-
-export const deleteWorkspace = async (id: string, options?: RequestInit): Promise<deleteWorkspaceResponse> => {
-  return customFetch<Promise<deleteWorkspaceResponse>>(getDeleteWorkspaceUrl(id), {
-    ...options,
-    method: 'DELETE'
+    body: JSON.stringify(initProjectParams)
   });
 };

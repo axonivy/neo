@@ -10,7 +10,7 @@ import {
   type WorkspaceBean,
   type WorkspaceInit,
   workspaces
-} from './generated/openapi-dev';
+} from './generated/openapi-default';
 
 export type Workspace = WorkspaceBean;
 
@@ -93,7 +93,7 @@ export const useExportWorkspace = () => {
 
 export const useImportWorkspace = () => {
   const importWorkspace = async (id: string, file: Blob, fileName: string) => {
-    const res = await importWorkspaceReq(id, { file, fileName });
+    const res = await importWorkspaceReq(id, { file, fileName }, { headers: { 'Content-Type': 'multipart/form-data' } });
     if (ok(res)) {
       return;
     }
