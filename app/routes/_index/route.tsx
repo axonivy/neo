@@ -27,6 +27,7 @@ import { ControlBar } from '~/neo/ControlBar';
 import { Overview } from '~/neo/Overview';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { FileInput } from '~/neo/artifact/ImportDialog';
+import PreviewSVG from './workspace-preview.svg?react';
 
 export const links: LinksFunction = cardLinks;
 
@@ -84,6 +85,7 @@ const WorkspaceCard = (workspace: Workspace) => {
       type='workspace'
       onClick={open}
       actions={{ delete: deleteAction, export: exportAction, import: importAction }}
+      preview={<PreviewSVG />}
     />
   );
 };
