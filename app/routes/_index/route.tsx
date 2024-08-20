@@ -118,21 +118,21 @@ const NewWorkspaceCard = () => {
               create(name);
             }}
           >
-            <Flex direction='column' gap={2}>
+            <Flex direction='column' gap={3}>
               <Fieldset label='Name'>
                 <Input value={name} onChange={e => setName(e.target.value)} />
               </Fieldset>
-              {FileInput(setFile)}
+              <FileInput setFile={setFile} />
             </Flex>
           </form>
           <DialogFooter>
             <DialogClose asChild>
-              <Button icon={IvyIcons.Plus} variant='primary' onClick={() => create(name)}>
+              <Button icon={IvyIcons.Plus} size='large' variant='primary' onClick={() => create(name)}>
                 Create
               </Button>
             </DialogClose>
             <DialogClose asChild>
-              <Button icon={IvyIcons.Close} variant='outline'>
+              <Button icon={IvyIcons.Close} size='large' variant='outline'>
                 Cancel
               </Button>
             </DialogClose>
