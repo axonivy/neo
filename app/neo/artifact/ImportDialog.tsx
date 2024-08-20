@@ -9,14 +9,13 @@ import {
   DialogTitle,
   DialogTrigger,
   Fieldset,
-  Flex,
   Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { Link } from '@remix-run/react';
 import { ReactNode, useState } from 'react';
 
-export const FileInput = (setFile: (file: File) => void) => (
+export const FileInput = ({ setFile }: { setFile: (file: File) => void }) => (
   <Fieldset label='Select an .iar file or a .zip file that contains .iar files'>
     <Input
       accept='.zip,.iar'
@@ -55,9 +54,7 @@ export const ImportDialog = ({
             </Link>
           </DialogDescription>
         </DialogHeader>
-        <Flex direction='column' gap={2}>
-          <form>{FileInput(setFile)}</form>
-        </Flex>
+        <FileInput setFile={setFile} />
         <DialogFooter>
           <DialogClose asChild>
             <Button variant='primary' size='large' onClick={() => (file ? importAction(file) : {})} icon={IvyIcons.Upload}>
