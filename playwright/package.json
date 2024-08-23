@@ -10,13 +10,11 @@
     "url": "https://github.com/axonivy/neo"
   },
   "devDependencies": {
-    "@playwright/test": "1.45.1"
+    "@playwright/test": "1.46.0"
   },
   "type": "module",
   "scripts": {
     "type": "tsc",
-    "lint": "eslint --ext .ts,.tsx ./tests",
-    "lint:fix": "eslint --fix --ext .ts,.tsx ./tests",
     "webtest": "playwright test --project=integration-chrome",
     "webtest:screenshots": "playwright test --project=screenshots",
     "webtest:*": "playwright test --project=integration-*",
