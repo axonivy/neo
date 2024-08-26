@@ -34,5 +34,16 @@ export default defineConfig({
       override
     },
     hooks
+  },
+  openapiSystem: {
+    input: {
+      target: './openapi-system.yaml'
+    },
+    output: {
+      target: './app/data/generated/openapi-system.ts',
+      client,
+      override
+    },
+    hooks
   }
 });

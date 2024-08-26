@@ -13,6 +13,7 @@ import { LinksFunction } from '@remix-run/node';
 import { ReactNode } from 'react';
 import cardStyles from './card.css?url';
 import { DeleteConfirm } from './DeleteConfirm';
+import { DeployActionParams, DeployDialog } from './DeployDialog';
 import { ImportDialog } from './ImportDialog';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
@@ -22,7 +23,7 @@ type Card = {
   type: string;
   preview?: ReactNode;
   onClick: () => void;
-  actions?: { delete?: () => void; export?: () => void; import?: (file: File) => void };
+  actions?: { delete?: () => void; export?: () => void; import?: (file: File) => void; deploy?: (params: DeployActionParams) => void };
 };
 
 export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) => (
@@ -51,18 +52,24 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
                 <span>Delete</span>
               </DropdownMenuItem>
             </DeleteConfirm>
-            {actions.export && actions.import && (
+            {actions.export && actions.import && actions.deploy && (
               <>
                 <DropdownMenuItem onSelect={() => actions.export!()}>
                   <IvyIcon icon={IvyIcons.Download} />
                   <span>Export</span>
                 </DropdownMenuItem>
-                <ImportDialog name={name} importAction={actions.import!} exportAction={actions.export!}>
+                <ImportDialog name={name} importAction={actions.import} exportAction={actions.export!}>
                   <DropdownMenuItem onSelect={e => e.preventDefault()}>
                     <IvyIcon icon={IvyIcons.Upload} />
                     <span>Import</span>
                   </DropdownMenuItem>
                 </ImportDialog>
+                <DeployDialog deployAction={actions.deploy}>
+                  <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                    <IvyIcon icon={IvyIcons.Bpmn} />
+                    <span>Deploy</span>
+                  </DropdownMenuItem>
+                </DeployDialog>
               </>
             )}
           </DropdownMenuGroup>

@@ -18,6 +18,7 @@ import { useState } from 'react';
 import {
   useCreateWorkspace,
   useDeleteWorkspace,
+  useDeployWorkspace,
   useExportWorkspace,
   useImportWorkspace,
   useWorkspaces,
@@ -26,6 +27,7 @@ import {
 import { ControlBar } from '~/neo/ControlBar';
 import { Overview } from '~/neo/Overview';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { FileInput } from '~/neo/artifact/ImportDialog';
 import PreviewSVG from './workspace-preview.svg?react';
 
@@ -63,6 +65,7 @@ const WorkspaceCard = (workspace: Workspace) => {
   const { deleteWorkspace } = useDeleteWorkspace();
   const { exportWorkspace } = useExportWorkspace();
   const { importWorkspace } = useImportWorkspace();
+  const { deployWorkspace } = useDeployWorkspace();
   const open = () => navigate(workspace.name);
   const deleteAction = () => deleteWorkspace(workspace.id);
   const exportAction = () => {
@@ -78,13 +81,16 @@ const WorkspaceCard = (workspace: Workspace) => {
     });
   };
   const importAction = (file: File) => importWorkspace(workspace.id, file, file.name);
+  const deployAction = (params: DeployActionParams) => {
+    deployWorkspace({ workspaceId: workspace.id, ...params }).then(() => window.open(params.engineUrl));
+  };
 
   return (
     <ArtifactCard
       name={workspace.name}
       type='workspace'
       onClick={open}
-      actions={{ delete: deleteAction, export: exportAction, import: importAction }}
+      actions={{ delete: deleteAction, export: exportAction, import: importAction, deploy: deployAction }}
       preview={<PreviewSVG />}
     />
   );

@@ -1,7 +1,7 @@
 import { toast } from '@axonivy/ui-components';
 import { useParams } from '@remix-run/react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { ok } from './custom-fetch';
+import { headers, ok } from './custom-fetch';
 import {
   createWorkspace as createWorkspaceReq,
   deleteWorkspace as deleteWorkspaceReq,
@@ -11,8 +11,11 @@ import {
   type WorkspaceInit,
   workspaces
 } from './generated/openapi-default';
+import { deploy } from './generated/openapi-system';
 
 export type Workspace = WorkspaceBean;
+
+export type DeployParams = { workspaceId: string; applicationName: string; engineUrl: string; user: string; password: string };
 
 const queryKey = ['neo', 'workspaces'];
 
@@ -108,6 +111,41 @@ export const useImportWorkspace = () => {
         error: e => e.message
       });
       return importWs;
+    }
+  };
+};
+
+export const useDeployWorkspace = () => {
+  const { exportWorkspace } = useExportWorkspace();
+  const deployWorkspace = async (params: DeployParams) => {
+    const zip = await exportWorkspace(params.workspaceId);
+    if (!(zip instanceof Blob)) {
+      throw new Error(`Failed to export workspace '${params.workspaceId}'`);
+    }
+    const fileToDeploy = new File([zip], 'export.zip');
+    const baseUrl = new URL('system', params.engineUrl).toString();
+    const basicAuth = 'Basic ' + btoa(params.user + ':' + params.password);
+    const reqHeaders = {
+      'Content-Type': 'multipart/form-data',
+      Authorization: basicAuth,
+      ...headers(baseUrl)
+    };
+    await deploy(params.applicationName, { fileToDeploy }, { headers: reqHeaders }).then(res => {
+      if (ok(res)) {
+        return;
+      }
+      throw new Error(`Failed to deploy workspace '${params.workspaceId}'`);
+    });
+  };
+  return {
+    deployWorkspace: (params: DeployParams) => {
+      const deploy = deployWorkspace(params);
+      toast.promise(deploy, {
+        loading: 'Deploy workspace',
+        success: 'Workspace deployed',
+        error: e => e.message
+      });
+      return deploy;
     }
   };
 };
