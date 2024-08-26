@@ -127,6 +127,7 @@ export const useDeployWorkspace = () => {
     const basicAuth = 'Basic ' + btoa(params.user + ':' + params.password);
     const reqHeaders = {
       'Content-Type': 'multipart/form-data',
+      'Access-Control-Allow-Origin': '*',
       Authorization: basicAuth,
       ...headers(baseUrl)
     };
