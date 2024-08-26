@@ -10,7 +10,8 @@ import {
   DialogTrigger,
   Fieldset,
   Flex,
-  Input
+  Input,
+  PasswordInput
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { ReactNode, useState } from 'react';
@@ -32,20 +33,18 @@ export const DeployDialog = ({ children, deployAction }: { children: ReactNode; 
           <DialogDescription>Specify the engine to which you want to deploy the current workspace.</DialogDescription>
         </DialogHeader>
         <Flex direction='column' gap={2}>
-          <form>
-            <Fieldset label='Engine Url'>
-              <Input value={engineUrl} onChange={e => setEngineUrl(e.target.value)} />
-            </Fieldset>
-            <Fieldset label='Application Name'>
-              <Input value={appName} onChange={e => setAppName(e.target.value)} />
-            </Fieldset>
-            <Fieldset label='User'>
-              <Input value={user} onChange={e => setUser(e.target.value)} />
-            </Fieldset>
-            <Fieldset label='Password'>
-              <Input type='password' value={password} onChange={e => setPassword(e.target.value)} />
-            </Fieldset>
-          </form>
+          <Fieldset label='Engine Url'>
+            <Input value={engineUrl} onChange={e => setEngineUrl(e.target.value)} />
+          </Fieldset>
+          <Fieldset label='Application Name'>
+            <Input value={appName} onChange={e => setAppName(e.target.value)} />
+          </Fieldset>
+          <Fieldset label='User'>
+            <Input value={user} onChange={e => setUser(e.target.value)} />
+          </Fieldset>
+          <Fieldset label='Password'>
+            <PasswordInput value={password} onChange={pw => setPassword(pw)} />
+          </Fieldset>
         </Flex>
         <DialogFooter>
           <DialogClose asChild>
