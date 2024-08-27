@@ -13,6 +13,7 @@ const getHeaders = (headersInit?: HeadersInit): HeadersInit => {
   } else if (contentType === 'multipart/form-data') {
     headers.delete('Content-Type');
   }
+  headers.delete('base');
   return headers;
 };
 
