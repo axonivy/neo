@@ -20,7 +20,7 @@ import { DeployParams } from '~/data/workspace-api';
 export type DeployActionParams = Omit<DeployParams, 'workspaceId'>;
 
 export const DeployDialog = ({ children, deployAction }: { children: ReactNode; deployAction: (params: DeployActionParams) => void }) => {
-  const [engineUrl, setEngineUrl] = useState('http://localhost:8080/');
+  const [engineUrl, setEngineUrl] = useState(window.location.origin);
   const [appName, setAppName] = useState('myApp');
   const [user, setUser] = useState('admin');
   const [password, setPassword] = useState('admin');
