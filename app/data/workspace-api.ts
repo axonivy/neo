@@ -128,10 +128,11 @@ export const useDeployWorkspace = () => {
     const reqHeaders = {
       'Content-Type': 'multipart/form-data',
       'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, DELETE',
       Authorization: basicAuth,
       ...headers(baseUrl)
     };
-    await deploy(params.applicationName, { fileToDeploy }, { headers: reqHeaders }).then(res => {
+    await deploy(params.applicationName, { fileToDeploy }, { headers: reqHeaders, mode: 'cors' }).then(res => {
       if (ok(res)) {
         return;
       }
