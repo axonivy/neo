@@ -1,14 +1,14 @@
+import { Flex, Spinner, ThemeProvider } from '@axonivy/ui-components';
+import componentsStylesHref from '@axonivy/ui-components/lib/style.css?url';
+import iconStylesHref from '@axonivy/ui-icons/lib/ivy-icons.css?url';
+import { LinksFunction } from '@remix-run/node';
 import { Links, Meta, Scripts, ScrollRestoration } from '@remix-run/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import iconStylesHref from '@axonivy/ui-icons/lib/ivy-icons.css?url';
-import componentsStylesHref from '@axonivy/ui-components/lib/style.css?url';
 import rootStylesHref from '~/styles/root.css?url';
-import { LinksFunction } from '@remix-run/node';
-import { Neo } from './neo/Neo';
-import { Flex, Spinner, ThemeProvider } from '@axonivy/ui-components';
-import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
+import { WebBrowserProvider } from './neo/browser/useWebBrowser';
+import { Neo } from './neo/Neo';
 
 const queryClient = new QueryClient();
 
@@ -27,7 +27,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body style={{ overflow: 'hidden' }}>
         {children}
         <ScrollRestoration />
         <Scripts />
