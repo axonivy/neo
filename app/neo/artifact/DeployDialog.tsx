@@ -11,7 +11,8 @@ import {
   Fieldset,
   Flex,
   Input,
-  PasswordInput
+  PasswordInput,
+  toast
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { ReactNode, useState } from 'react';
@@ -19,11 +20,21 @@ import { DeployParams } from '~/data/workspace-api';
 
 export type DeployActionParams = Omit<DeployParams, 'workspaceId'>;
 
-export const DeployDialog = ({ children, deployAction }: { children: ReactNode; deployAction: (params: DeployActionParams) => void }) => {
+export const DeployDialog = ({
+  children,
+  deployAction
+}: {
+  children: ReactNode;
+  deployAction: (params: DeployActionParams) => Promise<string>;
+}) => {
   const [engineUrl, setEngineUrl] = useState(window.location.origin);
   const [appName, setAppName] = useState('myApp');
   const [user, setUser] = useState('admin');
   const [password, setPassword] = useState('admin');
+  const [log, setLog] = useState<string>();
+  if (log) {
+    return DeployLogDialog({ children, log });
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -47,21 +58,51 @@ export const DeployDialog = ({ children, deployAction }: { children: ReactNode; 
           </Fieldset>
         </Flex>
         <DialogFooter>
-          <DialogClose asChild>
-            <Button
-              variant='primary'
-              size='large'
-              onClick={() => deployAction({ applicationName: appName, engineUrl, user, password })}
-              icon={IvyIcons.Bpmn}
-            >
-              Deploy
-            </Button>
-          </DialogClose>
+          <Button
+            variant='primary'
+            size='large'
+            onClick={() => deployAction({ applicationName: appName, engineUrl, user, password }).then(deployLog => setLog(deployLog))}
+            icon={IvyIcons.Bpmn}
+          >
+            Deploy
+          </Button>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
               Cancel
             </Button>
           </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const DeployLogDialog = ({ children, log }: { children: ReactNode; log: string }) => {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent style={{ overflow: 'auto', maxHeight: '80%', maxWidth: '80%' }}>
+        <DialogHeader>
+          <DialogTitle>Deployment Log</DialogTitle>
+          <DialogDescription>Returned log output from the engine.</DialogDescription>
+        </DialogHeader>
+        <pre style={{ overflow: 'auto' }}>
+          <code>{log}</code>
+        </pre>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant='primary' size='large' icon={IvyIcons.Close}>
+              Close
+            </Button>
+          </DialogClose>
+          <Button
+            variant='outline'
+            size='large'
+            icon={IvyIcons.Note}
+            onClick={() => navigator.clipboard.writeText(log).then(() => toast.success('Log copied to the clipboard'))}
+          >
+            Copy Log
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

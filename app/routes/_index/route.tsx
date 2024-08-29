@@ -82,7 +82,7 @@ const WorkspaceCard = (workspace: Workspace) => {
   };
   const importAction = (file: File) => importWorkspace(workspace.id, file, file.name);
   const deployAction = (params: DeployActionParams) => {
-    deployWorkspace({ workspaceId: workspace.id, ...params }).then(() => window.open(params.engineUrl));
+    return deployWorkspace({ workspaceId: workspace.id, ...params });
   };
 
   return (

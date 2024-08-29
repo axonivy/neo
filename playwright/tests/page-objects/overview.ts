@@ -47,6 +47,15 @@ export class Overview {
     await dialog.getByRole('button', { name: 'Import' }).click();
   }
 
+  async deploy(name: string) {
+    const card = this.card(name);
+    await this.clickCardAction(card, 'Deploy');
+    const dialog = this.page.getByRole('dialog');
+    await dialog.getByRole('button', { name: 'Deploy' }).click();
+    await expect(dialog.locator('code')).toContainText("Info: Project(s) of file 'export.zip' successful deployed to application 'myApp'");
+    await this.page.getByRole('dialog').getByRole('button', { name: 'Close' }).click();
+  }
+
   private async selectImport(dialog: Locator, file: string) {
     const fileInput = dialog.locator('input[type=file]');
     const fileChooserPromise = this.page.waitForEvent('filechooser');

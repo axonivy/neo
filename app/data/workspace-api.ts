@@ -130,12 +130,11 @@ export const useDeployWorkspace = () => {
       Authorization: basicAuth,
       ...headers(baseUrl)
     };
-    await deploy(params.applicationName, { fileToDeploy }, { headers: reqHeaders }).then(res => {
-      if (ok(res)) {
-        return;
-      }
-      throw new Error(`Failed to deploy workspace '${params.workspaceId}'`);
-    });
+    const res = await deploy(params.applicationName, { fileToDeploy }, { headers: reqHeaders });
+    if (ok(res)) {
+      return res.data as unknown as string;
+    }
+    throw new Error(`Failed to deploy workspace '${params.workspaceId}'`);
   };
   return {
     deployWorkspace: (params: DeployParams) => {

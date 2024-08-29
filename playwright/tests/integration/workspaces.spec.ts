@@ -52,6 +52,12 @@ test('search workspaces', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
+test('deploy workspaces', async ({ page }) => {
+  await Neo.open(page);
+  const overview = new Overview(page);
+  await overview.deploy(workspace);
+});
+
 test.describe('export & import', () => {
   test.afterAll(async () => {
     if (fs.existsSync(wsExportDir)) {
