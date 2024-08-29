@@ -55,7 +55,7 @@ export class Overview {
     await fileChooser.setFiles(file);
   }
 
-  private async clickCardAction(card: Locator, actionName: string) {
+  async clickCardAction(card: Locator, actionName: string) {
     await card.locator('.card-menu-trigger').click();
     await this.page.getByRole('menu').getByRole('menuitem', { name: actionName }).click();
   }

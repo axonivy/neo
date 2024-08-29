@@ -23,7 +23,12 @@ type Card = {
   type: string;
   preview?: ReactNode;
   onClick: () => void;
-  actions?: { delete?: () => void; export?: () => void; import?: (file: File) => void; deploy?: (params: DeployActionParams) => void };
+  actions?: {
+    delete?: () => void;
+    export?: () => void;
+    import?: (file: File) => void;
+    deploy?: (params: DeployActionParams) => Promise<string>;
+  };
 };
 
 export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) => (
