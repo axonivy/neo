@@ -12,6 +12,7 @@ import {
   Flex,
   Input,
   PasswordInput,
+  Spinner,
   toast
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -20,20 +21,23 @@ import { DeployParams } from '~/data/workspace-api';
 
 export type DeployActionParams = Omit<DeployParams, 'workspaceId'>;
 
-export const DeployDialog = ({
-  children,
-  deployAction
-}: {
-  children: ReactNode;
-  deployAction: (params: DeployActionParams) => Promise<string>;
-}) => {
+type DeployDialogProps = { children: ReactNode; deployAction: (params: DeployActionParams) => Promise<string> };
+
+export const DeployDialog = ({ children, deployAction }: DeployDialogProps) => {
   const [engineUrl, setEngineUrl] = useState(window.location.origin);
   const [appName, setAppName] = useState('myApp');
   const [user, setUser] = useState('admin');
   const [password, setPassword] = useState('admin');
   const [log, setLog] = useState<string>();
+  const [deploying, setDeploying] = useState(false);
+  const deploy = () => {
+    setDeploying(true);
+    deployAction({ applicationName: appName, engineUrl, user, password })
+      .then(setLog)
+      .finally(() => setDeploying(false));
+  };
   return (
-    <Dialog>
+    <Dialog onOpenChange={() => setLog(undefined)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       {log ? (
         DeployLogContent(log)
@@ -58,14 +62,15 @@ export const DeployDialog = ({
             </Fieldset>
           </Flex>
           <DialogFooter>
-            <Button
-              variant='primary'
-              size='large'
-              onClick={() => deployAction({ applicationName: appName, engineUrl, user, password }).then(deployLog => setLog(deployLog))}
-              icon={IvyIcons.Bpmn}
-            >
-              Deploy
-            </Button>
+            {deploying! ? (
+              <Button variant='primary' size='large' disabled>
+                <Spinner size='small' style={{ borderColor: 'inherit', borderBottomColor: 'transparent' }} />
+              </Button>
+            ) : (
+              <Button variant='primary' size='large' onClick={deploy} icon={IvyIcons.Bpmn} disabled={deploying}>
+                Deploy
+              </Button>
+            )}
             <DialogClose asChild>
               <Button variant='outline' size='large' icon={IvyIcons.Close}>
                 Cancel
@@ -80,7 +85,7 @@ export const DeployDialog = ({
 
 const DeployLogContent = (log: string) => {
   return (
-    <DialogContent style={{ overflow: 'auto', maxHeight: '80%', maxWidth: '80%' }}>
+    <DialogContent style={{ gridTemplateRows: 'auto 1fr auto', maxHeight: '80%', maxWidth: '80%' }}>
       <DialogHeader>
         <DialogTitle>Deployment Log</DialogTitle>
         <DialogDescription>Returned log output from the engine.</DialogDescription>
