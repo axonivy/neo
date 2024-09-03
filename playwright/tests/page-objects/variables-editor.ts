@@ -37,7 +37,7 @@ export class VariableEditorRow {
 
   async openInscription() {
     await this.row.click();
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator(`.details-container`));
+    return new Inscription(this.editor.neo.page, this.editor.editor.getByTestId('details-container'));
   }
 
   async expectSelected() {
