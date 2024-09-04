@@ -47,7 +47,8 @@ export default defineConfig({
       '/ivy-inscription-lsp': WEBSOCKET_PROXY,
       '/ivy-form-lsp': WEBSOCKET_PROXY,
       '/ivy-web-ide-lsp': WEBSOCKET_PROXY,
-      '/ivy-config-lsp': WEBSOCKET_PROXY
+      '/ivy-config-lsp': WEBSOCKET_PROXY,
+      'ivy-data-class-lsp': WEBSOCKET_PROXY
     }
   },
   build: {

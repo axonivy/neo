@@ -5,13 +5,15 @@ import { useCallback } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Form } from '~/data/form-api';
+import { DataClassBean } from '~/data/generated/openapi-dev';
 import { Process } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
+import { DataClassEditor } from './DataClassEditor';
 import { FormEditor } from './FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
 import { VariableEditor } from './VariableEditor';
 
-export type EditorType = 'processes' | 'forms' | 'src_hd' | 'configurations';
+export type EditorType = 'processes' | 'forms' | 'src_hd' | 'configurations' | 'dataclasses';
 
 // if you change the Editor type increase the persist version too
 export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
@@ -130,6 +132,8 @@ export const renderEditor = (editor: Editor) => {
       return <FormEditor key={editor.id} {...editor} />;
     case 'configurations':
       return <VariableEditor key={editor.id} {...editor} />;
+    case 'dataclasses':
+      return <DataClassEditor key={editor.id} {...editor} />;
   }
 };
 
@@ -146,7 +150,9 @@ export const useCreateEditor = () => {
     },
     createVariableEditor: (project: ProjectIdentifier): Editor => createEditor(ws, 'configurations', project, 'variables', 'variables'),
     createEditorFromPath: (editorType: EditorType, project: ProjectIdentifier, path: string): Editor =>
-      createEditor(ws, editorType, project, path, path.split('/').at(-1) ?? path)
+      createEditor(ws, editorType, project, path, path.split('/').at(-1) ?? path),
+    createDataClassEditor: ({ name, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
+      createEditor(ws, 'dataclasses', project, path, name)
   };
 };
 
@@ -172,6 +178,8 @@ const editorIcon = (editorType: EditorType) => {
       return IvyIcons.File;
     case 'configurations':
       return IvyIcons.Tool;
+    case 'dataclasses':
+      return IvyIcons.Database;
   }
   return IvyIcons.Process;
 };

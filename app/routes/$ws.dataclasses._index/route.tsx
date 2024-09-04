@@ -1,6 +1,7 @@
 import { MetaFunction } from '@remix-run/node';
 import { useState } from 'react';
-import { ProcessIdentifier, useCreateProcess, useDeleteProcess, useProcesses } from '~/data/process-api';
+import { useCreateDataClass, useDataClasses, useDeleteDataClass } from '~/data/data-class-api';
+import { DataClassIdentifier } from '~/data/generated/openapi-dev';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
@@ -16,40 +17,40 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const [search, setSearch] = useState('');
-  const { data, isPending } = useProcesses();
-  const { createProcessEditor } = useCreateEditor();
-  const processes = data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+  const { data, isPending } = useDataClasses();
+  const { createDataClassEditor } = useCreateEditor();
+  const dataClasses = data?.filter(dc => dc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   return (
     <Overview title='Data Classes' search={search} onSearchChange={setSearch} isPending={isPending}>
       <NewDataClassCard />
-      {processes.map(process => {
-        const editor = createProcessEditor(process);
-        return <DataClassCard key={editor.id} processId={process.processIdentifier} {...editor} />;
+      {dataClasses.map(dc => {
+        const editor = createDataClassEditor(dc);
+        return <DataClassCard key={editor.id} dataClassId={dc.dataClassIdentifier} {...editor} />;
       })}
     </Overview>
   );
 }
 
-export const DataClassCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
-  const { deleteProcess } = useDeleteProcess();
+export const DataClassCard = ({ dataClassId, ...editor }: Editor & { dataClassId: DataClassIdentifier }) => {
+  const { deleteDataClass } = useDeleteDataClass();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
     openEditor(editor);
   };
   const deleteAction = () => {
     removeEditor(editor.id);
-    deleteProcess(processId);
+    deleteDataClass(dataClassId);
   };
-  return <ArtifactCard name={editor.name} type='process' preview={<PreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
+  return <ArtifactCard name={editor.name} type='dataclass' preview={<PreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
 };
 
 const NewDataClassCard = () => {
   const open = useNewArtifact();
-  const { createProcess } = useCreateProcess();
+  const { createDataClass } = useCreateDataClass();
   const { openEditor } = useEditors();
-  const { createProcessEditor } = useCreateEditor();
+  const { createDataClassEditor } = useCreateEditor();
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
-    createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
+    createDataClass({ name: `${namespace}.${name}`, project }).then(dataClass => openEditor(createDataClassEditor(dataClass)));
   const title = 'Create new Data Class';
   return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewDataClass' })} />;
 };
