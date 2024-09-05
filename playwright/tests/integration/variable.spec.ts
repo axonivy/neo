@@ -1,8 +1,7 @@
 import { Page, test } from '@playwright/test';
 import { Neo } from '../page-objects/neo';
 import { VariableEditor } from '../page-objects/variables-editor';
-
-const app = process.env.WORKSPACE ? 'ivy-dev-test-ws' : 'designer';
+import { app } from './app';
 
 const openVariables = async (page: Page) => {
   const neo = await Neo.openEditor(page, `configurations/${app}/neo-test-project/variables`);

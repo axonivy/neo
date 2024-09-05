@@ -1,8 +1,7 @@
 import { expect, Page, test } from '@playwright/test';
 import { Neo } from '../page-objects/neo';
 import { ProcessEditor, ProcessEditorElement } from '../page-objects/process-editor';
-
-const app = process.env.WORKSPACE ? 'ivy-dev-test-ws' : 'designer';
+import { app } from './app';
 
 const openQuickStartProcess = async (page: Page) => {
   const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/quickstart`);
