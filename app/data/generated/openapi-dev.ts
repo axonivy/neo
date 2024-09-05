@@ -42,13 +42,6 @@ export interface LocationBean {
   type?: string;
 }
 
-export interface CaseBean {
-  description?: string;
-  documents?: DocumentBean[];
-  id?: number;
-  name?: string;
-}
-
 export interface TaskBean {
   activatorName?: string;
   case?: CaseBean;
@@ -92,6 +85,13 @@ export interface DocumentBean {
   url?: string;
 }
 
+export interface CaseBean {
+  description?: string;
+  documents?: DocumentBean[];
+  id?: number;
+  name?: string;
+}
+
 export interface MessageBean {
   document?: DocumentBean;
   message?: string;
@@ -113,6 +113,15 @@ export interface NewProjectParams {
   name?: string;
   path?: string;
   projectId?: string;
+}
+
+export interface ProcessInit {
+  kind: string;
+  name: string;
+  namespace: string;
+  path?: string;
+  pid?: string;
+  project?: ProjectIdentifier;
 }
 
 export interface ProcessIdentifier {
@@ -147,15 +156,6 @@ export interface ProjectIdentifier {
   pmv: string;
 }
 
-export interface ProcessInit {
-  kind: string;
-  name: string;
-  namespace: string;
-  path?: string;
-  pid?: string;
-  project?: ProjectIdentifier;
-}
-
 export interface HdInit {
   layout?: string;
   name: string;
@@ -179,6 +179,23 @@ export interface HdBean {
   path: string;
   type?: string;
   uri?: string;
+}
+
+export interface DataClassInit {
+  name: string;
+  project?: ProjectIdentifier;
+  projectDir?: string;
+}
+
+export interface DataClassIdentifier {
+  name: string;
+  project: ProjectIdentifier;
+}
+
+export interface DataClassBean {
+  dataClassIdentifier: DataClassIdentifier;
+  name: string;
+  path: string;
 }
 
 export interface EngineInfo {
@@ -219,6 +236,59 @@ export const WebNotificationOperationOperation = {
 export interface WebNotificationOperation {
   operation?: WebNotificationOperationOperation;
 }
+
+export type dataClassesResponse = {
+  data: DataClassBean[];
+  status: number;
+};
+
+export const getDataClassesUrl = () => {
+  return `/web-ide/dataclasses`;
+};
+
+export const dataClasses = async (options?: RequestInit): Promise<dataClassesResponse> => {
+  return customFetch<Promise<dataClassesResponse>>(getDataClassesUrl(), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type createDataClassResponse = {
+  data: DataClassBean;
+  status: number;
+};
+
+export const getCreateDataClassUrl = () => {
+  return `/web-ide/dataclass`;
+};
+
+export const createDataClass = async (dataClassInit: DataClassInit, options?: RequestInit): Promise<createDataClassResponse> => {
+  return customFetch<Promise<createDataClassResponse>>(getCreateDataClassUrl(), {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(dataClassInit)
+  });
+};
+
+export type deleteDataClassResponse = {
+  data: DataClassIdentifier;
+  status: number;
+};
+
+export const getDeleteDataClassUrl = () => {
+  return `/web-ide/dataclass`;
+};
+
+export const deleteDataClass = async (
+  dataClassIdentifier: DataClassIdentifier,
+  options?: RequestInit
+): Promise<deleteDataClassResponse> => {
+  return customFetch<Promise<deleteDataClassResponse>>(getDeleteDataClassUrl(), {
+    ...options,
+    method: 'DELETE',
+    body: JSON.stringify(dataClassIdentifier)
+  });
+};
 
 export type formsResponse = {
   data: HdBean[];

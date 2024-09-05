@@ -24,6 +24,7 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
   "dependencies": {
+    "@axonivy/dataclass-editor": "~11.4.0-next.31",
     "@axonivy/form-editor": "~11.4.0-next.239",
     "@axonivy/form-editor-core": "~11.4.0-next.239",
     "@axonivy/form-editor-protocol": "~11.4.0-next.239",
