@@ -196,6 +196,7 @@ export interface DataClassBean {
   dataClassIdentifier: DataClassIdentifier;
   name: string;
   path: string;
+  simpleName: string;
 }
 
 export interface EngineInfo {

@@ -3,7 +3,7 @@ import { DataClassEditor } from '../page-objects/data-class-editor';
 import { Neo } from '../page-objects/neo';
 
 test('navigate to data classes', async ({ page }) => {
-  const dataClassName = 'neo.test.project.QuickStartTutorial';
+  const dataClassName = 'QuickStartTutorial';
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.dataClasses();
   await overview.card(dataClassName).click();
@@ -12,11 +12,10 @@ test('navigate to data classes', async ({ page }) => {
 
 test('create and delete data class', async ({ page, browserName }, testInfo) => {
   const dataClassName = `${browserName}dataClass${testInfo.retry}`;
-  const namespace = 'hello.test';
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.dataClasses();
-  await overview.create(dataClassName, namespace);
-  await new DataClassEditor(neo, `${namespace}.${dataClassName}`).waitForOpen();
+  await overview.create(dataClassName, 'hello.test');
+  await new DataClassEditor(neo, dataClassName).waitForOpen();
   await page.goBack();
   await overview.deleteCard(dataClassName);
 });

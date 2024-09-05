@@ -151,8 +151,8 @@ export const useCreateEditor = () => {
     createVariableEditor: (project: ProjectIdentifier): Editor => createEditor(ws, 'configurations', project, 'variables', 'variables'),
     createEditorFromPath: (editorType: EditorType, project: ProjectIdentifier, path: string): Editor =>
       createEditor(ws, editorType, project, path, path.split('/').at(-1) ?? path),
-    createDataClassEditor: ({ name, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
-      createEditor(ws, 'dataclasses', project, path, name)
+    createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
+      createEditor(ws, 'dataclasses', project, path, simpleName)
   };
 };
 
