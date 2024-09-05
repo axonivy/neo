@@ -5,7 +5,7 @@ import { ControlBar } from './control-bar';
 import { Navigation } from './navigation';
 import { Overview } from './overview';
 
-export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations';
+export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Classes';
 
 export class Neo {
   readonly page: Page;
@@ -49,6 +49,10 @@ export class Neo {
 
   async configs() {
     return await this.navigate('Configurations');
+  }
+
+  async dataClasses() {
+    return await this.navigate('Data Classes');
   }
 
   async browser() {
