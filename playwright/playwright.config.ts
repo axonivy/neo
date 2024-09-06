@@ -18,6 +18,7 @@ export default defineConfig({
     url: 'http://localhost:5173/neo/',
     reuseExistingServer: !process.env.CI
   },
+  globalTeardown: './global.teardown',
   projects: [
     { name: 'integration-chrome', use: { ...devices['Desktop Chrome'] }, testDir: './tests/integration' },
     { name: 'integration-firefox', use: { ...devices['Desktop Firefox'] }, testDir: './tests/integration' },

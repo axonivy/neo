@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { app } from '../integration/app';
 
 export class Overview {
   protected readonly page: Page;
@@ -55,12 +56,17 @@ export class Overview {
     await fileChooser.setFiles(file);
   }
 
+  private async selectProject(dialog: Locator, project: string) {
+    await dialog.getByRole('combobox', { name: 'Project' }).click();
+    await this.page.getByRole('option', { name: `${app}/${project}` }).click();
+  }
+
   async clickCardAction(card: Locator, actionName: string) {
     await card.locator('.card-menu-trigger').click();
     await this.page.getByRole('menu').getByRole('menuitem', { name: actionName }).click();
   }
 
-  async create(name: string, namespace?: string, file?: string) {
+  async create(name: string, namespace?: string, options?: { file?: string; project?: string }) {
     await this.waitForHiddenSpinner();
     const createCard = this.overview.locator('.new-artifact-card');
     await expect(createCard).toBeVisible();
@@ -71,8 +77,11 @@ export class Overview {
     if (namespace) {
       await dialog.getByLabel('Namespace').first().fill(namespace);
     }
-    if (file) {
-      await this.selectImport(dialog, file);
+    if (options?.file) {
+      await this.selectImport(dialog, options.file);
+    }
+    if (options?.project) {
+      await this.selectProject(dialog, options.project);
     }
     await dialog.getByRole('button', { name: 'Create' }).click();
   }
