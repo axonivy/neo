@@ -12,6 +12,9 @@ export const Navigation = () => (
     role='navigation'
   >
     <Flex direction='column' gap={4}>
+      <NavLink to='market' prefetch='intent' style={{ all: 'unset' }} aria-label='Market' title='Market'>
+        {({ isActive }) => <Button icon={IvyIcons.Market} size='large' toggle={isActive} />}
+      </NavLink>
       <NavLink to='processes' prefetch='intent' style={{ all: 'unset' }} aria-label='Processes' title='Processes'>
         {({ isActive }) => <Button icon={IvyIcons.Process} size='large' toggle={isActive} />}
       </NavLink>
