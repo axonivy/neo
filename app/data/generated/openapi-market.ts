@@ -20,6 +20,8 @@ export type FindFeedbacksParams = {
   sort: string[];
 };
 
+export type FindProductJsonContent200 = { [key: string]: { [key: string]: unknown } };
+
 export type FindProductVersionsByIdParams = {
   /**
    * Option to get Dev Version (Snapshot/ sprint release)
@@ -147,6 +149,11 @@ export interface PagedModelFeedbackModel {
   page?: PageMetadata;
 }
 
+export interface VersionAndUrlModel {
+  url?: string;
+  version?: string;
+}
+
 export interface MavenArtifactModel {
   /** Artifact download url */
   downloadUrl?: string;
@@ -185,9 +192,12 @@ export interface ProductModuleContent {
   description?: ProductModuleContentDescription;
   /** Product artifact's group id */
   groupId?: string;
+  id?: string;
   /** Is dependency artifact */
   isDependency?: boolean;
   name?: string;
+  /** product Id (from meta.json) */
+  productId?: string;
   /** Setup tab content */
   setup?: ProductModuleContentSetup;
   /** Target release tag */
@@ -224,6 +234,8 @@ export interface ProductDetailModel {
   language?: string;
   /** Product's logo url */
   logoUrl?: string;
+  /** The api url to get metadata from product.json */
+  metaProductJsonUrl?: string;
   /** Product name by locale */
   names?: ProductDetailModelNames;
   /** Latest release version from maven */
@@ -417,8 +429,8 @@ export const findProducts = async (params: FindProductsParams, options?: Request
 };
 
 /**
- * update installation count when click download product files by users
- * @summary increase installation count by 1
+ * Return product detail by product id (from meta.json)
+ * @summary get product detail by ID
  */
 export type findProductDetailsResponse = {
   data: ProductDetailModel;
@@ -511,6 +523,50 @@ export const findProductVersionsById = async (
   options?: RequestInit
 ): Promise<findProductVersionsByIdResponse> => {
   return customFetch<Promise<findProductVersionsByIdResponse>>(getFindProductVersionsByIdUrl(id, params), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
+ * Collect the released versions in product for ivy designer
+ * @summary Get the list of released version in product
+ */
+export type findVersionsForDesignerResponse = {
+  data: VersionAndUrlModel[];
+  status: number;
+};
+
+export const getFindVersionsForDesignerUrl = (id: string) => {
+  return `/api/product-details/${id}/designerversions`;
+};
+
+export const findVersionsForDesigner = async (id: string, options?: RequestInit): Promise<findVersionsForDesignerResponse> => {
+  return customFetch<Promise<findVersionsForDesignerResponse>>(getFindVersionsForDesignerUrl(id), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
+ * When we click install in designer, this API will send content of product json for installing in Ivy designer
+ * @summary Get product json content for designer to install
+ */
+export type findProductJsonContentResponse = {
+  data: FindProductJsonContent200;
+  status: number;
+};
+
+export const getFindProductJsonContentUrl = (productId: string, version: string) => {
+  return `/api/product-details/productjsoncontent/${productId}/${version}`;
+};
+
+export const findProductJsonContent = async (
+  productId: string,
+  version: string,
+  options?: RequestInit
+): Promise<findProductJsonContentResponse> => {
+  return customFetch<Promise<findProductJsonContentResponse>>(getFindProductJsonContentUrl(productId, version), {
     ...options,
     method: 'GET'
   });
