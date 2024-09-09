@@ -1,4 +1,4 @@
-import { Button, Flex } from '@axonivy/ui-components';
+import { Button, Flex, Separator } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { NavLink } from '@remix-run/react';
 import { SettingsMenu } from './settings/SettingsMenu';
@@ -23,6 +23,10 @@ export const Navigation = () => (
       </NavLink>
       <NavLink to='configurations' prefetch='intent' style={{ all: 'unset' }} aria-label='Configurations' title='Configurations'>
         {({ isActive }) => <Button icon={IvyIcons.Tool} size='large' toggle={isActive} />}
+      </NavLink>
+      <Separator />
+      <NavLink to='market' prefetch='intent' style={{ all: 'unset' }} aria-label='Market' title='Market'>
+        {({ isActive }) => <Button icon={IvyIcons.Market} size='large' toggle={isActive} />}
       </NavLink>
     </Flex>
     <SettingsMenu />

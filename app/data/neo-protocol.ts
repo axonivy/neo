@@ -1,4 +1,4 @@
-import type { Disposable } from '@axonivy/jsonrpc/lib/re-exports';
+import type { Disposable } from '@axonivy/jsonrpc';
 import { AnimationSettings } from './neo-jsonrpc';
 import { Process } from './process-api';
 

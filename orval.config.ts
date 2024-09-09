@@ -45,5 +45,16 @@ export default defineConfig({
       override
     },
     hooks
+  },
+  openapiMarket: {
+    input: {
+      target: './openapi-market.json'
+    },
+    output: {
+      target: './app/data/generated/openapi-market.ts',
+      client,
+      override
+    },
+    hooks
   }
 });

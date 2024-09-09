@@ -1,11 +1,19 @@
 const getUrl = (contextUrl: string, headers?: Record<string, string>): string => {
   const base = headers && headers['base'] ? headers['base'] : '';
-  return `${base}/api${contextUrl} `;
+  const apiPrefix = '/api';
+  if (contextUrl.startsWith(apiPrefix)) {
+    return `${base}${contextUrl} `;
+  }
+  return `${base}${apiPrefix}${contextUrl} `;
 };
+
+const xRequestedByHeader = 'X-Requested-By';
 
 const getHeaders = (headersInit?: HeadersInit): HeadersInit => {
   const headers = new Headers(headersInit);
-  headers.append('X-Requested-By', 'Neo');
+  if (!headers.has(xRequestedByHeader)) {
+    headers.append(xRequestedByHeader, 'neo');
+  }
   const contentType = headers.get('Content-Type');
   if (!contentType) {
     headers.append('Content-Type', 'application/json');

@@ -118,7 +118,6 @@ export const ControlBar = ({ children }: { children?: ReactNode }) => {
             <IvyLogoSVG />
           </Button>
         </Link>
-        <Button icon={IvyIcons.Market} size='large' />
       </Flex>
       {children}
     </Flex>

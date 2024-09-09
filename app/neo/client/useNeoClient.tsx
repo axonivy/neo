@@ -1,4 +1,4 @@
-import { urlBuilder } from '@axonivy/jsonrpc/lib/connection-util';
+import { urlBuilder } from '@axonivy/jsonrpc';
 import { useLocation, useNavigate } from '@remix-run/react';
 import { createContext, useContext, useEffect, useRef } from 'react';
 import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from 'vscode-ws-jsonrpc';
