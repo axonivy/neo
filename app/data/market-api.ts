@@ -20,7 +20,7 @@ const products = async (pageParam: number, base: string) => {
       const data = JSON.parse(res.data as string) as PagedModelProductModel;
       return data._embedded?.products ?? [];
     }
-    toast.error('Failed to market products', { description: 'Maybe the server is not correclty started' });
+    toast.error('Failed to load market products', { description: 'Maybe the market is currently not accessible' });
     return [];
   });
 };
