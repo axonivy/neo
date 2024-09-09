@@ -1,44 +1,25 @@
-import { urlBuilder } from '@axonivy/jsonrpc';
+import { toast } from '@axonivy/ui-components';
 import { useLocation, useNavigate } from '@remix-run/react';
-import { createContext, useContext, useEffect, useRef } from 'react';
-import { toSocket, WebSocketMessageReader, WebSocketMessageWriter } from 'vscode-ws-jsonrpc';
+import { createContext, useContext } from 'react';
 import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
 import { NeoClient } from '~/data/neo-protocol';
-import { useWorkspace } from '~/data/workspace-api';
-import { wsBaseUrl } from '~/data/ws-base';
 import { useCreateEditor, useEditors } from '~/neo/editors/useEditors';
+import { useWebSocket } from '../editors/useWebSocket';
 import { AnimationFollowMode } from '../settings/useSettings';
 
 type NeoClientProviderState = {
-  client: React.MutableRefObject<NeoClient | undefined>;
+  client: NeoClient | undefined;
 };
 
 export const NeoClientProviderContext = createContext<NeoClientProviderState | undefined>(undefined);
 
 export const NeoClientProvider = ({ children }: { children: React.ReactNode }) => {
-  const workspace = useWorkspace();
-  const client = useRef<NeoClient>();
-  const connection = useRef<WebSocket>();
-  useEffect(() => {
-    if (!workspace) return;
-    const webSocketUrl = urlBuilder(wsBaseUrl(), `${workspace.baseUrl}/ivy-web-ide-lsp`);
-    const webSocket = new WebSocket(webSocketUrl);
-    webSocket.onopen = async () => {
-      const socket = toSocket(webSocket);
-      const reader = new WebSocketMessageReader(socket);
-      const writer = new WebSocketMessageWriter(socket);
-      NeoClientJsonRpc.startClient({ reader, writer }).then(neoClient => {
-        client.current = neoClient;
-      });
-    };
-    connection.current = webSocket;
-    webSocket.onerror = () => console.log('Connection could not be established.');
-    return () => {
-      connection.current?.close();
-      client.current?.stop();
-      connection.current = undefined;
-    };
-  }, [workspace]);
+  const client = useWebSocket<NeoClientJsonRpc>('neo', NeoClientJsonRpc.webSocketUrl, NeoClientJsonRpc.startMessageClient, {
+    log: console.log,
+    info: toast.info,
+    warn: toast.warning,
+    error: toast.error
+  });
   return <NeoClientProviderContext.Provider value={{ client }}>{children}</NeoClientProviderContext.Provider>;
 };
 
@@ -50,7 +31,7 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
   const { createProcessEditor } = useCreateEditor();
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
-  client.current?.onOpenEditor.set(process => {
+  client?.onOpenEditor.set(process => {
     const editor = createProcessEditor(process);
     switch (mode) {
       case 'all':
@@ -77,5 +58,5 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
     }
     //TODO: wait on editor to be ready
   });
-  return client.current;
+  return client;
 };

@@ -1,4 +1,4 @@
-import { BaseRpcClient, Connection, createMessageConnection, Disposable } from '@axonivy/jsonrpc';
+import { BaseRpcClient, Disposable, MessageConnection, urlBuilder } from '@axonivy/jsonrpc';
 import { Callback, NeoClient } from './neo-protocol';
 import { Process } from './process-api';
 
@@ -35,11 +35,13 @@ export class NeoClientJsonRpc extends BaseRpcClient implements NeoClient {
     return this.connection.onRequest(kind, listener);
   }
 
-  public static async startClient(connection: Connection): Promise<NeoClient> {
-    const messageConnection = createMessageConnection(connection.reader, connection.writer);
-    const client = new NeoClientJsonRpc(messageConnection);
-    client.start();
-    connection.reader.onClose(() => client.stop());
+  public static webSocketUrl(url: string) {
+    return urlBuilder(url, 'ivy-web-ide-lsp');
+  }
+
+  public static async startMessageClient(connection: MessageConnection): Promise<NeoClientJsonRpc> {
+    const client = new NeoClientJsonRpc(connection);
+    await client.start();
     return client;
   }
 }

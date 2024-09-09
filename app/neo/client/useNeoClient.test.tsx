@@ -58,7 +58,7 @@ const renderNeoClientHook = (mode: AnimationFollowMode) => {
   };
 
   return renderHook(() => useNeoClient(mode), {
-    wrapper: props => <NeoClientProviderContext.Provider value={{ client: { current: mockClient } }} {...props} />
+    wrapper: props => <NeoClientProviderContext.Provider value={{ client: mockClient }} {...props} />
   });
 };
 

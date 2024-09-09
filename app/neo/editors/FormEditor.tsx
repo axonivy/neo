@@ -1,19 +1,13 @@
 import { App, ClientContextProvider } from '@axonivy/form-editor';
 import { FormClientJsonRpc } from '@axonivy/form-editor-core';
-import { FormClient } from '@axonivy/form-editor-protocol';
 import { ReadonlyProvider } from '@axonivy/ui-components';
 import { useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import { useWorkspace } from '~/data/workspace-api';
-import { wsBaseUrl } from '~/data/ws-base';
 import { Editor } from '~/neo/editors/useEditors';
+import { useWebSocket } from './useWebSocket';
 
 export const FormEditor = ({ id, project, path, name }: Editor) => {
-  const [client, setClient] = useState<FormClient>();
-  const ws = useWorkspace();
-  useEffect(() => {
-    FormClientJsonRpc.startWebSocketClient(`${wsBaseUrl()}${ws?.baseUrl}`).then(formClient => setClient(formClient));
-  }, [id, ws?.baseUrl]);
+  const client = useWebSocket<FormClientJsonRpc>(id, FormClientJsonRpc.webSocketUrl, FormClientJsonRpc.startMessageClient);
   const { pathname } = useLocation();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {

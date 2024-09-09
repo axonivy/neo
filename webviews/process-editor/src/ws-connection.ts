@@ -1,12 +1,10 @@
-import { Connection } from '@axonivy/jsonrpc';
-import { Message } from 'vscode-jsonrpc';
-import { WebSocketMessageReader, WebSocketMessageWriter, toSocket } from 'vscode-ws-jsonrpc';
+import { WebSocketMessageReader, WebSocketMessageWriter, wrap, type Connection, type Message } from '@axonivy/jsonrpc';
 
 export async function createWebSocketConnection(url: string | URL): Promise<Connection> {
   return new Promise<Connection>((resolve, reject) => {
     const webSocket = new WebSocket(url);
     webSocket.onopen = async () => {
-      const socket = toSocket(webSocket);
+      const socket = wrap(webSocket);
       const reader = new IvyWebSocketMessageReader(socket);
       const writer = new IvyWebSocketMessageWriter(socket);
       const connection: Connection = { reader, writer };
@@ -19,7 +17,7 @@ export async function createWebSocketConnection(url: string | URL): Promise<Conn
 
 const forwardClientMessages = (reader: IvyWebSocketMessageReader) => {
   window.addEventListener('message', event => {
-    reader.readMessage(JSON.stringify(event.data));
+    reader.handleMessage(JSON.stringify(event.data));
   });
 };
 
@@ -40,8 +38,8 @@ class IvyWebSocketMessageWriter extends WebSocketMessageWriter {
 }
 
 class IvyWebSocketMessageReader extends WebSocketMessageReader {
-  readMessage(message: unknown): void {
-    super.readMessage(message);
+  handleMessage(message: unknown): void {
+    super.handleMessage(message);
   }
 }
 
