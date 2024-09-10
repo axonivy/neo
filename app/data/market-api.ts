@@ -1,13 +1,22 @@
 import { toast } from '@axonivy/ui-components';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { headers, ok } from './custom-fetch';
-import { findProducts, FindProductsParams, PagedModelProductModel } from './generated/openapi-market';
+import {
+  findProductJsonContent,
+  findProducts,
+  FindProductsParams,
+  findVersionsForDesigner,
+  PagedModelProductModel
+} from './generated/openapi-market';
 
-export const useMarketApi = () => {
-  return { queryKey: ['market'], base: 'https://market-preview.ivy-cloud.com/marketplace-service' };
+const useMarketApi = () => {
+  return {
+    queryKey: ['market'],
+    headers: { 'X-Requested-By': 'ivy', ...headers('https://market-preview.ivy-cloud.com/marketplace-service') }
+  };
 };
 
-const products = async (pageParam: number, base: string) => {
+const products = async (pageParam: number, headers: HeadersInit) => {
   const params: FindProductsParams = {
     isRESTClient: false,
     page: pageParam,
@@ -15,7 +24,7 @@ const products = async (pageParam: number, base: string) => {
     language: 'en',
     type: 'all'
   };
-  return findProducts(params, { headers: { 'X-Requested-By': 'ivy', ...headers(base) } }).then(res => {
+  return findProducts(params, { headers }).then(res => {
     if (ok(res)) {
       const data = JSON.parse(res.data as string) as PagedModelProductModel;
       return data._embedded?.products ?? [];
@@ -26,10 +35,10 @@ const products = async (pageParam: number, base: string) => {
 };
 
 export const useProducts = () => {
-  const { queryKey, base } = useMarketApi();
+  const { queryKey, headers } = useMarketApi();
   return useInfiniteQuery({
     queryKey,
-    queryFn: ({ pageParam }) => products(pageParam, base),
+    queryFn: ({ pageParam }) => products(pageParam, headers),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages, lastPageParam) => {
       if (lastPage?.length === 0) {
@@ -44,4 +53,35 @@ export const useProducts = () => {
       return firstPageParam - 1;
     }
   });
+};
+
+export const useProductVersions = (id: string) => {
+  const { headers, queryKey } = useMarketApi();
+  return useQuery({
+    queryKey: [...queryKey, 'versions', id],
+    queryFn: () =>
+      findVersionsForDesigner(id, { headers }).then(res => {
+        if (ok(res)) {
+          return res.data;
+        }
+        toast.error(`Failed to load market product versions for ${id}`, { description: 'Maybe the market is currently not accessible' });
+        return [];
+      })
+  });
+};
+
+export const useProductJson = () => {
+  const { headers } = useMarketApi();
+  const productJson = async (id: string, version: string) => {
+    const res = await findProductJsonContent(id, version, { headers });
+    if (ok(res)) {
+      return res.data;
+    }
+    throw new Error('Failed to load product json');
+  };
+  return {
+    productJson: (id: string, version: string) => {
+      return productJson(id, version);
+    }
+  };
 };

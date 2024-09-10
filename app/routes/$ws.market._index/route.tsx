@@ -41,6 +41,9 @@ export default function Index() {
 
 export const ProductCard = ({ product }: { product: ProductModel }) => {
   const open = () => {};
+  const install = () => {
+    return { id: product.id ?? '' };
+  };
   const preview = <img src={product.logoUrl} width={100} alt={'product logo'} />;
-  return <ArtifactCard name={product.names?.en ?? ''} type='product' preview={preview} onClick={open} />;
+  return <ArtifactCard name={product.names?.en ?? ''} type='product' preview={preview} onClick={open} actions={{ install }} />;
 };

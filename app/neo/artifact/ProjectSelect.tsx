@@ -1,4 +1,4 @@
-import { Fieldset, Spinner, BasicSelect } from '@axonivy/ui-components';
+import { BasicSelect, Fieldset, Spinner } from '@axonivy/ui-components';
 import { useEffect, useMemo } from 'react';
 import { ProjectIdentifier, useProjects } from '~/data/project-api';
 

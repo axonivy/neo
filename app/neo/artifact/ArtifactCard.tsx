@@ -15,6 +15,7 @@ import cardStyles from './card.css?url';
 import { DeleteConfirm } from './DeleteConfirm';
 import { DeployActionParams, DeployDialog } from './DeployDialog';
 import { ImportDialog } from './ImportDialog';
+import { InstallDialog } from './InstallDialog';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 
@@ -28,6 +29,7 @@ type Card = {
     export?: () => void;
     import?: (file: File) => void;
     deploy?: (params: DeployActionParams) => Promise<string>;
+    install?: () => { id: string };
   };
 };
 
@@ -51,12 +53,14 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
         </DropdownMenuTrigger>
         <DropdownMenuContent side='bottom' align='start' className='card-menu'>
           <DropdownMenuGroup>
-            <DeleteConfirm title={type} deleteAction={actions.delete!}>
-              <DropdownMenuItem className='card-delete' onSelect={e => e.preventDefault()}>
-                <IvyIcon icon={IvyIcons.Trash} />
-                <span>Delete</span>
-              </DropdownMenuItem>
-            </DeleteConfirm>
+            {actions.delete && (
+              <DeleteConfirm title={type} deleteAction={actions.delete!}>
+                <DropdownMenuItem className='card-delete' onSelect={e => e.preventDefault()}>
+                  <IvyIcon icon={IvyIcons.Trash} />
+                  <span>Delete</span>
+                </DropdownMenuItem>
+              </DeleteConfirm>
+            )}
             {actions.export && actions.import && actions.deploy && (
               <>
                 <DropdownMenuItem onSelect={() => actions.export!()}>
@@ -76,6 +80,14 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
                   </DropdownMenuItem>
                 </DeployDialog>
               </>
+            )}
+            {actions.install && (
+              <InstallDialog name={name} installAction={actions.install!}>
+                <DropdownMenuItem onSelect={e => e.preventDefault()}>
+                  <IvyIcon icon={IvyIcons.Plus} />
+                  <span>Install</span>
+                </DropdownMenuItem>
+              </InstallDialog>
             )}
           </DropdownMenuGroup>
         </DropdownMenuContent>
