@@ -7,11 +7,13 @@ import {
   deleteWorkspace as deleteWorkspaceReq,
   exportWorkspace as exportWorkspaceReq,
   importWorkspace as importWorkspaceReq,
+  installMarketArtifact,
   type WorkspaceBean,
   type WorkspaceInit,
   workspaces
 } from './generated/openapi-default';
 import { deploy } from './generated/openapi-system';
+import { ProjectIdentifier } from './project-api';
 
 export type Workspace = WorkspaceBean;
 
@@ -145,6 +147,26 @@ export const useDeployWorkspace = () => {
         error: e => e.message
       });
       return deploy;
+    }
+  };
+};
+
+export const useInstallProduct = () => {
+  const installProduct = async (id: string, json: string, project?: ProjectIdentifier) => {
+    const res = await installMarketArtifact(id, { json, id: project });
+    if (ok(res)) {
+      return;
+    }
+    throw new Error('Failed to install market product');
+  };
+  return {
+    installProduct: (id: string, json: string, project?: ProjectIdentifier) => {
+      const install = installProduct(id, json, project);
+      toast.promise(() => install, {
+        loading: 'Install market product',
+        success: 'Product installed',
+        error: e => e.message
+      });
     }
   };
 };

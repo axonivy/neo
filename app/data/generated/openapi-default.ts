@@ -35,6 +35,13 @@ export interface LocationBean {
   type?: string;
 }
 
+export interface CaseBean {
+  description?: string;
+  documents?: DocumentBean[];
+  id?: number;
+  name?: string;
+}
+
 export interface TaskBean {
   activatorName?: string;
   case?: CaseBean;
@@ -78,13 +85,6 @@ export interface DocumentBean {
   url?: string;
 }
 
-export interface CaseBean {
-  description?: string;
-  documents?: DocumentBean[];
-  id?: number;
-  name?: string;
-}
-
 export interface MessageBean {
   document?: DocumentBean;
   message?: string;
@@ -93,6 +93,16 @@ export interface MessageBean {
 
 export interface AggBean {
   [key: string]: unknown;
+}
+
+export interface ProjectIdentifier {
+  app: string;
+  pmv: string;
+}
+
+export interface MarketProductInit {
+  id?: ProjectIdentifier;
+  json: string;
 }
 
 export interface WorkspaceInit {
@@ -237,5 +247,26 @@ export const deleteWorkspace = async (id: string, options?: RequestInit): Promis
   return customFetch<Promise<deleteWorkspaceResponse>>(getDeleteWorkspaceUrl(id), {
     ...options,
     method: 'DELETE'
+  });
+};
+
+export type installMarketArtifactResponse = {
+  data: unknown;
+  status: number;
+};
+
+export const getInstallMarketArtifactUrl = (id: string) => {
+  return `/web-ide/workspace/${id}/market`;
+};
+
+export const installMarketArtifact = async (
+  id: string,
+  marketProductInit: MarketProductInit,
+  options?: RequestInit
+): Promise<installMarketArtifactResponse> => {
+  return customFetch<Promise<installMarketArtifactResponse>>(getInstallMarketArtifactUrl(id), {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(marketProductInit)
   });
 };
