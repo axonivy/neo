@@ -1,5 +1,4 @@
-import { Button, Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
+import { Field, Flex, Label, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Switch } from '@axonivy/ui-components';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 import { ControlBar, EditorTabs, EditorsControl } from '~/neo/ControlBar';
@@ -27,9 +26,10 @@ export default function Index() {
           <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
             <EditorsControl />
             <Separator orientation='vertical' style={{ margin: 'var(--size-2)' }} />
-            <Button icon={IvyIcons.Play} size='large' variant='primary' onClick={browser.toggle}>
-              Run process
-            </Button>
+            <Field direction='row' alignItems='center' gap={2}>
+              <Label>Simulate</Label>
+              <Switch checked={browser.openState} onClick={browser.toggle} />
+            </Field>
           </Flex>
         </>
       </ControlBar>
