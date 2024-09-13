@@ -7,7 +7,7 @@ import {
   deleteWorkspace as deleteWorkspaceReq,
   exportWorkspace as exportWorkspaceReq,
   importWorkspace as importWorkspaceReq,
-  installMarketArtifact,
+  installMarketProduct,
   type WorkspaceBean,
   type WorkspaceInit,
   workspaces
@@ -152,8 +152,8 @@ export const useDeployWorkspace = () => {
 };
 
 export const useInstallProduct = () => {
-  const installProduct = async (id: string, json: string, project?: ProjectIdentifier) => {
-    const res = await installMarketArtifact(id, { json, id: project });
+  const installProduct = async (id: string, productJson: string, project?: ProjectIdentifier) => {
+    const res = await installMarketProduct(id, { productJson, project });
     if (ok(res)) {
       return;
     }

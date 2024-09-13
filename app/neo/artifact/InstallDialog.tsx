@@ -13,6 +13,7 @@ import {
   Spinner
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useParams } from '@remix-run/react';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useProductJson, useProductVersions } from '~/data/market-api';
 import { ProjectIdentifier } from '~/data/project-api';
@@ -24,6 +25,7 @@ type ProductJson = { installers?: Installer[] };
 
 type InstallDialogProps = { children: ReactNode; name: string; installAction: () => { id: string } };
 export const InstallDialog = ({ children, name, installAction }: InstallDialogProps) => {
+  const ws = useParams().ws ?? 'designer';
   const id = installAction().id;
   const { data, isPending } = useProductVersions(id);
   const { installProduct } = useInstallProduct();
@@ -46,9 +48,8 @@ export const InstallDialog = ({ children, name, installAction }: InstallDialogPr
       productJson(id, version).then(ps => {
         setDisabledInstall(true);
         setJson(JSON.stringify(ps));
-        console.log(json);
         setNeedDependency((ps as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false);
-        setDisabledInstall(!needDependency || (needDependency && project ? false : true));
+        setDisabledInstall(needDependency ? (project ? false : true) : false);
       });
     }
   });
@@ -84,7 +85,7 @@ export const InstallDialog = ({ children, name, installAction }: InstallDialogPr
               variant='primary'
               size='large'
               icon={IvyIcons.Play}
-              onClick={() => installProduct(id, json ?? '', project)}
+              onClick={() => installProduct(ws, json ?? '', project)}
             >
               Install
             </Button>

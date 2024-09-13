@@ -100,9 +100,9 @@ export interface ProjectIdentifier {
   pmv: string;
 }
 
-export interface MarketProductInit {
-  id?: ProjectIdentifier;
-  json: string;
+export interface ProductInstallParams {
+  productJson: string;
+  project?: ProjectIdentifier;
 }
 
 export interface WorkspaceInit {
@@ -250,23 +250,23 @@ export const deleteWorkspace = async (id: string, options?: RequestInit): Promis
   });
 };
 
-export type installMarketArtifactResponse = {
+export type installMarketProductResponse = {
   data: unknown;
   status: number;
 };
 
-export const getInstallMarketArtifactUrl = (id: string) => {
-  return `/web-ide/workspace/${id}/market`;
+export const getInstallMarketProductUrl = (id: string) => {
+  return `/web-ide/workspace/install/${id}`;
 };
 
-export const installMarketArtifact = async (
+export const installMarketProduct = async (
   id: string,
-  marketProductInit: MarketProductInit,
+  productInstallParams: ProductInstallParams,
   options?: RequestInit
-): Promise<installMarketArtifactResponse> => {
-  return customFetch<Promise<installMarketArtifactResponse>>(getInstallMarketArtifactUrl(id), {
+): Promise<installMarketProductResponse> => {
+  return customFetch<Promise<installMarketProductResponse>>(getInstallMarketProductUrl(id), {
     ...options,
     method: 'POST',
-    body: JSON.stringify(marketProductInit)
+    body: JSON.stringify(productInstallParams)
   });
 };

@@ -31,7 +31,7 @@ export default function Index() {
     }
   });
   return (
-    <Overview title='Market Products' search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview title='Axon Ivy Market' search={search} onSearchChange={setSearch} isPending={isPending}>
       {products.map(product => (
         <ProductCard key={product.id} product={product} />
       ))}
@@ -44,6 +44,6 @@ export const ProductCard = ({ product }: { product: ProductModel }) => {
   const install = () => {
     return { id: product.id ?? '' };
   };
-  const preview = <img src={product.logoUrl} width={100} alt={'product logo'} />;
+  const preview = <img src={product.logoUrl} width={70} alt={'product logo'} />;
   return <ArtifactCard name={product.names?.en ?? ''} type='product' preview={preview} onClick={open} actions={{ install }} />;
 };

@@ -5,7 +5,7 @@ import {
   findProductJsonContent,
   findProducts,
   FindProductsParams,
-  findVersionsForDesigner,
+  findProductVersionsById,
   PagedModelProductModel
 } from './generated/openapi-market';
 
@@ -60,7 +60,8 @@ export const useProductVersions = (id: string) => {
   return useQuery({
     queryKey: [...queryKey, 'versions', id],
     queryFn: () =>
-      findVersionsForDesigner(id, { headers }).then(res => {
+      //SNAPSHOTs are not yet supported by market API
+      findProductVersionsById(id, { isShowDevVersion: false }, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
         }
