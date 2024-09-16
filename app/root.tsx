@@ -42,11 +42,9 @@ export default function App() {
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
         <WebBrowserProvider>
-          <NewArtifactDialogProvider>
-            <InstallMarketArtifactDialogProvider>
-              <Neo />
-            </InstallMarketArtifactDialogProvider>
-          </NewArtifactDialogProvider>
+          <DialogProviders>
+            <Neo />
+          </DialogProviders>
         </WebBrowserProvider>
         <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} />
       </QueryClientProvider>
@@ -61,3 +59,11 @@ export function HydrateFallback() {
     </Flex>
   );
 }
+
+const DialogProviders = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <NewArtifactDialogProvider>
+      <InstallMarketArtifactDialogProvider>{children}</InstallMarketArtifactDialogProvider>
+    </NewArtifactDialogProvider>
+  );
+};
