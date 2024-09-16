@@ -60,10 +60,8 @@ export function HydrateFallback() {
   );
 }
 
-const DialogProviders = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <NewArtifactDialogProvider>
-      <InstallMarketArtifactDialogProvider>{children}</InstallMarketArtifactDialogProvider>
-    </NewArtifactDialogProvider>
-  );
-};
+const DialogProviders = ({ children }: { children: React.ReactNode }) => (
+  <NewArtifactDialogProvider>
+    <InstallMarketArtifactDialogProvider>{children}</InstallMarketArtifactDialogProvider>
+  </NewArtifactDialogProvider>
+);
