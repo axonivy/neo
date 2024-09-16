@@ -69,14 +69,11 @@ const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; 
       findProductJson(product.id, version).then(pj => {
         setProductJson(JSON.stringify(pj));
         setNeedDependency((pj as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false);
+        setDisabledInstall(needDependency ? (project ? false : true) : false);
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [version, product.id]);
-
-  useEffect(() => {
-    setDisabledInstall(needDependency ? (project ? false : true) : false);
-  }, [needDependency, project]);
 
   return (
     <Dialog open={dialogState} onOpenChange={() => close()}>
