@@ -12,7 +12,7 @@ import {
 const useMarketApi = () => {
   return {
     queryKey: ['market'],
-    headers: { 'X-Requested-By': 'ivy', ...headers('https://market-preview.ivy-cloud.com/marketplace-service') }
+    headers: { 'X-Requested-By': 'ivy', ...headers('https://market-preview2.ivy-cloud.com/marketplace-service') }
   };
 };
 
@@ -70,16 +70,20 @@ export const useProductVersions = (id: string) => {
   });
 };
 
-export const useProductJson = (id: string, version: string) => {
+export const useProductJson = (id: string, version?: string) => {
   const { headers, queryKey } = useMarketApi();
   return useQuery({
     queryKey: [...queryKey, 'productJson', id, version],
-    queryFn: () =>
+    queryFn: () => {
+      if (version === undefined) {
+        return [];
+      }
       findProductJsonContent(id, version, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
         }
         throw new Error('Failed to load product json  for ' + id + ' with version ' + version);
-      })
+      });
+    }
   });
 };

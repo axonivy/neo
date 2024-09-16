@@ -20,8 +20,6 @@ export type FindFeedbacksParams = {
   sort: string[];
 };
 
-export type FindProductJsonContent200 = { [key: string]: { [key: string]: unknown } };
-
 export type FindProductVersionsByIdParams = {
   /**
    * Option to get Dev Version (Snapshot/ sprint release)
@@ -29,6 +27,8 @@ export type FindProductVersionsByIdParams = {
   isShowDevVersion: boolean;
   designerVersion?: string;
 };
+
+export type FindProductJsonContent200 = { [key: string]: { [key: string]: unknown } };
 
 export type FindProductsLanguage = (typeof FindProductsLanguage)[keyof typeof FindProductsLanguage];
 
@@ -91,6 +91,10 @@ export type FindFeedbackByUserIdAndProductIdParams = {
   productId: string;
 };
 
+export type SyncInstallationCountParams = {
+  designerVersion?: string;
+};
+
 export interface Link {
   deprecation?: string;
   href?: string;
@@ -149,6 +153,31 @@ export interface PagedModelFeedbackModel {
   page?: PageMetadata;
 }
 
+/**
+ * The image content as binary type
+ */
+export interface Binary {
+  data?: string[];
+  type?: string;
+}
+
+export interface Image {
+  id?: string;
+  imageData?: Binary;
+  /** The download url from github */
+  imageUrl?: string;
+  /** Product id */
+  productId?: string;
+  /** The SHA from github */
+  sha?: string;
+}
+
+export interface DesignerInstallation {
+  /** Ivy designer version */
+  designerVersion?: string;
+  numberOfDownloads?: number;
+}
+
 export interface VersionAndUrlModel {
   url?: string;
   version?: string;
@@ -204,6 +233,7 @@ export interface ProductModuleContent {
   tag?: string;
   /** Artifact file type */
   type?: string;
+  updatedAt?: string;
 }
 
 /**
@@ -330,12 +360,28 @@ export type syncInstallationCountResponse = {
   status: number;
 };
 
-export const getSyncInstallationCountUrl = (id: string) => {
-  return `/api/product-details/installationcount/${id}`;
+export const getSyncInstallationCountUrl = (id: string, params?: SyncInstallationCountParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value === null) {
+      normalizedParams.append(key, 'null');
+    } else if (value !== undefined) {
+      normalizedParams.append(key, value.toString());
+    }
+  });
+
+  return normalizedParams.size
+    ? `/api/product-details/installationcount/${id}?${normalizedParams.toString()}`
+    : `/api/product-details/installationcount/${id}`;
 };
 
-export const syncInstallationCount = async (id: string, options?: RequestInit): Promise<syncInstallationCountResponse> => {
-  return customFetch<Promise<syncInstallationCountResponse>>(getSyncInstallationCountUrl(id), {
+export const syncInstallationCount = async (
+  id: string,
+  params?: SyncInstallationCountParams,
+  options?: RequestInit
+): Promise<syncInstallationCountResponse> => {
+  return customFetch<Promise<syncInstallationCountResponse>>(getSyncInstallationCountUrl(id, params), {
     ...options,
     method: 'PUT'
   });
@@ -473,6 +519,30 @@ export const findProductDetailsByVersion = async (
 };
 
 /**
+ * When we click install in designer, this API will send content of product json for installing in Ivy designer
+ * @summary Get product json content for designer to install
+ */
+export type findProductJsonContentResponse = {
+  data: FindProductJsonContent200;
+  status: number;
+};
+
+export const getFindProductJsonContentUrl = (id: string, version: string) => {
+  return `/api/product-details/${id}/${version}/json`;
+};
+
+export const findProductJsonContent = async (
+  id: string,
+  version: string,
+  options?: RequestInit
+): Promise<findProductJsonContentResponse> => {
+  return customFetch<Promise<findProductJsonContentResponse>>(getFindProductJsonContentUrl(id, version), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
  * get product detail by it product id and version
  * @summary Find best match product detail by product id and version.
  */
@@ -549,24 +619,43 @@ export const findVersionsForDesigner = async (id: string, options?: RequestInit)
 };
 
 /**
- * When we click install in designer, this API will send content of product json for installing in Ivy designer
- * @summary Get product json content for designer to install
+ * get designer installation count by product id
+ * @summary Get designer installation count by product id.
  */
-export type findProductJsonContentResponse = {
-  data: FindProductJsonContent200;
+export type getProductDesignerInstallationByProductIdResponse = {
+  data: DesignerInstallation[];
   status: number;
 };
 
-export const getFindProductJsonContentUrl = (productId: string, version: string) => {
-  return `/api/product-details/productjsoncontent/${productId}/${version}`;
+export const getGetProductDesignerInstallationByProductIdUrl = (id: string) => {
+  return `/api/product-designer-installation/installation/${id}/designer`;
 };
 
-export const findProductJsonContent = async (
-  productId: string,
-  version: string,
+export const getProductDesignerInstallationByProductId = async (
+  id: string,
   options?: RequestInit
-): Promise<findProductJsonContentResponse> => {
-  return customFetch<Promise<findProductJsonContentResponse>>(getFindProductJsonContentUrl(productId, version), {
+): Promise<getProductDesignerInstallationByProductIdResponse> => {
+  return customFetch<Promise<getProductDesignerInstallationByProductIdResponse>>(getGetProductDesignerInstallationByProductIdUrl(id), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
+ * Collect the byte[] of image with contentType in header is PNG
+ * @summary Get the image content by id
+ */
+export type findImageByIdResponse = {
+  data: Image | string[];
+  status: number;
+};
+
+export const getFindImageByIdUrl = (id: string) => {
+  return `/api/image/${id}`;
+};
+
+export const findImageById = async (id: string, options?: RequestInit): Promise<findImageByIdResponse> => {
+  return customFetch<Promise<findImageByIdResponse>>(getFindImageByIdUrl(id), {
     ...options,
     method: 'GET'
   });
