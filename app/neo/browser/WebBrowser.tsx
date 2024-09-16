@@ -1,4 +1,4 @@
-import { Button, Flex, IvyIcon } from '@axonivy/ui-components';
+import { Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { RefObject } from 'react';
 import { useUpdateTheme } from '~/theme/useUpdateTheme';
@@ -23,12 +23,9 @@ export const WebBrowser = () => {
         alignItems='center'
         justifyContent='space-between'
         gap={1}
-        style={{ height: '30px', paddingInline: 'var(--size-2)' }}
+        style={{ flex: '0 0 48px', paddingInline: 'var(--size-2)', borderBottom: '1px solid var(--N100)' }}
       >
-        <Flex alignItems='center' gap={1}>
-          <IvyIcon icon={IvyIcons.WsStart} />
-          Web Browser
-        </Flex>
+        Process Simulate
         <Flex alignItems='center' gap={1}>
           <Button icon={IvyIcons.ArrowRight} rotate={180} title='Back' onClick={nav.back} />
           <Button icon={IvyIcons.ArrowRight} title='Forward' onClick={nav.forward} />

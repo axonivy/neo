@@ -26,6 +26,6 @@ export class Browser {
 
   async startProcess(name: string) {
     await this.browserView.locator(`#menuform\\:sr_starts`).click();
-    await this.browserView.locator(`span.text-primary:has-text("${name}")`).click();
+    await this.browserView.locator(`span:has-text("${name}")`).click();
   }
 }
