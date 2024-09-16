@@ -47,34 +47,9 @@ export const InstallMarketArtifactDialogProvider = ({ children }: { children: Re
 };
 
 const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; product: ProductModel; close: () => void }) => {
-  const ws = useParams().ws ?? 'designer';
-  const { data, isPending } = useProductVersions(product.id!);
-  const { findProductJson } = useProductJson();
-  const { installProduct } = useInstallProduct();
-  const versions = useMemo(() => data ?? [], [data]);
   const [version, setVersion] = useState<string>();
   const [project, setProject] = useState<ProjectIdentifier>();
   const [needDependency, setNeedDependency] = useState(false);
-  const [disabledInstall, setDisabledInstall] = useState(true);
-  const [productJson, setProductJson] = useState<string>('');
-
-  useEffect(() => {
-    if (versions.length > 0) {
-      setVersion(versions[0].version ?? '');
-    }
-  }, [versions]);
-
-  useEffect(() => {
-    if (version && product.id) {
-      findProductJson(product.id, version).then(pj => {
-        setProductJson(JSON.stringify(pj));
-        setNeedDependency((pj as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false);
-        setDisabledInstall(needDependency ? (project ? false : true) : false);
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [version, product.id]);
-
   return (
     <Dialog open={dialogState} onOpenChange={() => close()}>
       <DialogContent>
@@ -84,39 +59,15 @@ const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; 
         </DialogHeader>
 
         <DialogDescription>Select the version to be installed</DialogDescription>
-        <BasicField label='Version'>
-          {isPending ? (
-            <Spinner size='small' />
-          ) : (
-            <BasicSelect
-              placeholder={isPending && <Spinner size='small' />}
-              items={versions.map(v => ({
-                value: v.version ?? '',
-                label: v.version ?? ''
-              }))}
-              defaultValue={versions[0].version}
-              onValueChange={value => {
-                setVersion(value);
-                setDisabledInstall(true);
-              }}
-            />
-          )}
-        </BasicField>
+
+        {product.id && <VersionSelect id={product.id} setVersion={setVersion}></VersionSelect>}
 
         {needDependency && <ProjectSelect setProject={setProject} />}
 
         <DialogFooter>
-          <DialogClose asChild>
-            <Button
-              disabled={disabledInstall}
-              variant='primary'
-              size='large'
-              icon={IvyIcons.Play}
-              onClick={() => installProduct(ws, productJson, project)}
-            >
-              Install
-            </Button>
-          </DialogClose>
+          {product.id && version && (
+            <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project}></InstallButton>
+          )}
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
               Cancel
@@ -125,6 +76,68 @@ const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; 
         </DialogFooter>
       </DialogContent>
     </Dialog>
+  );
+};
+
+const VersionSelect = ({ id, setVersion }: { id: string; setVersion: (version: string) => void }) => {
+  const { data, isPending } = useProductVersions(id);
+  const versions = useMemo(() => data ?? [], [data]);
+  useEffect(() => {
+    if (versions && versions.length > 0 && versions[0].version) {
+      setVersion(versions[0].version);
+    }
+  }, [setVersion, versions]);
+  return (
+    <BasicField label='Version'>
+      {isPending ? (
+        <Spinner size='small' />
+      ) : (
+        <BasicSelect
+          placeholder={isPending && <Spinner size='small' />}
+          items={versions.map(v => ({
+            value: v.version ?? '',
+            label: v.version ?? ''
+          }))}
+          defaultValue={versions[0].version}
+          onValueChange={value => setVersion(value)}
+        />
+      )}
+    </BasicField>
+  );
+};
+
+type InstallButtonProps = {
+  id: string;
+  version: string;
+  setNeedDependency: (needDependency: boolean) => void;
+  project?: ProjectIdentifier;
+};
+
+const InstallButton = ({ id, version, project, setNeedDependency }: InstallButtonProps) => {
+  const ws = useParams().ws ?? 'designer';
+  const { installProduct } = useInstallProduct();
+  const { data } = useProductJson(id, version);
+  const [disabledInstall, setDisabledInstall] = useState(true);
+
+  useEffect(() => {
+    setDisabledInstall(true);
+    const needDependency = (data as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false;
+    setNeedDependency(needDependency);
+    setDisabledInstall(needDependency ? (project ? false : true) : false);
+  }, [data, project, setNeedDependency]);
+
+  return (
+    <DialogClose asChild>
+      <Button
+        disabled={disabledInstall}
+        variant='primary'
+        size='large'
+        icon={IvyIcons.Play}
+        onClick={() => installProduct(ws, JSON.stringify(data), project)}
+      >
+        Install
+      </Button>
+    </DialogClose>
   );
 };
 

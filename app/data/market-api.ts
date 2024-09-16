@@ -70,18 +70,16 @@ export const useProductVersions = (id: string) => {
   });
 };
 
-export const useProductJson = () => {
-  const { headers } = useMarketApi();
-  const findProductJson = async (id: string, version: string) => {
-    const res = await findProductJsonContent(id, version, { headers });
-    if (ok(res)) {
-      return res.data;
-    }
-    throw new Error('Failed to load product json');
-  };
-  return {
-    findProductJson: (id: string, version: string) => {
-      return findProductJson(id, version);
-    }
-  };
+export const useProductJson = (id: string, version: string) => {
+  const { headers, queryKey } = useMarketApi();
+  return useQuery({
+    queryKey: [...queryKey, 'productJson', id, version],
+    queryFn: () =>
+      findProductJsonContent(id, version, { headers }).then(res => {
+        if (ok(res)) {
+          return res.data;
+        }
+        throw new Error('Failed to load product json  for ' + id + ' with version ' + version);
+      })
+  });
 };
