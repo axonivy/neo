@@ -51,12 +51,14 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
         </DropdownMenuTrigger>
         <DropdownMenuContent side='bottom' align='start' className='card-menu'>
           <DropdownMenuGroup>
-            <DeleteConfirm title={type} deleteAction={actions.delete!}>
-              <DropdownMenuItem className='card-delete' onSelect={e => e.preventDefault()}>
-                <IvyIcon icon={IvyIcons.Trash} />
-                <span>Delete</span>
-              </DropdownMenuItem>
-            </DeleteConfirm>
+            {actions.delete && (
+              <DeleteConfirm title={type} deleteAction={actions.delete!}>
+                <DropdownMenuItem className='card-delete' onSelect={e => e.preventDefault()}>
+                  <IvyIcon icon={IvyIcons.Trash} />
+                  <span>Delete</span>
+                </DropdownMenuItem>
+              </DeleteConfirm>
+            )}
             {actions.export && actions.import && actions.deploy && (
               <>
                 <DropdownMenuItem onSelect={() => actions.export!()}>
@@ -93,6 +95,23 @@ export const NewArtifactCard = ({ title, open }: { title: string; open: () => vo
           <Flex alignItems='center' justifyContent='space-between' gap={1}>
             <span className='card-name'>{title}</span>
             <IvyIcon icon={IvyIcons.Plus} />
+          </Flex>
+        </Flex>
+      </button>
+    </div>
+  );
+};
+
+export const InstallMarketArtifactCard = ({ title, preview, open }: { title: string; preview: ReactNode; open: () => void }) => {
+  return (
+    <div className='artifact-card'>
+      <button className='card' onClick={open}>
+        <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
+          <Flex alignItems='center' justifyContent='center' className='card-preview'>
+            {preview}
+          </Flex>
+          <Flex alignItems='center' justifyContent='space-between' gap={1}>
+            <span className='card-name'>{title}</span>
           </Flex>
         </Flex>
       </button>

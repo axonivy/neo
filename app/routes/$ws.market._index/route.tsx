@@ -2,7 +2,8 @@ import type { MetaFunction } from '@remix-run/node';
 import { useEffect, useState } from 'react';
 import { ProductModel } from '~/data/generated/openapi-market';
 import { useProducts } from '~/data/market-api';
-import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
+import { cardLinks, InstallMarketArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { useInstallMarketArtifact } from '~/neo/artifact/useInstallMarketArtifact';
 import { Overview } from '~/neo/Overview';
 
 export const links = cardLinks;
@@ -31,7 +32,7 @@ export default function Index() {
     }
   });
   return (
-    <Overview title='Market Products' search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview title='Axon Ivy Market' search={search} onSearchChange={setSearch} isPending={isPending}>
       {products.map(product => (
         <ProductCard key={product.id} product={product} />
       ))}
@@ -40,7 +41,8 @@ export default function Index() {
 }
 
 export const ProductCard = ({ product }: { product: ProductModel }) => {
-  const open = () => {};
-  const preview = <img src={product.logoUrl} width={100} alt={'product logo'} />;
-  return <ArtifactCard name={product.names?.en ?? ''} type='product' preview={preview} onClick={open} />;
+  const open = useInstallMarketArtifact();
+  const preview = <img src={product.logoUrl} width={70} alt={'product logo'} />;
+  const title = product.names?.en ?? '';
+  return <InstallMarketArtifactCard title={title} preview={preview} open={() => open(product)}></InstallMarketArtifactCard>;
 };

@@ -6,6 +6,7 @@ import { Links, Meta, Scripts, ScrollRestoration } from '@remix-run/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import rootStylesHref from '~/styles/root.css?url';
+import { InstallMarketArtifactDialogProvider } from './neo/artifact/useInstallMarketArtifact';
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { Neo } from './neo/Neo';
@@ -41,9 +42,9 @@ export default function App() {
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
         <WebBrowserProvider>
-          <NewArtifactDialogProvider>
+          <DialogProviders>
             <Neo />
-          </NewArtifactDialogProvider>
+          </DialogProviders>
         </WebBrowserProvider>
         <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} />
       </QueryClientProvider>
@@ -58,3 +59,9 @@ export function HydrateFallback() {
     </Flex>
   );
 }
+
+const DialogProviders = ({ children }: { children: React.ReactNode }) => (
+  <NewArtifactDialogProvider>
+    <InstallMarketArtifactDialogProvider>{children}</InstallMarketArtifactDialogProvider>
+  </NewArtifactDialogProvider>
+);
