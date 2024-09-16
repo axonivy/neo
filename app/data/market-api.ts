@@ -76,9 +76,9 @@ export const useProductJson = (id: string, version?: string) => {
     queryKey: [...queryKey, 'productJson', id, version],
     queryFn: () => {
       if (version === undefined) {
-        return [];
+        return;
       }
-      findProductJsonContent(id, version, { headers }).then(res => {
+      return findProductJsonContent(id, version, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
         }

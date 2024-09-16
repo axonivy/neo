@@ -14,7 +14,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from '@remix-run/react';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { ProductModel } from '~/data/generated/openapi-market';
+import { FindProductJsonContent200, ProductModel } from '~/data/generated/openapi-market';
 import { useProductJson, useProductVersions } from '~/data/market-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
@@ -50,6 +50,9 @@ const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; 
   const [version, setVersion] = useState<string>();
   const [project, setProject] = useState<ProjectIdentifier>();
   const [needDependency, setNeedDependency] = useState(false);
+  if (product.id === undefined) {
+    return;
+  }
   return (
     <Dialog open={dialogState} onOpenChange={() => close()}>
       <DialogContent>
@@ -57,17 +60,11 @@ const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; 
           <DialogTitle>Install {product.names?.en ?? ''}</DialogTitle>
           <DialogDescription>{product.shortDescriptions?.en ?? ''}</DialogDescription>
         </DialogHeader>
-
         <DialogDescription>Select the version to be installed</DialogDescription>
-
-        {product.id && <VersionSelect id={product.id} setVersion={setVersion}></VersionSelect>}
-
+        <VersionSelect id={product.id} setVersion={setVersion}></VersionSelect>
         {needDependency && <ProjectSelect setProject={setProject} />}
-
         <DialogFooter>
-          {product.id && version && (
-            <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project}></InstallButton>
-          )}
+          <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project}></InstallButton>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
               Cancel
@@ -79,13 +76,15 @@ const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; 
   );
 };
 
-const VersionSelect = ({ id, setVersion }: { id: string; setVersion: (version: string) => void }) => {
+const VersionSelect = ({ id, setVersion }: { id: string; setVersion: (version?: string) => void }) => {
   const { data, isPending } = useProductVersions(id);
   const versions = useMemo(() => data ?? [], [data]);
   useEffect(() => {
     if (versions && versions.length > 0 && versions[0].version) {
       setVersion(versions[0].version);
+      return;
     }
+    setVersion(undefined);
   }, [setVersion, versions]);
   return (
     <BasicField label='Version'>
@@ -108,9 +107,25 @@ const VersionSelect = ({ id, setVersion }: { id: string; setVersion: (version: s
 
 type InstallButtonProps = {
   id: string;
-  version: string;
   setNeedDependency: (needDependency: boolean) => void;
+  version?: string;
   project?: ProjectIdentifier;
+};
+
+const isDisabled = (needDependency: boolean, version?: string, project?: ProjectIdentifier, data?: FindProductJsonContent200) => {
+  if (version === undefined) {
+    return true;
+  }
+  if (data === undefined) {
+    return true;
+  }
+  if (!needDependency) {
+    return false;
+  }
+  if (project === undefined) {
+    return true;
+  }
+  return false;
 };
 
 const InstallButton = ({ id, version, project, setNeedDependency }: InstallButtonProps) => {
@@ -118,13 +133,12 @@ const InstallButton = ({ id, version, project, setNeedDependency }: InstallButto
   const { installProduct } = useInstallProduct();
   const { data } = useProductJson(id, version);
   const [disabledInstall, setDisabledInstall] = useState(true);
-
   useEffect(() => {
     setDisabledInstall(true);
     const needDependency = (data as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false;
     setNeedDependency(needDependency);
-    setDisabledInstall(needDependency ? (project ? false : true) : false);
-  }, [data, project, setNeedDependency]);
+    setDisabledInstall(isDisabled(needDependency, version, project, data));
+  }, [data, project, setNeedDependency, version]);
 
   return (
     <DialogClose asChild>
