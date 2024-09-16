@@ -15,7 +15,6 @@ import cardStyles from './card.css?url';
 import { DeleteConfirm } from './DeleteConfirm';
 import { DeployActionParams, DeployDialog } from './DeployDialog';
 import { ImportDialog } from './ImportDialog';
-import { InstallDialog } from './InstallDialog';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 
@@ -29,7 +28,6 @@ type Card = {
     export?: () => void;
     import?: (file: File) => void;
     deploy?: (params: DeployActionParams) => Promise<string>;
-    install?: () => { id: string };
   };
 };
 
@@ -81,14 +79,6 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
                 </DeployDialog>
               </>
             )}
-            {actions.install && (
-              <InstallDialog name={name} installAction={actions.install!}>
-                <DropdownMenuItem onSelect={e => e.preventDefault()}>
-                  <IvyIcon icon={IvyIcons.Plus} />
-                  <span>Install</span>
-                </DropdownMenuItem>
-              </InstallDialog>
-            )}
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -105,6 +95,23 @@ export const NewArtifactCard = ({ title, open }: { title: string; open: () => vo
           <Flex alignItems='center' justifyContent='space-between' gap={1}>
             <span className='card-name'>{title}</span>
             <IvyIcon icon={IvyIcons.Plus} />
+          </Flex>
+        </Flex>
+      </button>
+    </div>
+  );
+};
+
+export const InstallMarketArtifactCard = ({ title, preview, open }: { title: string; preview: ReactNode; open: () => void }) => {
+  return (
+    <div className='artifact-card'>
+      <button className='card' onClick={open}>
+        <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
+          <Flex alignItems='center' justifyContent='center' className='card-preview'>
+            {preview}
+          </Flex>
+          <Flex alignItems='center' justifyContent='space-between' gap={1}>
+            <span className='card-name'>{title}</span>
           </Flex>
         </Flex>
       </button>

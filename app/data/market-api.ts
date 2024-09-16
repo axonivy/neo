@@ -60,7 +60,6 @@ export const useProductVersions = (id: string) => {
   return useQuery({
     queryKey: [...queryKey, 'versions', id],
     queryFn: () =>
-      //SNAPSHOTs are not yet supported by market API
       findProductVersionsById(id, { isShowDevVersion: false }, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
@@ -73,7 +72,7 @@ export const useProductVersions = (id: string) => {
 
 export const useProductJson = () => {
   const { headers } = useMarketApi();
-  const productJson = async (id: string, version: string) => {
+  const findProductJson = async (id: string, version: string) => {
     const res = await findProductJsonContent(id, version, { headers });
     if (ok(res)) {
       return res.data;
@@ -81,8 +80,8 @@ export const useProductJson = () => {
     throw new Error('Failed to load product json');
   };
   return {
-    productJson: (id: string, version: string) => {
-      return productJson(id, version);
+    findProductJson: (id: string, version: string) => {
+      return findProductJson(id, version);
     }
   };
 };
