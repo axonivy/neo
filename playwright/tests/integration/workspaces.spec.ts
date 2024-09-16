@@ -91,7 +91,7 @@ test.describe('export & import', () => {
     test.skip(browserName === 'webkit' || browserName === 'firefox', 'WebSocket connection problem that only occurs when using vite proxy');
     const { neo, overview, zipFile } = await exportWs(page, 'import-and-create.zip');
     const wsName = `${browserName}ws-create-and-import${testInfo.retry}`;
-    await overview.create(wsName, undefined, zipFile);
+    await overview.create(wsName, undefined, { file: zipFile });
 
     await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
 
