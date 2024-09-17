@@ -8,7 +8,7 @@ type ProjectSelectProps = {
 
 export const ProjectSelect = ({ setProject }: ProjectSelectProps) => {
   const { data, isPending } = useProjects();
-  const projects = useMemo(() => data ?? [], [data]);
+  const projects = useMemo(() => data?.filter(p => !p.isIar) ?? [], [data]);
   useEffect(() => setProject(projects[0]), [projects, setProject]);
   return (
     <BasicField label='Project'>
@@ -19,7 +19,7 @@ export const ProjectSelect = ({ setProject }: ProjectSelectProps) => {
           placeholder={isPending && <Spinner size='small' />}
           items={projects.map(p => ({
             value: JSON.stringify(p),
-            label: `${p.app}/${p.pmv}`
+            label: p.pmv
           }))}
           defaultValue={JSON.stringify(projects[0])}
           onValueChange={value => setProject(JSON.parse(value))}

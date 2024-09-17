@@ -20,7 +20,7 @@ export const VariableEditor = ({ id, project, name }: Editor) => {
       {mounted && client && (
         <div data-editor-name={name} className='variable-editor' style={{ display: pathname !== id ? 'none' : undefined }}>
           <ClientContextProvider client={client}>
-            <ReadonlyProvider readonly={false}>
+            <ReadonlyProvider readonly={project.isIar}>
               <App context={{ app: project.app, pmv: project.pmv, file: 'variables.yaml' }} directSave={true} />
             </ReadonlyProvider>
           </ClientContextProvider>
