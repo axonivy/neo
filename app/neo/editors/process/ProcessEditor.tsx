@@ -26,7 +26,7 @@ export const ProcessEditor = ({ id, project, type, path, name }: Editor) => {
   const theme = useThemeMode();
   const ws = useWorkspace();
   const editorUrl = useHref(
-    `/process-editor/index.html?server=${`${baseUrl()}${ws?.baseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=/${type}/${path}.p.json&readonly=${project.isIar}`
+    `/process-editor/index.html?server=${`${baseUrl()}${ws?.baseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=/${type}/${path}.p.json&readonly=${project.isIar ?? false}`
   );
   const { pathname } = useLocation();
   useFrameMessageHandler(frame, project.app);
