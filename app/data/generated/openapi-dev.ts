@@ -153,7 +153,7 @@ export interface ProcessBean {
 
 export interface ProjectIdentifier {
   app: string;
-  isIar: boolean;
+  isIar?: boolean;
   pmv: string;
 }
 
