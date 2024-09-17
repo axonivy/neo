@@ -97,6 +97,7 @@ export interface AggBean {
 
 export interface ProjectIdentifier {
   app: string;
+  isIar?: boolean;
   pmv: string;
 }
 

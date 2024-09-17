@@ -20,7 +20,7 @@ export const FormEditor = ({ id, project, path, name }: Editor) => {
       {mounted && client && (
         <div data-editor-name={name} className='form-editor' style={{ height: '100%', display: pathname !== id ? 'none' : undefined }}>
           <ClientContextProvider client={client}>
-            <ReadonlyProvider readonly={false}>
+            <ReadonlyProvider readonly={project.isIar ?? false}>
               <App
                 context={{ app: project.app, pmv: project.pmv, file: path.endsWith('.f.json') ? path : `${path}.f.json` }}
                 directSave={true}

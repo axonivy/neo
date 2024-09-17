@@ -23,7 +23,7 @@ export const DataClassEditor = ({ id, project, path, name }: Editor) => {
           style={{ height: '100%', display: pathname !== id ? 'none' : undefined }}
         >
           <ClientContextProvider client={client}>
-            <ReadonlyProvider readonly={false}>
+            <ReadonlyProvider readonly={project.isIar ?? false}>
               <App context={{ app: project.app, pmv: project.pmv, file: path }} directSave={true} />
             </ReadonlyProvider>
           </ClientContextProvider>

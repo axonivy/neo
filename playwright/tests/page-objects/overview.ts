@@ -1,5 +1,4 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { app } from '../integration/app';
 
 export class Overview {
   protected readonly page: Page;
@@ -58,7 +57,7 @@ export class Overview {
 
   private async selectProject(dialog: Locator, project: string) {
     await dialog.getByRole('combobox', { name: 'Project' }).click();
-    await this.page.getByRole('option', { name: `${app}/${project}` }).click();
+    await this.page.getByRole('option', { name: `${project}` }).click();
   }
 
   async clickCardAction(card: Locator, actionName: string) {

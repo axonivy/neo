@@ -22,8 +22,9 @@ export const useNavigateActionHandler = (app: string) => {
         process = uri.split('/src_hd/')[1];
         type = 'src_hd';
       }
+      const isIar = asString(args?.isIar) === 'true';
       if (process && pmv) {
-        openEditor(createEditorFromPath(type, { app, pmv }, process));
+        openEditor(createEditorFromPath(type, { app, pmv, isIar }, process));
       }
     },
     [openEditor, createEditorFromPath, app]
