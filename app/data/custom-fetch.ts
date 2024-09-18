@@ -1,3 +1,5 @@
+import { toast } from '@axonivy/ui-components';
+
 const getUrl = (contextUrl: string, headers?: Record<string, string>): string => {
   const base = headers && headers['base'] ? headers['base'] : '';
   const apiPrefix = '/api';
@@ -46,6 +48,13 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
   const request = new Request(requestUrl, requestInit);
   const response = await fetch(request);
   const data = await getBody<T>(response);
+  if (response.status === 401) {
+    toast.error('Unauthorized, click reload to log in.', {
+      duration: Infinity,
+      action: { label: 'Reload', onClick: () => window.location.reload() }
+    });
+    throw new Error(response.statusText);
+  }
   return { status: response.status, data } as T;
 };
 
