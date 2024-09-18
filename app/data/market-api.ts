@@ -12,7 +12,7 @@ import {
 const useMarketApi = () => {
   return {
     queryKey: ['market'],
-    headers: { 'X-Requested-By': 'ivy', ...headers('https://market-preview2.ivy-cloud.com/marketplace-service') }
+    headers: { 'X-Requested-By': 'ivy', ...headers('https://market.axonivy.com/marketplace-service') }
   };
 };
 
