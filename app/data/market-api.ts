@@ -9,10 +9,12 @@ import {
   PagedModelProductModel
 } from './generated/openapi-market';
 
+export const MARKET_URL = 'https://market.axonivy.com';
+
 const useMarketApi = () => {
   return {
     queryKey: ['market'],
-    headers: { 'X-Requested-By': 'ivy', ...headers('https://market.axonivy.com/marketplace-service') }
+    headers: { 'X-Requested-By': 'ivy', ...headers(`${MARKET_URL}/marketplace-service`) }
   };
 };
 

@@ -12,10 +12,10 @@ import {
   Spinner
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useParams } from '@remix-run/react';
+import { Link, useParams } from '@remix-run/react';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { FindProductJsonContent200, ProductModel } from '~/data/generated/openapi-market';
-import { useProductJson, useProductVersions } from '~/data/market-api';
+import { MARKET_URL, useProductJson, useProductVersions } from '~/data/market-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
 import { ProjectSelect } from './ProjectSelect';
@@ -58,7 +58,12 @@ const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; 
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Install {product.names?.en ?? ''}</DialogTitle>
-          <DialogDescription>{product.shortDescriptions?.en ?? ''}</DialogDescription>
+          <DialogDescription>
+            {product.shortDescriptions?.en ?? ''}{' '}
+            <Link target='_blank' to={`${MARKET_URL}/${product.id}`} rel='noreferrer'>
+              See details
+            </Link>
+          </DialogDescription>
         </DialogHeader>
         <DialogDescription>Select the version to be installed</DialogDescription>
         <VersionSelect id={product.id} setVersion={setVersion}></VersionSelect>
