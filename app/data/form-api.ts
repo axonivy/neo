@@ -23,14 +23,16 @@ export const useForms = () => {
   const { queryKey, base } = useFormsApi();
   return useQuery({
     queryKey,
-    queryFn: () =>
-      forms({ headers: headers(base) }).then(res => {
+    queryFn: () => {
+      if (base === undefined) return [];
+      return forms({ headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data;
         }
         toast.error('Failed to load forms', { description: 'Maybe the server is not correclty started' });
         return [];
-      })
+      });
+    }
   });
 };
 

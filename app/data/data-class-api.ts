@@ -19,14 +19,16 @@ export const useDataClasses = () => {
   const { queryKey, base } = useDataClassesApi();
   return useQuery({
     queryKey,
-    queryFn: () =>
-      dataClasses({ headers: headers(base) }).then(res => {
+    queryFn: () => {
+      if (base === undefined) return [];
+      return dataClasses({ headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data;
         }
         toast.error('Failed to load data classes', { description: 'Maybe the server is not correclty started' });
         return [];
-      })
+      });
+    }
   });
 };
 

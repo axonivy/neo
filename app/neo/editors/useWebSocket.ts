@@ -29,7 +29,7 @@ export const useWebSocket = <TClient extends RpcClient>(
     webSocketConnection<TClient>(webSocketUrl).listen({
       onConnection: initClient,
       onReconnect: reconnectClient,
-      logger
+      logger: logger ?? console
     });
   }, [id, logger, startClient, urlBuilder, ws?.baseUrl]);
   return client;

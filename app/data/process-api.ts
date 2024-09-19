@@ -23,14 +23,16 @@ export const useProcesses = () => {
   const { queryKey, base } = useProcessesApi();
   return useQuery({
     queryKey,
-    queryFn: () =>
-      getProcesses({ headers: headers(base) }).then(res => {
+    queryFn: () => {
+      if (base === undefined) return [];
+      return getProcesses({ headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data;
         }
         toast.error('Failed to load processes', { description: 'Maybe the server is not correclty started' });
         return [];
-      })
+      });
+    }
   });
 };
 
