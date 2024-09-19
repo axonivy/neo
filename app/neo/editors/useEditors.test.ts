@@ -3,6 +3,7 @@ import { NavigationType, useNavigate, useNavigationType, useParams } from '@remi
 import { act, renderHook } from '@testing-library/react';
 import { Mock } from 'vitest';
 import { Form } from '~/data/form-api';
+import { DataClassBean } from '~/data/generated/openapi-dev';
 import { Process } from '~/data/process-api';
 import { Editor, useCreateEditor, useEditors, useRestoreEditor } from './useEditors';
 
@@ -29,7 +30,7 @@ afterEach(() => {
 });
 
 describe('createProcessEditor', () => {
-  it('business process', () => {
+  test('business process', () => {
     const result: Editor = {
       id: '/test-ws/processes/designer/glsp-test-project/info',
       type: 'processes',
@@ -52,7 +53,7 @@ describe('createProcessEditor', () => {
     expect(view.result.current.createProcessEditor(process)).to.be.deep.equals(result);
   });
 
-  it('sub process', () => {
+  test('sub process', () => {
     const result: Editor = {
       id: '/test-ws/processes/designer/glsp-test-project/subproc',
       type: 'processes',
@@ -75,7 +76,7 @@ describe('createProcessEditor', () => {
     expect(view.result.current.createProcessEditor(process)).to.be.deep.equals(result);
   });
 
-  it('hd process', () => {
+  test('hd process', () => {
     const result: Editor = {
       id: '/test-ws/src_hd/designer/glsp-test-project/glsp/test/project/hd/hdProcess',
       type: 'src_hd',
@@ -105,7 +106,7 @@ describe('createProcessEditor', () => {
 });
 
 describe('createFormEditor', () => {
-  it('form', () => {
+  test('form', () => {
     const result: Editor = {
       id: '/test-ws/forms/designer/workflow-demos/workflow/demo/form/form',
       type: 'forms',
@@ -124,8 +125,44 @@ describe('createFormEditor', () => {
   });
 });
 
+describe('createDataClassEditor', () => {
+  test('dataclass', () => {
+    const result: Editor = {
+      id: '/test-ws/dataclasses/designer/workflow-demos/workflow/demo/data/data',
+      type: 'dataclasses',
+      icon: IvyIcons.Database,
+      name: 'data',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'workflow/demo/data/data'
+    };
+    const dataClass: DataClassBean = {
+      dataClassIdentifier: { project: { app: 'designer', pmv: 'workflow-demos' }, name: 'workflow.demo.data' },
+      name: 'data.d.json',
+      simpleName: 'data',
+      path: 'workflow/demo/data/data.d.json'
+    };
+    const view = renderHook(() => useCreateEditor());
+    expect(view.result.current.createDataClassEditor(dataClass)).to.be.deep.equals(result);
+  });
+});
+
+describe('createVariableEditor', () => {
+  test('dataclass', () => {
+    const result: Editor = {
+      id: '/test-ws/configurations/designer/workflow-demos/variables',
+      type: 'configurations',
+      icon: IvyIcons.Tool,
+      name: 'variables',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'variables'
+    };
+    const view = renderHook(() => useCreateEditor());
+    expect(view.result.current.createVariableEditor({ app: 'designer', pmv: 'workflow-demos' })).to.be.deep.equals(result);
+  });
+});
+
 describe('createEditorFromPath', () => {
-  it('form', () => {
+  test('form', () => {
     const result: Editor = {
       id: '/test-ws/forms/designer/workflow-demos/workflow/demo/form/form',
       type: 'forms',
@@ -140,7 +177,7 @@ describe('createEditorFromPath', () => {
     ).to.be.deep.equals(result);
   });
 
-  it('business process', () => {
+  test('business process', () => {
     const result: Editor = {
       id: '/test-ws/processes/designer/workflow-demos/path/test/proc',
       type: 'processes',
@@ -155,7 +192,7 @@ describe('createEditorFromPath', () => {
     ).to.be.deep.equals(result);
   });
 
-  it('hd process', () => {
+  test('hd process', () => {
     const result: Editor = {
       id: '/test-ws/src_hd/designer/workflow-demos/workflow/demo/form/form',
       type: 'src_hd',
@@ -170,7 +207,7 @@ describe('createEditorFromPath', () => {
     ).to.be.deep.equals(result);
   });
 
-  it('variables', () => {
+  test('variables', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/variables',
       type: 'configurations',
@@ -182,6 +219,21 @@ describe('createEditorFromPath', () => {
     const view = renderHook(() => useCreateEditor());
     expect(
       view.result.current.createEditorFromPath('configurations', { app: 'designer', pmv: 'workflow-demos' }, 'variables')
+    ).to.be.deep.equals(result);
+  });
+
+  test('data class', () => {
+    const result: Editor = {
+      id: '/test-ws/dataclasses/designer/workflow-demos/dataclasses/form/Data',
+      type: 'dataclasses',
+      icon: IvyIcons.Database,
+      name: 'Data',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'dataclasses/form/Data'
+    };
+    const view = renderHook(() => useCreateEditor());
+    expect(
+      view.result.current.createEditorFromPath('dataclasses', { app: 'designer', pmv: 'workflow-demos' }, 'dataclasses/form/Data.d.json')
     ).to.be.deep.equals(result);
   });
 });
@@ -196,7 +248,7 @@ describe('useEditors', () => {
     path: 'workflow/demo/form/form'
   };
 
-  it('add editors', () => {
+  test('add editors', () => {
     const { result } = renderHook(() => useEditors());
     expect(result.current.editors).to.be.deep.equals([]);
     act(() => {
@@ -209,7 +261,7 @@ describe('useEditors', () => {
     expect(useNavigate()).toBeCalledTimes(0);
   });
 
-  it('remove editors', () => {
+  test('remove editors', () => {
     const { result } = renderHook(() => useEditors());
     expect(result.current.editors).to.be.deep.equals([]);
     act(() => {
@@ -224,7 +276,7 @@ describe('useEditors', () => {
     expect(useNavigate()).toBeCalledTimes(0);
   });
 
-  it('close all', () => {
+  test('close all', () => {
     const { result } = renderHook(() => useEditors());
     expect(result.current.editors).to.be.deep.equals([]);
     act(() => {
@@ -238,28 +290,28 @@ describe('useEditors', () => {
     expect(result.current.editors).to.be.deep.equals([]);
   });
 
-  it('navigate', () => {
+  test('navigate', () => {
     const { result } = renderHook(() => useEditors());
     expect(result.current.editors).to.be.deep.equals([]);
     act(() => {
       result.current.openEditor(editor);
       result.current.openEditor({ ...editor, id: '2' });
+      result.current.openEditor({ ...editor, id: '3' });
     });
-    expect(useNavigate()).toHaveBeenLastCalledWith('2');
+    expect(useNavigate()).toHaveBeenLastCalledWith('3');
 
-    act(() => {
-      result.current.closeEditor('2');
-    });
+    act(() => result.current.closeEditor('2'));
     expect(useNavigate()).toHaveBeenLastCalledWith('1', { replace: true });
 
-    act(() => {
-      result.current.closeAllEditors();
-    });
+    act(() => result.current.closeEditor('1'));
+    expect(useNavigate()).toHaveBeenLastCalledWith('3', { replace: true });
+
+    act(() => result.current.closeAllEditors());
     expect(useNavigate()).toHaveBeenLastCalledWith('/test-ws', { replace: true });
-    expect(useNavigate()).toBeCalledTimes(4);
+    expect(useNavigate()).toBeCalledTimes(6);
   });
 
-  it('persisted', () => {
+  test('persisted', () => {
     const { result } = renderHook(() => useEditors());
     expect(JSON.parse(window.localStorage.getItem('neo-open-editors')!).state).to.be.deep.equals({ workspaces: {} });
     act(() => {
@@ -273,7 +325,7 @@ describe('useRestoreEditor', () => {
   const navigationTypeFn = useNavigationType as unknown as Mock;
   const paramsFn = useParams as unknown as Mock;
 
-  it('navigation type push', () => {
+  test('navigation type push', () => {
     navigationTypeFn.mockImplementation(() => NavigationType.Push);
     paramsFn.mockImplementation(() => ({}));
     renderHook(() => useRestoreEditor('processes'));
@@ -281,7 +333,7 @@ describe('useRestoreEditor', () => {
     expect(result.current.editors).toHaveLength(0);
   });
 
-  it('navigation type replace', () => {
+  test('navigation type replace', () => {
     navigationTypeFn.mockImplementation(() => NavigationType.Replace);
     paramsFn.mockImplementation(() => ({}));
     renderHook(() => useRestoreEditor('processes'));
@@ -289,7 +341,7 @@ describe('useRestoreEditor', () => {
     expect(result.current.editors).toHaveLength(0);
   });
 
-  it('navigation type pop', () => {
+  test('navigation type pop', () => {
     navigationTypeFn.mockImplementation(() => NavigationType.Pop);
     paramsFn.mockImplementation(() => ({}));
     renderHook(() => useRestoreEditor('processes'));
@@ -297,7 +349,7 @@ describe('useRestoreEditor', () => {
     expect(result.current.editors).toHaveLength(0);
   });
 
-  it('corret params', () => {
+  test('corret params', () => {
     navigationTypeFn.mockImplementation(() => NavigationType.Pop);
     paramsFn.mockImplementation(() => ({ ws: 'test-ws', app: 'test', pmv: 'workflow', '*': 'path/test/proc.p.json' }));
     renderHook(() => useRestoreEditor('processes'));
