@@ -15,13 +15,15 @@ export const useProjects = () => {
   const { queryKey, base } = useProjectsApi();
   return useQuery({
     queryKey,
-    queryFn: () =>
-      projects({ headers: headers(base) }).then(res => {
+    queryFn: () => {
+      if (base === undefined) return [];
+      return projects({ headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data;
         }
         toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
         return [];
-      })
+      });
+    }
   });
 };
