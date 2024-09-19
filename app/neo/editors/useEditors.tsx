@@ -20,7 +20,7 @@ export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: strin
 
 type EditorState = {
   workspaces: Record<string, Array<Editor>>;
-  close: (ws: string, id: string) => void;
+  close: (ws: string, id: string) => Editor | undefined;
   closeAll: (ws: string) => void;
   open: (ws: string, editor: Editor) => void;
 };
@@ -29,15 +29,19 @@ const useStore = create<EditorState>()(
   persist(
     set => ({
       workspaces: {},
-      close: (ws, id) =>
+      close: (ws, id) => {
+        let nextEditor: Editor | undefined;
         set(state => {
           const workspaces = structuredClone(state.workspaces);
           const editors = workspaces[ws] ?? [];
           const index = indexOf(editors, e => e.id === id);
           editors.splice(index, 1);
+          nextEditor = editors[index - 1] ?? editors[index];
           workspaces[ws] = editors;
           return { workspaces };
-        }),
+        });
+        return nextEditor;
+      },
       closeAll: ws =>
         set(state => {
           const workspaces = structuredClone(state.workspaces);
@@ -68,14 +72,10 @@ export const useEditors = () => {
 
   const closeEditor = useCallback(
     (id: string) => {
-      close(ws, id);
-      let nav = rootNav;
-      if (workspaces[ws]?.length > 0) {
-        nav = workspaces[ws][0].id;
-      }
-      navigate(nav, { replace: true });
+      const nextEditor = close(ws, id);
+      navigate(nextEditor ? nextEditor.id : rootNav, { replace: true });
     },
-    [close, navigate, rootNav, workspaces, ws]
+    [close, navigate, rootNav, ws]
   );
 
   const closeAllEditors = useCallback(() => {
@@ -149,10 +149,10 @@ export const useCreateEditor = () => {
       return createEditor(ws, 'processes', project, path ?? name, name);
     },
     createVariableEditor: (project: ProjectIdentifier): Editor => createEditor(ws, 'configurations', project, 'variables', 'variables'),
-    createEditorFromPath: (editorType: EditorType, project: ProjectIdentifier, path: string): Editor =>
-      createEditor(ws, editorType, project, path, path.split('/').at(-1) ?? path),
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
-      createEditor(ws, 'dataclasses', project, path, simpleName)
+      createEditor(ws, 'dataclasses', project, path, simpleName),
+    createEditorFromPath: (editorType: EditorType, project: ProjectIdentifier, path: string): Editor =>
+      createEditor(ws, editorType, project, path, path.split('/').at(-1) ?? path)
   };
 };
 
@@ -169,7 +169,7 @@ const createEditor = (ws: string, editorType: EditorType, project: ProjectIdenti
 };
 
 const removeExtension = (path: string) => {
-  return path.split('.p.json')[0].split('.f.json')[0];
+  return path.split('.p.json')[0].split('.f.json')[0].split('.d.json')[0];
 };
 
 const editorIcon = (editorType: EditorType) => {

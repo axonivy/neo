@@ -16,12 +16,12 @@ afterEach(() => {
 describe('useSettings', () => {
   const { animationSettings } = useNeoClient('all')!;
 
-  it('default settings', () => {
+  test('default settings', () => {
     const { result } = renderHook(() => useSettings());
     expect(result.current.animation).to.be.deep.equals({ animate: false, speed: 50, mode: 'all' });
   });
 
-  it('enable animation', () => {
+  test('enable animation', () => {
     const { result } = renderHook(() => useSettings());
     act(() => {
       result.current.enableAnimation(true);
@@ -30,7 +30,7 @@ describe('useSettings', () => {
     expect(animationSettings).toBeCalledWith({ animate: true, speed: 50, mode: 'all' });
   });
 
-  it('animation speed', () => {
+  test('animation speed', () => {
     const { result } = renderHook(() => useSettings());
     act(() => {
       result.current.animationSpeed('75');
@@ -39,7 +39,7 @@ describe('useSettings', () => {
     expect(animationSettings).toBeCalledWith({ animate: false, speed: 75, mode: 'all' });
   });
 
-  it('mode', () => {
+  test('mode', () => {
     const { result } = renderHook(() => useSettings());
     act(() => {
       result.current.animationMode('currentProcess');
