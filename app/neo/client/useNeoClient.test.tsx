@@ -66,7 +66,7 @@ test('all', async () => {
   const { result } = renderNeoClientHook('all');
   const shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
   expect(shouldAnimate).toBeTruthy();
-  expect(useNavigate()).toHaveBeenLastCalledWith('/designer/processes/designer/glsp-test-project/info');
+  expect(useNavigate()).toHaveBeenLastCalledWith('/designer/processes/designer/glsp-test-project/processes/info');
 });
 
 test('current process', async () => {
@@ -76,7 +76,7 @@ test('current process', async () => {
   expect(useNavigate()).toBeCalledTimes(0);
 
   if (vi.isMockFunction(useLocation))
-    useLocation.mockImplementation(() => ({ pathname: '/designer/processes/designer/glsp-test-project/info' }));
+    useLocation.mockImplementation(() => ({ pathname: '/designer/processes/designer/glsp-test-project/processes/info' }));
   rerender();
   shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
   expect(shouldAnimate).toBeTruthy();

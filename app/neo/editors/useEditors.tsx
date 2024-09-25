@@ -13,7 +13,7 @@ import { FormEditor } from './FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
 import { VariableEditor } from './VariableEditor';
 
-export type EditorType = 'processes' | 'forms' | 'src_hd' | 'configurations' | 'dataclasses';
+export type EditorType = 'processes' | 'forms' | 'configurations' | 'dataclasses';
 
 // if you change the Editor type increase the persist version too
 export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
@@ -116,7 +116,7 @@ export const useRestoreEditor = (editorType: EditorType) => {
   if (navigationType !== NavigationType.Pop || !ws || !app || !pmv || !path) {
     return;
   }
-  const editor = createEditorFromPath(editorType, { app, pmv }, path);
+  const editor = createEditorFromPath({ app, pmv }, path, editorType);
   const index = indexOf(editors, e => e.id === editor.id);
   if (index === -1) {
     addEditor(editor);
@@ -126,7 +126,6 @@ export const useRestoreEditor = (editorType: EditorType) => {
 export const renderEditor = (editor: Editor) => {
   switch (editor.type) {
     case 'processes':
-    case 'src_hd':
       return <ProcessEditor key={editor.id} {...editor} />;
     case 'forms':
       return <FormEditor key={editor.id} {...editor} />;
@@ -140,19 +139,19 @@ export const renderEditor = (editor: Editor) => {
 export const useCreateEditor = () => {
   const ws = useParams().ws ?? 'designer';
   return {
-    createFormEditor: ({ name, path, identifier: { project } }: Form): Editor => createEditor(ws, 'forms', project, path, name),
+    createFormEditor: ({ name, path, identifier: { project } }: Form): Editor => createEditor(ws, 'forms', project, `src_hd/${path}`, name),
     createProcessEditor: ({ name, path, processIdentifier: { project }, kind, namespace }: Process): Editor => {
       if (kind === 'HTML_DIALOG') {
-        path = `${namespace}/${name}`;
-        return createEditor(ws, 'src_hd', project, path, name);
+        path = `src_hd/${namespace}/${name}`;
+        return createEditor(ws, 'processes', project, path, name);
       }
-      return createEditor(ws, 'processes', project, path ?? name, name);
+      return createEditor(ws, 'processes', project, `processes/${path ?? name}`, name);
     },
     createVariableEditor: (project: ProjectIdentifier): Editor => createEditor(ws, 'configurations', project, 'variables', 'variables'),
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
       createEditor(ws, 'dataclasses', project, path, simpleName),
-    createEditorFromPath: (editorType: EditorType, project: ProjectIdentifier, path: string): Editor =>
-      createEditor(ws, editorType, project, path, path.split('/').at(-1) ?? path)
+    createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
+      createEditor(ws, editorType ?? typeFromPath(path), project, path, path.split('/').at(-1) ?? path)
   };
 };
 
@@ -170,6 +169,19 @@ const createEditor = (ws: string, editorType: EditorType, project: ProjectIdenti
 
 const removeExtension = (path: string) => {
   return path.split('.p.json')[0].split('.f.json')[0].split('.d.json')[0];
+};
+
+const typeFromPath = (path: string): EditorType => {
+  if (path.endsWith('.p.json')) {
+    return 'processes';
+  }
+  if (path.endsWith('.f.json')) {
+    return 'forms';
+  }
+  if (path.endsWith('.d.json')) {
+    return 'dataclasses';
+  }
+  return 'configurations';
 };
 
 const editorIcon = (editorType: EditorType) => {

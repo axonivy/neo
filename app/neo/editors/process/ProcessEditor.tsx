@@ -21,12 +21,12 @@ const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) =>
   }
 };
 
-export const ProcessEditor = ({ id, project, type, path, name }: Editor) => {
+export const ProcessEditor = ({ id, project, path, name }: Editor) => {
   const frame = useRef<HTMLIFrameElement>(null);
   const theme = useThemeMode();
   const ws = useWorkspace();
   const editorUrl = useHref(
-    `/process-editor/index.html?server=${`${baseUrl()}${ws?.baseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=/${type}/${path}.p.json&readonly=${project.isIar ?? false}`
+    `/process-editor/index.html?server=${`${baseUrl()}${ws?.baseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=/${path}.p.json&readonly=${project.isIar ?? false}`
   );
   const { pathname } = useLocation();
   useFrameMessageHandler(frame, project.app);

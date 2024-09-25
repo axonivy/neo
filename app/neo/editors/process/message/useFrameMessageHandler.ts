@@ -1,7 +1,7 @@
 import { RefObject, useEffect } from 'react';
-import { useStartActionHandler } from './useStartActionHandler';
 import { useNewFormActionHandler, useNewProcessActionHandler } from './useInscriptionActionHandler';
 import { useNavigateActionHandler } from './useNavigationActionHandler';
+import { useStartActionHandler } from './useStartActionHandler';
 
 export const useFrameMessageHandler = (frame: RefObject<HTMLIFrameElement>, app: string) => {
   const navigationHandler = useNavigateActionHandler(app);

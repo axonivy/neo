@@ -5,12 +5,13 @@ import { Fragment, ReactNode, useEffect, useRef, useState } from 'react';
 import IvyLogoSVG from './axonivy.svg?react';
 import { Editor, useEditors } from './editors/useEditors';
 
-const EditorTab = ({ icon, name, id }: Editor) => {
+const EditorTab = ({ icon, name, path, id }: Editor) => {
   const active = useLocation().pathname === id;
   return (
     <TabsTrigger
       key={id}
       value={id}
+      title={path}
       style={{
         borderBottom: 'none',
         borderInlineEnd: active ? undefined : 'var(--basic-border)',

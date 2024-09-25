@@ -9,7 +9,7 @@ export class ControlBar {
     this.bar = page.locator('.control-bar');
   }
 
-  tab(name: string) {
+  tab(name: string | RegExp) {
     return new EditorTab(this.page, this.bar, name);
   }
 
@@ -27,7 +27,7 @@ class EditorTab {
   protected readonly page: Page;
   readonly tab: Locator;
 
-  constructor(page: Page, parent: Locator, name: string) {
+  constructor(page: Page, parent: Locator, name: string | RegExp) {
     this.page = page;
     this.tab = parent.getByRole('tab', { name });
   }
