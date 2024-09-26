@@ -1,0 +1,67 @@
+.editor-tabs {
+  overflow-x: hidden;
+
+  .ui-tabs-list {
+    height: 100%;
+  }
+
+  .editor-tab-wrapper {
+    height: 100%;
+    border-inline-end: var(--basic-border);
+    &:has(.editor-tab[data-state='active']) {
+      font-weight: normal;
+      background: var(--background);
+    }
+    &:not(:has(.editor-tab[data-state='active'])) {
+      > :nth-last-child(2) {
+        margin-inline-end: var(--size-2);
+      }
+      .editor-tab-close {
+        display: none;
+      }
+    }
+    &:has(.editor-tab:focus-visible) {
+      box-shadow: var(--focus-shadow);
+    }
+
+    .editor-tab-close {
+      margin-inline-end: var(--size-2);
+    }
+
+    .editor-tab {
+      border-bottom: none;
+      font-size: 12px;
+      height: 100%;
+      padding: 0 var(--size-1) 0 var(--size-3);
+      &:focus-visible {
+        box-shadow: none;
+      }
+      &[data-state='active'] {
+        font-weight: normal;
+        border: none;
+        padding-inline-end: 0;
+        background: var(--background);
+      }
+      &:has(~ .editor-sub-tab) {
+        padding-inline-end: 0;
+      }
+      &.editor-sub-tab {
+        border: var(--basic-border);
+        border-radius: var(--border-r1);
+        height: 24px;
+        padding: 0 5px;
+        &[data-state='active'] {
+          background-color: var(--N50);
+        }
+        .editor-tab-icon {
+          font-size: 14px;
+          color: var(--P300);
+        }
+      }
+
+      .editor-tab-icon {
+        font-size: 16px;
+      }
+    }
+  }
+}

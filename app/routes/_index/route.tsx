@@ -24,11 +24,11 @@ import {
   useWorkspaces,
   Workspace
 } from '~/data/workspace-api';
-import { ControlBar } from '~/neo/ControlBar';
-import { Overview } from '~/neo/Overview';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { FileInput } from '~/neo/artifact/ImportDialog';
+import { ControlBar } from '~/neo/control-bar/ControlBar';
+import { Overview } from '~/neo/Overview';
 import PreviewSVG from './workspace-preview.svg?react';
 
 export const links: LinksFunction = cardLinks;

@@ -1,12 +1,14 @@
 import { Field, Flex, Label, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Switch } from '@axonivy/ui-components';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
-import { ControlBar, EditorTabs, EditorsControl } from '~/neo/ControlBar';
 import { Navigation } from '~/neo/Navigation';
 import { cardLinks } from '~/neo/artifact/ArtifactCard';
 import { WebBrowser } from '~/neo/browser/WebBrowser';
 import { useWebBrowser } from '~/neo/browser/useWebBrowser';
 import { NeoClientProvider } from '~/neo/client/useNeoClient';
+import { ControlBar } from '~/neo/control-bar/ControlBar';
+import { EditorsControl } from '~/neo/control-bar/EditorControl';
+import { EditorTabs } from '~/neo/control-bar/EditorTabs';
 import { renderEditor, useEditors } from '~/neo/editors/useEditors';
 
 export const links: LinksFunction = cardLinks;

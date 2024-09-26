@@ -260,7 +260,6 @@ describe('useEditors', () => {
       // add twice, will only add once
       result.current.addEditor(editor);
     });
-    act(() => {});
     expect(result.current.editors).to.be.deep.equals([editor]);
     expect(useNavigate()).toBeCalledTimes(0);
   });
@@ -304,10 +303,10 @@ describe('useEditors', () => {
     });
     expect(useNavigate()).toHaveBeenLastCalledWith('3');
 
-    act(() => result.current.closeEditor('2'));
+    act(() => result.current.closeEditors(['2']));
     expect(useNavigate()).toHaveBeenLastCalledWith('1', { replace: true });
 
-    act(() => result.current.closeEditor('1'));
+    act(() => result.current.closeEditors(['1']));
     expect(useNavigate()).toHaveBeenLastCalledWith('3', { replace: true });
 
     act(() => result.current.closeAllEditors());
