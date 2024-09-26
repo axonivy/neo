@@ -14,6 +14,20 @@ test('restore editor', async ({ page }) => {
   await openForm(page);
 });
 
+test.describe('jump to editor', () => {
+  test('jump to data class', async ({ page }) => {
+    const { neo, editor } = await openForm(page);
+    await editor.canvas.getByRole('button', { name: 'Open Data Class' }).click();
+    await neo.controlBar.tab('EnterProductData').expectActive();
+  });
+
+  test('jump to process', async ({ page }) => {
+    const { neo, editor } = await openForm(page);
+    await editor.canvas.getByRole('button', { name: 'Open Process' }).click();
+    await neo.controlBar.tab('EnterProductProcess').expectActive();
+  });
+});
+
 test.describe('inscription', () => {
   test('Change value', async ({ page }) => {
     const { editor } = await openForm(page);

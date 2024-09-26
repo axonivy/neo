@@ -9,7 +9,7 @@ import { DataClassBean } from '~/data/generated/openapi-dev';
 import { Process } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { DataClassEditor } from './DataClassEditor';
-import { FormEditor } from './FormEditor';
+import { FormEditor } from './form/FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
 import { VariableEditor } from './VariableEditor';
 
