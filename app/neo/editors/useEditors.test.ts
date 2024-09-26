@@ -32,12 +32,12 @@ afterEach(() => {
 describe('createProcessEditor', () => {
   test('business process', () => {
     const result: Editor = {
-      id: '/test-ws/processes/designer/glsp-test-project/info',
+      id: '/test-ws/processes/designer/glsp-test-project/processes/info',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'info',
       project: { app: 'designer', pmv: 'glsp-test-project' },
-      path: 'info'
+      path: 'processes/info'
     };
     const process: Process = {
       kind: 'NORMAL',
@@ -55,12 +55,12 @@ describe('createProcessEditor', () => {
 
   test('sub process', () => {
     const result: Editor = {
-      id: '/test-ws/processes/designer/glsp-test-project/subproc',
+      id: '/test-ws/processes/designer/glsp-test-project/processes/subproc',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'subproc',
       project: { app: 'designer', pmv: 'glsp-test-project' },
-      path: 'subproc'
+      path: 'processes/subproc'
     };
     const process: Process = {
       name: 'subproc',
@@ -78,12 +78,12 @@ describe('createProcessEditor', () => {
 
   test('hd process', () => {
     const result: Editor = {
-      id: '/test-ws/src_hd/designer/glsp-test-project/glsp/test/project/hd/hdProcess',
-      type: 'src_hd',
+      id: '/test-ws/processes/designer/glsp-test-project/src_hd/glsp/test/project/hd/hdProcess',
+      type: 'processes',
       icon: IvyIcons.Process,
       name: 'hdProcess',
       project: { app: 'designer', pmv: 'glsp-test-project' },
-      path: 'glsp/test/project/hd/hdProcess'
+      path: 'src_hd/glsp/test/project/hd/hdProcess'
     };
     const process: Process = {
       name: 'hdProcess',
@@ -108,12 +108,12 @@ describe('createProcessEditor', () => {
 describe('createFormEditor', () => {
   test('form', () => {
     const result: Editor = {
-      id: '/test-ws/forms/designer/workflow-demos/workflow/demo/form/form',
+      id: '/test-ws/forms/designer/workflow-demos/src_hd/workflow/demo/form/form',
       type: 'forms',
       icon: IvyIcons.File,
       name: 'form',
       project: { app: 'designer', pmv: 'workflow-demos' },
-      path: 'workflow/demo/form/form'
+      path: 'src_hd/workflow/demo/form/form'
     };
     const form: Form = {
       identifier: { project: { app: 'designer', pmv: 'workflow-demos' }, id: 'workflow.demo.form' },
@@ -164,46 +164,50 @@ describe('createVariableEditor', () => {
 describe('createEditorFromPath', () => {
   test('form', () => {
     const result: Editor = {
-      id: '/test-ws/forms/designer/workflow-demos/workflow/demo/form/form',
+      id: '/test-ws/forms/designer/workflow-demos/src_hd/workflow/demo/form/form',
       type: 'forms',
       icon: IvyIcons.File,
       name: 'form',
       project: { app: 'designer', pmv: 'workflow-demos' },
-      path: 'workflow/demo/form/form'
+      path: 'src_hd/workflow/demo/form/form'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath('forms', { app: 'designer', pmv: 'workflow-demos' }, 'workflow/demo/form/form.f.json')
+      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'src_hd/workflow/demo/form/form.f.json', 'forms')
     ).to.be.deep.equals(result);
   });
 
   test('business process', () => {
     const result: Editor = {
-      id: '/test-ws/processes/designer/workflow-demos/path/test/proc',
+      id: '/test-ws/processes/designer/workflow-demos/processes/path/test/proc',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'proc',
       project: { app: 'designer', pmv: 'workflow-demos' },
-      path: 'path/test/proc'
+      path: 'processes/path/test/proc'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath('processes', { app: 'designer', pmv: 'workflow-demos' }, 'path/test/proc.p.json')
+      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'processes/path/test/proc.p.json', 'processes')
     ).to.be.deep.equals(result);
   });
 
   test('hd process', () => {
     const result: Editor = {
-      id: '/test-ws/src_hd/designer/workflow-demos/workflow/demo/form/form',
-      type: 'src_hd',
+      id: '/test-ws/processes/designer/workflow-demos/src_hd/workflow/demo/form/form',
+      type: 'processes',
       icon: IvyIcons.Process,
       name: 'form',
       project: { app: 'designer', pmv: 'workflow-demos' },
-      path: 'workflow/demo/form/form'
+      path: 'src_hd/workflow/demo/form/form'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath('src_hd', { app: 'designer', pmv: 'workflow-demos' }, 'workflow/demo/form/form.p.json')
+      view.result.current.createEditorFromPath(
+        { app: 'designer', pmv: 'workflow-demos' },
+        'src_hd/workflow/demo/form/form.p.json',
+        'processes'
+      )
     ).to.be.deep.equals(result);
   });
 
@@ -218,7 +222,7 @@ describe('createEditorFromPath', () => {
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath('configurations', { app: 'designer', pmv: 'workflow-demos' }, 'variables')
+      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'variables', 'configurations')
     ).to.be.deep.equals(result);
   });
 
@@ -233,7 +237,7 @@ describe('createEditorFromPath', () => {
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath('dataclasses', { app: 'designer', pmv: 'workflow-demos' }, 'dataclasses/form/Data.d.json')
+      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'dataclasses/form/Data.d.json', 'dataclasses')
     ).to.be.deep.equals(result);
   });
 });

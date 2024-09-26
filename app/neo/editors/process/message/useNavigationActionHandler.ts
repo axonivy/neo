@@ -1,6 +1,6 @@
 import { NavigateToExternalTargetAction } from '@eclipse-glsp/protocol/lib/action-protocol/element-navigation';
 import { useCallback } from 'react';
-import { EditorType, useCreateEditor, useEditors } from '~/neo/editors/useEditors';
+import { useCreateEditor, useEditors } from '~/neo/editors/useEditors';
 
 const asString = (argValue?: string | number | boolean): string | undefined => {
   return typeof argValue === 'string' ? argValue : undefined;
@@ -16,17 +16,23 @@ export const useNavigateActionHandler = (app: string) => {
       }
       const { uri, args } = data.target;
       const pmv = asString(args?.pmv)?.split('$')[0];
-      let process = uri.split('/processes/')[1];
-      let type: EditorType = 'processes';
-      if (!process) {
-        process = uri.split('/src_hd/')[1];
-        type = 'src_hd';
+      if (!pmv) {
+        return;
       }
+      const path = removeFirstSegmet(uri);
       const isIar = asString(args?.isIar) === 'true';
-      if (process && pmv) {
-        openEditor(createEditorFromPath(type, { app, pmv, isIar }, process));
+      if (path && pmv) {
+        openEditor(createEditorFromPath({ app, pmv, isIar }, path));
       }
     },
     [openEditor, createEditorFromPath, app]
   );
+};
+
+const removeFirstSegmet = (uri: string) => {
+  let path = uri;
+  if (path.startsWith('/')) {
+    path = path.substring(1);
+  }
+  return path.substring(path.indexOf('/') + 1);
 };

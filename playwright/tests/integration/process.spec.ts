@@ -4,21 +4,28 @@ import { ProcessEditor, ProcessEditorElement } from '../page-objects/process-edi
 import { app } from './app';
 
 const openQuickStartProcess = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/quickstart`);
+  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/processes/quickstart`);
   const editor = new ProcessEditor(neo, 'quickstart');
   await editor.waitForOpen('1907DDB3CA766818-f0');
   return { neo, editor };
 };
 
 const openJumpProcess = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/jump`);
+  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/processes/jump`);
   const editor = new ProcessEditor(neo, 'jump');
   await editor.waitForOpen('1907DD66AA11FCD9-f0');
   return { neo, editor };
 };
 
+const openHdProcess = async (page: Page) => {
+  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/src_hd/neo/test/project/EnterProduct/EnterProductProcess`);
+  const editor = new ProcessEditor(neo, 'EnterProductProcess');
+  await editor.waitForOpen('1907DDC2CCF1790F-f0');
+  return { neo, editor };
+};
+
 const openSubProcess = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/subproc`);
+  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/processes/subproc`);
   const editor = new ProcessEditor(neo, 'subproc');
   await editor.waitForOpen('1907DD74AA37CDB2-f0');
   return { neo, editor };
@@ -69,6 +76,26 @@ test('start from browser - with animation', async ({ page, browserName }) => {
   const browser = await neo.browser();
   await browser.startProcess('jump/start.ivp');
   await expect(neo.controlBar.tabs()).toHaveCount(3, { timeout: 10000 });
+});
+
+test.describe('jump to editor', () => {
+  test('jump to data class', async ({ page }) => {
+    const { neo, editor } = await openJumpProcess(page);
+    await expect(editor.frame.getByTitle('Open Form Editor')).toBeHidden();
+    const openDataClassBtn = editor.frame.getByTitle('Open Data Class');
+    await expect(openDataClassBtn).toBeVisible();
+    await openDataClassBtn.click();
+    await neo.controlBar.tab('Data').expectActive();
+  });
+
+  test('jump to form', async ({ page }) => {
+    const { neo, editor } = await openHdProcess(page);
+    const openFormEditorButton = editor.frame.getByTitle('Open Form Editor');
+    await expect(openFormEditorButton).toBeVisible();
+    await expect(editor.frame.getByTitle('Open Data Class')).toBeVisible();
+    await openFormEditorButton.click();
+    await neo.controlBar.tab(/EnterProduct$/).expectActive();
+  });
 });
 
 test.describe('jump to process', () => {
