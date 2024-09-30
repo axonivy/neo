@@ -26,10 +26,10 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~12.0.0-next.89",
-    "@axonivy/form-editor": "~12.0.0-next.306",
-    "@axonivy/form-editor-core": "~12.0.0-next.306",
-    "@axonivy/form-editor-protocol": "~12.0.0-next.306",
+    "@axonivy/dataclass-editor": "~12.0.0-next.93",
+    "@axonivy/form-editor": "~12.0.0-next.314",
+    "@axonivy/form-editor-core": "~12.0.0-next.314",
+    "@axonivy/form-editor-protocol": "~12.0.0-next.314",
     "@axonivy/jsonrpc": "~12.0.0-next.326",
     "@axonivy/ui-components": "~12.0.0-next.326",
     "@axonivy/ui-icons": "~12.0.0-next.326",
