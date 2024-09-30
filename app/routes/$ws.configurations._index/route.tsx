@@ -2,7 +2,8 @@ import type { MetaFunction } from '@remix-run/node';
 import { useState } from 'react';
 import { ProjectIdentifier, useProjects } from '~/data/project-api';
 import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
-import { Editor, useCreateEditor, useEditors } from '~/neo/editors/useEditors';
+import { useCreateEditor } from '~/neo/editors/useCreateEditor';
+import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './variables-preview.svg?react';
 

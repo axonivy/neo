@@ -3,7 +3,7 @@ import { ReadonlyProvider } from '@axonivy/ui-components';
 import { useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { Editor } from '~/neo/editors/useEditors';
-import { useWebSocket } from './useWebSocket';
+import { useWebSocket } from '../useWebSocket';
 
 export const DataClassEditor = ({ id, project, path, name }: Editor) => {
   const client = useWebSocket<ClientJsonRpc>(id, ClientJsonRpc.webSocketUrl, ClientJsonRpc.startMessageClient);
