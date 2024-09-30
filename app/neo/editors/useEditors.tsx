@@ -8,6 +8,7 @@ import { Form } from '~/data/form-api';
 import { DataClassBean } from '~/data/generated/openapi-dev';
 import { Process } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
+import { lastSegment } from '~/utils/path';
 import { DataClassEditor } from './DataClassEditor';
 import { FormEditor } from './form/FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
@@ -20,7 +21,7 @@ export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: strin
 
 type EditorState = {
   workspaces: Record<string, Array<Editor>>;
-  close: (ws: string, id: string) => Editor | undefined;
+  close: (ws: string, ids: Array<string>) => Editor | undefined;
   closeAll: (ws: string) => void;
   open: (ws: string, editor: Editor) => void;
 };
@@ -29,13 +30,16 @@ const useStore = create<EditorState>()(
   persist(
     set => ({
       workspaces: {},
-      close: (ws, id) => {
+      close: (ws, ids) => {
         let nextEditor: Editor | undefined;
         set(state => {
           const workspaces = structuredClone(state.workspaces);
           const editors = workspaces[ws] ?? [];
-          const index = indexOf(editors, e => e.id === id);
-          editors.splice(index, 1);
+          let index = 0;
+          ids.forEach(id => {
+            index = indexOf(editors, e => e.id === id);
+            editors.splice(index, 1);
+          });
           nextEditor = editors[index - 1] ?? editors[index];
           workspaces[ws] = editors;
           return { workspaces };
@@ -70,9 +74,9 @@ export const useEditors = () => {
   const rootNav = `/${ws}`;
   const { workspaces, open, close, closeAll } = useStore();
 
-  const closeEditor = useCallback(
-    (id: string) => {
-      const nextEditor = close(ws, id);
+  const closeEditors = useCallback(
+    (ids: Array<string>) => {
+      const nextEditor = close(ws, ids);
       navigate(nextEditor ? nextEditor.id : rootNav, { replace: true });
     },
     [close, navigate, rootNav, ws]
@@ -93,7 +97,7 @@ export const useEditors = () => {
 
   const removeEditor = useCallback(
     (id: string) => {
-      close(ws, id);
+      close(ws, [id]);
     },
     [close, ws]
   );
@@ -105,7 +109,7 @@ export const useEditors = () => {
     [open, ws]
   );
 
-  return { editors: workspaces[ws] ?? [], closeEditor, openEditor, removeEditor, addEditor, closeAllEditors };
+  return { editors: workspaces[ws] ?? [], closeEditors, openEditor, removeEditor, addEditor, closeAllEditors };
 };
 
 export const useRestoreEditor = (editorType: EditorType) => {
@@ -151,7 +155,7 @@ export const useCreateEditor = () => {
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
       createEditor(ws, 'dataclasses', project, path, simpleName),
     createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
-      createEditor(ws, editorType ?? typeFromPath(path), project, path, path.split('/').at(-1) ?? path)
+      createEditor(ws, editorType ?? typeFromPath(path), project, path, lastSegment(path) ?? path)
   };
 };
 
