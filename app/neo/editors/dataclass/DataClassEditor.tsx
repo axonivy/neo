@@ -1,12 +1,17 @@
-import { DataClassEditor as App, ClientContextProvider, ClientJsonRpc } from '@axonivy/dataclass-editor';
+import { DataClassEditor as App, ClientContextProvider } from '@axonivy/dataclass-editor';
 import { ReadonlyProvider } from '@axonivy/ui-components';
 import { useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
 import { Editor } from '~/neo/editors/useEditors';
 import { useWebSocket } from '../useWebSocket';
+import { DataClassClientNeo } from './data-class-client';
+import { useActionHandler } from './useActionHandler';
 
 export const DataClassEditor = ({ id, project, path, name }: Editor) => {
-  const client = useWebSocket<ClientJsonRpc>(id, ClientJsonRpc.webSocketUrl, ClientJsonRpc.startMessageClient);
+  const actionHandler = useActionHandler(project, path);
+  const client = useWebSocket<DataClassClientNeo>(id, DataClassClientNeo.webSocketUrl, connection =>
+    DataClassClientNeo.startNeoMessageClient(connection, actionHandler)
+  );
   const { pathname } = useLocation();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
