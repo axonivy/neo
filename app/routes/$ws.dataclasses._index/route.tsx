@@ -5,7 +5,8 @@ import { DataClassIdentifier } from '~/data/generated/openapi-dev';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
-import { Editor, useCreateEditor, useEditors } from '~/neo/editors/useEditors';
+import { useCreateEditor } from '~/neo/editors/useCreateEditor';
+import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './dataclass-preview.svg?react';
 

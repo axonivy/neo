@@ -1,7 +1,7 @@
-import type { MetaFunction } from '@remix-run/node';
-import { useRestoreEditor } from '~/neo/editors/useEditors';
-import { LinksFunction } from '@remix-run/node';
 import editorStylesHref from '@axonivy/form-editor/lib/style.css?url';
+import type { MetaFunction } from '@remix-run/node';
+import { LinksFunction } from '@remix-run/node';
+import { useRestoreEditor } from '~/neo/editors/useRestoreEditor';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: editorStylesHref }];
 

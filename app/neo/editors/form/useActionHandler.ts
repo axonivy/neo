@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { ProjectIdentifier } from '~/data/project-api';
-import { Editor, useCreateEditor, useEditors } from '../useEditors';
+import { useCreateEditor } from '../useCreateEditor';
+import { Editor, useEditors } from '../useEditors';
 import { FormActionHandler } from './form-client';
 
 export const useActionHandler = (project: ProjectIdentifier, formEditorPath: string) => {

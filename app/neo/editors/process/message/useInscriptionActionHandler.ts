@@ -4,7 +4,8 @@ import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
-import { useCreateEditor, useEditors } from '../../useEditors';
+import { useCreateEditor } from '../../useCreateEditor';
+import { useEditors } from '../../useEditors';
 
 const isActionWithId = (
   obj: unknown,

@@ -1,6 +1,7 @@
 import { NavigateToExternalTargetAction } from '@eclipse-glsp/protocol/lib/action-protocol/element-navigation';
 import { useCallback } from 'react';
-import { useCreateEditor, useEditors } from '~/neo/editors/useEditors';
+import { useCreateEditor } from '~/neo/editors/useCreateEditor';
+import { useEditors } from '~/neo/editors/useEditors';
 import { removeFirstSegmet } from '~/utils/path';
 
 const asString = (argValue?: string | number | boolean): string | undefined => {
