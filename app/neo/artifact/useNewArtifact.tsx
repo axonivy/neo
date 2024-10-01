@@ -1,4 +1,5 @@
 import {
+  BasicField,
   Button,
   Dialog,
   DialogClose,
@@ -6,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Fieldset,
   Flex,
   Input
 } from '@axonivy/ui-components';
@@ -36,8 +36,8 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const [dialogState, setDialogState] = useState(false);
   const [newArtifact, setNewArtifact] = useState<NewArtifact>();
 
-  const [name, setName] = useState('');
-  const [namespace, setNamespace] = useState('neo');
+  const [name, setName] = useState<string>();
+  const [namespace, setNamespace] = useState('');
   const [project, setProject] = useState<ProjectIdentifier>();
 
   useEffect(() => {
@@ -49,11 +49,14 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     setDialogState(true);
     setNewArtifact(context);
   };
-  const close = () => setDialogState(false);
+  const close = () => {
+    setDialogState(false);
+    setName(undefined);
+  };
   return (
     <NewArtifactDialogContext.Provider value={{ open, close, dialogState, newArtifact }}>
       {children}
-      {newArtifact && (
+      {newArtifact && name && (
         <Dialog open={dialogState} onOpenChange={() => close()}>
           <DialogContent>
             <DialogHeader>
@@ -67,12 +70,12 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
               }}
             >
               <Flex direction='column' gap={3}>
-                <Fieldset label='Name'>
+                <BasicField label='Name'>
                   <Input value={name} onChange={e => setName(e.target.value)} />
-                </Fieldset>
-                <Fieldset label='Namespace'>
+                </BasicField>
+                <BasicField label='Namespace'>
                   <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
-                </Fieldset>
+                </BasicField>
                 {newArtifact.project ? <></> : <ProjectSelect setProject={setProject} />}
                 <button style={{ display: 'none' }} type='submit'>
                   Create
