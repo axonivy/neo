@@ -1,4 +1,5 @@
 import { expect, Page, test } from '@playwright/test';
+import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
 import { ProcessEditor, ProcessEditorElement } from '../page-objects/process-editor';
 import { app } from './app';
@@ -109,8 +110,8 @@ test.describe('jump to process', () => {
   test('hd', async ({ page }) => {
     const { neo, editor } = await openJumpProcess(page);
     const element = editor.elementByPid('1907DD66AA11FCD9-f5');
-    await element.triggerQuickAction(/Jump/);
-    await new ProcessEditor(neo, 'EnterProductProcess').waitForOpen('1907DDC2CCF1790F-f0');
+    await element.triggerQuickAction(/Open Form/);
+    await new FormEditor(neo, 'EnterProduct').waitForOpen();
   });
 
   test('trigger', async ({ page }) => {
