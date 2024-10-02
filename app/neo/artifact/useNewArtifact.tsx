@@ -41,7 +41,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const [project, setProject] = useState<ProjectIdentifier>();
 
   useEffect(() => {
-    setName(newArtifact?.defaultName ?? '');
+    setName(newArtifact?.defaultName ?? undefined);
     setProject(newArtifact?.project);
   }, [newArtifact]);
 
@@ -56,7 +56,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   return (
     <NewArtifactDialogContext.Provider value={{ open, close, dialogState, newArtifact }}>
       {children}
-      {newArtifact && name && (
+      {newArtifact && name !== undefined && (
         <Dialog open={dialogState} onOpenChange={() => close()}>
           <DialogContent>
             <DialogHeader>
