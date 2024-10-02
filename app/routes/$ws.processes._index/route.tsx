@@ -1,6 +1,8 @@
 import { Separator } from '@axonivy/ui-components';
 import { MetaFunction } from '@remix-run/node';
+import { useParams } from '@remix-run/react';
 import { useMemo, useState } from 'react';
+import { ProcessBean } from '~/data/generated/openapi-dev';
 import { ProcessIdentifier, useCreateProcess, useDeleteProcess, useProcesses } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
@@ -17,34 +19,39 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const { ws } = useParams();
   const [search, setSearch] = useState('');
   const { data, isPending } = useProcesses();
-  const { createProcessEditor } = useCreateEditor();
   const processes = useMemo(
     () => data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [],
     [data, search]
   );
   const groupedProcesses = useMemo(() => groupBy(processes, p => p.processIdentifier.project.pmv), [processes]);
-
   return (
     <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
-      {Object.entries(groupedProcesses).map(([project, data]) => {
-        return (
-          <>
-            <ArtifactSeparator title={project} />
-            {data.length > 0 ? <NewProcessCard /> : <NewProcessCard />}
-            {data.map(process => {
-              const editor = createProcessEditor(process);
-              return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
-            })}
-          </>
-        );
-      })}
+      {ws && !groupedProcesses[ws] && <ProcessGroup key={ws} project={ws} processes={[]} ws={ws} />}
+      {Object.entries(groupedProcesses).map(([project, data]) => (
+        <ProcessGroup key={project} project={project} processes={data} ws={ws} />
+      ))}
     </Overview>
   );
 }
 
-export const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
+const ProcessGroup = ({ project, processes, ws }: { project: string; processes: ProcessBean[]; ws?: string }) => {
+  const { createProcessEditor } = useCreateEditor();
+  return (
+    <>
+      <ArtifactSeparator title={project} />
+      {ws === project && <NewProcessCard />}
+      {processes.map(process => {
+        const editor = createProcessEditor(process);
+        return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
+      })}
+    </>
+  );
+};
+
+const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
   const { deleteProcess } = useDeleteProcess();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
