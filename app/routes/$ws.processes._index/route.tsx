@@ -1,4 +1,3 @@
-import { Separator } from '@axonivy/ui-components';
 import { MetaFunction } from '@remix-run/node';
 import { useParams } from '@remix-run/react';
 import { useMemo, useState } from 'react';
@@ -6,11 +5,13 @@ import { ProcessBean } from '~/data/generated/openapi-dev';
 import { ProcessIdentifier, useCreateProcess, useDeleteProcess, useProcesses } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactSeparator } from '~/neo/artifact/ArtifactSeparator';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './process-preview.svg?react';
+import { useGroupedProcesses } from './useGroupedProcesses';
 
 export const links = cardLinks;
 
@@ -26,12 +27,12 @@ export default function Index() {
     () => data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [],
     [data, search]
   );
-  const groupedProcesses = useMemo(() => groupBy(processes, p => p.processIdentifier.project.pmv), [processes]);
+  const groupedProcesses = useGroupedProcesses(processes);
   return (
     <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
       {ws && !groupedProcesses[ws] && <ProcessGroup key={ws} project={ws} processes={[]} ws={ws} />}
-      {Object.entries(groupedProcesses).map(([project, data]) => (
-        <ProcessGroup key={project} project={project} processes={data} ws={ws} />
+      {Object.entries(groupedProcesses).map(([project, artifacts]) => (
+        <ProcessGroup key={project} project={project} processes={artifacts} ws={ws} />
       ))}
     </Overview>
   );
@@ -74,21 +75,3 @@ const NewProcessCard = () => {
   const title = 'Create new Process';
   return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewProcess' })} />;
 };
-
-const ArtifactSeparator = ({ title }: { title: string }) => {
-  return (
-    <>
-      <span style={{ width: '100%', fontSize: 14 }}>{title}</span>
-      <Separator decorative={true} style={{ margin: '0' }} />
-    </>
-  );
-};
-
-function groupBy<T>(arr: T[], resolveKey: (t: T) => string) {
-  return arr.reduce<Record<string, T[]>>((prev, curr) => {
-    const groupKey = resolveKey(curr);
-    const group = prev[groupKey] || [];
-    group.push(curr);
-    return { ...prev, [groupKey]: group };
-  }, {});
-}
