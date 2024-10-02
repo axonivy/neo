@@ -1,20 +1,20 @@
 import { useParams } from '@remix-run/react';
 import { useMemo, useState } from 'react';
-import { useProcesses } from '~/data/process-api';
+import { useDataClasses } from '~/data/data-class-api';
 import { groupArtifacts, groupSort } from '~/neo/artifact/group-artifacts';
 
-export const useGroupedProcesses = () => {
+export const useGroupedDataClasses = () => {
   const { ws } = useParams();
-  const { data, isPending } = useProcesses();
+  const { data, isPending } = useDataClasses();
   const [search, setSearch] = useState('');
-  const groupedProcesses = useMemo(() => {
-    const processes = data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-    const grouped = groupArtifacts(processes, p => p.processIdentifier.project.pmv);
+  const groupedDataClasses = useMemo(() => {
+    const dataClasses = data?.filter(dc => dc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+    const grouped = groupArtifacts(dataClasses, d => d.dataClassIdentifier.project.pmv);
     const baseProject = ws ?? '';
     if (grouped[baseProject] === undefined) {
       grouped[baseProject] = [];
     }
     return Object.entries(grouped).sort((a, b) => groupSort(a[0], b[0], baseProject));
   }, [data, search, ws]);
-  return { search, setSearch, isPending, groupedProcesses };
+  return { search, setSearch, isPending, groupedDataClasses };
 };
