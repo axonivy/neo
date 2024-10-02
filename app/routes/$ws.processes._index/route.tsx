@@ -1,10 +1,8 @@
 import { MetaFunction } from '@remix-run/node';
-import { useParams } from '@remix-run/react';
-import { Fragment } from 'react/jsx-runtime';
 import { ProcessIdentifier, useCreateProcess, useDeleteProcess } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
-import { ArtifactCollapsible } from '~/neo/artifact/ArtifactCollapsible';
+import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
@@ -20,7 +18,6 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const { search, setSearch, isPending, groupedProcesses } = useGroupedProcesses();
-  const { ws } = useParams();
   const { createProcessEditor } = useCreateEditor();
   return (
     <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
@@ -30,16 +27,9 @@ export default function Index() {
           return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
         });
         return (
-          <Fragment key={project}>
-            {ws === project ? (
-              <>
-                <NewProcessCard />
-                {cards}
-              </>
-            ) : (
-              <ArtifactCollapsible title={project}>{cards}</ArtifactCollapsible>
-            )}
-          </Fragment>
+          <ArtifactGroup project={project} newArtifactCard={<NewProcessCard />} key={project}>
+            {cards}
+          </ArtifactGroup>
         );
       })}
     </Overview>

@@ -1,13 +1,14 @@
 import type { MetaFunction } from '@remix-run/node';
-import { useState } from 'react';
-import { FormIdentifier, useCreateForm, useDeleteForm, useForms } from '~/data/form-api';
+import { FormIdentifier, useCreateForm, useDeleteForm } from '~/data/form-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './form-preview.svg?react';
+import { useGroupedForms } from './useGroupedForms';
 
 export const links = cardLinks;
 
@@ -16,22 +17,26 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const [search, setSearch] = useState('');
-  const { data, isPending } = useForms();
+  const { search, setSearch, isPending, groupedForms } = useGroupedForms();
   const { createFormEditor } = useCreateEditor();
-  const forms = data?.filter(form => form.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   return (
     <Overview title='Forms' search={search} onSearchChange={setSearch} isPending={isPending}>
-      <NewFormCard />
-      {forms.map(form => {
-        const editor = createFormEditor(form);
-        return <FormCard key={editor.id} formId={form.identifier} {...editor} />;
+      {groupedForms.map(([project, forms]) => {
+        const cards = forms.map(form => {
+          const editor = createFormEditor(form);
+          return <FormCard key={editor.id} formId={form.identifier} {...editor} />;
+        });
+        return (
+          <ArtifactGroup project={project} newArtifactCard={<NewFormCard />} key={project}>
+            {cards}
+          </ArtifactGroup>
+        );
       })}
     </Overview>
   );
 }
 
-export const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) => {
+const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) => {
   const { deleteForm } = useDeleteForm();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {

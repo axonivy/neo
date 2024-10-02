@@ -1,11 +1,9 @@
 import { MetaFunction } from '@remix-run/node';
-import { useParams } from '@remix-run/react';
-import { Fragment } from 'react/jsx-runtime';
 import { useCreateDataClass, useDeleteDataClass } from '~/data/data-class-api';
 import { DataClassIdentifier } from '~/data/generated/openapi-dev';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
-import { ArtifactCollapsible } from '~/neo/artifact/ArtifactCollapsible';
+import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
@@ -21,7 +19,6 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const { search, setSearch, isPending, groupedDataClasses } = useGroupedDataClasses();
-  const { ws } = useParams();
   const { createDataClassEditor } = useCreateEditor();
   return (
     <Overview title='Data Classes' search={search} onSearchChange={setSearch} isPending={isPending}>
@@ -31,16 +28,9 @@ export default function Index() {
           return <DataClassCard key={editor.id} dataClassId={dc.dataClassIdentifier} {...editor} />;
         });
         return (
-          <Fragment key={project}>
-            {ws === project ? (
-              <>
-                <NewDataClassCard />
-                {cards}
-              </>
-            ) : (
-              <ArtifactCollapsible title={project}>{cards}</ArtifactCollapsible>
-            )}
-          </Fragment>
+          <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} key={project}>
+            {cards}
+          </ArtifactGroup>
         );
       })}
     </Overview>
