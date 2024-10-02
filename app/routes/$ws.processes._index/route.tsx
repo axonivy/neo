@@ -4,7 +4,7 @@ import { Fragment } from 'react/jsx-runtime';
 import { ProcessIdentifier, useCreateProcess, useDeleteProcess } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
-import { ArtifactSeparator } from '~/neo/artifact/ArtifactSeparator';
+import { ArtifactCollapsible } from '~/neo/artifact/ArtifactCollapsible';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
@@ -24,16 +24,24 @@ export default function Index() {
   const { createProcessEditor } = useCreateEditor();
   return (
     <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
-      {groupedProcesses.map(([project, processes]) => (
-        <Fragment key={project}>
-          <ArtifactSeparator title={project} />
-          {ws === project && <NewProcessCard />}
-          {processes.map(process => {
-            const editor = createProcessEditor(process);
-            return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
-          })}
-        </Fragment>
-      ))}
+      {groupedProcesses.map(([project, processes]) => {
+        const cards = processes.map(process => {
+          const editor = createProcessEditor(process);
+          return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
+        });
+        return (
+          <Fragment key={project}>
+            {ws === project ? (
+              <>
+                <NewProcessCard />
+                {cards}
+              </>
+            ) : (
+              <ArtifactCollapsible title={project}>{cards}</ArtifactCollapsible>
+            )}
+          </Fragment>
+        );
+      })}
     </Overview>
   );
 }
