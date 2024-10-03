@@ -1,14 +1,15 @@
 import { MetaFunction } from '@remix-run/node';
-import { useState } from 'react';
-import { useCreateDataClass, useDataClasses, useDeleteDataClass } from '~/data/data-class-api';
+import { useCreateDataClass, useDeleteDataClass } from '~/data/data-class-api';
 import { DataClassIdentifier } from '~/data/generated/openapi-dev';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './dataclass-preview.svg?react';
+import { useGroupedDataClasses } from './useGroupedDataClasses';
 
 export const links = cardLinks;
 
@@ -17,22 +18,26 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const [search, setSearch] = useState('');
-  const { data, isPending } = useDataClasses();
+  const { search, setSearch, isPending, groupedDataClasses } = useGroupedDataClasses();
   const { createDataClassEditor } = useCreateEditor();
-  const dataClasses = data?.filter(dc => dc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   return (
     <Overview title='Data Classes' search={search} onSearchChange={setSearch} isPending={isPending}>
-      <NewDataClassCard />
-      {dataClasses.map(dc => {
-        const editor = createDataClassEditor(dc);
-        return <DataClassCard key={editor.id} dataClassId={dc.dataClassIdentifier} {...editor} />;
+      {groupedDataClasses.map(([project, dataClasses]) => {
+        const cards = dataClasses.map(dc => {
+          const editor = createDataClassEditor(dc);
+          return <DataClassCard key={editor.id} dataClassId={dc.dataClassIdentifier} {...editor} />;
+        });
+        return (
+          <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} key={project}>
+            {cards}
+          </ArtifactGroup>
+        );
       })}
     </Overview>
   );
 }
 
-export const DataClassCard = ({ dataClassId, ...editor }: Editor & { dataClassId: DataClassIdentifier }) => {
+const DataClassCard = ({ dataClassId, ...editor }: Editor & { dataClassId: DataClassIdentifier }) => {
   const { deleteDataClass } = useDeleteDataClass();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {

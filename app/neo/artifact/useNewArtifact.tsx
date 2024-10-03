@@ -11,6 +11,7 @@ import {
   Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useParams } from '@remix-run/react';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ProjectSelect } from './ProjectSelect';
@@ -33,6 +34,7 @@ type NewArtifactDialogState = {
 const NewArtifactDialogContext = createContext<NewArtifactDialogState | undefined>(undefined);
 
 export const NewArtifactDialogProvider = ({ children }: { children: React.ReactNode }) => {
+  const { ws } = useParams();
   const [dialogState, setDialogState] = useState(false);
   const [newArtifact, setNewArtifact] = useState<NewArtifact>();
 
@@ -48,6 +50,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const open = (context: NewArtifact) => {
     setDialogState(true);
     setNewArtifact(context);
+    setNamespace(ws ?? '');
   };
   const close = () => {
     setDialogState(false);

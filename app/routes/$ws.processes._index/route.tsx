@@ -1,13 +1,14 @@
 import { MetaFunction } from '@remix-run/node';
-import { useState } from 'react';
-import { ProcessIdentifier, useCreateProcess, useDeleteProcess, useProcesses } from '~/data/process-api';
+import { ProcessIdentifier, useCreateProcess, useDeleteProcess } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './process-preview.svg?react';
+import { useGroupedProcesses } from './useGroupedProcesses';
 
 export const links = cardLinks;
 
@@ -16,22 +17,26 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const [search, setSearch] = useState('');
-  const { data, isPending } = useProcesses();
+  const { search, setSearch, isPending, groupedProcesses } = useGroupedProcesses();
   const { createProcessEditor } = useCreateEditor();
-  const processes = data?.filter(proc => proc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   return (
     <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
-      <NewProcessCard />
-      {processes.map(process => {
-        const editor = createProcessEditor(process);
-        return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
+      {groupedProcesses.map(([project, processes]) => {
+        const cards = processes.map(process => {
+          const editor = createProcessEditor(process);
+          return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
+        });
+        return (
+          <ArtifactGroup project={project} newArtifactCard={<NewProcessCard />} key={project}>
+            {cards}
+          </ArtifactGroup>
+        );
       })}
     </Overview>
   );
 }
 
-export const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
+const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
   const { deleteProcess } = useDeleteProcess();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
