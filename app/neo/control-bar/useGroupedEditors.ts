@@ -1,4 +1,6 @@
+import { groupBy } from '@axonivy/ui-components';
 import { useMemo } from 'react';
+import { removeStartSegmets } from '~/utils/path';
 import { Editor, useEditors } from '../editors/useEditors';
 
 export const useGroupedEditors = () => {
@@ -7,16 +9,9 @@ export const useGroupedEditors = () => {
 };
 
 const groupEditors = (editors: Array<Editor>): Record<string, Array<Editor>> => {
-  return editors.reduce<Record<string, Array<Editor>>>(
-    (prev, curr) => {
-      const groupKey = groupEditorPath(curr.path);
-      const group = prev[groupKey] || [];
-      group.push(curr);
-      group.sort(editorSort);
-      return { ...prev, [groupKey]: group };
-    },
-    {} as Record<string, Array<Editor>>
-  );
+  const groups = groupBy(editors, groupEditorPath);
+  Object.values(groups).forEach(group => group.sort(editorSort));
+  return groups;
 };
 
 const editorSort = (a: Editor, b: Editor) => {
@@ -26,7 +21,8 @@ const editorSort = (a: Editor, b: Editor) => {
   return 0;
 };
 
-const groupEditorPath = (path: string) => {
+const groupEditorPath = ({ id }: Editor) => {
+  const path = removeStartSegmets(id, 2);
   if (!path.includes('src_hd')) {
     return path;
   }

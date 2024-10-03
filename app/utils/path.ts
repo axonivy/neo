@@ -7,3 +7,13 @@ export const removeFirstSegmet = (path: string) => {
   }
   return p.substring(p.indexOf('/') + 1);
 };
+
+export const removeStartSegmets = (path: string, count = 1) => {
+  let i = 0;
+  let p = path;
+  while (i < count) {
+    p = removeFirstSegmet(p);
+    i++;
+  }
+  return p;
+};
