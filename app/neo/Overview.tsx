@@ -13,8 +13,8 @@ type OverviewProps = {
 export const Overview = ({ title, description, search, onSearchChange, isPending, children }: OverviewProps) => (
   <Flex direction='column' gap={4} style={{ padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }} className='overview'>
     <span style={{ fontWeight: 600, fontSize: 16 }}>{title}</span>
-    {description && <span style={{ fontWeight: 600, fontSize: 14 }}>Please choose a workspace or create one</span>}
-    <SearchInput value={search} onChange={onSearchChange} />
+    {description && <span style={{ fontSize: 16, opacity: 0.8, lineHeight: 1.5 }}>{description}</span>}
+    <SearchInput placeholder='Search' value={search} onChange={onSearchChange} />
     <Flex gap={4} style={{ flexWrap: 'wrap' }}>
       {isPending ? <Spinner size='small' className='overview-loader' /> : <>{children}</>}
     </Flex>

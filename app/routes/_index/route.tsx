@@ -41,12 +41,14 @@ export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+  const description =
+    "Here you will find all the applications you've created or imported. Create a new application by clicking on the blue box and open an existing one by clicking on one of the grey boxes.";
   return (
     <>
       <ControlBar />
       <Overview
         title='Welcome to Axon Ivy NEO Designer'
-        description='Please choose a workspace or create one'
+        description={description}
         search={search}
         onSearchChange={setSearch}
         isPending={isPending}
@@ -109,7 +111,7 @@ const NewWorkspaceCard = () => {
     );
   return (
     <>
-      <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />
+      <NewArtifactCard open={() => setDialogState(true)} title='Create new Application' />
       <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
         <DialogContent>
           <DialogHeader>
