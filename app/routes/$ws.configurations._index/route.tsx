@@ -25,7 +25,7 @@ export default function Index() {
         const editor = createVariableEditor(project);
         const card = <VariablesCard key={editor.id} {...editor} />;
         return (
-          <ArtifactGroup project={project.pmv} newArtifactCard={<></>} key={project.pmv}>
+          <ArtifactGroup project={project.pmv} key={project.pmv}>
             {card}
           </ArtifactGroup>
         );

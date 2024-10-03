@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 
 type Group = {
   project: string;
-  newArtifactCard: ReactNode;
+  newArtifactCard?: ReactNode;
   children: ReactNode;
 };
 
