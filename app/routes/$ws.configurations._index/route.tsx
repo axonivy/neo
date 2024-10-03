@@ -1,8 +1,10 @@
 import type { MetaFunction } from '@remix-run/node';
+import { useParams } from '@remix-run/react';
 import { useState } from 'react';
 import { useProjects } from '~/data/project-api';
 import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
+import { projectSort } from '~/neo/artifact/list-artifacts';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
@@ -15,10 +17,13 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const { ws } = useParams();
   const [search, setSearch] = useState('');
   const { data, isPending } = useProjects();
   const { createVariableEditor } = useCreateEditor();
-  const projects = data?.filter(project => project.pmv.toLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+  const projects =
+    data?.filter(project => project.pmv.toLowerCase().includes(search.toLocaleLowerCase())).sort((a, b) => projectSort(a.pmv, b.pmv, ws)) ??
+    [];
   return (
     <Overview title='Configurations' search={search} onSearchChange={setSearch} isPending={isPending}>
       {projects.map(project => {

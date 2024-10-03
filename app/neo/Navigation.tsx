@@ -39,7 +39,7 @@ export const Navigation = () => (
         {({ isActive }) => <Button icon={IvyIcons.Tool} size='large' toggle={isActive} />}
       </NavLink>
       <Separator style={{ marginBlock: '2px' }} />
-      <ImportMenu></ImportMenu>
+      <ImportMenu />
     </Flex>
     <SettingsMenu />
   </Flex>

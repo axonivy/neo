@@ -29,9 +29,7 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
   const [dialogState, setDialogState] = useState(false);
   const { downloadWorkspace } = useDownloadWorkspace();
   const { importWorkspace } = useImportWorkspace();
-
   const importAction = (file: File) => importWorkspace(ws ?? '', file, file.name);
-
   const open = () => {
     setDialogState(true);
   };
