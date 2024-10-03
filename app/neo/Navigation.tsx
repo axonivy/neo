@@ -1,6 +1,17 @@
-import { Button, Flex, Separator } from '@axonivy/ui-components';
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Flex,
+  IvyIcon,
+  Separator
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { NavLink } from '@remix-run/react';
+import { NavLink, useNavigate } from '@remix-run/react';
+import { useImportProjects } from './artifact/useImportProjects';
 import { SettingsMenu } from './settings/SettingsMenu';
 
 export const Navigation = () => (
@@ -28,10 +39,32 @@ export const Navigation = () => (
         {({ isActive }) => <Button icon={IvyIcons.Tool} size='large' toggle={isActive} />}
       </NavLink>
       <Separator style={{ marginBlock: '2px' }} />
-      <NavLink to='market' prefetch='intent' style={{ all: 'unset' }} aria-label='Market' title='Market'>
-        {({ isActive }) => <Button icon={IvyIcons.Market} size='large' toggle={isActive} />}
-      </NavLink>
+      <ImportMenu></ImportMenu>
     </Flex>
     <SettingsMenu />
   </Flex>
 );
+
+const ImportMenu = () => {
+  const navigate = useNavigate();
+  const fileImport = useImportProjects();
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button icon={IvyIcons.Dots} size='large' aria-label='Import' title='Import' />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={fileImport}>
+            <IvyIcon icon={IvyIcons.Download} />
+            File Import
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate('market')}>
+            <IvyIcon icon={IvyIcons.Market} />
+            Market
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
