@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { ProjectIdentifier, useProjects } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { projectSort } from '~/neo/artifact/list-artifacts';
+import { useImportProjects } from '~/neo/artifact/useImportProjects';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './_index/workspace-preview.svg?react';
 
@@ -18,6 +19,7 @@ export default function Index() {
   const { data, isPending } = useProjects();
   const { ws } = useParams();
   const navigate = useNavigate();
+  const open = useImportProjects();
   const projects =
     data?.filter(p => p.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())).sort((a, b) => projectSort(a.pmv, b.pmv, ws)) ?? [];
   const description =
@@ -30,7 +32,7 @@ export default function Index() {
         <Separator style={{ marginBlock: '10px' }}></Separator>
       </div>
       <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
-      <NewArtifactCard title='Import' open={() => navigate('market')} icon={IvyIcons.Download} />
+      <NewArtifactCard title='Import' open={() => open()} icon={IvyIcons.Download} />
       {projects.map(project => (
         <ProjectCard key={project.pmv} {...project} />
       ))}

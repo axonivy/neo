@@ -14,7 +14,6 @@ import { ReactNode } from 'react';
 import cardStyles from './card.css?url';
 import { DeleteConfirm } from './DeleteConfirm';
 import { DeployActionParams, DeployDialog } from './DeployDialog';
-import { ImportDialog } from './ImportDialog';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 
@@ -26,7 +25,6 @@ type Card = {
   actions?: {
     delete?: () => void;
     export?: () => void;
-    import?: (file: File) => void;
     deploy?: (params: DeployActionParams) => Promise<string>;
   };
 };
@@ -59,18 +57,12 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
                 </DropdownMenuItem>
               </DeleteConfirm>
             )}
-            {actions.export && actions.import && actions.deploy && (
+            {actions.export && actions.deploy && (
               <>
                 <DropdownMenuItem onSelect={() => actions.export!()}>
-                  <IvyIcon icon={IvyIcons.Download} />
+                  <IvyIcon icon={IvyIcons.Upload} />
                   <span>Export</span>
                 </DropdownMenuItem>
-                <ImportDialog name={name} importAction={actions.import} exportAction={actions.export!}>
-                  <DropdownMenuItem onSelect={e => e.preventDefault()}>
-                    <IvyIcon icon={IvyIcons.Upload} />
-                    <span>Import</span>
-                  </DropdownMenuItem>
-                </ImportDialog>
                 <DeployDialog deployAction={actions.deploy}>
                   <DropdownMenuItem onSelect={e => e.preventDefault()}>
                     <IvyIcon icon={IvyIcons.Bpmn} />

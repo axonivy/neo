@@ -27,7 +27,7 @@ export const Navigation = () => (
       <NavLink to='configurations' prefetch='intent' style={{ all: 'unset' }} aria-label='Configurations' title='Configurations'>
         {({ isActive }) => <Button icon={IvyIcons.Tool} size='large' toggle={isActive} />}
       </NavLink>
-      <Separator />
+      <Separator style={{ marginBlock: '2px' }} />
       <NavLink to='market' prefetch='intent' style={{ all: 'unset' }} aria-label='Market' title='Market'>
         {({ isActive }) => <Button icon={IvyIcons.Market} size='large' toggle={isActive} />}
       </NavLink>

@@ -19,14 +19,14 @@ import {
   useCreateWorkspace,
   useDeleteWorkspace,
   useDeployWorkspace,
-  useExportWorkspace,
   useImportWorkspace,
   useWorkspaces,
   Workspace
 } from '~/data/workspace-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { DeployActionParams } from '~/neo/artifact/DeployDialog';
-import { FileInput } from '~/neo/artifact/ImportDialog';
+import { FileInput } from '~/neo/artifact/FileInput';
+import { useDownloadWorkspace } from '~/neo/artifact/useDownloadWorkspace';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './workspace-preview.svg?react';
@@ -60,34 +60,19 @@ export default function Index() {
 const WorkspaceCard = (workspace: Workspace) => {
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
-  const { exportWorkspace } = useExportWorkspace();
-  const { importWorkspace } = useImportWorkspace();
+  const { downloadWorkspace } = useDownloadWorkspace(workspace.id);
   const { deployWorkspace } = useDeployWorkspace();
   const open = () => navigate(workspace.name);
   const deleteAction = () => deleteWorkspace(workspace.id);
-  const exportAction = () => {
-    exportWorkspace(workspace.id).then(zip => {
-      if (!(zip instanceof Blob)) {
-        return;
-      }
-      const url = window.URL.createObjectURL(zip);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${workspace.name}.zip`;
-      link.click();
-    });
-  };
-  const importAction = (file: File) => importWorkspace(workspace.id, file, file.name);
   const deployAction = (params: DeployActionParams) => {
     return deployWorkspace({ workspaceId: workspace.id, ...params });
   };
-
   return (
     <ArtifactCard
       name={workspace.name}
       type='workspace'
       onClick={open}
-      actions={{ delete: deleteAction, export: exportAction, import: importAction, deploy: deployAction }}
+      actions={{ delete: deleteAction, export: downloadWorkspace, deploy: deployAction }}
       preview={<PreviewSVG />}
     />
   );

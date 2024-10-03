@@ -6,6 +6,7 @@ import { Links, Meta, Scripts, ScrollRestoration } from '@remix-run/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import rootStylesHref from '~/styles/root.css?url';
+import { ImportProjectsDialogProvider } from './neo/artifact/useImportProjects';
 import { InstallMarketArtifactDialogProvider } from './neo/artifact/useInstallMarketArtifact';
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
@@ -62,6 +63,8 @@ export function HydrateFallback() {
 
 const DialogProviders = ({ children }: { children: React.ReactNode }) => (
   <NewArtifactDialogProvider>
-    <InstallMarketArtifactDialogProvider>{children}</InstallMarketArtifactDialogProvider>
+    <InstallMarketArtifactDialogProvider>
+      <ImportProjectsDialogProvider>{children}</ImportProjectsDialogProvider>
+    </InstallMarketArtifactDialogProvider>
   </NewArtifactDialogProvider>
 );
