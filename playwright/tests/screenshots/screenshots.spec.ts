@@ -55,7 +55,7 @@ test.describe('screenshots', () => {
   test('variable editor', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const overview = await neo.configs();
-    await overview.card(/neo-test-project/).click();
+    await overview.card('variables').click();
     await new VariableEditor(neo, 'variables').waitForOpen('MyVar');
     await screenshot(page, 'variable-editor.png');
   });
