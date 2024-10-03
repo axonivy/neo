@@ -1,8 +1,9 @@
+import { Flex } from '@axonivy/ui-components';
 import type { MetaFunction } from '@remix-run/node';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { ProductModel } from '~/data/generated/openapi-market';
 import { useProducts } from '~/data/market-api';
-import { cardLinks, InstallMarketArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { cardLinks } from '~/neo/artifact/ArtifactCard';
 import { useInstallMarketArtifact } from '~/neo/artifact/useInstallMarketArtifact';
 import { Overview } from '~/neo/Overview';
 
@@ -45,4 +46,21 @@ export const ProductCard = ({ product }: { product: ProductModel }) => {
   const preview = <img src={product.logoUrl} width={70} alt={'product logo'} />;
   const title = product.names?.en ?? '';
   return <InstallMarketArtifactCard title={title} preview={preview} open={() => open(product)}></InstallMarketArtifactCard>;
+};
+
+const InstallMarketArtifactCard = ({ title, preview, open }: { title: string; preview: ReactNode; open: () => void }) => {
+  return (
+    <div className='artifact-card'>
+      <button className='card' onClick={open}>
+        <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
+          <Flex alignItems='center' justifyContent='center' className='card-preview'>
+            {preview}
+          </Flex>
+          <Flex alignItems='center' justifyContent='space-between' gap={1}>
+            <span className='card-name'>{title}</span>
+          </Flex>
+        </Flex>
+      </button>
+    </div>
+  );
 };

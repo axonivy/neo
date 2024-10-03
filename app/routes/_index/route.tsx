@@ -43,16 +43,11 @@ export default function Index() {
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const description =
     "Here you will find all the applications you've created or imported. Create a new application by clicking on the blue box and open an existing one by clicking on one of the grey boxes.";
+  const title = 'Welcome to Axon Ivy NEO Designer';
   return (
     <>
       <ControlBar />
-      <Overview
-        title='Welcome to Axon Ivy NEO Designer'
-        description={description}
-        search={search}
-        onSearchChange={setSearch}
-        isPending={isPending}
-      >
+      <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
         <NewWorkspaceCard />
         {workspaces.map(workspace => (
           <WorkspaceCard key={workspace.name} {...workspace} />

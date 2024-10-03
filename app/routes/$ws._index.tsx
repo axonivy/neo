@@ -1,9 +1,13 @@
+import { Separator, toast } from '@axonivy/ui-components';
+import { IvyIcons } from '@axonivy/ui-icons';
 import type { MetaFunction } from '@remix-run/node';
-import { useParams } from '@remix-run/react';
+import { useNavigate, useParams } from '@remix-run/react';
 import { useState } from 'react';
 import { ProjectIdentifier, useProjects } from '~/data/project-api';
-import { ArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { projectSort } from '~/neo/artifact/list-artifacts';
 import { Overview } from '~/neo/Overview';
+import PreviewSVG from './_index/workspace-preview.svg?react';
 
 export const meta: MetaFunction = () => {
   return [{ title: 'Axon Ivy Neo' }, { name: 'description', content: 'Welcome to Axon Ivy Neo!' }];
@@ -12,18 +16,21 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useProjects();
-  const projects = data?.filter(p => p.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const params = useParams();
+  const { ws } = useParams();
+  const navigate = useNavigate();
+  const projects =
+    data?.filter(p => p.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())).sort((a, b) => projectSort(a.pmv, b.pmv, ws)) ?? [];
   const description =
     'Here you will find all the projects you have created or imported. Create a new project by clicking on the blue box and open an existing one by clicking on one of the grey boxes.';
+  const title = `Welcome to your application: ${ws}`;
   return (
-    <Overview
-      title={`Welcome to your application: ${params.ws}`}
-      description={description}
-      search={search}
-      onSearchChange={setSearch}
-      isPending={isPending}
-    >
+    <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
+      <div style={{ width: '100%' }}>
+        <span style={{ fontWeight: 600, fontSize: 14 }}>Projects</span>
+        <Separator style={{ marginBlock: '10px' }}></Separator>
+      </div>
+      <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
+      <NewArtifactCard title='Import' open={() => navigate('market')} icon={IvyIcons.Download} />
       {projects.map(project => (
         <ProjectCard key={project.pmv} {...project} />
       ))}
@@ -32,6 +39,7 @@ export default function Index() {
 }
 
 const ProjectCard = (project: ProjectIdentifier) => {
-  const deleteAction = () => {};
-  return <ArtifactCard name={project.pmv} type='project' actions={{ delete: deleteAction }} onClick={() => {}} />;
+  return (
+    <ArtifactCard name={project.pmv} type='project' onClick={() => toast.error('Open project not implemented')} preview={<PreviewSVG />} />
+  );
 };
