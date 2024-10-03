@@ -3,7 +3,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import type { MetaFunction } from '@remix-run/node';
 import { useNavigate, useParams } from '@remix-run/react';
 import { useState } from 'react';
-import { ProjectIdentifier, useProjects } from '~/data/project-api';
+import { useProjects } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { projectSort } from '~/neo/artifact/list-artifacts';
 import { useImportProjects } from '~/neo/artifact/useImportProjects';
@@ -34,14 +34,14 @@ export default function Index() {
       <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
       <NewArtifactCard title='Import' open={() => open()} icon={IvyIcons.Download} />
       {projects.map(project => (
-        <ProjectCard key={project.pmv} {...project} />
+        <ArtifactCard
+          key={project.pmv}
+          name={project.pmv}
+          type='project'
+          onClick={() => toast.error('Open project not implemented')}
+          preview={<PreviewSVG />}
+        />
       ))}
     </Overview>
   );
 }
-
-const ProjectCard = (project: ProjectIdentifier) => {
-  return (
-    <ArtifactCard name={project.pmv} type='project' onClick={() => toast.error('Open project not implemented')} preview={<PreviewSVG />} />
-  );
-};
