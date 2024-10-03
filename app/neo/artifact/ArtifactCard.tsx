@@ -86,35 +86,31 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) =>
   </div>
 );
 
-export const NewArtifactCard = ({ title, open }: { title: string; open: () => void }) => {
-  return (
-    <div className='artifact-card new-artifact-card'>
-      <button className='card' onClick={open}>
-        <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
-          <Flex alignItems='center' justifyContent='center' className='card-preview'></Flex>
-          <Flex alignItems='center' justifyContent='space-between' gap={1}>
-            <span className='card-name'>{title}</span>
-            <IvyIcon icon={IvyIcons.Plus} />
-          </Flex>
+export const NewArtifactCard = ({ title, open }: { title: string; open: () => void }) => (
+  <div className='artifact-card new-artifact-card'>
+    <button className='card' onClick={open}>
+      <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
+        <Flex alignItems='center' justifyContent='center' className='card-preview'></Flex>
+        <Flex alignItems='center' justifyContent='space-between' gap={1}>
+          <span className='card-name'>{title}</span>
+          <IvyIcon icon={IvyIcons.Plus} />
         </Flex>
-      </button>
-    </div>
-  );
-};
+      </Flex>
+    </button>
+  </div>
+);
 
-export const InstallMarketArtifactCard = ({ title, preview, open }: { title: string; preview: ReactNode; open: () => void }) => {
-  return (
-    <div className='artifact-card'>
-      <button className='card' onClick={open}>
-        <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
-          <Flex alignItems='center' justifyContent='center' className='card-preview'>
-            {preview}
-          </Flex>
-          <Flex alignItems='center' justifyContent='space-between' gap={1}>
-            <span className='card-name'>{title}</span>
-          </Flex>
+export const InstallMarketArtifactCard = ({ title, preview, open }: { title: string; preview: ReactNode; open: () => void }) => (
+  <div className='artifact-card'>
+    <button className='card' onClick={open}>
+      <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
+        <Flex alignItems='center' justifyContent='center' className='card-preview'>
+          {preview}
         </Flex>
-      </button>
-    </div>
-  );
-};
+        <Flex alignItems='center' justifyContent='space-between' gap={1}>
+          <span className='card-name'>{title}</span>
+        </Flex>
+      </Flex>
+    </button>
+  </div>
+);

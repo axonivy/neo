@@ -1,4 +1,5 @@
 import {
+  BasicField,
   Button,
   Dialog,
   DialogClose,
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Fieldset,
   Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -16,7 +16,7 @@ import { Link } from '@remix-run/react';
 import { ReactNode, useState } from 'react';
 
 export const FileInput = ({ setFile }: { setFile: (file: File) => void }) => (
-  <Fieldset label='Select an .iar file or a .zip file that contains .iar files'>
+  <BasicField label='Select an .iar file or a .zip file that contains .iar files'>
     <Input
       accept='.zip,.iar'
       type='file'
@@ -26,7 +26,7 @@ export const FileInput = ({ setFile }: { setFile: (file: File) => void }) => (
         }
       }}
     />
-  </Fieldset>
+  </BasicField>
 );
 
 export const ImportDialog = ({

@@ -1,4 +1,5 @@
 import {
+  BasicField,
   Button,
   Dialog,
   DialogClose,
@@ -8,7 +9,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Fieldset,
   Flex,
   Input,
   PasswordInput,
@@ -48,18 +48,18 @@ export const DeployDialog = ({ children, deployAction }: DeployDialogProps) => {
             <DialogDescription>Specify the engine to which you want to deploy the current workspace.</DialogDescription>
           </DialogHeader>
           <Flex direction='column' gap={2}>
-            <Fieldset label='Engine Url'>
+            <BasicField label='Engine Url'>
               <Input value={engineUrl} onChange={e => setEngineUrl(e.target.value)} />
-            </Fieldset>
-            <Fieldset label='Application Name'>
+            </BasicField>
+            <BasicField label='Application Name'>
               <Input value={appName} onChange={e => setAppName(e.target.value)} />
-            </Fieldset>
-            <Fieldset label='User'>
+            </BasicField>
+            <BasicField label='User'>
               <Input value={user} onChange={e => setUser(e.target.value)} />
-            </Fieldset>
-            <Fieldset label='Password'>
+            </BasicField>
+            <BasicField label='Password'>
               <PasswordInput value={password} onChange={pw => setPassword(pw)} />
-            </Fieldset>
+            </BasicField>
           </Flex>
           <DialogFooter>
             {deploying! ? (
@@ -83,31 +83,29 @@ export const DeployDialog = ({ children, deployAction }: DeployDialogProps) => {
   );
 };
 
-const DeployLogContent = (log: string) => {
-  return (
-    <DialogContent style={{ gridTemplateRows: 'auto 1fr auto', maxHeight: '80%', maxWidth: '80%' }}>
-      <DialogHeader>
-        <DialogTitle>Deployment Log</DialogTitle>
-        <DialogDescription>Returned log output from the engine.</DialogDescription>
-      </DialogHeader>
-      <pre style={{ overflow: 'auto' }}>
-        <code>{log}</code>
-      </pre>
-      <DialogFooter>
-        <DialogClose asChild>
-          <Button variant='primary' size='large' icon={IvyIcons.Close}>
-            Close
-          </Button>
-        </DialogClose>
-        <Button
-          variant='outline'
-          size='large'
-          icon={IvyIcons.Note}
-          onClick={() => navigator.clipboard.writeText(log).then(() => toast.success('Log copied to the clipboard'))}
-        >
-          Copy Log
+const DeployLogContent = (log: string) => (
+  <DialogContent style={{ gridTemplateRows: 'auto 1fr auto', maxHeight: '80%', maxWidth: '80%' }}>
+    <DialogHeader>
+      <DialogTitle>Deployment Log</DialogTitle>
+      <DialogDescription>Returned log output from the engine.</DialogDescription>
+    </DialogHeader>
+    <pre style={{ overflow: 'auto' }}>
+      <code>{log}</code>
+    </pre>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant='primary' size='large' icon={IvyIcons.Close}>
+          Close
         </Button>
-      </DialogFooter>
-    </DialogContent>
-  );
-};
+      </DialogClose>
+      <Button
+        variant='outline'
+        size='large'
+        icon={IvyIcons.Note}
+        onClick={() => navigator.clipboard.writeText(log).then(() => toast.success('Log copied to the clipboard'))}
+      >
+        Copy Log
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+);

@@ -1,4 +1,5 @@
 import {
+  BasicField,
   Button,
   Dialog,
   DialogClose,
@@ -7,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Fieldset,
   Flex,
   Input
 } from '@axonivy/ui-components';
@@ -125,9 +125,9 @@ const NewWorkspaceCard = () => {
             }}
           >
             <Flex direction='column' gap={3}>
-              <Fieldset label='Name'>
+              <BasicField label='Name'>
                 <Input value={name} onChange={e => setName(e.target.value)} />
-              </Fieldset>
+              </BasicField>
               <FileInput setFile={setFile} />
             </Flex>
           </form>
