@@ -10,7 +10,9 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useParams } from '@remix-run/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { createContext, useContext, useState } from 'react';
+import { useProjectsApi } from '~/data/project-api';
 import { useImportWorkspace } from '~/data/workspace-api';
 import { FileInput } from './FileInput';
 import { useDownloadWorkspace } from './useDownloadWorkspace';
@@ -29,7 +31,9 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
   const [dialogState, setDialogState] = useState(false);
   const { downloadWorkspace } = useDownloadWorkspace();
   const { importWorkspace } = useImportWorkspace();
-  const importAction = (file: File) => importWorkspace(ws ?? '', file, file.name);
+  const { queryKey } = useProjectsApi();
+  const client = useQueryClient();
+  const importAction = (file: File) => importWorkspace(ws ?? '', file, file.name).then(() => client.invalidateQueries({ queryKey }));
   const open = () => {
     setDialogState(true);
   };

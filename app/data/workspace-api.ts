@@ -39,7 +39,7 @@ export const useWorkspace = () => {
   const { ws } = useParams();
   const workspaces = useWorkspaces();
   if (!ws) {
-    throw new Error('Workspace not found');
+    return;
   }
   return workspaces.data?.find(w => w.id === ws);
 };
