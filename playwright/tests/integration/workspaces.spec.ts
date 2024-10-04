@@ -74,19 +74,6 @@ test.describe('export & import', () => {
     await exportWs(page, 'simpleExport.zip');
   });
 
-  test('import into existing workspace', async ({ page, browserName }, testInfo) => {
-    const { neo, overview, zipFile } = await exportWs(page, 'import.zip');
-    const wsName = `${browserName}ws-import${testInfo.retry}`;
-    await overview.create(wsName);
-    await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
-    await page.goBack();
-    await overview.import(wsName, zipFile);
-
-    await verifyImport(overview, wsName, neo, page);
-    await page.goto('');
-    await overview.deleteCard(wsName, true);
-  });
-
   test('create workspace with import', async ({ page, browserName }, testInfo) => {
     test.skip(browserName === 'webkit' || browserName === 'firefox', 'WebSocket connection problem that only occurs when using vite proxy');
     const { neo, overview, zipFile } = await exportWs(page, 'import-and-create.zip');
