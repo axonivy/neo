@@ -47,7 +47,7 @@ export const ProductCard = ({ product }: { product: ProductModel }) => {
   const title = product.names?.en ?? '';
   return (
     <div className='artifact-card'>
-      <button className='card' onClick={open}>
+      <button className='card' onClick={() => open(product)}>
         <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
           <Flex alignItems='center' justifyContent='center' className='card-preview'>
             {preview}
