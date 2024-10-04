@@ -1,6 +1,6 @@
 import { Flex } from '@axonivy/ui-components';
 import type { MetaFunction } from '@remix-run/node';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ProductModel } from '~/data/generated/openapi-market';
 import { useProducts } from '~/data/market-api';
 import { cardLinks } from '~/neo/artifact/ArtifactCard';
@@ -45,10 +45,6 @@ export const ProductCard = ({ product }: { product: ProductModel }) => {
   const open = useInstallMarketArtifact();
   const preview = <img src={product.logoUrl} width={70} alt={'product logo'} />;
   const title = product.names?.en ?? '';
-  return <InstallMarketArtifactCard title={title} preview={preview} open={() => open(product)}></InstallMarketArtifactCard>;
-};
-
-const InstallMarketArtifactCard = ({ title, preview, open }: { title: string; preview: ReactNode; open: () => void }) => {
   return (
     <div className='artifact-card'>
       <button className='card' onClick={open}>

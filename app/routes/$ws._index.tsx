@@ -1,13 +1,13 @@
-import { Flex, Separator, toast } from '@axonivy/ui-components';
+import { Flex, toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { MetaFunction } from '@remix-run/node';
 import { useNavigate, useParams } from '@remix-run/react';
 import { useState } from 'react';
 import { useSortedProjects } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { useImportProjects } from '~/neo/artifact/useImportProjects';
 import { Overview } from '~/neo/Overview';
-import { WelcomeCard } from '~/neo/welcome/WelcomeCard';
 import PreviewSVG from './_index/workspace-preview.svg?react';
 
 export const meta: MetaFunction = () => {
@@ -24,37 +24,31 @@ export default function Index() {
   const description =
     'Here you will find all the projects you have created or imported. Create a new project by clicking on the blue box and open an existing one by clicking on one of the grey boxes.';
   const title = `Welcome to your application: ${ws}`;
+  const dummyDescription =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet pellentesque massa. Proin iaculis odio at orci aliquet, vitae maximus sem congue. Suspendisse potenti. ';
   return (
-    <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
-      <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
-        <WelcomeCard
-          title='Processes'
-          description='Processes are the building blocks of your application.'
-          icon={IvyIcons.Process}
-          link='processes'
-        />
-        <WelcomeCard
-          title='Data Classes'
-          description='Data Classes are the building blocks of your application.'
-          icon={IvyIcons.DataClass}
-          link='dataclasses'
-        />
-      </Flex>
-      <div style={{ width: '100%' }}>
-        <span style={{ fontWeight: 600, fontSize: 14 }}>Projects</span>
-        <Separator style={{ marginBlock: '10px' }}></Separator>
-      </div>
-      <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
-      <NewArtifactCard title='Import' open={() => open()} icon={IvyIcons.Download} />
-      {projects.map(project => (
-        <ArtifactCard
-          key={project.pmv}
-          name={project.pmv}
-          type='project'
-          onClick={() => toast.error('Open project not implemented')}
-          preview={<PreviewSVG />}
-        />
-      ))}
-    </Overview>
+    <Flex direction='column'>
+      <Overview title={title} description={description} isPending={false}>
+        <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
+          <ArtifactInfoCard title='Processes' description={dummyDescription} icon={IvyIcons.Process} link='processes' />
+          <ArtifactInfoCard title='Data Classes' description={dummyDescription} icon={IvyIcons.Database} link='dataClasses' />
+          <ArtifactInfoCard title='Forms' description={dummyDescription} icon={IvyIcons.File} link='forms' />
+          <ArtifactInfoCard title='Configurations' description={dummyDescription} icon={IvyIcons.Tool} link='forms' />
+        </Flex>
+      </Overview>
+      <Overview title={'Projects'} search={search} onSearchChange={setSearch} isPending={isPending}>
+        <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
+        <NewArtifactCard title='Import' open={() => open()} icon={IvyIcons.Download} />
+        {projects.map(project => (
+          <ArtifactCard
+            key={project.pmv}
+            name={project.pmv}
+            type='project'
+            onClick={() => toast.error('Open project not implemented')}
+            preview={<PreviewSVG />}
+          />
+        ))}
+      </Overview>
+    </Flex>
   );
 }
