@@ -29,7 +29,7 @@ test('navigate to workspace', async ({ page }) => {
   await expect(overview.title).toHaveText('Welcome to Axon Ivy NEO Designer');
   await overview.expectCardsCountGreaterThan(0);
   await overview.card(workspace).click();
-  await expect(page.locator(`text=Welcome to your workspace: ${workspace}`)).toBeVisible();
+  await expect(page.locator(`text=Welcome to your application: ${workspace}`)).toBeVisible();
 });
 
 test('create and delete workspace', async ({ page, browserName }, testInfo) => {
@@ -37,7 +37,7 @@ test('create and delete workspace', async ({ page, browserName }, testInfo) => {
   await Neo.open(page);
   const overview = new Overview(page);
   await overview.create(wsName);
-  await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
+  await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
   await page.goBack();
   await overview.deleteCard(wsName, true);
 });
@@ -78,7 +78,7 @@ test.describe('export & import', () => {
     const { neo, overview, zipFile } = await exportWs(page, 'import.zip');
     const wsName = `${browserName}ws-import${testInfo.retry}`;
     await overview.create(wsName);
-    await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
+    await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
     await page.goBack();
     await overview.import(wsName, zipFile);
 
@@ -93,7 +93,7 @@ test.describe('export & import', () => {
     const wsName = `${browserName}ws-create-and-import${testInfo.retry}`;
     await overview.create(wsName, undefined, { file: zipFile });
 
-    await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
+    await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
 
     await verifyImport(overview, wsName, neo, page);
     await page.goto('');
