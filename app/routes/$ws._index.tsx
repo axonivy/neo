@@ -1,4 +1,4 @@
-import { Separator, toast } from '@axonivy/ui-components';
+import { Flex, Separator, toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { MetaFunction } from '@remix-run/node';
 import { useNavigate, useParams } from '@remix-run/react';
@@ -7,6 +7,7 @@ import { useSortedProjects } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { useImportProjects } from '~/neo/artifact/useImportProjects';
 import { Overview } from '~/neo/Overview';
+import { WelcomeCard } from '~/neo/welcome/WelcomeCard';
 import PreviewSVG from './_index/workspace-preview.svg?react';
 
 export const meta: MetaFunction = () => {
@@ -25,6 +26,20 @@ export default function Index() {
   const title = `Welcome to your application: ${ws}`;
   return (
     <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
+      <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
+        <WelcomeCard
+          title='Processes'
+          description='Processes are the building blocks of your application.'
+          icon={IvyIcons.Process}
+          link='processes'
+        />
+        <WelcomeCard
+          title='Data Classes'
+          description='Data Classes are the building blocks of your application.'
+          icon={IvyIcons.DataClass}
+          link='dataclasses'
+        />
+      </Flex>
       <div style={{ width: '100%' }}>
         <span style={{ fontWeight: 600, fontSize: 14 }}>Projects</span>
         <Separator style={{ marginBlock: '10px' }}></Separator>
