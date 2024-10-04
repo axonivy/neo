@@ -6,7 +6,7 @@ import { ControlBar } from './control-bar';
 import { Navigation } from './navigation';
 import { Overview } from './overview';
 
-export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Classes' | 'Application Home';
+export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Classes' | 'Application Home' | 'Market';
 
 export class Neo {
   readonly page: Page;
@@ -58,6 +58,10 @@ export class Neo {
 
   async dataClasses() {
     return await this.navigate('Data Classes');
+  }
+
+  async market() {
+    return await this.navigate('Market', 'Axon Ivy Market');
   }
 
   async browser() {
