@@ -1,27 +1,7 @@
-import { expect, Page, test } from '@playwright/test';
-import * as fs from 'fs';
-import * as path from 'path';
+import { expect, test } from '@playwright/test';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
-import { workspace } from './constants';
-
-const wsExportDir = path.join('playwright', 'wsExport');
-
-const exportWs = async (page: Page, fileName: string) => {
-  const neo = await Neo.open(page);
-  const overview = new Overview(page);
-  const zipFile = path.join(wsExportDir, fileName);
-  await overview.export(workspace, zipFile);
-  expect(fs.existsSync(zipFile)).toBeTruthy();
-  return { neo, overview, zipFile };
-};
-const verifyImport = async (overview: Overview, wsName: string, neo: Neo, page: Page) => {
-  await page.goto('');
-  await overview.card(wsName).click();
-  await neo.processes();
-  await overview.search.fill('quick');
-  await expect(overview.cards).toHaveCount(1);
-};
+import { rmWorkspaceExportDir, workspace, workspaceExportZip } from './constants';
 
 test('navigate to workspace', async ({ page }) => {
   await Neo.open(page);
@@ -64,25 +44,27 @@ test('deploy workspaces', async ({ page }) => {
 });
 
 test.describe('export & import', () => {
-  test.afterAll(async () => {
-    if (fs.existsSync(wsExportDir)) {
-      fs.rm(wsExportDir, { recursive: true }, () => {});
-    }
+  test.afterAll(() => {
+    rmWorkspaceExportDir();
   });
 
   test('export', async ({ page }) => {
-    await exportWs(page, 'simpleExport.zip');
+    const zipFile = workspaceExportZip('simpleExport.zip');
+    await Neo.exportWorkspace(page, zipFile);
   });
 
   test('create workspace with import', async ({ page, browserName }, testInfo) => {
     test.skip(browserName === 'webkit' || browserName === 'firefox', 'WebSocket connection problem that only occurs when using vite proxy');
-    const { neo, overview, zipFile } = await exportWs(page, 'import-and-create.zip');
+    const zipFile = workspaceExportZip('import-and-create.zip');
+    const { neo, overview } = await Neo.exportWorkspace(page, zipFile);
     const wsName = `${browserName}ws-create-and-import${testInfo.retry}`;
     await overview.create(wsName, undefined, { file: zipFile });
-
     await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
-
-    await verifyImport(overview, wsName, neo, page);
+    await page.goto('');
+    await overview.card(wsName).click();
+    await neo.processes();
+    await overview.search.fill('quick');
+    await expect(overview.cards).toHaveCount(1);
     await page.goto('');
     await overview.deleteCard(wsName, true);
   });

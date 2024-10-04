@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
+import * as fs from 'fs';
 import { workspace } from '../integration/constants';
 import { Browser } from './browser';
 import { ControlBar } from './control-bar';
@@ -34,6 +35,14 @@ export class Neo {
     return await Neo.createNeo(page);
   }
 
+  static async exportWorkspace(page: Page, zipFile: string) {
+    const neo = await Neo.open(page);
+    const overview = new Overview(page);
+    await overview.export(workspace, zipFile);
+    expect(fs.existsSync(zipFile)).toBeTruthy();
+    return { neo, overview };
+  }
+
   private static async createNeo(page: Page) {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addStyleTag({ content: `.tsqd-parent-container { display: none; }` });
@@ -62,6 +71,10 @@ export class Neo {
 
   async market() {
     return await this.navigate('Market', 'Axon Ivy Market');
+  }
+
+  async fileImport() {
+    return await this.navigation.openImport('File Import');
   }
 
   async browser() {
