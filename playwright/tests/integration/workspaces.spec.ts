@@ -3,8 +3,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
+import { workspace } from './constants';
 
-const workspace = process.env.WORKSPACE ?? 'designer';
 const wsExportDir = path.join('playwright', 'wsExport');
 
 const exportWs = async (page: Page, fileName: string) => {

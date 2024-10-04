@@ -2,7 +2,7 @@ import { expect, Page, test } from '@playwright/test';
 import { randomUUID } from 'crypto';
 import { DataClassEditor } from '../page-objects/data-class-editor';
 import { Neo } from '../page-objects/neo';
-import { app } from './app';
+import { app } from './constants';
 
 const openDataClass = async (page: Page) => {
   const neo = await Neo.openEditor(page, `dataclasses/${app}/neo-test-project/dataclasses/neo/test/project/QuickStartTutorial`);

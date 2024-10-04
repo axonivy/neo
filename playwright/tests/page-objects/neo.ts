@@ -1,11 +1,12 @@
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
+import { workspace } from '../integration/constants';
 import { Browser } from './browser';
 import { ControlBar } from './control-bar';
 import { Navigation } from './navigation';
 import { Overview } from './overview';
 
-export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Classes';
+export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Classes' | 'Application Home';
 
 export class Neo {
   readonly page: Page;
@@ -24,12 +25,12 @@ export class Neo {
   }
 
   static async openWorkspace(page: Page) {
-    await page.goto(`/neo/${process.env.WORKSPACE ?? 'designer'}/`);
+    await page.goto(`/neo/${workspace}/`);
     return await Neo.createNeo(page);
   }
 
   static async openEditor(page: Page, url: string) {
-    await page.goto(`/neo/${process.env.WORKSPACE ?? 'designer'}/${url}`);
+    await page.goto(`/neo/${workspace}/${url}`);
     return await Neo.createNeo(page);
   }
 
@@ -37,6 +38,10 @@ export class Neo {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addStyleTag({ content: `.tsqd-parent-container { display: none; }` });
     return new Neo(page);
+  }
+
+  async home() {
+    return await this.navigate('Application Home', `Welcome to your application: ${workspace}`);
   }
 
   async processes() {
@@ -64,10 +69,10 @@ export class Neo {
     return browser;
   }
 
-  private async navigate(path: OverviewTypes) {
+  private async navigate(path: OverviewTypes, title?: string) {
     await this.navigation.open(path);
     const overview = new Overview(this.page);
-    await expect(overview.title).toHaveText(path);
+    await expect(overview.title).toHaveText(title ?? path);
     await overview.expectCardsCountGreaterThan(0);
     return overview;
   }

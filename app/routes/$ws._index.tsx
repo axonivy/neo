@@ -33,12 +33,12 @@ export default function Index() {
           <ArtifactInfoCard title='Processes' description={dummyDescription} icon={IvyIcons.Process} link='processes' />
           <ArtifactInfoCard title='Data Classes' description={dummyDescription} icon={IvyIcons.Database} link='dataClasses' />
           <ArtifactInfoCard title='Forms' description={dummyDescription} icon={IvyIcons.File} link='forms' />
-          <ArtifactInfoCard title='Configurations' description={dummyDescription} icon={IvyIcons.Tool} link='forms' />
+          <ArtifactInfoCard title='Configurations' description={dummyDescription} icon={IvyIcons.Tool} link='configurations' />
         </Flex>
       </Overview>
       <Overview title={'Projects'} search={search} onSearchChange={setSearch} isPending={isPending}>
         <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
-        <NewArtifactCard title='Import' open={() => open()} icon={IvyIcons.Download} />
+        <NewArtifactCard title='File Import' open={() => open()} icon={IvyIcons.Download} />
         {projects.map(project => (
           <ArtifactCard
             key={project.pmv}

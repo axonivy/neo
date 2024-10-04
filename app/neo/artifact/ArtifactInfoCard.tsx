@@ -10,7 +10,7 @@ type ArtifactInfoCardProps = {
 };
 
 export const ArtifactInfoCard = ({ title, description, icon, link }: ArtifactInfoCardProps) => (
-  <div style={{ background: 'var(--N50)', padding: 24, borderRadius: 10, fontSize: 14, flex: '1 0 300px' }}>
+  <div className='artifact-info-card' style={{ background: 'var(--N50)', padding: 24, borderRadius: 10, fontSize: 14, flex: '1 0 300px' }}>
     <Flex direction='column' gap={3}>
       <IvyIcon icon={icon} style={{ fontSize: 35, color: 'var(--P75)' }} />
       <span style={{ fontWeight: 600 }}>{title}</span>
