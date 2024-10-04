@@ -25,10 +25,10 @@ import {
 } from '~/data/workspace-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { DeployActionParams } from '~/neo/artifact/DeployDialog';
-import { FileInput } from '~/neo/artifact/FileInput';
-import { useDownloadWorkspace } from '~/neo/artifact/useDownloadWorkspace';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { Overview } from '~/neo/Overview';
+import { FileInput } from '~/neo/workspace/FileInput';
+import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import PreviewSVG from './workspace-preview.svg?react';
 
 export const links: LinksFunction = cardLinks;

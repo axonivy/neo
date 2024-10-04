@@ -11,8 +11,8 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { NavLink, useNavigate } from '@remix-run/react';
-import { useImportProjects } from './artifact/useImportProjects';
 import { SettingsMenu } from './settings/SettingsMenu';
+import { useImportProjects } from './workspace/useImportProjects';
 
 export const Navigation = () => {
   const navigate = useNavigate();

@@ -6,8 +6,8 @@ import { useState } from 'react';
 import { useSortedProjects } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
-import { useImportProjects } from '~/neo/artifact/useImportProjects';
 import { Overview } from '~/neo/Overview';
+import { useImportProjects } from '~/neo/workspace/useImportProjects';
 import PreviewSVG from './_index/workspace-preview.svg?react';
 
 export const meta: MetaFunction = () => {
