@@ -1,11 +1,10 @@
 import { MetaFunction } from '@remix-run/node';
-import { useParams } from '@remix-run/react';
-import { useMemo, useState } from 'react';
+import { ProcessBean } from '~/data/generated/openapi-dev';
 import { ProcessIdentifier, useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import { filterArifacts, insertWorkspaceIfAbsent } from '~/neo/artifact/list-artifacts';
+import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
@@ -19,15 +18,8 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { ws } = useParams();
   const { data, isPending } = useGroupedProcesses();
-  const [search, setSearch] = useState('');
-  const groups = useMemo(() => {
-    return insertWorkspaceIfAbsent(data ?? [], ws);
-  }, [data, ws]);
-  const filteredGroups = useMemo(() => {
-    return filterArifacts(groups, process => process.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
-  }, [groups, search]);
+  const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
   const { createProcessEditor } = useCreateEditor();
   return (
     <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>

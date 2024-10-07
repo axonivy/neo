@@ -1,12 +1,10 @@
 import { MetaFunction } from '@remix-run/node';
-import { useParams } from '@remix-run/react';
-import { useMemo, useState } from 'react';
 import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
-import { DataClassIdentifier } from '~/data/generated/openapi-dev';
+import { DataClassBean, DataClassIdentifier } from '~/data/generated/openapi-dev';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import { filterArifacts, insertWorkspaceIfAbsent } from '~/neo/artifact/list-artifacts';
+import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
@@ -20,15 +18,8 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { ws } = useParams();
   const { data, isPending } = useGroupedDataClasses();
-  const [search, setSearch] = useState('');
-  const groups = useMemo(() => {
-    return insertWorkspaceIfAbsent(data ?? [], ws);
-  }, [data, ws]);
-  const filteredGroups = useMemo(() => {
-    return filterArifacts(groups, dc => dc.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
-  }, [groups, search]);
+  const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
   const { createDataClassEditor } = useCreateEditor();
   return (
     <Overview title='Data Classes' search={search} onSearchChange={setSearch} isPending={isPending}>
