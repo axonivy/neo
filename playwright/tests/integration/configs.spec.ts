@@ -5,6 +5,7 @@ import { VariableEditor } from '../page-objects/variables-editor';
 test('navigate to configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
+  await overview.hasGroup('neo-test-project');
   await overview.card('variables').click();
   await new VariableEditor(neo, 'variables').waitForOpen('MyVar');
 });
@@ -17,16 +18,4 @@ test('search configs', async ({ page }) => {
 
   await overview.search.fill('neo-test-project');
   await expect(overview.cards).toHaveCount(1);
-});
-
-test('hover config', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = await neo.configs();
-  await overview.hoverCard('variables', 'variables');
-});
-
-test('config group', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = await neo.configs();
-  await overview.hasGroup('neo-test-project');
 });

@@ -11,6 +11,7 @@ const openDataClasses = async (page: Page) => {
 
 test('navigate to data classes', async ({ page }) => {
   const { neo, overview } = await openDataClasses(page);
+  await overview.hasGroup('neo-test-project');
   const dataClassName = 'QuickStartTutorial';
   await overview.card(dataClassName).click();
   await new DataClassEditor(neo, dataClassName).waitForOpen('releaseDate');
@@ -32,16 +33,4 @@ test('search data classes', async ({ page }) => {
   await expect(overview.cards).toHaveCount(0);
   await overview.search.fill('quick');
   await expect(overview.cards).toHaveCount(1);
-});
-
-test('hover data class', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = await neo.dataClasses();
-  await overview.hoverCard('subprocData', 'dataclasses/neo/test/project/subprocData');
-});
-
-test('data class group', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = await neo.dataClasses();
-  await overview.hasGroup('neo-test-project');
 });

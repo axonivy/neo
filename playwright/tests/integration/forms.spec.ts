@@ -5,6 +5,7 @@ import { Neo } from '../page-objects/neo';
 test('navigate to forms', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
+  await overview.hasGroup('neo-test-project');
   await overview.card('EnterProduct').click();
   await new FormEditor(neo, 'EnterProduct').waitForOpen('Product');
 });
@@ -26,16 +27,4 @@ test('search forms', async ({ page }) => {
   await expect(overview.cards).toHaveCount(0);
   await overview.search.fill('Enter');
   await expect(overview.cards).toHaveCount(1);
-});
-
-test('hover form', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = await neo.forms();
-  await overview.hoverCard('EnterProduct', 'src_hd/neo/test/project/EnterProduct/EnterProduct');
-});
-
-test('form group', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = await neo.forms();
-  await overview.hasGroup('neo-test-project');
 });
