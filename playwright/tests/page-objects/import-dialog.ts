@@ -17,8 +17,9 @@ export class ImportDialog {
   }
 
   public static async selectFileImport(dialog: Locator, page: Page, file: string) {
+    const fileChooserPromise = page.waitForEvent('filechooser');
     await dialog.locator('input[type=file]').click();
-    const fileChooser = await page.waitForEvent('filechooser');
+    const fileChooser = await fileChooserPromise;
     await fileChooser.setFiles(file);
   }
 }
