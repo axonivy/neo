@@ -2,11 +2,6 @@ import test, { expect } from '@playwright/test';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
 
-test('navigate to market', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  await neo.market();
-});
-
 test('search market', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.market();

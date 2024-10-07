@@ -60,7 +60,7 @@ export default function Index() {
 const WorkspaceCard = (workspace: Workspace) => {
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
-  const { downloadWorkspace } = useDownloadWorkspace(workspace.id);
+  const downloadWorkspace = useDownloadWorkspace(workspace.id);
   const { deployWorkspace } = useDeployWorkspace();
   const open = () => navigate(workspace.name);
   const deleteAction = () => deleteWorkspace(workspace.id);
