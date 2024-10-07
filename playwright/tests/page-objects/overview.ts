@@ -89,4 +89,10 @@ export class Overview {
     await expect(overview.title).toHaveText(name);
     await this.page.goBack();
   }
+
+  async hoverCard(name: string | RegExp, content: string) {
+    const card = this.card(name);
+    await card.hover();
+    await expect(this.overview.getByRole('tooltip')).toHaveText(content);
+  }
 }

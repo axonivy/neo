@@ -1,11 +1,18 @@
-export function insertWorkspaceIfAbsent<T>(record: Record<string, T[]>, workspace?: string) {
-  if (workspace && record[workspace] === undefined) {
-    record[workspace] = [];
+type ProjectGroup<T> = {
+  project: string;
+  artifacts: T[];
+};
+
+export function insertWorkspaceIfAbsent<T>(groups: ProjectGroup<T>[], workspace?: string) {
+  if (workspace && groups?.find(({ project }) => project === workspace) === undefined) {
+    return [{ project: workspace, artifacts: [] }, ...groups];
   }
+  return groups;
 }
 
-export const projectSort = (a: string, b: string, workspace?: string) => {
-  if (a === workspace) return -1;
-  if (b === workspace) return 1;
-  return a.localeCompare(b);
-};
+export function filterArifacts<T>(groups: ProjectGroup<T>[], filter: (artifact: T) => boolean) {
+  return groups.map(({ project, artifacts }) => {
+    const filteredArtifacts = artifacts.filter(proc => filter(proc));
+    return { project, artifacts: filteredArtifacts };
+  });
+}

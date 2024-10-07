@@ -18,3 +18,9 @@ test('search configs', async ({ page }) => {
   await overview.search.fill('neo-test-project');
   await expect(overview.cards).toHaveCount(1);
 });
+
+test('hover variables', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.configs();
+  await overview.hoverCard('variables', 'variables');
+});

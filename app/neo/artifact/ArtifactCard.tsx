@@ -6,7 +6,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   Flex,
-  IvyIcon
+  IvyIcon,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { LinksFunction } from '@remix-run/node';
@@ -21,6 +25,7 @@ type Card = {
   name: string;
   type: string;
   preview?: ReactNode;
+  tooltip?: string;
   onClick: () => void;
   actions?: {
     delete?: () => void;
@@ -29,19 +34,26 @@ type Card = {
   };
 };
 
-export const ArtifactCard = ({ name, type, preview, onClick, actions }: Card) => (
+export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip }: Card) => (
   <div className='artifact-card'>
-    <button className='card' onClick={onClick}>
-      <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
-        <Flex alignItems='center' justifyContent='center' className='card-preview'>
-          {preview}
-        </Flex>
-        <Flex alignItems='center' justifyContent='space-between' gap={1}>
-          <span className='card-name'>{name}</span>
-          {!actions && <IvyIcon icon={IvyIcons.ArrowRight} />}
-        </Flex>
-      </Flex>
-    </button>
+    <TooltipProvider>
+      <Tooltip delayDuration={700}>
+        {tooltip && <TooltipContent>{tooltip}</TooltipContent>}
+        <TooltipTrigger asChild>
+          <button className='card' onClick={onClick}>
+            <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
+              <Flex alignItems='center' justifyContent='center' className='card-preview'>
+                {preview}
+              </Flex>
+              <Flex alignItems='center' justifyContent='space-between' gap={1}>
+                <span className='card-name'>{name}</span>
+                {!actions && <IvyIcon icon={IvyIcons.ArrowRight} />}
+              </Flex>
+            </Flex>
+          </button>
+        </TooltipTrigger>
+      </Tooltip>
+    </TooltipProvider>
     {actions && (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

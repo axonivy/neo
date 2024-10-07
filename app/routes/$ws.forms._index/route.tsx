@@ -1,14 +1,16 @@
 import type { MetaFunction } from '@remix-run/node';
-import { FormIdentifier, useCreateForm, useDeleteForm } from '~/data/form-api';
+import { useParams } from '@remix-run/react';
+import { useMemo, useState } from 'react';
+import { FormIdentifier, useCreateForm, useDeleteForm, useGroupedForms } from '~/data/form-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
+import { filterArifacts, insertWorkspaceIfAbsent } from '~/neo/artifact/list-artifacts';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './form-preview.svg?react';
-import { useGroupedForms } from './useGroupedForms';
 
 export const links = cardLinks;
 
@@ -17,12 +19,20 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { search, setSearch, isPending, groupedForms } = useGroupedForms();
+  const { ws } = useParams();
+  const { data, isPending } = useGroupedForms();
+  const [search, setSearch] = useState('');
+  const groups = useMemo(() => {
+    return insertWorkspaceIfAbsent(data ?? [], ws);
+  }, [data, ws]);
+  const filteredGroups = useMemo(() => {
+    return filterArifacts(groups, form => form.name.toLocaleLowerCase().includes(search.toLocaleLowerCase()));
+  }, [groups, search]);
   const { createFormEditor } = useCreateEditor();
   return (
     <Overview title='Forms' search={search} onSearchChange={setSearch} isPending={isPending}>
-      {groupedForms.map(([project, forms]) => {
-        const cards = forms.map(form => {
+      {filteredGroups.map(({ project, artifacts }) => {
+        const cards = artifacts.map(form => {
           const editor = createFormEditor(form);
           return <FormCard key={editor.id} formId={form.identifier} {...editor} />;
         });
@@ -46,7 +56,16 @@ const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) =>
     removeEditor(editor.id);
     deleteForm(formId);
   };
-  return <ArtifactCard name={editor.name} type='form' preview={<PreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
+  return (
+    <ArtifactCard
+      name={editor.name}
+      type='form'
+      preview={<PreviewSVG />}
+      tooltip={editor.path}
+      onClick={open}
+      actions={{ delete: deleteAction }}
+    />
+  );
 };
 
 const NewFormCard = () => {

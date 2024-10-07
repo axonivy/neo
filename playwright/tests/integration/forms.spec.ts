@@ -27,3 +27,9 @@ test('search forms', async ({ page }) => {
   await overview.search.fill('Enter');
   await expect(overview.cards).toHaveCount(1);
 });
+
+test('hover form', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.forms();
+  await overview.hoverCard('EnterProduct', 'src_hd/neo/test/project/EnterProduct/EnterProduct');
+});

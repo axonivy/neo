@@ -41,7 +41,7 @@ export const useNewProcessActionHandler = () => {
           refreshInscriptionView(window);
           openEditor(createProcessEditor(process));
         });
-      open({ create, defaultName: 'NewCallable', title: 'Create new Process', project, pid });
+      open({ create, defaultName: 'NewCallable', title: 'Create new Process', project, pid, defaultNamesapce: '' });
     },
     [createProcess, createProcessEditor, open, openEditor]
   );

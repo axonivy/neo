@@ -1,4 +1,4 @@
-import { toast } from '@axonivy/ui-components';
+import { groupBy, toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { headers, ok } from './custom-fetch';
 import {
@@ -9,6 +9,7 @@ import {
   HdInit,
   type FormIdentifier as FormIdentifierBean
 } from './generated/openapi-dev';
+import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
 export type Form = HdBean;
@@ -16,18 +17,21 @@ export type FormIdentifier = FormIdentifierBean;
 
 export const useFormsApi = () => {
   const ws = useWorkspace();
-  return { queryKey: ['neo', ws?.id, 'forms'], base: ws?.baseUrl };
+  return { queryKey: ['neo', ws?.id, 'forms'], base: ws?.baseUrl, ws };
 };
 
-export const useForms = () => {
-  const { queryKey, base } = useFormsApi();
+export const useGroupedForms = () => {
+  const { queryKey, base, ws } = useFormsApi();
   return useQuery({
     queryKey,
     queryFn: () => {
       if (base === undefined) return [];
       return forms({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data;
+          const grouped = groupBy(res.data, f => f.identifier.project.pmv);
+          return Object.entries(grouped)
+            .map(([project, forms]) => ({ project, artifacts: forms }))
+            .sort((a, b) => projectSort(a.project, b.project, ws?.id));
         }
         toast.error('Failed to load forms', { description: 'Maybe the server is not correclty started' });
         return [];

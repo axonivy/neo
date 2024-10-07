@@ -27,3 +27,9 @@ test('search processes', async ({ page }) => {
   await overview.search.fill('quick');
   await expect(overview.cards).toHaveCount(1);
 });
+
+test('hover process', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.processes();
+  await overview.hoverCard('jump', 'processes/jump');
+});

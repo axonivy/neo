@@ -33,3 +33,9 @@ test('search data classes', async ({ page }) => {
   await overview.search.fill('quick');
   await expect(overview.cards).toHaveCount(1);
 });
+
+test('hover data class', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.dataClasses();
+  await overview.hoverCard('subprocData', 'dataclasses/neo/test/project/subprocData');
+});
