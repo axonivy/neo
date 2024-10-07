@@ -39,3 +39,9 @@ test('hover data class', async ({ page }) => {
   const overview = await neo.dataClasses();
   await overview.hoverCard('subprocData', 'dataclasses/neo/test/project/subprocData');
 });
+
+test('data class group', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.dataClasses();
+  await overview.hasGroup('neo-test-project');
+});

@@ -95,4 +95,15 @@ export class Overview {
     await card.hover();
     await expect(this.overview.getByRole('tooltip')).toHaveText(content);
   }
+
+  async hasGroup(name: string) {
+    const trigger = this.overview.locator('button.ui-collapsible-trigger');
+    await expect(trigger).toHaveText(name);
+    await expect(trigger).toHaveAttribute('data-state', 'open');
+    const group = this.overview.locator('.ui-collapsible');
+    const nestedArtifacts = group.locator('.artifact-card');
+    expect(await nestedArtifacts.count()).toBeGreaterThan(0);
+    const nestedNew = group.locator('.new-artifact-card');
+    expect(await nestedNew.count()).toBe(0);
+  }
 }

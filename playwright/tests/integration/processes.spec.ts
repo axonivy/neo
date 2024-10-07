@@ -33,3 +33,9 @@ test('hover process', async ({ page }) => {
   const overview = await neo.processes();
   await overview.hoverCard('jump', 'processes/jump');
 });
+
+test('process group', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.processes();
+  await overview.hasGroup('neo-test-project');
+});

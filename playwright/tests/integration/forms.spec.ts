@@ -33,3 +33,9 @@ test('hover form', async ({ page }) => {
   const overview = await neo.forms();
   await overview.hoverCard('EnterProduct', 'src_hd/neo/test/project/EnterProduct/EnterProduct');
 });
+
+test('form group', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.forms();
+  await overview.hasGroup('neo-test-project');
+});
