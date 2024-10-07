@@ -1,5 +1,5 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/form/11.3.1/form.json",
+  "$schema" : "https://json-schema.axonivy.com/form/12.0.0/form.json",
   "id" : "9170a76a-0ee6-40ed-90cf-4a5431d53fb1",
   "config" : {
     "renderer" : "JSF",
@@ -11,8 +11,12 @@
     "config" : {
       "lgSpan" : "6",
       "mdSpan" : "12",
+      "visible" : "",
+      "disabled" : "",
+      "required" : "false",
+      "requiredMessage" : "",
+      "updateOnChange" : false,
       "label" : "Product",
-      "required" : false,
       "value" : "#{data.data.product}",
       "type" : "TEXT"
     }
@@ -22,8 +26,12 @@
     "config" : {
       "lgSpan" : "6",
       "mdSpan" : "12",
+      "visible" : "",
+      "disabled" : "",
+      "required" : "false",
+      "requiredMessage" : "",
+      "updateOnChange" : false,
       "label" : "Release Date",
-      "required" : false,
       "value" : "#{data.data.releaseDate}",
       "type" : "TEXT"
     }
@@ -33,8 +41,12 @@
     "config" : {
       "lgSpan" : "6",
       "mdSpan" : "12",
+      "visible" : "",
+      "disabled" : "",
+      "required" : "false",
+      "requiredMessage" : "",
+      "updateOnChange" : false,
       "label" : "Price",
-      "required" : false,
       "value" : "#{data.data.price}",
       "type" : "TEXT"
     }
@@ -44,16 +56,20 @@
     "config" : {
       "lgSpan" : "6",
       "mdSpan" : "12",
+      "visible" : "",
       "components" : [ {
         "id" : "Button-7a9da528-0221-41ae-9a68-76d0e2cb694f",
         "type" : "Button",
         "config" : {
           "lgSpan" : "6",
           "mdSpan" : "12",
+          "visible" : "",
+          "disabled" : "",
           "name" : "Proceed",
           "action" : "#{logic.close}",
           "variant" : "PRIMARY",
-          "icon" : ""
+          "icon" : "",
+          "processOnlySelf" : false
         }
       } ],
       "type" : "FLEX",
