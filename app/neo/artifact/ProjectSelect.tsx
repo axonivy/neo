@@ -1,17 +1,14 @@
 import { BasicField, BasicSelect, Spinner } from '@axonivy/ui-components';
-import { useParams } from '@remix-run/react';
 import { useEffect, useMemo } from 'react';
-import { ProjectIdentifier, useProjects } from '~/data/project-api';
-import { projectSort } from './list-artifacts';
+import { ProjectIdentifier, useSortedProjects } from '~/data/project-api';
 
 type ProjectSelectProps = {
   setProject: (project: ProjectIdentifier) => void;
 };
 
 export const ProjectSelect = ({ setProject }: ProjectSelectProps) => {
-  const { data, isPending } = useProjects();
-  const { ws } = useParams();
-  const projects = useMemo(() => data?.filter(p => !p.isIar).sort((a, b) => projectSort(a.pmv, b.pmv, ws)) ?? [], [data, ws]);
+  const { data, isPending } = useSortedProjects();
+  const projects = useMemo(() => data?.filter(p => !p.isIar) ?? [], [data]);
   useEffect(() => setProject(projects[0]), [projects, setProject]);
   return (
     <BasicField label='Project'>

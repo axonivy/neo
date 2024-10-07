@@ -12,6 +12,10 @@ export class Navigation {
   }
 
   async open(overview: OverviewTypes) {
+    if (overview === 'Market') {
+      this.openImport(overview);
+      return;
+    }
     const navLink = this.navBar.getByRole('link', { name: overview });
     await navLink.click();
     await expect(navLink).toHaveClass(/active/);
@@ -24,6 +28,15 @@ export class Navigation {
     const settingsMenu = this.page.getByRole('menu');
     await expect(settingsMenu).toHaveAttribute('data-state', 'open');
     return settingsMenu;
+  }
+
+  async openImport(type: string) {
+    const importButton = this.navBar.getByRole('button', { name: 'Import' });
+    await expect(importButton).toHaveAttribute('data-state', 'closed');
+    await importButton.click();
+    const importMenu = this.page.getByRole('menu');
+    await expect(importMenu).toHaveAttribute('data-state', 'open');
+    await importMenu.getByRole('menuitem').getByText(type).click();
   }
 
   async changeTheme(theme: 'light' | 'dark') {

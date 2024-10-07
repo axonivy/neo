@@ -1,7 +1,7 @@
 import { Page, test } from '@playwright/test';
 import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
-import { app } from './app';
+import { app } from './constants';
 
 const openForm = async (page: Page) => {
   const neo = await Neo.openEditor(page, `forms/${app}/neo-test-project/neo/test/project/EnterProduct/EnterProduct`);

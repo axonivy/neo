@@ -19,16 +19,16 @@ import {
   useCreateWorkspace,
   useDeleteWorkspace,
   useDeployWorkspace,
-  useExportWorkspace,
   useImportWorkspace,
   useWorkspaces,
   Workspace
 } from '~/data/workspace-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { DeployActionParams } from '~/neo/artifact/DeployDialog';
-import { FileInput } from '~/neo/artifact/ImportDialog';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { Overview } from '~/neo/Overview';
+import { FileInput } from '~/neo/workspace/FileInput';
+import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import PreviewSVG from './workspace-preview.svg?react';
 
 export const links: LinksFunction = cardLinks;
@@ -41,16 +41,13 @@ export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+  const description =
+    "Here you will find all the applications you've created or imported. Create a new application by clicking on the blue box and open an existing one by clicking on one of the grey boxes.";
+  const title = 'Welcome to Axon Ivy NEO Designer';
   return (
     <>
       <ControlBar />
-      <Overview
-        title='Welcome to Axon Ivy NEO Designer'
-        description='Please choose a workspace or create one'
-        search={search}
-        onSearchChange={setSearch}
-        isPending={isPending}
-      >
+      <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
         <NewWorkspaceCard />
         {workspaces.map(workspace => (
           <WorkspaceCard key={workspace.name} {...workspace} />
@@ -63,34 +60,19 @@ export default function Index() {
 const WorkspaceCard = (workspace: Workspace) => {
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
-  const { exportWorkspace } = useExportWorkspace();
-  const { importWorkspace } = useImportWorkspace();
+  const downloadWorkspace = useDownloadWorkspace(workspace.id);
   const { deployWorkspace } = useDeployWorkspace();
   const open = () => navigate(workspace.name);
   const deleteAction = () => deleteWorkspace(workspace.id);
-  const exportAction = () => {
-    exportWorkspace(workspace.id).then(zip => {
-      if (!(zip instanceof Blob)) {
-        return;
-      }
-      const url = window.URL.createObjectURL(zip);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `${workspace.name}.zip`;
-      link.click();
-    });
-  };
-  const importAction = (file: File) => importWorkspace(workspace.id, file, file.name);
   const deployAction = (params: DeployActionParams) => {
     return deployWorkspace({ workspaceId: workspace.id, ...params });
   };
-
   return (
     <ArtifactCard
       name={workspace.name}
       type='workspace'
       onClick={open}
-      actions={{ delete: deleteAction, export: exportAction, import: importAction, deploy: deployAction }}
+      actions={{ delete: deleteAction, export: downloadWorkspace, deploy: deployAction }}
       preview={<PreviewSVG />}
     />
   );
@@ -109,7 +91,7 @@ const NewWorkspaceCard = () => {
     );
   return (
     <>
-      <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />
+      <NewArtifactCard open={() => setDialogState(true)} title='Create new Application' />
       <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
         <DialogContent>
           <DialogHeader>

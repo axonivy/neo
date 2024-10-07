@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { ImportDialog } from './import-dialog';
 
 export class Overview {
   protected readonly page: Page;
@@ -6,13 +7,17 @@ export class Overview {
   readonly title: Locator;
   readonly search: Locator;
   readonly cards: Locator;
+  readonly infoCards: Locator;
+  readonly newCard: Locator;
 
-  constructor(page: Page) {
+  constructor(page: Page, index?: number) {
     this.page = page;
-    this.overview = page.locator('.overview');
+    this.overview = index ? page.locator('.overview').nth(index) : page.locator('.overview');
     this.title = this.overview.locator('span').first();
     this.search = this.overview.locator('input');
     this.cards = this.overview.locator('.artifact-card:not(.new-artifact-card)');
+    this.infoCards = this.overview.locator('.artifact-info-card');
+    this.newCard = this.overview.locator('.new-artifact-card');
   }
 
   card(name: string | RegExp) {
@@ -39,22 +44,6 @@ export class Overview {
     await download.saveAs(zipFile);
   }
 
-  async import(name: string, file: string) {
-    const card = this.card(name);
-    await this.clickCardAction(card, 'Import');
-    const dialog = this.page.getByRole('dialog');
-    await this.selectImport(dialog, file);
-    await dialog.getByRole('button', { name: 'Import' }).click();
-  }
-
-  private async selectImport(dialog: Locator, file: string) {
-    const fileInput = dialog.locator('input[type=file]');
-    const fileChooserPromise = this.page.waitForEvent('filechooser');
-    await fileInput.click();
-    const fileChooser = await fileChooserPromise;
-    await fileChooser.setFiles(file);
-  }
-
   private async selectProject(dialog: Locator, project: string) {
     await dialog.getByRole('combobox', { name: 'Project' }).click();
     await this.page.getByRole('option', { name: `${project}` }).click();
@@ -67,9 +56,8 @@ export class Overview {
 
   async create(name: string, namespace?: string, options?: { file?: string; project?: string }) {
     await this.waitForHiddenSpinner();
-    const createCard = this.overview.locator('.new-artifact-card');
-    await expect(createCard).toBeVisible();
-    await createCard.click();
+    await expect(this.newCard).toBeVisible();
+    await this.newCard.click();
     const dialog = this.page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     await dialog.getByLabel('Name').first().fill(name);
@@ -77,7 +65,7 @@ export class Overview {
       await dialog.getByLabel('Namespace').first().fill(namespace);
     }
     if (options?.file) {
-      await this.selectImport(dialog, options.file);
+      await ImportDialog.selectFileImport(dialog, this.page, options.file);
     }
     if (options?.project) {
       await this.selectProject(dialog, options.project);
@@ -92,5 +80,13 @@ export class Overview {
 
   private async waitForHiddenSpinner() {
     await expect(this.overview.locator('.overview-loader')).toBeHidden();
+  }
+
+  async clickInfoCard(name: string | RegExp) {
+    const card = this.infoCards.filter({ hasText: name });
+    await card.getByRole('link').click();
+    const overview = new Overview(this.page);
+    await expect(overview.title).toHaveText(name);
+    await this.page.goBack();
   }
 }
