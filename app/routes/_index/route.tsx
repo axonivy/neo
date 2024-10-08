@@ -97,9 +97,9 @@ const NewWorkspaceCard = () => {
       <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create new Workspace</DialogTitle>
+            <DialogTitle>Create new Application</DialogTitle>
             <DialogDescription>
-              Optionally, you can select and upload existing Axon Ivy projects, which are then added to the workspace.
+              Optionally, you can select and upload existing Axon Ivy projects, which are then added to the application.
             </DialogDescription>
           </DialogHeader>
           <form
