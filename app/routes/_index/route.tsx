@@ -45,17 +45,15 @@ export default function Index() {
     "Here you will find all the applications you've created or imported. Create a new application by clicking on the blue box and open an existing one by clicking on one of the grey boxes.";
   const title = 'Welcome to Axon Ivy NEO Designer';
   return (
-    <>
+    <div style={{ height: 'calc(100vh - 41px)' }}>
       <ControlBar />
-      <Flex direction='row' style={{ height: 'calc(100vh - 41px)' }}>
-        <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
-          <NewWorkspaceCard />
-          {workspaces.map(workspace => (
-            <WorkspaceCard key={workspace.name} {...workspace} />
-          ))}
-        </Overview>
-      </Flex>
-    </>
+      <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
+        <NewWorkspaceCard />
+        {workspaces.map(workspace => (
+          <WorkspaceCard key={workspace.name} {...workspace} />
+        ))}
+      </Overview>
+    </div>
   );
 }
 
