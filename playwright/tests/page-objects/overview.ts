@@ -7,16 +7,14 @@ export class Overview {
   readonly title: Locator;
   readonly search: Locator;
   readonly cards: Locator;
-  readonly infoCards: Locator;
   readonly newCard: Locator;
 
-  constructor(page: Page, index?: number) {
+  constructor(page: Page) {
     this.page = page;
-    this.overview = index ? page.locator('.overview').nth(index) : page.locator('.overview');
+    this.overview = page.locator('.overview');
     this.title = this.overview.locator('span').first();
     this.search = this.overview.locator('input');
     this.cards = this.overview.locator('.artifact-card:not(.new-artifact-card)');
-    this.infoCards = this.overview.locator('.artifact-info-card');
     this.newCard = this.overview.locator('.new-artifact-card');
   }
 
@@ -80,14 +78,6 @@ export class Overview {
 
   private async waitForHiddenSpinner() {
     await expect(this.overview.locator('.overview-loader')).toBeHidden();
-  }
-
-  async clickInfoCard(name: string | RegExp) {
-    const card = this.infoCards.filter({ hasText: name });
-    await card.getByRole('link').click();
-    const overview = new Overview(this.page);
-    await expect(overview.title).toHaveText(name);
-    await this.page.goBack();
   }
 
   async hoverCard(name: string | RegExp, content: string) {

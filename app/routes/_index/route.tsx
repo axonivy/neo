@@ -47,12 +47,14 @@ export default function Index() {
   return (
     <>
       <ControlBar />
-      <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
-        <NewWorkspaceCard />
-        {workspaces.map(workspace => (
-          <WorkspaceCard key={workspace.name} {...workspace} />
-        ))}
-      </Overview>
+      <Flex direction='row' style={{ height: 'calc(100vh - 41px)' }}>
+        <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
+          <NewWorkspaceCard />
+          {workspaces.map(workspace => (
+            <WorkspaceCard key={workspace.name} {...workspace} />
+          ))}
+        </Overview>
+      </Flex>
     </>
   );
 }

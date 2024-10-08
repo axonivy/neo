@@ -26,29 +26,36 @@ export default function Index() {
   const title = `Welcome to your application: ${ws}`;
   const dummyDescription =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet pellentesque massa. Proin iaculis odio at orci aliquet, vitae maximus sem congue. Suspendisse potenti. ';
+
   return (
-    <Flex direction='column'>
-      <Overview title={title} description={description} isPending={false}>
-        <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
-          <ArtifactInfoCard title='Processes' description={dummyDescription} icon={IvyIcons.Process} link='processes' />
-          <ArtifactInfoCard title='Data Classes' description={dummyDescription} icon={IvyIcons.Database} link='dataClasses' />
-          <ArtifactInfoCard title='Forms' description={dummyDescription} icon={IvyIcons.File} link='forms' />
-          <ArtifactInfoCard title='Configurations' description={dummyDescription} icon={IvyIcons.Tool} link='configurations' />
+    <div style={{ overflowY: 'auto', height: '100%' }}>
+      <Flex direction='column' gap={1}>
+        <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='app-info'>
+          <span style={{ fontWeight: 600 }}>{title}</span>
+          <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{description}</span>
+          <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
+            <ArtifactInfoCard title='Processes' description={dummyDescription} icon={IvyIcons.Process} link='processes' />
+            <ArtifactInfoCard title='Data Classes' description={dummyDescription} icon={IvyIcons.Database} link='dataClasses' />
+            <ArtifactInfoCard title='Forms' description={dummyDescription} icon={IvyIcons.File} link='forms' />
+            <ArtifactInfoCard title='Configurations' description={dummyDescription} icon={IvyIcons.Tool} link='configurations' />
+          </Flex>
         </Flex>
-      </Overview>
-      <Overview title={'Projects'} search={search} onSearchChange={setSearch} isPending={isPending}>
-        <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
-        <NewArtifactCard title='File Import' open={() => open()} icon={IvyIcons.Download} />
-        {projects.map(project => (
-          <ArtifactCard
-            key={project.pmv}
-            name={project.pmv}
-            type='project'
-            onClick={() => toast.error('Open project not implemented')}
-            preview={<PreviewSVG />}
-          />
-        ))}
-      </Overview>
-    </Flex>
+        <Overview title={'Imported projects'} search={search} onSearchChange={setSearch} isPending={isPending}>
+          <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
+          <NewArtifactCard title='File Import' open={() => open()} icon={IvyIcons.Download} />
+          {projects
+            .filter(p => p.pmv !== ws)
+            .map(p => (
+              <ArtifactCard
+                key={p.pmv}
+                name={p.pmv}
+                type='project'
+                onClick={() => toast.error('Open project not implemented')}
+                preview={<PreviewSVG />}
+              />
+            ))}
+        </Overview>
+      </Flex>
+    </div>
   );
 }

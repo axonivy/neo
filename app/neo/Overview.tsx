@@ -4,8 +4,8 @@ import { ReactNode } from 'react';
 type OverviewProps = {
   title: string;
   description?: string;
-  search?: string;
-  onSearchChange?: (search: string) => void;
+  search: string;
+  onSearchChange: (search: string) => void;
   isPending: boolean;
   children: ReactNode;
 };
@@ -19,7 +19,7 @@ export const Overview = ({ title, description, search, onSearchChange, isPending
   >
     <span style={{ fontWeight: 600 }}>{title}</span>
     {description && <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{description}</span>}
-    {onSearchChange && <SearchInput placeholder='Search' value={search} onChange={onSearchChange} />}
+    <SearchInput placeholder='Search' value={search} onChange={onSearchChange} />
     <Flex gap={4} style={{ flexWrap: 'wrap' }}>
       {isPending ? <Spinner size='small' className='overview-loader' /> : <>{children}</>}
     </Flex>

@@ -18,19 +18,26 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
           {children}
         </>
       ) : (
-        <ArtifactCollapsible title={project}>{children}</ArtifactCollapsible>
+        <Collapsible defaultOpen={true} style={{ width: '100%', border: 0 }}>
+          <CollapsibleTrigger
+            style={{
+              color: 'var(--body)',
+              fontWeight: 400,
+              fontSize: 14,
+              borderBottom: '1px solid var(--N100)',
+              padding: '10px 0px 10px 0px',
+              marginBottom: 25
+            }}
+          >
+            {project}
+          </CollapsibleTrigger>
+          <CollapsibleContent style={{ padding: 0 }}>
+            <Flex gap={4} style={{ flexWrap: 'wrap' }}>
+              {children}
+            </Flex>
+          </CollapsibleContent>
+        </Collapsible>
       )}
     </>
   );
 };
-
-const ArtifactCollapsible = ({ title, children }: { title: string; children: ReactNode }) => (
-  <Collapsible defaultOpen={true} style={{ width: '100%' }}>
-    <CollapsibleTrigger style={{ color: 'var(--body)', fontWeight: 400, fontSize: 14 }}>{title}</CollapsibleTrigger>
-    <CollapsibleContent>
-      <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-        {children}
-      </Flex>
-    </CollapsibleContent>
-  </Collapsible>
-);
