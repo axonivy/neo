@@ -1,4 +1,4 @@
-import editorStylesHref from '@axonivy/variable-editor/lib/style.css?url';
+import editorStylesHref from '@axonivy/dataclass-editor/lib/style.css?url';
 import type { MetaFunction } from '@remix-run/node';
 import { LinksFunction } from '@remix-run/node';
 import { useRestoreEditor } from '~/neo/editors/useRestoreEditor';
