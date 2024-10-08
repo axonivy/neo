@@ -1,4 +1,4 @@
-import { Flex, toast } from '@axonivy/ui-components';
+import { Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { MetaFunction } from '@remix-run/node';
 import { useNavigate, useParams } from '@remix-run/react';
@@ -46,13 +46,7 @@ export default function Index() {
           {projects
             .filter(p => p.pmv !== ws)
             .map(p => (
-              <ArtifactCard
-                key={p.pmv}
-                name={p.pmv}
-                type='project'
-                onClick={() => toast.error('Open project not implemented')}
-                preview={<PreviewSVG />}
-              />
+              <ArtifactCard key={p.pmv} name={p.pmv} type='project' onClick={() => {}} preview={<PreviewSVG />} />
             ))}
         </Overview>
       </Flex>
