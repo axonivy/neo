@@ -20,6 +20,7 @@ export type NewArtifact = {
   title: string;
   defaultName: string;
   create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) => void;
+  defaultNamesapce?: string;
   project?: ProjectIdentifier;
   pid?: string;
 };
@@ -45,12 +46,12 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   useEffect(() => {
     setName(newArtifact?.defaultName ?? undefined);
     setProject(newArtifact?.project);
-  }, [newArtifact]);
+    setNamespace(newArtifact?.defaultNamesapce ?? ws ?? '');
+  }, [newArtifact, ws]);
 
   const open = (context: NewArtifact) => {
     setDialogState(true);
     setNewArtifact(context);
-    setNamespace(ws ?? '');
   };
   const close = () => {
     setDialogState(false);

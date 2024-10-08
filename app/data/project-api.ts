@@ -1,8 +1,8 @@
 import { toast } from '@axonivy/ui-components';
 import { useQuery } from '@tanstack/react-query';
-import { projectSort } from '~/neo/artifact/list-artifacts';
 import { headers, ok } from './custom-fetch';
 import { projects, type ProjectIdentifier as ProjectId } from './generated/openapi-dev';
+import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
 export type ProjectIdentifier = ProjectId;

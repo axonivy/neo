@@ -1,4 +1,4 @@
-import { toast } from '@axonivy/ui-components';
+import { groupBy, toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { headers, ok } from './custom-fetch';
 import {
@@ -9,6 +9,7 @@ import {
   type ProcessIdentifier as ProcessIdentifierBean,
   type ProcessInit
 } from './generated/openapi-dev';
+import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
 export type Process = ProcessBean;
@@ -16,18 +17,21 @@ export type ProcessIdentifier = ProcessIdentifierBean;
 
 export const useProcessesApi = () => {
   const ws = useWorkspace();
-  return { queryKey: ['neo', ws?.id, 'processes'], base: ws?.baseUrl };
+  return { queryKey: ['neo', ws?.id, 'processes'], base: ws?.baseUrl, ws };
 };
 
-export const useProcesses = () => {
-  const { queryKey, base } = useProcessesApi();
+export const useGroupedProcesses = () => {
+  const { queryKey, base, ws } = useProcessesApi();
   return useQuery({
     queryKey,
     queryFn: () => {
       if (base === undefined) return [];
       return getProcesses({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data;
+          const grouped = groupBy(res.data, p => p.processIdentifier.project.pmv);
+          return Object.entries(grouped)
+            .map(([project, processes]) => ({ project, artifacts: processes }))
+            .sort((a, b) => projectSort(a.project, b.project, ws?.id));
         }
         toast.error('Failed to load processes', { description: 'Maybe the server is not correclty started' });
         return [];

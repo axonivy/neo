@@ -26,7 +26,7 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
 
 const ArtifactCollapsible = ({ title, children }: { title: string; children: ReactNode }) => (
   <Collapsible defaultOpen={true} style={{ width: '100%' }}>
-    <CollapsibleTrigger>{title}</CollapsibleTrigger>
+    <CollapsibleTrigger style={{ color: 'var(--body)', fontWeight: 400, fontSize: 14 }}>{title}</CollapsibleTrigger>
     <CollapsibleContent>
       <Flex gap={4} style={{ flexWrap: 'wrap' }}>
         {children}

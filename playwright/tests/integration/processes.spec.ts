@@ -5,6 +5,8 @@ import { ProcessEditor } from '../page-objects/process-editor';
 test('navigate to process', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.processes();
+  await overview.hasGroup('neo-test-project');
+  await overview.hoverCard('jump', 'processes/jump');
   await overview.card('quickstart').click();
   await new ProcessEditor(neo, 'quickstart').waitForOpen('1907DDB3CA766818-f0');
 });

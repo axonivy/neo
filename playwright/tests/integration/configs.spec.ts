@@ -5,6 +5,7 @@ import { VariableEditor } from '../page-objects/variables-editor';
 test('navigate to configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
+  await overview.hasGroup('neo-test-project');
   await overview.card('variables').click();
   await new VariableEditor(neo, 'variables').waitForOpen('MyVar');
 });

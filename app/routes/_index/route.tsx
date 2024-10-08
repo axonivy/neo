@@ -80,7 +80,7 @@ const WorkspaceCard = (workspace: Workspace) => {
 
 const NewWorkspaceCard = () => {
   const [dialogState, setDialogState] = useState(false);
-  const [name, setName] = useState('MyNewWorkspace');
+  const [name, setName] = useState('MyNewApplication');
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
   const { importWorkspace } = useImportWorkspace();

@@ -36,5 +36,7 @@ export default function Index() {
 
 export const VariablesCard = ({ ...editor }: Editor) => {
   const { openEditor } = useEditors();
-  return <ArtifactCard name={'variables'} type='variables' preview={<PreviewSVG />} onClick={() => openEditor(editor)} />;
+  return (
+    <ArtifactCard name={'variables'} type='variables' preview={<PreviewSVG />} tooltip={editor.path} onClick={() => openEditor(editor)} />
+  );
 };

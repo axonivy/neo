@@ -1,15 +1,15 @@
 import { MetaFunction } from '@remix-run/node';
-import { useCreateDataClass, useDeleteDataClass } from '~/data/data-class-api';
-import { DataClassIdentifier } from '~/data/generated/openapi-dev';
+import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
+import { DataClassBean, DataClassIdentifier } from '~/data/generated/openapi-dev';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
+import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './dataclass-preview.svg?react';
-import { useGroupedDataClasses } from './useGroupedDataClasses';
 
 export const links = cardLinks;
 
@@ -18,12 +18,13 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { search, setSearch, isPending, groupedDataClasses } = useGroupedDataClasses();
+  const { data, isPending } = useGroupedDataClasses();
+  const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
   const { createDataClassEditor } = useCreateEditor();
   return (
     <Overview title='Data Classes' search={search} onSearchChange={setSearch} isPending={isPending}>
-      {groupedDataClasses.map(([project, dataClasses]) => {
-        const cards = dataClasses.map(dc => {
+      {filteredGroups.map(({ project, artifacts }) => {
+        const cards = artifacts.map(dc => {
           const editor = createDataClassEditor(dc);
           return <DataClassCard key={editor.id} dataClassId={dc.dataClassIdentifier} {...editor} />;
         });
@@ -47,7 +48,16 @@ const DataClassCard = ({ dataClassId, ...editor }: Editor & { dataClassId: DataC
     removeEditor(editor.id);
     deleteDataClass(dataClassId);
   };
-  return <ArtifactCard name={editor.name} type='dataclass' preview={<PreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
+  return (
+    <ArtifactCard
+      name={editor.name}
+      type='dataclass'
+      preview={<PreviewSVG />}
+      tooltip={editor.path}
+      onClick={open}
+      actions={{ delete: deleteAction }}
+    />
+  );
 };
 
 const NewDataClassCard = () => {

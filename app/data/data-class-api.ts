@@ -1,4 +1,4 @@
-import { toast } from '@axonivy/ui-components';
+import { groupBy, toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { headers, ok } from './custom-fetch';
 import {
@@ -8,22 +8,26 @@ import {
   DataClassInit,
   deleteDataClass as deleteDataClassReq
 } from './generated/openapi-dev';
+import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
 const useDataClassesApi = () => {
   const ws = useWorkspace();
-  return { queryKey: ['neo', ws?.id, 'dataclasses'], base: ws?.baseUrl };
+  return { queryKey: ['neo', ws?.id, 'dataclasses'], base: ws?.baseUrl, ws };
 };
 
-export const useDataClasses = () => {
-  const { queryKey, base } = useDataClassesApi();
+export const useGroupedDataClasses = () => {
+  const { queryKey, base, ws } = useDataClassesApi();
   return useQuery({
     queryKey,
     queryFn: () => {
       if (base === undefined) return [];
       return dataClasses({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data;
+          const grouped = groupBy(res.data, p => p.dataClassIdentifier.project.pmv);
+          return Object.entries(grouped)
+            .map(([project, dataClasses]) => ({ project, artifacts: dataClasses }))
+            .sort((a, b) => projectSort(a.project, b.project, ws?.id));
         }
         toast.error('Failed to load data classes', { description: 'Maybe the server is not correclty started' });
         return [];

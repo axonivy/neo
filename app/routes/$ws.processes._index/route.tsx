@@ -1,14 +1,15 @@
 import { MetaFunction } from '@remix-run/node';
-import { ProcessIdentifier, useCreateProcess, useDeleteProcess } from '~/data/process-api';
+import { ProcessBean } from '~/data/generated/openapi-dev';
+import { ProcessIdentifier, useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
+import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { Editor, useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './process-preview.svg?react';
-import { useGroupedProcesses } from './useGroupedProcesses';
 
 export const links = cardLinks;
 
@@ -17,12 +18,13 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { search, setSearch, isPending, groupedProcesses } = useGroupedProcesses();
+  const { data, isPending } = useGroupedProcesses();
+  const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
   const { createProcessEditor } = useCreateEditor();
   return (
     <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
-      {groupedProcesses.map(([project, processes]) => {
-        const cards = processes.map(process => {
+      {filteredGroups.map(({ project, artifacts }) => {
+        const cards = artifacts.map(process => {
           const editor = createProcessEditor(process);
           return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
         });
@@ -46,7 +48,16 @@ const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIden
     removeEditor(editor.id);
     deleteProcess(processId);
   };
-  return <ArtifactCard name={editor.name} type='process' preview={<PreviewSVG />} onClick={open} actions={{ delete: deleteAction }} />;
+  return (
+    <ArtifactCard
+      name={editor.name}
+      type='process'
+      preview={<PreviewSVG />}
+      tooltip={editor.path}
+      onClick={open}
+      actions={{ delete: deleteAction }}
+    />
+  );
 };
 
 const NewProcessCard = () => {
@@ -57,5 +68,5 @@ const NewProcessCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
   const title = 'Create new Process';
-  return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewProcess' })} />;
+  return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewProcess', defaultNamesapce: '' })} />;
 };
