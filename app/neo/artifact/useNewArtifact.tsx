@@ -80,7 +80,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                 <BasicField label='Namespace'>
                   <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
                 </BasicField>
-                {newArtifact.project ? <></> : <ProjectSelect setProject={setProject} />}
+                {newArtifact.project ? <></> : <ProjectSelect setProject={setProject} label='Project' />}
                 <button style={{ display: 'none' }} type='submit'>
                   Create
                 </button>

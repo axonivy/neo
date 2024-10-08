@@ -45,7 +45,7 @@ export default function Index() {
     "Here you will find all the applications you've created or imported. Create a new application by clicking on the blue box and open an existing one by clicking on one of the grey boxes.";
   const title = 'Welcome to Axon Ivy NEO Designer';
   return (
-    <>
+    <div style={{ height: 'calc(100vh - 41px)' }}>
       <ControlBar />
       <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
         <NewWorkspaceCard />
@@ -53,7 +53,7 @@ export default function Index() {
           <WorkspaceCard key={workspace.name} {...workspace} />
         ))}
       </Overview>
-    </>
+    </div>
   );
 }
 
@@ -95,9 +95,9 @@ const NewWorkspaceCard = () => {
       <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create new Workspace</DialogTitle>
+            <DialogTitle>Create new Application</DialogTitle>
             <DialogDescription>
-              Optionally, you can select and upload existing Axon Ivy projects, which are then added to the workspace.
+              Optionally, you can select and upload existing Axon Ivy projects, which are then added to the application.
             </DialogDescription>
           </DialogHeader>
           <form

@@ -67,7 +67,7 @@ const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; 
         </DialogHeader>
         <DialogDescription>Select the version to be installed</DialogDescription>
         <VersionSelect id={product.id} setVersion={setVersion}></VersionSelect>
-        {needDependency && <ProjectSelect setProject={setProject} />}
+        {needDependency && <ProjectSelect setProject={setProject} label='Add as dependecy to project' />}
         <DialogFooter>
           <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project}></InstallButton>
           <DialogClose asChild>

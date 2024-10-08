@@ -4,14 +4,15 @@ import { ProjectIdentifier, useSortedProjects } from '~/data/project-api';
 
 type ProjectSelectProps = {
   setProject: (project: ProjectIdentifier) => void;
+  label: string;
 };
 
-export const ProjectSelect = ({ setProject }: ProjectSelectProps) => {
+export const ProjectSelect = ({ setProject, label }: ProjectSelectProps) => {
   const { data, isPending } = useSortedProjects();
   const projects = useMemo(() => data?.filter(p => !p.isIar) ?? [], [data]);
   useEffect(() => setProject(projects[0]), [projects, setProject]);
   return (
-    <BasicField label='Project'>
+    <BasicField label={label}>
       {isPending ? (
         <Spinner size='small' />
       ) : (
