@@ -8,6 +8,7 @@ import { ProjectIdentifier } from '~/data/project-api';
 import { DataClassEditor } from './dataclass/DataClassEditor';
 import { FormEditor } from './form/FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
+import { useCreateEditor } from './useCreateEditor';
 import { VariableEditor } from './VariableEditor';
 
 export type EditorType = 'processes' | 'forms' | 'configurations' | 'dataclasses';
@@ -69,6 +70,7 @@ export const useEditors = () => {
   const ws = useParams().ws ?? '';
   const rootNav = `/${ws}`;
   const { workspaces, open, close, closeAll } = useStore();
+  const { createEditorFromPath } = useCreateEditor();
 
   const closeEditors = useCallback(
     (ids: Array<string>) => {
@@ -87,8 +89,12 @@ export const useEditors = () => {
     (editor: Editor) => {
       navigate(editor.id);
       open(ws, editor);
+      if (editor.type === 'forms') {
+        open(ws, createEditorFromPath(editor.project, `${editor.path}Process`, 'processes'));
+        open(ws, createEditorFromPath(editor.project, `${editor.path}Data`, 'dataclasses'));
+      }
     },
-    [navigate, open, ws]
+    [createEditorFromPath, navigate, open, ws]
   );
 
   const removeEditor = useCallback(
