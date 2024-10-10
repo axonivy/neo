@@ -26,7 +26,6 @@ export default function Index() {
   const title = `Welcome to your application: ${ws}`;
   const dummyDescription =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet pellentesque massa. Proin iaculis odio at orci aliquet, vitae maximus sem congue. Suspendisse potenti. ';
-
   return (
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1}>
@@ -40,14 +39,18 @@ export default function Index() {
             <ArtifactInfoCard title='Configurations' description={dummyDescription} icon={IvyIcons.Tool} link='configurations' />
           </Flex>
         </Flex>
-        <Overview title={'Imported projects'} search={search} onSearchChange={setSearch} isPending={isPending}>
+        <Overview title={'Projects'} search={search} onSearchChange={setSearch} isPending={isPending}>
           <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
           <NewArtifactCard title='File Import' open={() => open()} icon={IvyIcons.Download} />
-          {projects
-            .filter(p => p.pmv !== ws)
-            .map(p => (
-              <ArtifactCard key={p.pmv} name={p.pmv} type='project' onClick={() => {}} preview={<PreviewSVG />} />
-            ))}
+          {projects.map(p => (
+            <ArtifactCard
+              key={p.pmv}
+              name={p.pmv}
+              type='project'
+              onClick={() => navigate(`projects/${p.app}/${p.pmv}`)}
+              preview={<PreviewSVG />}
+            />
+          ))}
         </Overview>
       </Flex>
     </div>
