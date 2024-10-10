@@ -3,6 +3,7 @@
   flex: 0 1 200px;
   background: var(--N75);
   border-radius: 10px;
+  white-space: nowrap;
   .card {
     border: none;
     border-radius: 10px;

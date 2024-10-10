@@ -22,11 +22,11 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
           <CollapsibleTrigger
             style={{
               color: 'var(--body)',
-              fontWeight: 400,
+              fontWeight: 500,
               fontSize: 14,
               borderBottom: '1px solid var(--N100)',
               padding: '10px 0px 10px 0px',
-              marginBottom: 25
+              marginBottom: 15
             }}
           >
             {project}
