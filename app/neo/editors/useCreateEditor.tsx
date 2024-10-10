@@ -1,3 +1,4 @@
+import { toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from '@remix-run/react';
 import type { Form } from '~/data/form-api';
@@ -52,7 +53,11 @@ const typeFromPath = (path: string): EditorType => {
   if (path.endsWith(DATACLASS_EDITOR_SUFFIX)) {
     return 'dataclasses';
   }
-  return 'configurations';
+  if (path.endsWith('.yaml')) {
+    return 'configurations';
+  }
+  toast.error(`Unknown editor type`, { description: `This file type '${lastSegment(path)}' can not be edited in Neo.` });
+  throw new Error(`Unknown editor type for path ${path}`);
 };
 
 const editorIcon = (editorType: EditorType) => {

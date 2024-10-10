@@ -6,6 +6,7 @@ import { Browser } from './browser';
 import { ControlBar } from './control-bar';
 import { Navigation } from './navigation';
 import { Overview } from './overview';
+import { Toaster } from './toaster';
 
 export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Classes' | 'Application Home' | 'Market';
 
@@ -47,6 +48,10 @@ export class Neo {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.addStyleTag({ content: `.tsqd-parent-container { display: none; }` });
     return new Neo(page);
+  }
+
+  get toast() {
+    return new Toaster(this.page);
   }
 
   async home() {

@@ -115,10 +115,10 @@ test.describe('jump to process', () => {
   });
 
   test('xhtml hd not supported', async ({ page }) => {
-    const { editor } = await openQuickStartProcess(page);
+    const { neo, editor } = await openQuickStartProcess(page);
     const element = editor.elementByPid('1907DDB3CA766818-f3');
     await element.triggerQuickAction(/Open Form/);
-    // check toast appear not suppored
+    await neo.toast.expectError('Unknown editor type');
   });
 
   test('trigger', async ({ page }) => {
