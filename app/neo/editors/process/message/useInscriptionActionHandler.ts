@@ -70,6 +70,15 @@ export const useNewFormActionHandler = () => {
   );
 };
 
+export const useOpenPageActionHandler = () => {
+  return useCallback((data: unknown) => {
+    if (!isActionWithId(data, 'openPage')) {
+      return;
+    }
+    window.open(data.params.payload as string);
+  }, []);
+};
+
 const refreshInscriptionView = (window: WindowProxy | null) => {
   sendInscriptionNotification(window, 'dataChanged');
   sendInscriptionNotification(window, 'validation');
