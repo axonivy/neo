@@ -1,5 +1,7 @@
 import { toast } from '@axonivy/ui-components';
 
+let unauthorizedCount = 0;
+
 const getUrl = (contextUrl: string, headers?: Record<string, string>): string => {
   const base = headers && headers['base'] ? headers['base'] : '';
   const apiPrefix = '/api';
@@ -48,14 +50,22 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
   const request = new Request(requestUrl, requestInit);
   const response = await fetch(request);
   const data = await getBody<T>(response);
+  handleUnauthorized(response);
+  return { status: response.status, data } as T;
+};
+
+const handleUnauthorized = (response: Response) => {
   if (response.status === 401) {
-    toast.error('Unauthorized, click reload to log in.', {
-      duration: Infinity,
-      action: { label: 'Reload', onClick: () => window.location.reload() }
-    });
+    unauthorizedCount++;
+    if (unauthorizedCount > 1) {
+      toast.error('Unauthorized, click reload to log in.', {
+        duration: Infinity,
+        action: { label: 'Reload', onClick: () => window.location.reload() }
+      });
+    }
     throw new Error(response.statusText);
   }
-  return { status: response.status, data } as T;
+  unauthorizedCount = 0;
 };
 
 export const headers = (base?: string) => {
