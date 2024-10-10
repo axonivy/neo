@@ -55,7 +55,7 @@ export class Neo {
   }
 
   async home() {
-    return await this.navigate('Application Home', 'Imported projects');
+    return await this.navigate('Application Home', 'Projects');
   }
 
   async processes() {
