@@ -1,17 +1,18 @@
-import { DataClassActionArgs } from '@axonivy/dataclass-editor';
+import type { DataClassActionArgs } from '@axonivy/dataclass-editor';
 import { useCallback } from 'react';
-import { ProjectIdentifier } from '~/data/project-api';
+import type { ProjectIdentifier } from '~/data/project-api';
+import { DIALOG_PROCESS_EDITOR_SUFFIX, FORM_EDITOR_SUFFIX } from '../editor';
 import { useCreateEditor } from '../useCreateEditor';
 import { useEditors } from '../useEditors';
-import { DataClassActionHandler } from './data-class-client';
+import type { DataClassActionHandler } from './data-class-client';
 
 const editorPath = (action: DataClassActionArgs, dataClassEditorPath: string) => {
   const editorPath = dataClassEditorPath.substring(0, dataClassEditorPath.lastIndexOf('Data'));
   switch (action.actionId) {
     case 'openForm':
-      return `${editorPath}.f.json`;
+      return `${editorPath}${FORM_EDITOR_SUFFIX}`;
     case 'openProcess':
-      return `${editorPath}Process.p.json`;
+      return `${editorPath}${DIALOG_PROCESS_EDITOR_SUFFIX}`;
   }
   return editorPath;
 };

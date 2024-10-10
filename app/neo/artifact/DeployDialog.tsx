@@ -16,8 +16,8 @@ import {
   toast
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { ReactNode, useState } from 'react';
-import { DeployParams } from '~/data/workspace-api';
+import { type ReactNode, useState } from 'react';
+import type { DeployParams } from '~/data/workspace-api';
 
 export type DeployActionParams = Omit<DeployParams, 'workspaceId'>;
 

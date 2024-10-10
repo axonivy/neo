@@ -1,6 +1,6 @@
 import { BasicField, BasicSelect, Spinner } from '@axonivy/ui-components';
 import { useEffect, useMemo } from 'react';
-import { ProjectIdentifier, useSortedProjects } from '~/data/project-api';
+import { type ProjectIdentifier, useSortedProjects } from '~/data/project-api';
 
 type ProjectSelectProps = {
   setProject: (project: ProjectIdentifier) => void;

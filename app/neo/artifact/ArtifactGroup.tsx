@@ -1,6 +1,6 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
 import { useParams } from '@remix-run/react';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type Group = {
   project: string;

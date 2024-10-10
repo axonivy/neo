@@ -2,7 +2,7 @@ import { ReadonlyProvider } from '@axonivy/ui-components';
 import { VariableEditor as App, ClientContextProvider, ClientJsonRpc } from '@axonivy/variable-editor';
 import { useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import { Editor } from '~/neo/editors/useEditors';
+import type { Editor } from './editor';
 import { useWebSocket } from './useWebSocket';
 
 export const VariableEditor = ({ id, project, name }: Editor) => {

@@ -2,7 +2,7 @@ import { App, ClientContextProvider } from '@axonivy/form-editor';
 import { ReadonlyProvider } from '@axonivy/ui-components';
 import { useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import { Editor } from '~/neo/editors/useEditors';
+import { type Editor, FORM_EDITOR_SUFFIX } from '../editor';
 import { useWebSocket } from '../useWebSocket';
 import { FormClientNeo } from './form-client';
 import { useActionHandler } from './useActionHandler';
@@ -26,7 +26,11 @@ export const FormEditor = ({ id, project, path, name }: Editor) => {
           <ClientContextProvider client={client}>
             <ReadonlyProvider readonly={project.isIar ?? false}>
               <App
-                context={{ app: project.app, pmv: project.pmv, file: path.endsWith('.f.json') ? path : `${path}.f.json` }}
+                context={{
+                  app: project.app,
+                  pmv: project.pmv,
+                  file: path.endsWith(FORM_EDITOR_SUFFIX) ? path : `${path}${FORM_EDITOR_SUFFIX}`
+                }}
                 directSave={true}
               />
             </ReadonlyProvider>

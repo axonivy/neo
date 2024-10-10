@@ -13,7 +13,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from '@remix-run/react';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { ProjectIdentifier } from '~/data/project-api';
+import type { ProjectIdentifier } from '~/data/project-api';
 import { ProjectSelect } from './ProjectSelect';
 
 export type NewArtifact = {

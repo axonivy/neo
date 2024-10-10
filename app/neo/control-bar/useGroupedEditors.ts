@@ -1,7 +1,8 @@
 import { groupBy } from '@axonivy/ui-components';
 import { useMemo } from 'react';
 import { removeStartSegmets } from '~/utils/path';
-import { Editor, useEditors } from '../editors/useEditors';
+import type { Editor } from '../editors/editor';
+import { useEditors } from '../editors/useEditors';
 
 export const useGroupedEditors = () => {
   const { editors } = useEditors();

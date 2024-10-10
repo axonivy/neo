@@ -1,6 +1,6 @@
 import { Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { RefObject } from 'react';
+import type { RefObject } from 'react';
 import { useUpdateTheme } from '~/theme/useUpdateTheme';
 import { useWebBrowser } from './useWebBrowser';
 

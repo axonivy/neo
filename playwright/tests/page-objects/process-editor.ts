@@ -1,4 +1,4 @@
-import { expect, FrameLocator, type Locator } from '@playwright/test';
+import { expect, type FrameLocator, type Locator } from '@playwright/test';
 import { Inscription } from './inscription';
 import { Neo } from './neo';
 
@@ -7,7 +7,10 @@ export class ProcessEditor {
   readonly frame: FrameLocator;
   readonly graph: Locator;
 
-  constructor(readonly neo: Neo, readonly name: string) {
+  constructor(
+    readonly neo: Neo,
+    readonly name: string
+  ) {
     const frameSelector = `iframe[title="${name}"]`;
     this.editor = neo.page.locator(frameSelector);
     this.frame = neo.page.frameLocator(frameSelector);
@@ -31,7 +34,10 @@ export class ProcessEditor {
 export class ProcessEditorElement {
   readonly element: Locator;
 
-  constructor(readonly editor: ProcessEditor, readonly pid: string) {
+  constructor(
+    readonly editor: ProcessEditor,
+    readonly pid: string
+  ) {
     this.element = editor.graph.locator(`#sprotty_${pid}`);
   }
 

@@ -3,7 +3,8 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useLocation, useNavigate } from '@remix-run/react';
 import { useEffect, useRef, useState } from 'react';
 import { lastSegment } from '~/utils/path';
-import { Editor, useEditors } from '../editors/useEditors';
+import type { Editor } from '../editors/editor';
+import { useEditors } from '../editors/useEditors';
 import './EditorTabs.css';
 import { useGroupedEditors } from './useGroupedEditors';
 

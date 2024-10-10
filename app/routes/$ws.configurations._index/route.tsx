@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { useSortedProjects } from '~/data/project-api';
 import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
+import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
-import { Editor, useEditors } from '~/neo/editors/useEditors';
+import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './variables-preview.svg?react';
 

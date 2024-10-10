@@ -4,8 +4,8 @@ import { headers, ok } from './custom-fetch';
 import {
   createDataClass as createDataClassReq,
   dataClasses,
-  DataClassIdentifier,
-  DataClassInit,
+  type DataClassIdentifier,
+  type DataClassInit,
   deleteDataClass as deleteDataClassReq
 } from './generated/openapi-dev';
 import { projectSort } from './sort';

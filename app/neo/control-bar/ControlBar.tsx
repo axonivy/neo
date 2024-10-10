@@ -1,6 +1,6 @@
 import { Button, Flex } from '@axonivy/ui-components';
 import { Link } from '@remix-run/react';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import IvyLogoSVG from '../axonivy.svg?react';
 
 export const ControlBar = ({ children }: { children?: ReactNode }) => (

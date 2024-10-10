@@ -1,8 +1,9 @@
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useNavigate, useParams } from '@remix-run/react';
 import { act, renderHook } from '@testing-library/react';
-import { Mock } from 'vitest';
-import { Editor, useEditors } from './useEditors';
+import type { Mock } from 'vitest';
+import type { Editor } from './editor';
+import { useEditors } from './useEditors';
 
 vi.mock('@remix-run/react', async importOriginal => {
   const navigateFn = vi.fn();

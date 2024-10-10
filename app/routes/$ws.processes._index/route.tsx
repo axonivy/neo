@@ -1,13 +1,14 @@
-import { MetaFunction } from '@remix-run/node';
-import { ProcessBean } from '~/data/generated/openapi-dev';
-import { ProcessIdentifier, useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
-import { ProjectIdentifier } from '~/data/project-api';
+import type { MetaFunction } from '@remix-run/node';
+import type { ProcessBean } from '~/data/generated/openapi-dev';
+import { type ProcessIdentifier, useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
+import type { ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
-import { Editor, useEditors } from '~/neo/editors/useEditors';
+import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './process-preview.svg?react';
 

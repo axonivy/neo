@@ -1,8 +1,8 @@
-import { InscriptionActionArgs, InscriptionNotificationTypes } from '@axonivy/inscription-protocol';
+import type { InscriptionActionArgs, InscriptionNotificationTypes } from '@axonivy/inscription-protocol';
 import { useCallback } from 'react';
 import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
-import { ProjectIdentifier } from '~/data/project-api';
+import type { ProjectIdentifier } from '~/data/project-api';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '../../useCreateEditor';
 import { useEditors } from '../../useEditors';

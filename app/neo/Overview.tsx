@@ -1,5 +1,5 @@
 import { Flex, SearchInput, Spinner } from '@axonivy/ui-components';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type OverviewProps = {
   title: string;

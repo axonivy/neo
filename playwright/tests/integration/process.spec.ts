@@ -1,4 +1,4 @@
-import { expect, Page, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
 import { ProcessEditor, ProcessEditorElement } from '../page-objects/process-editor';
@@ -112,6 +112,13 @@ test.describe('jump to process', () => {
     const element = editor.elementByPid('1907DD66AA11FCD9-f5');
     await element.triggerQuickAction(/Open Form/);
     await new FormEditor(neo, 'EnterProduct').waitForOpen();
+  });
+
+  test('xhtml hd not supported', async ({ page }) => {
+    const { editor } = await openQuickStartProcess(page);
+    const element = editor.elementByPid('1907DDB3CA766818-f3');
+    await element.triggerQuickAction(/Open Form/);
+    // check toast appear not suppored
   });
 
   test('trigger', async ({ page }) => {

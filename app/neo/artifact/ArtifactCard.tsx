@@ -13,11 +13,11 @@ import {
   TooltipTrigger
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { LinksFunction } from '@remix-run/node';
-import { ReactNode } from 'react';
+import type { LinksFunction } from '@remix-run/node';
+import type { ReactNode } from 'react';
 import cardStyles from './card.css?url';
 import { DeleteConfirm } from './DeleteConfirm';
-import { DeployActionParams, DeployDialog } from './DeployDialog';
+import { type DeployActionParams, DeployDialog } from './DeployDialog';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 

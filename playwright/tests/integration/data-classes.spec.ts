@@ -1,4 +1,4 @@
-import { expect, Page, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 import { randomUUID } from 'crypto';
 import { DataClassEditor } from '../page-objects/data-class-editor';
 import { Neo } from '../page-objects/neo';

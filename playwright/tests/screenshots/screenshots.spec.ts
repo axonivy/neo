@@ -1,4 +1,4 @@
-import { expect, Page, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';

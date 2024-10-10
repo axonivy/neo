@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ImperativePanelHandle } from 'react-resizable-panels';
+import type { ImperativePanelHandle } from 'react-resizable-panels';
 import { useWorkspace } from '~/data/workspace-api';
 
 type WebBrowserProviderState = {

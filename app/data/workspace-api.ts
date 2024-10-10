@@ -13,7 +13,7 @@ import {
   workspaces
 } from './generated/openapi-default';
 import { deploy } from './generated/openapi-system';
-import { ProjectIdentifier } from './project-api';
+import type { ProjectIdentifier } from './project-api';
 
 export type Workspace = WorkspaceBean;
 

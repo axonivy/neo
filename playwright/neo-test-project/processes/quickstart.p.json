@@ -31,9 +31,9 @@
     }, {
       "id" : "f3",
       "type" : "DialogCall",
-      "name" : "Enter Product",
+      "name" : "Enter Product Jsf",
       "config" : {
-        "dialog" : "neo.test.project.EnterProduct:start(neo.test.project.QuickStartTutorial)",
+        "dialog" : "neo.test.project.EnterProductJsf:start(neo.test.project.QuickStartTutorial)",
         "call" : {
           "map" : {
             "param.data" : "in"
