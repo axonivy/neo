@@ -1,7 +1,7 @@
 import { IvyIcons } from '@axonivy/ui-icons';
 import { NavigationType, useNavigationType, useParams } from '@remix-run/react';
 import { renderHook } from '@testing-library/react';
-import { Mock } from 'vitest';
+import type { Mock } from 'vitest';
 import { useEditors } from './useEditors';
 import { useRestoreEditor } from './useRestoreEditor';
 

@@ -2,11 +2,11 @@ import { toast } from '@axonivy/ui-components';
 import { useLocation, useNavigate } from '@remix-run/react';
 import { createContext, useContext } from 'react';
 import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
-import { NeoClient } from '~/data/neo-protocol';
+import type { NeoClient } from '~/data/neo-protocol';
 import { useEditors } from '~/neo/editors/useEditors';
 import { useCreateEditor } from '../editors/useCreateEditor';
 import { useWebSocket } from '../editors/useWebSocket';
-import { AnimationFollowMode } from '../settings/useSettings';
+import type { AnimationFollowMode } from '../settings/useSettings';
 
 type NeoClientProviderState = {
   client: NeoClient | undefined;

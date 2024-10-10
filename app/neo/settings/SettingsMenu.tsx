@@ -18,7 +18,7 @@ import {
   useTheme
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { AnimationFollowMode, useSettings } from './useSettings';
+import { type AnimationFollowMode, useSettings } from './useSettings';
 
 export const SettingsMenu = () => {
   const { theme, setTheme } = useTheme();

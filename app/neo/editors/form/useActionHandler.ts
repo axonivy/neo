@@ -1,16 +1,17 @@
-import { FormActionArgs } from '@axonivy/form-editor-protocol';
+import type { FormActionArgs } from '@axonivy/form-editor-protocol';
 import { useCallback } from 'react';
-import { ProjectIdentifier } from '~/data/project-api';
+import type { ProjectIdentifier } from '~/data/project-api';
+import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX } from '../editor';
 import { useCreateEditor } from '../useCreateEditor';
 import { useEditors } from '../useEditors';
-import { FormActionHandler } from './form-client';
+import type { FormActionHandler } from './form-client';
 
 const editorPath = (action: FormActionArgs, formEditorPath: string) => {
   switch (action.actionId) {
     case 'openDataClass':
-      return `${formEditorPath}Data.d.json`;
+      return `${formEditorPath}${DIALOG_DATA_EDITOR_SUFFIX}`;
     case 'openProcess':
-      return `${formEditorPath}Process.p.json`;
+      return `${formEditorPath}${DIALOG_PROCESS_EDITOR_SUFFIX}`;
   }
   return formEditorPath;
 };

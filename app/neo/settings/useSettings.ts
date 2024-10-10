@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { AnimationSettings } from '~/data/neo-jsonrpc';
+import type { AnimationSettings } from '~/data/neo-jsonrpc';
 import { useNeoClient } from '~/neo/client/useNeoClient';
 
 export type AnimationFollowMode = 'all' | 'currentProcess' | 'openProcesses' | 'noDialogProcesses' | 'noEmbeddedProcesses';

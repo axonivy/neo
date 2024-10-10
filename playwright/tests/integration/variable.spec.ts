@@ -1,4 +1,4 @@
-import { Page, test } from '@playwright/test';
+import { type Page, test } from '@playwright/test';
 import { Neo } from '../page-objects/neo';
 import { VariableEditor } from '../page-objects/variables-editor';
 import { app } from './constants';

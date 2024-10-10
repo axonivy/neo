@@ -1,7 +1,7 @@
 import { Flex } from '@axonivy/ui-components';
 import type { MetaFunction } from '@remix-run/node';
 import { useEffect, useState } from 'react';
-import { ProductModel } from '~/data/generated/openapi-market';
+import type { ProductModel } from '~/data/generated/openapi-market';
 import { useProducts } from '~/data/market-api';
 import { cardLinks } from '~/neo/artifact/ArtifactCard';
 import { useInstallMarketArtifact } from '~/neo/artifact/useInstallMarketArtifact';

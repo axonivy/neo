@@ -1,6 +1,6 @@
 import type { Disposable } from '@axonivy/jsonrpc';
-import { AnimationSettings } from './neo-jsonrpc';
-import { Process } from './process-api';
+import type { AnimationSettings } from './neo-jsonrpc';
+import type { Process } from './process-api';
 
 export class Callback<T, R = void> implements Disposable {
   private callback?: (e: T) => R;

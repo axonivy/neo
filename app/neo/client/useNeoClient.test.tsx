@@ -1,10 +1,10 @@
 import { useLocation, useNavigate } from '@remix-run/react';
 import { act, renderHook } from '@testing-library/react';
-import { Callback, NeoClient } from '~/data/neo-protocol';
-import { Process } from '~/data/process-api';
+import { Callback, type NeoClient } from '~/data/neo-protocol';
+import type { Process } from '~/data/process-api';
 import { useCreateEditor } from '../editors/useCreateEditor';
 import { useEditors } from '../editors/useEditors';
-import { AnimationFollowMode } from '../settings/useSettings';
+import type { AnimationFollowMode } from '../settings/useSettings';
 import { NeoClientProviderContext, useNeoClient } from './useNeoClient';
 
 vi.mock('@remix-run/react', async importOriginal => {

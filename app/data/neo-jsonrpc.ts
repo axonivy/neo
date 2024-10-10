@@ -1,6 +1,6 @@
-import { BaseRpcClient, Disposable, MessageConnection, urlBuilder } from '@axonivy/jsonrpc';
-import { Callback, NeoClient } from './neo-protocol';
-import { Process } from './process-api';
+import { BaseRpcClient, type Disposable, type MessageConnection, urlBuilder } from '@axonivy/jsonrpc';
+import { Callback, type NeoClient } from './neo-protocol';
+import type { Process } from './process-api';
 
 export interface NeoOnRequestTypes {
   openEditor: [Process, boolean];

@@ -1,5 +1,5 @@
 import { useTheme } from '@axonivy/ui-components';
-import { RefObject, useEffect } from 'react';
+import { type RefObject, useEffect } from 'react';
 
 export const useThemeMode = () => {
   const { theme } = useTheme();

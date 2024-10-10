@@ -1,11 +1,12 @@
+import { toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from '@remix-run/react';
-import { Form } from '~/data/form-api';
-import { DataClassBean } from '~/data/generated/openapi-dev';
-import { Process } from '~/data/process-api';
-import { ProjectIdentifier } from '~/data/project-api';
+import type { Form } from '~/data/form-api';
+import type { DataClassBean } from '~/data/generated/openapi-dev';
+import type { Process } from '~/data/process-api';
+import type { ProjectIdentifier } from '~/data/project-api';
 import { lastSegment } from '~/utils/path';
-import { Editor, EditorType } from './useEditors';
+import { DATACLASS_EDITOR_SUFFIX, type Editor, type EditorType, FORM_EDITOR_SUFFIX, PROCESS_EDITOR_SUFFIX } from './editor';
 
 export const useCreateEditor = () => {
   const ws = useParams().ws ?? 'designer';
@@ -39,20 +40,24 @@ const createEditor = (ws: string, editorType: EditorType, project: ProjectIdenti
 };
 
 const removeExtension = (path: string) => {
-  return path.split('.p.json')[0].split('.f.json')[0].split('.d.json')[0];
+  return path.split(PROCESS_EDITOR_SUFFIX)[0].split(FORM_EDITOR_SUFFIX)[0].split(DATACLASS_EDITOR_SUFFIX)[0];
 };
 
 const typeFromPath = (path: string): EditorType => {
-  if (path.endsWith('.p.json')) {
+  if (path.endsWith(PROCESS_EDITOR_SUFFIX)) {
     return 'processes';
   }
-  if (path.endsWith('.f.json')) {
+  if (path.endsWith(FORM_EDITOR_SUFFIX)) {
     return 'forms';
   }
-  if (path.endsWith('.d.json')) {
+  if (path.endsWith(DATACLASS_EDITOR_SUFFIX)) {
     return 'dataclasses';
   }
-  return 'configurations';
+  if (path.endsWith('.yaml')) {
+    return 'configurations';
+  }
+  toast.error(`Unknown editor type`, { description: `This file type '${lastSegment(path)}' can not be edited in Neo.` });
+  throw new Error(`Unknown editor type for path ${path}`);
 };
 
 const editorIcon = (editorType: EditorType) => {

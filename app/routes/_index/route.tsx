@@ -21,10 +21,10 @@ import {
   useDeployWorkspace,
   useImportWorkspace,
   useWorkspaces,
-  Workspace
+  type Workspace
 } from '~/data/workspace-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
-import { DeployActionParams } from '~/neo/artifact/DeployDialog';
+import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { Overview } from '~/neo/Overview';
 import { FileInput } from '~/neo/workspace/FileInput';

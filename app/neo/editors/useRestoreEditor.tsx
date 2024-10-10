@@ -1,7 +1,8 @@
 import { indexOf } from '@axonivy/ui-components';
 import { NavigationType, useNavigationType, useParams } from '@remix-run/react';
+import type { EditorType } from './editor';
 import { useCreateEditor } from './useCreateEditor';
-import { EditorType, useEditors } from './useEditors';
+import { useEditors } from './useEditors';
 
 export const useRestoreEditor = (editorType: EditorType) => {
   const { ws, app, pmv, '*': path } = useParams();

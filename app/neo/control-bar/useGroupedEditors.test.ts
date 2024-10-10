@@ -1,6 +1,7 @@
 import { renderHook } from '@testing-library/react';
-import { Mock } from 'vitest';
-import { Editor, useEditors } from '../editors/useEditors';
+import type { Mock } from 'vitest';
+import type { Editor } from '../editors/editor';
+import { useEditors } from '../editors/useEditors';
 import { useGroupedEditors } from './useGroupedEditors';
 
 vi.mock('../editors/useEditors', async importOriginal => {

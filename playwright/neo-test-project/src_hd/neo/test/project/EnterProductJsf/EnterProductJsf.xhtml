@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:ic="http://ivyteam.ch/jsf/component" xmlns:p="http://primefaces.org/ui"
+  xmlns:pe="http://primefaces.org/ui/extensions">
+<h:body>
+  <ui:composition template="/ivy-form/layouts/form.xhtml">
+    <ui:define name="title">9170a76a-0ee6-40ed-90cf-4a5431d53fb1</ui:define>
+    <ui:define name="content">
+
+      <h:body class="body-hd #{ivyFreyaTheme.mode}">
+        <h:form id="form">
+          <h:panelGroup layout="block" styleClass="i-flex i-gap i-flex-col">
+      
+            <h:panelGroup layout="block" styleClass="i-flex i-gap i-flex-col ui-fluid " >
+              <p:outputLabel for="Input-c920fdd3-a76a-48c2-bbd1-a5d6f7a08c19" value="Product" />
+              <p:inputText id="Input-c920fdd3-a76a-48c2-bbd1-a5d6f7a08c19" value="#{data.data.product}" required="false"></p:inputText>
+              <p:message for="Input-c920fdd3-a76a-48c2-bbd1-a5d6f7a08c19" styleClass="i-message"/>
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="i-flex i-gap i-flex-col ui-fluid " >
+              <p:outputLabel for="Input-b92dbd5a-c6b6-434c-9b53-024c2289d9b7" value="Release Date" />
+              <p:inputText id="Input-b92dbd5a-c6b6-434c-9b53-024c2289d9b7" value="#{data.data.releaseDate}" required="false"></p:inputText>
+              <p:message for="Input-b92dbd5a-c6b6-434c-9b53-024c2289d9b7" styleClass="i-message"/>
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" styleClass="i-flex i-gap i-flex-col ui-fluid " >
+              <p:outputLabel for="Input-4320a6a5-88a1-4bfd-acf6-06634667a27b" value="Price" />
+              <p:inputText id="Input-4320a6a5-88a1-4bfd-acf6-06634667a27b" value="#{data.data.price}" required="false"></p:inputText>
+              <p:message for="Input-4320a6a5-88a1-4bfd-acf6-06634667a27b" styleClass="i-message"/>
+            </h:panelGroup>
+            
+            <h:panelGroup layout="block" id="Layout-bc8dbf35-9926-462e-88d4-1af5d5df392d" styleClass="i-flex i-gap i-justify-end " >
+              <p:commandButton id="Button-7a9da528-0221-41ae-9a68-76d0e2cb694f" actionListener="#{logic.close}" value="Proceed" icon="" styleClass="ui-button-primary" update="@form"  />
+            </h:panelGroup>
+      
+          </h:panelGroup>
+        </h:form>
+      </h:body>
+      
+    </ui:define>
+  </ui:composition>
+</h:body>
+</html>

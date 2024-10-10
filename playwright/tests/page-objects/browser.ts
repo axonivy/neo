@@ -1,4 +1,4 @@
-import { expect, FrameLocator, type Locator, type Page } from '@playwright/test';
+import { expect, type FrameLocator, type Locator, type Page } from '@playwright/test';
 
 export class Browser {
   protected readonly page: Page;

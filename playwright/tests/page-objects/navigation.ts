@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
-import { OverviewTypes } from './neo';
+import type { OverviewTypes } from './neo';
 
 export class Navigation {
   protected readonly page: Page;

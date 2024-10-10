@@ -1,9 +1,9 @@
 import { useHref, useLocation } from '@remix-run/react';
-import { RefObject, useEffect, useRef, useState } from 'react';
+import { type RefObject, useEffect, useRef, useState } from 'react';
 import { useWorkspace } from '~/data/workspace-api';
 import { baseUrl } from '~/data/ws-base';
-import { Editor } from '~/neo/editors/useEditors';
 import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
+import { type Editor, PROCESS_EDITOR_SUFFIX } from '../editor';
 import { useFrameMessageHandler } from './message/useFrameMessageHandler';
 
 const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) => {
@@ -26,7 +26,7 @@ export const ProcessEditor = ({ id, project, path, name }: Editor) => {
   const theme = useThemeMode();
   const ws = useWorkspace();
   const editorUrl = useHref(
-    `/process-editor/index.html?server=${`${baseUrl()}${ws?.baseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=/${path}.p.json&readonly=${project.isIar ?? false}`
+    `/process-editor/index.html?server=${`${baseUrl()}${ws?.baseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=/${path}${PROCESS_EDITOR_SUFFIX}&readonly=${project.isIar ?? false}`
   );
   const { pathname } = useLocation();
   useFrameMessageHandler(frame, project.app);

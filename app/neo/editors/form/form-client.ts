@@ -1,6 +1,6 @@
 import { FormClientJsonRpc } from '@axonivy/form-editor-core';
-import { FormActionArgs } from '@axonivy/form-editor-protocol';
-import { MessageConnection } from '@axonivy/jsonrpc';
+import type { FormActionArgs } from '@axonivy/form-editor-protocol';
+import type { MessageConnection } from '@axonivy/jsonrpc';
 
 export type FormActionHandler = (action: FormActionArgs) => void;
 

@@ -1,4 +1,4 @@
-import { Connection, createMessageConnection, MessageConnection, RpcClient, webSocketConnection } from '@axonivy/jsonrpc';
+import { type Connection, createMessageConnection, type MessageConnection, type RpcClient, webSocketConnection } from '@axonivy/jsonrpc';
 import { useEffect, useRef, useState } from 'react';
 import type { Logger } from 'vscode-jsonrpc';
 import { useWorkspace } from '~/data/workspace-api';

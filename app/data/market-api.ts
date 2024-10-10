@@ -4,9 +4,9 @@ import { headers, ok } from './custom-fetch';
 import {
   findProductJsonContent,
   findProducts,
-  FindProductsParams,
+  type FindProductsParams,
   findProductVersionsById,
-  PagedModelProductModel
+  type PagedModelProductModel
 } from './generated/openapi-market';
 
 export const MARKET_URL = 'https://market.axonivy.com';

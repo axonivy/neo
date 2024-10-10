@@ -1,7 +1,10 @@
-import { Locator, Page, expect } from '@playwright/test';
+import { type Locator, type Page, expect } from '@playwright/test';
 
 export class Inscription {
-  constructor(readonly page: Page, readonly inscription: Locator) {}
+  constructor(
+    readonly page: Page,
+    readonly inscription: Locator
+  ) {}
 
   async openAccordion(name: string) {
     const accordionHeader = this.inscription.locator(`.ui-accordion-header:has-text("${name}")`);

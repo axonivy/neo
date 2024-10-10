@@ -14,9 +14,9 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useParams } from '@remix-run/react';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { FindProductJsonContent200, ProductModel } from '~/data/generated/openapi-market';
+import type { FindProductJsonContent200, ProductModel } from '~/data/generated/openapi-market';
 import { MARKET_URL, useProductJson, useProductVersions } from '~/data/market-api';
-import { ProjectIdentifier } from '~/data/project-api';
+import type { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
 import { ProjectSelect } from './ProjectSelect';
 

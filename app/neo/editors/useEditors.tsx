@@ -1,20 +1,14 @@
 import { indexOf } from '@axonivy/ui-components';
-import { IvyIcons } from '@axonivy/ui-icons';
 import { useNavigate, useParams } from '@remix-run/react';
 import { useCallback } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { ProjectIdentifier } from '~/data/project-api';
 import { DataClassEditor } from './dataclass/DataClassEditor';
+import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, type Editor } from './editor';
 import { FormEditor } from './form/FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
 import { useCreateEditor } from './useCreateEditor';
 import { VariableEditor } from './VariableEditor';
-
-export type EditorType = 'processes' | 'forms' | 'configurations' | 'dataclasses';
-
-// if you change the Editor type increase the persist version too
-export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
 
 type EditorState = {
   workspaces: Record<string, Array<Editor>>;
@@ -90,8 +84,8 @@ export const useEditors = () => {
       navigate(editor.id);
       open(ws, editor);
       if (editor.type === 'forms') {
-        open(ws, createEditorFromPath(editor.project, `${editor.path}Process`, 'processes'));
-        open(ws, createEditorFromPath(editor.project, `${editor.path}Data`, 'dataclasses'));
+        open(ws, createEditorFromPath(editor.project, `${editor.path}${DIALOG_PROCESS_EDITOR_SUFFIX}`, 'processes'));
+        open(ws, createEditorFromPath(editor.project, `${editor.path}${DIALOG_DATA_EDITOR_SUFFIX}`, 'dataclasses'));
       }
     },
     [createEditorFromPath, navigate, open, ws]
