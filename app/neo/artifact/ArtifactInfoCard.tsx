@@ -22,7 +22,7 @@ export const ArtifactInfoCard = ({ title, description, icon, link }: ArtifactInf
         aria-label={title}
         title={title}
       >
-        <Flex alignItems='center' gap={1}>
+        <Flex alignItems='center' gap={1} style={{ fontWeight: 500 }}>
           Open <IvyIcon icon={IvyIcons.Chevron} />
         </Flex>
       </NavLink>
