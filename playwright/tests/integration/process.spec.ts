@@ -199,6 +199,17 @@ test.describe('inscription', () => {
     await clearAll(page);
     await expect(monacoEditor).toHaveText('');
   });
+
+  test('open help', async ({ page, context }) => {
+    const { editor } = await openJumpProcess(page);
+    const element = editor.elementByPid('1907DD66AA11FCD9-f5');
+    const inscription = await element.openInscription();
+    const pagePromise = context.waitForEvent('page');
+    await inscription.inscription.getByRole('button', { name: /Open Help/ }).click();
+    const newPage = await pagePromise;
+    await expect(newPage).toHaveURL(/developer.axonivy.com/);
+    await expect(newPage).toHaveURL(/user-dialog.html/);
+  });
 });
 
 const clearAll = async (page: Page) => {
