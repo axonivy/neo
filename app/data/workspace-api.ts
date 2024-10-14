@@ -6,7 +6,7 @@ import {
   createWorkspace as createWorkspaceReq,
   deleteWorkspace as deleteWorkspaceReq,
   exportWorkspace as exportWorkspaceReq,
-  importWorkspace as importWorkspaceReq,
+  importProjects as importProjectsReq,
   installMarketProduct,
   type WorkspaceBean,
   type WorkspaceInit,
@@ -96,23 +96,23 @@ export const useExportWorkspace = () => {
   };
 };
 
-export const useImportWorkspace = () => {
-  const importWorkspace = async (id: string, file: Blob, fileName: string) => {
-    const res = await importWorkspaceReq(id, { file, fileName }, { headers: { 'Content-Type': 'multipart/form-data' } });
+export const useImportProjectsIntoWs = () => {
+  const importProjects = async (id: string, file: Blob, fileName: string) => {
+    const res = await importProjectsReq(id, { file, fileName }, { headers: { 'Content-Type': 'multipart/form-data' } });
     if (ok(res)) {
       return;
     }
     throw new Error(`Failed to import workspace '${id}'`);
   };
   return {
-    importWorkspace: (id: string, file: Blob, fileName: string) => {
-      const importWs = importWorkspace(id, file, fileName);
-      toast.promise(() => importWs, {
-        loading: 'Import workspace',
-        success: 'Workspace imported',
+    importProjects: (id: string, file: Blob, fileName: string) => {
+      const importPromise = importProjects(id, file, fileName);
+      toast.promise(() => importPromise, {
+        loading: 'Import projects',
+        success: 'Projects imported into workspace',
         error: e => e.message
       });
-      return importWs;
+      return importPromise;
     }
   };
 };
@@ -152,8 +152,8 @@ export const useDeployWorkspace = () => {
 };
 
 export const useInstallProduct = () => {
-  const installProduct = async (id: string, productJson: string, project?: ProjectIdentifier) => {
-    const res = await installMarketProduct(id, { productJson, project });
+  const installProduct = async (id: string, productJson: string, dependentProject?: ProjectIdentifier) => {
+    const res = await installMarketProduct(id, { productJson, dependentProject });
     if (ok(res)) {
       return;
     }

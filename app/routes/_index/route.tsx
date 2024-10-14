@@ -19,7 +19,7 @@ import {
   useCreateWorkspace,
   useDeleteWorkspace,
   useDeployWorkspace,
-  useImportWorkspace,
+  useImportProjectsIntoWs,
   useWorkspaces,
   type Workspace
 } from '~/data/workspace-api';
@@ -83,12 +83,10 @@ const NewWorkspaceCard = () => {
   const [name, setName] = useState('MyNewApplication');
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
-  const { importWorkspace } = useImportWorkspace();
+  const { importProjects } = useImportProjectsIntoWs();
   const [file, setFile] = useState<File>();
   const create = (name: string) =>
-    createWorkspace({ name }).then(ws =>
-      file ? importWorkspace(ws.id, file, file.name).then(() => navigate(ws.name)) : navigate(ws.name)
-    );
+    createWorkspace({ name }).then(ws => (file ? importProjects(ws.id, file, file.name).then(() => navigate(ws.name)) : navigate(ws.name)));
   return (
     <>
       <NewArtifactCard open={() => setDialogState(true)} title='Create new Application' />

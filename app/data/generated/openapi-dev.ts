@@ -4,16 +4,8 @@
  * Axon Ivy
  */
 import { customFetch } from '../custom-fetch';
-export type DeployProjectsParams = {
-  projectDir?: string[];
-};
-
 export type DeleteProjectParams = {
   projectDir?: string;
-};
-
-export type BuildParams = {
-  projectDir?: string[];
 };
 
 /**
@@ -102,7 +94,7 @@ export interface AggBean {
   [key: string]: unknown;
 }
 
-export interface InitProjectParams {
+export interface ProjectParams {
   name?: string;
   path?: string;
 }
@@ -392,6 +384,40 @@ export const deleteProcess = async (processIdentifier: ProcessIdentifier, option
   });
 };
 
+export type buildProjectsResponse = {
+  data: unknown;
+  status: number;
+};
+
+export const getBuildProjectsUrl = () => {
+  return `/web-ide/projects/build`;
+};
+
+export const buildProjects = async (buildProjectsBody: string[], options?: RequestInit): Promise<buildProjectsResponse> => {
+  return customFetch<Promise<buildProjectsResponse>>(getBuildProjectsUrl(), {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(buildProjectsBody)
+  });
+};
+
+export type deployProjectsResponse = {
+  data: unknown;
+  status: number;
+};
+
+export const getDeployProjectsUrl = () => {
+  return `/web-ide/projects/deploy`;
+};
+
+export const deployProjects = async (deployProjectsBody: string[], options?: RequestInit): Promise<deployProjectsResponse> => {
+  return customFetch<Promise<deployProjectsResponse>>(getDeployProjectsUrl(), {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(deployProjectsBody)
+  });
+};
+
 export type projectsResponse = {
   data: ProjectIdentifier[];
   status: number;
@@ -408,62 +434,40 @@ export const projects = async (options?: RequestInit): Promise<projectsResponse>
   });
 };
 
-export type watchProjectsResponse = {
+export type createPmvAndProjectFilesResponse = {
   data: unknown;
   status: number;
 };
 
-export const getWatchProjectsUrl = () => {
-  return `/web-ide/projects/watch`;
+export const getCreatePmvAndProjectFilesUrl = () => {
+  return `/web-ide/project/new`;
 };
 
-export const watchProjects = async (options?: RequestInit): Promise<watchProjectsResponse> => {
-  return customFetch<Promise<watchProjectsResponse>>(getWatchProjectsUrl(), {
-    ...options,
-    method: 'GET'
-  });
-};
-
-export type buildResponse = {
-  data: unknown;
-  status: number;
-};
-
-export const getBuildUrl = (params?: BuildParams) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value === null) {
-      normalizedParams.append(key, 'null');
-    } else if (value !== undefined) {
-      normalizedParams.append(key, value.toString());
-    }
-  });
-
-  return normalizedParams.size ? `/web-ide/project/build?${normalizedParams.toString()}` : `/web-ide/project/build`;
-};
-
-export const build = async (params?: BuildParams, options?: RequestInit): Promise<buildResponse> => {
-  return customFetch<Promise<buildResponse>>(getBuildUrl(params), {
-    ...options,
-    method: 'GET'
-  });
-};
-
-export type createProjectResponse = {
-  data: unknown;
-  status: number;
-};
-
-export const getCreateProjectUrl = () => {
-  return `/web-ide/project`;
-};
-
-export const createProject = async (newProjectParams: NewProjectParams, options?: RequestInit): Promise<createProjectResponse> => {
-  return customFetch<Promise<createProjectResponse>>(getCreateProjectUrl(), {
+export const createPmvAndProjectFiles = async (
+  newProjectParams: NewProjectParams,
+  options?: RequestInit
+): Promise<createPmvAndProjectFilesResponse> => {
+  return customFetch<Promise<createPmvAndProjectFilesResponse>>(getCreatePmvAndProjectFilesUrl(), {
     ...options,
     method: 'POST',
     body: JSON.stringify(newProjectParams)
+  });
+};
+
+export type findOrCreatePmvResponse = {
+  data: unknown;
+  status: number;
+};
+
+export const getFindOrCreatePmvUrl = () => {
+  return `/web-ide/project`;
+};
+
+export const findOrCreatePmv = async (projectParams: ProjectParams, options?: RequestInit): Promise<findOrCreatePmvResponse> => {
+  return customFetch<Promise<findOrCreatePmvResponse>>(getFindOrCreatePmvUrl(), {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(projectParams)
   });
 };
 
@@ -490,51 +494,5 @@ export const deleteProject = async (params?: DeleteProjectParams, options?: Requ
   return customFetch<Promise<deleteProjectResponse>>(getDeleteProjectUrl(params), {
     ...options,
     method: 'DELETE'
-  });
-};
-
-export type deployProjectsResponse = {
-  data: unknown;
-  status: number;
-};
-
-export const getDeployProjectsUrl = (params?: DeployProjectsParams) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value === null) {
-      normalizedParams.append(key, 'null');
-    } else if (value !== undefined) {
-      normalizedParams.append(key, value.toString());
-    }
-  });
-
-  return normalizedParams.size ? `/web-ide/project/deploy?${normalizedParams.toString()}` : `/web-ide/project/deploy`;
-};
-
-export const deployProjects = async (params?: DeployProjectsParams, options?: RequestInit): Promise<deployProjectsResponse> => {
-  return customFetch<Promise<deployProjectsResponse>>(getDeployProjectsUrl(params), {
-    ...options,
-    method: 'GET'
-  });
-};
-
-export type initExistingProjectResponse = {
-  data: unknown;
-  status: number;
-};
-
-export const getInitExistingProjectUrl = () => {
-  return `/web-ide/project/init`;
-};
-
-export const initExistingProject = async (
-  initProjectParams: InitProjectParams,
-  options?: RequestInit
-): Promise<initExistingProjectResponse> => {
-  return customFetch<Promise<initExistingProjectResponse>>(getInitExistingProjectUrl(), {
-    ...options,
-    method: 'POST',
-    body: JSON.stringify(initProjectParams)
   });
 };
