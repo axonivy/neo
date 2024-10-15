@@ -97,16 +97,17 @@ export const useExportWorkspace = () => {
 };
 
 export const useImportProjectsIntoWs = () => {
-  const importProjects = async (id: string, file: Blob, fileName: string) => {
-    const res = await importProjectsReq(id, { file, fileName }, { headers: { 'Content-Type': 'multipart/form-data' } });
+  const importProjects = async (id: string, file: Blob, dependentProject?: ProjectIdentifier) => {
+    const blob = dependentProject ? new Blob([JSON.stringify(dependentProject)], { type: 'application/json' }) : undefined;
+    const res = await importProjectsReq(id, { file, dependentProject: blob }, { headers: { 'Content-Type': 'multipart/form-data' } });
     if (ok(res)) {
       return;
     }
     throw new Error(`Failed to import workspace '${id}'`);
   };
   return {
-    importProjects: (id: string, file: Blob, fileName: string) => {
-      const importPromise = importProjects(id, file, fileName);
+    importProjects: (id: string, file: Blob, dependentProject?: ProjectIdentifier) => {
+      const importPromise = importProjects(id, file, dependentProject);
       toast.promise(() => importPromise, {
         loading: 'Import projects',
         success: 'Projects imported into workspace',

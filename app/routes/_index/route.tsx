@@ -86,7 +86,7 @@ const NewWorkspaceCard = () => {
   const { importProjects } = useImportProjectsIntoWs();
   const [file, setFile] = useState<File>();
   const create = (name: string) =>
-    createWorkspace({ name }).then(ws => (file ? importProjects(ws.id, file, file.name).then(() => navigate(ws.name)) : navigate(ws.name)));
+    createWorkspace({ name }).then(ws => (file ? importProjects(ws.id, file).then(() => navigate(ws.name)) : navigate(ws.name)));
   return (
     <>
       <NewArtifactCard open={() => setDialogState(true)} title='Create new Application' />

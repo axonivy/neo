@@ -4,6 +4,11 @@
  * Axon Ivy
  */
 import { customFetch } from '../custom-fetch';
+export type ImportProjectsBody = {
+  dependentProject?: Blob;
+  file?: Blob;
+};
+
 /**
  * The geographic coordinate of the location
  */
@@ -95,12 +100,6 @@ export interface ProjectIdentifier {
   isIar?: boolean;
   pmv: string;
 }
-
-export type ImportProjectsBody = {
-  dependentProject?: ProjectIdentifier;
-  file?: Blob;
-  fileName?: string;
-};
 
 export interface ProductInstallParams {
   dependentProject?: ProjectIdentifier;
@@ -225,11 +224,8 @@ export const importProjects = async (
   if (importProjectsBody.file !== undefined) {
     formData.append('file', importProjectsBody.file);
   }
-  if (importProjectsBody.fileName !== undefined) {
-    formData.append('fileName', importProjectsBody.fileName);
-  }
   if (importProjectsBody.dependentProject !== undefined) {
-    formData.append('dependentProject', JSON.stringify(importProjectsBody.dependentProject));
+    formData.append('dependentProject', importProjectsBody.dependentProject);
   }
 
   return customFetch<Promise<importProjectsResponse>>(getImportProjectsUrl(id), {
