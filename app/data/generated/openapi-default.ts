@@ -4,9 +4,9 @@
  * Axon Ivy
  */
 import { customFetch } from '../custom-fetch';
-export type ImportWorkspaceBody = {
+export type ImportProjectsBody = {
+  dependentProject?: Blob;
   file?: Blob;
-  fileName?: string;
 };
 
 /**
@@ -102,8 +102,8 @@ export interface ProjectIdentifier {
 }
 
 export interface ProductInstallParams {
+  dependentProject?: ProjectIdentifier;
   productJson: string;
-  project?: ProjectIdentifier;
 }
 
 export interface WorkspaceInit {
@@ -206,29 +206,29 @@ export const exportWorkspace = async (id: string, options?: RequestInit): Promis
   });
 };
 
-export type importWorkspaceResponse = {
+export type importProjectsResponse = {
   data: unknown;
   status: number;
 };
 
-export const getImportWorkspaceUrl = (id: string) => {
+export const getImportProjectsUrl = (id: string) => {
   return `/web-ide/workspace/${id}`;
 };
 
-export const importWorkspace = async (
+export const importProjects = async (
   id: string,
-  importWorkspaceBody: ImportWorkspaceBody,
+  importProjectsBody: ImportProjectsBody,
   options?: RequestInit
-): Promise<importWorkspaceResponse> => {
+): Promise<importProjectsResponse> => {
   const formData = new FormData();
-  if (importWorkspaceBody.file !== undefined) {
-    formData.append('file', importWorkspaceBody.file);
+  if (importProjectsBody.file !== undefined) {
+    formData.append('file', importProjectsBody.file);
   }
-  if (importWorkspaceBody.fileName !== undefined) {
-    formData.append('fileName', importWorkspaceBody.fileName);
+  if (importProjectsBody.dependentProject !== undefined) {
+    formData.append('dependentProject', importProjectsBody.dependentProject);
   }
 
-  return customFetch<Promise<importWorkspaceResponse>>(getImportWorkspaceUrl(id), {
+  return customFetch<Promise<importProjectsResponse>>(getImportProjectsUrl(id), {
     ...options,
     method: 'POST',
     body: formData

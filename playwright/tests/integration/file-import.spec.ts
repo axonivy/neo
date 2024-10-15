@@ -16,7 +16,7 @@ test('file import', async ({ page, browserName }, testInfo) => {
   await neo.fileImport();
   const dialog = new ImportDialog(page);
   await dialog.import(zipFile);
-  await expect(page.getByRole('status').getByText('Workspace imported')).toBeVisible();
+  await expect(page.getByRole('status').getByText('Projects imported into workspace')).toBeVisible();
   await neo.processes();
   await expect(overview.card('quickstart')).toBeVisible();
   await page.goto('');

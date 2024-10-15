@@ -12,8 +12,9 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useParams } from '@remix-run/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { createContext, useContext, useState } from 'react';
-import { useProjectsApi } from '~/data/project-api';
-import { useImportWorkspace } from '~/data/workspace-api';
+import { useProjectsApi, type ProjectIdentifier } from '~/data/project-api';
+import { useImportProjectsIntoWs } from '~/data/workspace-api';
+import { ProjectSelect } from '../artifact/ProjectSelect';
 import { FileInput } from './FileInput';
 import { useDownloadWorkspace } from './useDownloadWorkspace';
 
@@ -30,10 +31,11 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
   const [file, setFile] = useState<File>();
   const [dialogState, setDialogState] = useState(false);
   const downloadWorkspace = useDownloadWorkspace();
-  const { importWorkspace } = useImportWorkspace();
+  const { importProjects } = useImportProjectsIntoWs();
   const { queryKey } = useProjectsApi();
   const client = useQueryClient();
-  const importAction = (file: File) => importWorkspace(ws ?? '', file, file.name).then(() => client.invalidateQueries({ queryKey }));
+  const [project, setProject] = useState<ProjectIdentifier>();
+  const importAction = (file: File) => importProjects(ws ?? '', file, project).then(() => client.invalidateQueries({ queryKey }));
   const open = () => {
     setDialogState(true);
   };
@@ -55,6 +57,7 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
             </DialogDescription>
           </DialogHeader>
           <FileInput setFile={setFile} />
+          <ProjectSelect setProject={setProject} setDefaultValue={false} label='Add as dependency to project'></ProjectSelect>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant='primary' size='large' onClick={() => (file ? importAction(file) : {})} icon={IvyIcons.Download}>

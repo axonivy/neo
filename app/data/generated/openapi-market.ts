@@ -30,6 +30,13 @@ export type FindProductVersionsByIdParams = {
 
 export type FindProductJsonContent200 = { [key: string]: { [key: string]: unknown } };
 
+export type FindProductDetailsParams = {
+  /**
+   * Option to get Dev Version (Snapshot/ sprint release)
+   */
+  isShowDevVersion?: boolean;
+};
+
 export type FindProductsLanguage = (typeof FindProductsLanguage)[keyof typeof FindProductsLanguage];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -186,7 +193,6 @@ export interface VersionAndUrlModel {
 export interface MavenArtifactModel {
   /** Artifact download url */
   downloadUrl?: string;
-  isProductArtifact?: boolean;
   /** Display name and type of artifact */
   name?: string;
 }
@@ -224,6 +230,8 @@ export interface ProductModuleContent {
   id?: string;
   /** Is dependency artifact */
   isDependency?: boolean;
+  /** Versions in maven */
+  mavenVersions?: string[];
   name?: string;
   /** product Id (from meta.json) */
   productId?: string;
@@ -483,12 +491,26 @@ export type findProductDetailsResponse = {
   status: number;
 };
 
-export const getFindProductDetailsUrl = (id: string) => {
-  return `/api/product-details/${id}`;
+export const getFindProductDetailsUrl = (id: string, params?: FindProductDetailsParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value === null) {
+      normalizedParams.append(key, 'null');
+    } else if (value !== undefined) {
+      normalizedParams.append(key, value.toString());
+    }
+  });
+
+  return normalizedParams.size ? `/api/product-details/${id}?${normalizedParams.toString()}` : `/api/product-details/${id}`;
 };
 
-export const findProductDetails = async (id: string, options?: RequestInit): Promise<findProductDetailsResponse> => {
-  return customFetch<Promise<findProductDetailsResponse>>(getFindProductDetailsUrl(id), {
+export const findProductDetails = async (
+  id: string,
+  params?: FindProductDetailsParams,
+  options?: RequestInit
+): Promise<findProductDetailsResponse> => {
+  return customFetch<Promise<findProductDetailsResponse>>(getFindProductDetailsUrl(id, params), {
     ...options,
     method: 'GET'
   });
@@ -726,6 +748,26 @@ export const getGetProductRatingUrl = (id: string) => {
 
 export const getProductRating = async (id: string, options?: RequestInit): Promise<getProductRatingResponse> => {
   return customFetch<Promise<getProductRatingResponse>>(getGetProductRatingUrl(id), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type findExternalDocumentURIResponse = {
+  data: string;
+  status: number;
+};
+
+export const getFindExternalDocumentURIUrl = (id: string, version: string) => {
+  return `/api/externaldocument/${id}/${version}`;
+};
+
+export const findExternalDocumentURI = async (
+  id: string,
+  version: string,
+  options?: RequestInit
+): Promise<findExternalDocumentURIResponse> => {
+  return customFetch<Promise<findExternalDocumentURIResponse>>(getFindExternalDocumentURIUrl(id, version), {
     ...options,
     method: 'GET'
   });

@@ -3,14 +3,15 @@ import { useEffect, useMemo } from 'react';
 import { type ProjectIdentifier, useSortedProjects } from '~/data/project-api';
 
 type ProjectSelectProps = {
-  setProject: (project: ProjectIdentifier) => void;
+  setProject: (project?: ProjectIdentifier) => void;
+  setDefaultValue: boolean;
   label: string;
 };
 
-export const ProjectSelect = ({ setProject, label }: ProjectSelectProps) => {
+export const ProjectSelect = ({ setProject, setDefaultValue, label }: ProjectSelectProps) => {
   const { data, isPending } = useSortedProjects();
   const projects = useMemo(() => data?.filter(p => !p.isIar) ?? [], [data]);
-  useEffect(() => setProject(projects[0]), [projects, setProject]);
+  useEffect(() => setProject(setDefaultValue ? projects[0] : undefined), [projects, setDefaultValue, setProject]);
   return (
     <BasicField label={label}>
       {isPending ? (
@@ -22,7 +23,7 @@ export const ProjectSelect = ({ setProject, label }: ProjectSelectProps) => {
             value: JSON.stringify(p),
             label: p.pmv
           }))}
-          defaultValue={JSON.stringify(projects[0])}
+          defaultValue={setDefaultValue ? JSON.stringify(projects[0]) : undefined}
           onValueChange={value => setProject(JSON.parse(value))}
         />
       )}
