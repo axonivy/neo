@@ -10,7 +10,7 @@ type ProjectSelectProps = {
 
 export const ProjectSelect = ({ setProject, setDefaultValue, label }: ProjectSelectProps) => {
   const { data, isPending } = useSortedProjects();
-  const projects = useMemo(() => data?.filter(p => !p.isIar) ?? [], [data]);
+  const projects = useMemo(() => data?.filter(p => !p.id.isIar).map(p => p.id) ?? [], [data]);
   useEffect(() => setProject(setDefaultValue ? projects[0] : undefined), [projects, setDefaultValue, setProject]);
   return (
     <BasicField label={label}>

@@ -63,10 +63,15 @@ const WorkspaceCard = (workspace: Workspace) => {
   const downloadWorkspace = useDownloadWorkspace(workspace.id);
   const { deployWorkspace } = useDeployWorkspace();
   const open = () => navigate(workspace.name);
-  const deleteAction = () => deleteWorkspace(workspace.id);
   const deployAction = (params: DeployActionParams) => {
     return deployWorkspace({ workspaceId: workspace.id, ...params });
   };
+
+  const deleteAction = {
+    run: () => deleteWorkspace(workspace.id),
+    isDeletable: true
+  };
+
   return (
     <ArtifactCard
       name={workspace.name}

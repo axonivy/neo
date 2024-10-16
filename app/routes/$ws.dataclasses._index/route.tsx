@@ -45,9 +45,13 @@ const DataClassCard = ({ dataClassId, ...editor }: Editor & { dataClassId: DataC
   const open = () => {
     openEditor(editor);
   };
-  const deleteAction = () => {
-    removeEditor(editor.id);
-    deleteDataClass(dataClassId);
+  const deleteAction = {
+    run: () => {
+      removeEditor(editor.id);
+      deleteDataClass(dataClassId);
+    },
+    isDeletable: editor.project.isIar === false,
+    message: 'The dataclass cannot be deleted as the project to which it belongs is packaged.'
   };
   return (
     <ArtifactCard

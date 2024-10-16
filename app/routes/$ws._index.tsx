@@ -3,7 +3,8 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import type { MetaFunction } from '@remix-run/node';
 import { useNavigate, useParams } from '@remix-run/react';
 import { useState } from 'react';
-import { useSortedProjects } from '~/data/project-api';
+import type { ProjectBean } from '~/data/generated/openapi-dev';
+import { useDeleteProject, useSortedProjects } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { Overview } from '~/neo/Overview';
@@ -20,7 +21,7 @@ export default function Index() {
   const { ws } = useParams();
   const navigate = useNavigate();
   const open = useImportProjects();
-  const projects = data?.filter(p => p.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+  const projects = data?.filter(({ id }) => id.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const description =
     'Here you will find all the projects you have created or imported. Create a new project by clicking on the blue box and open an existing one by clicking on one of the grey boxes.';
   const title = `Welcome to your application: ${ws}`;
@@ -43,16 +44,29 @@ export default function Index() {
           <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
           <NewArtifactCard title='File Import' open={() => open()} icon={IvyIcons.Download} />
           {projects.map(p => (
-            <ArtifactCard
-              key={p.pmv}
-              name={p.pmv}
-              type='project'
-              onClick={() => navigate(`projects/${p.app}/${p.pmv}`)}
-              preview={<PreviewSVG />}
-            />
+            <ProjectCard key={p.id.pmv} project={p} />
           ))}
         </Overview>
       </Flex>
     </div>
   );
 }
+
+const ProjectCard = ({ project }: { project: ProjectBean }) => {
+  const navigate = useNavigate();
+  const { deleteProject } = useDeleteProject();
+
+  const open = () => {
+    navigate(`projects/${project.id.app}/${project.id.pmv}`);
+  };
+  const deleteAction = {
+    run: () => {
+      deleteProject(project.id);
+    },
+    isDeletable: project.isDeletable,
+    message: project.isDeletable ? '' : 'The project cannot be deleted as it is required by other projects in the workspace.'
+  };
+  return (
+    <ArtifactCard name={project.artifactId} type='project' actions={{ delete: deleteAction }} onClick={open} preview={<PreviewSVG />} />
+  );
+};

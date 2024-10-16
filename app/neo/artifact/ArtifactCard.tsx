@@ -16,8 +16,8 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction } from '@remix-run/node';
 import type { ReactNode } from 'react';
 import cardStyles from './card.css?url';
-import { DeleteConfirm } from './DeleteConfirm';
-import { type DeployActionParams, DeployDialog } from './DeployDialog';
+import { DeleteConfirm, type DeleteAction } from './DeleteConfirm';
+import { DeployDialog, type DeployActionParams } from './DeployDialog';
 
 export const cardLinks: LinksFunction = () => [{ rel: 'stylesheet', href: cardStyles }];
 
@@ -28,7 +28,7 @@ type Card = {
   tooltip?: string;
   onClick: () => void;
   actions?: {
-    delete?: () => void;
+    delete?: DeleteAction;
     export?: () => void;
     deploy?: (params: DeployActionParams) => Promise<string>;
   };
@@ -62,7 +62,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip }:
         <DropdownMenuContent side='bottom' align='start' className='card-menu'>
           <DropdownMenuGroup>
             {actions.delete && (
-              <DeleteConfirm title={type} deleteAction={actions.delete!}>
+              <DeleteConfirm title={type} deleteAction={actions.delete}>
                 <DropdownMenuItem className='card-delete' onSelect={e => e.preventDefault()}>
                   <IvyIcon icon={IvyIcons.Trash} />
                   <span>Delete</span>

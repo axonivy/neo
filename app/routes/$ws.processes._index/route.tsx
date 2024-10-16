@@ -45,9 +45,13 @@ export const ProcessCard = ({ processId, ...editor }: Editor & { processId: Proc
   const open = () => {
     openEditor(editor);
   };
-  const deleteAction = () => {
-    removeEditor(editor.id);
-    deleteProcess(processId);
+  const deleteAction = {
+    run: () => {
+      removeEditor(editor.id);
+      deleteProcess(processId);
+    },
+    isDeletable: editor.project.isIar === false,
+    message: 'The process cannot be deleted as the project to which it belongs is packaged.'
   };
   return (
     <ArtifactCard
