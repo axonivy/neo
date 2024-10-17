@@ -29,7 +29,7 @@ class EditorTab {
 
   constructor(page: Page, parent: Locator, name: string | RegExp) {
     this.page = page;
-    this.tab = parent.getByRole('tab', { name });
+    this.tab = parent.getByRole('tab', { name, exact: true });
   }
 
   async expectActive() {

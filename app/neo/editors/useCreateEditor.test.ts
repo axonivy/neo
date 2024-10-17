@@ -146,12 +146,12 @@ describe('createDataClassEditor', () => {
 describe('createVariableEditor', () => {
   test('dataclass', () => {
     const result: Editor = {
-      id: '/test-ws/configurations/designer/workflow-demos/variables',
+      id: '/test-ws/configurations/designer/workflow-demos/config/variables',
       type: 'configurations',
       icon: IvyIcons.Tool,
       name: 'variables',
       project: { app: 'designer', pmv: 'workflow-demos' },
-      path: 'variables'
+      path: 'config/variables'
     };
     const view = renderHook(() => useCreateEditor());
     expect(view.result.current.createVariableEditor({ app: 'designer', pmv: 'workflow-demos' })).to.be.deep.equals(result);

@@ -4,7 +4,7 @@ import { VariableEditor } from '../page-objects/variables-editor';
 import { app } from './constants';
 
 const openVariables = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `configurations/${app}/neo-test-project/variables`);
+  const neo = await Neo.openEditor(page, `configurations/${app}/neo-test-project/config/variables`);
   const editor = new VariableEditor(neo, 'variables');
   await editor.waitForOpen('MyVar');
   return { neo, editor };

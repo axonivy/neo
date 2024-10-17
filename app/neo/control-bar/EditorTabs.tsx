@@ -43,20 +43,20 @@ const EditorsTab = ({ group, editors }: { group: string; editors: Array<Editor> 
   const name = editors.length > 1 ? lastSegment(group) : editors[0].name;
   return (
     <Flex className='editor-tab-wrapper' alignItems='center' gap={1}>
-      <TabsTrigger value={editors[0].id} title={editors[0].path} className='editor-tab'>
+      <TabsTrigger value={editors[0].id} title={editors[0].path} className='editor-tab' aria-label={name}>
         <IvyIcon className='editor-tab-icon' icon={editors[0].icon} />
         {name}
       </TabsTrigger>
-      {editors.slice(1).map(({ id, path, icon }) => (
-        <EditorSubTab key={id} icon={icon} path={path} id={id} />
+      {editors.slice(1).map(({ id, path, icon, name }) => (
+        <EditorSubTab key={id} icon={icon} path={path} id={id} name={name} />
       ))}
       <EditorTabClose ids={editors.map(e => e.id)} />
     </Flex>
   );
 };
 
-const EditorSubTab = ({ icon, path, id }: Pick<Editor, 'icon' | 'path' | 'id'>) => (
-  <TabsTrigger value={id} title={path} className='editor-tab editor-sub-tab'>
+const EditorSubTab = ({ icon, path, id, name }: Pick<Editor, 'icon' | 'path' | 'id' | 'name'>) => (
+  <TabsTrigger value={id} title={path} className='editor-tab editor-sub-tab' aria-label={name}>
     <IvyIcon className='editor-tab-icon' icon={icon} />
   </TabsTrigger>
 );

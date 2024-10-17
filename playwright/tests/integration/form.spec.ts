@@ -4,7 +4,7 @@ import { Neo } from '../page-objects/neo';
 import { app } from './constants';
 
 const openForm = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `forms/${app}/neo-test-project/neo/test/project/EnterProduct/EnterProduct`);
+  const neo = await Neo.openEditor(page, `forms/${app}/neo-test-project/src_hd/neo/test/project/EnterProduct/EnterProduct`);
   const editor = new FormEditor(neo, 'EnterProduct');
   await editor.waitForOpen('Product');
   return { neo, editor };
