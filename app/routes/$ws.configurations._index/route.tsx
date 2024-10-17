@@ -19,7 +19,7 @@ export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useSortedProjects();
   const { createVariableEditor } = useCreateEditor();
-  const projects = data?.filter(project => project.pmv.toLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+  const projects = data?.filter(({ id }) => id.pmv.toLowerCase().includes(search.toLocaleLowerCase())).map(p => p.id) ?? [];
   return (
     <Overview title='Configurations' search={search} onSearchChange={setSearch} isPending={isPending}>
       {projects.map(project => {

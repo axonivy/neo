@@ -45,9 +45,13 @@ const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) =>
   const open = () => {
     openEditor(editor);
   };
-  const deleteAction = () => {
-    removeEditor(editor.id);
-    deleteForm(formId);
+  const deleteAction = {
+    run: () => {
+      removeEditor(editor.id);
+      deleteForm(formId);
+    },
+    isDeletable: editor.project.isIar === false,
+    message: 'The form cannot be deleted as the project to which it belongs is packaged.'
   };
   return (
     <ArtifactCard

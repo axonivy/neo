@@ -44,3 +44,15 @@ test('click import', async ({ page }) => {
   const dialog = new ImportDialog(page);
   await expect(dialog.title).toHaveText(`Import Axon Ivy Projects into: ${workspace}`);
 });
+
+test('delete project', async ({ page, browserName }, testInfo) => {
+  const wsName = `${browserName}delete-project${testInfo.retry}`;
+  const neo = await Neo.open(page);
+  const overview = new Overview(page);
+  await overview.create(wsName);
+  await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
+  await overview.deleteCard(wsName);
+  await neo.toast.expectSuccess('Project removed');
+  await page.goBack();
+  await overview.deleteCard(wsName, true);
+});

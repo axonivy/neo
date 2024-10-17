@@ -6,6 +6,8 @@
 import { customFetch } from '../custom-fetch';
 export type DeleteProjectParams = {
   projectDir?: string;
+  app?: string;
+  pmv?: string;
 };
 
 /**
@@ -147,6 +149,14 @@ export interface ProjectIdentifier {
   app: string;
   isIar?: boolean;
   pmv: string;
+}
+
+export interface ProjectBean {
+  artifactId: string;
+  groupId: string;
+  id: ProjectIdentifier;
+  isDeletable: boolean;
+  version: string;
 }
 
 export interface HdInit {
@@ -419,7 +429,7 @@ export const deployProjects = async (deployProjectsBody: string[], options?: Req
 };
 
 export type projectsResponse = {
-  data: ProjectIdentifier[];
+  data: ProjectBean[];
   status: number;
 };
 
