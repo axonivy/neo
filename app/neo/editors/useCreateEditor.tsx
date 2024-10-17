@@ -19,7 +19,8 @@ export const useCreateEditor = () => {
       }
       return createEditor(ws, 'processes', project, `processes/${path ?? name}`, name);
     },
-    createVariableEditor: (project: ProjectIdentifier): Editor => createEditor(ws, 'configurations', project, 'variables', 'variables'),
+    createVariableEditor: (project: ProjectIdentifier): Editor =>
+      createEditor(ws, 'configurations', project, 'config/variables', 'variables'),
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
       createEditor(ws, 'dataclasses', project, path, simpleName),
     createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
