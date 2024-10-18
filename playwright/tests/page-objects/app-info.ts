@@ -15,8 +15,7 @@ export class AppInfo {
   }
 
   async clickInfoCard(name: string | RegExp) {
-    const card = this.infoCards.filter({ hasText: name });
-    await card.getByRole('link').click();
+    await this.infoCards.filter({ hasText: name }).click();
     const overview = new Overview(this.page);
     await expect(overview.title).toHaveText(name);
     await this.page.goBack();
