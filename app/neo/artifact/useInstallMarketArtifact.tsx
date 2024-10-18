@@ -67,7 +67,14 @@ const InstallDialog = ({ dialogState, product, close }: { dialogState: boolean; 
         </DialogHeader>
         <DialogDescription>Select the version to be installed</DialogDescription>
         <VersionSelect id={product.id} setVersion={setVersion}></VersionSelect>
-        {needDependency && <ProjectSelect setProject={setProject} setDefaultValue={true} label='Add as dependency to project' />}
+        {needDependency && (
+          <ProjectSelect
+            setProject={setProject}
+            setDefaultValue={true}
+            label='Add as dependency to project'
+            projectFilter={p => !p.id.isIar}
+          />
+        )}
         <DialogFooter>
           <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project}></InstallButton>
           <DialogClose asChild>

@@ -57,7 +57,12 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
             </DialogDescription>
           </DialogHeader>
           <FileInput setFile={setFile} />
-          <ProjectSelect setProject={setProject} setDefaultValue={false} label='Add as dependency to project'></ProjectSelect>
+          <ProjectSelect
+            setProject={setProject}
+            setDefaultValue={false}
+            label='Add as dependency to project'
+            projectFilter={p => !p.id.isIar}
+          />
           <DialogFooter>
             <DialogClose asChild>
               <Button variant='primary' size='large' onClick={() => (file ? importAction(file) : {})} icon={IvyIcons.Download}>

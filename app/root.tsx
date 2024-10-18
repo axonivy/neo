@@ -10,6 +10,7 @@ import { InstallMarketArtifactDialogProvider } from './neo/artifact/useInstallMa
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { Neo } from './neo/Neo';
+import { AddDependencyDialogProvider } from './neo/project/useAddDependency';
 import { ImportProjectsDialogProvider } from './neo/workspace/useImportProjects';
 
 const queryClient = new QueryClient();
@@ -64,7 +65,9 @@ export function HydrateFallback() {
 const DialogProviders = ({ children }: { children: React.ReactNode }) => (
   <NewArtifactDialogProvider>
     <InstallMarketArtifactDialogProvider>
-      <ImportProjectsDialogProvider>{children}</ImportProjectsDialogProvider>
+      <ImportProjectsDialogProvider>
+        <AddDependencyDialogProvider>{children}</AddDependencyDialogProvider>
+      </ImportProjectsDialogProvider>
     </InstallMarketArtifactDialogProvider>
   </NewArtifactDialogProvider>
 );

@@ -39,7 +39,7 @@ export default function Index() {
   );
 }
 
-export const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
+const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
   const { deleteProcess } = useDeleteProcess();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
