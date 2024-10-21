@@ -7,7 +7,7 @@ import { useDependencies, useRemoveDependency } from '~/data/dependency-api';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { Overview } from '~/neo/Overview';
-import { useAddDependency } from '~/neo/project/useAddDependency';
+import { AddDependencyDialogProvider, useAddDependency } from '~/neo/project/useAddDependency';
 import PreviewSVG from '../_index/workspace-preview.svg?react';
 
 export const meta: MetaFunction = () => {
@@ -21,42 +21,43 @@ export default function Index() {
   const project = useMemo(() => projects.data?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects.data]);
   const { data, isPending } = useDependencies(app, pmv);
   const dependencies = useMemo(() => data?.filter(d => d.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())), [data, search]);
-  const open = useAddDependency();
   return (
-    <div style={{ overflowY: 'auto', height: '100%' }}>
-      <Flex direction='column' gap={1}>
-        <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='project-detail'>
-          <span style={{ fontWeight: 600 }}>Project detail: {project?.artifactId}</span>
-          <span style={{ color: 'var(--N900)' }}>Here are the details related to your project.</span>
-          <div className='project-detail-card' style={{ background: 'var(--N50)', padding: 10, borderRadius: 5 }}>
-            <Flex direction='row' gap={4} style={{ flexWrap: 'wrap', columnGap: '150px' }}>
-              <ProjectInfoContainer>
-                <ProjectInfo title={'Name'} value={project?.artifactId}></ProjectInfo>
-                <ProjectInfo title={'GroupId'} value={project?.groupId}></ProjectInfo>
-              </ProjectInfoContainer>
-              <ProjectInfoContainer>
-                <ProjectInfo title={'Version'} value={project?.version}></ProjectInfo>
-                <ProjectInfo title={'Editing rights'} value={project?.id.isIar ? 'Read only' : 'Write'}></ProjectInfo>
-              </ProjectInfoContainer>
-              <ProjectInfoContainer>
-                <ProjectInfo title={'State'} value={project?.id.isIar ? 'Packed' : 'Unpacked'}></ProjectInfo>
-                <ProjectInfo title={'Deletable'} value={project?.isDeletable ? 'Yes' : 'No'}></ProjectInfo>
-              </ProjectInfoContainer>
-            </Flex>
-          </div>
+    <AddDependencyDialogProvider>
+      <div style={{ overflowY: 'auto', height: '100%' }}>
+        <Flex direction='column' gap={1}>
+          <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='project-detail'>
+            <span style={{ fontWeight: 600 }}>Project detail: {project?.artifactId}</span>
+            <span style={{ color: 'var(--N900)' }}>Here are the details related to your project.</span>
+            <div className='project-detail-card' style={{ background: 'var(--N50)', padding: 10, borderRadius: 5 }}>
+              <Flex direction='row' gap={4} style={{ flexWrap: 'wrap', columnGap: '150px' }}>
+                <ProjectInfoContainer>
+                  <ProjectInfo title={'Name'} value={project?.artifactId}></ProjectInfo>
+                  <ProjectInfo title={'GroupId'} value={project?.groupId}></ProjectInfo>
+                </ProjectInfoContainer>
+                <ProjectInfoContainer>
+                  <ProjectInfo title={'Version'} value={project?.version}></ProjectInfo>
+                  <ProjectInfo title={'Editing rights'} value={project?.id.isIar ? 'Read only' : 'Write'}></ProjectInfo>
+                </ProjectInfoContainer>
+                <ProjectInfoContainer>
+                  <ProjectInfo title={'State'} value={project?.id.isIar ? 'Packed' : 'Unpacked'}></ProjectInfo>
+                  <ProjectInfo title={'Deletable'} value={project?.isDeletable ? 'Yes' : 'No'}></ProjectInfo>
+                </ProjectInfoContainer>
+              </Flex>
+            </div>
+          </Flex>
+          <Overview title={`Required projects of: ${project?.artifactId}`} search={search} onSearchChange={setSearch} isPending={isPending}>
+            {project && dependencies && (
+              <>
+                {!project.id.isIar && <AddDependencyCard project={project.id} />}
+                {dependencies.map(dep => (
+                  <DependencyCard key={dep.pmv} dependency={dep} project={project?.id} />
+                ))}
+              </>
+            )}
+          </Overview>
         </Flex>
-        <Overview title={`Required projects of: ${project?.artifactId}`} search={search} onSearchChange={setSearch} isPending={isPending}>
-          {project && dependencies && (
-            <>
-              {!project.id.isIar && <NewArtifactCard title='Add Dependency' open={() => open(project.id)} icon={IvyIcons.Plus} />}
-              {dependencies.map(dep => (
-                <DependencyCard key={dep.pmv} dependency={dep} project={project?.id} />
-              ))}
-            </>
-          )}
-        </Overview>
-      </Flex>
-    </div>
+      </div>
+    </AddDependencyDialogProvider>
   );
 }
 
@@ -89,4 +90,9 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   return (
     <ArtifactCard name={dependency.pmv} type='dependency' actions={{ delete: deleteAction }} onClick={open} preview={<PreviewSVG />} />
   );
+};
+
+const AddDependencyCard = ({ project }: { project: ProjectIdentifier }) => {
+  const addDependency = useAddDependency();
+  return <NewArtifactCard title='Add Dependency' open={() => addDependency(project)} icon={IvyIcons.Plus} />;
 };

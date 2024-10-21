@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import type { ProductModel } from '~/data/generated/openapi-market';
 import { useProducts } from '~/data/market-api';
 import { cardLinks } from '~/neo/artifact/ArtifactCard';
-import { useInstallMarketArtifact } from '~/neo/artifact/useInstallMarketArtifact';
+import { InstallMarketArtifactDialogProvider, useInstallMarketArtifact } from '~/neo/artifact/useInstallMarketArtifact';
 import { Overview } from '~/neo/Overview';
 
 export const links = cardLinks;
@@ -33,11 +33,13 @@ export default function Index() {
     }
   });
   return (
-    <Overview title='Axon Ivy Market' search={search} onSearchChange={setSearch} isPending={isPending}>
-      {products.map(product => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </Overview>
+    <InstallMarketArtifactDialogProvider>
+      <Overview title='Axon Ivy Market' search={search} onSearchChange={setSearch} isPending={isPending}>
+        {products.map(product => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </Overview>
+    </InstallMarketArtifactDialogProvider>
   );
 }
 
