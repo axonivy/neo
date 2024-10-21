@@ -15,7 +15,7 @@ test('project detail', async ({ page }) => {
   const overview = new Overview(page);
   await overview.card(project).click();
   const detail = new ProjectDetail(page);
-  await expect(detail.title).toHaveText(`Project detail: ${project}`);
+  await expect(detail.title).toHaveText(`Project details: ${project}`);
   await expect(detail.detailCard).toContainText('Name:neo-test-project');
   await expect(detail.detailCard).toContainText('GroupId:neo.test.project');
   await expect(detail.detailCard).toContainText('Version:12.0.0-SNAPSHOT');
@@ -29,12 +29,12 @@ test('add and remove dependency', async ({ page, browserName }, testInfo) => {
   const { overview, neo } = await Neo.exportWorkspace(page, zipFile);
   const wsName = `${browserName}dependency-ws${testInfo.retry}`;
   await overview.create(wsName);
-  await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
+  await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
   await neo.fileImport();
   await new ImportDialog(page).import(zipFile);
   await overview.card(wsName).click();
   await expect(overview.cards).toHaveCount(0);
-  await overview.newCard.getByText('Add Dependency').click();
+  await overview.newCard.getByText('Add new Dependency').click();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByRole('combobox')).toHaveText('neo-test-project');
   await dialog.getByRole('button', { name: 'Add' }).click();

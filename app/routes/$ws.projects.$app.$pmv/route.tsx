@@ -35,7 +35,7 @@ export default function Index() {
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='project-detail'>
-          <span style={{ fontWeight: 600 }}>Project detail: {project?.artifactId}</span>
+          <span style={{ fontWeight: 600 }}>Project details: {project?.artifactId}</span>
           <span style={{ color: 'var(--N900)' }}>Here are the details related to your project.</span>
           <div className='project-detail-card' style={{ background: 'var(--N50)', padding: 10, borderRadius: 5 }}>
             <Flex direction='row' gap={4} style={{ flexWrap: 'wrap', columnGap: '150px' }}>
@@ -54,12 +54,19 @@ export default function Index() {
             </Flex>
           </div>
         </Flex>
-        <Overview title={`Required projects of: ${project?.artifactId}`} search={search} onSearchChange={setSearch} isPending={isPending}>
+        <Overview
+          title={`Dependency details of: ${project?.artifactId}`}
+          description='Here you can view the project dependencies.'
+          info='Dependencies are links between projects which allow one project to access the functionality or artefacts of another and avoid duplicating work.'
+          search={search}
+          onSearchChange={setSearch}
+          isPending={isPending}
+        >
           {project && dependencies && (
             <>
               {!project.id.isIar && (
                 <AddDependencyDialog project={project.id}>
-                  <NewArtifactCard title={'Add Dependency'} open={() => {}} />
+                  <NewArtifactCard title={'Add new Dependency'} open={() => {}} />
                 </AddDependencyDialog>
               )}
               {dependencies.map(dep => (

@@ -4,23 +4,26 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  Field,
   Flex,
-  Input
+  Input,
+  Label
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from '@remix-run/react';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { ProjectIdentifier } from '~/data/project-api';
+import { InfoPopover } from '../InfoPopover';
 import { ProjectSelect } from './ProjectSelect';
 
 export type NewArtifact = {
-  title: string;
-  defaultName: string;
+  type: string;
+  namespaceRequired: boolean;
   create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) => void;
-  defaultNamesapce?: string;
   project?: ProjectIdentifier;
   pid?: string;
 };
@@ -39,24 +42,26 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const [dialogState, setDialogState] = useState(false);
   const [newArtifact, setNewArtifact] = useState<NewArtifact>();
 
-  const [name, setName] = useState<string>();
+  const [name, setName] = useState('');
   const [namespace, setNamespace] = useState('');
   const [project, setProject] = useState<ProjectIdentifier>();
 
   useEffect(() => {
-    setName(newArtifact?.defaultName ?? undefined);
     setProject(newArtifact?.project);
-    setNamespace(newArtifact?.defaultNamesapce ?? ws ?? '');
+    setNamespace(newArtifact?.namespaceRequired && ws ? ws : '');
+    setName('');
   }, [newArtifact, ws]);
+
+  const buttonDisabled = useMemo(
+    () => !name || (newArtifact?.namespaceRequired && !namespace),
+    [name, namespace, newArtifact?.namespaceRequired]
+  );
 
   const open = (context: NewArtifact) => {
     setDialogState(true);
     setNewArtifact(context);
   };
-  const close = () => {
-    setDialogState(false);
-    setName(undefined);
-  };
+  const close = () => setDialogState(false);
   return (
     <NewArtifactDialogContext.Provider value={{ open, close, dialogState, newArtifact }}>
       {children}
@@ -64,7 +69,8 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
         <Dialog open={dialogState} onOpenChange={() => close()}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>{newArtifact.title}</DialogTitle>
+              <DialogTitle>Create new {newArtifact.type}</DialogTitle>
+              <DialogDescription>{!name && `Please define a name fo the new ${newArtifact.type.toLowerCase()}`}</DialogDescription>
             </DialogHeader>
             <form
               onSubmit={e => {
@@ -77,15 +83,19 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                 <BasicField label='Name'>
                   <Input value={name} onChange={e => setName(e.target.value)} />
                 </BasicField>
-                <BasicField label='Namespace'>
+                <Field>
+                  <Flex direction='row' gap={1}>
+                    <Label>Namespace {!newArtifact.namespaceRequired ? '(Optional)' : ''}</Label>
+                    <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
+                  </Flex>
                   <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
-                </BasicField>
+                </Field>
                 {newArtifact.project ? (
                   <></>
                 ) : (
                   <ProjectSelect setProject={setProject} setDefaultValue={true} label='Project' projectFilter={p => !p.id.isIar} />
                 )}
-                <button style={{ display: 'none' }} type='submit'>
+                <button disabled={buttonDisabled} style={{ display: 'none' }} type='submit'>
                   Create
                 </button>
               </Flex>
@@ -94,6 +104,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
               <DialogClose asChild>
                 <Button
                   icon={IvyIcons.Plus}
+                  disabled={buttonDisabled}
                   variant='primary'
                   size='large'
                   onClick={() => newArtifact.create(name, namespace, project, newArtifact.pid)}
@@ -102,7 +113,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                 </Button>
               </DialogClose>
               <DialogClose asChild>
-                <Button icon={IvyIcons.Close} size='large' variant='outline' type='submit'>
+                <Button icon={IvyIcons.Close} size='large' variant='outline'>
                   Cancel
                 </Button>
               </DialogClose>

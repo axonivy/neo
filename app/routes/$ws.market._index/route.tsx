@@ -52,7 +52,14 @@ export default function Index() {
   const [product, setProduct] = useState<ProductModel>();
   const [dialogState, setDialogState] = useState(false);
   return (
-    <Overview title='Axon Ivy Market' search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview
+      title='Axon Ivy Market'
+      description='Here you can find and download reusable components, templates and solutions to accelerate development.'
+      helpUrl={MARKET_URL}
+      search={search}
+      onSearchChange={setSearch}
+      isPending={isPending}
+    >
       <InstallDialog product={product} dialogState={dialogState} setDialogState={setDialogState} />
       {products.map(p => (
         <ProductCard key={p.id} product={p} setProduct={setProduct} setDialogState={setDialogState} />

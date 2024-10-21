@@ -14,8 +14,8 @@ export class AppInfo {
     this.infoCards = this.appInfo.locator('.artifact-info-card');
   }
 
-  async clickInfoCard(name: string | RegExp) {
-    await this.infoCards.filter({ hasText: name }).click();
+  async clickInfoCard(name: string) {
+    await this.infoCards.locator('span').getByText(name, { exact: true }).click();
     const overview = new Overview(this.page);
     await expect(overview.title).toHaveText(name);
     await this.page.goBack();

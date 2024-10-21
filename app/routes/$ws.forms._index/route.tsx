@@ -23,7 +23,13 @@ export default function Index() {
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (f: HdBean) => f.name);
   const { createFormEditor } = useCreateEditor();
   return (
-    <Overview title='Forms' search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview
+      title='Forms'
+      description='A form is a user interface element that facilitates data entry and interaction with the application, acting as a bridge between users and the system.'
+      search={search}
+      onSearchChange={setSearch}
+      isPending={isPending}
+    >
       {filteredGroups.map(({ project, artifacts }) => {
         const cards = artifacts.map(form => {
           const editor = createFormEditor(form);
@@ -73,5 +79,5 @@ const NewFormCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createForm({ name, namespace, project }).then(form => openEditor(createFormEditor(form)));
   const title = 'Create new Form';
-  return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewForm' })} />;
+  return <NewArtifactCard title={title} open={() => open({ create, type: 'Form', namespaceRequired: true })} />;
 };

@@ -11,7 +11,7 @@ const openDataClasses = async (page: Page) => {
 
 test('navigate to data classes', async ({ page }) => {
   const { neo, overview } = await openDataClasses(page);
-  await overview.hasGroup('neo-test-project');
+  await overview.hasGroup('Project: neo-test-project');
   const dataClassName = 'QuickStartTutorial';
   await overview.card(dataClassName).click();
   await new DataClassEditor(neo, dataClassName).waitForOpen('releaseDate');

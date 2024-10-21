@@ -23,7 +23,13 @@ export default function Index() {
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
   const { createDataClassEditor } = useCreateEditor();
   return (
-    <Overview title='Data Classes' search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview
+      title='Data Classes'
+      description='A data class is used to define and structure the data within a process application. It is used to manage data consistently across processes and forms.'
+      search={search}
+      onSearchChange={setSearch}
+      isPending={isPending}
+    >
       {filteredGroups.map(({ project, artifacts }) => {
         const cards = artifacts.map(dc => {
           const editor = createDataClassEditor(dc);
@@ -73,5 +79,5 @@ const NewDataClassCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createDataClass({ name: `${namespace}.${name}`, project }).then(dataClass => openEditor(createDataClassEditor(dataClass)));
   const title = 'Create new Data Class';
-  return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewDataClass' })} />;
+  return <NewArtifactCard title={title} open={() => open({ create, type: 'Data Class', namespaceRequired: true })} />;
 };

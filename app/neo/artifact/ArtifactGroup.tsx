@@ -22,7 +22,7 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
           marginBottom: 15
         }}
       >
-        {project}
+        Project: {project}
       </CollapsibleTrigger>
       <CollapsibleContent style={{ padding: 0 }}>
         <Flex gap={4} style={{ flexWrap: 'wrap' }}>

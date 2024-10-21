@@ -41,7 +41,13 @@ export const useNewProcessActionHandler = () => {
           refreshInscriptionView(window);
           openEditor(createProcessEditor(process));
         });
-      open({ create, defaultName: 'NewCallable', title: 'Create new Process', project, pid, defaultNamesapce: '' });
+      open({
+        create,
+        type: 'Process',
+        project,
+        pid,
+        namespaceRequired: false
+      });
     },
     [createProcess, createProcessEditor, open, openEditor]
   );
@@ -64,7 +70,7 @@ export const useNewFormActionHandler = () => {
           refreshInscriptionView(window);
           openEditor(createFormEditor(form));
         });
-      open({ create, defaultName: 'NewForm', title: 'Create new Form', project, pid });
+      open({ create, type: 'Form', namespaceRequired: true, project, pid });
     },
     [createForm, createFormEditor, open, openEditor]
   );

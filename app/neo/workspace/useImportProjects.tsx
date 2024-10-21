@@ -50,9 +50,9 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
           <DialogHeader>
             <DialogTitle>Import Axon Ivy Projects into: {ws}</DialogTitle>
             <DialogDescription>
-              The import cannot be undone. It could overwrite existing projects in {ws}.{' '}
+              The import can overwrite existing project versions.{' '}
               <Link onClick={downloadWorkspace} to={{}}>
-                Consider exporting the application beforehand.
+                Consider exporting the Worksapace beforehand.
               </Link>
             </DialogDescription>
           </DialogHeader>

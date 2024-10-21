@@ -10,7 +10,7 @@ test('navigate to home', async ({ page }) => {
   const overview = await neo.home();
   await overview.expectCardsCountGreaterThan(0);
   const appInfo = new AppInfo(page);
-  await expect(appInfo.title).toHaveText(`Welcome to your application: ${workspace}`);
+  await expect(appInfo.title).toHaveText(`Welcome to your workspace: ${workspace}`);
   await expect(appInfo.infoCards).toHaveCount(4);
   await appInfo.clickInfoCard('Processes');
   await appInfo.clickInfoCard('Data Classes');
@@ -50,7 +50,7 @@ test('delete project', async ({ page, browserName }, testInfo) => {
   const neo = await Neo.open(page);
   const overview = new Overview(page);
   await overview.create(wsName);
-  await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
+  await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
   await overview.deleteCard(wsName);
   await neo.toast.expectSuccess('Project removed');
   await page.goBack();

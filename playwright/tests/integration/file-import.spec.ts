@@ -12,7 +12,7 @@ test('file import', async ({ page, browserName }, testInfo) => {
   const { overview, neo } = await Neo.exportWorkspace(page, zipFile);
   const wsName = `${browserName}file-import-ws${testInfo.retry}`;
   await overview.create(wsName);
-  await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
+  await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
   await neo.fileImport();
   await new ImportDialog(page).import(zipFile);
   await neo.processes();

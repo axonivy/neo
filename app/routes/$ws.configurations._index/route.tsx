@@ -21,7 +21,13 @@ export default function Index() {
   const { createVariableEditor } = useCreateEditor();
   const projects = data?.filter(({ id }) => id.pmv.toLowerCase().includes(search.toLocaleLowerCase())).map(p => p.id) ?? [];
   return (
-    <Overview title='Configurations' search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview
+      title='Configurations'
+      description='Configurations are the settings and parameters that define how an application behaves and interacts with other systems.'
+      search={search}
+      onSearchChange={setSearch}
+      isPending={isPending}
+    >
       {projects.map(project => {
         const editor = createVariableEditor(project);
         const card = <VariablesCard key={editor.id} {...editor} />;

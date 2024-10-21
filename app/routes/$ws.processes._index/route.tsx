@@ -23,7 +23,13 @@ export default function Index() {
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
   const { createProcessEditor } = useCreateEditor();
   return (
-    <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview
+      title='Processes'
+      description='A process describes a sequence of automated steps that optimize workflows and enables efficient task management within an application.'
+      search={search}
+      onSearchChange={setSearch}
+      isPending={isPending}
+    >
       {filteredGroups.map(({ project, artifacts }) => {
         const cards = artifacts.map(process => {
           const editor = createProcessEditor(process);
@@ -73,5 +79,5 @@ const NewProcessCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
   const title = 'Create new Process';
-  return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewProcess', defaultNamesapce: '' })} />;
+  return <NewArtifactCard title={title} open={() => open({ create, type: 'Process', namespaceRequired: false })} />;
 };

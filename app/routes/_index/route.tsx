@@ -15,19 +15,11 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useNavigate } from '@remix-run/react';
 import { useState } from 'react';
-import {
-  useCreateWorkspace,
-  useDeleteWorkspace,
-  useDeployWorkspace,
-  useImportProjectsIntoWs,
-  useWorkspaces,
-  type Workspace
-} from '~/data/workspace-api';
+import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { Overview } from '~/neo/Overview';
-import { FileInput } from '~/neo/workspace/FileInput';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import PreviewSVG from './workspace-preview.svg?react';
 
@@ -41,13 +33,14 @@ export default function Index() {
   const [search, setSearch] = useState('');
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const description =
-    "Here you will find all the applications you've created or imported. Create a new application by clicking on the blue box and open an existing one by clicking on one of the grey boxes.";
+  const description = 'Here you can access and manage your created workspaces.';
   const title = 'Welcome to Axon Ivy NEO Designer';
+  const info =
+    "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.";
   return (
     <div style={{ height: 'calc(100vh - 41px)' }}>
       <ControlBar />
-      <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending}>
+      <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending} info={info}>
         <NewWorkspaceCard />
         {workspaces.map(workspace => (
           <WorkspaceCard key={workspace.name} {...workspace} />
@@ -85,40 +78,36 @@ const WorkspaceCard = (workspace: Workspace) => {
 
 const NewWorkspaceCard = () => {
   const [dialogState, setDialogState] = useState(false);
-  const [name, setName] = useState('MyNewApplication');
+  const [name, setName] = useState('');
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
-  const { importProjects } = useImportProjectsIntoWs();
-  const [file, setFile] = useState<File>();
-  const create = (name: string) =>
-    createWorkspace({ name }).then(ws => (file ? importProjects(ws.id, file).then(() => navigate(ws.name)) : navigate(ws.name)));
+  const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.name));
   return (
     <>
-      <NewArtifactCard open={() => setDialogState(true)} title='Create new Application' />
+      <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />
       <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create new Application</DialogTitle>
-            <DialogDescription>
-              Optionally, you can select and upload existing Axon Ivy projects, which are then added to the application.
-            </DialogDescription>
+            <DialogTitle>Create new Workspace</DialogTitle>
+            {!name && <DialogDescription>Please define a name for the new workspace.</DialogDescription>}
           </DialogHeader>
           <form
             onSubmit={e => {
               e.preventDefault();
-              create(name);
+              if (name) {
+                create(name);
+              }
             }}
           >
             <Flex direction='column' gap={3}>
               <BasicField label='Name'>
                 <Input value={name} onChange={e => setName(e.target.value)} />
               </BasicField>
-              <FileInput setFile={setFile} />
             </Flex>
           </form>
           <DialogFooter>
             <DialogClose asChild>
-              <Button icon={IvyIcons.Plus} size='large' variant='primary' onClick={() => create(name)}>
+              <Button disabled={!name} icon={IvyIcons.Plus} size='large' variant='primary' onClick={() => create(name)}>
                 Create
               </Button>
             </DialogClose>
