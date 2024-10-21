@@ -20,6 +20,11 @@ export type FindFeedbacksParams = {
   sort: string[];
 };
 
+export type GetLatestArtifactDownloadUrlParams = {
+  version: string;
+  artifact: string;
+};
+
 export type FindProductVersionsByIdParams = {
   /**
    * Option to get Dev Version (Snapshot/ sprint release)
@@ -111,6 +116,18 @@ export interface Link {
   templated?: boolean;
   title?: string;
   type?: string;
+}
+
+export interface ExternalDocumentModel {
+  _links?: Links;
+  /** Name of artifact */
+  artifactName?: string;
+  /** Product id */
+  productId?: string;
+  /** Relative link of document page */
+  relativeLink?: string;
+  /** Version of artifact */
+  version?: string;
 }
 
 export interface ProductRating {
@@ -293,6 +310,12 @@ export interface ProductDetailModel {
   type?: string;
   /** Product vendor */
   vendor?: string;
+  /** Product vendor image */
+  vendorImage?: string;
+  /** Product vendor image dark mode */
+  vendorImageDarkMode?: string;
+  /** Product vendor url */
+  vendorUrl?: string;
 }
 
 /**
@@ -641,6 +664,42 @@ export const findVersionsForDesigner = async (id: string, options?: RequestInit)
 };
 
 /**
+ * Return the download url of artifact from version and id
+ * @summary Get the download url of latest version from artifact by its id and target version
+ */
+export type getLatestArtifactDownloadUrlResponse = {
+  data: string;
+  status: number;
+};
+
+export const getGetLatestArtifactDownloadUrlUrl = (id: string, params: GetLatestArtifactDownloadUrlParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value === null) {
+      normalizedParams.append(key, 'null');
+    } else if (value !== undefined) {
+      normalizedParams.append(key, value.toString());
+    }
+  });
+
+  return normalizedParams.size
+    ? `/api/product-details/${id}/artifact?${normalizedParams.toString()}`
+    : `/api/product-details/${id}/artifact`;
+};
+
+export const getLatestArtifactDownloadUrl = async (
+  id: string,
+  params: GetLatestArtifactDownloadUrlParams,
+  options?: RequestInit
+): Promise<getLatestArtifactDownloadUrlResponse> => {
+  return customFetch<Promise<getLatestArtifactDownloadUrlResponse>>(getGetLatestArtifactDownloadUrlUrl(id, params), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
  * get designer installation count by product id
  * @summary Get designer installation count by product id.
  */
@@ -753,21 +812,17 @@ export const getProductRating = async (id: string, options?: RequestInit): Promi
   });
 };
 
-export type findExternalDocumentURIResponse = {
-  data: string;
+export type findExternalDocumentResponse = {
+  data: ExternalDocumentModel;
   status: number;
 };
 
-export const getFindExternalDocumentURIUrl = (id: string, version: string) => {
+export const getFindExternalDocumentUrl = (id: string, version: string) => {
   return `/api/externaldocument/${id}/${version}`;
 };
 
-export const findExternalDocumentURI = async (
-  id: string,
-  version: string,
-  options?: RequestInit
-): Promise<findExternalDocumentURIResponse> => {
-  return customFetch<Promise<findExternalDocumentURIResponse>>(getFindExternalDocumentURIUrl(id, version), {
+export const findExternalDocument = async (id: string, version: string, options?: RequestInit): Promise<findExternalDocumentResponse> => {
+  return customFetch<Promise<findExternalDocumentResponse>>(getFindExternalDocumentUrl(id, version), {
     ...options,
     method: 'GET'
   });

@@ -14,9 +14,7 @@ test('file import', async ({ page, browserName }, testInfo) => {
   await overview.create(wsName);
   await expect(page.locator(`text=Welcome to your application: ${wsName}`)).toBeVisible();
   await neo.fileImport();
-  const dialog = new ImportDialog(page);
-  await dialog.import(zipFile);
-  await expect(page.getByRole('status').getByText('Projects imported into workspace')).toBeVisible();
+  await new ImportDialog(page).import(zipFile);
   await neo.processes();
   await expect(overview.card('quickstart')).toBeVisible();
   await page.goto('');

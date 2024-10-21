@@ -506,3 +506,63 @@ export const deleteProject = async (params?: DeleteProjectParams, options?: Requ
     method: 'DELETE'
   });
 };
+
+export type dependenciesResponse = {
+  data: ProjectIdentifier[];
+  status: number;
+};
+
+export const getDependenciesUrl = (app: string, pmv: string) => {
+  return `/web-ide/project/${app}/${pmv}/dependencies`;
+};
+
+export const dependencies = async (app: string, pmv: string, options?: RequestInit): Promise<dependenciesResponse> => {
+  return customFetch<Promise<dependenciesResponse>>(getDependenciesUrl(app, pmv), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type addDependencyResponse = {
+  data: unknown;
+  status: number;
+};
+
+export const getAddDependencyUrl = (app: string, pmv: string) => {
+  return `/web-ide/project/${app}/${pmv}/dependency`;
+};
+
+export const addDependency = async (
+  app: string,
+  pmv: string,
+  projectIdentifier: ProjectIdentifier,
+  options?: RequestInit
+): Promise<addDependencyResponse> => {
+  return customFetch<Promise<addDependencyResponse>>(getAddDependencyUrl(app, pmv), {
+    ...options,
+    method: 'POST',
+    body: JSON.stringify(projectIdentifier)
+  });
+};
+
+export type removeDependencyResponse = {
+  data: unknown;
+  status: number;
+};
+
+export const getRemoveDependencyUrl = (app: string, pmv: string, dependencyApp: string, dependencyPmv: string) => {
+  return `/web-ide/project/${app}/${pmv}/dependency/${dependencyApp}/${dependencyPmv}`;
+};
+
+export const removeDependency = async (
+  app: string,
+  pmv: string,
+  dependencyApp: string,
+  dependencyPmv: string,
+  options?: RequestInit
+): Promise<removeDependencyResponse> => {
+  return customFetch<Promise<removeDependencyResponse>>(getRemoveDependencyUrl(app, pmv, dependencyApp, dependencyPmv), {
+    ...options,
+    method: 'DELETE'
+  });
+};
