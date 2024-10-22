@@ -2,6 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import type { ProcessBean } from '~/data/generated/openapi-dev';
 import { type ProcessIdentifier, useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
+import { processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -23,7 +24,7 @@ export default function Index() {
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
   const { createProcessEditor } = useCreateEditor();
   return (
-    <Overview title='Processes' search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview title='Processes' description={processDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
       {filteredGroups.map(({ project, artifacts }) => {
         const cards = artifacts.map(process => {
           const editor = createProcessEditor(process);
@@ -73,5 +74,5 @@ const NewProcessCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
   const title = 'Create new Process';
-  return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewProcess', defaultNamesapce: '' })} />;
+  return <NewArtifactCard title={title} open={() => open({ create, type: 'Process', namespaceRequired: false })} />;
 };

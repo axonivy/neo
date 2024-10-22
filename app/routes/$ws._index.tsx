@@ -5,6 +5,7 @@ import { useNavigate, useParams } from '@remix-run/react';
 import { useState } from 'react';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import { useDeleteProject, useSortedProjects } from '~/data/project-api';
+import { configDescription, dataClassDescription, formDescription, processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { Overview } from '~/neo/Overview';
@@ -22,22 +23,22 @@ export default function Index() {
   const navigate = useNavigate();
   const open = useImportProjects();
   const projects = data?.filter(({ id }) => id.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const description =
-    'Here you will find all the projects you have created or imported. Create a new project by clicking on the blue box and open an existing one by clicking on one of the grey boxes.';
-  const title = `Welcome to your application: ${ws}`;
-  const dummyDescription =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet pellentesque massa. Proin iaculis odio at orci aliquet, vitae maximus sem congue. Suspendisse potenti. ';
+  const title = `Welcome to your workspace: ${ws}`;
   return (
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='app-info'>
           <span style={{ fontWeight: 600 }}>{title}</span>
-          <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{description}</span>
+          <span style={{ fontWeight: 400, color: 'var(--N900)' }}>
+            {
+              'Here you can find the projects you have created along with any imported projects in this workspace. A project contains all the essential components needed to build an application.'
+            }
+          </span>
           <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
-            <ArtifactInfoCard title='Processes' description={dummyDescription} icon={IvyIcons.Process} link='processes' />
-            <ArtifactInfoCard title='Data Classes' description={dummyDescription} icon={IvyIcons.Database} link='dataClasses' />
-            <ArtifactInfoCard title='Forms' description={dummyDescription} icon={IvyIcons.File} link='forms' />
-            <ArtifactInfoCard title='Configurations' description={dummyDescription} icon={IvyIcons.Tool} link='configurations' />
+            <ArtifactInfoCard title='Processes' description={processDescription} icon={IvyIcons.Process} link='processes' />
+            <ArtifactInfoCard title='Data Classes' description={dataClassDescription} icon={IvyIcons.Database} link='dataClasses' />
+            <ArtifactInfoCard title='Forms' description={formDescription} icon={IvyIcons.File} link='forms' />
+            <ArtifactInfoCard title='Configurations' description={configDescription} icon={IvyIcons.Tool} link='configurations' />
           </Flex>
         </Flex>
         <Overview title={'Projects'} search={search} onSearchChange={setSearch} isPending={isPending}>

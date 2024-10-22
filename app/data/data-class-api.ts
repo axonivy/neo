@@ -1,6 +1,6 @@
 import { groupBy, toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { headers, ok } from './custom-fetch';
+import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createDataClass as createDataClassReq,
   dataClasses,
@@ -45,7 +45,7 @@ export const useCreateDataClass = () => {
       client.invalidateQueries({ queryKey });
       return res.data;
     }
-    throw new Error('Failed to create data class');
+    throw new Error(resolveErrorMessage(res.data, 'Failed to create data class'));
   };
   return {
     createDataClass: (dataClass: DataClassInit) => {

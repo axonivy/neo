@@ -2,6 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import { type FormIdentifier, useCreateForm, useDeleteForm, useGroupedForms } from '~/data/form-api';
 import type { HdBean } from '~/data/generated/openapi-dev';
 import type { ProjectIdentifier } from '~/data/project-api';
+import { formDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -23,7 +24,7 @@ export default function Index() {
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (f: HdBean) => f.name);
   const { createFormEditor } = useCreateEditor();
   return (
-    <Overview title='Forms' search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview title='Forms' description={formDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
       {filteredGroups.map(({ project, artifacts }) => {
         const cards = artifacts.map(form => {
           const editor = createFormEditor(form);
@@ -73,5 +74,5 @@ const NewFormCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createForm({ name, namespace, project }).then(form => openEditor(createFormEditor(form)));
   const title = 'Create new Form';
-  return <NewArtifactCard title={title} open={() => open({ create, title, defaultName: 'MyNewForm' })} />;
+  return <NewArtifactCard title={title} open={() => open({ create, type: 'Form', namespaceRequired: true })} />;
 };

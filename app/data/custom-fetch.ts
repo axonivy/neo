@@ -74,4 +74,12 @@ export const headers = (base?: string) => {
 
 export const ok = (res: { status: number }) => res.status >= 200 && res.status <= 299;
 
+export const resolveErrorMessage = (data: unknown, message: string) => {
+  const error = data as { errorMessage: string };
+  if (error.errorMessage) {
+    message = `${message}: ${error.errorMessage}`;
+  }
+  return message;
+};
+
 export default customFetch;

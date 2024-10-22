@@ -1,7 +1,7 @@
 import { toast } from '@axonivy/ui-components';
 import { useParams } from '@remix-run/react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { headers, ok } from './custom-fetch';
+import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createWorkspace as createWorkspaceReq,
   deleteWorkspace as deleteWorkspaceReq,
@@ -68,7 +68,7 @@ export const useCreateWorkspace = () => {
       client.invalidateQueries({ queryKey });
       return res.data;
     }
-    throw new Error('Failed to create workspace');
+    throw new Error(resolveErrorMessage(res.data, 'Failed to create workspace'));
   };
   return {
     createWorkspace: (workspaceInit: WorkspaceInit) => {
