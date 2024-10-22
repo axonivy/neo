@@ -1,6 +1,7 @@
 import type { MetaFunction } from '@remix-run/node';
 import { useState } from 'react';
 import { useSortedProjects } from '~/data/project-api';
+import { configDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import type { Editor } from '~/neo/editors/editor';
@@ -21,13 +22,7 @@ export default function Index() {
   const { createVariableEditor } = useCreateEditor();
   const projects = data?.filter(({ id }) => id.pmv.toLowerCase().includes(search.toLocaleLowerCase())).map(p => p.id) ?? [];
   return (
-    <Overview
-      title='Configurations'
-      description='Configurations are the settings and parameters that define how an application behaves and interacts with other systems.'
-      search={search}
-      onSearchChange={setSearch}
-      isPending={isPending}
-    >
+    <Overview title='Configurations' description={configDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
       {projects.map(project => {
         const editor = createVariableEditor(project);
         const card = <VariablesCard key={editor.id} {...editor} />;

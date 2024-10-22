@@ -1,6 +1,6 @@
 import { groupBy, toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { headers, ok } from './custom-fetch';
+import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createHd,
   deleteForm as deleteFormReq,
@@ -66,7 +66,7 @@ export const useCreateForm = () => {
       client.invalidateQueries({ queryKey });
       return res.data;
     }
-    throw new Error('Failed to create form');
+    throw new Error(resolveErrorMessage(res.data, 'Failed to create form'));
   };
   return {
     createForm: (form: HdInit) => {

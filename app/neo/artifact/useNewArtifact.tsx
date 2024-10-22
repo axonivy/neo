@@ -72,34 +72,23 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
               <DialogTitle>Create new {newArtifact.type}</DialogTitle>
               <DialogDescription>{!name && `Please define a name fo the new ${newArtifact.type.toLowerCase()}`}</DialogDescription>
             </DialogHeader>
-            <form
-              onSubmit={e => {
-                e.preventDefault();
-                newArtifact.create(name, namespace, project, newArtifact.pid);
-                close();
-              }}
-            >
-              <Flex direction='column' gap={3}>
-                <BasicField label='Name'>
-                  <Input value={name} onChange={e => setName(e.target.value)} />
-                </BasicField>
-                <Field>
-                  <Flex direction='row' gap={1}>
-                    <Label>Namespace {!newArtifact.namespaceRequired ? '(Optional)' : ''}</Label>
-                    <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
-                  </Flex>
-                  <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
-                </Field>
-                {newArtifact.project ? (
-                  <></>
-                ) : (
-                  <ProjectSelect setProject={setProject} setDefaultValue={true} label='Project' projectFilter={p => !p.id.isIar} />
-                )}
-                <button disabled={buttonDisabled} style={{ display: 'none' }} type='submit'>
-                  Create
-                </button>
-              </Flex>
-            </form>
+            <Flex direction='column' gap={3}>
+              <BasicField label='Name'>
+                <Input value={name} onChange={e => setName(e.target.value)} />
+              </BasicField>
+              <Field>
+                <Flex direction='row' gap={1}>
+                  <Label>Namespace {!newArtifact.namespaceRequired ? '(Optional)' : ''}</Label>
+                  <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
+                </Flex>
+                <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
+              </Field>
+              {newArtifact.project ? (
+                <></>
+              ) : (
+                <ProjectSelect setProject={setProject} setDefaultValue={true} label='Project' projectFilter={p => !p.id.isIar} />
+              )}
+            </Flex>
             <DialogFooter>
               <DialogClose asChild>
                 <Button
@@ -107,6 +96,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                   disabled={buttonDisabled}
                   variant='primary'
                   size='large'
+                  type='submit'
                   onClick={() => newArtifact.create(name, namespace, project, newArtifact.pid)}
                 >
                   Create

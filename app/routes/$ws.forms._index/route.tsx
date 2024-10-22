@@ -2,6 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import { type FormIdentifier, useCreateForm, useDeleteForm, useGroupedForms } from '~/data/form-api';
 import type { HdBean } from '~/data/generated/openapi-dev';
 import type { ProjectIdentifier } from '~/data/project-api';
+import { formDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -23,13 +24,7 @@ export default function Index() {
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (f: HdBean) => f.name);
   const { createFormEditor } = useCreateEditor();
   return (
-    <Overview
-      title='Forms'
-      description='A form is a user interface element that facilitates data entry and interaction with the application, acting as a bridge between users and the system.'
-      search={search}
-      onSearchChange={setSearch}
-      isPending={isPending}
-    >
+    <Overview title='Forms' description={formDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
       {filteredGroups.map(({ project, artifacts }) => {
         const cards = artifacts.map(form => {
           const editor = createFormEditor(form);

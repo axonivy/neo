@@ -52,7 +52,7 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
             <DialogDescription>
               The import can overwrite existing project versions.{' '}
               <Link onClick={downloadWorkspace} to={{}}>
-                Consider exporting the Worksapace beforehand.
+                Consider exporting the Workspace beforehand.
               </Link>
             </DialogDescription>
           </DialogHeader>

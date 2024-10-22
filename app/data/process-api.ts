@@ -1,6 +1,6 @@
 import { groupBy, toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { headers, ok } from './custom-fetch';
+import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createProcess as createProcessReq,
   deleteProcess as deleteProcessReq,
@@ -49,7 +49,7 @@ export const useCreateProcess = () => {
       client.invalidateQueries({ queryKey });
       return res.data;
     }
-    throw new Error('Failed to create process');
+    throw new Error(resolveErrorMessage(res.data, 'Failed to create process'));
   };
   return {
     createProcess: (process: ProcessInit) => {

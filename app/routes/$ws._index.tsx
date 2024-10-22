@@ -5,6 +5,7 @@ import { useNavigate, useParams } from '@remix-run/react';
 import { useState } from 'react';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import { useDeleteProject, useSortedProjects } from '~/data/project-api';
+import { configDescription, dataClassDescription, formDescription, processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { Overview } from '~/neo/Overview';
@@ -14,17 +15,6 @@ import PreviewSVG from './_index/workspace-preview.svg?react';
 export const meta: MetaFunction = () => {
   return [{ title: 'Axon Ivy Neo' }, { name: 'description', content: 'Welcome to Axon Ivy Neo!' }];
 };
-
-const overviewDescription =
-  'Here you can find the projects you have created along with any imported projects in this workspace. A project contains all the essential components needed to build an application.';
-const processDescription =
-  'A process describes a sequence of automated steps that optimize workflows and enables efficient task management within an application.';
-const dataClassDescription =
-  'A data class is used to define and structure the data within a process application. It is used to manage data consistently across processes and forms.';
-const formDescription =
-  'A form is a user interface element that facilitates data entry and interaction with the application, acting as a bridge between users and the system.';
-const configDescription =
-  'Configurations are the settings and parameters that define how an application behaves and interacts with other systems.';
 
 export default function Index() {
   const [search, setSearch] = useState('');
@@ -39,7 +29,11 @@ export default function Index() {
       <Flex direction='column' gap={1}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='app-info'>
           <span style={{ fontWeight: 600 }}>{title}</span>
-          <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{overviewDescription}</span>
+          <span style={{ fontWeight: 400, color: 'var(--N900)' }}>
+            {
+              'Here you can find the projects you have created along with any imported projects in this workspace. A project contains all the essential components needed to build an application.'
+            }
+          </span>
           <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
             <ArtifactInfoCard title='Processes' description={processDescription} icon={IvyIcons.Process} link='processes' />
             <ArtifactInfoCard title='Data Classes' description={dataClassDescription} icon={IvyIcons.Database} link='dataClasses' />

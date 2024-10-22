@@ -2,6 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import type { ProcessBean } from '~/data/generated/openapi-dev';
 import { type ProcessIdentifier, useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
+import { processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -23,13 +24,7 @@ export default function Index() {
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
   const { createProcessEditor } = useCreateEditor();
   return (
-    <Overview
-      title='Processes'
-      description='A process describes a sequence of automated steps that optimize workflows and enables efficient task management within an application.'
-      search={search}
-      onSearchChange={setSearch}
-      isPending={isPending}
-    >
+    <Overview title='Processes' description={processDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
       {filteredGroups.map(({ project, artifacts }) => {
         const cards = artifacts.map(process => {
           const editor = createProcessEditor(process);

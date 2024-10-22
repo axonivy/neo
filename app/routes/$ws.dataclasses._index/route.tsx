@@ -2,6 +2,7 @@ import type { MetaFunction } from '@remix-run/node';
 import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
 import type { DataClassBean, DataClassIdentifier } from '~/data/generated/openapi-dev';
 import type { ProjectIdentifier } from '~/data/project-api';
+import { dataClassDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -23,13 +24,7 @@ export default function Index() {
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
   const { createDataClassEditor } = useCreateEditor();
   return (
-    <Overview
-      title='Data Classes'
-      description='A data class is used to define and structure the data within a process application. It is used to manage data consistently across processes and forms.'
-      search={search}
-      onSearchChange={setSearch}
-      isPending={isPending}
-    >
+    <Overview title='Data Classes' description={dataClassDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
       {filteredGroups.map(({ project, artifacts }) => {
         const cards = artifacts.map(dc => {
           const editor = createDataClassEditor(dc);
