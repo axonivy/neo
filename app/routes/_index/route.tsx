@@ -91,32 +91,36 @@ const NewWorkspaceCard = () => {
             <DialogTitle>Create new Workspace</DialogTitle>
             {!name && <DialogDescription>Please define a name for the new workspace.</DialogDescription>}
           </DialogHeader>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              if (name) {
-                create(name);
-              }
-            }}
-          >
+          <form>
             <Flex direction='column' gap={3}>
               <BasicField label='Name'>
                 <Input value={name} onChange={e => setName(e.target.value)} />
               </BasicField>
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button
+                    disabled={!name}
+                    icon={IvyIcons.Plus}
+                    size='large'
+                    variant='primary'
+                    type='submit'
+                    onClick={e => {
+                      e.preventDefault();
+                      setDialogState(false);
+                      create(name);
+                    }}
+                  >
+                    Create
+                  </Button>
+                </DialogClose>
+                <DialogClose asChild>
+                  <Button icon={IvyIcons.Close} size='large' variant='outline'>
+                    Cancel
+                  </Button>
+                </DialogClose>
+              </DialogFooter>
             </Flex>
           </form>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button disabled={!name} icon={IvyIcons.Plus} size='large' variant='primary' onClick={() => create(name)}>
-                Create
-              </Button>
-            </DialogClose>
-            <DialogClose asChild>
-              <Button icon={IvyIcons.Close} size='large' variant='outline'>
-                Cancel
-              </Button>
-            </DialogClose>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </>

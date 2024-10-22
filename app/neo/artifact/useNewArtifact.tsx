@@ -8,10 +8,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Field,
   Flex,
-  Input,
-  Label
+  Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from '@remix-run/react';
@@ -72,42 +70,51 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
               <DialogTitle>Create new {newArtifact.type}</DialogTitle>
               <DialogDescription>{!name && `Please define a name fo the new ${newArtifact.type.toLowerCase()}`}</DialogDescription>
             </DialogHeader>
-            <Flex direction='column' gap={3}>
-              <BasicField label='Name'>
-                <Input value={name} onChange={e => setName(e.target.value)} />
-              </BasicField>
-              <Field>
-                <Flex direction='row' gap={1}>
-                  <Label>Namespace {!newArtifact.namespaceRequired ? '(Optional)' : ''}</Label>
-                  <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
+            <form>
+              <Flex direction='column' gap={4}>
+                <Flex direction='column' gap={3}>
+                  <BasicField label='Name'>
+                    <Input value={name} onChange={e => setName(e.target.value)} />
+                  </BasicField>
+                  <BasicField
+                    label={newArtifact.namespaceRequired ? 'Namespace' : 'Namespace (Optional)'}
+                    control={
+                      <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
+                    }
+                  >
+                    <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
+                  </BasicField>
+                  {newArtifact.project ? (
+                    <></>
+                  ) : (
+                    <ProjectSelect setProject={setProject} setDefaultValue={true} label='Project' projectFilter={p => !p.id.isIar} />
+                  )}
                 </Flex>
-                <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
-              </Field>
-              {newArtifact.project ? (
-                <></>
-              ) : (
-                <ProjectSelect setProject={setProject} setDefaultValue={true} label='Project' projectFilter={p => !p.id.isIar} />
-              )}
-            </Flex>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button
-                  icon={IvyIcons.Plus}
-                  disabled={buttonDisabled}
-                  variant='primary'
-                  size='large'
-                  type='submit'
-                  onClick={() => newArtifact.create(name, namespace, project, newArtifact.pid)}
-                >
-                  Create
-                </Button>
-              </DialogClose>
-              <DialogClose asChild>
-                <Button icon={IvyIcons.Close} size='large' variant='outline'>
-                  Cancel
-                </Button>
-              </DialogClose>
-            </DialogFooter>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button
+                      icon={IvyIcons.Plus}
+                      disabled={buttonDisabled}
+                      variant='primary'
+                      size='large'
+                      type='submit'
+                      onClick={e => {
+                        e.preventDefault();
+                        setDialogState(false);
+                        newArtifact.create(name, namespace, project, newArtifact.pid);
+                      }}
+                    >
+                      Create
+                    </Button>
+                  </DialogClose>
+                  <DialogClose asChild>
+                    <Button icon={IvyIcons.Close} size='large' variant='outline'>
+                      Cancel
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </Flex>
+            </form>
           </DialogContent>
         </Dialog>
       )}
