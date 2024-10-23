@@ -23,6 +23,7 @@ import { useInstallProduct } from '~/data/workspace-api';
 import { cardLinks } from '~/neo/artifact/ArtifactCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
+import { useSearch } from '~/neo/useSearch';
 
 export const links = cardLinks;
 
@@ -31,7 +32,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const [search, setSearch] = useState('');
+  const { search, setSearch } = useSearch();
   const { data, isPending, isFetchingNextPage, fetchNextPage, hasNextPage } = useProducts();
   const products =
     data?.pages

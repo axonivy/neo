@@ -2,13 +2,13 @@ import { Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { MetaFunction } from '@remix-run/node';
 import { useNavigate, useParams } from '@remix-run/react';
-import { useState } from 'react';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import { useDeleteProject, useSortedProjects } from '~/data/project-api';
 import { configDescription, dataClassDescription, formDescription, processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { Overview } from '~/neo/Overview';
+import { useSearch } from '~/neo/useSearch';
 import { useImportProjects } from '~/neo/workspace/useImportProjects';
 import PreviewSVG from './_index/workspace-preview.svg?react';
 
@@ -17,7 +17,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const [search, setSearch] = useState('');
+  const { search, setSearch } = useSearch();
   const { data, isPending } = useSortedProjects();
   const { ws } = useParams();
   const navigate = useNavigate();

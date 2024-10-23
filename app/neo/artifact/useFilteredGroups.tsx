@@ -1,5 +1,6 @@
 import { useParams } from '@remix-run/react';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
+import { useSearch } from '../useSearch';
 
 type ProjectGroup<T> = {
   project: string;
@@ -8,7 +9,7 @@ type ProjectGroup<T> = {
 
 export function useFilteredGroups<T>(groups: ProjectGroup<T>[], artifactSearchTarget: (t: T) => string) {
   const { ws } = useParams();
-  const [search, setSearch] = useState('');
+  const { search, setSearch } = useSearch();
   const extendedGroups = useMemo(() => insertWorkspaceIfAbsent(groups ?? [], ws), [groups, ws]);
   const filteredGroups = useMemo(
     () => filterArifacts(extendedGroups, t => artifactSearchTarget(t).toLocaleLowerCase().includes(search.toLocaleLowerCase()), ws),

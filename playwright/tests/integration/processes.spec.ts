@@ -28,4 +28,7 @@ test('search processes', async ({ page }) => {
   await expect(overview.cards).toHaveCount(0);
   await overview.search.fill('quick');
   await expect(overview.cards).toHaveCount(1);
+  await page.reload();
+  expect(page.url()).toContain('?search=quick');
+  await expect(overview.cards).toHaveCount(1);
 });
