@@ -1,6 +1,8 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
 import { useParams } from '@remix-run/react';
-import { type ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
+import { useSortedProjects } from '~/data/project-api';
+import { ArtifactTag } from './ArtifactTag';
 
 type Group = {
   project: string;
@@ -9,6 +11,8 @@ type Group = {
 };
 
 export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => {
+  const { data } = useSortedProjects();
+  const projectBean = useMemo(() => data?.find(p => p.id.pmv === project), [data, project]);
   const { ws } = useParams();
   return (
     <Collapsible defaultOpen={true} style={{ width: '100%', border: 0 }}>
@@ -23,6 +27,7 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
         }}
       >
         Project: {project}
+        {projectBean?.id.isIar && <ArtifactTag label='Read only' />}
       </CollapsibleTrigger>
       <CollapsibleContent style={{ padding: 0 }}>
         <Flex gap={4} style={{ flexWrap: 'wrap' }}>

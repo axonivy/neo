@@ -106,7 +106,14 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
     message: 'The dependency cannot be deleted as the project at hand is packaged.'
   };
   return (
-    <ArtifactCard name={dependency.pmv} type='dependency' actions={{ delete: deleteAction }} onClick={open} preview={<PreviewSVG />} />
+    <ArtifactCard
+      name={dependency.pmv}
+      type='dependency'
+      actions={{ delete: deleteAction }}
+      onClick={open}
+      preview={<PreviewSVG />}
+      tagLabel={dependency.isIar ? 'Read only' : undefined}
+    />
   );
 };
 
