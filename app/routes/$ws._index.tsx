@@ -68,6 +68,13 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
     message: project.isDeletable ? '' : 'The project cannot be deleted as it is required by other projects in the workspace.'
   };
   return (
-    <ArtifactCard name={project.artifactId} type='project' actions={{ delete: deleteAction }} onClick={open} preview={<PreviewSVG />} />
+    <ArtifactCard
+      name={project.artifactId}
+      type='project'
+      actions={{ delete: deleteAction }}
+      onClick={open}
+      preview={<PreviewSVG />}
+      tagLabel={project.id.isIar ? 'Read only' : undefined}
+    />
   );
 };

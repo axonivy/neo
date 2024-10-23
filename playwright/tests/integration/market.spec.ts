@@ -22,6 +22,8 @@ test('install from market', async ({ page, browserName }, testInfo) => {
   await page.getByRole('dialog').getByRole('button').getByText('Install').click();
   await expect(page.getByRole('status').getByText('Product installed')).toBeVisible();
   await neo.processes();
+  await overview.hasGroup('Project: excel-connector', 'Read only');
+  await overview.hasGroup('Project: excel-connector-demo');
   await expect(overview.card('WriteExcel')).toBeVisible();
   await page.goto('');
   await overview.deleteCard(wsName, true);

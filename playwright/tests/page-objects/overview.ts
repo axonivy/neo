@@ -86,10 +86,16 @@ export class Overview {
     await expect(this.overview.getByRole('tooltip')).toHaveText(content);
   }
 
-  async hasGroup(name: string) {
-    const group = this.overview.locator(`.ui-collapsible:has-text("${name}")`);
+  async hasGroup(name: string, tagLabel?: string) {
+    const groupTitel = tagLabel ? `${name}${tagLabel}` : name;
+    const group = this.overview.locator(`.ui-collapsible:has-text("${groupTitel}")`);
+    const tag = group.locator('div.artifact-tag');
+    if (tagLabel) {
+      await expect(tag).toHaveText(tagLabel);
+    } else {
+      await expect(tag).toBeHidden();
+    }
     const trigger = group.locator('button.ui-collapsible-trigger');
-    await expect(trigger).toHaveText(name);
     await expect(trigger).toHaveAttribute('data-state', 'open');
     const nestedArtifacts = group.locator('.artifact-card');
     expect(await nestedArtifacts.count()).toBeGreaterThan(0);

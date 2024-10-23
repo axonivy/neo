@@ -15,6 +15,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction } from '@remix-run/node';
 import type { ReactNode } from 'react';
+import { ArtifactTag } from './ArtifactTag';
 import cardStyles from './card.css?url';
 import { DeleteConfirm, type DeleteAction } from './DeleteConfirm';
 import { DeployDialog, type DeployActionParams } from './DeployDialog';
@@ -26,6 +27,7 @@ type Card = {
   type: string;
   preview?: ReactNode;
   tooltip?: string;
+  tagLabel?: string;
   onClick: () => void;
   actions?: {
     delete?: DeleteAction;
@@ -34,7 +36,7 @@ type Card = {
   };
 };
 
-export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip }: Card) => (
+export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, tagLabel }: Card) => (
   <div className='artifact-card'>
     <TooltipProvider>
       <Tooltip delayDuration={700}>
@@ -43,6 +45,11 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip }:
           <button className='card' onClick={onClick}>
             <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
               <Flex alignItems='center' justifyContent='center' className='card-preview'>
+                {tagLabel && (
+                  <div style={{ position: 'absolute', top: 15, right: 15 }}>
+                    <ArtifactTag label={tagLabel} />
+                  </div>
+                )}
                 {preview}
               </Flex>
               <Flex alignItems='center' justifyContent='space-between' gap={1}>
