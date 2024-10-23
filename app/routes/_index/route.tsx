@@ -4,20 +4,21 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   Flex,
-  Input
+  Input,
+  type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useNavigate } from '@remix-run/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
+import { validateNotEmpty } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { Overview } from '~/neo/Overview';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
@@ -82,6 +83,7 @@ const NewWorkspaceCard = () => {
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
   const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.name));
+  const nameValidation = useMemo<MessageData | undefined>(() => validateNotEmpty(name, 'name', 'workspace'), [name]);
   return (
     <>
       <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />
@@ -89,17 +91,16 @@ const NewWorkspaceCard = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Create new Workspace</DialogTitle>
-            {!name && <DialogDescription>Please define a name for the new workspace.</DialogDescription>}
           </DialogHeader>
           <form>
             <Flex direction='column' gap={3}>
-              <BasicField label='Name'>
+              <BasicField label='Name' message={nameValidation}>
                 <Input value={name} onChange={e => setName(e.target.value)} />
               </BasicField>
               <DialogFooter>
                 <DialogClose asChild>
                   <Button
-                    disabled={!name}
+                    disabled={nameValidation !== undefined}
                     icon={IvyIcons.Plus}
                     size='large'
                     variant='primary'

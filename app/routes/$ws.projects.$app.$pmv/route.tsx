@@ -36,7 +36,6 @@ export default function Index() {
       <Flex direction='column' gap={1}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='project-detail'>
           <span style={{ fontWeight: 600 }}>Project details: {project?.artifactId}</span>
-          <span style={{ color: 'var(--N900)' }}>Here are the details related to your project.</span>
           <div className='project-detail-card' style={{ background: 'var(--N50)', padding: 10, borderRadius: 5 }}>
             <Flex direction='row' gap={4} style={{ flexWrap: 'wrap', columnGap: '150px' }}>
               <ProjectInfoContainer>
