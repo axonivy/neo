@@ -4,5 +4,5 @@ export const validateNotEmpty = (value: string, label: string, type?: string): M
   if (value) {
     return;
   }
-  return { message: `Please define a ${label} for the new ${type}.`, variant: 'warning' };
+  return { message: `Please define a ${label} for the new ${type ?? 'artifact'}.`, variant: 'warning' };
 };

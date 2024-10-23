@@ -8,8 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   Flex,
-  Input,
-  type MessageData
+  Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
@@ -83,7 +82,7 @@ const NewWorkspaceCard = () => {
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
   const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.name));
-  const nameValidation = useMemo<MessageData | undefined>(() => validateNotEmpty(name, 'name', 'workspace'), [name]);
+  const nameValidation = useMemo(() => validateNotEmpty(name, 'name', 'workspace'), [name]);
   return (
     <>
       <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />

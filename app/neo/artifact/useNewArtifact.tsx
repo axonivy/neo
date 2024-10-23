@@ -1,7 +1,6 @@
 import {
   BasicField,
   Button,
-  cn,
   Dialog,
   DialogClose,
   DialogContent,
@@ -9,9 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
   Flex,
-  Input,
-  Label,
-  type MessageData
+  Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from '@remix-run/react';
@@ -58,11 +55,8 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     setNewArtifact(context);
   };
   const close = () => setDialogState(false);
-  const nameValidation = useMemo<MessageData | undefined>(
-    () => validateNotEmpty(name, 'name', newArtifact?.type.toLowerCase()),
-    [name, newArtifact?.type]
-  );
-  const namespaceValidation = useMemo<MessageData | undefined>(
+  const nameValidation = useMemo(() => validateNotEmpty(name, 'name', newArtifact?.type.toLowerCase()), [name, newArtifact?.type]);
+  const namespaceValidation = useMemo(
     () => (!newArtifact?.namespaceRequired ? undefined : validateNotEmpty(namespace, 'namespace', newArtifact?.type.toLowerCase())),
     [namespace, newArtifact?.namespaceRequired, newArtifact?.type]
   );
@@ -85,12 +79,14 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                   <BasicField label='Name' message={nameValidation}>
                     <Input value={name} onChange={e => setName(e.target.value)} />
                   </BasicField>
-                  <BasicField message={namespaceValidation}>
-                    <Flex gap={2} alignItems='center' className={cn('ui-fieldset-label')}>
-                      <Label>Namespace{newArtifact.namespaceRequired ? '' : ' (Optional)'}</Label>
+                  <BasicField
+                    label={`Namespace ${newArtifact.namespaceRequired ? '' : ' (Optional)'}`}
+                    message={namespaceValidation}
+                    control={
                       <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
-                    </Flex>
-                    <Input id='namespace-input' value={namespace} onChange={e => setNamespace(e.target.value)} />
+                    }
+                  >
+                    <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
                   </BasicField>
                   {newArtifact.project ? (
                     <></>

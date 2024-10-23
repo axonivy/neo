@@ -60,7 +60,7 @@ export class Overview {
     await expect(dialog).toBeVisible();
     await dialog.getByLabel('Name').first().fill(name);
     if (namespace) {
-      await dialog.locator('#namespace-input').fill(namespace);
+      await dialog.getByLabel('Namespace').first().fill(namespace);
     }
     if (options?.file) {
       await ImportDialog.selectFileImport(dialog, this.page, options.file);
