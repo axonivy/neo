@@ -1,4 +1,5 @@
 import {
+  BasicField,
   Button,
   Dialog,
   DialogClose,
@@ -6,16 +7,17 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
+  Input,
+  type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { Link, useParams } from '@remix-run/react';
 import { useQueryClient } from '@tanstack/react-query';
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { useProjectsApi, type ProjectIdentifier } from '~/data/project-api';
 import { useImportProjectsIntoWs } from '~/data/workspace-api';
 import { ProjectSelect } from '../artifact/ProjectSelect';
-import { FileInput } from './FileInput';
 import { useDownloadWorkspace } from './useDownloadWorkspace';
 
 type ImportProjectsDialogState = {
@@ -37,11 +39,16 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
   const [project, setProject] = useState<ProjectIdentifier>();
   const importAction = (file: File) => importProjects(ws ?? '', file, project).then(() => client.invalidateQueries({ queryKey }));
   const open = () => {
+    setFile(undefined);
     setDialogState(true);
   };
   const close = () => {
     setDialogState(false);
   };
+  const fileValidation = useMemo<MessageData | undefined>(
+    () => (file ? undefined : { message: 'Select an .iar file or a .zip file that contains .iar files.', variant: 'warning' }),
+    [file]
+  );
   return (
     <ImportProjectsDialogContext.Provider value={{ open, close, dialogState }}>
       {children}
@@ -56,7 +63,17 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
               </Link>
             </DialogDescription>
           </DialogHeader>
-          <FileInput setFile={setFile} />
+          <BasicField label='File' message={fileValidation}>
+            <Input
+              accept='.zip,.iar'
+              type='file'
+              onChange={e => {
+                if (e.target.files && e.target.files.length > 0) {
+                  setFile(e.target.files[0]);
+                }
+              }}
+            />
+          </BasicField>
           <ProjectSelect
             setProject={setProject}
             setDefaultValue={false}
@@ -65,7 +82,13 @@ export const ImportProjectsDialogProvider = ({ children }: { children: React.Rea
           />
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant='primary' size='large' onClick={() => (file ? importAction(file) : {})} icon={IvyIcons.Download}>
+              <Button
+                variant='primary'
+                size='large'
+                disabled={fileValidation !== undefined}
+                onClick={() => (file ? importAction(file) : {})}
+                icon={IvyIcons.Download}
+              >
                 Import
               </Button>
             </DialogClose>

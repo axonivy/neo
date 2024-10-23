@@ -10,7 +10,7 @@ test('navigate to forms', async ({ page }) => {
   await new FormEditor(neo, 'EnterProduct').waitForOpen('Product');
 });
 
-test('create and delete from', async ({ page, browserName }, testInfo) => {
+test('create and delete form', async ({ page, browserName }, testInfo) => {
   const fromName = `${browserName}ws${testInfo.retry}`;
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();

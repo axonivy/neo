@@ -4,7 +4,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -17,6 +16,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { InfoPopover } from '../InfoPopover';
 import { ProjectSelect } from './ProjectSelect';
+import { validateNotEmpty } from './validation';
 
 export type NewArtifact = {
   type: string;
@@ -50,16 +50,20 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     setName('');
   }, [newArtifact, ws]);
 
-  const buttonDisabled = useMemo(
-    () => !name || (newArtifact?.namespaceRequired && !namespace),
-    [name, namespace, newArtifact?.namespaceRequired]
-  );
-
   const open = (context: NewArtifact) => {
     setDialogState(true);
     setNewArtifact(context);
   };
   const close = () => setDialogState(false);
+  const nameValidation = useMemo(() => validateNotEmpty(name, 'name', newArtifact?.type.toLowerCase()), [name, newArtifact?.type]);
+  const namespaceValidation = useMemo(
+    () => (!newArtifact?.namespaceRequired ? undefined : validateNotEmpty(namespace, 'namespace', newArtifact?.type.toLowerCase())),
+    [namespace, newArtifact?.namespaceRequired, newArtifact?.type]
+  );
+  const buttonDisabled = useMemo(
+    () => nameValidation !== undefined || namespaceValidation !== undefined,
+    [nameValidation, namespaceValidation]
+  );
   return (
     <NewArtifactDialogContext.Provider value={{ open, close, dialogState, newArtifact }}>
       {children}
@@ -68,16 +72,16 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
           <DialogContent>
             <DialogHeader>
               <DialogTitle>Create new {newArtifact.type}</DialogTitle>
-              <DialogDescription>{!name && `Please define a name fo the new ${newArtifact.type.toLowerCase()}`}</DialogDescription>
             </DialogHeader>
             <form>
               <Flex direction='column' gap={4}>
                 <Flex direction='column' gap={3}>
-                  <BasicField label='Name'>
+                  <BasicField label='Name' message={nameValidation}>
                     <Input value={name} onChange={e => setName(e.target.value)} />
                   </BasicField>
                   <BasicField
-                    label={newArtifact.namespaceRequired ? 'Namespace' : 'Namespace (Optional)'}
+                    label={`Namespace ${newArtifact.namespaceRequired ? '' : ' (Optional)'}`}
+                    message={namespaceValidation}
                     control={
                       <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
                     }
