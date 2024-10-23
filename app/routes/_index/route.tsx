@@ -20,6 +20,7 @@ import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { validateNotEmpty } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { Overview } from '~/neo/Overview';
+import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import PreviewSVG from './workspace-preview.svg?react';
 
@@ -30,7 +31,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const [search, setSearch] = useState('');
+  const { search, setSearch } = useSearch();
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const description = 'Here you can access and manage your created workspaces.';

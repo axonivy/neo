@@ -1,5 +1,4 @@
 import type { MetaFunction } from '@remix-run/node';
-import { useState } from 'react';
 import { useSortedProjects } from '~/data/project-api';
 import { configDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
@@ -8,6 +7,7 @@ import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
+import { useSearch } from '~/neo/useSearch';
 import PreviewSVG from './variables-preview.svg?react';
 
 export const links = cardLinks;
@@ -17,7 +17,7 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const [search, setSearch] = useState('');
+  const { search, setSearch } = useSearch();
   const { data, isPending } = useSortedProjects();
   const { createVariableEditor } = useCreateEditor();
   const projects = data?.filter(({ id }) => id.pmv.toLowerCase().includes(search.toLocaleLowerCase())).map(p => p.id) ?? [];

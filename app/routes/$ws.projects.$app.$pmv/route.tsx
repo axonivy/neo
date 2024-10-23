@@ -18,6 +18,7 @@ import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
+import { useSearch } from '~/neo/useSearch';
 import PreviewSVG from '../_index/workspace-preview.svg?react';
 
 export const meta: MetaFunction = () => {
@@ -26,7 +27,7 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const { app, pmv } = useParams();
-  const [search, setSearch] = useState('');
+  const { search, setSearch } = useSearch();
   const projects = useSortedProjects();
   const project = useMemo(() => projects.data?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects.data]);
   const { data, isPending } = useDependencies(app, pmv);
