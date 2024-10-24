@@ -2,21 +2,22 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axon
 import { useParams, useSearchParams } from '@remix-run/react';
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { useSortedProjects } from '~/data/project-api';
+import { useSearch } from '../useSearch';
 import { ArtifactTag } from './ArtifactTag';
 
 type Group = {
   project: string;
   newArtifactCard?: ReactNode;
   children: ReactNode;
-  search: string;
 };
 
 const useGroupSearchParam = () => {
   const name = 'group';
   const [searchParams, setSearchParams] = useSearchParams();
+  const { search } = useSearch();
   return {
     hasGroup: () => searchParams.get(name),
-    hasGroupWithValue: (value: string) => searchParams.has(name, value),
+    isOpen: (value: string) => search !== '' || searchParams.has(name, value),
     addGroup: (value: string) => {
       searchParams.append(name, value);
       searchParams.delete(name, '');
@@ -32,14 +33,14 @@ const useGroupSearchParam = () => {
   };
 };
 
-export const ArtifactGroup = ({ project, newArtifactCard, children, search }: Group) => {
+export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => {
   const { data } = useSortedProjects();
-  const { hasGroup, hasGroupWithValue, addGroup, removeGroup } = useGroupSearchParam();
+  const { hasGroup, isOpen, addGroup, removeGroup } = useGroupSearchParam();
   const projectBean = useMemo(() => data?.find(p => p.id.pmv === project), [data, project]);
   const { ws } = useParams();
   const [open, setOpen] = useState(ws === project);
   useEffect(() => (hasGroup() === null && ws === project ? addGroup(project) : undefined), [addGroup, hasGroup, project, ws]);
-  useEffect(() => setOpen(search !== '' || hasGroupWithValue(project)), [hasGroup, hasGroupWithValue, project, search, ws]);
+  useEffect(() => setOpen(isOpen(project)), [isOpen, project]);
   return (
     <Collapsible open={open} onOpenChange={e => (e ? addGroup(project) : removeGroup(project))} style={{ width: '100%', border: 0 }}>
       <CollapsibleTrigger

@@ -31,7 +31,7 @@ export default function Index() {
           return <DataClassCard key={editor.id} dataClassId={dc.dataClassIdentifier} {...editor} />;
         });
         return (
-          <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} search={search} key={project}>
+          <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} key={project}>
             {cards}
           </ArtifactGroup>
         );
