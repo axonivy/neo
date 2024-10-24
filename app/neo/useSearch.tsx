@@ -1,11 +1,17 @@
 import { useSearchParams } from '@remix-run/react';
 
 export const useSearch = () => {
+  const name = 'search';
   const [searchParams, setSearchParams] = useSearchParams();
   return {
-    search: searchParams.get('search') ?? '',
+    search: searchParams.get(name) ?? '',
     setSearch: (change: string) => {
-      setSearchParams({ search: change }, { replace: true });
+      if (change) {
+        searchParams.set(name, change);
+      } else {
+        searchParams.delete(name);
+      }
+      setSearchParams(searchParams, { replace: true });
     }
   };
 };

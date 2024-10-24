@@ -31,7 +31,7 @@ export default function Index() {
           return <FormCard key={editor.id} formId={form.identifier} {...editor} />;
         });
         return (
-          <ArtifactGroup project={project} newArtifactCard={<NewFormCard />} key={project}>
+          <ArtifactGroup project={project} newArtifactCard={<NewFormCard />} search={search} key={project}>
             {cards}
           </ArtifactGroup>
         );

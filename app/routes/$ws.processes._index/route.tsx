@@ -31,7 +31,7 @@ export default function Index() {
           return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
         });
         return (
-          <ArtifactGroup project={project} newArtifactCard={<NewProcessCard />} key={project}>
+          <ArtifactGroup project={project} newArtifactCard={<NewProcessCard />} search={search} key={project}>
             {cards}
           </ArtifactGroup>
         );

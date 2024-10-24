@@ -95,6 +95,7 @@ export class Neo {
     await this.navigation.open(path);
     const overview = new Overview(this.page);
     await expect(overview.title).toHaveText(title ?? path);
+    await this.page.locator('button.ui-collapsible-trigger[data-state="closed"]').click();
     await overview.expectCardsCountGreaterThan(0);
     return overview;
   }
