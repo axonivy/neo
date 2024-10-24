@@ -86,7 +86,7 @@ export class Overview {
     await expect(this.overview.getByRole('tooltip')).toHaveText(content);
   }
 
-  async hasGroup(name: string, tagLabel?: string) {
+  async group(name: string, tagLabel?: string) {
     const groupTitel = tagLabel ? `${name}${tagLabel}` : name;
     const group = this.overview.locator(`.ui-collapsible:has-text("${groupTitel}")`);
     const tag = group.locator('div.artifact-tag');
@@ -96,10 +96,22 @@ export class Overview {
       await expect(tag).toBeHidden();
     }
     const trigger = group.locator('button.ui-collapsible-trigger');
+    return { group, trigger };
+  }
+
+  async hasGroup(name: string, tagLabel?: string, numOfNewCards?: number) {
+    const { group, trigger } = await this.group(name, tagLabel);
     await expect(trigger).toHaveAttribute('data-state', 'open');
     const nestedArtifacts = group.locator('.artifact-card');
     expect(await nestedArtifacts.count()).toBeGreaterThan(0);
     const nestedNew = group.locator('.new-artifact-card');
-    expect(await nestedNew.count()).toBe(1);
+    expect(await nestedNew.count()).toBe(numOfNewCards ?? 1);
+  }
+
+  async openGroup(name: string, tagLabel?: string) {
+    const { trigger } = await this.group(name, tagLabel);
+    await expect(trigger).toHaveAttribute('data-state', 'closed');
+    await trigger.click();
+    await expect(trigger).toHaveAttribute('data-state', 'open');
   }
 }

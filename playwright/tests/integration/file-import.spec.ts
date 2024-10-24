@@ -15,7 +15,9 @@ test('file import', async ({ page, browserName }, testInfo) => {
   await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
   await neo.fileImport();
   await new ImportDialog(page).import(zipFile);
-  await neo.processes();
+  await neo.navigation.open('Processes');
+  await overview.hasGroup(`Project: ${wsName}`);
+  await overview.openGroup('neo-test-project');
   await expect(overview.card('quickstart')).toBeVisible();
   await page.goto('');
   await overview.deleteCard(wsName, true);
