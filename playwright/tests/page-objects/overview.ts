@@ -100,6 +100,6 @@ export class Overview {
     const nestedArtifacts = group.locator('.artifact-card');
     expect(await nestedArtifacts.count()).toBeGreaterThan(0);
     const nestedNew = group.locator('.new-artifact-card');
-    expect(await nestedNew.count()).toBe(0);
+    expect(await nestedNew.count()).toBe(1);
   }
 }
