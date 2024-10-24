@@ -1,6 +1,6 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
 import { useParams, useSearchParams } from '@remix-run/react';
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, type ReactNode } from 'react';
 import { useSortedProjects } from '~/data/project-api';
 import { useSearch } from '../useSearch';
 import { ArtifactTag } from './ArtifactTag';
@@ -17,9 +17,9 @@ const useGroupSearchParam = () => {
   const { search } = useSearch();
   return {
     hasGroup: () => searchParams.get(name),
-    isOpen: (value: string) => search !== '' || searchParams.has(name, value),
-    addGroup: (value: string) => {
-      searchParams.append(name, value);
+    isOpen: (group: string) => search !== '' || searchParams.has(name, group),
+    addGroup: (group: string) => {
+      searchParams.append(name, group);
       searchParams.delete(name, '');
       setSearchParams(searchParams, { replace: true });
     },
@@ -38,11 +38,13 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
   const { hasGroup, isOpen, addGroup, removeGroup } = useGroupSearchParam();
   const projectBean = useMemo(() => data?.find(p => p.id.pmv === project), [data, project]);
   const { ws } = useParams();
-  const [open, setOpen] = useState(ws === project);
   useEffect(() => (hasGroup() === null && ws === project ? addGroup(project) : undefined), [addGroup, hasGroup, project, ws]);
-  useEffect(() => setOpen(isOpen(project)), [isOpen, project]);
   return (
-    <Collapsible open={open} onOpenChange={e => (e ? addGroup(project) : removeGroup(project))} style={{ width: '100%', border: 0 }}>
+    <Collapsible
+      open={isOpen(project)}
+      onOpenChange={e => (e ? addGroup(project) : removeGroup(project))}
+      style={{ width: '100%', border: 0 }}
+    >
       <CollapsibleTrigger
         style={{
           color: 'var(--body)',
