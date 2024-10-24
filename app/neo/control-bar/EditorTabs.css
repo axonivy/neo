@@ -12,6 +12,9 @@
       font-weight: normal;
       background: var(--background);
     }
+    &:has(.editor-tab:hover:not([data-state='active']):not(.editor-sub-tab:hover)) {
+      background-color: var(--N75);
+    }
     &:not(:has(.editor-tab[data-state='active'])) {
       > :nth-last-child(2) {
         margin-inline-end: var(--size-2);
@@ -53,6 +56,9 @@
         padding: 0 5px;
         &[data-state='active'] {
           background-color: var(--N50);
+        }
+        &:hover {
+          background-color: var(--N100);
         }
         .editor-tab-icon {
           font-size: 14px;
