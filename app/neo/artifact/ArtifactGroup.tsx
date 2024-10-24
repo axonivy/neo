@@ -1,7 +1,8 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
-import { useParams } from '@remix-run/react';
-import { useMemo, type ReactNode } from 'react';
+import { useParams, useSearchParams } from '@remix-run/react';
+import { useEffect, useMemo, type ReactNode } from 'react';
 import { useSortedProjects } from '~/data/project-api';
+import { useSearch } from '../useSearch';
 import { ArtifactTag } from './ArtifactTag';
 
 type Group = {
@@ -10,12 +11,40 @@ type Group = {
   children: ReactNode;
 };
 
+const useGroupSearchParam = () => {
+  const name = 'group';
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { search } = useSearch();
+  return {
+    hasGroup: () => searchParams.get(name),
+    isOpen: (group: string) => search !== '' || searchParams.has(name, group),
+    addGroup: (group: string) => {
+      searchParams.append(name, group);
+      searchParams.delete(name, '');
+      setSearchParams(searchParams, { replace: true });
+    },
+    removeGroup: (group: string) => {
+      searchParams.delete(name, group);
+      if (searchParams.get(name) === null) {
+        searchParams.set(name, '');
+      }
+      setSearchParams(searchParams, { replace: true });
+    }
+  };
+};
+
 export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => {
   const { data } = useSortedProjects();
+  const { hasGroup, isOpen, addGroup, removeGroup } = useGroupSearchParam();
   const projectBean = useMemo(() => data?.find(p => p.id.pmv === project), [data, project]);
   const { ws } = useParams();
+  useEffect(() => (hasGroup() === null && ws === project ? addGroup(project) : undefined), [addGroup, hasGroup, project, ws]);
   return (
-    <Collapsible defaultOpen={true} style={{ width: '100%', border: 0 }}>
+    <Collapsible
+      open={isOpen(project)}
+      onOpenChange={e => (e ? addGroup(project) : removeGroup(project))}
+      style={{ width: '100%', border: 0 }}
+    >
       <CollapsibleTrigger
         style={{
           color: 'var(--body)',

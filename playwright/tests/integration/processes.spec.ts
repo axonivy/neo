@@ -29,6 +29,6 @@ test('search processes', async ({ page }) => {
   await overview.search.fill('quick');
   await expect(overview.cards).toHaveCount(1);
   await page.reload();
-  expect(page.url()).toContain('?search=quick');
+  expect(page.url()).toContain('?group=neo-test-project&search=quick');
   await expect(overview.cards).toHaveCount(1);
 });
