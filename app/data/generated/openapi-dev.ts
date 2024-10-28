@@ -160,6 +160,7 @@ export interface ProjectBean {
 }
 
 export interface HdInit {
+  dataClass?: DataClassIdentifier;
   layout?: string;
   name: string;
   namespace: string;
