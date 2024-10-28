@@ -1,6 +1,6 @@
 import type { MetaFunction } from '@remix-run/node';
 import { type FormIdentifier, useCreateForm, useDeleteForm, useGroupedForms } from '~/data/form-api';
-import type { HdBean } from '~/data/generated/openapi-dev';
+import type { DataClassIdentifier, HdBean } from '~/data/generated/openapi-dev';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { formDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
@@ -71,8 +71,8 @@ const NewFormCard = () => {
   const { openEditor } = useEditors();
   const { createForm } = useCreateForm();
   const { createFormEditor } = useCreateEditor();
-  const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
-    createForm({ name, namespace, project }).then(form => openEditor(createFormEditor(form)));
+  const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string, dataClass?: DataClassIdentifier) =>
+    createForm({ name, namespace, project, dataClass }).then(form => openEditor(createFormEditor(form)));
   const title = 'Create new Form';
-  return <NewArtifactCard title={title} open={() => open({ create, type: 'Form', namespaceRequired: true })} />;
+  return <NewArtifactCard title={title} open={() => open({ create, type: 'Form', namespaceRequired: true, selectDataClass: true })} />;
 };

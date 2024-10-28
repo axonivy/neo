@@ -247,18 +247,26 @@ export interface ProductModuleContent {
   id?: string;
   /** Is dependency artifact */
   isDependency?: boolean;
-  /** Versions in maven */
+  /**
+   * Versions in maven
+   * @deprecated
+   */
   mavenVersions?: string[];
   name?: string;
   /** product Id (from meta.json) */
   productId?: string;
   /** Setup tab content */
   setup?: ProductModuleContentSetup;
-  /** Target release tag */
+  /**
+   * Target release tag
+   * @deprecated
+   */
   tag?: string;
   /** Artifact file type */
   type?: string;
   updatedAt?: string;
+  /** Maven version */
+  version?: string;
 }
 
 /**
@@ -289,6 +297,7 @@ export interface ProductDetailModel {
   language?: string;
   /** Product's logo url */
   logoUrl?: string;
+  mavenDropins?: boolean;
   /** The api url to get metadata from product.json */
   metaProductJsonUrl?: string;
   /** Product name by locale */
