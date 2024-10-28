@@ -1,4 +1,4 @@
-import type { DataClassActionArgs } from '@axonivy/dataclass-editor';
+import type { DataClassActionArgs } from '@axonivy/dataclass-editor-protocol/lib/types';
 import { useCallback } from 'react';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { DIALOG_PROCESS_EDITOR_SUFFIX, FORM_EDITOR_SUFFIX } from '../editor';
