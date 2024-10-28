@@ -34,7 +34,7 @@ export default function Index() {
   const { search, setSearch } = useSearch();
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const description = 'Here you can access and manage your created workspaces.';
+  const description = 'Here you can access and manage your workspaces.';
   const title = 'Welcome to Axon Ivy NEO Designer';
   const info =
     "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.";
