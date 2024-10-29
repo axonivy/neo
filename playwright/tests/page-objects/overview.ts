@@ -52,6 +52,14 @@ export class Overview {
     await this.page.getByRole('menu').getByRole('menuitem', { name: actionName }).click();
   }
 
+  async clickFileImport() {
+    await this.clickCardAction(this.newCard, 'Import from File');
+  }
+
+  async clickMarketImport() {
+    await this.clickCardAction(this.newCard, 'Import from Market');
+  }
+
   async create(name: string, namespace?: string, options?: { file?: string; project?: string; hasDataClassSelect?: boolean }) {
     await this.waitForHiddenSpinner();
     await expect(this.newCard).toBeVisible();

@@ -1,6 +1,5 @@
 import { expect, test } from '@playwright/test';
 import { AppInfo } from '../page-objects/app-info';
-import { ImportDialog } from '../page-objects/import-dialog';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
 import { workspace } from './constants';
@@ -25,24 +24,6 @@ test('search projects', async ({ page }) => {
   await expect(overview.cards).toHaveCount(0);
   await overview.search.fill('test');
   await expect(overview.cards).toHaveCount(1);
-});
-
-test('click market', async ({ page }) => {
-  await Neo.openWorkspace(page);
-  const overview = new Overview(page);
-  const marketCard = overview.newCard.getByText('Market');
-  await marketCard.click();
-  const marketOverview = new Overview(page);
-  await expect(marketOverview.title).toHaveText('Axon Ivy Market');
-});
-
-test('click import', async ({ page }) => {
-  await Neo.openWorkspace(page);
-  const overview = new Overview(page);
-  const importCard = overview.newCard.getByText('File Import');
-  await importCard.click();
-  const dialog = new ImportDialog(page);
-  await expect(dialog.title).toHaveText(`Import Axon Ivy Projects into: ${workspace}`);
 });
 
 test('delete project', async ({ page, browserName }, testInfo) => {
