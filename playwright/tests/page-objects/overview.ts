@@ -52,7 +52,7 @@ export class Overview {
     await this.page.getByRole('menu').getByRole('menuitem', { name: actionName }).click();
   }
 
-  async create(name: string, namespace?: string, options?: { file?: string; project?: string }) {
+  async create(name: string, namespace?: string, options?: { file?: string; project?: string; hasDataClassSelect?: boolean }) {
     await this.waitForHiddenSpinner();
     await expect(this.newCard).toBeVisible();
     await this.newCard.click();
@@ -68,6 +68,7 @@ export class Overview {
     if (options?.project) {
       await this.selectProject(dialog, options.project);
     }
+    expect(await dialog.getByLabel('Caller Data').isVisible()).toBe(options?.hasDataClassSelect ? true : false);
     await dialog.getByRole('button', { name: 'Create' }).click();
   }
 
