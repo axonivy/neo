@@ -9,7 +9,6 @@ import rootStylesHref from '~/styles/root.css?url';
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { Neo } from './neo/Neo';
-import { ImportProjectsDialogProvider } from './neo/workspace/useImportProjects';
 
 const queryClient = new QueryClient();
 
@@ -42,9 +41,9 @@ export default function App() {
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
         <WebBrowserProvider>
-          <DialogProviders>
+          <NewArtifactDialogProvider>
             <Neo />
-          </DialogProviders>
+          </NewArtifactDialogProvider>
         </WebBrowserProvider>
         <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} />
       </QueryClientProvider>
@@ -59,9 +58,3 @@ export function HydrateFallback() {
     </Flex>
   );
 }
-
-const DialogProviders = ({ children }: { children: React.ReactNode }) => (
-  <NewArtifactDialogProvider>
-    <ImportProjectsDialogProvider>{children}</ImportProjectsDialogProvider>
-  </NewArtifactDialogProvider>
-);

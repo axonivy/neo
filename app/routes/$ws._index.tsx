@@ -1,15 +1,39 @@
-import { Flex } from '@axonivy/ui-components';
+import {
+  BasicField,
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Flex,
+  Input,
+  IvyIcon,
+  type MessageData
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { MetaFunction } from '@remix-run/node';
-import { useNavigate, useParams } from '@remix-run/react';
+import { Link, useNavigate, useParams } from '@remix-run/react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMemo, useState, type ReactNode } from 'react';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
-import { useDeleteProject, useSortedProjects } from '~/data/project-api';
+import { useDeleteProject, useProjectsApi, useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
+import { useImportProjectsIntoWs } from '~/data/workspace-api';
 import { configDescription, dataClassDescription, formDescription, processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
+import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
-import { useImportProjects } from '~/neo/workspace/useImportProjects';
+import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import PreviewSVG from './_index/workspace-preview.svg?react';
 
 export const meta: MetaFunction = () => {
@@ -19,9 +43,8 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const { search, setSearch } = useSearch();
   const { data, isPending } = useSortedProjects();
+  const [open, setOpen] = useState(false);
   const { ws } = useParams();
-  const navigate = useNavigate();
-  const open = useImportProjects();
   const projects = data?.filter(({ id }) => id.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const title = `Welcome to your workspace: ${ws}`;
   return (
@@ -42,8 +65,7 @@ export default function Index() {
           </Flex>
         </Flex>
         <Overview title={'Projects'} search={search} onSearchChange={setSearch} isPending={isPending}>
-          <NewArtifactCard title='Market' open={() => navigate('market')} icon={IvyIcons.Download} />
-          <NewArtifactCard title='File Import' open={() => open()} icon={IvyIcons.Download} />
+          <NewArtifactCard title='Import' open={() => setOpen(true)} menu={<ImportMenu open={open} setOpen={setOpen} />} />
           {projects.map(p => (
             <ProjectCard key={p.id.pmv} project={p} />
           ))}
@@ -52,6 +74,101 @@ export default function Index() {
     </div>
   );
 }
+
+const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {
+  const navigate = useNavigate();
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button icon={IvyIcons.Dots} className='card-menu-trigger' />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent side='bottom' align='start' className='import-menu'>
+        <DropdownMenuGroup>
+          <DropdownMenuItem
+            onSelect={() => {
+              navigate('market');
+            }}
+          >
+            <IvyIcon icon={IvyIcons.Market} />
+            <span>Import from Market</span>
+          </DropdownMenuItem>
+          <ImportDialog>
+            <DropdownMenuItem onSelect={e => e.preventDefault()}>
+              <IvyIcon icon={IvyIcons.Download} />
+              <span>Import from File</span>
+            </DropdownMenuItem>
+          </ImportDialog>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+const ImportDialog = ({ children }: { children: ReactNode }) => {
+  const { ws } = useParams();
+  const [file, setFile] = useState<File>();
+  const downloadWorkspace = useDownloadWorkspace();
+  const { importProjects } = useImportProjectsIntoWs();
+  const { queryKey } = useProjectsApi();
+  const client = useQueryClient();
+  const [project, setProject] = useState<ProjectIdentifier>();
+  const importAction = (file: File) => importProjects(ws ?? '', file, project).then(() => client.invalidateQueries({ queryKey }));
+  const fileValidation = useMemo<MessageData | undefined>(
+    () => (file ? undefined : { message: 'Select an .iar file or a .zip file that contains .iar files.', variant: 'warning' }),
+    [file]
+  );
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Import Axon Ivy Projects into: {ws}</DialogTitle>
+          <DialogDescription>
+            The import can overwrite existing project versions.{' '}
+            <Link onClick={downloadWorkspace} to={{}}>
+              Consider exporting the Workspace beforehand.
+            </Link>
+          </DialogDescription>
+        </DialogHeader>
+        <BasicField label='File' message={fileValidation}>
+          <Input
+            accept='.zip,.iar'
+            type='file'
+            onChange={e => {
+              if (e.target.files && e.target.files.length > 0) {
+                setFile(e.target.files[0]);
+              }
+            }}
+          />
+        </BasicField>
+        <ProjectSelect
+          setProject={setProject}
+          setDefaultValue={false}
+          label='Add as dependency to project'
+          projectFilter={p => !p.id.isIar}
+        />
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button
+              variant='primary'
+              size='large'
+              disabled={fileValidation !== undefined}
+              onClick={() => (file ? importAction(file) : {})}
+              icon={IvyIcons.Download}
+            >
+              Import
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button variant='outline' size='large' icon={IvyIcons.Close}>
+              Cancel
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const navigate = useNavigate();

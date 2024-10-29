@@ -97,16 +97,17 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
   </div>
 );
 
-export const NewArtifactCard = ({ title, open, icon }: { title: string; open: () => void; icon?: IvyIcons }) => (
+export const NewArtifactCard = ({ title, open, menu }: { title: string; open: () => void; menu?: ReactNode }) => (
   <div className='artifact-card new-artifact-card'>
     <button className='card' onClick={open}>
       <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
         <Flex alignItems='center' justifyContent='center' className='card-preview'></Flex>
         <Flex alignItems='center' justifyContent='space-between' gap={1}>
           <span className='card-name'>{title}</span>
-          <IvyIcon icon={icon ?? IvyIcons.Plus} />
+          {!menu && <IvyIcon icon={IvyIcons.Plus} />}
         </Flex>
       </Flex>
     </button>
+    {menu}
   </div>
 );
