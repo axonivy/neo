@@ -30,8 +30,9 @@ test('add and remove dependency', async ({ page, browserName }, testInfo) => {
   const wsName = `${browserName}dependency-ws${testInfo.retry}`;
   await overview.create(wsName);
   await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
-  await neo.fileImport();
+  await overview.clickFileImport();
   await new ImportDialog(page).import(zipFile);
+  await page.keyboard.press('Escape');
   await overview.card(wsName).click();
   await expect(overview.cards).toHaveCount(0);
   await overview.newCard.getByText('Add new Dependency').click();

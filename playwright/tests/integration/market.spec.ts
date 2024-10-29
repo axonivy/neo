@@ -4,7 +4,8 @@ import { Overview } from '../page-objects/overview';
 
 test('search market', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
-  const overview = await neo.market();
+  const overview = await neo.home();
+  await overview.clickMarketImport();
   await overview.search.fill('blahahahah');
   await expect(overview.cards).toHaveCount(0);
   await overview.search.fill('swiss phone di');
@@ -17,7 +18,7 @@ test('install from market', async ({ page, browserName }, testInfo) => {
   const overview = new Overview(page);
   await overview.create(wsName);
   await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
-  await neo.market();
+  await overview.clickMarketImport();
   await overview.card('Microsoft Excel').click();
   await page.getByRole('dialog').getByRole('button').getByText('Install').click();
   await expect(page.getByRole('status').getByText('Product installed')).toBeVisible();

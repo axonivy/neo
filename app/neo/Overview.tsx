@@ -35,5 +35,5 @@ export const Overview = ({ title, description, search, onSearchChange, isPending
 );
 
 const HelpButton = ({ url }: { url: string }) => (
-  <Button size='small' style={{ fontSize: 24, color: 'var(--P300)' }} icon={IvyIcons.Help} onClick={() => window.open(url, '_blank')} />
+  <Button size='small' style={{ color: 'var(--P300)' }} icon={IvyIcons.Help} onClick={() => window.open(url, '_blank')} />
 );
