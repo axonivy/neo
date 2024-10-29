@@ -14,7 +14,7 @@ test('create and delete form', async ({ page, browserName }, testInfo) => {
   const fromName = `${browserName}ws${testInfo.retry}`;
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
-  await overview.create(fromName, 'test');
+  await overview.create(fromName, 'test', { hasDataClassSelect: true });
   await new FormEditor(neo, fromName).waitForOpen();
   await page.goBack();
   await overview.deleteCard(fromName);
