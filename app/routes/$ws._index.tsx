@@ -65,7 +65,7 @@ export default function Index() {
           </Flex>
         </Flex>
         <Overview title={'Projects'} search={search} onSearchChange={setSearch} isPending={isPending}>
-          <NewArtifactCard title='Import' open={() => setOpen(true)} menu={<ImportMenu open={open} setOpen={setOpen} />} />
+          <NewArtifactCard title='Import Projects' open={() => setOpen(true)} menu={<ImportMenu open={open} setOpen={setOpen} />} />
           {projects.map(p => (
             <ProjectCard key={p.id.pmv} project={p} />
           ))}
