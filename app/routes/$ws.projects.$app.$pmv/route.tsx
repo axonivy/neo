@@ -45,10 +45,9 @@ export default function Index() {
               </ProjectInfoContainer>
               <ProjectInfoContainer>
                 <ProjectInfo title={'Version'} value={project?.version}></ProjectInfo>
-                <ProjectInfo title={'Editing rights'} value={project?.id.isIar ? 'Read only' : 'Write'}></ProjectInfo>
+                <ProjectInfo title={'Editing rights'} value={project?.id.isIar ? 'Read only' : 'Editable'}></ProjectInfo>
               </ProjectInfoContainer>
               <ProjectInfoContainer>
-                <ProjectInfo title={'State'} value={project?.id.isIar ? 'Packed' : 'Unpacked'}></ProjectInfo>
                 <ProjectInfo title={'Deletable'} value={project?.isDeletable ? 'Yes' : 'No'}></ProjectInfo>
               </ProjectInfoContainer>
             </Flex>
