@@ -19,8 +19,7 @@ test('project detail', async ({ page }) => {
   await expect(detail.detailCard).toContainText('Name:neo-test-project');
   await expect(detail.detailCard).toContainText('GroupId:neo.test.project');
   await expect(detail.detailCard).toContainText('Version:12.0.0-SNAPSHOT');
-  await expect(detail.detailCard).toContainText('Editing rights:Write');
-  await expect(detail.detailCard).toContainText('State:Unpacked');
+  await expect(detail.detailCard).toContainText('Editing rights:Editable');
   await expect(detail.detailCard).toContainText('Deletable:Yes');
 });
 
