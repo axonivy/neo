@@ -40,7 +40,7 @@ test('add and remove dependency', async ({ page, browserName }, testInfo) => {
   await dialog.getByRole('button', { name: 'Add' }).click();
   await neo.toast.expectSuccess('Added dependency');
   await expect(overview.cards).toHaveCount(1);
-  await overview.deleteCard('neo-test-project');
+  await overview.deleteCard('neo-test-project', false, 'Remove Dependency');
   await neo.toast.expectSuccess('Dependency removed');
   await expect(overview.cards).toHaveCount(0);
   await page.goto('');
