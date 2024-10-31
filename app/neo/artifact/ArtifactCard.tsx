@@ -72,7 +72,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
               <DeleteConfirm title={type} deleteAction={actions.delete}>
                 <DropdownMenuItem className='card-delete' onSelect={e => e.preventDefault()}>
                   <IvyIcon icon={IvyIcons.Trash} />
-                  <span>Delete</span>
+                  <span>{actions.delete.label ?? 'Delete'}</span>
                 </DropdownMenuItem>
               </DeleteConfirm>
             )}

@@ -2,7 +2,7 @@ import { Button, Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader,
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { ReactNode } from 'react';
 
-export type DeleteAction = { run: () => void; isDeletable: boolean; message?: string };
+export type DeleteAction = { run: () => void; isDeletable: boolean; message?: string; label?: string };
 
 export const DeleteConfirm = ({ children, title, deleteAction }: { children: ReactNode; title: string; deleteAction: DeleteAction }) => (
   <Dialog>
