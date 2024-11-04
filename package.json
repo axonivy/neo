@@ -26,15 +26,15 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~12.0.0-next.209",
-    "@axonivy/dataclass-editor-protocol": "~12.0.0-next.209",
-    "@axonivy/form-editor": "~12.0.0-next.376",
-    "@axonivy/form-editor-core": "~12.0.0-next.376",
-    "@axonivy/form-editor-protocol": "~12.0.0-next.376",
-    "@axonivy/jsonrpc": "~12.0.0-next.366",
-    "@axonivy/ui-components": "~12.0.0-next.366",
-    "@axonivy/ui-icons": "~12.0.0-next.366",
-    "@axonivy/variable-editor": "~12.0.0-next.381",
+    "@axonivy/dataclass-editor": "~12.0.0-next.225",
+    "@axonivy/dataclass-editor-protocol": "~12.0.0-next.225",
+    "@axonivy/form-editor": "~12.0.0-next.380",
+    "@axonivy/form-editor-core": "~12.0.0-next.380",
+    "@axonivy/form-editor-protocol": "~12.0.0-next.380",
+    "@axonivy/jsonrpc": "~12.0.0-next.372",
+    "@axonivy/ui-components": "~12.0.0-next.372",
+    "@axonivy/ui-icons": "~12.0.0-next.372",
+    "@axonivy/variable-editor": "~12.0.0-next.387",
     "@remix-run/node": "^2.13.1",
     "@remix-run/react": "^2.13.1",
     "@tanstack/react-query": "5.32.1",
@@ -71,6 +71,9 @@
   },
   "engines": {
     "node": ">=20.0.0"
+  },
+  "volta": {
+    "node": "22.11.0"
   },
   "workspaces": [
     "webviews/process-editor",
