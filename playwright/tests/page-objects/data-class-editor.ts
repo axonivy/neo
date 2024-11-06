@@ -1,4 +1,5 @@
 import { expect, type Locator } from '@playwright/test';
+import { Inscription } from './inscription';
 import { Neo } from './neo';
 
 export class DataClassEditor {
@@ -43,5 +44,10 @@ export class DataClassEditorRow {
     readonly name: string
   ) {
     this.row = editor.editor.locator(`.ui-table-row:not(.ui-message-row):has-text("${name}")`);
+  }
+
+  async openInscription() {
+    await this.row.click();
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.detail-container'));
   }
 }

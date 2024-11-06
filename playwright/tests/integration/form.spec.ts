@@ -1,4 +1,4 @@
-import { type Page, test } from '@playwright/test';
+import { expect, type Page, test } from '@playwright/test';
 import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
 import { app } from './constants';
@@ -29,7 +29,7 @@ test.describe('jump to editor', () => {
 });
 
 test.describe('inscription', () => {
-  test('Change value', async ({ page }) => {
+  test('change value', async ({ page }) => {
     const { editor } = await openForm(page);
     const block = editor.blockByName('Product');
     const inscription = await block.openInscription();
@@ -38,5 +38,15 @@ test.describe('inscription', () => {
     await block.expectInputValue('Table');
     await valueInput.fill('#{data.data.product}');
     await block.expectInputValue('#{data.data.product}');
+  });
+
+  test('open help', async ({ page, context }) => {
+    const { editor } = await openForm(page);
+    const inscription = await editor.blockByName('Product').openInscription();
+    const pagePromise = context.waitForEvent('page');
+    await inscription.inscription.getByRole('button', { name: /Help/ }).click();
+    const newPage = await pagePromise;
+    await expect(newPage).toHaveURL(/developer.axonivy.com/);
+    await expect(newPage).toHaveURL(/form-editor.html/);
   });
 });

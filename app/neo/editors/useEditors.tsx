@@ -8,7 +8,7 @@ import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, type Editor } 
 import { FormEditor } from './form/FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
 import { useCreateEditor } from './useCreateEditor';
-import { VariableEditor } from './VariableEditor';
+import { VariableEditor } from './variable/VariableEditor';
 
 type EditorState = {
   workspaces: Record<string, Array<Editor>>;

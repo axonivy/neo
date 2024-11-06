@@ -21,7 +21,13 @@ export const useActionHandler = (project: ProjectIdentifier, formEditorPath: str
   const { createEditorFromPath } = useCreateEditor();
 
   return useCallback<FormActionHandler>(
-    action => openEditor(createEditorFromPath(project, editorPath(action, formEditorPath))),
+    action => {
+      if (action.actionId === 'openUrl') {
+        window.open(action.payload);
+        return;
+      }
+      openEditor(createEditorFromPath(project, editorPath(action, formEditorPath)));
+    },
     [createEditorFromPath, formEditorPath, openEditor, project]
   );
 };
