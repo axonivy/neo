@@ -22,7 +22,13 @@ export const useActionHandler = (project: ProjectIdentifier, dataClassEditorPath
   const { createEditorFromPath } = useCreateEditor();
 
   return useCallback<DataClassActionHandler>(
-    action => openEditor(createEditorFromPath(project, editorPath(action, dataClassEditorPath))),
+    action => {
+      if (action.actionId === 'openUrl') {
+        window.open(action.payload);
+        return;
+      }
+      openEditor(createEditorFromPath(project, editorPath(action, dataClassEditorPath)));
+    },
     [createEditorFromPath, dataClassEditorPath, openEditor, project]
   );
 };

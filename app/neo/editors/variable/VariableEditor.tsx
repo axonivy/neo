@@ -1,12 +1,17 @@
 import { ReadonlyProvider } from '@axonivy/ui-components';
-import { VariableEditor as App, ClientContextProvider, ClientJsonRpc } from '@axonivy/variable-editor';
+import { VariableEditor as App, ClientContextProvider } from '@axonivy/variable-editor';
 import { useLocation } from '@remix-run/react';
 import { useEffect, useState } from 'react';
-import type { Editor } from './editor';
-import { useWebSocket } from './useWebSocket';
+import type { Editor } from '../editor';
+import { useWebSocket } from '../useWebSocket';
+import { useActionHandler } from './useActionHandler';
+import { VariableClientNeo } from './variable-client';
 
 export const VariableEditor = ({ id, project, name }: Editor) => {
-  const client = useWebSocket<ClientJsonRpc>(id, ClientJsonRpc.webSocketUrl, ClientJsonRpc.startMessageClient);
+  const actionHandler = useActionHandler();
+  const client = useWebSocket<VariableClientNeo>(id, VariableClientNeo.webSocketUrl, connection =>
+    VariableClientNeo.startNeoMessageClient(connection, actionHandler)
+  );
   const { pathname } = useLocation();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {

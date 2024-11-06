@@ -57,4 +57,14 @@ test.describe('inscription', async () => {
     await editor.deleteField();
     await expect(editor.rows).toHaveCount(0);
   });
+
+  test('open help', async ({ page, context }) => {
+    const { editor } = await openDataClass(page);
+    const inscription = await editor.rowByName('product').openInscription();
+    const pagePromise = context.waitForEvent('page');
+    await inscription.inscription.getByRole('button', { name: /Help/ }).click();
+    const newPage = await pagePromise;
+    await expect(newPage).toHaveURL(/developer.axonivy.com/);
+    await expect(newPage).toHaveURL(/data-classes.html/);
+  });
 });
