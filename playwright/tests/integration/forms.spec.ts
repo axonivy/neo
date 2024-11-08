@@ -1,11 +1,12 @@
 import { expect, test } from '@playwright/test';
 import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
+import { TEST_PROJECT } from './constants';
 
 test('navigate to forms', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
-  await overview.hasGroup('Project: neo-test-project');
+  await overview.hasGroup(`Project: ${TEST_PROJECT}`);
   await overview.card('EnterProduct').click();
   await new FormEditor(neo, 'EnterProduct').waitForOpen('Product');
 });

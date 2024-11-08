@@ -2,17 +2,17 @@ import { expect, type Page, test } from '@playwright/test';
 import { randomUUID } from 'crypto';
 import { DataClassEditor } from '../page-objects/data-class-editor';
 import { Neo } from '../page-objects/neo';
-import { app } from './constants';
+import { APP, TEST_PROJECT } from './constants';
 
 const openDataClass = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `dataclasses/${app}/neo-test-project/dataclasses/neo/test/project/QuickStartTutorial`);
+  const neo = await Neo.openEditor(page, `dataclasses/${APP}/${TEST_PROJECT}/dataclasses/neo/test/project/QuickStartTutorial`);
   const editor = new DataClassEditor(neo, 'QuickStartTutorial');
   await editor.waitForOpen('product');
   return { neo, editor };
 };
 
 const openFormDataClass = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `dataclasses/${app}/neo-test-project/src_hd/neo/test/project/EnterProduct/EnterProductData`);
+  const neo = await Neo.openEditor(page, `dataclasses/${APP}/${TEST_PROJECT}/src_hd/neo/test/project/EnterProduct/EnterProductData`);
   const editor = new DataClassEditor(neo, 'EnterProductData');
   await editor.waitForOpen('data');
   return { neo, editor };
@@ -22,7 +22,7 @@ const openTempDataClass = async (page: Page) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.dataClasses();
   const dataClassName = `dataClass${randomUUID().replaceAll('-', '')}`;
-  await overview.create(dataClassName, 'temp', { project: 'neo-test-project' });
+  await overview.create(dataClassName, 'temp', { project: TEST_PROJECT });
   const editor = new DataClassEditor(neo, dataClassName);
   await editor.waitForOpen();
   return { neo, editor };

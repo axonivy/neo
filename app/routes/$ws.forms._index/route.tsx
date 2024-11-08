@@ -25,17 +25,14 @@ export default function Index() {
   const { createFormEditor } = useCreateEditor();
   return (
     <Overview title='Forms' description={formDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
-      {filteredGroups.map(({ project, artifacts }) => {
-        const cards = artifacts.map(form => {
-          const editor = createFormEditor(form);
-          return <FormCard key={editor.id} formId={form.identifier} {...editor} />;
-        });
-        return (
-          <ArtifactGroup project={project} newArtifactCard={<NewFormCard />} key={project}>
-            {cards}
-          </ArtifactGroup>
-        );
-      })}
+      {filteredGroups.map(({ project, artifacts }) => (
+        <ArtifactGroup project={project} newArtifactCard={<NewFormCard />} key={project}>
+          {artifacts.map(form => {
+            const editor = createFormEditor(form);
+            return <FormCard key={editor.id} formId={form.identifier} {...editor} />;
+          })}
+        </ArtifactGroup>
+      ))}
     </Overview>
   );
 }

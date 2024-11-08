@@ -1,7 +1,7 @@
 import test, { expect } from '@playwright/test';
 import { ImportDialog } from '../page-objects/import-dialog';
 import { Neo } from '../page-objects/neo';
-import { rmWorkspaceExportDir, workspaceExportZip } from './constants';
+import { rmWorkspaceExportDir, TEST_PROJECT, workspaceExportZip } from './constants';
 
 test.afterAll(() => {
   rmWorkspaceExportDir();
@@ -18,7 +18,7 @@ test('file import', async ({ page, browserName }, testInfo) => {
   await page.keyboard.press('Escape');
   await neo.navigation.open('Processes');
   await overview.hasGroup(`Project: ${wsName}`);
-  await overview.openGroup('neo-test-project');
+  await overview.openGroup(TEST_PROJECT);
   await expect(overview.card('quickstart')).toBeVisible();
   await page.goto('');
   await overview.deleteCard(wsName, true);

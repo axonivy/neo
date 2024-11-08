@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import * as fs from 'fs';
-import { workspace } from '../integration/constants';
+import { WORKSPACE } from '../integration/constants';
 import { Browser } from './browser';
 import { ControlBar } from './control-bar';
 import { Navigation } from './navigation';
@@ -27,19 +27,19 @@ export class Neo {
   }
 
   static async openWorkspace(page: Page) {
-    await page.goto(`/neo/${workspace}/`);
+    await page.goto(`/neo/${WORKSPACE}/`);
     return await Neo.createNeo(page);
   }
 
   static async openEditor(page: Page, url: string) {
-    await page.goto(`/neo/${workspace}/${url}`);
+    await page.goto(`/neo/${WORKSPACE}/${url}`);
     return await Neo.createNeo(page);
   }
 
   static async exportWorkspace(page: Page, zipFile: string) {
     const neo = await Neo.open(page);
     const overview = new Overview(page);
-    await overview.export(workspace, zipFile);
+    await overview.export(WORKSPACE, zipFile);
     expect(fs.existsSync(zipFile)).toBeTruthy();
     return { neo, overview };
   }

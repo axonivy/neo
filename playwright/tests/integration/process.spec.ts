@@ -2,31 +2,31 @@ import { expect, type Page, test } from '@playwright/test';
 import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
 import { ProcessEditor, ProcessEditorElement } from '../page-objects/process-editor';
-import { app } from './constants';
+import { APP, TEST_PROJECT } from './constants';
 
 const openQuickStartProcess = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/processes/quickstart`);
+  const neo = await Neo.openEditor(page, `processes/${APP}/${TEST_PROJECT}/processes/quickstart`);
   const editor = new ProcessEditor(neo, 'quickstart');
   await editor.waitForOpen('1907DDB3CA766818-f0');
   return { neo, editor };
 };
 
 const openJumpProcess = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/processes/jump`);
+  const neo = await Neo.openEditor(page, `processes/${APP}/${TEST_PROJECT}/processes/jump`);
   const editor = new ProcessEditor(neo, 'jump');
   await editor.waitForOpen('1907DD66AA11FCD9-f0');
   return { neo, editor };
 };
 
 const openHdProcess = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/src_hd/neo/test/project/EnterProduct/EnterProductProcess`);
+  const neo = await Neo.openEditor(page, `processes/${APP}/${TEST_PROJECT}/src_hd/neo/test/project/EnterProduct/EnterProductProcess`);
   const editor = new ProcessEditor(neo, 'EnterProductProcess');
   await editor.waitForOpen('1907DDC2CCF1790F-f0');
   return { neo, editor };
 };
 
 const openSubProcess = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `processes/${app}/neo-test-project/processes/subproc`);
+  const neo = await Neo.openEditor(page, `processes/${APP}/${TEST_PROJECT}/processes/subproc`);
   const editor = new ProcessEditor(neo, 'subproc');
   await editor.waitForOpen('1907DD74AA37CDB2-f0');
   return { neo, editor };

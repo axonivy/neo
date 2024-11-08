@@ -25,17 +25,14 @@ export default function Index() {
   const { createProcessEditor } = useCreateEditor();
   return (
     <Overview title='Processes' description={processDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
-      {filteredGroups.map(({ project, artifacts }) => {
-        const cards = artifacts.map(process => {
-          const editor = createProcessEditor(process);
-          return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
-        });
-        return (
-          <ArtifactGroup project={project} newArtifactCard={<NewProcessCard />} key={project}>
-            {cards}
-          </ArtifactGroup>
-        );
-      })}
+      {filteredGroups.map(({ project, artifacts }) => (
+        <ArtifactGroup project={project} newArtifactCard={<NewProcessCard />} key={project}>
+          {artifacts.map(process => {
+            const editor = createProcessEditor(process);
+            return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
+          })}
+        </ArtifactGroup>
+      ))}
     </Overview>
   );
 }
