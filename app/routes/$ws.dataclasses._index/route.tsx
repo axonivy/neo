@@ -25,17 +25,14 @@ export default function Index() {
   const { createDataClassEditor } = useCreateEditor();
   return (
     <Overview title='Data Classes' description={dataClassDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
-      {filteredGroups.map(({ project, artifacts }) => {
-        const cards = artifacts.map(dc => {
-          const editor = createDataClassEditor(dc);
-          return <DataClassCard key={editor.id} dataClassId={dc.dataClassIdentifier} {...editor} />;
-        });
-        return (
-          <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} key={project}>
-            {cards}
-          </ArtifactGroup>
-        );
-      })}
+      {filteredGroups.map(({ project, artifacts }) => (
+        <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} key={project}>
+          {artifacts.map(dc => {
+            const editor = createDataClassEditor(dc);
+            return <DataClassCard key={editor.id} dataClassId={dc.dataClassIdentifier} {...editor} />;
+          })}
+        </ArtifactGroup>
+      ))}
     </Overview>
   );
 }

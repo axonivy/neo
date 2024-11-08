@@ -9,13 +9,13 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   use: {
     actionTimeout: 0,
-    baseURL: 'http://localhost:5173/neo/',
+    baseURL: process.env.CI ? 'http://localhost:4173/neo/' : 'http://localhost:5173/neo/',
     trace: 'retain-on-failure',
     headless: process.env.CI ? true : false
   },
   webServer: {
-    command: 'npm run dev --include-workspace-root -w neo',
-    url: 'http://localhost:5173/neo/',
+    command: 'npm run serve --include-workspace-root -w neo',
+    url: process.env.CI ? 'http://localhost:4173/neo/' : 'http://localhost:5173/neo/',
     reuseExistingServer: !process.env.CI
   },
   globalTeardown: './global.teardown',
@@ -23,6 +23,11 @@ export default defineConfig({
     { name: 'integration-chrome', use: { ...devices['Desktop Chrome'] }, testDir: './tests/integration' },
     { name: 'integration-firefox', use: { ...devices['Desktop Firefox'] }, testDir: './tests/integration' },
     { name: 'integration-webkit', use: { ...devices['Desktop Safari'] }, testDir: './tests/integration' },
-    { name: 'screenshots', use: { ...devices['Desktop Chrome'] }, testDir: './tests/screenshots', retries: 0 }
+    {
+      name: 'screenshots',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 900, height: 550 }, colorScheme: 'light' },
+      testDir: './tests/screenshots',
+      retries: 0
+    }
   ]
 });

@@ -2,14 +2,14 @@ import { expect, test } from '@playwright/test';
 import { AppInfo } from '../page-objects/app-info';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
-import { workspace } from './constants';
+import { WORKSPACE } from './constants';
 
 test('navigate to home', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.home();
   await overview.expectCardsCountGreaterThan(0);
   const appInfo = new AppInfo(page);
-  await expect(appInfo.title).toHaveText(`Welcome to your workspace: ${workspace}`);
+  await expect(appInfo.title).toHaveText(`Welcome to your workspace: ${WORKSPACE}`);
   await expect(appInfo.infoCards).toHaveCount(4);
   await appInfo.clickInfoCard('Processes');
   await appInfo.clickInfoCard('Data Classes');

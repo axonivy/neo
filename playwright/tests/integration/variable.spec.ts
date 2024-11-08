@@ -1,10 +1,10 @@
 import { expect, type Page, test } from '@playwright/test';
 import { Neo } from '../page-objects/neo';
 import { VariableEditor } from '../page-objects/variables-editor';
-import { app } from './constants';
+import { APP, TEST_PROJECT } from './constants';
 
 const openVariables = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `configurations/${app}/neo-test-project/config/variables`);
+  const neo = await Neo.openEditor(page, `configurations/${APP}/${TEST_PROJECT}/config/variables`);
   const editor = new VariableEditor(neo, 'variables');
   await editor.waitForOpen('MyVar');
   return { neo, editor };
