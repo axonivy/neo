@@ -1,8 +1,13 @@
 import { expect, test } from '@playwright/test';
 import { AppInfo } from '../page-objects/app-info';
+import { ImportDialog } from '../page-objects/import-dialog';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
-import { WORKSPACE } from './constants';
+import { rmWorkspaceExportDir, TEST_PROJECT, WORKSPACE, workspaceExportZip } from './constants';
+
+test.afterAll(() => {
+  rmWorkspaceExportDir();
+});
 
 test('navigate to home', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
@@ -26,14 +31,22 @@ test('search projects', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
-test('delete project', async ({ page, browserName }, testInfo) => {
-  const wsName = `${browserName}delete-project${testInfo.retry}`;
-  const neo = await Neo.open(page);
-  const overview = new Overview(page);
+test('import and delete project', async ({ page, browserName }, testInfo) => {
+  const zipFile = workspaceExportZip('importMe.zip');
+  const { overview, neo } = await Neo.exportWorkspace(page, zipFile);
+  const wsName = `${browserName}import-and-delete-project${testInfo.retry}`;
   await overview.create(wsName);
   await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
-  await overview.deleteCard(wsName);
+  await overview.clickFileImport();
+  await new ImportDialog(page).import(zipFile);
+  await page.keyboard.press('Escape');
+  await neo.navigation.open('Processes');
+  await overview.hasGroup(`Project: ${wsName}`);
+  await overview.openGroup(TEST_PROJECT);
+  await expect(overview.card('quickstart')).toBeVisible();
+  await neo.home();
+  await overview.deleteCard(TEST_PROJECT);
   await neo.toast.expectSuccess('Project removed');
-  await page.goBack();
+  await page.goto('');
   await overview.deleteCard(wsName, true);
 });

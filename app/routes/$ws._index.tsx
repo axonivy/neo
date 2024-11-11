@@ -173,7 +173,7 @@ const ImportDialog = ({ children }: { children: ReactNode }) => {
 const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const navigate = useNavigate();
   const { deleteProject } = useDeleteProject();
-
+  const { ws } = useParams();
   const open = () => {
     navigate(`projects/${project.id.app}/${project.id.pmv}`);
   };
@@ -181,8 +181,11 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
     run: () => {
       deleteProject(project.id);
     },
-    isDeletable: project.isDeletable,
-    message: project.isDeletable ? '' : 'The project cannot be deleted as it is required by other projects in the workspace.'
+    isDeletable: project.id.pmv !== ws && project.isDeletable,
+    message:
+      project.id.pmv == ws
+        ? 'Main project cannot be deleted.'
+        : 'The project cannot be deleted as it is required by other projects in the workspace.'
   };
   return (
     <ArtifactCard
