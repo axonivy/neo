@@ -31,7 +31,7 @@ export const useGroupedProcesses = () => {
           const grouped = groupBy(res.data, p => p.processIdentifier.project.pmv);
           return Object.entries(grouped)
             .map(([project, processes]) => ({ project, artifacts: processes }))
-            .sort((a, b) => projectSort(a.project, b.project, ws?.id));
+            .sort((a, b) => projectSort(a.project, b.project, ws));
         }
         toast.error('Failed to load processes', { description: 'Maybe the server is not correclty started' });
         return [];

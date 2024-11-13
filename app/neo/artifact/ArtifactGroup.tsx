@@ -1,7 +1,8 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
-import { useParams, useSearchParams } from '@remix-run/react';
+import { useSearchParams } from '@remix-run/react';
 import { useEffect, useMemo, type ReactNode } from 'react';
 import { useSortedProjects } from '~/data/project-api';
+import { useWorkspace } from '~/data/workspace-api';
 import { useSearch } from '../useSearch';
 import { ArtifactTag } from './ArtifactTag';
 
@@ -37,8 +38,8 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
   const { data } = useSortedProjects();
   const { hasGroup, isOpen, addGroup, removeGroup } = useGroupSearchParam();
   const projectBean = useMemo(() => data?.find(p => p.id.pmv === project), [data, project]);
-  const { ws } = useParams();
-  useEffect(() => (hasGroup() === null && ws === project ? addGroup(project) : undefined), [addGroup, hasGroup, project, ws]);
+  const ws = useWorkspace();
+  useEffect(() => (hasGroup() === null && ws?.name === project ? addGroup(project) : undefined), [addGroup, hasGroup, project, ws]);
   return (
     <Collapsible
       open={isOpen(project)}
@@ -60,7 +61,7 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
       </CollapsibleTrigger>
       <CollapsibleContent style={{ padding: 0 }}>
         <Flex gap={4} style={{ flexWrap: 'wrap' }}>
-          {ws === project && newArtifactCard}
+          {ws?.name === project && newArtifactCard}
           {children}
         </Flex>
       </CollapsibleContent>
