@@ -35,7 +35,7 @@ export default defineConfig({
         target: DESIGNER_URL,
         auth: 'Developer:Developer'
       },
-      '^/ivy-dev-.*': {
+      '^/~.*': {
         target: DESIGNER_URL,
         auth: 'Developer:Developer',
         ws: true
