@@ -25,7 +25,7 @@ export const useDependencies = (app?: string, pmv?: string) => {
       if (base === undefined || app === undefined || pmv === undefined) return [];
       return dependencies(app, pmv, { headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data.sort((a, b) => projectSort(a.pmv, b.pmv, ws?.id));
+          return res.data.sort((a, b) => projectSort(a.pmv, b.pmv, ws));
         }
         toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
         return [];
