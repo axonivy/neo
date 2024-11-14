@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useContext, useMemo, useRef, useState } from 'react';
 import type { ImperativePanelHandle } from 'react-resizable-panels';
 import { useWorkspace } from '~/data/workspace-api';
 
@@ -29,9 +29,6 @@ export const useWebBrowser = () => {
     }
   };
   const [open, setOpen] = context.openState;
-  useEffect(() => {
-    setOpen(panelRef.current?.isExpanded() ?? false);
-  }, [panelRef, setOpen]);
   const browser = {
     openState: open,
     panelRef,
@@ -46,6 +43,7 @@ export const useWebBrowser = () => {
     },
     open: (url?: string) => {
       panelRef.current?.expand(40);
+      setOpen(true);
       if (url) {
         openUrl(url);
       }
@@ -57,7 +55,6 @@ export const useWebBrowser = () => {
     forward: () => frameRef.current?.contentWindow?.history.forward(),
     reload: () => frameRef.current?.contentWindow?.location.reload(),
     home: () => openUrl(homeUrl),
-    open,
     openExternal: () => window.open(frameRef.current?.contentWindow?.location.href)
   };
   return { browser, nav, homeUrl };

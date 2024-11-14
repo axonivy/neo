@@ -46,7 +46,15 @@ export default function Index() {
           </Flex>
         </ResizablePanel>
         <ResizableHandle style={{ width: 3, backgroundColor: 'var(--N200)' }} />
-        <ResizablePanel ref={browser.panelRef} id='Browser' collapsible defaultSize={0} maxSize={70} minSize={10}>
+        <ResizablePanel
+          hidden={!browser.openState}
+          ref={browser.panelRef}
+          id='Browser'
+          collapsible
+          defaultSize={0}
+          maxSize={70}
+          minSize={10}
+        >
           <WebBrowser />
         </ResizablePanel>
       </ResizablePanelGroup>
