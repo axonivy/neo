@@ -20,7 +20,7 @@ export const useSortedProjects = () => {
       if (base === undefined) return [];
       return projects({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data.sort((a, b) => projectSort(a.id.pmv, b.id.pmv, ws));
+          return res.data.sort((a, b) => projectSort(a.id.pmv, b.id.pmv, ws?.id));
         }
         toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
         return [];

@@ -31,7 +31,7 @@ export const useGroupedForms = () => {
           const grouped = groupBy(res.data, f => f.identifier.project.pmv);
           return Object.entries(grouped)
             .map(([project, forms]) => ({ project, artifacts: forms }))
-            .sort((a, b) => projectSort(a.project, b.project, ws));
+            .sort((a, b) => projectSort(a.project, b.project, ws?.id));
         }
         toast.error('Failed to load forms', { description: 'Maybe the server is not correclty started' });
         return [];

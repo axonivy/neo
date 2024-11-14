@@ -30,7 +30,7 @@
             </goals>
             <configuration>
               <outputDirectory>
-                ${engine.dir}/data/workspaces/Developer/${engine.test.ws}/neo-test-project
+                ${engine.dir}/neo-designer-workspaces/${engine.test.ws}/neo-test-project
               </outputDirectory>
               <resources>
                 <resource>
