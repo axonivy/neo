@@ -56,7 +56,7 @@ const WorkspaceCard = (workspace: Workspace) => {
   const { deleteWorkspace } = useDeleteWorkspace();
   const downloadWorkspace = useDownloadWorkspace(workspace.id);
   const { deployWorkspace } = useDeployWorkspace();
-  const open = () => navigate(workspace.name);
+  const open = () => navigate(workspace.id);
   const deployAction = (params: DeployActionParams) => {
     return deployWorkspace({ workspaceId: workspace.id, ...params });
   };
@@ -82,7 +82,7 @@ const NewWorkspaceCard = () => {
   const [name, setName] = useState('');
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
-  const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.name));
+  const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.id));
   const nameValidation = useMemo(() => validateNotEmpty(name, 'name', 'workspace'), [name]);
   return (
     <>
