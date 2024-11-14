@@ -27,7 +27,7 @@ export const useGroupedDataClasses = () => {
           const grouped = groupBy(res.data, p => p.dataClassIdentifier.project.pmv);
           return Object.entries(grouped)
             .map(([project, dataClasses]) => ({ project, artifacts: dataClasses }))
-            .sort((a, b) => projectSort(a.project, b.project, ws?.id));
+            .sort((a, b) => projectSort(a.project, b.project, ws));
         }
         toast.error('Failed to load data classes', { description: 'Maybe the server is not correclty started' });
         return [];
