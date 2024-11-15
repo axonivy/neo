@@ -26,7 +26,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState, type ReactNode } from 'react';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import { useDeleteProject, useProjectsApi, useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
-import { useImportProjectsIntoWs } from '~/data/workspace-api';
+import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
 import { configDescription, dataClassDescription, formDescription, processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
@@ -173,7 +173,7 @@ const ImportDialog = ({ children }: { children: ReactNode }) => {
 const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const navigate = useNavigate();
   const { deleteProject } = useDeleteProject();
-  const { ws } = useParams();
+  const ws = useWorkspace();
   const open = () => {
     navigate(`projects/${project.id.app}/${project.id.pmv}`);
   };
@@ -181,15 +181,15 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
     run: () => {
       deleteProject(project.id);
     },
-    isDeletable: project.id.pmv !== ws && project.isDeletable,
+    isDeletable: project.id.pmv !== ws?.name && project.isDeletable,
     message:
-      project.id.pmv == ws
+      project.id.pmv == ws?.name
         ? 'Main project cannot be deleted.'
         : 'The project cannot be deleted as it is required by other projects in the workspace.'
   };
   return (
     <ArtifactCard
-      name={project.artifactId}
+      name={project.id.pmv}
       type='project'
       actions={{ delete: deleteAction }}
       onClick={open}
