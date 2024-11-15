@@ -8,7 +8,7 @@ import { Navigation } from './navigation';
 import { Overview } from './overview';
 import { Toaster } from './toaster';
 
-export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Classes' | 'Application Home';
+export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Classes' | 'Workspace';
 
 export class Neo {
   readonly page: Page;
@@ -55,7 +55,7 @@ export class Neo {
   }
 
   async home() {
-    return await this.navigate('Application Home', 'Projects');
+    return await this.navigate('Workspace', 'Projects');
   }
 
   async processes() {
