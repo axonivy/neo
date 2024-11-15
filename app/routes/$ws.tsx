@@ -1,6 +1,6 @@
 import { Field, Flex, Label, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Switch } from '@axonivy/ui-components';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
-import { Outlet } from '@remix-run/react';
+import { Outlet, useParams } from '@remix-run/react';
 import { Navigation } from '~/neo/Navigation';
 import { cardLinks } from '~/neo/artifact/ArtifactCard';
 import { WebBrowser } from '~/neo/browser/WebBrowser';
@@ -20,6 +20,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const { editors } = useEditors();
   const { browser } = useWebBrowser();
+  const { ws } = useParams();
   return (
     <NeoClientProvider>
       <ControlBar>
@@ -35,7 +36,7 @@ export default function Index() {
           </Flex>
         </>
       </ControlBar>
-      <ResizablePanelGroup direction='horizontal' style={{ height: '100vh' }} autoSaveId='neo-layout'>
+      <ResizablePanelGroup direction='horizontal' style={{ height: '100vh' }} autoSaveId={`neo-layout-${ws}`}>
         <ResizablePanel id='Neo'>
           <Flex direction='row' style={{ height: 'calc(100vh - 41px)' }}>
             <Navigation />

@@ -46,6 +46,7 @@ export const useWebBrowser = () => {
     },
     open: (url?: string) => {
       panelRef.current?.expand(40);
+      setOpen(true);
       if (url) {
         openUrl(url);
       }
@@ -57,7 +58,6 @@ export const useWebBrowser = () => {
     forward: () => frameRef.current?.contentWindow?.history.forward(),
     reload: () => frameRef.current?.contentWindow?.location.reload(),
     home: () => openUrl(homeUrl),
-    open,
     openExternal: () => window.open(frameRef.current?.contentWindow?.location.href)
   };
   return { browser, nav, homeUrl };
