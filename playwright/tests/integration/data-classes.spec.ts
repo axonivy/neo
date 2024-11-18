@@ -35,3 +35,10 @@ test('search data classes', async ({ page }) => {
   await overview.search.fill('quick');
   await expect(overview.cards).toHaveCount(1);
 });
+
+test('data class tags', async ({ page }) => {
+  const { overview } = await openDataClasses(page);
+  await overview.hasCardWithTag('subprocData');
+  await overview.hasCardWithTag('BusinessData', 'Business Data');
+  await overview.hasCardWithTag('EntitySample', 'Entity');
+});

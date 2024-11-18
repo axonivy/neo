@@ -1,6 +1,6 @@
 import type { MetaFunction } from '@remix-run/node';
 import type { ProcessBean } from '~/data/generated/openapi-dev';
-import { type ProcessIdentifier, useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
+import { useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
@@ -29,7 +29,7 @@ export default function Index() {
         <ArtifactGroup project={project} newArtifactCard={<NewProcessCard />} key={project}>
           {artifacts.map(process => {
             const editor = createProcessEditor(process);
-            return <ProcessCard key={editor.id} processId={process.processIdentifier} {...editor} />;
+            return <ProcessCard key={editor.id} process={process} {...editor} />;
           })}
         </ArtifactGroup>
       ))}
@@ -37,7 +37,7 @@ export default function Index() {
   );
 }
 
-const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIdentifier }) => {
+const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) => {
   const { deleteProcess } = useDeleteProcess();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
@@ -46,11 +46,12 @@ const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIden
   const deleteAction = {
     run: () => {
       removeEditor(editor.id);
-      deleteProcess(processId);
+      deleteProcess(process.processIdentifier);
     },
     isDeletable: editor.project.isIar === false,
     message: 'The process cannot be deleted as the project to which it belongs is packaged.'
   };
+  const tagLabel = process.kind === 'CALLABLE_SUB' ? 'Callable Subprocess' : process.kind === 'WEB_SERVICE' ? 'Web Service' : '';
   return (
     <ArtifactCard
       name={editor.name}
@@ -59,6 +60,7 @@ const ProcessCard = ({ processId, ...editor }: Editor & { processId: ProcessIden
       tooltip={editor.path}
       onClick={open}
       actions={{ delete: deleteAction }}
+      tagLabel={tagLabel}
     />
   );
 };

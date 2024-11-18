@@ -98,14 +98,18 @@ export class Overview {
   async group(name: string, tagLabel?: string) {
     const groupTitel = tagLabel ? `${name}${tagLabel}` : name;
     const group = this.overview.locator(`.ui-collapsible:has-text("${groupTitel}")`);
-    const tag = group.locator('div.artifact-tag');
+    const trigger = group.locator('button.ui-collapsible-trigger');
+    await this.hasTag(trigger, tagLabel);
+    return { group, trigger };
+  }
+
+  private async hasTag(locator: Locator, tagLabel?: string) {
+    const tag = locator.locator('.artifact-tag');
     if (tagLabel) {
       await expect(tag).toHaveText(tagLabel);
     } else {
       await expect(tag).toBeHidden();
     }
-    const trigger = group.locator('button.ui-collapsible-trigger');
-    return { group, trigger };
   }
 
   async hasGroup(name: string, tagLabel?: string, numOfNewCards?: number) {
@@ -115,6 +119,11 @@ export class Overview {
     expect(await nestedArtifacts.count()).toBeGreaterThan(0);
     const nestedNew = group.locator('.new-artifact-card');
     expect(await nestedNew.count()).toBe(numOfNewCards ?? 1);
+  }
+
+  async hasCardWithTag(name: string, tagLabel?: string) {
+    const card = this.card(name);
+    await this.hasTag(card, tagLabel);
   }
 
   async openGroup(name: string, tagLabel?: string) {
