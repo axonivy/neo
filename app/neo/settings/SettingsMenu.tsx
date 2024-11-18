@@ -30,13 +30,6 @@ export const SettingsMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <IvyIcon icon={IvyIcons.User} />
-            Developer
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
           <DropdownMenuLabel>Animation</DropdownMenuLabel>
           <DropdownMenuCheckboxItem checked={animation.animate} onCheckedChange={enableAnimation} aria-label='Toggle animation'>
             Enabled
