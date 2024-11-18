@@ -104,7 +104,7 @@ export class Overview {
   }
 
   private async hasTag(locator: Locator, tagLabel?: string) {
-    const tag = locator.locator('div.artifact-tag');
+    const tag = locator.locator('.artifact-tag');
     if (tagLabel) {
       await expect(tag).toHaveText(tagLabel);
     } else {
