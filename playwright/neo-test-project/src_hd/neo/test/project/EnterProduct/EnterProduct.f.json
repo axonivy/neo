@@ -1,79 +1,43 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/form/12.0.0/form.json",
+  "$schema" : "https://json-schema.axonivy.com/form/12.0.1/form.json",
   "id" : "9170a76a-0ee6-40ed-90cf-4a5431d53fb1",
-  "config" : {
-    "renderer" : "JSF",
-    "theme" : ""
-  },
   "components" : [ {
-    "id" : "Input-c920fdd3-a76a-48c2-bbd1-a5d6f7a08c19",
+    "cid" : "input1",
     "type" : "Input",
     "config" : {
-      "lgSpan" : "6",
-      "mdSpan" : "12",
-      "visible" : "",
-      "disabled" : "",
       "required" : "false",
-      "requiredMessage" : "",
-      "updateOnChange" : false,
       "label" : "Product",
-      "value" : "#{data.data.product}",
-      "type" : "TEXT"
+      "value" : "#{data.data.product}"
     }
   }, {
-    "id" : "Input-b92dbd5a-c6b6-434c-9b53-024c2289d9b7",
+    "cid" : "input2",
     "type" : "Input",
     "config" : {
-      "lgSpan" : "6",
-      "mdSpan" : "12",
-      "visible" : "",
-      "disabled" : "",
       "required" : "false",
-      "requiredMessage" : "",
-      "updateOnChange" : false,
       "label" : "Release Date",
-      "value" : "#{data.data.releaseDate}",
-      "type" : "TEXT"
+      "value" : "#{data.data.releaseDate}"
     }
   }, {
-    "id" : "Input-4320a6a5-88a1-4bfd-acf6-06634667a27b",
+    "cid" : "input3",
     "type" : "Input",
     "config" : {
-      "lgSpan" : "6",
-      "mdSpan" : "12",
-      "visible" : "",
-      "disabled" : "",
       "required" : "false",
-      "requiredMessage" : "",
-      "updateOnChange" : false,
       "label" : "Price",
-      "value" : "#{data.data.price}",
-      "type" : "TEXT"
+      "value" : "#{data.data.price}"
     }
   }, {
-    "id" : "Layout-bc8dbf35-9926-462e-88d4-1af5d5df392d",
+    "cid" : "layout4",
     "type" : "Layout",
     "config" : {
-      "lgSpan" : "6",
-      "mdSpan" : "12",
-      "visible" : "",
       "components" : [ {
-        "id" : "Button-7a9da528-0221-41ae-9a68-76d0e2cb694f",
+        "cid" : "button5",
         "type" : "Button",
         "config" : {
-          "lgSpan" : "6",
-          "mdSpan" : "12",
-          "visible" : "",
-          "disabled" : "",
           "name" : "Proceed",
-          "action" : "#{logic.close}",
-          "variant" : "PRIMARY",
-          "icon" : "",
-          "processOnlySelf" : false
+          "action" : "#{logic.close}"
         }
       } ],
       "type" : "FLEX",
-      "gridVariant" : "GRID2",
       "justifyContent" : "END"
     }
   } ]

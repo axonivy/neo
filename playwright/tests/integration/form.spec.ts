@@ -33,10 +33,13 @@ test.describe('inscription', () => {
     const { editor } = await openForm(page);
     const block = editor.blockByName('Product');
     const inscription = await block.openInscription();
-    const valueInput = inscription.inscription.getByLabel('value');
+    const valueInput = inscription.badgedInput('Value');
     await valueInput.fill('Table');
+    await valueInput.expectBadgeValue('Table');
     await block.expectInputValue('Table');
+
     await valueInput.fill('#{data.data.product}');
+    await valueInput.expectBadgeValue('data.product');
     await block.expectInputValue('#{data.data.product}');
   });
 
