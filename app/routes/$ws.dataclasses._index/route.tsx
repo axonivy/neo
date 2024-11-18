@@ -1,6 +1,6 @@
 import type { MetaFunction } from '@remix-run/node';
 import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
-import type { DataClassBean, DataClassIdentifier } from '~/data/generated/openapi-dev';
+import type { DataClassBean } from '~/data/generated/openapi-dev';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { dataClassDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
@@ -29,7 +29,7 @@ export default function Index() {
         <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} key={project}>
           {artifacts.map(dc => {
             const editor = createDataClassEditor(dc);
-            return <DataClassCard key={editor.id} dataClassId={dc.dataClassIdentifier} {...editor} />;
+            return <DataClassCard key={editor.id} dataClass={dc} {...editor} />;
           })}
         </ArtifactGroup>
       ))}
@@ -37,7 +37,7 @@ export default function Index() {
   );
 }
 
-const DataClassCard = ({ dataClassId, ...editor }: Editor & { dataClassId: DataClassIdentifier }) => {
+const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClassBean }) => {
   const { deleteDataClass } = useDeleteDataClass();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
@@ -46,11 +46,12 @@ const DataClassCard = ({ dataClassId, ...editor }: Editor & { dataClassId: DataC
   const deleteAction = {
     run: () => {
       removeEditor(editor.id);
-      deleteDataClass(dataClassId);
+      deleteDataClass(dataClass.dataClassIdentifier);
     },
     isDeletable: editor.project.isIar === false,
     message: 'The dataclass cannot be deleted as the project to which it belongs is packaged.'
   };
+  const tagLabel = dataClass.isEntityClass ? 'Entity' : dataClass.isBusinessCaseData ? 'Business Data' : '';
   return (
     <ArtifactCard
       name={editor.name}
@@ -59,6 +60,7 @@ const DataClassCard = ({ dataClassId, ...editor }: Editor & { dataClassId: DataC
       tooltip={editor.path}
       onClick={open}
       actions={{ delete: deleteAction }}
+      tagLabel={tagLabel}
     />
   );
 };

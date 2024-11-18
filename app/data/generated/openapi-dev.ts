@@ -198,6 +198,8 @@ export interface DataClassIdentifier {
 
 export interface DataClassBean {
   dataClassIdentifier: DataClassIdentifier;
+  isBusinessCaseData: boolean;
+  isEntityClass: boolean;
   name: string;
   path: string;
   simpleName: string;

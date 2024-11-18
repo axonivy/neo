@@ -33,3 +33,11 @@ test('search processes', async ({ page }) => {
   expect(page.url()).toContain(`?group=${TEST_PROJECT}&search=quick`);
   await expect(overview.cards).toHaveCount(1);
 });
+
+test('process tags', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.processes();
+  await overview.hasCardWithTag('subproc', 'Callable Subprocess');
+  await overview.hasCardWithTag('wsprocess', 'Web Service');
+  await overview.hasCardWithTag('quickstart');
+});

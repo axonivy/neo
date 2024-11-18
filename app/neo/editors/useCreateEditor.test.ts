@@ -136,7 +136,9 @@ describe('createDataClassEditor', () => {
       dataClassIdentifier: { project: { app: 'designer', pmv: 'workflow-demos' }, name: 'workflow.demo.data' },
       name: 'data.d.json',
       simpleName: 'data',
-      path: 'workflow/demo/data/data.d.json'
+      path: 'workflow/demo/data/data.d.json',
+      isEntityClass: false,
+      isBusinessCaseData: false
     };
     const view = renderHook(() => useCreateEditor());
     expect(view.result.current.createDataClassEditor(dataClass)).to.be.deep.equals(result);
