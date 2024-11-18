@@ -26,6 +26,10 @@ export class Inscription {
     return this.inscription.locator('.view-lines.monaco-mouse-cursor-text');
   }
 
+  badgedInput(label: string) {
+    return new BadgedInput(this.page, this.inscription, label);
+  }
+
   private monacoContentAssist() {
     return this.inscription.locator('div.editor-widget.suggest-widget');
   }
@@ -46,5 +50,27 @@ export class Inscription {
 
   async typeText(text: string, delay = 5) {
     await this.page.keyboard.type(text, { delay });
+  }
+}
+
+export class BadgedInput {
+  readonly input: Locator;
+
+  constructor(
+    readonly page: Page,
+    readonly parent: Locator,
+    label: string
+  ) {
+    this.input = parent.getByLabel(label);
+  }
+
+  async fill(text: string) {
+    await this.input.click();
+    await this.input.fill(text);
+    await this.input.blur();
+  }
+
+  async expectBadgeValue(text: string) {
+    await expect(this.input).toHaveText(text);
   }
 }
