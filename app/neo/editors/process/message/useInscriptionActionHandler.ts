@@ -2,7 +2,7 @@ import type { InscriptionActionArgs, InscriptionNotificationTypes } from '@axoni
 import { useCallback } from 'react';
 import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
-import type { ProjectIdentifier } from '~/data/project-api';
+import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
 import { useCreateEditor } from '../../useCreateEditor';
 import { useEditors } from '../../useEditors';
@@ -29,12 +29,13 @@ export const useNewProcessActionHandler = () => {
   const { openEditor } = useEditors();
   const open = useNewArtifact();
   const { createProcessEditor } = useCreateEditor();
+  const projects = useSortedProjects();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newProcess')) {
         return;
       }
-      const project = { app: data.params.context.app, pmv: data.params.context.pmv };
+      const project = projects.data?.find(p => p.id.pmv === data.params.context.pmv && p.id.app === data.params.context.app);
       const pid = data.params.context.pid;
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
         createProcess({ name, namespace, kind: '', project, pid }).then(process => {
@@ -49,7 +50,7 @@ export const useNewProcessActionHandler = () => {
         namespaceRequired: false
       });
     },
-    [createProcess, createProcessEditor, open, openEditor]
+    [createProcess, createProcessEditor, open, openEditor, projects.data]
   );
 };
 
@@ -58,12 +59,13 @@ export const useNewFormActionHandler = () => {
   const { openEditor } = useEditors();
   const open = useNewArtifact();
   const { createFormEditor } = useCreateEditor();
+  const projects = useSortedProjects();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newHtmlDialog')) {
         return;
       }
-      const project = { app: data.params.context.app, pmv: data.params.context.pmv };
+      const project = projects.data?.find(p => p.id.pmv === data.params.context.pmv && p.id.app === data.params.context.app);
       const pid = data.params.context.pid;
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
         createForm({ name, namespace, project, pid }).then(form => {
@@ -72,7 +74,7 @@ export const useNewFormActionHandler = () => {
         });
       open({ create, type: 'Form', namespaceRequired: true, project, pid });
     },
-    [createForm, createFormEditor, open, openEditor]
+    [createForm, createFormEditor, open, openEditor, projects.data]
   );
 };
 

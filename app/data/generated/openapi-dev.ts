@@ -153,6 +153,7 @@ export interface ProjectIdentifier {
 
 export interface ProjectBean {
   artifactId: string;
+  defaultNamespace: string;
   groupId: string;
   id: ProjectIdentifier;
   isDeletable: boolean;

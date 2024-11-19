@@ -25,7 +25,7 @@ import { Link, useNavigate, useParams } from '@remix-run/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState, type ReactNode } from 'react';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
-import { useDeleteProject, useProjectsApi, useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
+import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
 import { configDescription, dataClassDescription, formDescription, processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
@@ -111,8 +111,8 @@ const ImportDialog = ({ children }: { children: ReactNode }) => {
   const { importProjects } = useImportProjectsIntoWs();
   const { queryKey } = useProjectsApi();
   const client = useQueryClient();
-  const [project, setProject] = useState<ProjectIdentifier>();
-  const importAction = (file: File) => importProjects(ws ?? '', file, project).then(() => client.invalidateQueries({ queryKey }));
+  const [project, setProject] = useState<ProjectBean>();
+  const importAction = (file: File) => importProjects(ws ?? '', file, project?.id).then(() => client.invalidateQueries({ queryKey }));
   const fileValidation = useMemo<MessageData | undefined>(
     () => (file ? undefined : { message: 'Select an .iar file or a .zip file that contains .iar files.', variant: 'warning' }),
     [file]

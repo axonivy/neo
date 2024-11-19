@@ -16,6 +16,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import type { MetaFunction } from '@remix-run/node';
 import { Link, useParams } from '@remix-run/react';
 import { useEffect, useMemo, useState } from 'react';
+import type { ProjectBean } from '~/data/generated/openapi-dev';
 import type { FindProductJsonContent200, ProductModel } from '~/data/generated/openapi-market';
 import { MARKET_URL, useProductJson, useProducts, useProductVersions } from '~/data/market-api';
 import type { ProjectIdentifier } from '~/data/project-api';
@@ -106,7 +107,7 @@ type InstallDialogProps = {
 
 const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogProps) => {
   const [version, setVersion] = useState<string>();
-  const [project, setProject] = useState<ProjectIdentifier>();
+  const [project, setProject] = useState<ProjectBean>();
   const [needDependency, setNeedDependency] = useState(false);
   if (product?.id === undefined) {
     return;
@@ -134,7 +135,7 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
           />
         )}
         <DialogFooter>
-          <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project}></InstallButton>
+          <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project?.id}></InstallButton>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
               Cancel
