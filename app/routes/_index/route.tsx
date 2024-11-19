@@ -22,6 +22,7 @@ import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/Artifac
 import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { validateNotEmpty } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
+import { InfoPopover } from '~/neo/InfoPopover';
 import { Overview } from '~/neo/Overview';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useSearch } from '~/neo/useSearch';
@@ -39,10 +40,9 @@ export default function Index() {
   const { search, setSearch } = useSearch();
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  // const description = 'Here you can access and manage your workspaces.';
   const title = 'Welcome to Axon Ivy NEO Designer: Manage your workspaces';
-  // const info =
-  //   "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.";
+  const info =
+    "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.";
   return (
     <div style={{ height: 'calc(100vh - 41px)' }}>
       <ControlBar>
@@ -69,7 +69,10 @@ export default function Index() {
           borderRadius: 'var(--border-r3)'
         }}
       >
-        <span style={{ padding: 20, color: 'white', fontSize: 22, fontWeight: 500 }}>{title}</span>
+        <Flex direction='row' gap={1} style={{ padding: 20 }}>
+          <span style={{ color: 'white', fontSize: 22, fontWeight: 500 }}>{title}</span>
+          <InfoPopover info={info} buttonColor='white' />
+        </Flex>
       </Flex>
       <Overview search={search} onSearchChange={setSearch} isPending={isPending}>
         <NewWorkspaceCard />

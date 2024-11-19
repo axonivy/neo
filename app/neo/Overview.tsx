@@ -23,7 +23,7 @@ export const Overview = ({ title, description, search, onSearchChange, isPending
   >
     {title && <span style={{ fontWeight: 600 }}>{title}</span>}
     {description && (
-      <Flex direction='row' gap={2}>
+      <Flex direction='row' gap={1}>
         <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{description}</span>
         {info && <InfoPopover info={info} />}
         {helpUrl && <HelpButton url={helpUrl} />}
