@@ -9,7 +9,7 @@ import { screenshot } from './screenshot-util';
 test('workspaces', async ({ page }) => {
   await Neo.open(page);
   const overview = new Overview(page);
-  await expect(overview.title).toHaveText(/Welcome to Axon Ivy NEO Designer/);
+  await expect(page.getByText('Welcome to Axon Ivy NEO Designer: Manage your workspaces')).toBeVisible();
   await overview.expectCardsCountGreaterThan(0);
   await screenshot(page, 'overview-workspaces');
 });
