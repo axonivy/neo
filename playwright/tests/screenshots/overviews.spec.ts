@@ -30,7 +30,7 @@ test('project', async ({ page }) => {
   await overview.card(TEST_PROJECT).click();
   const detail = new ProjectDetail(page);
   await expect(detail.title).toHaveText(/Project details/);
-  await expect(detail.detailCard).toContainText(`Name:${TEST_PROJECT}`);
+  await expect(detail.detailCard).toContainText(`ArtifactId:${TEST_PROJECT}`);
   await screenshot(page, 'overview-project');
 });
 

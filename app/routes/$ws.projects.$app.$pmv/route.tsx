@@ -14,6 +14,7 @@ import type { MetaFunction } from '@remix-run/node';
 import { useNavigate, useParams } from '@remix-run/react';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/data/dependency-api';
+import type { ProjectBean } from '~/data/generated/openapi-dev';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
@@ -36,11 +37,11 @@ export default function Index() {
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='project-detail'>
-          <span style={{ fontWeight: 600 }}>Project details: {project?.artifactId}</span>
+          <span style={{ fontWeight: 600 }}>Project details: {project?.id.pmv}</span>
           <div className='project-detail-card' style={{ background: 'var(--N50)', padding: 10, borderRadius: 5 }}>
             <Flex direction='row' gap={4} style={{ flexWrap: 'wrap', columnGap: '150px' }}>
               <ProjectInfoContainer>
-                <ProjectInfo title={'Name'} value={project?.artifactId}></ProjectInfo>
+                <ProjectInfo title={'ArtifactId'} value={project?.artifactId}></ProjectInfo>
                 <ProjectInfo title={'GroupId'} value={project?.groupId}></ProjectInfo>
               </ProjectInfoContainer>
               <ProjectInfoContainer>
@@ -54,7 +55,7 @@ export default function Index() {
           </div>
         </Flex>
         <Overview
-          title={`Dependency details of: ${project?.artifactId}`}
+          title={`Dependency details of: ${project?.id.pmv}`}
           description='Here you can view the project dependencies.'
           info='Dependencies are links between projects which allow one project to access the functionality or artefacts of another and avoid duplicating work.'
           search={search}
@@ -119,7 +120,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
 };
 
 const AddDependencyDialog = ({ children, project }: { children: ReactNode; project: ProjectIdentifier }) => {
-  const [dependency, setDependency] = useState<ProjectIdentifier>();
+  const [dependency, setDependency] = useState<ProjectBean>();
   const { addDependency } = useAddDependencyReq();
   return (
     <Dialog>
@@ -138,7 +139,7 @@ const AddDependencyDialog = ({ children, project }: { children: ReactNode; proje
         ></ProjectSelect>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant='primary' size='large' onClick={() => dependency && addDependency(project, dependency)} icon={IvyIcons.Plus}>
+            <Button variant='primary' size='large' onClick={() => dependency && addDependency(project, dependency.id)} icon={IvyIcons.Plus}>
               Add
             </Button>
           </DialogClose>

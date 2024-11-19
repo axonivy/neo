@@ -16,8 +16,8 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from '@remix-run/react';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useGroupedDataClasses } from '~/data/data-class-api';
-import type { DataClassIdentifier } from '~/data/generated/openapi-dev';
-import type { ProjectIdentifier } from '~/data/project-api';
+import type { DataClassIdentifier, ProjectBean } from '~/data/generated/openapi-dev';
+import { type ProjectIdentifier } from '~/data/project-api';
 import { InfoPopover } from '../InfoPopover';
 import { ProjectSelect } from './ProjectSelect';
 import { validateNotEmpty } from './validation';
@@ -26,7 +26,7 @@ export type NewArtifact = {
   type: string;
   namespaceRequired: boolean;
   create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string, dataClass?: DataClassIdentifier) => void;
-  project?: ProjectIdentifier;
+  project?: ProjectBean;
   pid?: string;
   selectDataClass?: boolean;
 };
@@ -47,15 +47,18 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
 
   const [name, setName] = useState('');
   const [namespace, setNamespace] = useState('');
-  const [project, setProject] = useState<ProjectIdentifier>();
+  const [project, setProject] = useState<ProjectBean>();
   const [dataClass, setDataClass] = useState<DataClassIdentifier | undefined>();
 
   useEffect(() => {
     setProject(newArtifact?.project);
-    setNamespace(newArtifact?.namespaceRequired && ws ? ws : '');
     setName('');
     setDataClass(undefined);
   }, [newArtifact, ws]);
+
+  useEffect(() => {
+    setNamespace(newArtifact?.namespaceRequired && project ? project.defaultNamespace : '');
+  }, [newArtifact?.namespaceRequired, project]);
 
   const open = (context: NewArtifact) => {
     setDialogState(true);
@@ -86,6 +89,9 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                   <BasicField label='Name' message={nameValidation}>
                     <Input value={name} onChange={e => setName(e.target.value)} />
                   </BasicField>
+                  {newArtifact.project === undefined && (
+                    <ProjectSelect setProject={setProject} setDefaultValue={true} label='Project' projectFilter={p => !p.id.isIar} />
+                  )}
                   <BasicField
                     label={`Namespace ${newArtifact.namespaceRequired ? '' : ' (Optional)'}`}
                     message={namespaceValidation}
@@ -95,10 +101,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                   >
                     <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
                   </BasicField>
-                  {newArtifact.project === undefined && (
-                    <ProjectSelect setProject={setProject} setDefaultValue={true} label='Project' projectFilter={p => !p.id.isIar} />
-                  )}
-                  {newArtifact.selectDataClass && project && <DataClassSelect project={project} setDataClass={setDataClass} />}
+                  {newArtifact.selectDataClass && project && <DataClassSelect project={project.id} setDataClass={setDataClass} />}
                 </Flex>
                 <DialogFooter>
                   <DialogClose asChild>
@@ -111,7 +114,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                       onClick={e => {
                         e.preventDefault();
                         setDialogState(false);
-                        newArtifact.create(name, namespace, project, newArtifact.pid, dataClass);
+                        newArtifact.create(name, namespace, project?.id, newArtifact.pid, dataClass);
                       }}
                     >
                       Create
