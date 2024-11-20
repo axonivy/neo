@@ -1,7 +1,8 @@
-import { Button, Flex } from '@axonivy/ui-components';
+import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { NavLink } from '@remix-run/react';
-import { SettingsMenu } from './settings/SettingsMenu';
+import { AnimationSettings } from './settings/AnimationSettings';
+import { ThemeSettings } from './settings/ThemeSettings';
 
 export const Navigation = () => (
   <Flex
@@ -28,6 +29,15 @@ export const Navigation = () => (
         {({ isActive }) => <Button icon={IvyIcons.Tool} size='large' toggle={isActive} />}
       </NavLink>
     </Flex>
-    <SettingsMenu />
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' title='Settings' />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
+        <AnimationSettings />
+        <DropdownMenuSeparator />
+        <ThemeSettings />
+      </DropdownMenuContent>
+    </DropdownMenu>
   </Flex>
 );

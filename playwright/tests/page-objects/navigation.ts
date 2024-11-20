@@ -28,11 +28,9 @@ export class Navigation {
 
   async changeTheme(theme: 'light' | 'dark') {
     const menu = await this.openSettings();
-    const themeSwitch = menu.getByRole('menuitem', { name: 'Theme switch' });
-    await expect(themeSwitch).toBeVisible();
-    if ((await themeSwitch.getAttribute('data-state')) !== theme) {
-      await themeSwitch.click();
-    }
+    const themeMenu = menu.getByRole('menuitem', { name: 'Theme switch' });
+    await themeMenu.click();
+    await this.page.getByRole('menu').last().getByRole('menuitemradio', { name: theme }).click();
   }
 
   async enableAnimation() {

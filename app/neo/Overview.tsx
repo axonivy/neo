@@ -4,7 +4,7 @@ import type { ReactNode } from 'react';
 import { InfoPopover } from './InfoPopover';
 
 type OverviewProps = {
-  title: string;
+  title?: string;
   description?: string;
   search: string;
   onSearchChange: (search: string) => void;
@@ -21,12 +21,14 @@ export const Overview = ({ title, description, search, onSearchChange, isPending
     style={{ fontSize: 16, padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }}
     className='overview'
   >
-    <span style={{ fontWeight: 600 }}>{title}</span>
-    <Flex direction='row' gap={2}>
-      {description && <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{description}</span>}
-      {info && <InfoPopover info={info} />}
-      {helpUrl && <HelpButton url={helpUrl} />}
-    </Flex>
+    {title && <span style={{ fontWeight: 600 }}>{title}</span>}
+    {description && (
+      <Flex direction='row' gap={1}>
+        <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{description}</span>
+        {info && <InfoPopover info={info} />}
+        {helpUrl && <HelpButton url={helpUrl} />}
+      </Flex>
+    )}
     <SearchInput placeholder='Search' value={search} onChange={onSearchChange} />
     <Flex gap={4} style={{ flexWrap: 'wrap' }}>
       {isPending ? <Spinner size='small' className='overview-loader' /> : <>{children}</>}

@@ -7,6 +7,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
   Flex,
   Input
 } from '@axonivy/ui-components';
@@ -19,9 +22,12 @@ import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/Artifac
 import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { validateNotEmpty } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
+import { InfoPopover } from '~/neo/InfoPopover';
 import { Overview } from '~/neo/Overview';
+import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
+import welcomeSvgUrl from './welcome.svg?url';
 import PreviewSVG from './workspace-preview.svg?react';
 
 export const links: LinksFunction = cardLinks;
@@ -34,14 +40,43 @@ export default function Index() {
   const { search, setSearch } = useSearch();
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const description = 'Here you can access and manage your workspaces.';
-  const title = 'Welcome to Axon Ivy NEO Designer';
+  const title = 'Welcome to Axon Ivy NEO Designer: Manage your workspaces';
   const info =
     "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.";
   return (
     <div style={{ height: 'calc(100vh - 41px)' }}>
-      <ControlBar />
-      <Overview title={title} description={description} search={search} onSearchChange={setSearch} isPending={isPending} info={info}>
+      <ControlBar>
+        <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' title='Settings' />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent sideOffset={6} collisionPadding={10} side='bottom'>
+              <ThemeSettings />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </Flex>
+      </ControlBar>
+      <Flex
+        className='welcome-card'
+        style={{
+          margin: 30,
+          marginBlockEnd: 0,
+          backgroundImage: `url(${welcomeSvgUrl})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'top',
+          height: 154,
+          borderRadius: 'var(--border-r3)'
+        }}
+      >
+        <Flex direction='row' gap={1} style={{ padding: 20 }}>
+          <span style={{ color: 'white', fontSize: 22, fontWeight: 500 }}>{title}</span>
+          <InfoPopover info={info}>
+            <Button size='large' style={{ color: 'white' }} icon={IvyIcons.InfoCircle} />
+          </InfoPopover>
+        </Flex>
+      </Flex>
+      <Overview search={search} onSearchChange={setSearch} isPending={isPending}>
         <NewWorkspaceCard />
         {workspaces.map(workspace => (
           <WorkspaceCard key={workspace.name} {...workspace} />

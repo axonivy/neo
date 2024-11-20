@@ -6,7 +6,7 @@ import { rmWorkspaceExportDir, WORKSPACE, workspaceExportZip } from './constants
 test('navigate to workspace', async ({ page }) => {
   await Neo.open(page);
   const overview = new Overview(page);
-  await expect(overview.title).toHaveText('Welcome to Axon Ivy NEO Designer');
+  await expect(page.getByText('Welcome to Axon Ivy NEO Designer: Manage your workspaces')).toBeVisible();
   await overview.expectCardsCountGreaterThan(0);
   await overview.card(WORKSPACE).click();
   await expect(page.locator(`text=Welcome to your workspace: ${WORKSPACE}`)).toBeVisible();
