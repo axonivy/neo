@@ -71,7 +71,9 @@ export default function Index() {
       >
         <Flex direction='row' gap={1} style={{ padding: 20 }}>
           <span style={{ color: 'white', fontSize: 22, fontWeight: 500 }}>{title}</span>
-          <InfoPopover info={info} buttonColor='white' />
+          <InfoPopover info={info}>
+            <Button size='large' style={{ color: 'white' }} icon={IvyIcons.InfoCircle} />
+          </InfoPopover>
         </Flex>
       </Flex>
       <Overview search={search} onSearchChange={setSearch} isPending={isPending}>
