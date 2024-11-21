@@ -1,9 +1,10 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import type { ProcessBean } from '~/data/generated/openapi-dev';
 import { useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
+import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { processDescription } from '~/neo/artifact/artifact-description';
-import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
@@ -13,11 +14,9 @@ import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './process-preview.svg?react';
 
-export const links = cardLinks;
+export const links: LinksFunction = () => [cardStylesLink];
 
-export const meta: MetaFunction = () => {
-  return [{ title: 'Axon Ivy Processes' }, { name: 'description', content: 'Axon Ivy Processes Overview' }];
-};
+export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
 
 export default function Index() {
   const { data, isPending } = useGroupedProcesses();

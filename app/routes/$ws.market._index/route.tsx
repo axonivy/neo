@@ -13,23 +13,24 @@ import {
   Spinner
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { MetaFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { Link, useParams } from '@remix-run/react';
 import { useEffect, useMemo, useState } from 'react';
+import { NEO_DESIGNER } from '~/constants';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import type { FindProductJsonContent200, ProductModel } from '~/data/generated/openapi-market';
 import { MARKET_URL, useProductJson, useProducts, useProductVersions } from '~/data/market-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
-import { cardLinks } from '~/neo/artifact/ArtifactCard';
+import { cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 
-export const links = cardLinks;
+export const links: LinksFunction = () => [cardStylesLink];
 
-export const meta: MetaFunction = () => {
-  return [{ title: 'Axon Ivy Market' }, { name: 'description', content: 'Axon Ivy Market Overview' }];
+export const meta: MetaFunction = ({ params }) => {
+  return [{ title: `Axon Ivy Market - ${params.ws} - ${NEO_DESIGNER}` }, { name: 'description', content: 'Axon Ivy Market Overview' }];
 };
 
 export default function Index() {

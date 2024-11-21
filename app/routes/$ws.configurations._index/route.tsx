@@ -1,7 +1,8 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useSortedProjects } from '~/data/project-api';
+import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { configDescription } from '~/neo/artifact/artifact-description';
-import { ArtifactCard, cardLinks } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
@@ -10,11 +11,9 @@ import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 import PreviewSVG from './variables-preview.svg?react';
 
-export const links = cardLinks;
+export const links: LinksFunction = () => [cardStylesLink];
 
-export const meta: MetaFunction = () => {
-  return [{ title: 'Axon Ivy Configurations' }, { name: 'description', content: 'Axon Ivy Configurations Overview' }];
-};
+export const meta: MetaFunction = overviewMetaFunctionProvider('Configurations');
 
 export default function Index() {
   const { search, setSearch } = useSearch();

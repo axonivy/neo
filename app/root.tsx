@@ -6,6 +6,7 @@ import { Links, Meta, Scripts, ScrollRestoration } from '@remix-run/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import rootStylesHref from '~/styles/root.css?url';
+import favicon from './favicon.png?url';
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { Neo } from './neo/Neo';
@@ -15,7 +16,8 @@ const queryClient = new QueryClient();
 export const links: LinksFunction = () => [
   { rel: 'preload stylesheet', href: iconStylesHref, as: 'style' },
   { rel: 'stylesheet', href: componentsStylesHref },
-  { rel: 'stylesheet', href: rootStylesHref }
+  { rel: 'stylesheet', href: rootStylesHref },
+  { rel: 'icon', href: favicon, type: 'image/png' }
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {

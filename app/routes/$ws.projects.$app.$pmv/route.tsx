@@ -10,20 +10,26 @@ import {
   Flex
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { MetaFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useNavigate, useParams } from '@remix-run/react';
 import { useMemo, useState, type ReactNode } from 'react';
+import { NEO_DESIGNER } from '~/constants';
 import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/data/dependency-api';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
-import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 import PreviewSVG from '../_index/workspace-preview.svg?react';
 
-export const meta: MetaFunction = () => {
-  return [{ title: 'Axon Ivy Poject Detail' }, { name: 'description', content: 'Axon Ivy Project Detail' }];
+export const links: LinksFunction = () => [cardStylesLink];
+
+export const meta: MetaFunction = ({ params }) => {
+  return [
+    { title: `Project details - ${params.pmv} - ${params.ws} - ${NEO_DESIGNER}` },
+    { name: 'description', content: 'Axon Ivy Project details' }
+  ];
 };
 
 export default function Index() {

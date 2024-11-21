@@ -1,9 +1,10 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { type FormIdentifier, useCreateForm, useDeleteForm, useGroupedForms } from '~/data/form-api';
 import type { DataClassIdentifier, HdBean } from '~/data/generated/openapi-dev';
 import type { ProjectIdentifier } from '~/data/project-api';
+import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { formDescription } from '~/neo/artifact/artifact-description';
-import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
@@ -13,11 +14,9 @@ import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './form-preview.svg?react';
 
-export const links = cardLinks;
+export const links: LinksFunction = () => [cardStylesLink];
 
-export const meta: MetaFunction = () => {
-  return [{ title: 'Axon Ivy Forms' }, { name: 'description', content: 'Axon Ivy Forms Overview' }];
-};
+export const meta: MetaFunction = overviewMetaFunctionProvider('Forms');
 
 export default function Index() {
   const { data, isPending } = useGroupedForms();
