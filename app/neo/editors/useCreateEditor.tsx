@@ -57,7 +57,7 @@ const typeFromPath = (path: string): EditorType => {
   if (path.endsWith('.yaml')) {
     return 'configurations';
   }
-  toast.error(`Unknown editor type`, { description: `This file type '${lastSegment(path)}' can not be edited in Neo.` });
+  toast.error(`Unknown editor type`, { description: `This file type '${lastSegment(path)}' can not be edited in NEO.` });
   throw new Error(`Unknown editor type for path ${path}`);
 };
 

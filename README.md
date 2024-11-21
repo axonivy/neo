@@ -1,6 +1,6 @@
-# Axon Ivy Neo Designer (Prototype)
+# Axon Ivy NEO Designer
 
-This repo contains the prototype of the Axon Ivy low-code Designer (code name Neo).
+This repo contains the beta version of the Axon Ivy low-code Designer called Axon Ivy NEO Designer.
 It uses Remix in SPA mode for the UI.
 
 ## Setup
@@ -30,5 +30,5 @@ npm run build
 You can preview the build locally with:
 
 ```shellscript
-npm run preview
+npm run serve
 ```

@@ -20,15 +20,16 @@ import {
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { MetaFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { Link, useNavigate, useParams } from '@remix-run/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState, type ReactNode } from 'react';
+import { NEO_DESIGNER } from '~/constants';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
 import { configDescription, dataClassDescription, formDescription, processDescription } from '~/neo/artifact/artifact-description';
-import { ArtifactCard, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
@@ -36,8 +37,10 @@ import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import PreviewSVG from './_index/workspace-preview.svg?react';
 
-export const meta: MetaFunction = () => {
-  return [{ title: 'Axon Ivy Neo' }, { name: 'description', content: 'Welcome to Axon Ivy Neo!' }];
+export const links: LinksFunction = () => [cardStylesLink];
+
+export const meta: MetaFunction = ({ params }) => {
+  return [{ title: `Home - ${params.ws} - ${NEO_DESIGNER}` }, { name: 'description', content: 'Workspace home view' }];
 };
 
 export default function Index() {

@@ -17,8 +17,9 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { useNavigate } from '@remix-run/react';
 import { useMemo, useState } from 'react';
+import { NEO_DESIGNER } from '~/constants';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
-import { ArtifactCard, cardLinks, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { validateNotEmpty } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
@@ -30,17 +31,17 @@ import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import welcomeSvgUrl from './welcome.svg?url';
 import PreviewSVG from './workspace-preview.svg?react';
 
-export const links: LinksFunction = cardLinks;
+export const links: LinksFunction = () => [cardStylesLink];
 
 export const meta: MetaFunction = () => {
-  return [{ title: 'Axon Ivy Neo' }, { name: 'description', content: 'Welcome to Axon Ivy Neo!' }];
+  return [{ title: `Welcome - ${NEO_DESIGNER}` }, { name: 'description', content: `Welcome page of ${NEO_DESIGNER}` }];
 };
 
 export default function Index() {
   const { search, setSearch } = useSearch();
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const title = 'Welcome to Axon Ivy NEO Designer: Manage your workspaces';
+  const title = `Welcome to ${NEO_DESIGNER}: Manage your workspaces`;
   const info =
     "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.";
   return (

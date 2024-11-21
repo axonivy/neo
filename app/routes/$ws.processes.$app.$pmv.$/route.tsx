@@ -1,9 +1,8 @@
 import type { MetaFunction } from '@remix-run/node';
+import { editorMetaFunctionProvider } from '~/metaFunctionProvider';
 import { useRestoreEditor } from '~/neo/editors/useRestoreEditor';
 
-export const meta: MetaFunction = () => {
-  return [{ title: 'Axon Ivy Process' }, { name: 'description', content: 'Axon Ivy Process' }];
-};
+export const meta: MetaFunction = editorMetaFunctionProvider('Axon Ivy Process Editor');
 
 export default function Index() {
   useRestoreEditor('processes');
