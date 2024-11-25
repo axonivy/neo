@@ -1,6 +1,6 @@
-import { InscriptionContext } from '@axonivy/inscription-protocol';
 import { createIvyDiagramContainer, ivyOpenDataClassModule, ivyOpenFormModule } from '@axonivy/process-editor';
 import { ivyInscriptionModule } from '@axonivy/process-editor-inscription';
+import { InscriptionContext } from '@axonivy/process-editor-inscription-protocol';
 import { IDiagramOptions, createDiagramOptionsModule, standaloneSelectModule, undoRedoModule } from '@eclipse-glsp/client';
 import { Container } from 'inversify';
 import ivyAutoSaveModule from './auto-save/di.config';

@@ -1,6 +1,6 @@
-import { MonacoEditorUtil } from '@axonivy/inscription-editor';
 import { MessageConnection } from '@axonivy/jsonrpc';
 import { IvyBaseJsonrpcGLSPClient } from '@axonivy/process-editor';
+import { MonacoEditorUtil } from '@axonivy/process-editor-inscription-view';
 import { ThemeMode } from '@axonivy/process-editor-protocol';
 import { DiagramLoader, EditMode, GLSPActionDispatcher, GLSPWebSocketProvider, MessageAction, StatusAction } from '@eclipse-glsp/client';
 import { ApplicationIdProvider, GLSPClient } from '@eclipse-glsp/protocol';

@@ -1,4 +1,4 @@
-import type { InscriptionActionArgs, InscriptionNotificationTypes } from '@axonivy/inscription-protocol';
+import type { InscriptionActionArgs, InscriptionNotificationTypes } from '@axonivy/process-editor-inscription-protocol';
 import { useCallback } from 'react';
 import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
