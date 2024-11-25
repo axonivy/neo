@@ -40,7 +40,7 @@ test.describe('inscription', () => {
 
     await valueInput.fill('#{data.data.product}');
     await valueInput.expectBadgeValue('data.product');
-    await block.expectInputValue('#{data.data.product}');
+    await block.expectInputValue('data.product');
   });
 
   test('open help', async ({ page, context }) => {
