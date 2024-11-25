@@ -18,13 +18,6 @@ const getHeaders = (headersInit?: HeadersInit): HeadersInit => {
   if (!headers.has(xRequestedByHeader)) {
     headers.append(xRequestedByHeader, 'neo');
   }
-  const contentType = headers.get('Content-Type');
-  if (!contentType) {
-    headers.append('Content-Type', 'application/json');
-    // multipart/form-data should not be set in fetch -> see https://github.com/orval-labs/orval/issues/1531
-  } else if (contentType === 'multipart/form-data') {
-    headers.delete('Content-Type');
-  }
   headers.delete('base');
   return headers;
 };

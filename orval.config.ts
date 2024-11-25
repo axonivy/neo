@@ -1,7 +1,7 @@
 import { defineConfig } from 'orval';
 
 const hooks = { afterAllFilesWrite: 'prettier --write' };
-const filters = { tags: ['web-ide'] };
+const filters = { tags: ['web-ide'], schemas: [/.*/] };
 const client = 'fetch';
 const override = {
   mutator: {
