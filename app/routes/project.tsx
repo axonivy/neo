@@ -10,8 +10,8 @@ import {
   Flex
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
-import { useNavigate, useParams } from '@remix-run/react';
+import type { LinksFunction, MetaFunction } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useMemo, useState, type ReactNode } from 'react';
 import { NEO_DESIGNER } from '~/constants';
 import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/data/dependency-api';
@@ -21,7 +21,7 @@ import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/Ar
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
-import PreviewSVG from '../_index/workspace-preview.svg?react';
+import PreviewSVG from './workspaces/workspace-preview.svg?react';
 
 export const links: LinksFunction = () => [cardStylesLink];
 

@@ -20,8 +20,8 @@ import {
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
-import { Link, useNavigate, useParams } from '@remix-run/react';
+import type { LinksFunction, MetaFunction } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState, type ReactNode } from 'react';
 import { NEO_DESIGNER } from '~/constants';
@@ -35,7 +35,7 @@ import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
-import PreviewSVG from './_index/workspace-preview.svg?react';
+import PreviewSVG from './workspace-preview.svg?react';
 
 export const links: LinksFunction = () => [cardStylesLink];
 

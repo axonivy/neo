@@ -13,8 +13,8 @@ import {
   Spinner
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
-import { Link, useParams } from '@remix-run/react';
+import type { LinksFunction, MetaFunction } from 'react-router';
+import { Link, useParams } from 'react-router';
 import { useEffect, useMemo, useState } from 'react';
 import { NEO_DESIGNER } from '~/constants';
 import type { ProjectBean } from '~/data/generated/openapi-dev';

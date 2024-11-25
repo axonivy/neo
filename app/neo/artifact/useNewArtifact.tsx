@@ -13,7 +13,7 @@ import {
   Spinner
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useParams } from '@remix-run/react';
+import { useParams } from 'react-router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useGroupedDataClasses } from '~/data/data-class-api';
 import type { DataClassIdentifier, ProjectBean } from '~/data/generated/openapi-dev';

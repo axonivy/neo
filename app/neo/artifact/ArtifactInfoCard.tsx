@@ -1,6 +1,6 @@
 import { Flex, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useNavigate } from '@remix-run/react';
+import { useNavigate } from 'react-router';
 
 type ArtifactInfoCardProps = {
   title: string;

@@ -1,6 +1,6 @@
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useParams } from '@remix-run/react';
 import { renderHook } from '@testing-library/react';
+import { useParams } from 'react-router';
 import type { Mock } from 'vitest';
 import type { Form } from '~/data/form-api';
 import type { DataClassBean } from '~/data/generated/openapi-dev';
@@ -8,10 +8,10 @@ import type { Process } from '~/data/process-api';
 import type { Editor } from './editor';
 import { useCreateEditor } from './useCreateEditor';
 
-vi.mock('@remix-run/react', async importOriginal => {
+vi.mock('react-router', async importOriginal => {
   const paramsFn = vi.fn();
   return {
-    ...(await importOriginal<typeof import('@remix-run/react')>()),
+    ...(await importOriginal<typeof import('react-router')>()),
     useParams: paramsFn
   };
 });

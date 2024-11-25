@@ -1,6 +1,6 @@
 import { DataClassEditor as App, ClientContextProvider } from '@axonivy/dataclass-editor';
 import { ReadonlyProvider } from '@axonivy/ui-components';
-import { useLocation } from '@remix-run/react';
+import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 import { type Editor, DATACLASS_EDITOR_SUFFIX } from '../editor';
 import { useWebSocket } from '../useWebSocket';

@@ -1,6 +1,6 @@
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { NavLink } from '@remix-run/react';
+import { NavLink } from 'react-router';
 import { AnimationSettings } from './settings/AnimationSettings';
 import { ThemeSettings } from './settings/ThemeSettings';
 

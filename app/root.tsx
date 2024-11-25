@@ -1,8 +1,8 @@
 import { Flex, Spinner, ThemeProvider } from '@axonivy/ui-components';
 import componentsStylesHref from '@axonivy/ui-components/lib/style.css?url';
 import iconStylesHref from '@axonivy/ui-icons/lib/ivy-icons.css?url';
-import type { LinksFunction } from '@remix-run/node';
-import { Links, Meta, Scripts, ScrollRestoration } from '@remix-run/react';
+import type { LinksFunction } from 'react-router';
+import { Links, Meta, Scripts, ScrollRestoration } from 'react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import rootStylesHref from '~/styles/root.css?url';

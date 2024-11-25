@@ -1,5 +1,5 @@
 import { toast } from '@axonivy/ui-components';
-import { useLocation, useNavigate } from '@remix-run/react';
+import { useLocation, useNavigate } from 'react-router';
 import { createContext, useContext } from 'react';
 import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
 import type { NeoClient } from '~/data/neo-protocol';

@@ -1,5 +1,5 @@
 import editorStylesHref from '@axonivy/dataclass-editor/lib/style.css?url';
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import type { LinksFunction, MetaFunction } from 'react-router';
 import { editorMetaFunctionProvider } from '~/metaFunctionProvider';
 import { useRestoreEditor } from '~/neo/editors/useRestoreEditor';
 

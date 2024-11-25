@@ -1,5 +1,5 @@
 import { Toaster } from '@axonivy/ui-components';
-import { Outlet } from '@remix-run/react';
+import { Outlet } from 'react-router';
 
 export const Neo = () => {
   return (

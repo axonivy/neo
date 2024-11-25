@@ -1,6 +1,6 @@
 import { toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useParams } from '@remix-run/react';
+import { useParams } from 'react-router';
 import type { Form } from '~/data/form-api';
 import type { DataClassBean } from '~/data/generated/openapi-dev';
 import type { Process } from '~/data/process-api';
