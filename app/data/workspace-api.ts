@@ -1,6 +1,6 @@
 import { toast } from '@axonivy/ui-components';
-import { useParams } from 'react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'react-router';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createWorkspace as createWorkspaceReq,
@@ -99,7 +99,7 @@ export const useExportWorkspace = () => {
 export const useImportProjectsIntoWs = () => {
   const importProjects = async (id: string, file: Blob, dependentProject?: ProjectIdentifier) => {
     const blob = dependentProject ? new Blob([JSON.stringify(dependentProject)], { type: 'application/json' }) : undefined;
-    const res = await importProjectsReq(id, { file, dependentProject: blob }, { headers: { 'Content-Type': 'multipart/form-data' } });
+    const res = await importProjectsReq(id, { file, dependentProject: blob });
     if (ok(res)) {
       return;
     }
@@ -129,7 +129,6 @@ export const useDeployWorkspace = () => {
     const baseUrl = new URL('system', params.engineUrl).toString();
     const basicAuth = 'Basic ' + btoa(params.user + ':' + params.password);
     const reqHeaders = {
-      'Content-Type': 'multipart/form-data',
       Authorization: basicAuth,
       ...headers(baseUrl)
     };
