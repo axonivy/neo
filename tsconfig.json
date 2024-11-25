@@ -1,5 +1,5 @@
 {
-  "include": ["env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
   "exclude": ["webviews/**", "playwright/**"],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
@@ -19,6 +19,8 @@
       "~/*": ["./app/*"]
     },
     "noEmit": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "types": ["@react-router/node", "vite/client", "vite-plugin-svgr/client", "vitest/globals"],
+    "rootDirs": [".", "./.react-router/types"]
   }
 }

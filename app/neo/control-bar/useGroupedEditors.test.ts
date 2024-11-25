@@ -7,7 +7,7 @@ import { useGroupedEditors } from './useGroupedEditors';
 vi.mock('../editors/useEditors', async importOriginal => {
   const editorsFn = vi.fn();
   return {
-    ...(await importOriginal<typeof import('@remix-run/react')>()),
+    ...(await importOriginal<typeof import('react-router')>()),
     useEditors: editorsFn
   };
 });

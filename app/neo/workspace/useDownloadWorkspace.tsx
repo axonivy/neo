@@ -1,4 +1,4 @@
-import { useParams } from '@remix-run/react';
+import { useParams } from 'react-router';
 import { useExportWorkspace } from '~/data/workspace-api';
 
 export const useDownloadWorkspace = (workspace?: string) => {

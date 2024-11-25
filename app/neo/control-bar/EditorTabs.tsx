@@ -1,6 +1,6 @@
 import { Button, Flex, IvyIcon, Tabs, TabsList, TabsTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useLocation, useNavigate } from '@remix-run/react';
+import { useLocation, useNavigate } from 'react-router';
 import { useEffect, useRef, useState } from 'react';
 import { lastSegment } from '~/utils/path';
 import type { Editor } from '../editors/editor';

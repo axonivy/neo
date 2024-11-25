@@ -1,5 +1,5 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
-import { useSearchParams } from '@remix-run/react';
+import { useSearchParams } from 'react-router';
 import { useEffect, useMemo, type ReactNode } from 'react';
 import { useSortedProjects } from '~/data/project-api';
 import { useWorkspace } from '~/data/workspace-api';

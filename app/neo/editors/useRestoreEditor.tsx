@@ -1,5 +1,5 @@
 import { indexOf } from '@axonivy/ui-components';
-import { NavigationType, useNavigationType, useParams } from '@remix-run/react';
+import { NavigationType, useNavigationType, useParams } from 'react-router';
 import type { EditorType } from './editor';
 import { useCreateEditor } from './useCreateEditor';
 import { useEditors } from './useEditors';

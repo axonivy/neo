@@ -1,5 +1,5 @@
 import { indexOf } from '@axonivy/ui-components';
-import { useNavigate, useParams } from '@remix-run/react';
+import { useNavigate, useParams } from 'react-router';
 import { useCallback } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';

@@ -1,15 +1,15 @@
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useNavigate, useParams } from '@remix-run/react';
 import { act, renderHook } from '@testing-library/react';
+import { useNavigate, useParams } from 'react-router';
 import type { Mock } from 'vitest';
 import type { Editor } from './editor';
 import { useEditors } from './useEditors';
 
-vi.mock('@remix-run/react', async importOriginal => {
+vi.mock('react-router', async importOriginal => {
   const navigateFn = vi.fn();
   const paramsFn = vi.fn();
   return {
-    ...(await importOriginal<typeof import('@remix-run/react')>()),
+    ...(await importOriginal<typeof import('react-router')>()),
     useParams: paramsFn,
     useNavigate: () => navigateFn
   };

@@ -1,4 +1,4 @@
-import type { MetaFunction } from '@remix-run/node';
+import type { MetaFunction } from 'react-router';
 import { editorMetaFunctionProvider } from '~/metaFunctionProvider';
 import { useRestoreEditor } from '~/neo/editors/useRestoreEditor';
 

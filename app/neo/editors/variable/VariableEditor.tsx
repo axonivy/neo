@@ -1,6 +1,6 @@
 import { ReadonlyProvider } from '@axonivy/ui-components';
 import { VariableEditor as App, ClientContextProvider } from '@axonivy/variable-editor';
-import { useLocation } from '@remix-run/react';
+import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
 import type { Editor } from '../editor';
 import { useWebSocket } from '../useWebSocket';

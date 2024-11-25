@@ -1,5 +1,5 @@
 import { toast } from '@axonivy/ui-components';
-import { useParams } from '@remix-run/react';
+import { useParams } from 'react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {

@@ -1,5 +1,5 @@
-import { useLocation, useNavigate } from '@remix-run/react';
 import { act, renderHook } from '@testing-library/react';
+import { useLocation, useNavigate } from 'react-router';
 import { Callback, type NeoClient } from '~/data/neo-protocol';
 import type { Process } from '~/data/process-api';
 import { useCreateEditor } from '../editors/useCreateEditor';
@@ -7,10 +7,10 @@ import { useEditors } from '../editors/useEditors';
 import type { AnimationFollowMode } from '../settings/useSettings';
 import { NeoClientProviderContext, useNeoClient } from './useNeoClient';
 
-vi.mock('@remix-run/react', async importOriginal => {
+vi.mock('react-router', async importOriginal => {
   const navigateFn = vi.fn();
   return {
-    ...(await importOriginal<typeof import('@remix-run/react')>()),
+    ...(await importOriginal<typeof import('react-router')>()),
     useLocation: vi.fn<typeof useLocation>(),
     useNavigate: () => navigateFn
   };

@@ -1,5 +1,5 @@
 import { Field, Flex, Label, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Switch } from '@axonivy/ui-components';
-import { Outlet, useParams } from '@remix-run/react';
+import { Outlet, useParams } from 'react-router';
 import { Navigation } from '~/neo/Navigation';
 import { WebBrowser } from '~/neo/browser/WebBrowser';
 import { useWebBrowser } from '~/neo/browser/useWebBrowser';

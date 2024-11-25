@@ -14,8 +14,8 @@ import {
   Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
-import { useNavigate } from '@remix-run/react';
+import type { LinksFunction, MetaFunction } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useMemo, useState } from 'react';
 import { NEO_DESIGNER } from '~/constants';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';

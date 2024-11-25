@@ -1,5 +1,5 @@
 import { Button, Flex } from '@axonivy/ui-components';
-import { Link } from '@remix-run/react';
+import { Link } from 'react-router';
 import type { ReactNode } from 'react';
 import IvyLogoSVG from '../axonivy.svg?react';
 
