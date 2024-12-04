@@ -1,7 +1,7 @@
 import { DataClassEditor as App, ClientContextProvider } from '@axonivy/dataclass-editor';
-import { ReadonlyProvider } from '@axonivy/ui-components';
-import { useLocation } from 'react-router';
+import { ReadonlyProvider, ThemeProvider } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import { type Editor, DATACLASS_EDITOR_SUFFIX } from '../editor';
 import { useWebSocket } from '../useWebSocket';
 import { DataClassClientNeo } from './data-class-client';
@@ -28,16 +28,18 @@ export const DataClassEditor = ({ id, project, path, name }: Editor) => {
           style={{ height: '100%', display: pathname !== id ? 'none' : undefined }}
         >
           <ClientContextProvider client={client}>
-            <ReadonlyProvider readonly={project.isIar ?? false}>
-              <App
-                context={{
-                  app: project.app,
-                  pmv: project.pmv,
-                  file: path.endsWith(DATACLASS_EDITOR_SUFFIX) ? path : `${path}${DATACLASS_EDITOR_SUFFIX}`
-                }}
-                directSave={true}
-              />
-            </ReadonlyProvider>
+            <ThemeProvider disabled>
+              <ReadonlyProvider readonly={project.isIar ?? false}>
+                <App
+                  context={{
+                    app: project.app,
+                    pmv: project.pmv,
+                    file: path.endsWith(DATACLASS_EDITOR_SUFFIX) ? path : `${path}${DATACLASS_EDITOR_SUFFIX}`
+                  }}
+                  directSave={true}
+                />
+              </ReadonlyProvider>
+            </ThemeProvider>
           </ClientContextProvider>
         </div>
       )}

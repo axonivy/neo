@@ -1,7 +1,7 @@
 import { App, ClientContextProvider } from '@axonivy/form-editor';
-import { ReadonlyProvider } from '@axonivy/ui-components';
-import { useLocation } from 'react-router';
+import { ReadonlyProvider, ThemeProvider } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import { type Editor, FORM_EDITOR_SUFFIX } from '../editor';
 import { useWebSocket } from '../useWebSocket';
 import { FormClientNeo } from './form-client';
@@ -24,16 +24,18 @@ export const FormEditor = ({ id, project, path, name }: Editor) => {
       {mounted && client && (
         <div data-editor-name={name} className='form-editor' style={{ height: '100%', display: pathname !== id ? 'none' : undefined }}>
           <ClientContextProvider client={client}>
-            <ReadonlyProvider readonly={project.isIar ?? false}>
-              <App
-                context={{
-                  app: project.app,
-                  pmv: project.pmv,
-                  file: path.endsWith(FORM_EDITOR_SUFFIX) ? path : `${path}${FORM_EDITOR_SUFFIX}`
-                }}
-                directSave={true}
-              />
-            </ReadonlyProvider>
+            <ThemeProvider disabled>
+              <ReadonlyProvider readonly={project.isIar ?? false}>
+                <App
+                  context={{
+                    app: project.app,
+                    pmv: project.pmv,
+                    file: path.endsWith(FORM_EDITOR_SUFFIX) ? path : `${path}${FORM_EDITOR_SUFFIX}`
+                  }}
+                  directSave={true}
+                />
+              </ReadonlyProvider>
+            </ThemeProvider>
           </ClientContextProvider>
         </div>
       )}

@@ -1,7 +1,7 @@
-import { ReadonlyProvider } from '@axonivy/ui-components';
+import { ReadonlyProvider, ThemeProvider } from '@axonivy/ui-components';
 import { VariableEditor as App, ClientContextProvider } from '@axonivy/variable-editor';
-import { useLocation } from 'react-router';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router';
 import type { Editor } from '../editor';
 import { useWebSocket } from '../useWebSocket';
 import { useActionHandler } from './useActionHandler';
@@ -25,9 +25,11 @@ export const VariableEditor = ({ id, project, name }: Editor) => {
       {mounted && client && (
         <div data-editor-name={name} className='variable-editor' style={{ display: pathname !== id ? 'none' : undefined }}>
           <ClientContextProvider client={client}>
-            <ReadonlyProvider readonly={project.isIar ?? false}>
-              <App context={{ app: project.app, pmv: project.pmv, file: 'config/variables.yaml' }} directSave={true} />
-            </ReadonlyProvider>
+            <ThemeProvider disabled>
+              <ReadonlyProvider readonly={project.isIar ?? false}>
+                <App context={{ app: project.app, pmv: project.pmv, file: 'config/variables.yaml' }} directSave={true} />
+              </ReadonlyProvider>
+            </ThemeProvider>
           </ClientContextProvider>
         </div>
       )}

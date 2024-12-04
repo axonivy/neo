@@ -6,7 +6,8 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   IvyIcon,
-  useTheme
+  useTheme,
+  type Theme
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 
@@ -19,7 +20,7 @@ export const ThemeSettings = () => {
         <span>Theme</span>
         <DropdownMenuPortal>
           <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
-            <DropdownMenuRadioGroup value={theme} onValueChange={mode => setTheme(mode as 'dark' | 'light' | 'system')}>
+            <DropdownMenuRadioGroup value={theme} onValueChange={mode => setTheme(mode as Theme)}>
               <DropdownMenuRadioItem value='light'>Light</DropdownMenuRadioItem>
               <DropdownMenuRadioItem value='dark'>Dark</DropdownMenuRadioItem>
               <DropdownMenuRadioItem value='system'>System</DropdownMenuRadioItem>
