@@ -215,7 +215,6 @@ export interface DataClassIdentifier {
 export interface ConfigurationIdentifier {
   path: string;
   project: ProjectIdentifier;
-  type: string;
 }
 
 export interface ConfigurationBean {
@@ -280,7 +279,7 @@ export const configurations = async (options?: RequestInit): Promise<configurati
 };
 
 export type readConfigResponse = {
-  data: string;
+  data: ConfigurationBean;
   status: number;
   headers: Headers;
 };

@@ -1,7 +1,13 @@
 import { groupBy, toast } from '@axonivy/ui-components';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { headers, ok } from './custom-fetch';
-import { configurations, readConfig, type ReadConfigParams } from './generated/openapi-dev';
+import {
+  type ConfigurationBean,
+  configurations,
+  readConfig,
+  type ReadConfigParams,
+  writeConfig as writeConfigReq
+} from './generated/openapi-dev';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
@@ -31,7 +37,6 @@ export const useGroupedConfigurations = () => {
 };
 
 export const useReadConfiguration = ({ app, pmv, path }: ReadConfigParams) => {
-  path = path?.startsWith('/') ? path.substring(1) : path;
   const { base, queryKey } = useConfigurationsApi();
   return useQuery({
     queryKey: [...queryKey, app, pmv, path],
@@ -47,4 +52,24 @@ export const useReadConfiguration = ({ app, pmv, path }: ReadConfigParams) => {
       });
     }
   });
+};
+
+export const useWriteConfiguration = () => {
+  const client = useQueryClient();
+  const { queryKey, base } = useConfigurationsApi();
+  const writeConfig = async (bean: ConfigurationBean) => {
+    const res = await writeConfigReq(bean, { headers: headers(base) });
+    if (ok(res)) {
+      client.invalidateQueries({ queryKey: [...queryKey, bean.id.project.app, bean.id.project.pmv, bean.id.path] });
+      return res.data;
+    }
+    throw new Error(`Failed to write config for ${bean.id.project.app} ${bean.id.project.pmv} ${bean.id.path}`);
+  };
+  return {
+    writeConfig: (bean: ConfigurationBean) => {
+      const newBean = writeConfig(bean);
+      toast.promise(() => newBean, { loading: 'Writing config', success: 'Finished writing', error: e => e.message });
+      return newBean;
+    }
+  };
 };

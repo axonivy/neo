@@ -1,7 +1,7 @@
 import { Textarea } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
-import { useReadConfiguration } from '~/data/config-api';
+import { useReadConfiguration, useWriteConfiguration } from '~/data/config-api';
 import type { Editor } from '../editor';
 
 export const TextEditor = ({ id, project, name, path }: Editor) => {
@@ -12,13 +12,18 @@ export const TextEditor = ({ id, project, name, path }: Editor) => {
       setMounted(true);
     }
   }, [pathname, id]);
-
   const { data } = useReadConfiguration({ app: project.app, pmv: project.pmv, path });
+  const { writeConfig } = useWriteConfiguration();
   return (
     <>
-      {mounted && (
+      {mounted && data && (
         <div data-editor-name={name} className='text-editor' style={{ display: pathname !== id ? 'none' : undefined, height: '100%' }}>
-          <Textarea onChange={e => console.log(e.target.value)} style={{ height: '100%' }} value={data ?? ''} />
+          <Textarea
+            readOnly={project.isIar ?? false}
+            onChange={e => writeConfig({ id: data.id, content: e.target.value })}
+            style={{ height: '100%' }}
+            value={data.content}
+          />
         </div>
       )}
     </>
