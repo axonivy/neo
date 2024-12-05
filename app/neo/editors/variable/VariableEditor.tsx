@@ -7,7 +7,7 @@ import { useWebSocket } from '../useWebSocket';
 import { useActionHandler } from './useActionHandler';
 import { VariableClientNeo } from './variable-client';
 
-export const VariableEditor = ({ id, project, name }: Editor) => {
+export const VariableEditor = ({ id, project, name, path }: Editor) => {
   const actionHandler = useActionHandler();
   const client = useWebSocket<VariableClientNeo>(id, VariableClientNeo.webSocketUrl, connection =>
     VariableClientNeo.startNeoMessageClient(connection, actionHandler)
@@ -27,7 +27,7 @@ export const VariableEditor = ({ id, project, name }: Editor) => {
           <ClientContextProvider client={client}>
             <ThemeProvider disabled>
               <ReadonlyProvider readonly={project.isIar ?? false}>
-                <App context={{ app: project.app, pmv: project.pmv, file: 'config/variables.yaml' }} directSave={true} />
+                <App context={{ app: project.app, pmv: project.pmv, file: path }} directSave={true} />
               </ReadonlyProvider>
             </ThemeProvider>
           </ClientContextProvider>

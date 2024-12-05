@@ -2,11 +2,19 @@ import { toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from 'react-router';
 import type { Form } from '~/data/form-api';
-import type { DataClassBean } from '~/data/generated/openapi-dev';
+import type { ConfigurationIdentifier, DataClassBean } from '~/data/generated/openapi-dev';
 import type { Process } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { lastSegment } from '~/utils/path';
-import { DATACLASS_EDITOR_SUFFIX, type Editor, type EditorType, FORM_EDITOR_SUFFIX, PROCESS_EDITOR_SUFFIX } from './editor';
+import {
+  CONFIG_EDITOR_XML_SUFFIX,
+  CONFIG_EDITOR_YAML_SUFFIX,
+  DATACLASS_EDITOR_SUFFIX,
+  type Editor,
+  type EditorType,
+  FORM_EDITOR_SUFFIX,
+  PROCESS_EDITOR_SUFFIX
+} from './editor';
 
 export const useCreateEditor = () => {
   const ws = useParams().ws ?? 'designer';
@@ -19,8 +27,8 @@ export const useCreateEditor = () => {
       }
       return createEditor(ws, 'processes', project, `processes/${path ?? name}`, name);
     },
-    createVariableEditor: (project: ProjectIdentifier): Editor =>
-      createEditor(ws, 'configurations', project, 'config/variables', 'variables'),
+    createConfigurationEditor: (config: ConfigurationIdentifier): Editor =>
+      createEditor(ws, 'configurations', config.project, config.path, removeConfigExtension(lastSegment(config.path))),
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
       createEditor(ws, 'dataclasses', project, path, simpleName),
     createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
@@ -44,6 +52,10 @@ const removeExtension = (path: string) => {
   return path.split(PROCESS_EDITOR_SUFFIX)[0].split(FORM_EDITOR_SUFFIX)[0].split(DATACLASS_EDITOR_SUFFIX)[0];
 };
 
+const removeConfigExtension = (path: string) => {
+  return path.split(CONFIG_EDITOR_YAML_SUFFIX)[0].split(CONFIG_EDITOR_XML_SUFFIX)[0];
+};
+
 const typeFromPath = (path: string): EditorType => {
   if (path.endsWith(PROCESS_EDITOR_SUFFIX)) {
     return 'processes';
@@ -54,7 +66,7 @@ const typeFromPath = (path: string): EditorType => {
   if (path.endsWith(DATACLASS_EDITOR_SUFFIX)) {
     return 'dataclasses';
   }
-  if (path.endsWith('.yaml')) {
+  if (path.endsWith(CONFIG_EDITOR_YAML_SUFFIX) || path.endsWith(CONFIG_EDITOR_XML_SUFFIX)) {
     return 'configurations';
   }
   toast.error(`Unknown editor type`, { description: `This file type '${lastSegment(path)}' can not be edited in NEO.` });

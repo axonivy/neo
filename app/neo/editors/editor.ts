@@ -9,6 +9,9 @@ export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: strin
 export const FORM_EDITOR_SUFFIX = '.f.json';
 export const PROCESS_EDITOR_SUFFIX = '.p.json';
 export const DATACLASS_EDITOR_SUFFIX = '.d.json';
+export const CONFIG_EDITOR_YAML_SUFFIX = '.yaml';
+export const CONFIG_EDITOR_XML_SUFFIX = '.xml';
+export const VARIABLES_EDITOR_SUFFIX = 'variables.yaml';
 
 export const DIALOG_PROCESS_EDITOR_SUFFIX = `Process${PROCESS_EDITOR_SUFFIX}`;
 export const DIALOG_DATA_EDITOR_SUFFIX = `Data${DATACLASS_EDITOR_SUFFIX}`;
