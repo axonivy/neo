@@ -156,7 +156,8 @@ describe('createVariableEditor', () => {
       path: 'config/variables'
     };
     const view = renderHook(() => useCreateEditor());
-    expect(view.result.current.createVariableEditor({ app: 'designer', pmv: 'workflow-demos' })).to.be.deep.equals(result);
+    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/variables' };
+    expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 });
 
