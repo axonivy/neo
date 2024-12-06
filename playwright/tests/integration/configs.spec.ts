@@ -18,5 +18,5 @@ test('search configs', async ({ page }) => {
   await expect(overview.cards).toHaveCount(0);
 
   await overview.search.fill(TEST_PROJECT);
-  await expect(overview.cards).toHaveCount(1);
+  await expect(overview.cards).toHaveCount(2);
 });

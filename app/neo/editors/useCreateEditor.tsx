@@ -28,7 +28,7 @@ export const useCreateEditor = () => {
       return createEditor(ws, 'processes', project, `processes/${path ?? name}`, name);
     },
     createConfigurationEditor: (config: ConfigurationIdentifier): Editor =>
-      createEditor(ws, 'configurations', config.project, config.path, removeConfigExtension(lastSegment(config.path))),
+      createEditor(ws, 'configurations', config.project, config.path, lastSegment(config.path)),
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
       createEditor(ws, 'dataclasses', project, path, simpleName),
     createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
@@ -42,7 +42,7 @@ const createEditor = (ws: string, editorType: EditorType, project: ProjectIdenti
     id: removeExtension(id),
     type: editorType,
     icon: editorIcon(editorType),
-    name: removeExtension(name),
+    name: removeConfigExtension(removeExtension(name)),
     project,
     path: removeExtension(path)
   };
