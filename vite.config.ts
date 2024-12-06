@@ -27,6 +27,7 @@ export default defineConfig({
         auth: 'Developer:Developer',
         ws: true
       },
+      '/monaco-yaml-ivy': DEV_PROXY,
       '/dev-workflow-ui': DEV_PROXY,
       '/system': DEV_PROXY,
       '/designer': WEBSOCKET_PROXY,
