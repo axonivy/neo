@@ -30,6 +30,7 @@ export const TextEditor = ({ id, project, name, path }: Editor) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const codeEditor = (frameRef.current?.contentWindow as any).codeEditor;
     if (data && codeEditor) {
+      codeEditor.updateOptions({ readOnly: project.isIar || path.endsWith('pom.xml') });
       const model = codeEditor._modelData.model;
       model.setValue(data.content);
       model.setLanguage(path.slice(path.lastIndexOf('.') + 1));
@@ -46,7 +47,7 @@ export const TextEditor = ({ id, project, name, path }: Editor) => {
             onLoad={setupMonaco}
             ref={frameRef}
             style={{ width: '100%', height: '100%' }}
-            title='hello'
+            title='Monaco Editor'
             src={`/monaco-yaml-ivy/index.html?demo=off&theme=${theme}`}
           ></iframe>
         </div>

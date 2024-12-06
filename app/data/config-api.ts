@@ -68,7 +68,7 @@ export const useWriteConfiguration = () => {
   return {
     writeConfig: (bean: ConfigurationBean) => {
       const newBean = writeConfig(bean);
-      toast.promise(() => newBean, { loading: 'Writing config', success: 'Finished writing', error: e => e.message });
+      toast.promise(() => newBean, { loading: 'Writing config', success: 'Saving config completed', error: e => e.message });
       return newBean;
     }
   };
