@@ -46,7 +46,7 @@ export const TextEditor = ({ id, project, name, path }: Editor) => {
             id='framed-monaco-editor'
             onLoad={setupMonaco}
             ref={frameRef}
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: '100%', border: 0 }}
             title='Monaco Editor'
             src={`/monaco-yaml-ivy/index.html?demo=off&theme=${theme}`}
           ></iframe>
