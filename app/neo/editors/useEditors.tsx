@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { DataClassEditor } from './dataclass/DataClassEditor';
-import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, VARIABLES_EDITOR_SUFFIX, type Editor } from './editor';
+import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, type Editor } from './editor';
 import { FormEditor } from './form/FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
 import { TextEditor } from './text/TextEditor';
@@ -115,16 +115,11 @@ export const renderEditor = (editor: Editor) => {
       return <ProcessEditor key={editor.id} {...editor} />;
     case 'forms':
       return <FormEditor key={editor.id} {...editor} />;
+    case 'variables':
+      return <VariableEditor key={editor.id} {...editor} />;
     case 'configurations':
-      return configEditor(editor);
+      return <TextEditor key={editor.id} {...editor} />;
     case 'dataclasses':
       return <DataClassEditor key={editor.id} {...editor} />;
   }
-};
-
-const configEditor = (editor: Editor) => {
-  if (editor.path.endsWith(VARIABLES_EDITOR_SUFFIX)) {
-    return <VariableEditor key={editor.id} {...editor} />;
-  }
-  return <TextEditor key={editor.id} {...editor} />;
 };

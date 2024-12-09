@@ -146,17 +146,31 @@ describe('createDataClassEditor', () => {
 });
 
 describe('createVariableEditor', () => {
-  test('dataclass', () => {
+  test('variables', () => {
     const result: Editor = {
-      id: '/test-ws/configurations/designer/workflow-demos/config/variables',
-      type: 'configurations',
+      id: '/test-ws/configurations/designer/workflow-demos/config/variables.yaml',
+      type: 'variables',
       icon: IvyIcons.Tool,
       name: 'variables',
       project: { app: 'designer', pmv: 'workflow-demos' },
-      path: 'config/variables'
+      path: 'config/variables.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/variables' };
+    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/variables.yaml' };
+    expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
+  });
+
+  test('pom', () => {
+    const result: Editor = {
+      id: '/test-ws/configurations/designer/workflow-demos/pom.xml',
+      type: 'configurations',
+      icon: IvyIcons.Tool,
+      name: 'pom',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'pom.xml'
+    };
+    const view = renderHook(() => useCreateEditor());
+    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'pom.xml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 });

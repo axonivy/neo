@@ -13,7 +13,8 @@ import {
   type Editor,
   type EditorType,
   FORM_EDITOR_SUFFIX,
-  PROCESS_EDITOR_SUFFIX
+  PROCESS_EDITOR_SUFFIX,
+  VARIABLES_EDITOR_SUFFIX
 } from './editor';
 
 export const useCreateEditor = () => {
@@ -27,8 +28,8 @@ export const useCreateEditor = () => {
       }
       return createEditor(ws, 'processes', project, `processes/${path ?? name}`, name);
     },
-    createConfigurationEditor: (config: ConfigurationIdentifier): Editor =>
-      createEditor(ws, 'configurations', config.project, config.path, lastSegment(config.path)),
+    createConfigurationEditor: ({ path, project }: ConfigurationIdentifier): Editor =>
+      createEditor(ws, typeFromPath(path), project, path, lastSegment(path)),
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
       createEditor(ws, 'dataclasses', project, path, simpleName),
     createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
@@ -37,7 +38,8 @@ export const useCreateEditor = () => {
 };
 
 const createEditor = (ws: string, editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {
-  const id = `/${ws}/${editorType}/${project.app}/${project.pmv}/${path}`;
+  const routeEditorType = editorType === 'variables' ? 'configurations' : editorType;
+  const id = `/${ws}/${routeEditorType}/${project.app}/${project.pmv}/${path}`;
   return {
     id: removeExtension(id),
     type: editorType,
@@ -66,6 +68,9 @@ const typeFromPath = (path: string): EditorType => {
   if (path.endsWith(DATACLASS_EDITOR_SUFFIX)) {
     return 'dataclasses';
   }
+  if (path.endsWith(VARIABLES_EDITOR_SUFFIX)) {
+    return 'variables';
+  }
   if (path.endsWith(CONFIG_EDITOR_YAML_SUFFIX) || path.endsWith(CONFIG_EDITOR_XML_SUFFIX)) {
     return 'configurations';
   }
@@ -77,6 +82,7 @@ const editorIcon = (editorType: EditorType) => {
   switch (editorType) {
     case 'forms':
       return IvyIcons.File;
+    case 'variables':
     case 'configurations':
       return IvyIcons.Tool;
     case 'dataclasses':

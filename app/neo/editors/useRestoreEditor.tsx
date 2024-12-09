@@ -4,7 +4,7 @@ import type { EditorType } from './editor';
 import { useCreateEditor } from './useCreateEditor';
 import { useEditors } from './useEditors';
 
-export const useRestoreEditor = (editorType: EditorType) => {
+export const useRestoreEditor = (editorType?: EditorType) => {
   const { ws, app, pmv, '*': path } = useParams();
   const { createEditorFromPath } = useCreateEditor();
   const navigationType = useNavigationType();

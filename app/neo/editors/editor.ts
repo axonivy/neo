@@ -1,7 +1,7 @@
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { ProjectIdentifier } from '~/data/project-api';
 
-export type EditorType = 'processes' | 'forms' | 'configurations' | 'dataclasses';
+export type EditorType = 'processes' | 'forms' | 'configurations' | 'dataclasses' | 'variables';
 
 // if you change the Editor type increase the zustand version too
 export type Editor = { id: string; type: EditorType; icon: IvyIcons; name: string; project: ProjectIdentifier; path: string };
