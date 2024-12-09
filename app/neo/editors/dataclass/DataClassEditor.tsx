@@ -1,48 +1,32 @@
 import { DataClassEditor as App, ClientContextProvider } from '@axonivy/dataclass-editor';
 import { ReadonlyProvider, ThemeProvider } from '@axonivy/ui-components';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
 import { type Editor, DATACLASS_EDITOR_SUFFIX } from '../editor';
 import { useWebSocket } from '../useWebSocket';
 import { DataClassClientNeo } from './data-class-client';
 import { useActionHandler } from './useActionHandler';
 
-export const DataClassEditor = ({ id, project, path, name }: Editor) => {
+export const DataClassEditor = ({ id, project, path }: Editor) => {
   const actionHandler = useActionHandler(project, path);
   const client = useWebSocket<DataClassClientNeo>(id, DataClassClientNeo.webSocketUrl, connection =>
     DataClassClientNeo.startNeoMessageClient(connection, actionHandler)
   );
-  const { pathname } = useLocation();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    if (pathname === id) {
-      setMounted(true);
-    }
-  }, [pathname, id]);
+  if (!client) {
+    return null;
+  }
   return (
-    <>
-      {mounted && client && (
-        <div
-          data-editor-name={name}
-          className='data-class-editor'
-          style={{ height: '100%', display: pathname !== id ? 'none' : undefined }}
-        >
-          <ClientContextProvider client={client}>
-            <ThemeProvider disabled>
-              <ReadonlyProvider readonly={project.isIar ?? false}>
-                <App
-                  context={{
-                    app: project.app,
-                    pmv: project.pmv,
-                    file: path.endsWith(DATACLASS_EDITOR_SUFFIX) ? path : `${path}${DATACLASS_EDITOR_SUFFIX}`
-                  }}
-                  directSave={true}
-                />
-              </ReadonlyProvider>
-            </ThemeProvider>
-          </ClientContextProvider>
-        </div>
-      )}
-    </>
+    <ClientContextProvider client={client}>
+      <ThemeProvider disabled>
+        <ReadonlyProvider readonly={project.isIar ?? false}>
+          <App
+            context={{
+              app: project.app,
+              pmv: project.pmv,
+              file: path.endsWith(DATACLASS_EDITOR_SUFFIX) ? path : `${path}${DATACLASS_EDITOR_SUFFIX}`
+            }}
+            directSave={true}
+          />
+        </ReadonlyProvider>
+      </ThemeProvider>
+    </ClientContextProvider>
   );
 };

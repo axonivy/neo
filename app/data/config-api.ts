@@ -41,7 +41,7 @@ export const useReadConfiguration = ({ app, pmv, path }: ReadConfigParams) => {
   return useQuery({
     queryKey: [...queryKey, app, pmv, path],
     queryFn: () => {
-      if (app === undefined || pmv === undefined || path === undefined) {
+      if (base === undefined || app === undefined || pmv === undefined || path === undefined) {
         return;
       }
       return readConfig({ app, pmv, path }, { headers: headers(base) }).then(res => {

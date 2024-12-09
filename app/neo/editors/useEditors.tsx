@@ -112,14 +112,14 @@ export const useEditors = () => {
 export const renderEditor = (editor: Editor) => {
   switch (editor.type) {
     case 'processes':
-      return <ProcessEditor key={editor.id} {...editor} />;
+      return <ProcessEditor {...editor} />;
     case 'forms':
-      return <FormEditor key={editor.id} {...editor} />;
+      return <FormEditor {...editor} />;
     case 'variables':
-      return <VariableEditor key={editor.id} {...editor} />;
+      return <VariableEditor {...editor} />;
     case 'configurations':
-      return <TextEditor key={editor.id} {...editor} />;
+      return <TextEditor {...editor} />;
     case 'dataclasses':
-      return <DataClassEditor key={editor.id} {...editor} />;
+      return <DataClassEditor {...editor} />;
   }
 };

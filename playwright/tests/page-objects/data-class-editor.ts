@@ -10,7 +10,7 @@ export class DataClassEditor {
     readonly neo: Neo,
     readonly name: string
   ) {
-    this.editor = neo.page.locator(`.data-class-editor[data-editor-name="${name}"]`);
+    this.editor = neo.page.locator(`.editor[data-editor-type="dataclasses"][data-editor-name="${name}"]`);
     this.rows = this.editor.locator('tbody tr');
   }
 

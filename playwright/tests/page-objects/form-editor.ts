@@ -10,7 +10,7 @@ export class FormEditor {
     readonly neo: Neo,
     readonly name: string
   ) {
-    this.editor = neo.page.locator(`.form-editor[data-editor-name="${name}"]`);
+    this.editor = neo.page.locator(`.editor[data-editor-type="forms"][data-editor-name="${name}"]`);
     this.canvas = this.editor.locator('#canvas');
   }
 

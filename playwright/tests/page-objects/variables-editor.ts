@@ -9,7 +9,7 @@ export class VariableEditor {
     readonly neo: Neo,
     readonly name: string
   ) {
-    this.editor = neo.page.locator(`.variable-editor[data-editor-name="${name}"]`);
+    this.editor = neo.page.locator(`.editor[data-editor-type="variables"][data-editor-name="${name}"]`);
   }
 
   async expectOpen(variable?: string) {
