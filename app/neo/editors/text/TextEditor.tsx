@@ -4,6 +4,16 @@ import { useReadConfiguration, useWriteConfiguration } from '~/data/config-api';
 import { useThemeMode } from '~/theme/useUpdateTheme';
 import type { Editor } from '../editor';
 
+function debouncedAction<T>(action: (input: T) => void, timeout: number) {
+  let timer: NodeJS.Timeout;
+  return (input: T) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      action(input);
+    }, timeout);
+  };
+}
+
 export const TextEditor = ({ id, project, name, path }: Editor) => {
   const { pathname } = useLocation();
   const [mounted, setMounted] = useState(false);
@@ -15,16 +25,7 @@ export const TextEditor = ({ id, project, name, path }: Editor) => {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const { data } = useReadConfiguration({ app: project.app, pmv: project.pmv, path });
   const { writeConfig } = useWriteConfiguration();
-  const debounce = (action: (content: string) => void, timeout: number) => {
-    let timer: NodeJS.Timeout;
-    return (content: string) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        action(content);
-      }, timeout);
-    };
-  };
-  const debouncedWrite = debounce((content: string) => writeConfig({ ...data!, content }), 1000);
+  const debouncedWrite = debouncedAction((content: string) => writeConfig({ ...data!, content }), 1000);
   const theme = useThemeMode();
   const setupMonaco = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
