@@ -8,7 +8,7 @@ test('navigate to forms', async ({ page }) => {
   const overview = await neo.forms();
   await overview.hasGroup(`Project: ${TEST_PROJECT}`);
   await overview.card('EnterProduct').click();
-  await new FormEditor(neo, 'EnterProduct').waitForOpen('Product');
+  await new FormEditor(neo, 'EnterProduct').expectOpen('Product');
 });
 
 test('create and delete form', async ({ page, browserName }, testInfo) => {
@@ -16,7 +16,7 @@ test('create and delete form', async ({ page, browserName }, testInfo) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
   await overview.create(fromName, 'test', { hasDataClassSelect: true });
-  await new FormEditor(neo, fromName).waitForOpen();
+  await new FormEditor(neo, fromName).expectOpen();
   await page.goBack();
   await overview.deleteCard(fromName);
 });

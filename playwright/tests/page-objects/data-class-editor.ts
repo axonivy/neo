@@ -14,7 +14,7 @@ export class DataClassEditor {
     this.rows = this.editor.locator('tbody tr');
   }
 
-  async waitForOpen(dataClass?: string) {
+  async expectOpen(dataClass?: string) {
     await this.neo.controlBar.tab(this.name).expectActive();
     await expect(this.editor).toBeVisible();
     if (dataClass) {

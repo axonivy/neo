@@ -9,7 +9,7 @@ test('navigate to process', async ({ page }) => {
   await overview.hasGroup(`Project: ${TEST_PROJECT}`);
   await overview.hoverCard('jump', 'processes/jump');
   await overview.card('quickstart').click();
-  await new ProcessEditor(neo, 'quickstart').waitForOpen('1907DDB3CA766818-f0');
+  await new ProcessEditor(neo, 'quickstart').expectOpen('1907DDB3CA766818-f0');
 });
 
 test('create and delete process', async ({ page, browserName }, testInfo) => {
@@ -17,7 +17,7 @@ test('create and delete process', async ({ page, browserName }, testInfo) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.processes();
   await overview.create(processName);
-  await new ProcessEditor(neo, processName).waitForOpen();
+  await new ProcessEditor(neo, processName).expectOpen();
   await page.goBack();
   await overview.deleteCard(processName);
 });

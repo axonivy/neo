@@ -9,10 +9,10 @@ test('navigate to configs', async ({ page }) => {
   const overview = await neo.configs();
   await overview.hasGroup(`Project: ${TEST_PROJECT}`, '', 0);
   await overview.card('variables').click();
-  await new VariableEditor(neo, 'variables').waitForOpen('MyVar');
+  await new VariableEditor(neo, 'variables').expectOpen('MyVar');
   await neo.configs();
   await overview.card('pom').click();
-  await new MonacoEditor(neo, 'pom').waitForOpen('<artifactId>neo-test-project</artifactId>');
+  await new MonacoEditor(neo, 'pom').expectOpen('<artifactId>neo-test-project</artifactId>');
 });
 
 test('search configs', async ({ page }) => {

@@ -10,7 +10,7 @@ test('process editor', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.processes();
   await overview.card('quickstart').click();
-  await new ProcessEditor(neo, 'quickstart').waitForOpen('1907DDB3CA766818-f0');
+  await new ProcessEditor(neo, 'quickstart').expectOpen('1907DDB3CA766818-f0');
   await screenshot(page, 'editor-process');
 });
 
@@ -18,7 +18,7 @@ test('form editor', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
   await overview.card('EnterProduct').click();
-  await new FormEditor(neo, 'EnterProduct').waitForOpen('Product');
+  await new FormEditor(neo, 'EnterProduct').expectOpen('Product');
   await screenshot(page, 'editor-form');
 });
 
@@ -26,7 +26,7 @@ test('data class editor', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.dataClasses();
   await overview.card('QuickStartTutorial').click();
-  await new DataClassEditor(neo, 'QuickStartTutorial').waitForOpen('product');
+  await new DataClassEditor(neo, 'QuickStartTutorial').expectOpen('product');
   await screenshot(page, 'editor-data-class');
 });
 
@@ -34,6 +34,6 @@ test('variable editor', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
   await overview.card('variables').click();
-  await new VariableEditor(neo, 'variables').waitForOpen('MyVar');
+  await new VariableEditor(neo, 'variables').expectOpen('MyVar');
   await screenshot(page, 'editor-variable');
 });

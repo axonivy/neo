@@ -7,14 +7,14 @@ import { APP, TEST_PROJECT } from './constants';
 const openDataClass = async (page: Page) => {
   const neo = await Neo.openEditor(page, `dataclasses/${APP}/${TEST_PROJECT}/dataclasses/neo/test/project/QuickStartTutorial`);
   const editor = new DataClassEditor(neo, 'QuickStartTutorial');
-  await editor.waitForOpen('product');
+  await editor.expectOpen('product');
   return { neo, editor };
 };
 
 const openFormDataClass = async (page: Page) => {
   const neo = await Neo.openEditor(page, `dataclasses/${APP}/${TEST_PROJECT}/src_hd/neo/test/project/EnterProduct/EnterProductData`);
   const editor = new DataClassEditor(neo, 'EnterProductData');
-  await editor.waitForOpen('data');
+  await editor.expectOpen('data');
   return { neo, editor };
 };
 
@@ -24,7 +24,7 @@ const openTempDataClass = async (page: Page) => {
   const dataClassName = `dataClass${randomUUID().replaceAll('-', '')}`;
   await overview.create(dataClassName, 'temp', { project: TEST_PROJECT });
   const editor = new DataClassEditor(neo, dataClassName);
-  await editor.waitForOpen();
+  await editor.expectOpen();
   return { neo, editor };
 };
 

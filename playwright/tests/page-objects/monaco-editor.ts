@@ -11,7 +11,7 @@ export class MonacoEditor {
     this.editor = neo.page.locator(`.text-editor[data-editor-name="${name}"]`).frameLocator('#framed-monaco-editor').locator('#editor');
   }
 
-  async waitForOpen(content?: string) {
+  async expectOpen(content?: string) {
     await this.neo.controlBar.tab(this.name).expectActive();
     await expect(this.editor).toBeVisible();
     if (content) {
