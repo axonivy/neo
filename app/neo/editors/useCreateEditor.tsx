@@ -42,7 +42,7 @@ const createEditor = (ws: string, editorType: EditorType, project: ProjectIdenti
     id: removeExtension(id),
     type: editorType,
     icon: editorIcon(editorType),
-    name: removeConfigExtension(removeExtension(name)),
+    name: editorName(name),
     project,
     path: removeExtension(path)
   };
@@ -52,8 +52,8 @@ const removeExtension = (path: string) => {
   return path.split(PROCESS_EDITOR_SUFFIX)[0].split(FORM_EDITOR_SUFFIX)[0].split(DATACLASS_EDITOR_SUFFIX)[0];
 };
 
-const removeConfigExtension = (path: string) => {
-  return path.split(CONFIG_EDITOR_YAML_SUFFIX)[0].split(CONFIG_EDITOR_XML_SUFFIX)[0];
+const editorName = (name: string) => {
+  return removeExtension(name).split(CONFIG_EDITOR_YAML_SUFFIX)[0].split(CONFIG_EDITOR_XML_SUFFIX)[0];
 };
 
 const typeFromPath = (path: string): EditorType => {
