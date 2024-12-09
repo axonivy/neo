@@ -18,5 +18,5 @@ test('restore editor', async ({ page }) => {
 
 test('insert value', async ({ page }) => {
   const editor = await openConfig(page);
-  await editor.insertTextOnLine(3, randomUUID());
+  await editor.insertTextOnLine(3, `NewLabel: ${randomUUID()}`);
 });
