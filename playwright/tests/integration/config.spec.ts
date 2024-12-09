@@ -8,7 +8,6 @@ const openConfig = async (page: Page) => {
   const neo = await Neo.openEditor(page, `configurations/${APP}/${TEST_PROJECT}/cms/cms_de-ch.yaml`);
   const editor = new MonacoEditor(neo, 'cms_de-ch');
   await editor.waitForOpen('ReleaseDate: Release Date');
-
   return editor;
 };
 
