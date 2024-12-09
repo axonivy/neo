@@ -26,7 +26,7 @@ export default function Index() {
         <ArtifactGroup project={project} key={project}>
           {artifacts.map(config => {
             const editor = createConfigurationEditor(config);
-            return <VariablesCard key={editor.id} {...editor} />;
+            return <ConfigCard key={editor.id} {...editor} />;
           })}
         </ArtifactGroup>
       ))}
@@ -34,7 +34,7 @@ export default function Index() {
   );
 }
 
-const VariablesCard = ({ ...editor }: Editor) => {
+const ConfigCard = ({ ...editor }: Editor) => {
   const { openEditor } = useEditors();
   return (
     <ArtifactCard name={editor.name} type='variables' preview={<PreviewSVG />} tooltip={editor.path} onClick={() => openEditor(editor)} />
