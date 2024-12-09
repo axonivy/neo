@@ -1,5 +1,5 @@
+import { type RefObject, useEffect, useRef } from 'react';
 import { useHref, useLocation } from 'react-router';
-import { type RefObject, useEffect, useRef, useState } from 'react';
 import { useWorkspace } from '~/data/workspace-api';
 import { baseUrl } from '~/data/ws-base';
 import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
@@ -31,25 +31,19 @@ export const ProcessEditor = ({ id, project, path, name }: Editor) => {
   const { pathname } = useLocation();
   useFrameMessageHandler(frame, project.app);
   useUpdateTheme(frame, updateFrameTheme);
-  const [mounted, setMounted] = useState(false);
   useEffect(() => {
     if (pathname === id) {
-      setMounted(true);
       // trigger rerender of process to fix invisible connectors
       frame.current?.contentWindow?.dispatchEvent(new CustomEvent('resize'));
     }
   }, [pathname, id]);
   return (
-    <>
-      {mounted && (
-        <iframe
-          ref={frame}
-          title={name}
-          src={editorUrl}
-          style={{ width: '100%', height: '100%', border: 'none', display: pathname !== id ? 'none' : undefined }}
-          onLoad={() => updateFrameTheme(frame, theme)}
-        />
-      )}
-    </>
+    <iframe
+      ref={frame}
+      title={name}
+      src={editorUrl}
+      style={{ width: '100%', height: '100%', border: 'none' }}
+      onLoad={() => updateFrameTheme(frame, theme)}
+    />
   );
 };

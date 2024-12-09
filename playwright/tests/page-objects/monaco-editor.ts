@@ -8,7 +8,10 @@ export class MonacoEditor {
     readonly neo: Neo,
     readonly name: string
   ) {
-    this.editor = neo.page.locator(`.text-editor[data-editor-name="${name}"]`).frameLocator('#framed-monaco-editor').locator('#editor');
+    this.editor = neo.page
+      .locator(`.editor[data-editor-type="configurations"][data-editor-name="${name}"]`)
+      .frameLocator('#framed-monaco-editor')
+      .locator('#editor');
   }
 
   async expectOpen(content?: string) {

@@ -7,6 +7,7 @@ import { NeoClientProvider } from '~/neo/client/useNeoClient';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { EditorsControl } from '~/neo/control-bar/EditorControl';
 import { EditorTabs } from '~/neo/control-bar/EditorTabs';
+import { MountedEditor } from '~/neo/editors/MountedEditor';
 import { renderEditor, useEditors } from '~/neo/editors/useEditors';
 
 export default function Index() {
@@ -34,7 +35,11 @@ export default function Index() {
             <Navigation />
             <div style={{ width: '100%' }}>
               <Outlet />
-              {editors.map(renderEditor)}
+              {editors.map(editor => (
+                <MountedEditor key={editor.id} {...editor}>
+                  {renderEditor(editor)}
+                </MountedEditor>
+              ))}
             </div>
           </Flex>
         </ResizablePanel>
