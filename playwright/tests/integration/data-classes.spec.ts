@@ -15,14 +15,14 @@ test('navigate to data classes', async ({ page }) => {
   await overview.hasGroup(`Project: ${TEST_PROJECT}`);
   const dataClassName = 'QuickStartTutorial';
   await overview.card(dataClassName).click();
-  await new DataClassEditor(neo, dataClassName).waitForOpen('releaseDate');
+  await new DataClassEditor(neo, dataClassName).expectOpen('releaseDate');
 });
 
 test('create and delete data class', async ({ page }) => {
   const { neo, overview } = await openDataClasses(page);
   const dataClassName = `dataClass${randomUUID().replaceAll('-', '')}`;
   await overview.create(dataClassName, 'temp', { project: TEST_PROJECT });
-  await new DataClassEditor(neo, dataClassName).waitForOpen();
+  await new DataClassEditor(neo, dataClassName).expectOpen();
   await neo.page.goBack();
   await overview.deleteCard(dataClassName);
   await expect(overview.card(dataClassName)).toBeHidden();

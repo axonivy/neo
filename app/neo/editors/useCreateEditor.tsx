@@ -2,11 +2,20 @@ import { toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from 'react-router';
 import type { Form } from '~/data/form-api';
-import type { DataClassBean } from '~/data/generated/openapi-dev';
+import type { ConfigurationIdentifier, DataClassBean } from '~/data/generated/openapi-dev';
 import type { Process } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { lastSegment } from '~/utils/path';
-import { DATACLASS_EDITOR_SUFFIX, type Editor, type EditorType, FORM_EDITOR_SUFFIX, PROCESS_EDITOR_SUFFIX } from './editor';
+import {
+  CONFIG_EDITOR_XML_SUFFIX,
+  CONFIG_EDITOR_YAML_SUFFIX,
+  DATACLASS_EDITOR_SUFFIX,
+  type Editor,
+  type EditorType,
+  FORM_EDITOR_SUFFIX,
+  PROCESS_EDITOR_SUFFIX,
+  VARIABLES_EDITOR_SUFFIX
+} from './editor';
 
 export const useCreateEditor = () => {
   const ws = useParams().ws ?? 'designer';
@@ -19,8 +28,8 @@ export const useCreateEditor = () => {
       }
       return createEditor(ws, 'processes', project, `processes/${path ?? name}`, name);
     },
-    createVariableEditor: (project: ProjectIdentifier): Editor =>
-      createEditor(ws, 'configurations', project, 'config/variables', 'variables'),
+    createConfigurationEditor: ({ path, project }: ConfigurationIdentifier): Editor =>
+      createEditor(ws, typeFromPath(path), project, path, lastSegment(path)),
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
       createEditor(ws, 'dataclasses', project, path, simpleName),
     createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
@@ -29,12 +38,13 @@ export const useCreateEditor = () => {
 };
 
 const createEditor = (ws: string, editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {
-  const id = `/${ws}/${editorType}/${project.app}/${project.pmv}/${path}`;
+  const routeEditorType = editorType === 'variables' ? 'configurations' : editorType;
+  const id = `/${ws}/${routeEditorType}/${project.app}/${project.pmv}/${path}`;
   return {
     id: removeExtension(id),
     type: editorType,
     icon: editorIcon(editorType),
-    name: removeExtension(name),
+    name: editorName(name),
     project,
     path: removeExtension(path)
   };
@@ -42,6 +52,10 @@ const createEditor = (ws: string, editorType: EditorType, project: ProjectIdenti
 
 const removeExtension = (path: string) => {
   return path.split(PROCESS_EDITOR_SUFFIX)[0].split(FORM_EDITOR_SUFFIX)[0].split(DATACLASS_EDITOR_SUFFIX)[0];
+};
+
+const editorName = (name: string) => {
+  return removeExtension(name).split(CONFIG_EDITOR_YAML_SUFFIX)[0].split(CONFIG_EDITOR_XML_SUFFIX)[0];
 };
 
 const typeFromPath = (path: string): EditorType => {
@@ -54,7 +68,10 @@ const typeFromPath = (path: string): EditorType => {
   if (path.endsWith(DATACLASS_EDITOR_SUFFIX)) {
     return 'dataclasses';
   }
-  if (path.endsWith('.yaml')) {
+  if (path.endsWith(VARIABLES_EDITOR_SUFFIX)) {
+    return 'variables';
+  }
+  if (path.endsWith(CONFIG_EDITOR_YAML_SUFFIX) || path.endsWith(CONFIG_EDITOR_XML_SUFFIX)) {
     return 'configurations';
   }
   toast.error(`Unknown editor type`, { description: `This file type '${lastSegment(path)}' can not be edited in NEO.` });
@@ -65,6 +82,7 @@ const editorIcon = (editorType: EditorType) => {
   switch (editorType) {
     case 'forms':
       return IvyIcons.File;
+    case 'variables':
     case 'configurations':
       return IvyIcons.Tool;
     case 'dataclasses':

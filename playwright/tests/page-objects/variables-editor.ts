@@ -12,7 +12,7 @@ export class VariableEditor {
     this.editor = neo.page.locator(`.variable-editor[data-editor-name="${name}"]`);
   }
 
-  async waitForOpen(variable?: string) {
+  async expectOpen(variable?: string) {
     await this.neo.controlBar.tab(this.name).expectActive();
     await expect(this.editor).toBeVisible();
     if (variable) {

@@ -14,7 +14,7 @@ export class FormEditor {
     this.canvas = this.editor.locator('#canvas');
   }
 
-  async waitForOpen(block?: string) {
+  async expectOpen(block?: string) {
     await this.neo.controlBar.tab(this.name).expectActive();
     await expect(this.editor).toBeVisible();
     await expect(this.canvas).toBeVisible();

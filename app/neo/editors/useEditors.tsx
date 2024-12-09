@@ -1,12 +1,13 @@
 import { indexOf } from '@axonivy/ui-components';
-import { useNavigate, useParams } from 'react-router';
 import { useCallback } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { DataClassEditor } from './dataclass/DataClassEditor';
 import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, type Editor } from './editor';
 import { FormEditor } from './form/FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
+import { TextEditor } from './text/TextEditor';
 import { useCreateEditor } from './useCreateEditor';
 import { VariableEditor } from './variable/VariableEditor';
 
@@ -114,8 +115,10 @@ export const renderEditor = (editor: Editor) => {
       return <ProcessEditor key={editor.id} {...editor} />;
     case 'forms':
       return <FormEditor key={editor.id} {...editor} />;
-    case 'configurations':
+    case 'variables':
       return <VariableEditor key={editor.id} {...editor} />;
+    case 'configurations':
+      return <TextEditor key={editor.id} {...editor} />;
     case 'dataclasses':
       return <DataClassEditor key={editor.id} {...editor} />;
   }

@@ -4,9 +4,9 @@ import { VariableEditor } from '../page-objects/variables-editor';
 import { APP, TEST_PROJECT } from './constants';
 
 const openVariables = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `configurations/${APP}/${TEST_PROJECT}/config/variables`);
+  const neo = await Neo.openEditor(page, `configurations/${APP}/${TEST_PROJECT}/config/variables.yaml`);
   const editor = new VariableEditor(neo, 'variables');
-  await editor.waitForOpen('MyVar');
+  await editor.expectOpen('MyVar');
   return { neo, editor };
 };
 

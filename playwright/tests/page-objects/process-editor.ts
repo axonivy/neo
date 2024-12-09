@@ -17,7 +17,7 @@ export class ProcessEditor {
     this.graph = this.frame.locator('#sprotty .sprotty-graph');
   }
 
-  async waitForOpen(pid?: string) {
+  async expectOpen(pid?: string) {
     await this.neo.controlBar.tab(this.name).expectActive();
     await expect(this.editor).toBeVisible();
     await expect(this.graph).toBeVisible();

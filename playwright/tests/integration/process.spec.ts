@@ -7,28 +7,28 @@ import { APP, TEST_PROJECT } from './constants';
 const openQuickStartProcess = async (page: Page) => {
   const neo = await Neo.openEditor(page, `processes/${APP}/${TEST_PROJECT}/processes/quickstart`);
   const editor = new ProcessEditor(neo, 'quickstart');
-  await editor.waitForOpen('1907DDB3CA766818-f0');
+  await editor.expectOpen('1907DDB3CA766818-f0');
   return { neo, editor };
 };
 
 const openJumpProcess = async (page: Page) => {
   const neo = await Neo.openEditor(page, `processes/${APP}/${TEST_PROJECT}/processes/jump`);
   const editor = new ProcessEditor(neo, 'jump');
-  await editor.waitForOpen('1907DD66AA11FCD9-f0');
+  await editor.expectOpen('1907DD66AA11FCD9-f0');
   return { neo, editor };
 };
 
 const openHdProcess = async (page: Page) => {
   const neo = await Neo.openEditor(page, `processes/${APP}/${TEST_PROJECT}/src_hd/neo/test/project/EnterProduct/EnterProductProcess`);
   const editor = new ProcessEditor(neo, 'EnterProductProcess');
-  await editor.waitForOpen('1907DDC2CCF1790F-f0');
+  await editor.expectOpen('1907DDC2CCF1790F-f0');
   return { neo, editor };
 };
 
 const openSubProcess = async (page: Page) => {
   const neo = await Neo.openEditor(page, `processes/${APP}/${TEST_PROJECT}/processes/subproc`);
   const editor = new ProcessEditor(neo, 'subproc');
-  await editor.waitForOpen('1907DD74AA37CDB2-f0');
+  await editor.expectOpen('1907DD74AA37CDB2-f0');
   return { neo, editor };
 };
 
@@ -59,7 +59,7 @@ test('switch theme', async ({ page }) => {
 test('start from process - without animation', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException instead of the form dialog');
   const { neo, editor } = await openQuickStartProcess(page);
-  await editor.waitForOpen('1907DDB3CA766818-f0');
+  await editor.expectOpen('1907DDB3CA766818-f0');
   const element = editor.elementByPid('1907DDB3CA766818-f0');
   await element.triggerQuickAction(/Start Process/);
   await element.expectExecuted();
@@ -104,14 +104,14 @@ test.describe('jump to process', () => {
     const { neo, editor } = await openJumpProcess(page);
     const element = editor.elementByPid('1907DD66AA11FCD9-f6');
     await element.triggerQuickAction(/Jump/);
-    await new ProcessEditor(neo, 'subproc').waitForOpen('1907DD74AA37CDB2-f0');
+    await new ProcessEditor(neo, 'subproc').expectOpen('1907DD74AA37CDB2-f0');
   });
 
   test('hd', async ({ page }) => {
     const { neo, editor } = await openJumpProcess(page);
     const element = editor.elementByPid('1907DD66AA11FCD9-f5');
     await element.triggerQuickAction(/Open Form/);
-    await new FormEditor(neo, 'EnterProduct').waitForOpen();
+    await new FormEditor(neo, 'EnterProduct').expectOpen();
   });
 
   test('xhtml hd not supported', async ({ page }) => {
@@ -125,7 +125,7 @@ test.describe('jump to process', () => {
     const { neo, editor } = await openJumpProcess(page);
     const element = editor.elementByPid('1907DD66AA11FCD9-f3');
     await element.triggerQuickAction(/Jump/);
-    await new ProcessEditor(neo, 'quickstart').waitForOpen('1907DDB3CA766818-f0');
+    await new ProcessEditor(neo, 'quickstart').expectOpen('1907DDB3CA766818-f0');
   });
 
   test('embedded', async ({ page }) => {

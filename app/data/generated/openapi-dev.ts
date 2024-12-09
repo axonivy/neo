@@ -10,6 +10,12 @@ export type DeleteProjectParams = {
   pmv?: string;
 };
 
+export type ReadConfigParams = {
+  path?: string;
+  app?: string;
+  pmv?: string;
+};
+
 /**
  * The geographic coordinate of the location
  */
@@ -109,6 +115,15 @@ export interface NewProjectParams {
   projectId?: string;
 }
 
+export interface ProjectBean {
+  artifactId: string;
+  defaultNamespace: string;
+  groupId: string;
+  id: ProjectIdentifier;
+  isDeletable: boolean;
+  version: string;
+}
+
 export interface ProcessInit {
   kind: string;
   name: string;
@@ -145,21 +160,6 @@ export interface ProcessBean {
   uri?: string;
 }
 
-export interface ProjectIdentifier {
-  app: string;
-  isIar?: boolean;
-  pmv: string;
-}
-
-export interface ProjectBean {
-  artifactId: string;
-  defaultNamespace: string;
-  groupId: string;
-  id: ProjectIdentifier;
-  isDeletable: boolean;
-  version: string;
-}
-
 export interface HdInit {
   dataClass?: DataClassIdentifier;
   layout?: string;
@@ -172,11 +172,6 @@ export interface HdInit {
   type?: string;
 }
 
-export interface FormIdentifier {
-  id: string;
-  project: ProjectIdentifier;
-}
-
 export interface HdBean {
   identifier: FormIdentifier;
   name: string;
@@ -184,6 +179,26 @@ export interface HdBean {
   path: string;
   type?: string;
   uri?: string;
+}
+
+export interface DataClassBean {
+  dataClassIdentifier: DataClassIdentifier;
+  isBusinessCaseData: boolean;
+  isEntityClass: boolean;
+  name: string;
+  path: string;
+  simpleName: string;
+}
+
+export interface ProjectIdentifier {
+  app: string;
+  isIar?: boolean;
+  pmv: string;
+}
+
+export interface FormIdentifier {
+  id: string;
+  project: ProjectIdentifier;
 }
 
 export interface DataClassInit {
@@ -197,13 +212,14 @@ export interface DataClassIdentifier {
   project: ProjectIdentifier;
 }
 
-export interface DataClassBean {
-  dataClassIdentifier: DataClassIdentifier;
-  isBusinessCaseData: boolean;
-  isEntityClass: boolean;
-  name: string;
+export interface ConfigurationIdentifier {
   path: string;
-  simpleName: string;
+  project: ProjectIdentifier;
+}
+
+export interface ConfigurationBean {
+  content: string;
+  id: ConfigurationIdentifier;
 }
 
 export interface EngineInfo {
@@ -244,6 +260,67 @@ export const WebNotificationOperationOperation = {
 export interface WebNotificationOperation {
   operation?: WebNotificationOperationOperation;
 }
+
+export type configurationsResponse = {
+  data: ConfigurationIdentifier[];
+  status: number;
+  headers: Headers;
+};
+
+export const getConfigurationsUrl = () => {
+  return `/web-ide/configurations`;
+};
+
+export const configurations = async (options?: RequestInit): Promise<configurationsResponse> => {
+  return customFetch<Promise<configurationsResponse>>(getConfigurationsUrl(), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type readConfigResponse = {
+  data: ConfigurationBean;
+  status: number;
+  headers: Headers;
+};
+
+export const getReadConfigUrl = (params?: ReadConfigParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  return normalizedParams.size ? `/web-ide/configuration?${normalizedParams.toString()}` : `/web-ide/configuration`;
+};
+
+export const readConfig = async (params?: ReadConfigParams, options?: RequestInit): Promise<readConfigResponse> => {
+  return customFetch<Promise<readConfigResponse>>(getReadConfigUrl(params), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type writeConfigResponse = {
+  data: ConfigurationBean;
+  status: number;
+  headers: Headers;
+};
+
+export const getWriteConfigUrl = () => {
+  return `/web-ide/configuration`;
+};
+
+export const writeConfig = async (configurationBean: ConfigurationBean, options?: RequestInit): Promise<writeConfigResponse> => {
+  return customFetch<Promise<writeConfigResponse>>(getWriteConfigUrl(), {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(configurationBean)
+  });
+};
 
 export type dataClassesResponse = {
   data: DataClassBean[];

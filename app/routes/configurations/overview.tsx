@@ -1,14 +1,15 @@
 import type { LinksFunction, MetaFunction } from 'react-router';
-import { useSortedProjects } from '~/data/project-api';
+import { useGroupedConfigurations } from '~/data/config-api';
+import type { ConfigurationIdentifier } from '~/data/generated/openapi-dev';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { configDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import type { Editor } from '~/neo/editors/editor';
+import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
+import { type Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
-import { useSearch } from '~/neo/useSearch';
 import PreviewSVG from './variables-preview.svg?react';
 
 export const links: LinksFunction = () => [cardStylesLink];
@@ -16,28 +17,26 @@ export const links: LinksFunction = () => [cardStylesLink];
 export const meta: MetaFunction = overviewMetaFunctionProvider('Configurations');
 
 export default function Index() {
-  const { search, setSearch } = useSearch();
-  const { data, isPending } = useSortedProjects();
-  const { createVariableEditor } = useCreateEditor();
-  const projects = data?.filter(({ id }) => id.pmv.toLowerCase().includes(search.toLocaleLowerCase())).map(p => p.id) ?? [];
+  const { data, isPending } = useGroupedConfigurations();
+  const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (c: ConfigurationIdentifier) => `${c.project.pmv} ${c.path}`);
+  const { createConfigurationEditor } = useCreateEditor();
   return (
     <Overview title='Configurations' description={configDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
-      {projects.map(project => {
-        const editor = createVariableEditor(project);
-        const card = <VariablesCard key={editor.id} {...editor} />;
-        return (
-          <ArtifactGroup project={project.pmv} key={project.pmv}>
-            {card}
-          </ArtifactGroup>
-        );
-      })}
+      {filteredGroups.map(({ project, artifacts }) => (
+        <ArtifactGroup project={project} key={project}>
+          {artifacts.map(config => {
+            const editor = createConfigurationEditor(config);
+            return <ConfigCard key={editor.id} {...editor} />;
+          })}
+        </ArtifactGroup>
+      ))}
     </Overview>
   );
 }
 
-export const VariablesCard = ({ ...editor }: Editor) => {
+const ConfigCard = ({ ...editor }: Editor) => {
   const { openEditor } = useEditors();
   return (
-    <ArtifactCard name={'variables'} type='variables' preview={<PreviewSVG />} tooltip={editor.path} onClick={() => openEditor(editor)} />
+    <ArtifactCard name={editor.name} type='variables' preview={<PreviewSVG />} tooltip={editor.path} onClick={() => openEditor(editor)} />
   );
 };
