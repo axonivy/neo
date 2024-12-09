@@ -145,7 +145,7 @@ describe('createDataClassEditor', () => {
   });
 });
 
-describe('createVariableEditor', () => {
+describe('createConfigurationEditor', () => {
   test('variables', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/config/variables.yaml',
