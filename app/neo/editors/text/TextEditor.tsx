@@ -23,7 +23,7 @@ export const TextEditor = ({ project, path }: Editor) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const codeEditor = (frameRef.current?.contentWindow as any).codeEditor;
     if (data && codeEditor) {
-      codeEditor.updateOptions({ readOnly: project.isIar || path.endsWith('pom.xml') });
+      codeEditor.updateOptions({ readOnly: project.isIar });
       const model = codeEditor._modelData.model;
       model.setValue(data.content);
       model.setLanguage(path.slice(path.lastIndexOf('.') + 1));
