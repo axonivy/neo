@@ -6,6 +6,7 @@ type WebBrowserProviderState = {
   panelRef: React.RefObject<ImperativePanelHandle>;
   frameRef: React.RefObject<HTMLIFrameElement>;
   openState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  openUrl: (url: string) => void;
 };
 
 const WebBrowserProviderContext = createContext<WebBrowserProviderState | undefined>(undefined);
@@ -14,7 +15,14 @@ export const WebBrowserProvider = ({ children }: { children: React.ReactNode }) 
   const panelRef = useRef<ImperativePanelHandle>(null);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const openState = useState(false);
-  return <WebBrowserProviderContext.Provider value={{ panelRef, frameRef, openState }}>{children}</WebBrowserProviderContext.Provider>;
+  const openUrl = (url: string) => {
+    if (frameRef.current?.contentWindow) {
+      frameRef.current.contentWindow.location = url;
+    }
+  };
+  return (
+    <WebBrowserProviderContext.Provider value={{ panelRef, frameRef, openState, openUrl }}>{children}</WebBrowserProviderContext.Provider>
+  );
 };
 
 export const useWebBrowser = () => {
@@ -22,12 +30,7 @@ export const useWebBrowser = () => {
   const ws = useWorkspace();
   const homeUrl = useMemo(() => (ws ? `${ws?.baseUrl}/dev-workflow-ui/faces/home.xhtml` : ''), [ws]);
   if (context === undefined) throw new Error('useWebBrowser must be used within a WebBrowserProvider');
-  const { panelRef, frameRef } = context;
-  const openUrl = (url: string) => {
-    if (frameRef.current?.contentWindow) {
-      frameRef.current.contentWindow.location = url;
-    }
-  };
+  const { panelRef, frameRef, openUrl } = context;
   const [open, setOpen] = context.openState;
   useEffect(() => {
     setOpen(panelRef.current?.isExpanded() ?? false);

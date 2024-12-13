@@ -1,4 +1,4 @@
-import test, { expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
 
