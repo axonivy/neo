@@ -1,4 +1,5 @@
-import { expect, type Locator, type Page } from '@playwright/test';
+import { type Locator, type Page } from '@playwright/test';
+import { Toaster } from './toaster';
 
 export class ImportDialog {
   protected readonly page: Page;
@@ -14,7 +15,7 @@ export class ImportDialog {
   async import(file: string) {
     await ImportDialog.selectFileImport(this.dialog, this.page, file);
     await this.dialog.getByRole('button', { name: 'Import' }).click();
-    await expect(this.page.getByRole('status').getByText('Projects imported into workspace')).toBeVisible();
+    await new Toaster(this.page).expectSuccess('Projects imported into workspace');
   }
 
   public static async selectFileImport(dialog: Locator, page: Page, file: string) {

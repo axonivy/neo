@@ -21,7 +21,7 @@ test('install from market', async ({ page, browserName }, testInfo) => {
   await overview.clickMarketImport();
   await overview.card('Microsoft Excel').click();
   await page.getByRole('dialog').getByRole('button').getByText('Install').click();
-  await expect(page.getByRole('status').getByText('Product installed')).toBeVisible();
+  await neo.toast.expectSuccess('Product installed');
   await neo.navigation.open('Processes');
   await overview.hasGroup(`Project: ${wsName}`);
   await overview.openGroup('Project: excel-connector', 'Read only');
