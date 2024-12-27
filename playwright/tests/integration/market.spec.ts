@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
+import { ProcessEditor } from '../page-objects/process-editor';
 
 test('search market', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
@@ -21,7 +22,9 @@ test('install from market', async ({ page, browserName }, testInfo) => {
   await overview.clickMarketImport();
   await overview.card('Microsoft Excel').click();
   await page.getByRole('dialog').getByRole('button').getByText('Install').click();
-  await neo.toast.expectSuccess('Product installed');
+  await neo.toast.expectSuccess('Imported projects: excel-connector-demo, excel-connector');
+  const editor = new ProcessEditor(neo, 'ExcelConnectorDemo');
+  await editor.expectOpen();
   await neo.navigation.open('Processes');
   await overview.hasGroup(`Project: ${wsName}`);
   await overview.openGroup('Project: excel-connector', 'Read only');

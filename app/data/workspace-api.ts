@@ -155,18 +155,19 @@ export const useInstallProduct = () => {
   const installProduct = async (id: string, productJson: string, dependentProject?: ProjectIdentifier) => {
     const res = await installMarketProduct(id, { productJson, dependentProject });
     if (ok(res)) {
-      return;
+      return res.data;
     }
     throw new Error('Failed to install market product');
   };
   return {
     installProduct: (id: string, json: string, project?: ProjectIdentifier) => {
-      const install = installProduct(id, json, project);
-      toast.promise(() => install, {
+      const installResult = installProduct(id, json, project);
+      toast.promise(() => installResult, {
         loading: 'Install market product',
-        success: 'Product installed',
+        success: res => `Imported projects: ${res.installedProjects.map(p => p.pmv).join(', ')}`,
         error: e => e.message
       });
+      return installResult;
     }
   };
 };
