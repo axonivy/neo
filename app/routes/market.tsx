@@ -17,6 +17,7 @@ import { useEffect, useMemo, useState } from 'react';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { Link, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
+import type { MarketInstallResult } from '~/data/generated/openapi-default';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import type { FindProductJsonContent200, ProductModel } from '~/data/generated/openapi-market';
 import { MARKET_URL, useProductJson, useProducts, useProductVersions } from '~/data/market-api';
@@ -24,6 +25,8 @@ import type { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
 import { cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
+import { useCreateEditor } from '~/neo/editors/useCreateEditor';
+import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 
@@ -207,6 +210,11 @@ const InstallButton = ({ id, version, project, setNeedDependency }: InstallButto
   const { installProduct } = useInstallProduct();
   const { data } = useProductJson(id, version);
   const [disabledInstall, setDisabledInstall] = useState(true);
+  const { openEditor } = useEditors();
+  const { createProcessEditor } = useCreateEditor();
+  const openDemos = (result: MarketInstallResult) => {
+    result.demoProcesses.forEach(process => openEditor(createProcessEditor(process)));
+  };
   useEffect(() => {
     setDisabledInstall(true);
     const needDependency = (data as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false;
@@ -221,7 +229,7 @@ const InstallButton = ({ id, version, project, setNeedDependency }: InstallButto
         variant='primary'
         size='large'
         icon={IvyIcons.Play}
-        onClick={() => installProduct(ws, JSON.stringify(data), project)}
+        onClick={() => installProduct(ws, JSON.stringify(data), project).then(openDemos)}
       >
         Install
       </Button>

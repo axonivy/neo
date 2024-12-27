@@ -103,10 +103,6 @@ export type FindFeedbackByUserIdAndProductIdParams = {
   productId: string;
 };
 
-export type SyncInstallationCountParams = {
-  designerVersion?: string;
-};
-
 export interface Link {
   deprecation?: string;
   href?: string;
@@ -247,21 +243,11 @@ export interface ProductModuleContent {
   id?: string;
   /** Is dependency artifact */
   isDependency?: boolean;
-  /**
-   * Versions in maven
-   * @deprecated
-   */
-  mavenVersions?: string[];
   name?: string;
   /** product Id (from meta.json) */
   productId?: string;
   /** Setup tab content */
   setup?: ProductModuleContentSetup;
-  /**
-   * Target release tag
-   * @deprecated
-   */
-  tag?: string;
   /** Artifact file type */
   type?: string;
   updatedAt?: string;
@@ -390,41 +376,6 @@ export interface FeedbackModelRequest {
    */
   rating?: number;
 }
-
-/**
- * By default, increase installation count when click download product files by users
- * @summary Update installation count of product
- */
-export type syncInstallationCountResponse = {
-  data: number;
-  status: number;
-  headers: Headers;
-};
-
-export const getSyncInstallationCountUrl = (id: string, params?: SyncInstallationCountParams) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString());
-    }
-  });
-
-  return normalizedParams.size
-    ? `/api/product-marketplace-data/installation-count/${id}?${normalizedParams.toString()}`
-    : `/api/product-marketplace-data/installation-count/${id}`;
-};
-
-export const syncInstallationCount = async (
-  id: string,
-  params?: SyncInstallationCountParams,
-  options?: RequestInit
-): Promise<syncInstallationCountResponse> => {
-  return customFetch<Promise<syncInstallationCountResponse>>(getSyncInstallationCountUrl(id, params), {
-    ...options,
-    method: 'PUT'
-  });
-};
 
 /**
  * Get current user feedback on target product.

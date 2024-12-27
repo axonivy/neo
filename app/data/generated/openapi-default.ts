@@ -106,6 +106,38 @@ export interface ProductInstallParams {
   productJson: string;
 }
 
+export interface ProcessIdentifier {
+  pid: string;
+  project: ProjectIdentifier;
+}
+
+export type ProcessBeanKind = (typeof ProcessBeanKind)[keyof typeof ProcessBeanKind];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ProcessBeanKind = {
+  NORMAL: 'NORMAL',
+  WEB_SERVICE: 'WEB_SERVICE',
+  CALLABLE_SUB: 'CALLABLE_SUB',
+  HTML_DIALOG: 'HTML_DIALOG'
+} as const;
+
+export interface ProcessBean {
+  kind: ProcessBeanKind;
+  name: string;
+  namespace: string;
+  path?: string;
+  processGroup?: string;
+  processIdentifier: ProcessIdentifier;
+  requestPath?: string;
+  type?: string;
+  uri?: string;
+}
+
+export interface MarketInstallResult {
+  demoProcesses: ProcessBean[];
+  installedProjects: ProjectIdentifier[];
+}
+
 export interface WorkspaceInit {
   name: string;
   path?: string;
@@ -258,7 +290,7 @@ export const deleteWorkspace = async (id: string, options?: RequestInit): Promis
 };
 
 export type installMarketProductResponse = {
-  data: unknown;
+  data: MarketInstallResult;
   status: number;
   headers: Headers;
 };
