@@ -189,6 +189,26 @@ export interface WebNotificationOperation {
   operation?: WebNotificationOperationOperation;
 }
 
+/**
+ * Returns the version and the name of the engine
+ */
+export type getInfoResponse = {
+  data: EngineInfo;
+  status: number;
+  headers: Headers;
+};
+
+export const getGetInfoUrl = () => {
+  return `/engine/info`;
+};
+
+export const getInfo = async (options?: RequestInit): Promise<getInfoResponse> => {
+  return customFetch<Promise<getInfoResponse>>(getGetInfoUrl(), {
+    ...options,
+    method: 'GET'
+  });
+};
+
 export type workspacesResponse = {
   data: WorkspaceBean[];
   status: number;
