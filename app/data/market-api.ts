@@ -2,11 +2,13 @@ import { toast } from '@axonivy/ui-components';
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { headers, ok } from './custom-fetch';
 import {
+  findBestMatchProductDetailsByVersion,
   findProductJsonContent,
   findProducts,
   type FindProductsParams,
   findProductVersionsById,
-  type PagedModelProductModel
+  type PagedModelProductModel,
+  type ProductDetailModel
 } from './generated/openapi-market';
 
 export const MARKET_URL = 'https://market.axonivy.com';
@@ -62,7 +64,7 @@ export const useProductVersions = (id: string) => {
   return useQuery({
     queryKey: [...queryKey, 'versions', id],
     queryFn: () =>
-      findProductVersionsById(id, { isShowDevVersion: false }, { headers }).then(res => {
+      findProductVersionsById(id, { isShowDevVersion: true }, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
         }
@@ -78,13 +80,30 @@ export const useProductJson = (id: string, version?: string) => {
     queryKey: [...queryKey, 'productJson', id, version],
     queryFn: () => {
       if (version === undefined) {
-        return;
+        throw Error(`Artifact version of ${id} needs to be defined to retrieve product json`);
       }
       return findProductJsonContent(id, version, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
         }
         throw new Error('Failed to load product json  for ' + id + ' with version ' + version);
+      });
+    }
+  });
+};
+
+export const useBestMatchingVersion = (id: string, engineVersion?: string) => {
+  const { headers, queryKey } = useMarketApi();
+  return useQuery({
+    queryKey: [...queryKey, 'bestMatchingVersion', id, engineVersion],
+    queryFn: () => {
+      if (!engineVersion) return '';
+      return findBestMatchProductDetailsByVersion(id, engineVersion, { headers }).then(res => {
+        if (ok(res)) {
+          const data = JSON.parse(res.data as string) as ProductDetailModel;
+          return data.productModuleContent?.version;
+        }
+        throw new Error(`Failed to load best matching market artifact version for ${id} with engine version ${engineVersion}`);
       });
     }
   });
