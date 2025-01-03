@@ -17,10 +17,11 @@ import { useEffect, useMemo, useState } from 'react';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { Link, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
+import { useEngineVersion } from '~/data/engine-info-api';
 import type { MarketInstallResult } from '~/data/generated/openapi-default';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import type { FindProductJsonContent200, ProductModel } from '~/data/generated/openapi-market';
-import { MARKET_URL, useProductJson, useProducts, useProductVersions } from '~/data/market-api';
+import { MARKET_URL, useBestMatchingVersion, useProductJson, useProducts, useProductVersions } from '~/data/market-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
 import { cardStylesLink } from '~/neo/artifact/ArtifactCard';
@@ -129,7 +130,7 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
           </DialogDescription>
         </DialogHeader>
         <DialogDescription>Select the version to be installed</DialogDescription>
-        <VersionSelect id={product.id} setVersion={setVersion}></VersionSelect>
+        <VersionSelect id={product.id} setVersion={setVersion} version={version}></VersionSelect>
         {needDependency && (
           <ProjectSelect
             setProject={setProject}
@@ -151,16 +152,14 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
   );
 };
 
-const VersionSelect = ({ id, setVersion }: { id: string; setVersion: (version?: string) => void }) => {
+const VersionSelect = ({ id, setVersion, version }: { id: string; setVersion: (version?: string) => void; version?: string }) => {
   const { data, isPending } = useProductVersions(id);
   const versions = useMemo(() => data ?? [], [data]);
+  const engineVersion = useEngineVersion();
+  const bestMatchingVersion = useBestMatchingVersion(id, engineVersion.data);
   useEffect(() => {
-    if (versions && versions.length > 0 && versions[0].version) {
-      setVersion(versions[0].version);
-      return;
-    }
-    setVersion(undefined);
-  }, [setVersion, versions]);
+    setVersion(bestMatchingVersion.data);
+  }, [bestMatchingVersion.data, setVersion]);
   return (
     <BasicField label='Version'>
       {isPending ? (
@@ -172,7 +171,7 @@ const VersionSelect = ({ id, setVersion }: { id: string; setVersion: (version?: 
             value: v.version ?? '',
             label: v.version ?? ''
           }))}
-          defaultValue={versions[0].version}
+          value={version}
           onValueChange={value => setVersion(value)}
         />
       )}
