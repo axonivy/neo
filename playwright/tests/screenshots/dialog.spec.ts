@@ -48,7 +48,7 @@ test.describe('project', () => {
   });
 });
 
-test.describe('new aritfact', async () => {
+test.describe('new aritfact', () => {
   test('process', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const processes = await neo.processes();
