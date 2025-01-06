@@ -17,8 +17,11 @@ export const TextEditor = ({ project, path }: Editor) => {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const { data } = useReadConfiguration({ app: project.app, pmv: project.pmv, path });
   const { writeConfig } = useWriteConfiguration();
-  const debouncedWrite = debouncedAction((content: string) => writeConfig({ ...data!, content }), 1000);
   const theme = useThemeMode();
+  if (!data) {
+    return null;
+  }
+  const debouncedWrite = debouncedAction((content: string) => writeConfig({ ...data, content }), 1000);
   const setupMonaco = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const codeEditor = (frameRef.current?.contentWindow as any).codeEditor;
@@ -30,9 +33,6 @@ export const TextEditor = ({ project, path }: Editor) => {
       model.onDidChangeContent(() => debouncedWrite(model.getValue()));
     }
   };
-  if (!data) {
-    return null;
-  }
   return (
     <iframe
       id='framed-monaco-editor'

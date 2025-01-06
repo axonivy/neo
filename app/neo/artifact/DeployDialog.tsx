@@ -70,12 +70,12 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
             </BasicField>
           </Flex>
           <DialogFooter>
-            {deploying! ? (
+            {deploying ? (
               <Button variant='primary' size='large' disabled>
                 <Spinner size='small' style={{ borderColor: 'inherit', borderBottomColor: 'transparent' }} />
               </Button>
             ) : (
-              <Button variant='primary' size='large' onClick={deploy} icon={IvyIcons.Bpmn} disabled={deploying}>
+              <Button variant='primary' size='large' onClick={deploy} icon={IvyIcons.Bpmn}>
                 Deploy
               </Button>
             )}
