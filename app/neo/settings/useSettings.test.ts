@@ -14,6 +14,7 @@ afterEach(() => {
 });
 
 describe('useSettings', () => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const { animationSettings } = useNeoClient('all')!;
 
   test('default settings', () => {

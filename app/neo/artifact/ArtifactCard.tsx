@@ -77,7 +77,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
             )}
             {actions.export && actions.deploy && (
               <>
-                <DropdownMenuItem onSelect={() => actions.export!()}>
+                <DropdownMenuItem onSelect={actions.export}>
                   <IvyIcon icon={IvyIcons.Upload} />
                   <span>Export</span>
                 </DropdownMenuItem>

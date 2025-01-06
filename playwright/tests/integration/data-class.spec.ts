@@ -48,7 +48,7 @@ test.describe('jump to editor', () => {
   });
 });
 
-test.describe('inscription', async () => {
+test.describe('inscription', () => {
   test('add and delete field', async ({ page }) => {
     const { editor } = await openTempDataClass(page);
     await expect(editor.rows).toHaveCount(0);

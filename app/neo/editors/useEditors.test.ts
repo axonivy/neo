@@ -143,11 +143,11 @@ test('persisted', () => {
   act(() => {
     result.current.closeAllEditors();
   });
-  expect(JSON.parse(window.localStorage.getItem('neo-open-editors')!).state).to.be.deep.equals({ workspaces: {} });
+  expect(JSON.parse(window.localStorage.getItem('neo-open-editors') ?? '').state).to.be.deep.equals({ workspaces: {} });
   act(() => {
     result.current.addEditor(processEditor);
   });
-  expect(JSON.parse(window.localStorage.getItem('neo-open-editors')!).state).to.be.deep.equals({
+  expect(JSON.parse(window.localStorage.getItem('neo-open-editors') ?? '').state).to.be.deep.equals({
     workspaces: { 'test-ws': [processEditor] }
   });
 });
