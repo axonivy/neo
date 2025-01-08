@@ -14,14 +14,14 @@ import {
   Input
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useMemo, useState } from 'react';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useNavigate } from 'react-router';
-import { useMemo, useState } from 'react';
 import { NEO_DESIGNER } from '~/constants';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
-import { validateNotEmpty } from '~/neo/artifact/validation';
+import { artifactAlreadyExists, validateArtifactName } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { InfoPopover } from '~/neo/InfoPopover';
 import { Overview } from '~/neo/Overview';
@@ -119,7 +119,11 @@ const NewWorkspaceCard = () => {
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
   const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.id));
-  const nameValidation = useMemo(() => validateNotEmpty(name, 'name', 'workspace'), [name]);
+  const workspaces = useWorkspaces();
+  const nameValidation = useMemo(
+    () => (workspaces.data?.find(w => w.name === name) ? artifactAlreadyExists(name) : validateArtifactName(name)),
+    [name, workspaces.data]
+  );
   return (
     <>
       <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />
@@ -136,7 +140,7 @@ const NewWorkspaceCard = () => {
               <DialogFooter>
                 <DialogClose asChild>
                   <Button
-                    disabled={nameValidation !== undefined}
+                    disabled={nameValidation?.variant === 'error'}
                     icon={IvyIcons.Plus}
                     size='large'
                     variant='primary'

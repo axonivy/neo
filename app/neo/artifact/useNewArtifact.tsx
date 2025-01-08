@@ -13,14 +13,14 @@ import {
   Spinner
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useParams } from 'react-router';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { useParams } from 'react-router';
 import { useGroupedDataClasses } from '~/data/data-class-api';
 import type { DataClassIdentifier, ProjectBean } from '~/data/generated/openapi-dev';
 import { type ProjectIdentifier } from '~/data/project-api';
 import { InfoPopover } from '../InfoPopover';
 import { ProjectSelect } from './ProjectSelect';
-import { validateNotEmpty } from './validation';
+import { validateArtifactName, validateArtifactNamespace } from './validation';
 
 export type NewArtifact = {
   type: string;
@@ -65,13 +65,10 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     setNewArtifact(context);
   };
   const close = () => setDialogState(false);
-  const nameValidation = useMemo(() => validateNotEmpty(name, 'name', newArtifact?.type.toLowerCase()), [name, newArtifact?.type]);
-  const namespaceValidation = useMemo(
-    () => (!newArtifact?.namespaceRequired ? undefined : validateNotEmpty(namespace, 'namespace', newArtifact?.type.toLowerCase())),
-    [namespace, newArtifact?.namespaceRequired, newArtifact?.type]
-  );
+  const nameValidation = useMemo(() => validateArtifactName(name), [name]);
+  const namespaceValidation = useMemo(() => validateArtifactNamespace(namespace, newArtifact?.type), [namespace, newArtifact?.type]);
   const buttonDisabled = useMemo(
-    () => nameValidation !== undefined || namespaceValidation !== undefined,
+    () => nameValidation?.variant === 'error' || namespaceValidation?.variant === 'error',
     [nameValidation, namespaceValidation]
   );
   return (
