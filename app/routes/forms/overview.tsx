@@ -1,5 +1,5 @@
 import type { LinksFunction, MetaFunction } from 'react-router';
-import { type FormIdentifier, useCreateForm, useDeleteForm, useGroupedForms } from '~/data/form-api';
+import { useCreateForm, useDeleteForm, useGroupedForms, type FormIdentifier } from '~/data/form-api';
 import type { DataClassIdentifier, HdBean } from '~/data/generated/openapi-dev';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
@@ -7,7 +7,7 @@ import { formDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
-import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
@@ -62,6 +62,16 @@ const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) =>
   );
 };
 
+export const useFormExists = () => {
+  const { data } = useGroupedForms();
+  return ({ name, namespace, project }: NewArtifactIdentifier) =>
+    data
+      ?.find(group => group?.project === project?.pmv)
+      ?.artifacts.some(
+        form => form.name.toLowerCase() === name.toLowerCase() && form.namespace?.toLowerCase() === namespace.toLowerCase()
+      ) ?? false;
+};
+
 const NewFormCard = () => {
   const open = useNewArtifact();
   const { openEditor } = useEditors();
@@ -69,6 +79,10 @@ const NewFormCard = () => {
   const { createFormEditor } = useCreateEditor();
   const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string, dataClass?: DataClassIdentifier) =>
     createForm({ name, namespace, project, dataClass }).then(form => openEditor(createFormEditor(form)));
+  const formExists = useFormExists();
+  const exists = ({ name, namespace, project }: NewArtifactIdentifier) => formExists({ name, namespace, project });
   const title = 'Create new Form';
-  return <NewArtifactCard title={title} open={() => open({ create, type: 'Form', namespaceRequired: true, selectDataClass: true })} />;
+  return (
+    <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Form', namespaceRequired: true, selectDataClass: true })} />
+  );
 };

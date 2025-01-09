@@ -26,10 +26,16 @@ export type NewArtifact = {
   type: string;
   namespaceRequired: boolean;
   create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string, dataClass?: DataClassIdentifier) => void;
-  exists: (name: string, namespace: string, project?: ProjectIdentifier) => boolean;
+  exists: ({ name, namespace, project }: NewArtifactIdentifier) => boolean;
   project?: ProjectBean;
   pid?: string;
   selectDataClass?: boolean;
+};
+
+export type NewArtifactIdentifier = {
+  name: string;
+  namespace: string;
+  project?: ProjectIdentifier;
 };
 
 type NewArtifactDialogState = {
@@ -67,7 +73,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   };
   const close = () => setDialogState(false);
   const nameValidation = useMemo(
-    () => (newArtifact?.exists(name, namespace, project?.id) ? artifactAlreadyExists(name) : validateArtifactName(name)),
+    () => (newArtifact?.exists({ name, namespace, project: project?.id }) ? artifactAlreadyExists(name) : validateArtifactName(name)),
     [name, namespace, newArtifact, project?.id]
   );
   const namespaceValidation = useMemo(() => validateArtifactNamespace(namespace, newArtifact?.type), [namespace, newArtifact?.type]);

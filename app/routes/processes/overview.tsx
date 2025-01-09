@@ -7,7 +7,7 @@ import { processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
-import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
@@ -64,6 +64,16 @@ const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) 
   );
 };
 
+export const useProcessExists = () => {
+  const { data } = useGroupedProcesses();
+  return ({ name, namespace, project }: NewArtifactIdentifier) =>
+    data
+      ?.find(group => group?.project === project?.pmv)
+      ?.artifacts.some(
+        process => process.name.toLowerCase() === name.toLowerCase() && process.namespace.toLowerCase() === namespace.toLowerCase()
+      ) ?? false;
+};
+
 const NewProcessCard = () => {
   const open = useNewArtifact();
   const { createProcess } = useCreateProcess();
@@ -71,9 +81,8 @@ const NewProcessCard = () => {
   const { createProcessEditor } = useCreateEditor();
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
-  const { data } = useGroupedProcesses();
-  const exists = (name: string, namespace: string, project?: ProjectIdentifier) =>
-    data?.flatMap(group => group.artifacts).some(process => process.name === name && process.namespace === namespace) ?? false;
+  const processExists = useProcessExists();
+  const exists = ({ name, namespace, project }: NewArtifactIdentifier) => processExists({ name, namespace, project });
   const title = 'Create new Process';
   return <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Process', namespaceRequired: false })} />;
 };

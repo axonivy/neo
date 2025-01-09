@@ -121,7 +121,8 @@ const NewWorkspaceCard = () => {
   const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.id));
   const workspaces = useWorkspaces();
   const nameValidation = useMemo(
-    () => (workspaces.data?.find(w => w.name === name) ? artifactAlreadyExists(name) : validateArtifactName(name)),
+    () =>
+      workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : validateArtifactName(name),
     [name, workspaces.data]
   );
   return (

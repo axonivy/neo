@@ -23,14 +23,14 @@ export const validateArtifactNamespace = (namespace?: string, type?: string): Me
   if (!namespace) {
     return type === 'Process' ? undefined : { message: `Artifact namespace must not be empty.`, variant: 'error' };
   }
-  const seprator = type === 'Process' ? '/' : '.';
-  for (const segment of namespace.split(seprator)) {
+  const separator = type === 'Process' ? '/' : '.';
+  for (const segment of namespace.split(separator)) {
     const message = reservedCheck(segment);
     if (message) {
       return message;
     }
   }
-  const nsRegex = namespaceRegex(seprator);
+  const nsRegex = namespaceRegex(separator);
   if (!nsRegex.test(namespace)) {
     const index = findFirstNonMatchingIndex(namespace, nsRegex);
     return { message: `Invalid character '${namespace[index]}' at position ${index + 1} in '${namespace}'.`, variant: 'error' };

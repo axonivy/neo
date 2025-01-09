@@ -3,7 +3,9 @@ import { useCallback } from 'react';
 import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
-import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
+import { useFormExists } from '~/routes/forms/overview';
+import { useProcessExists } from '~/routes/processes/overview';
 import { useCreateEditor } from '../../useCreateEditor';
 import { useEditors } from '../../useEditors';
 
@@ -30,6 +32,7 @@ export const useNewProcessActionHandler = () => {
   const open = useNewArtifact();
   const { createProcessEditor } = useCreateEditor();
   const projects = useSortedProjects();
+  const processExists = useProcessExists();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newProcess')) {
@@ -42,15 +45,17 @@ export const useNewProcessActionHandler = () => {
           refreshInscriptionView(window);
           openEditor(createProcessEditor(process));
         });
+      const exists = ({ name, namespace, project }: NewArtifactIdentifier) => processExists({ name, namespace, project });
       open({
         create,
+        exists,
         type: 'Process',
         project,
         pid,
         namespaceRequired: false
       });
     },
-    [createProcess, createProcessEditor, open, openEditor, projects.data]
+    [createProcess, createProcessEditor, open, openEditor, processExists, projects.data]
   );
 };
 
@@ -60,6 +65,7 @@ export const useNewFormActionHandler = () => {
   const open = useNewArtifact();
   const { createFormEditor } = useCreateEditor();
   const projects = useSortedProjects();
+  const formExists = useFormExists();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newHtmlDialog')) {
@@ -72,9 +78,10 @@ export const useNewFormActionHandler = () => {
           refreshInscriptionView(window);
           openEditor(createFormEditor(form));
         });
-      open({ create, type: 'Form', namespaceRequired: true, project, pid });
+      const exists = ({ name, namespace, project }: NewArtifactIdentifier) => formExists({ name, namespace, project });
+      open({ create, exists, type: 'Form', namespaceRequired: true, project, pid });
     },
-    [createForm, createFormEditor, open, openEditor, projects.data]
+    [createForm, createFormEditor, formExists, open, openEditor, projects.data]
   );
 };
 
