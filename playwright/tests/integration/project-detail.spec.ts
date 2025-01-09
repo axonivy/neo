@@ -25,7 +25,7 @@ test('project detail', async ({ page }) => {
 test('add and remove dependency', async ({ page, browserName }, testInfo) => {
   const zipFile = workspaceExportZip('dependency.zip');
   const { overview, neo } = await Neo.exportWorkspace(page, zipFile);
-  const wsName = `${browserName}dependency-ws${testInfo.retry}`;
+  const wsName = `${browserName}dependency_ws${testInfo.retry}`;
   await overview.create(wsName);
   await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
   await overview.clickFileImport();
