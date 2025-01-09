@@ -1,4 +1,5 @@
 import type { MessageData } from '@axonivy/ui-components';
+import type { NewArtifactType } from './useNewArtifact';
 
 export const artifactAlreadyExists = (name: string): MessageData => ({ message: `Artifact ${name} already exists.`, variant: 'error' });
 
@@ -19,7 +20,7 @@ export const validateArtifactName = (name?: string): MessageData | undefined => 
   }
 };
 
-export const validateArtifactNamespace = (namespace?: string, type?: string): MessageData | undefined => {
+export const validateArtifactNamespace = (namespace?: string, type?: NewArtifactType): MessageData | undefined => {
   if (!namespace) {
     return type === 'Process' ? undefined : { message: `Artifact namespace must not be empty.`, variant: 'error' };
   }

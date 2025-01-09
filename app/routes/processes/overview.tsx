@@ -81,8 +81,7 @@ const NewProcessCard = () => {
   const { createProcessEditor } = useCreateEditor();
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
-  const processExists = useProcessExists();
-  const exists = ({ name, namespace, project }: NewArtifactIdentifier) => processExists({ name, namespace, project });
+  const exists = useProcessExists();
   const title = 'Create new Process';
   return <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Process', namespaceRequired: false })} />;
 };

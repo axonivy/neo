@@ -79,8 +79,7 @@ const NewFormCard = () => {
   const { createFormEditor } = useCreateEditor();
   const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string, dataClass?: DataClassIdentifier) =>
     createForm({ name, namespace, project, dataClass }).then(form => openEditor(createFormEditor(form)));
-  const formExists = useFormExists();
-  const exists = ({ name, namespace, project }: NewArtifactIdentifier) => formExists({ name, namespace, project });
+  const exists = useFormExists();
   const title = 'Create new Form';
   return (
     <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Form', namespaceRequired: true, selectDataClass: true })} />

@@ -22,20 +22,21 @@ import { InfoPopover } from '../InfoPopover';
 import { ProjectSelect } from './ProjectSelect';
 import { artifactAlreadyExists, validateArtifactName, validateArtifactNamespace } from './validation';
 
+export type NewArtifactType = 'Process' | 'Form' | 'Data Class';
+
+export type NewArtifactIdentifier = {
+  name: string;
+  namespace: string;
+  project?: ProjectIdentifier;
+};
 export type NewArtifact = {
-  type: string;
+  type: NewArtifactType;
   namespaceRequired: boolean;
   create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string, dataClass?: DataClassIdentifier) => void;
   exists: ({ name, namespace, project }: NewArtifactIdentifier) => boolean;
   project?: ProjectBean;
   pid?: string;
   selectDataClass?: boolean;
-};
-
-export type NewArtifactIdentifier = {
-  name: string;
-  namespace: string;
-  project?: ProjectIdentifier;
 };
 
 type NewArtifactDialogState = {
