@@ -8,8 +8,8 @@ test('valid artifact names', () => {
 });
 
 test('valid but ugly artifact names', () => {
-  expect(validateArtifactName('makeWarning')).toEqual({ message: "It's recommended to capitalize the first letter", variant: 'warning' });
-  expect(validateArtifactName('m')).toEqual({ message: "It's recommended to capitalize the first letter", variant: 'warning' });
+  expect(validateArtifactName('makeWarning')).toEqual({ message: "It's recommended to capitalize the first letter.", variant: 'warning' });
+  expect(validateArtifactName('m')).toEqual({ message: "It's recommended to capitalize the first letter.", variant: 'warning' });
 });
 
 test('invalid artifact names', () => {

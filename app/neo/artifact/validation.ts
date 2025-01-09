@@ -15,7 +15,7 @@ export const validateArtifactName = (name?: string): MessageData | undefined => 
     return { message: `Invalid character '${name[index]}' at position ${index + 1} in '${name}'.`, variant: 'error' };
   }
   if (startsWithLowercase(name)) {
-    return { message: "It's recommended to capitalize the first letter", variant: 'warning' };
+    return { message: "It's recommended to capitalize the first letter.", variant: 'warning' };
   }
 };
 
