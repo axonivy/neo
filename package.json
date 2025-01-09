@@ -25,16 +25,16 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~12.0.2-next.279",
-    "@axonivy/dataclass-editor-protocol": "~12.0.2-next.279",
-    "@axonivy/form-editor": "~12.0.2-next.464",
-    "@axonivy/form-editor-core": "~12.0.2-next.464",
-    "@axonivy/form-editor-protocol": "~12.0.2-next.464",
-    "@axonivy/jsonrpc": "~12.0.2-next.411",
-    "@axonivy/ui-components": "~12.0.2-next.411",
-    "@axonivy/ui-icons": "~12.0.2-next.411",
-    "@axonivy/variable-editor": "~12.0.2-next.451",
-    "@axonivy/variable-editor-protocol": "~12.0.2-next.451",
+    "@axonivy/dataclass-editor": "~12.0.3-next.283",
+    "@axonivy/dataclass-editor-protocol": "~12.0.3-next.283",
+    "@axonivy/form-editor": "~12.0.3-next.471",
+    "@axonivy/form-editor-core": "~12.0.3-next.471",
+    "@axonivy/form-editor-protocol": "~12.0.3-next.471",
+    "@axonivy/jsonrpc": "~12.0.3-next.415",
+    "@axonivy/ui-components": "~12.0.3-next.415",
+    "@axonivy/ui-icons": "~12.0.3-next.415",
+    "@axonivy/variable-editor": "~12.0.3-next.453",
+    "@axonivy/variable-editor-protocol": "~12.0.3-next.453",
     "@react-router/node": "^7.0.2",
     "@tanstack/react-query": "5.32.1",
     "@tanstack/react-query-devtools": "5.32.1",
@@ -69,6 +69,11 @@
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^2.1.8"
+  },
+  "overrides": {
+    "@axonivy/jsonrpc": "~12.0.3-next.415",
+    "@axonivy/ui-components": "~12.0.3-next.415",
+    "@axonivy/ui-icons": "~12.0.3-next.415"
   },
   "engines": {
     "node": ">=20.0.0"
