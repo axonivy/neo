@@ -20,12 +20,13 @@ import type { DataClassIdentifier, ProjectBean } from '~/data/generated/openapi-
 import { type ProjectIdentifier } from '~/data/project-api';
 import { InfoPopover } from '../InfoPopover';
 import { ProjectSelect } from './ProjectSelect';
-import { validateArtifactName, validateArtifactNamespace } from './validation';
+import { artifactAlreadyExists, validateArtifactName, validateArtifactNamespace } from './validation';
 
 export type NewArtifact = {
   type: string;
   namespaceRequired: boolean;
   create: (name: string, namespace: string, project?: ProjectIdentifier, pid?: string, dataClass?: DataClassIdentifier) => void;
+  exists: (name: string, namespace: string, project?: ProjectIdentifier) => boolean;
   project?: ProjectBean;
   pid?: string;
   selectDataClass?: boolean;
@@ -65,7 +66,10 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     setNewArtifact(context);
   };
   const close = () => setDialogState(false);
-  const nameValidation = useMemo(() => validateArtifactName(name), [name]);
+  const nameValidation = useMemo(
+    () => (newArtifact?.exists(name, namespace, project?.id) ? artifactAlreadyExists(name) : validateArtifactName(name)),
+    [name, namespace, newArtifact, project?.id]
+  );
   const namespaceValidation = useMemo(() => validateArtifactNamespace(namespace, newArtifact?.type), [namespace, newArtifact?.type]);
   const buttonDisabled = useMemo(
     () => nameValidation?.variant === 'error' || namespaceValidation?.variant === 'error',

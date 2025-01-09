@@ -71,6 +71,9 @@ const NewProcessCard = () => {
   const { createProcessEditor } = useCreateEditor();
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
+  const { data } = useGroupedProcesses();
+  const exists = (name: string, namespace: string, project?: ProjectIdentifier) =>
+    data?.flatMap(group => group.artifacts).some(process => process.name === name && process.namespace === namespace) ?? false;
   const title = 'Create new Process';
-  return <NewArtifactCard title={title} open={() => open({ create, type: 'Process', namespaceRequired: false })} />;
+  return <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Process', namespaceRequired: false })} />;
 };
