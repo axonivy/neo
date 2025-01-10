@@ -12,6 +12,19 @@ test('navigate to process', async ({ page }) => {
   await new ProcessEditor(neo, 'quickstart').expectOpen('1907DDB3CA766818-f0');
 });
 
+test('create process validations', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.processes();
+  await overview.checkCreateValidationMessage({ name: 'my process', nameError: "Invalid character ' ' at position 3 in 'my process'." });
+  await overview.checkCreateValidationMessage({ name: 'switch', nameError: "Input 'switch' is a reserved keyword." });
+  await overview.checkCreateValidationMessage({ name: 'JUMP', nameError: 'Artifact JUMP already exists.' });
+  await overview.checkCreateValidationMessage({ name: 'JUMP', namespace: 'makeItValid' });
+  await overview.checkCreateValidationMessage({ name: '', nameError: 'Artifact name must not be empty.' });
+  await overview.checkCreateValidationMessage({ name: 'lowercase', nameWarning: "It's recommended to capitalize the first letter." });
+  await overview.checkCreateValidationMessage({ name: 'EmptyNamespaceCheck', namespace: '' });
+  await overview.checkCreateValidationMessage({ namespace: 'wrong.one', namespaceError: "Invalid character '.' at position 6 in 'wrong.one'." });
+});
+
 test('create and delete process', async ({ page, browserName }, testInfo) => {
   const processName = `${browserName}ws${testInfo.retry}`;
   const neo = await Neo.openWorkspace(page);

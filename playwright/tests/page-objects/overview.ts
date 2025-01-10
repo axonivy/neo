@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { ImportDialog } from './import-dialog';
+import { ValidationMessage } from './validation-message';
 
 export class Overview {
   protected readonly page: Page;
@@ -58,6 +59,43 @@ export class Overview {
 
   async clickMarketImport() {
     await this.clickCardAction(this.newCard, 'Import from Market');
+  }
+
+  async checkCreateValidationMessage(options: {
+    name?: string;
+    namespace?: string;
+    nameWarning?: string;
+    nameError?: string;
+    namespaceError?: string;
+  }) {
+    await this.waitForHiddenSpinner();
+    const dialog = this.page.getByRole('dialog');
+    if (await dialog.isHidden()) {
+      await this.newCard.click();
+    }
+    const nameInput = dialog.getByLabel('Name').first();
+    const namespaceInput = dialog.getByLabel('Namespace').first();
+    if (options.name !== undefined) {
+      await nameInput.fill(options.name);
+    }
+    if (options.namespace !== undefined) {
+      await namespaceInput.fill(options.namespace);
+    }
+    const createButton = dialog.getByRole('button', { name: 'Create' });
+    if (options.nameWarning) {
+      await new ValidationMessage(nameInput).expectWarning(options.nameWarning);
+    }
+    if (options.nameError) {
+      await new ValidationMessage(nameInput).expectError(options.nameError);
+      await expect(createButton).toBeDisabled();
+    }
+    if (options.namespaceError) {
+      await new ValidationMessage(namespaceInput).expectError(options.namespaceError);
+      await expect(createButton).toBeDisabled();
+    }
+    if (options.nameError === undefined && options.namespaceError === undefined) {
+      await expect(createButton).toBeEnabled();
+    }
   }
 
   async create(name: string, namespace?: string, options?: { file?: string; project?: string; hasDataClassSelect?: boolean }) {

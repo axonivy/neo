@@ -14,7 +14,7 @@ test('search market', async ({ page }) => {
 });
 
 test('install from market', async ({ page, browserName }, testInfo) => {
-  const wsName = `${browserName}market-ws${testInfo.retry}`;
+  const wsName = `${browserName}market_ws${testInfo.retry}`;
   const neo = await Neo.open(page);
   const overview = new Overview(page);
   await overview.create(wsName);

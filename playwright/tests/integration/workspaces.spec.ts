@@ -12,6 +12,16 @@ test('navigate to workspace', async ({ page }) => {
   await expect(page.locator(`text=Welcome to your workspace: ${WORKSPACE}`)).toBeVisible();
 });
 
+test('create workspace validations', async ({ page }) => {
+  await Neo.open(page);
+  const overview = new Overview(page);
+  await overview.checkCreateValidationMessage({ name: 'my workspace', nameError: "Invalid character ' ' at position 3 in 'my workspace'." });
+  await overview.checkCreateValidationMessage({ name: 'switch', nameError: "Input 'switch' is a reserved keyword." });
+  await overview.checkCreateValidationMessage({ name: 'NEO-test-PROJECT', nameError: 'Artifact NEO-test-PROJECT already exists.' });
+  await overview.checkCreateValidationMessage({ name: '', nameError: 'Artifact name must not be empty.' });
+  await overview.checkCreateValidationMessage({ name: 'lowercase', nameWarning: "It's recommended to capitalize the first letter." });
+});
+
 test('create and delete workspace', async ({ page, browserName }, testInfo) => {
   const wsName = `${browserName}ws${testInfo.retry}`;
   await Neo.open(page);
