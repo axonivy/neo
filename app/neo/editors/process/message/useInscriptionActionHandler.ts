@@ -4,6 +4,8 @@ import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { useFormExists } from '~/routes/forms/overview';
+import { useProcessExists } from '~/routes/processes/overview';
 import { useCreateEditor } from '../../useCreateEditor';
 import { useEditors } from '../../useEditors';
 
@@ -30,6 +32,7 @@ export const useNewProcessActionHandler = () => {
   const open = useNewArtifact();
   const { createProcessEditor } = useCreateEditor();
   const projects = useSortedProjects();
+  const exists = useProcessExists();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newProcess')) {
@@ -44,13 +47,14 @@ export const useNewProcessActionHandler = () => {
         });
       open({
         create,
+        exists,
         type: 'Process',
         project,
         pid,
         namespaceRequired: false
       });
     },
-    [createProcess, createProcessEditor, open, openEditor, projects.data]
+    [createProcess, createProcessEditor, exists, open, openEditor, projects.data]
   );
 };
 
@@ -60,6 +64,7 @@ export const useNewFormActionHandler = () => {
   const open = useNewArtifact();
   const { createFormEditor } = useCreateEditor();
   const projects = useSortedProjects();
+  const exists = useFormExists();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isActionWithId(data, 'newHtmlDialog')) {
@@ -72,9 +77,9 @@ export const useNewFormActionHandler = () => {
           refreshInscriptionView(window);
           openEditor(createFormEditor(form));
         });
-      open({ create, type: 'Form', namespaceRequired: true, project, pid });
+      open({ create, exists, type: 'Form', namespaceRequired: true, project, pid });
     },
-    [createForm, createFormEditor, open, openEditor, projects.data]
+    [createForm, createFormEditor, exists, open, openEditor, projects.data]
   );
 };
 

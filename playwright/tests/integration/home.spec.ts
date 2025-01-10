@@ -34,7 +34,7 @@ test('search projects', async ({ page }) => {
 test('import and delete project', async ({ page, browserName }, testInfo) => {
   const zipFile = workspaceExportZip('importMe.zip');
   const { overview, neo } = await Neo.exportWorkspace(page, zipFile);
-  const wsName = `${browserName}-idp-${testInfo.retry}`;
+  const wsName = `${browserName}_idp_${testInfo.retry}`;
   await overview.create(wsName);
   await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
   await overview.clickFileImport();

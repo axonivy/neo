@@ -7,7 +7,7 @@ import { dataClassDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
-import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
@@ -71,6 +71,11 @@ const NewDataClassCard = () => {
   const { createDataClassEditor } = useCreateEditor();
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createDataClass({ name: `${namespace}.${name}`, project }).then(dataClass => openEditor(createDataClassEditor(dataClass)));
+  const { data } = useGroupedDataClasses();
+  const exists = ({ name, namespace, project }: NewArtifactIdentifier) =>
+    data
+      ?.find(group => group?.project === project?.pmv)
+      ?.artifacts.some(dc => dc.name.toLowerCase() === `${namespace.toLowerCase()}.${name.toLowerCase()}`) ?? false;
   const title = 'Create new Data Class';
-  return <NewArtifactCard title={title} open={() => open({ create, type: 'Data Class', namespaceRequired: true })} />;
+  return <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Data Class', namespaceRequired: true })} />;
 };
