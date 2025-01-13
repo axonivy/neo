@@ -25,14 +25,14 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~12.0.3-next.287",
-    "@axonivy/dataclass-editor-protocol": "~12.0.3-next.287",
+    "@axonivy/dataclass-editor": "~12.0.3-next.289",
+    "@axonivy/dataclass-editor-protocol": "~12.0.3-next.289",
     "@axonivy/form-editor": "~12.0.3-next.475",
     "@axonivy/form-editor-core": "~12.0.3-next.475",
     "@axonivy/form-editor-protocol": "~12.0.3-next.475",
-    "@axonivy/jsonrpc": "~12.0.3-next.415",
-    "@axonivy/ui-components": "~12.0.3-next.415",
-    "@axonivy/ui-icons": "~12.0.3-next.415",
+    "@axonivy/jsonrpc": "~12.0.3-next.419",
+    "@axonivy/ui-components": "~12.0.3-next.419",
+    "@axonivy/ui-icons": "~12.0.3-next.419",
     "@axonivy/variable-editor": "~12.0.3-next.457",
     "@axonivy/variable-editor-protocol": "~12.0.3-next.457",
     "@react-router/node": "^7.0.2",
@@ -71,9 +71,9 @@
     "vitest": "^2.1.8"
   },
   "overrides": {
-    "@axonivy/jsonrpc": "~12.0.3-next.415",
-    "@axonivy/ui-components": "~12.0.3-next.415",
-    "@axonivy/ui-icons": "~12.0.3-next.415"
+    "@axonivy/jsonrpc": "~12.0.3-next.419",
+    "@axonivy/ui-components": "~12.0.3-next.419",
+    "@axonivy/ui-icons": "~12.0.3-next.419"
   },
   "engines": {
     "node": ">=20.0.0"
