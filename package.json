@@ -27,14 +27,14 @@
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~13.1.0-next.295",
-    "@axonivy/dataclass-editor-protocol": "~13.1.0-next.295",
-    "@axonivy/form-editor": "~13.1.0-next.481",
-    "@axonivy/form-editor-core": "~13.1.0-next.481",
-    "@axonivy/form-editor-protocol": "~13.1.0-next.481",
-    "@axonivy/jsonrpc": "~13.1.0-next.421",
-    "@axonivy/ui-components": "~13.1.0-next.421",
-    "@axonivy/ui-icons": "~13.1.0-next.421",
+    "@axonivy/dataclass-editor": "~13.1.0-next.299",
+    "@axonivy/dataclass-editor-protocol": "~13.1.0-next.299",
+    "@axonivy/form-editor": "~13.1.0-next.489",
+    "@axonivy/form-editor-core": "~13.1.0-next.489",
+    "@axonivy/form-editor-protocol": "~13.1.0-next.489",
+    "@axonivy/jsonrpc": "~13.1.0-next.425",
+    "@axonivy/ui-components": "~13.1.0-next.425",
+    "@axonivy/ui-icons": "~13.1.0-next.425",
     "@axonivy/variable-editor": "~13.1.0-next.460",
     "@axonivy/variable-editor-protocol": "~13.1.0-next.460",
     "@react-router/node": "^7.1.1",
@@ -47,7 +47,7 @@
     "zustand": "^5.0.2"
   },
   "devDependencies": {
-    "@axonivy/eslint-config": "^13.1.0-next.421",
+    "@axonivy/eslint-config": "^13.1.0-next.425",
     "@react-router/dev": "^7.1.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
