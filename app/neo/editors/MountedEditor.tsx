@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { HotkeysProvider } from 'react-hotkeys-hook';
 import { useLocation } from 'react-router';
 import type { Editor } from './editor';
 
@@ -20,7 +21,7 @@ export const MountedEditor = ({ id, type, name, children }: Editor & { children:
       className='editor'
       style={{ height: '100%', display: pathname !== id ? 'none' : undefined }}
     >
-      {children}
+      <HotkeysProvider initiallyActiveScopes={pathname === id ? ['global'] : undefined}>{children}</HotkeysProvider>
     </div>
   );
 };
