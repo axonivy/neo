@@ -22,7 +22,8 @@
     "test:ci": "vitest --watch=false",
     "playwright": "npm run -w playwright --",
     "type": "react-router typegen && tsc && npm run -w webviews/process-editor type && npm run -w playwright type",
-    "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u"
+    "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u",
+    "sbom": "npx --yes @cyclonedx/cyclonedx-npm --output-format JSON --output-file bom.json"
   },
   "dependencies": {
     "@axonivy/dataclass-editor": "~12.0.3-next.289",
