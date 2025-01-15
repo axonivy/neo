@@ -27,14 +27,14 @@
   "dependencies": {
     "@axonivy/dataclass-editor": "~12.0.3-next.289",
     "@axonivy/dataclass-editor-protocol": "~12.0.3-next.289",
-    "@axonivy/form-editor": "~12.0.3-next.475",
-    "@axonivy/form-editor-core": "~12.0.3-next.475",
-    "@axonivy/form-editor-protocol": "~12.0.3-next.475",
-    "@axonivy/jsonrpc": "~12.0.3-next.419",
-    "@axonivy/ui-components": "~12.0.3-next.419",
-    "@axonivy/ui-icons": "~12.0.3-next.419",
-    "@axonivy/variable-editor": "~12.0.3-next.457",
-    "@axonivy/variable-editor-protocol": "~12.0.3-next.457",
+    "@axonivy/form-editor": "~12.0.3-next.484",
+    "@axonivy/form-editor-core": "~12.0.3-next.484",
+    "@axonivy/form-editor-protocol": "~12.0.3-next.484",
+    "@axonivy/jsonrpc": "~12.0.3-next.429",
+    "@axonivy/ui-components": "~12.0.3-next.429",
+    "@axonivy/ui-icons": "~12.0.3-next.429",
+    "@axonivy/variable-editor": "~12.0.3-next.462",
+    "@axonivy/variable-editor-protocol": "~12.0.3-next.462",
     "@react-router/node": "^7.0.2",
     "@tanstack/react-query": "5.32.1",
     "@tanstack/react-query-devtools": "5.32.1",
@@ -70,10 +70,14 @@
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^2.1.8"
   },
+  "peerDependencies": {
+    "react-hotkeys-hook": "^4.6.1",
+    "react-resizable-panels": "^2.1.7"
+  },
   "overrides": {
-    "@axonivy/jsonrpc": "~12.0.3-next.419",
-    "@axonivy/ui-components": "~12.0.3-next.419",
-    "@axonivy/ui-icons": "~12.0.3-next.419"
+    "@axonivy/jsonrpc": "~12.0.3-next.429",
+    "@axonivy/ui-components": "~12.0.3-next.429",
+    "@axonivy/ui-icons": "~12.0.3-next.429"
   },
   "engines": {
     "node": ">=20.0.0"
