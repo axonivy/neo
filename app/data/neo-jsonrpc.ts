@@ -1,4 +1,5 @@
 import { BaseRpcClient, type Disposable, type MessageConnection, urlBuilder } from '@axonivy/jsonrpc';
+import type { AnimationFollowMode } from '~/neo/settings/useSettings';
 import { Callback, type NeoClient } from './neo-protocol';
 import type { Process } from './process-api';
 
@@ -9,6 +10,7 @@ export interface NeoOnRequestTypes {
 export type AnimationSettings = {
   animate: boolean;
   speed: number;
+  mode: AnimationFollowMode;
 };
 
 export interface NeoNotificationTypes {
@@ -39,9 +41,10 @@ export class NeoClientJsonRpc extends BaseRpcClient implements NeoClient {
     return urlBuilder(url, 'ivy-web-ide-lsp');
   }
 
-  public static async startMessageClient(connection: MessageConnection): Promise<NeoClientJsonRpc> {
+  public static async startMessageClient(connection: MessageConnection, settings: AnimationSettings): Promise<NeoClientJsonRpc> {
     const client = new NeoClientJsonRpc(connection);
     await client.start();
+    await client.animationSettings(settings);
     return client;
   }
 }

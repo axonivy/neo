@@ -1,12 +1,12 @@
 import { toast } from '@axonivy/ui-components';
-import { useLocation, useNavigate } from 'react-router';
 import { createContext, useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
 import type { NeoClient } from '~/data/neo-protocol';
 import { useEditors } from '~/neo/editors/useEditors';
 import { useCreateEditor } from '../editors/useCreateEditor';
 import { useWebSocket } from '../editors/useWebSocket';
-import type { AnimationFollowMode } from '../settings/useSettings';
+import { useStore, type AnimationFollowMode } from '../settings/useSettings';
 
 type NeoClientProviderState = {
   client: NeoClient | undefined;
@@ -15,12 +15,18 @@ type NeoClientProviderState = {
 export const NeoClientProviderContext = createContext<NeoClientProviderState | undefined>(undefined);
 
 export const NeoClientProvider = ({ children }: { children: React.ReactNode }) => {
-  const client = useWebSocket<NeoClientJsonRpc>('neo', NeoClientJsonRpc.webSocketUrl, NeoClientJsonRpc.startMessageClient, {
-    log: console.log,
-    info: toast.info,
-    warn: toast.warning,
-    error: toast.error
-  });
+  const { animation } = useStore();
+  const client = useWebSocket<NeoClientJsonRpc>(
+    'neo',
+    NeoClientJsonRpc.webSocketUrl,
+    connection => NeoClientJsonRpc.startMessageClient(connection, animation),
+    {
+      log: console.log,
+      info: toast.info,
+      warn: toast.warning,
+      error: toast.error
+    }
+  );
   return <NeoClientProviderContext.Provider value={{ client }}>{children}</NeoClientProviderContext.Provider>;
 };
 
@@ -53,11 +59,9 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
         openEditor(editor);
         return true;
       case 'noEmbeddedProcesses':
-        //TODO: check if embedded
         openEditor(editor);
         return true;
     }
-    //TODO: wait on editor to be ready
   });
   return client;
 };

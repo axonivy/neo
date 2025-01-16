@@ -7,13 +7,13 @@ import { useNeoClient } from '~/neo/client/useNeoClient';
 export type AnimationFollowMode = 'all' | 'currentProcess' | 'openProcesses' | 'noDialogProcesses' | 'noEmbeddedProcesses';
 
 type SettingsState = {
-  animation: AnimationSettings & { mode: AnimationFollowMode };
+  animation: AnimationSettings;
   enable: (enable: boolean) => void;
   speed: (speed: number) => void;
   mode: (mode: AnimationFollowMode) => void;
 };
 
-const useStore = create<SettingsState>()(
+export const useStore = create<SettingsState>()(
   persist(
     set => ({
       animation: { animate: false, speed: 50, mode: 'all' },
