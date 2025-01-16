@@ -4,7 +4,7 @@ import { Callback, type NeoClient } from './neo-protocol';
 import type { Process } from './process-api';
 
 export interface NeoOnRequestTypes {
-  openEditor: [Process, boolean];
+  openEditor: [Process, Promise<boolean>];
 }
 
 export type AnimationSettings = {
@@ -22,7 +22,7 @@ export class NeoClientJsonRpc extends BaseRpcClient implements NeoClient {
   protected override setupConnection(): void {
     super.setupConnection();
     this.toDispose.push(this.onOpenEditor);
-    this.onRequest('openEditor', data => this.onOpenEditor.call(data) ?? false);
+    this.onRequest('openEditor', data => this.onOpenEditor.call(data) ?? new Promise(() => false));
   }
 
   animationSettings(settings: AnimationSettings) {
