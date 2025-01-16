@@ -19,16 +19,16 @@ describe('useSettings', () => {
 
   test('default settings', () => {
     const { result } = renderHook(() => useSettings());
-    expect(result.current.animation).to.be.deep.equals({ animate: false, speed: 50, mode: 'all' });
+    expect(result.current.animation).to.be.deep.equals({ animate: true, speed: 50, mode: 'all' });
   });
 
-  test('enable animation', () => {
+  test('disable animation', () => {
     const { result } = renderHook(() => useSettings());
     act(() => {
-      result.current.enableAnimation(true);
+      result.current.enableAnimation(false);
     });
-    expect(result.current.animation).to.be.deep.equals({ animate: true, speed: 50, mode: 'all' });
-    expect(animationSettings).toBeCalledWith({ animate: true, speed: 50, mode: 'all' });
+    expect(result.current.animation).to.be.deep.equals({ animate: false, speed: 50, mode: 'all' });
+    expect(animationSettings).toBeCalledWith({ animate: false, speed: 50, mode: 'all' });
   });
 
   test('animation speed', () => {
@@ -36,8 +36,8 @@ describe('useSettings', () => {
     act(() => {
       result.current.animationSpeed('75');
     });
-    expect(result.current.animation).to.be.deep.equals({ animate: false, speed: 75, mode: 'all' });
-    expect(animationSettings).toBeCalledWith({ animate: false, speed: 75, mode: 'all' });
+    expect(result.current.animation).to.be.deep.equals({ animate: true, speed: 75, mode: 'all' });
+    expect(animationSettings).toBeCalledWith({ animate: true, speed: 75, mode: 'all' });
   });
 
   test('mode', () => {
@@ -45,7 +45,7 @@ describe('useSettings', () => {
     act(() => {
       result.current.animationMode('currentProcess');
     });
-    expect(result.current.animation).to.be.deep.equals({ animate: false, speed: 50, mode: 'currentProcess' });
-    expect(animationSettings).toBeCalledWith({ animate: false, speed: 50, mode: 'currentProcess' });
+    expect(result.current.animation).to.be.deep.equals({ animate: true, speed: 50, mode: 'currentProcess' });
+    expect(animationSettings).toBeCalledWith({ animate: true, speed: 50, mode: 'currentProcess' });
   });
 });
