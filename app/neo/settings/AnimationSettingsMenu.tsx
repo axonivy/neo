@@ -1,6 +1,7 @@
 import {
   DropdownMenuCheckboxItem,
   DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuRadioGroup,
@@ -11,17 +12,32 @@ import {
   IvyIcon
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useParams } from 'react-router';
 import type { AnimationSettings } from '~/data/neo-jsonrpc';
+import { useStopBpmEngine } from '~/data/project-api';
 import { useSettings, type AnimationFollowMode } from './useSettings';
 
 export const AnimationSettingsMenu = (animation: AnimationSettings) => {
   const { enableAnimation, animationSpeed, animationMode } = useSettings();
+  const { stopBpmEngine } = useStopBpmEngine();
+  const { app, pmv } = useParams();
   return (
     <DropdownMenuGroup>
       <DropdownMenuLabel>Animation</DropdownMenuLabel>
       <DropdownMenuCheckboxItem checked={animation.animate} onCheckedChange={enableAnimation} aria-label='Toggle animation'>
         Enabled
       </DropdownMenuCheckboxItem>
+      <DropdownMenuItem
+        aria-label='Reset'
+        disabled={!app || !pmv}
+        onClick={e => {
+          e.preventDefault();
+          if (app && pmv) stopBpmEngine({ app, pmv });
+        }}
+      >
+        <IvyIcon icon={IvyIcons.Undo} />
+        Reset
+      </DropdownMenuItem>
       <DropdownMenuSub>
         <DropdownMenuSubTrigger aria-label='Animation speed'>
           <IvyIcon icon={IvyIcons.Clock} />
