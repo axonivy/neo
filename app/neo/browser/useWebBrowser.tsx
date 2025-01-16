@@ -1,5 +1,5 @@
+import type { ImperativePanelHandle } from '@axonivy/ui-components';
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import type { ImperativePanelHandle } from 'react-resizable-panels';
 import { useWorkspace } from '~/data/workspace-api';
 
 type WebBrowserProviderState = {
