@@ -24,7 +24,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const process: Process = {
+const process: Process & { pathname: string } = {
   kind: 'NORMAL',
   name: 'info',
   namespace: '',
@@ -32,7 +32,8 @@ const process: Process = {
   processGroup: 'Main Processes',
   processIdentifier: { project: { app: 'designer', pmv: 'glsp-test-project' }, pid: '1842D6FBB6A107AB' },
   requestPath: 'info.p',
-  type: 'glsp.test.project.Data'
+  type: 'glsp.test.project.Data',
+  pathname: '/designer/processes/designer/glsp-test-project/processes/info'
 };
 
 const hdProcess: Process = {
@@ -65,9 +66,10 @@ const renderNeoClientHook = (mode: AnimationFollowMode) => {
 
 test('all', async () => {
   const { result } = renderNeoClientHook('all');
+  window.location.pathname = process.pathname;
   const shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
   expect(shouldAnimate).toBeTruthy();
-  expect(useNavigate()).toHaveBeenLastCalledWith('/designer/processes/designer/glsp-test-project/processes/info');
+  expect(useNavigate()).toHaveBeenLastCalledWith(process.pathname);
 });
 
 test('current process', async () => {
@@ -76,8 +78,7 @@ test('current process', async () => {
   expect(shouldAnimate).toBeFalsy();
   expect(useNavigate()).toBeCalledTimes(0);
 
-  if (vi.isMockFunction(useLocation))
-    useLocation.mockImplementation(() => ({ pathname: '/designer/processes/designer/glsp-test-project/processes/info' }));
+  if (vi.isMockFunction(useLocation)) useLocation.mockImplementation(() => ({ pathname: process.pathname }));
   rerender();
   shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
   expect(shouldAnimate).toBeTruthy();
@@ -86,6 +87,7 @@ test('current process', async () => {
 
 test('open processes - closed', async () => {
   if (vi.isMockFunction(useLocation)) useLocation.mockImplementation(() => ({}));
+  window.location.pathname = process.pathname;
   const { result } = renderNeoClientHook('openProcesses');
   let shouldAnimate = await act(() => result.current?.onOpenEditor.call(process));
   expect(shouldAnimate).toBeFalsy();
@@ -110,6 +112,7 @@ test('open processes - closed', async () => {
 
 test('no dialog processes', async () => {
   const { result } = renderNeoClientHook('noDialogProcesses');
+  window.location.pathname = process.pathname;
   let shouldAnimate = await act(() => result.current?.onOpenEditor.call(hdProcess));
   expect(shouldAnimate).toBeFalsy();
   expect(useNavigate()).toBeCalledTimes(0);
