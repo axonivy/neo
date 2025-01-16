@@ -59,6 +59,7 @@ test('switch theme', async ({ page }) => {
 test('start from process - without animation', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException instead of the form dialog');
   const { neo, editor } = await openQuickStartProcess(page);
+  await neo.navigation.disableAnimation();
   await editor.expectOpen('1907DDB3CA766818-f0');
   const element = editor.elementByPid('1907DDB3CA766818-f0');
   await element.triggerQuickAction(/Start Process/);
@@ -68,15 +69,20 @@ test('start from process - without animation', async ({ page, browserName }) => 
   await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText('Enter Product Task');
 });
 
-test('start from browser - with animation', async ({ page, browserName }) => {
+test('start from browser and reset - with animation', async ({ page, browserName }) => {
   test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException instead of the form dialog');
   const neo = await Neo.openWorkspace(page);
   await expect(neo.controlBar.tabs()).toHaveCount(0);
-  await neo.navigation.enableAnimation();
-  await neo.navigation.changeAnimationSpeed('0');
+  await neo.navigation.changeAnimationSpeed('fastest');
   const browser = await neo.browser();
   await browser.startProcess('jump/start.ivp');
   await expect(neo.controlBar.tabs()).toHaveCount(3, { timeout: 10000 });
+  const editor = new ProcessEditor(neo, 'jump');
+  await editor.expectOpen();
+  const start = editor.elementByPid('1907DD66AA11FCD9-f0');
+  await start.expectExecuted();
+  await neo.navigation.resetAnimation();
+  await start.expectNotExecuted();
 });
 
 test.describe('jump to editor', () => {
