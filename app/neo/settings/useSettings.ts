@@ -13,10 +13,10 @@ type SettingsState = {
   mode: (mode: AnimationFollowMode) => void;
 };
 
-export const useStore = create<SettingsState>()(
+const useStore = create<SettingsState>()(
   persist(
     set => ({
-      animation: { animate: false, speed: 50, mode: 'all' },
+      animation: { animate: true, speed: 50, mode: 'all' },
       enable: enable => set(state => ({ animation: { ...state.animation, animate: enable } })),
       speed: speed => set(state => ({ animation: { ...state.animation, speed } })),
       mode: mode => set(state => ({ animation: { ...state.animation, mode } }))

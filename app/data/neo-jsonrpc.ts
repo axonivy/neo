@@ -41,10 +41,9 @@ export class NeoClientJsonRpc extends BaseRpcClient implements NeoClient {
     return urlBuilder(url, 'ivy-web-ide-lsp');
   }
 
-  public static async startMessageClient(connection: MessageConnection, settings: AnimationSettings): Promise<NeoClientJsonRpc> {
+  public static async startMessageClient(connection: MessageConnection): Promise<NeoClientJsonRpc> {
     const client = new NeoClientJsonRpc(connection);
     await client.start();
-    await client.animationSettings(settings);
     return client;
   }
 }

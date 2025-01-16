@@ -6,7 +6,7 @@ import type { NeoClient } from '~/data/neo-protocol';
 import { useEditors } from '~/neo/editors/useEditors';
 import { useCreateEditor } from '../editors/useCreateEditor';
 import { useWebSocket } from '../editors/useWebSocket';
-import { useStore, type AnimationFollowMode } from '../settings/useSettings';
+import { type AnimationFollowMode } from '../settings/useSettings';
 
 type NeoClientProviderState = {
   client: NeoClient | undefined;
@@ -15,18 +15,12 @@ type NeoClientProviderState = {
 export const NeoClientProviderContext = createContext<NeoClientProviderState | undefined>(undefined);
 
 export const NeoClientProvider = ({ children }: { children: React.ReactNode }) => {
-  const { animation } = useStore();
-  const client = useWebSocket<NeoClientJsonRpc>(
-    'neo',
-    NeoClientJsonRpc.webSocketUrl,
-    connection => NeoClientJsonRpc.startMessageClient(connection, animation),
-    {
-      log: console.log,
-      info: toast.info,
-      warn: toast.warning,
-      error: toast.error
-    }
-  );
+  const client = useWebSocket<NeoClientJsonRpc>('neo', NeoClientJsonRpc.webSocketUrl, NeoClientJsonRpc.startMessageClient, {
+    log: console.log,
+    info: toast.info,
+    warn: toast.warning,
+    error: toast.error
+  });
   return <NeoClientProviderContext.Provider value={{ client }}>{children}</NeoClientProviderContext.Provider>;
 };
 

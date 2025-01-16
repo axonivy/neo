@@ -11,10 +11,11 @@ import {
   IvyIcon
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import type { AnimationSettings } from '~/data/neo-jsonrpc';
 import { useSettings, type AnimationFollowMode } from './useSettings';
 
-export const AnimationSettings = () => {
-  const { animation, enableAnimation, animationSpeed, animationMode } = useSettings();
+export const AnimationSettingsMenu = (animation: AnimationSettings) => {
+  const { enableAnimation, animationSpeed, animationMode } = useSettings();
   return (
     <DropdownMenuGroup>
       <DropdownMenuLabel>Animation</DropdownMenuLabel>
@@ -29,20 +30,20 @@ export const AnimationSettings = () => {
         <DropdownMenuPortal>
           <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
             <DropdownMenuRadioGroup value={animation.speed.toString()} onValueChange={animationSpeed}>
-              <DropdownMenuRadioItem value='0' aria-label='0'>
-                0
+              <DropdownMenuRadioItem value='0' aria-label='fastest'>
+                fastest
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='25' aria-label='25'>
-                25
+              <DropdownMenuRadioItem value='25' aria-label='fast'>
+                fast
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='50' aria-label='50'>
-                50
+              <DropdownMenuRadioItem value='50' aria-label='normal'>
+                normal
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='75' aria-label='75'>
-                75
+              <DropdownMenuRadioItem value='75' aria-label='slow'>
+                slow
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='100' aria-label='100'>
-                100
+              <DropdownMenuRadioItem value='100' aria-label='slowest'>
+                slowest
               </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>
