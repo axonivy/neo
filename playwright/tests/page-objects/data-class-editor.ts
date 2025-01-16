@@ -27,12 +27,12 @@ export class DataClassEditor {
   }
 
   async addField() {
-    await this.editor.getByRole('button', { name: 'Add field' }).click();
-    await this.neo.page.getByRole('button', { name: 'Create field' }).click();
+    await this.editor.getByRole('button', { name: 'Add Attribute' }).click();
+    await this.neo.page.getByRole('button', { name: 'Create Attribute' }).click();
   }
 
   async deleteField() {
-    await this.editor.getByRole('button', { name: 'Delete field' }).click();
+    await this.editor.getByRole('button', { name: 'Delete Attribute' }).click();
   }
 }
 
