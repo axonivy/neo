@@ -33,19 +33,24 @@ export class Navigation {
     await this.page.getByRole('menu').last().getByRole('menuitemradio', { name: theme }).click();
   }
 
-  async enableAnimation() {
+  async disableAnimation() {
     const menu = await this.openSettings();
     const animationSwitch = menu.getByRole('menuitemcheckbox', { name: 'Toggle animation' });
     await expect(animationSwitch).toBeVisible();
-    if ((await animationSwitch.getAttribute('data-state')) !== 'checked') {
+    if ((await animationSwitch.getAttribute('data-state')) === 'checked') {
       await animationSwitch.click();
     }
   }
 
-  async changeAnimationSpeed(speed: '0' | '25' | '50' | '75' | '100') {
+  async changeAnimationSpeed(speed: 'fastest') {
     const menu = await this.openSettings();
     const speedTrigger = menu.getByRole('menuitem', { name: 'Speed' });
     await speedTrigger.click();
     await this.page.getByRole('menu').last().getByRole('menuitemradio', { name: speed, exact: true }).click();
+  }
+
+  async resetAnimation() {
+    const menu = await this.openSettings();
+    await menu.getByRole('menuitem', { name: 'Reset' }).click();
   }
 }

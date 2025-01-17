@@ -1,12 +1,13 @@
 import { toast } from '@axonivy/ui-components';
-import { useLocation, useNavigate } from 'react-router';
 import { createContext, useContext } from 'react';
+import { useLocation, useNavigate } from 'react-router';
 import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
 import type { NeoClient } from '~/data/neo-protocol';
 import { useEditors } from '~/neo/editors/useEditors';
+import type { Editor } from '../editors/editor';
 import { useCreateEditor } from '../editors/useCreateEditor';
 import { useWebSocket } from '../editors/useWebSocket';
-import type { AnimationFollowMode } from '../settings/useSettings';
+import { useSettings, useSyncSettings } from '../settings/useSettings';
 
 type NeoClientProviderState = {
   client: NeoClient | undefined;
@@ -24,7 +25,8 @@ export const NeoClientProvider = ({ children }: { children: React.ReactNode }) =
   return <NeoClientProviderContext.Provider value={{ client }}>{children}</NeoClientProviderContext.Provider>;
 };
 
-export const useNeoClient = (mode: AnimationFollowMode) => {
+export const useNeoClient = () => {
+  const { animation } = useSettings();
   const context = useContext(NeoClientProviderContext);
   const { editors, openEditor } = useEditors();
   const { pathname } = useLocation();
@@ -32,17 +34,20 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
   const { createProcessEditor } = useCreateEditor();
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
-  client?.onOpenEditor.set(process => {
+  useSyncSettings(client);
+  client?.onOpenEditor.set(async process => {
     const editor = createProcessEditor(process);
-    switch (mode) {
+    switch (animation.mode) {
       case 'all':
         openEditor(editor);
+        await waitUntilPathnameMatches(editor);
         return true;
       case 'currentProcess':
         return editor.id === pathname;
       case 'openProcesses':
         if (editors.find(e => e.id === editor.id)) {
           navigate(editor.id);
+          await waitUntilPathnameMatches(editor);
           return true;
         }
         return false;
@@ -51,13 +56,23 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
           return false;
         }
         openEditor(editor);
+        await waitUntilPathnameMatches(editor);
         return true;
       case 'noEmbeddedProcesses':
-        //TODO: check if embedded
         openEditor(editor);
+        await waitUntilPathnameMatches(editor);
         return true;
     }
-    //TODO: wait on editor to be ready
   });
   return client;
+};
+
+const waitUntilPathnameMatches = ({ id }: Editor) => {
+  return new Promise<void>(resolve => {
+    const interval = setInterval(() => {
+      if (!window.location.pathname.endsWith(id)) return;
+      clearInterval(interval);
+      resolve();
+    }, 100);
+  });
 };
