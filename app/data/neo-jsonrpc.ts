@@ -1,14 +1,16 @@
 import { BaseRpcClient, type Disposable, type MessageConnection, urlBuilder } from '@axonivy/jsonrpc';
+import type { AnimationFollowMode } from '~/neo/settings/useSettings';
 import { Callback, type NeoClient } from './neo-protocol';
 import type { Process } from './process-api';
 
 export interface NeoOnRequestTypes {
-  openEditor: [Process, boolean];
+  openEditor: [Process, Promise<boolean>];
 }
 
 export type AnimationSettings = {
   animate: boolean;
   speed: number;
+  mode: AnimationFollowMode;
 };
 
 export interface NeoNotificationTypes {
@@ -20,7 +22,7 @@ export class NeoClientJsonRpc extends BaseRpcClient implements NeoClient {
   protected override setupConnection(): void {
     super.setupConnection();
     this.toDispose.push(this.onOpenEditor);
-    this.onRequest('openEditor', data => this.onOpenEditor.call(data) ?? false);
+    this.onRequest('openEditor', data => this.onOpenEditor.call(data) ?? new Promise(() => false));
   }
 
   animationSettings(settings: AnimationSettings) {

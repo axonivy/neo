@@ -59,4 +59,8 @@ export class ProcessEditorElement {
   async expectExecuted() {
     await expect(this.element).toHaveClass(/executed/);
   }
+
+  async expectNotExecuted() {
+    await expect(this.element).not.toHaveClass(/executed/);
+  }
 }
