@@ -1,36 +1,33 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AnimationSettings } from '~/data/neo-jsonrpc';
-import { useNeoClient } from '~/neo/client/useNeoClient';
+import type { NeoClient } from '~/data/neo-protocol';
 
 export type AnimationFollowMode = 'all' | 'currentProcess' | 'openProcesses' | 'noDialogProcesses' | 'noEmbeddedProcesses';
 
 type SettingsState = {
-  animation: AnimationSettings & { mode: AnimationFollowMode };
-  enable: (enable: boolean) => void;
-  speed: (speed: number) => void;
-  mode: (mode: AnimationFollowMode) => void;
+  animation: AnimationSettings;
+  enableAnimation: (enable: boolean) => void;
+  animationSpeed: (speed: string) => void;
+  animationMode: (mode: AnimationFollowMode) => void;
 };
 
-const useStore = create<SettingsState>()(
+export const useSettings = create<SettingsState>()(
   persist(
     set => ({
-      animation: { animate: false, speed: 50, mode: 'all' },
-      enable: enable => set(state => ({ animation: { ...state.animation, animate: enable } })),
-      speed: speed => set(state => ({ animation: { ...state.animation, speed } })),
-      mode: mode => set(state => ({ animation: { ...state.animation, mode } }))
+      animation: { animate: true, speed: 50, mode: 'all' },
+      enableAnimation: enable => set(state => ({ animation: { ...state.animation, animate: enable } })),
+      animationSpeed: speed => set(state => ({ animation: { ...state.animation, speed: parseInt(speed) } })),
+      animationMode: mode => set(state => ({ animation: { ...state.animation, mode } }))
     }),
     { name: 'neo-settings', version: 2 }
   )
 );
 
-export const useSettings = () => {
-  const { animation, enable, speed, mode } = useStore();
-  const client = useNeoClient(animation.mode);
+export const useSyncSettings = (client?: NeoClient) => {
+  const { animation } = useSettings();
   useEffect(() => {
     client?.animationSettings(animation);
   }, [animation, client]);
-  const animationSpeed = useCallback((value: string) => speed(parseInt(value)), [speed]);
-  return { animation, enableAnimation: enable, animationSpeed, animationMode: mode };
 };

@@ -4,6 +4,12 @@
  * Axon Ivy
  */
 import { customFetch } from '../custom-fetch';
+export type StopBpmEngineParams = {
+  app?: string;
+  pmv?: string;
+  projectDir?: string;
+};
+
 export type DeleteProjectParams = {
   projectDir?: string;
   app?: string;
@@ -628,6 +634,31 @@ export const deleteProject = async (params?: DeleteProjectParams, options?: Requ
   return customFetch<Promise<deleteProjectResponse>>(getDeleteProjectUrl(params), {
     ...options,
     method: 'DELETE'
+  });
+};
+
+export type stopBpmEngineResponse = {
+  data: unknown;
+  status: number;
+  headers: Headers;
+};
+
+export const getStopBpmEngineUrl = (params?: StopBpmEngineParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  return normalizedParams.size ? `/web-ide/project/stop-bpm-engine?${normalizedParams.toString()}` : `/web-ide/project/stop-bpm-engine`;
+};
+
+export const stopBpmEngine = async (params?: StopBpmEngineParams, options?: RequestInit): Promise<stopBpmEngineResponse> => {
+  return customFetch<Promise<stopBpmEngineResponse>>(getStopBpmEngineUrl(params), {
+    ...options,
+    method: 'POST'
   });
 };
 

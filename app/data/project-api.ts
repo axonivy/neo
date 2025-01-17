@@ -1,7 +1,12 @@
 import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { headers, ok } from './custom-fetch';
-import { deleteProject as deleteProjectReq, projects, type ProjectIdentifier as ProjectId } from './generated/openapi-dev';
+import {
+  deleteProject as deleteProjectReq,
+  projects,
+  stopBpmEngine as stopBpmEngineReq,
+  type ProjectIdentifier as ProjectId
+} from './generated/openapi-dev';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
@@ -44,5 +49,21 @@ export const useDeleteProject = () => {
   return {
     deleteProject: (identifier: ProjectIdentifier) =>
       toast.promise(() => deleteProject(identifier), { loading: 'Remove project', success: 'Project removed', error: e => e.message })
+  };
+};
+
+export const useStopBpmEngine = () => {
+  const { base } = useProjectsApi();
+  const stopBpmEngine = async (identifier: ProjectIdentifier) => {
+    await stopBpmEngineReq(identifier, { headers: headers(base) }).then(res => {
+      if (ok(res)) {
+        return;
+      }
+      throw new Error(`Failed to stop BPM Engine for project '${identifier.pmv}'`);
+    });
+  };
+  return {
+    stopBpmEngine: (identifier: ProjectIdentifier) =>
+      toast.promise(() => stopBpmEngine(identifier), { loading: 'Stop BPM Engine', success: 'BPM Engine stopped', error: e => e.message })
   };
 };

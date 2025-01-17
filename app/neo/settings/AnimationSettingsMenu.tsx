@@ -1,6 +1,7 @@
 import {
   DropdownMenuCheckboxItem,
   DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuPortal,
   DropdownMenuRadioGroup,
@@ -11,16 +12,31 @@ import {
   IvyIcon
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useParams } from 'react-router';
+import { useStopBpmEngine } from '~/data/project-api';
 import { useSettings, type AnimationFollowMode } from './useSettings';
 
-export const AnimationSettings = () => {
+export const AnimationSettingsMenu = () => {
   const { animation, enableAnimation, animationSpeed, animationMode } = useSettings();
+  const { stopBpmEngine } = useStopBpmEngine();
+  const { app, pmv } = useParams();
   return (
     <DropdownMenuGroup>
       <DropdownMenuLabel>Animation</DropdownMenuLabel>
       <DropdownMenuCheckboxItem checked={animation.animate} onCheckedChange={enableAnimation} aria-label='Toggle animation'>
         Enabled
       </DropdownMenuCheckboxItem>
+      <DropdownMenuItem
+        aria-label='Reset'
+        disabled={!app || !pmv}
+        onClick={e => {
+          e.preventDefault();
+          if (app && pmv) stopBpmEngine({ app, pmv });
+        }}
+      >
+        <IvyIcon icon={IvyIcons.Undo} />
+        Reset
+      </DropdownMenuItem>
       <DropdownMenuSub>
         <DropdownMenuSubTrigger aria-label='Animation speed'>
           <IvyIcon icon={IvyIcons.Clock} />
@@ -29,20 +45,20 @@ export const AnimationSettings = () => {
         <DropdownMenuPortal>
           <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
             <DropdownMenuRadioGroup value={animation.speed.toString()} onValueChange={animationSpeed}>
-              <DropdownMenuRadioItem value='0' aria-label='0'>
-                0
+              <DropdownMenuRadioItem value='0' aria-label='fastest'>
+                fastest
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='25' aria-label='25'>
-                25
+              <DropdownMenuRadioItem value='25' aria-label='fast'>
+                fast
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='50' aria-label='50'>
-                50
+              <DropdownMenuRadioItem value='50' aria-label='normal'>
+                normal
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='75' aria-label='75'>
-                75
+              <DropdownMenuRadioItem value='75' aria-label='slow'>
+                slow
               </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='100' aria-label='100'>
-                100
+              <DropdownMenuRadioItem value='100' aria-label='slowest'>
+                slowest
               </DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>

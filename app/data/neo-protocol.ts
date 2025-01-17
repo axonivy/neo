@@ -3,9 +3,9 @@ import type { AnimationSettings } from './neo-jsonrpc';
 import type { Process } from './process-api';
 
 export class Callback<T, R = void> implements Disposable {
-  private callback?: (e: T) => R;
+  private callback?: (e: T) => Promise<R>;
 
-  set(callback: (e: T) => R) {
+  set(callback: (e: T) => Promise<R>) {
     this.callback = callback;
   }
 
