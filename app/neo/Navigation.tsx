@@ -1,12 +1,12 @@
 import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuSeparator, DropdownMenuTrigger, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { NavLink } from 'react-router';
+import { useNeoClient } from './client/useNeoClient';
 import { AnimationSettingsMenu } from './settings/AnimationSettingsMenu';
 import { ThemeSettings } from './settings/ThemeSettings';
-import { useSettings } from './settings/useSettings';
 
 export const Navigation = () => {
-  const { animation } = useSettings();
+  useNeoClient();
   return (
     <Flex
       direction='column'
@@ -37,7 +37,7 @@ export const Navigation = () => {
           <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' title='Settings' />
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
-          <AnimationSettingsMenu {...animation} />
+          <AnimationSettingsMenu />
           <DropdownMenuSeparator />
           <ThemeSettings />
         </DropdownMenuContent>

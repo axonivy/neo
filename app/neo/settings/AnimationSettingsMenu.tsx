@@ -13,12 +13,11 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from 'react-router';
-import type { AnimationSettings } from '~/data/neo-jsonrpc';
 import { useStopBpmEngine } from '~/data/project-api';
 import { useSettings, type AnimationFollowMode } from './useSettings';
 
-export const AnimationSettingsMenu = (animation: AnimationSettings) => {
-  const { enableAnimation, animationSpeed, animationMode } = useSettings();
+export const AnimationSettingsMenu = () => {
+  const { animation, enableAnimation, animationSpeed, animationMode } = useSettings();
   const { stopBpmEngine } = useStopBpmEngine();
   const { app, pmv } = useParams();
   return (

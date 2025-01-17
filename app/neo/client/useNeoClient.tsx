@@ -7,7 +7,7 @@ import { useEditors } from '~/neo/editors/useEditors';
 import type { Editor } from '../editors/editor';
 import { useCreateEditor } from '../editors/useCreateEditor';
 import { useWebSocket } from '../editors/useWebSocket';
-import { type AnimationFollowMode } from '../settings/useSettings';
+import { useSettings, useSyncSettings } from '../settings/useSettings';
 
 type NeoClientProviderState = {
   client: NeoClient | undefined;
@@ -25,7 +25,8 @@ export const NeoClientProvider = ({ children }: { children: React.ReactNode }) =
   return <NeoClientProviderContext.Provider value={{ client }}>{children}</NeoClientProviderContext.Provider>;
 };
 
-export const useNeoClient = (mode: AnimationFollowMode) => {
+export const useNeoClient = () => {
+  const { animation } = useSettings();
   const context = useContext(NeoClientProviderContext);
   const { editors, openEditor } = useEditors();
   const { pathname } = useLocation();
@@ -33,9 +34,10 @@ export const useNeoClient = (mode: AnimationFollowMode) => {
   const { createProcessEditor } = useCreateEditor();
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
+  useSyncSettings(client);
   client?.onOpenEditor.set(async process => {
     const editor = createProcessEditor(process);
-    switch (mode) {
+    switch (animation.mode) {
       case 'all':
         openEditor(editor);
         await waitUntilPathnameMatches(editor);

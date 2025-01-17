@@ -4,7 +4,7 @@ import { Callback, type NeoClient } from '~/data/neo-protocol';
 import type { Process } from '~/data/process-api';
 import { useCreateEditor } from '../editors/useCreateEditor';
 import { useEditors } from '../editors/useEditors';
-import type { AnimationFollowMode } from '../settings/useSettings';
+import { useSettings, type AnimationFollowMode } from '../settings/useSettings';
 import { NeoClientProviderContext, useNeoClient } from './useNeoClient';
 
 vi.mock('react-router', async importOriginal => {
@@ -53,13 +53,17 @@ const hdProcess: Process = {
 };
 
 const renderNeoClientHook = (mode: AnimationFollowMode) => {
+  const { result } = renderHook(() => useSettings());
+  act(() => {
+    result.current.animationMode(mode);
+  });
   const mockClient: NeoClient = {
     onOpenEditor: new Callback<Process, boolean>(),
     animationSettings: vi.fn(),
     stop: vi.fn()
   };
 
-  return renderHook(() => useNeoClient(mode), {
+  return renderHook(() => useNeoClient(), {
     wrapper: props => <NeoClientProviderContext.Provider value={{ client: mockClient }} {...props} />
   });
 };
