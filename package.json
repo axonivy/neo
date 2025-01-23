@@ -26,16 +26,16 @@
     "sbom": "npx --yes @cyclonedx/cyclonedx-npm --output-format JSON --output-file bom.json"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~12.0.3-next.305",
-    "@axonivy/dataclass-editor-protocol": "~12.0.3-next.305",
-    "@axonivy/form-editor": "~12.0.3-next.488",
-    "@axonivy/form-editor-core": "~12.0.3-next.488",
-    "@axonivy/form-editor-protocol": "~12.0.3-next.488",
-    "@axonivy/jsonrpc": "~12.0.3-next.431",
-    "@axonivy/ui-components": "~12.0.3-next.431",
-    "@axonivy/ui-icons": "~12.0.3-next.431",
-    "@axonivy/variable-editor": "~12.0.3-next.468",
-    "@axonivy/variable-editor-protocol": "~12.0.3-next.468",
+    "@axonivy/dataclass-editor": "~12.0.3-next.328",
+    "@axonivy/dataclass-editor-protocol": "~12.0.3-next.328",
+    "@axonivy/form-editor": "~12.0.3-next.492",
+    "@axonivy/form-editor-core": "~12.0.3-next.492",
+    "@axonivy/form-editor-protocol": "~12.0.3-next.492",
+    "@axonivy/jsonrpc": "~12.0.3-next.435",
+    "@axonivy/ui-components": "~12.0.3-next.435",
+    "@axonivy/ui-icons": "~12.0.3-next.435",
+    "@axonivy/variable-editor": "~12.0.3-next.474",
+    "@axonivy/variable-editor-protocol": "~12.0.3-next.474",
     "@react-router/node": "^7.0.2",
     "@tanstack/react-query": "5.32.1",
     "@tanstack/react-query-devtools": "5.32.1",
@@ -76,9 +76,9 @@
     "react-resizable-panels": "^2.1.7"
   },
   "overrides": {
-    "@axonivy/jsonrpc": "~12.0.3-next.431",
-    "@axonivy/ui-components": "~12.0.3-next.431",
-    "@axonivy/ui-icons": "~12.0.3-next.431"
+    "@axonivy/jsonrpc": "~12.0.3-next.435",
+    "@axonivy/ui-components": "~12.0.3-next.435",
+    "@axonivy/ui-icons": "~12.0.3-next.435"
   },
   "engines": {
     "node": ">=20.0.0"
