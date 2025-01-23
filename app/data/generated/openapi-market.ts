@@ -269,6 +269,7 @@ export interface ProductDetailModel {
   _links?: Links;
   /** Compatibility */
   compatibility?: string;
+  compatibilityRange?: string;
   /** Can contact us */
   contactUs?: boolean;
   /** Product cost */
