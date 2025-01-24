@@ -11,7 +11,7 @@ export const useWebSocket = <TClient extends RpcClient>(
   logger?: Logger
 ) => {
   const [client, setClient] = useState<TClient>();
-  const initialized = useRef<boolean>();
+  const initialized = useRef<boolean>(false);
   const ws = useWorkspace();
   useEffect(() => {
     if (ws?.baseUrl === undefined || initialized.current) return;

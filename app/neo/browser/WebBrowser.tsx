@@ -4,7 +4,7 @@ import type { RefObject } from 'react';
 import { useUpdateTheme } from '~/theme/useUpdateTheme';
 import { useWebBrowser } from './useWebBrowser';
 
-const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) => {
+const updateFrameTheme = (frame: RefObject<HTMLIFrameElement | null>, theme: string) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const setTheme = frame.current?.contentWindow?.setTheme;
