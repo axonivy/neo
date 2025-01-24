@@ -10,8 +10,8 @@ export const useThemeMode = () => {
 };
 
 export const useUpdateTheme = (
-  frame: RefObject<HTMLIFrameElement>,
-  updateFrameTheme: (frame: RefObject<HTMLIFrameElement>, theme: string) => void
+  frame: RefObject<HTMLIFrameElement | null>,
+  updateFrameTheme: (frame: RefObject<HTMLIFrameElement | null>, theme: string) => void
 ) => {
   const theme = useThemeMode();
   useEffect(() => {

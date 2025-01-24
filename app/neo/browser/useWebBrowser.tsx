@@ -3,8 +3,8 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState } from 
 import { useWorkspace } from '~/data/workspace-api';
 
 type WebBrowserProviderState = {
-  panelRef: React.RefObject<ImperativePanelHandle>;
-  frameRef: React.RefObject<HTMLIFrameElement>;
+  panelRef: React.RefObject<ImperativePanelHandle | null>;
+  frameRef: React.RefObject<HTMLIFrameElement | null>;
   openState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
   openUrl: (url: string) => void;
 };

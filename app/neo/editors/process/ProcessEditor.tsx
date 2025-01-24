@@ -6,7 +6,7 @@ import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
 import { type Editor, PROCESS_EDITOR_SUFFIX } from '../editor';
 import { useFrameMessageHandler } from './message/useFrameMessageHandler';
 
-const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) => {
+const updateFrameTheme = (frame: RefObject<HTMLIFrameElement | null>, theme: string) => {
   const frameRoot = frame.current?.contentWindow?.document.documentElement;
   if (frameRoot) {
     frameRoot.classList.remove('light', 'dark');

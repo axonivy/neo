@@ -3,7 +3,7 @@ import { useNewFormActionHandler, useNewProcessActionHandler, useOpenPageActionH
 import { useNavigateActionHandler } from './useNavigationActionHandler';
 import { useStartActionHandler } from './useStartActionHandler';
 
-export const useFrameMessageHandler = (frame: RefObject<HTMLIFrameElement>, app: string) => {
+export const useFrameMessageHandler = (frame: RefObject<HTMLIFrameElement | null>, app: string) => {
   const navigationHandler = useNavigateActionHandler(app);
   const startHandler = useStartActionHandler();
   const newProcessHandler = useNewProcessActionHandler();
