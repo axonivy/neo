@@ -26,12 +26,13 @@
     "sbom": "npx --yes @cyclonedx/cyclonedx-npm --output-format JSON --output-file bom.json"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~12.0.4-next.338",
-    "@axonivy/dataclass-editor-protocol": "~12.0.4-next.338",
-    "@axonivy/form-editor": "~12.0.4-next.504",
-    "@axonivy/form-editor-core": "~12.0.4-next.504",
-    "@axonivy/form-editor-protocol": "~12.0.4-next.504",
+    "@axonivy/dataclass-editor": "~12.0.4-next.340",
+    "@axonivy/dataclass-editor-protocol": "~12.0.4-next.340",
+    "@axonivy/form-editor": "~12.0.4-next.508",
+    "@axonivy/form-editor-core": "~12.0.4-next.508",
+    "@axonivy/form-editor-protocol": "~12.0.4-next.508",
     "@axonivy/jsonrpc": "~12.0.4-next.442",
+    "@axonivy/process-editor-inscription-protocol": "~12.0.4-next.1324",
     "@axonivy/ui-components": "~12.0.4-next.442",
     "@axonivy/ui-icons": "~12.0.4-next.442",
     "@axonivy/variable-editor": "~12.0.4-next.490",
