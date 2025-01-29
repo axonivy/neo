@@ -32,7 +32,7 @@ export const useWebSocket = <TClient extends RpcClient>(
       onReconnect: reconnectClient,
       logger: logger ?? console
     });
-  }, [abortController, client, logger, startClient, urlBuilder, ws]);
+  }, [abortController.signal, logger, startClient, urlBuilder, ws?.baseUrl]);
   useEffect(() => {
     return () => {
       if (client) {
