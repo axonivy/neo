@@ -1,5 +1,5 @@
 import { type Connection, createMessageConnection, type MessageConnection, type RpcClient, webSocketConnection } from '@axonivy/jsonrpc';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Logger } from 'vscode-jsonrpc';
 import { useWorkspace } from '~/data/workspace-api';
 import { wsBaseUrl } from '~/data/ws-base';
@@ -10,6 +10,7 @@ export const useWebSocket = <TClient extends RpcClient>(
   logger?: Logger
 ) => {
   const [client, setClient] = useState<TClient>();
+  const abortController = useMemo(() => new AbortController(), []);
   const initialized = useRef<boolean>(false);
   const ws = useWorkspace();
   useEffect(() => {
@@ -25,11 +26,19 @@ export const useWebSocket = <TClient extends RpcClient>(
       await oldClient.stop();
       return initClient(connection);
     };
-    webSocketConnection<TClient>(webSocketUrl).listen({
+
+    webSocketConnection<TClient>(webSocketUrl, { abortSignal: abortController.signal }).listen({
       onConnection: initClient,
       onReconnect: reconnectClient,
       logger: logger ?? console
     });
-  }, [logger, startClient, urlBuilder, ws?.baseUrl]);
+  }, [abortController, client, logger, startClient, urlBuilder, ws]);
+  useEffect(() => {
+    return () => {
+      if (client) {
+        abortController.abort();
+      }
+    };
+  }, [abortController, client]);
   return client;
 };
