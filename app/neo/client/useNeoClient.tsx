@@ -16,7 +16,7 @@ type NeoClientProviderState = {
 export const NeoClientProviderContext = createContext<NeoClientProviderState | undefined>(undefined);
 
 export const NeoClientProvider = ({ children }: { children: React.ReactNode }) => {
-  const client = useWebSocket<NeoClientJsonRpc>('neo', NeoClientJsonRpc.webSocketUrl, NeoClientJsonRpc.startMessageClient, {
+  const client = useWebSocket<NeoClientJsonRpc>(NeoClientJsonRpc.webSocketUrl, NeoClientJsonRpc.startMessageClient, {
     log: console.log,
     info: toast.info,
     warn: toast.warning,

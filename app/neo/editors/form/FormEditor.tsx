@@ -5,9 +5,9 @@ import { useWebSocket } from '../useWebSocket';
 import { FormClientNeo } from './form-client';
 import { useActionHandler } from './useActionHandler';
 
-export const FormEditor = ({ id, project, path }: Editor) => {
+export const FormEditor = ({ project, path }: Editor) => {
   const actionHandler = useActionHandler(project, path);
-  const client = useWebSocket<FormClientNeo>(id, FormClientNeo.webSocketUrl, connection =>
+  const client = useWebSocket<FormClientNeo>(FormClientNeo.webSocketUrl, connection =>
     FormClientNeo.startNeoMessageClient(connection, actionHandler)
   );
   if (!client) {
