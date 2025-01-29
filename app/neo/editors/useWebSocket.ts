@@ -5,7 +5,6 @@ import { useWorkspace } from '~/data/workspace-api';
 import { wsBaseUrl } from '~/data/ws-base';
 
 export const useWebSocket = <TClient extends RpcClient>(
-  id: string,
   urlBuilder: (url: string) => string,
   startClient: (connection: MessageConnection) => Promise<TClient>,
   logger?: Logger
@@ -31,6 +30,6 @@ export const useWebSocket = <TClient extends RpcClient>(
       onReconnect: reconnectClient,
       logger: logger ?? console
     });
-  }, [id, logger, startClient, urlBuilder, ws?.baseUrl]);
+  }, [logger, startClient, urlBuilder, ws?.baseUrl]);
   return client;
 };

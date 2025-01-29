@@ -5,9 +5,9 @@ import { useWebSocket } from '../useWebSocket';
 import { useActionHandler } from './useActionHandler';
 import { VariableClientNeo } from './variable-client';
 
-export const VariableEditor = ({ id, project }: Editor) => {
+export const VariableEditor = ({ project }: Editor) => {
   const actionHandler = useActionHandler();
-  const client = useWebSocket<VariableClientNeo>(id, VariableClientNeo.webSocketUrl, connection =>
+  const client = useWebSocket<VariableClientNeo>(VariableClientNeo.webSocketUrl, connection =>
     VariableClientNeo.startNeoMessageClient(connection, actionHandler)
   );
   if (!client) {
