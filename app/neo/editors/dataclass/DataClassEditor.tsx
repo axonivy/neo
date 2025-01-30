@@ -5,9 +5,9 @@ import { useWebSocket } from '../useWebSocket';
 import { DataClassClientNeo } from './data-class-client';
 import { useActionHandler } from './useActionHandler';
 
-export const DataClassEditor = ({ id, project, path }: Editor) => {
+export const DataClassEditor = ({ project, path }: Editor) => {
   const actionHandler = useActionHandler(project, path);
-  const client = useWebSocket<DataClassClientNeo>(id, DataClassClientNeo.webSocketUrl, connection =>
+  const client = useWebSocket<DataClassClientNeo>(DataClassClientNeo.webSocketUrl, connection =>
     DataClassClientNeo.startNeoMessageClient(connection, actionHandler)
   );
   if (!client) {
