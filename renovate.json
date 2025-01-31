@@ -2,6 +2,9 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["local>axonivy/renovate-config"],
   "dependencyDashboardApproval": true,
+  "lockFileMaintenance": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "matchBaseBranches": ["release/*", "master"],
