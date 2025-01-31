@@ -3,6 +3,14 @@
   "extends": ["local>axonivy/renovate-config:npm"],
   "dependencyDashboardApproval": true,
   "lockFileMaintenance": {
+    "packageRules": [
+      {
+          "matchPackageNames": [
+              "@axonivy/*"
+          ],
+          "enabled": false
+      }
+  ],
     "enabled": true
   }
 }
