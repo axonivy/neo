@@ -3,6 +3,7 @@ import { useHref, useLocation } from 'react-router';
 import { useWorkspace } from '~/data/workspace-api';
 import { baseUrl } from '~/data/ws-base';
 import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
+import { useHotkeyDispatcher } from '~/utils/hotkeys';
 import { type Editor, PROCESS_EDITOR_SUFFIX } from '../editor';
 import { useFrameMessageHandler } from './message/useFrameMessageHandler';
 
@@ -23,6 +24,7 @@ const updateFrameTheme = (frame: RefObject<HTMLIFrameElement>, theme: string) =>
 
 export const ProcessEditor = ({ id, project, path, name }: Editor) => {
   const frame = useRef<HTMLIFrameElement>(null);
+  useHotkeyDispatcher(frame);
   const theme = useThemeMode();
   const ws = useWorkspace();
   const editorUrl = useHref(
