@@ -1,12 +1,20 @@
-import { Button, Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@axonivy/ui-components';
+import { Button, Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { ReactNode } from 'react';
 
 export type DeleteAction = { run: () => void; isDeletable: boolean; message?: string; label?: string };
 
-export const DeleteConfirm = ({ children, title, deleteAction }: { children: ReactNode; title: string; deleteAction: DeleteAction }) => (
-  <Dialog>
-    <DialogTrigger asChild>{children}</DialogTrigger>
+export const DeleteConfirm = ({
+  open,
+  onOpenChange,
+  title,
+  deleteAction
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  title: string;
+  deleteAction: DeleteAction;
+}) => (
+  <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent>
       <DialogHeader>
         <DialogTitle>{deleteAction.isDeletable ? `Are you sure you want to delete this ${title}?` : deleteAction.message}</DialogTitle>

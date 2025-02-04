@@ -1,6 +1,7 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import { Button, Flex, SearchInput, Spinner } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 import { InfoPopover } from './InfoPopover';
 
 type OverviewProps = {
@@ -29,7 +30,7 @@ export const Overview = ({ title, description, search, onSearchChange, isPending
         {helpUrl && <HelpButton url={helpUrl} />}
       </Flex>
     )}
-    <SearchInput placeholder='Search' value={search} onChange={onSearchChange} />
+    <SearchInput placeholder='Search' value={search} onChange={onSearchChange} autoFocus={true} />
     <Flex gap={4} style={{ flexWrap: 'wrap' }}>
       {isPending ? <Spinner size='small' className='overview-loader' /> : <>{children}</>}
     </Flex>
