@@ -3,13 +3,13 @@ import { type ProxyOptions, defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-const DESIGNER_URL = process.env.BASE_URL ?? 'http://localhost:8081/';
+const ENGINE_URL = process.env.BASE_URL ?? 'http://localhost:8080/';
 const WEBSOCKET_PROXY: ProxyOptions = {
-  target: DESIGNER_URL,
+  target: ENGINE_URL,
   ws: true
 };
 const DEV_PROXY: ProxyOptions = {
-  target: DESIGNER_URL,
+  target: ENGINE_URL,
   followRedirects: true
 };
 
@@ -19,11 +19,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: DESIGNER_URL,
+        target: ENGINE_URL,
         auth: 'Developer:Developer'
       },
       '^/~.*': {
-        target: DESIGNER_URL,
+        target: ENGINE_URL,
         auth: 'Developer:Developer',
         ws: true
       },

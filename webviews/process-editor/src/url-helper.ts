@@ -4,7 +4,7 @@ export function getServerDomain(): string {
     const href = window.location.href;
     return href.substring(protocol.length + 2, href.indexOf('/neo/process-editor'));
   }
-  return 'localhost:8081';
+  return 'localhost:8080';
 }
 
 export function isSecureConnection(): boolean {

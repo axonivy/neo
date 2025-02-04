@@ -11,7 +11,7 @@ npm i
 
 ## Development
 
-Start an Axon Ivy Designer (on port 8081) and run:
+Start an Axon Ivy Engine (on port 8080) and run:
 
 ```shellscript
 npm run dev
