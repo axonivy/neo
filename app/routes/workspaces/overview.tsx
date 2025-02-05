@@ -45,7 +45,7 @@ export default function Index() {
   const info =
     "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.";
   return (
-    <div style={{ height: 'calc(100vh - 41px)' }}>
+    <>
       <ControlBar>
         <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
           <DropdownMenu>
@@ -58,32 +58,38 @@ export default function Index() {
           </DropdownMenu>
         </Flex>
       </ControlBar>
-      <Flex
-        className='welcome-card'
-        style={{
-          margin: 30,
-          marginBlockEnd: 0,
-          backgroundImage: `url(${welcomeSvgUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'top',
-          height: 154,
-          borderRadius: 'var(--border-r3)'
-        }}
-      >
-        <Flex direction='row' gap={1} style={{ padding: 20 }}>
-          <span style={{ color: 'white', fontSize: 22, fontWeight: 500 }}>{title}</span>
-          <InfoPopover info={info}>
-            <Button size='large' style={{ color: 'white' }} icon={IvyIcons.InfoCircle} />
-          </InfoPopover>
-        </Flex>
-      </Flex>
-      <Overview search={search} onSearchChange={setSearch} isPending={isPending}>
-        <NewWorkspaceCard />
-        {workspaces.map(workspace => (
-          <WorkspaceCard key={workspace.name} {...workspace} />
-        ))}
-      </Overview>
-    </div>
+      <div style={{ height: 'calc(100vh - 41px)' }}>
+        <div style={{ height: '100%', overflowY: 'auto' }}>
+          <Flex direction='column'>
+            <Flex
+              className='welcome-card'
+              style={{
+                margin: 30,
+                marginBlockEnd: 0,
+                backgroundImage: `url(${welcomeSvgUrl})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'top',
+                height: 154,
+                borderRadius: 'var(--border-r3)'
+              }}
+            >
+              <Flex direction='row' gap={1} style={{ padding: 20 }}>
+                <span style={{ color: 'white', fontSize: 22, fontWeight: 500 }}>{title}</span>
+                <InfoPopover info={info}>
+                  <Button size='large' style={{ color: 'white' }} icon={IvyIcons.InfoCircle} />
+                </InfoPopover>
+              </Flex>
+            </Flex>
+            <Overview search={search} onSearchChange={setSearch} isPending={isPending}>
+              <NewWorkspaceCard />
+              {workspaces.map(workspace => (
+                <WorkspaceCard key={workspace.name} {...workspace} />
+              ))}
+            </Overview>
+          </Flex>
+        </div>
+      </div>
+    </>
   );
 }
 
