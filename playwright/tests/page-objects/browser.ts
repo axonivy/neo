@@ -20,6 +20,11 @@ export class Browser {
     await expect(this.browserView.locator('.layout-designer')).toBeVisible({ timeout: 10000 });
   }
 
+  async expectOpenWidth(openTo: string) {
+    await this.expectOpen();
+    await expect(this.browser).toHaveAttribute('data-panel-size', openTo);
+  }
+
   async expectClosed() {
     await expect(this.browser).toBeHidden();
   }

@@ -49,7 +49,7 @@ const EditorsTab = ({
 }: {
   group: string;
   editors: Array<Editor>;
-  firstTabRef?: React.RefObject<HTMLButtonElement | null>;
+  firstTabRef?: React.RefObject<HTMLButtonElement>;
 }) => {
   const { pathname } = useLocation();
   const { closeEditors } = useEditors();
