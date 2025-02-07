@@ -1,0 +1,30 @@
+.artifact-info-card {
+  background: var(--N50);
+  padding: 24px;
+  border-radius: 10px;
+  font-size: 14px;
+  flex: 1 0 300px;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease;
+  .artifact-icon {
+    font-size: 35px;
+    color: var(--P75);
+  }
+  .artifact-title {
+    font-weight: 600;
+  }
+  .artifact-description {
+    color: var(--N500);
+  }
+  .artifact-footer {
+    font-weight: 500;
+    align-self: flex-end;
+    color: var(--P300);
+  }
+}
+
+.artifact-info-card:hover {
+  box-shadow: var(--focus-shadow);
+}

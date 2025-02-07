@@ -1,6 +1,7 @@
 import { Flex, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useNavigate } from 'react-router';
+import './ArifactInfoCard.css';
 
 type ArtifactInfoCardProps = {
   title: string;
@@ -13,25 +14,12 @@ export const ArtifactInfoCard = ({ title, description, icon, link }: ArtifactInf
   const naviagte = useNavigate();
   const open = () => naviagte(link);
   return (
-    <button
-      className='artifact-info-card'
-      onClick={open}
-      style={{
-        background: 'var(--N50)',
-        padding: 24,
-        borderRadius: 10,
-        fontSize: 14,
-        flex: '1 0 300px',
-        border: 'none',
-        textAlign: 'left',
-        cursor: 'pointer'
-      }}
-    >
+    <button className='artifact-info-card' onClick={open}>
       <Flex direction='column' gap={3}>
-        <IvyIcon icon={icon} style={{ fontSize: 35, color: 'var(--P75)' }} />
-        <span style={{ fontWeight: 600 }}>{title}</span>
+        <IvyIcon icon={icon} className='artifact-icon' />
+        <span className='artifact-title'>{title}</span>
         <span>{description}</span>
-        <Flex alignItems='center' gap={1} style={{ fontWeight: 500, alignSelf: 'flex-end', color: 'var(--P300)' }}>
+        <Flex alignItems='center' gap={1} className='artifact-footer'>
           Open <IvyIcon icon={IvyIcons.Chevron} />
         </Flex>
       </Flex>

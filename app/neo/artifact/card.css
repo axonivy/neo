@@ -33,6 +33,9 @@
       max-width: calc(200px - var(--size-1) - 20px);
     }
   }
+  .normal-card:hover {
+    background-color: var(--N200);
+  }
   .card-menu-trigger {
     position: absolute;
     bottom: var(--size-1);
@@ -43,6 +46,10 @@
 .new-artifact-card {
   background: var(--P50);
   color: var(--P300);
+}
+
+.new-artifact-card:hover {
+  background: var(--P75);
 }
 
 .card-menu .card-delete {

@@ -14,16 +14,24 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from 'react-router';
 import { useStopBpmEngine } from '~/data/project-api';
-import { useSettings, type AnimationFollowMode } from './useSettings';
+import { useKnownHotkeys } from '~/utils/hotkeys';
+import { speedModes, useSettings, type AnimationFollowMode } from './useSettings';
 
 export const AnimationSettingsMenu = () => {
   const { animation, enableAnimation, animationSpeed, animationMode } = useSettings();
   const { stopBpmEngine } = useStopBpmEngine();
   const { app, pmv } = useParams();
+  const texts = useKnownHotkeys();
+
   return (
     <DropdownMenuGroup>
       <DropdownMenuLabel>Animation</DropdownMenuLabel>
-      <DropdownMenuCheckboxItem checked={animation.animate} onCheckedChange={enableAnimation} aria-label='Toggle animation'>
+      <DropdownMenuCheckboxItem
+        checked={animation.animate}
+        onCheckedChange={enableAnimation}
+        aria-label={texts.toggleAnimation.label}
+        title={texts.toggleAnimation.label}
+      >
         Enabled
       </DropdownMenuCheckboxItem>
       <DropdownMenuItem
@@ -38,34 +46,24 @@ export const AnimationSettingsMenu = () => {
         Reset
       </DropdownMenuItem>
       <DropdownMenuSub>
-        <DropdownMenuSubTrigger aria-label='Animation speed'>
+        <DropdownMenuSubTrigger aria-label={texts.animationSpeed.label} title={texts.animationSpeed.label}>
           <IvyIcon icon={IvyIcons.Clock} />
           <span>Speed</span>
         </DropdownMenuSubTrigger>
         <DropdownMenuPortal>
           <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
             <DropdownMenuRadioGroup value={animation.speed.toString()} onValueChange={animationSpeed}>
-              <DropdownMenuRadioItem value='0' aria-label='fastest'>
-                fastest
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='25' aria-label='fast'>
-                fast
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='50' aria-label='normal'>
-                normal
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='75' aria-label='slow'>
-                slow
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='100' aria-label='slowest'>
-                slowest
-              </DropdownMenuRadioItem>
+              {speedModes.map(({ value, label }) => (
+                <DropdownMenuRadioItem key={value} value={value.toString()} aria-label={label}>
+                  {label}
+                </DropdownMenuRadioItem>
+              ))}
             </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>
         </DropdownMenuPortal>
       </DropdownMenuSub>
       <DropdownMenuSub>
-        <DropdownMenuSubTrigger>
+        <DropdownMenuSubTrigger aria-label={texts.animationMode.label} title={texts.animationMode.label}>
           <IvyIcon icon={IvyIcons.Process} />
           <span>Mode</span>
         </DropdownMenuSubTrigger>
