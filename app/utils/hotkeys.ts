@@ -58,6 +58,12 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     return { hotkey, label: `Open Simulation (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
+  const resizeSimulation = useMemo<KnownHotkey>(() => {
+    const hotkey = 'shift+alt+S';
+    const keyCode = 'KeyS';
+    return { hotkey, label: `Resize Simulation (${hotkeyText(hotkey)})`, keyCode };
+  }, []);
+
   const toggleAnimation = useMemo<KnownHotkey>(() => {
     const hotkey = 'shift+A';
     const keyCode = 'KeyA';
@@ -124,6 +130,7 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     closeAllTabs,
     closeActiveTabs,
     openSimulation,
+    resizeSimulation,
     toggleAnimation,
     animationSpeed,
     animationMode,
@@ -150,11 +157,10 @@ export const useHotkeyDispatcher = (iframe: RefObject<HTMLIFrameElement | null>)
         const ctrlPressed = keys.includes('mod');
         const keyCode = hotkeyObj.keyCode;
 
-        if (event.key.toLowerCase() === keys[keys.length - 1] && event.shiftKey === shiftPressed && event.altKey === altPressed) {
+        if (event.code === keyCode && event.shiftKey === shiftPressed && event.altKey === altPressed) {
           const customEvent = new KeyboardEvent('keydown', {
             key: event.key,
             code: keyCode,
-            keyCode: event.keyCode,
             bubbles: true,
             cancelable: true,
             shiftKey: shiftPressed,

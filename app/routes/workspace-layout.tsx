@@ -27,7 +27,7 @@ export default function Index() {
   const { browser } = useWebBrowser();
   const { ws } = useParams();
   const firstWebbrowserElement = useRef<HTMLButtonElement>(null);
-  const { openSimulation } = useKnownHotkeys();
+  const { openSimulation, resizeSimulation } = useKnownHotkeys();
   useHotkeys(openSimulation.hotkey, () => {
     browser.toggle();
     if (!browser.openState) {
@@ -36,6 +36,7 @@ export default function Index() {
       }, 0);
     }
   });
+  useHotkeys(resizeSimulation.hotkey, browser.cycleSize);
 
   return (
     <NeoClientProvider>
