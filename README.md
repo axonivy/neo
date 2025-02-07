@@ -11,11 +11,15 @@ npm i
 
 ## Development
 
-Start an Axon Ivy Engine (on port 8080) and run:
+Start an Axon Ivy Engine (on port 8080, you could use the provided Docker compose service) and hit F5 to launch or run:
 
 ```shellscript
 npm run dev
 ```
+
+### Playwright Tests
+
+The easiest way to get started is to run the Docker compose ivy service, which provides an engine with the neo-test project. Then simply run the Playwright test via UI.
 
 ## Production
 

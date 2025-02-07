@@ -14,7 +14,7 @@ export default defineConfig({
     headless: process.env.CI ? true : false
   },
   webServer: {
-    command: 'npm run serve --include-workspace-root -w neo',
+    command: process.env.CI ? 'npm run serve --include-workspace-root -w neo' : 'npm run dev --include-workspace-root',
     url: process.env.CI ? 'http://localhost:4173/neo/' : 'http://localhost:5173/neo/',
     reuseExistingServer: !process.env.CI
   },
