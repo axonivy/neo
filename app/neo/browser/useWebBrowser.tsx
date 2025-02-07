@@ -9,6 +9,8 @@ type WebBrowserProviderState = {
   openUrl: (url: string) => void;
 };
 
+const browserSizes = [25, 40, 55, 70] as const;
+
 const WebBrowserProviderContext = createContext<WebBrowserProviderState | undefined>(undefined);
 
 export const WebBrowserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -52,6 +54,19 @@ export const useWebBrowser = () => {
       setOpen(true);
       if (url) {
         openUrl(url);
+      }
+    },
+    cycleSize: () => {
+      if (panelRef.current) {
+        const currentSize = panelRef.current.getSize();
+        const nextBrowserSize = browserSizes.find(size => size > currentSize);
+        if (nextBrowserSize === undefined) {
+          panelRef.current.collapse();
+          setOpen(false);
+        } else if (nextBrowserSize) {
+          panelRef.current.resize(nextBrowserSize);
+          setOpen(true);
+        }
       }
     }
   };

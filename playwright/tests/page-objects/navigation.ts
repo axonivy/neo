@@ -3,8 +3,8 @@ import { expect } from '@playwright/test';
 import type { OverviewTypes } from './neo';
 
 export class Navigation {
+  public readonly navBar: Locator;
   protected readonly page: Page;
-  protected readonly navBar: Locator;
 
   constructor(page: Page) {
     this.page = page;
