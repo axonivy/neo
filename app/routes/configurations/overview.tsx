@@ -20,6 +20,7 @@ export default function Index() {
   const { data, isPending } = useGroupedConfigurations();
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (c: ConfigurationIdentifier) => `${c.project.pmv} ${c.path}`);
   const { createConfigurationEditor } = useCreateEditor();
+
   return (
     <Overview title='Configurations' description={configDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
       {filteredGroups.map(({ project, artifacts }) => (

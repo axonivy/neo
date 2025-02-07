@@ -1,11 +1,16 @@
-import { Button, Flex, Popover, PopoverContent, PopoverTrigger } from '@axonivy/ui-components';
+import { Button, Flex, Popover, PopoverContent, PopoverTrigger, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
+import { useKnownHotkeys } from '~/utils/hotkeys';
 import { useEditors } from '../editors/useEditors';
 
 export const EditorsControl = () => {
   const [subMenu, setSubMenu] = useState(false);
   const { editors, closeAllEditors } = useEditors();
+
+  const { closeAllTabs } = useKnownHotkeys();
+  useHotkeys(closeAllTabs.hotkey, () => closeAllEditors());
+
   if (editors.length === 0) {
     return null;
   }
@@ -22,6 +27,8 @@ export const EditorsControl = () => {
               closeAllEditors();
               setSubMenu(false);
             }}
+            aria-label={closeAllTabs.label}
+            title={closeAllTabs.label}
           >
             Close all
           </Button>

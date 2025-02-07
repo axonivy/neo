@@ -8,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -17,13 +16,14 @@ import {
   Flex,
   Input,
   IvyIcon,
+  useHotkeys,
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useQueryClient } from '@tanstack/react-query';
+import { useMemo, useState } from 'react';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { Link, useNavigate, useParams } from 'react-router';
-import { useQueryClient } from '@tanstack/react-query';
-import { useMemo, useState, type ReactNode } from 'react';
 import { NEO_DESIGNER } from '~/constants';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
@@ -35,6 +35,7 @@ import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
+import { useKnownHotkeys } from '~/utils/hotkeys';
 import PreviewSVG from './workspace-preview.svg?react';
 
 export const links: LinksFunction = () => [cardStylesLink];
@@ -50,6 +51,7 @@ export default function Index() {
   const { ws } = useParams();
   const projects = data?.filter(({ id }) => id.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const title = `Welcome to your workspace: ${ws}`;
+
   return (
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1}>
@@ -80,34 +82,51 @@ export default function Index() {
 
 const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {
   const navigate = useNavigate();
+  const hotkeys = useKnownHotkeys();
+  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
+  useHotkeys(hotkeys.importFromMarket.hotkey, () => navigate('market'), { enableOnFormTags: true });
+  useHotkeys(hotkeys.importFromFile.hotkey, () => {
+    setIsImportDialogOpen(true);
+  });
+
   return (
-    <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger asChild>
-        <Button icon={IvyIcons.Dots} className='card-menu-trigger' />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent side='bottom' align='start' className='import-menu'>
-        <DropdownMenuGroup>
-          <DropdownMenuItem
-            onSelect={() => {
-              navigate('market');
-            }}
-          >
-            <IvyIcon icon={IvyIcons.Market} />
-            <span>Import from Market</span>
-          </DropdownMenuItem>
-          <ImportDialog>
-            <DropdownMenuItem onSelect={e => e.preventDefault()}>
+    <>
+      <DropdownMenu open={open} onOpenChange={setOpen}>
+        <DropdownMenuTrigger asChild>
+          <Button icon={IvyIcons.Dots} className='card-menu-trigger' />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent side='bottom' align='start' className='import-menu'>
+          <DropdownMenuGroup>
+            <DropdownMenuItem
+              onSelect={() => {
+                navigate('market');
+              }}
+              title={hotkeys.importFromMarket.label}
+              aria-label={hotkeys.importFromMarket.label}
+            >
+              <IvyIcon icon={IvyIcons.Market} />
+              <span>Import from Market</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onSelect={e => {
+                e.preventDefault();
+                setIsImportDialogOpen(true);
+              }}
+              title={hotkeys.importFromFile.label}
+              aria-label={hotkeys.importFromFile.label}
+            >
               <IvyIcon icon={IvyIcons.Download} />
               <span>Import from File</span>
             </DropdownMenuItem>
-          </ImportDialog>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <ImportDialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen} />
+    </>
   );
 };
 
-const ImportDialog = ({ children }: { children: ReactNode }) => {
+const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) => {
   const { ws } = useParams();
   const [file, setFile] = useState<File>();
   const downloadWorkspace = useDownloadWorkspace();
@@ -121,8 +140,7 @@ const ImportDialog = ({ children }: { children: ReactNode }) => {
     [file]
   );
   return (
-    <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Import Axon Ivy Projects into: {ws}</DialogTitle>
