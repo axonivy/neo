@@ -21,7 +21,7 @@ export const AnimationSettingsMenu = () => {
   const { animation, enableAnimation, animationSpeed, animationMode } = useSettings();
   const { stopBpmEngine } = useStopBpmEngine();
   const { app, pmv } = useParams();
-  const texts = useKnownHotkeys();
+  const hotkeys = useKnownHotkeys();
 
   return (
     <DropdownMenuGroup>
@@ -29,24 +29,25 @@ export const AnimationSettingsMenu = () => {
       <DropdownMenuCheckboxItem
         checked={animation.animate}
         onCheckedChange={enableAnimation}
-        aria-label={texts.toggleAnimation.label}
-        title={texts.toggleAnimation.label}
+        aria-label={hotkeys.toggleAnimation.label}
+        title={hotkeys.toggleAnimation.label}
       >
         Enabled
       </DropdownMenuCheckboxItem>
       <DropdownMenuItem
-        aria-label='Reset'
         disabled={!app || !pmv}
         onClick={e => {
           e.preventDefault();
           if (app && pmv) stopBpmEngine({ app, pmv });
         }}
+        aria-label={hotkeys.resetEngine.label}
+        title={hotkeys.resetEngine.label}
       >
         <IvyIcon icon={IvyIcons.Undo} />
         Reset
       </DropdownMenuItem>
       <DropdownMenuSub>
-        <DropdownMenuSubTrigger aria-label={texts.animationSpeed.label} title={texts.animationSpeed.label}>
+        <DropdownMenuSubTrigger aria-label={hotkeys.animationSpeed.label} title={hotkeys.animationSpeed.label}>
           <IvyIcon icon={IvyIcons.Clock} />
           <span>Speed</span>
         </DropdownMenuSubTrigger>
@@ -63,7 +64,7 @@ export const AnimationSettingsMenu = () => {
         </DropdownMenuPortal>
       </DropdownMenuSub>
       <DropdownMenuSub>
-        <DropdownMenuSubTrigger aria-label={texts.animationMode.label} title={texts.animationMode.label}>
+        <DropdownMenuSubTrigger aria-label={hotkeys.animationMode.label} title={hotkeys.animationMode.label}>
           <IvyIcon icon={IvyIcons.Process} />
           <span>Mode</span>
         </DropdownMenuSubTrigger>
