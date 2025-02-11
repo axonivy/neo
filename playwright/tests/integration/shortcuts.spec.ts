@@ -38,10 +38,10 @@ test('focus nav and tabs and nav tabs with arrowkey', async ({ page }) => {
   await overview.card('EnterProduct').click();
   await new FormEditor(neo, 'EnterProduct').expectOpen('Product');
 
-  await page.keyboard.press('Alt+ControlOrMeta+2');
+  await page.keyboard.press('Alt+Shift+2');
   await expect(neo.navigation.navBar.getByRole('button').first()).toBeFocused();
 
-  await page.keyboard.press('Alt+ControlOrMeta+1');
+  await page.keyboard.press('Alt+Shift+1');
   await new FormEditor(neo, 'EnterProduct').expectOpen('Product');
 
   await page.keyboard.press('ArrowRight');
@@ -89,22 +89,22 @@ test('settings shortcuts', async ({ page }) => {
   await neo.home();
   const menu = await neo.navigation.openSettings();
   await expect(menu.getByRole('menuitemcheckbox', { name: 'Toggle Animation' })).toBeChecked();
-  await page.keyboard.press('Shift+A');
+  await page.keyboard.press('Shift+Alt+N');
   await expect(menu.getByRole('menuitemcheckbox', { name: 'Toggle Animation' })).not.toBeChecked();
 
   await menu.getByRole('menuitem', { name: 'Theme switch' }).click();
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'System' })).toBeChecked();
-  await page.keyboard.press('Shift+T');
+  await page.keyboard.press('Shift+Alt+T');
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Light' })).toBeChecked();
 
   await menu.getByRole('menuitem', { name: 'Speed' }).click();
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'normal' })).toBeChecked();
-  await page.keyboard.press('Shift+R');
+  await page.keyboard.press('Shift+Alt+F');
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'slow', exact: true })).toBeChecked();
 
   await menu.getByRole('menuitem', { name: 'Mode' }).click();
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'All processes' })).toBeChecked();
-  await page.keyboard.press('Shift+M');
+  await page.keyboard.press('Shift+Alt+M');
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Only current open process' })).toBeChecked();
 });
 
@@ -114,20 +114,20 @@ test('simulation shortcuts', async ({ page }) => {
 
   const browser = new Browser(page);
   await browser.expectClosed();
-  await page.keyboard.press('Shift+S');
+  await page.keyboard.press('Shift+Alt+S');
   await browser.expectOpen();
-  await page.keyboard.press('Shift+S');
+  await page.keyboard.press('Shift+Alt+S');
   await browser.expectClosed();
 
-  await page.keyboard.press('Shift+Alt+S');
+  await page.keyboard.press('Shift+Alt+R');
   await browser.expectOpenWidth('25.0');
-  await page.keyboard.press('Shift+Alt+S');
+  await page.keyboard.press('Shift+Alt+R');
   await browser.expectOpenWidth('40.0');
-  await page.keyboard.press('Shift+Alt+S');
+  await page.keyboard.press('Shift+Alt+R');
   await browser.expectOpenWidth('55.0');
-  await page.keyboard.press('Shift+Alt+S');
+  await page.keyboard.press('Shift+Alt+R');
   await browser.expectOpenWidth('70.0');
-  await page.keyboard.press('Shift+Alt+S');
+  await page.keyboard.press('Shift+Alt+R');
   await browser.expectClosed();
 });
 

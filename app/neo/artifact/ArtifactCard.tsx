@@ -38,12 +38,31 @@ type Card = {
 };
 
 export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, tagLabel }: Card) => {
-  const { deleteElement } = useKnownHotkeys();
+  const hotkeys = useKnownHotkeys();
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [isDeployDialogOpen, setDeployDialogOpen] = useState(false);
 
-  const artifactCardRef = useHotkeys(deleteElement.hotkey, () => {
-    setDeleteDialogOpen(true);
-  });
+  const artifactCardRef = useHotkeys(
+    [hotkeys.deleteElement.hotkey, hotkeys.exportWorkspace.hotkey, hotkeys.deployWorkspace.hotkey],
+    (_, { hotkey }) => {
+      switch (hotkey) {
+        case hotkeys.deleteElement.hotkey:
+          setDeleteDialogOpen(true);
+          break;
+        case hotkeys.deployWorkspace.hotkey:
+          if (actions && actions.export && actions.deploy) {
+            setDeployDialogOpen(true);
+          }
+          break;
+        case hotkeys.exportWorkspace.hotkey:
+          if (actions && actions.export && actions.deploy) {
+            actions.export();
+          }
+          break;
+      }
+    },
+    { keydown: false, keyup: true }
+  );
 
   return (
     <div className='artifact-card'>
@@ -91,35 +110,50 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
               )}
               {actions.export && actions.deploy && (
                 <>
-                  <DropdownMenuItem onSelect={actions.export}>
+                  <DropdownMenuItem
+                    onSelect={actions.export}
+                    title={hotkeys.exportWorkspace.label}
+                    aria-label={hotkeys.exportWorkspace.label}
+                  >
                     <IvyIcon icon={IvyIcons.Upload} />
                     <span>Export</span>
                   </DropdownMenuItem>
-                  <DeployDialog deployAction={actions.deploy}>
-                    <DropdownMenuItem onSelect={e => e.preventDefault()}>
-                      <IvyIcon icon={IvyIcons.Bpmn} />
-                      <span>Deploy</span>
-                    </DropdownMenuItem>
-                  </DeployDialog>
+                  <DropdownMenuItem
+                    onSelect={e => {
+                      e.preventDefault();
+                      setDeployDialogOpen(true);
+                    }}
+                    title={hotkeys.deployWorkspace.label}
+                    aria-label={hotkeys.deployWorkspace.label}
+                  >
+                    <IvyIcon icon={IvyIcons.Bpmn} />
+                    <span>Deploy</span>
+                  </DropdownMenuItem>
                 </>
               )}
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       )}
+
       {actions?.delete && isDeleteDialogOpen && (
         <DeleteConfirm open={isDeleteDialogOpen} onOpenChange={setDeleteDialogOpen} title={type} deleteAction={actions.delete} />
+      )}
+      {actions?.export && actions?.deploy && isDeployDialogOpen && (
+        <DeployDialog open={isDeployDialogOpen} onOpenChange={setDeployDialogOpen} deployAction={actions.deploy} />
       )}
     </div>
   );
 };
 
 export const NewArtifactCard = ({ title, open, menu }: { title: string; open: () => void; menu?: ReactNode }) => {
-  const { addElement } = useKnownHotkeys(title);
+  const { addElement, importFromFile, importFromMarket } = useKnownHotkeys(title);
   useHotkeys(addElement.hotkey, open, { keydown: false, keyup: true });
+  const addTooltip = title.match('Import Projects') ? importFromFile.label + '\n' + importFromMarket.label : addElement.label;
+
   return (
     <div className='artifact-card new-artifact-card'>
-      <button className='card' onClick={open} title={addElement.label} aria-label={addElement.label}>
+      <button className='card' onClick={open} title={addTooltip} aria-label={addTooltip}>
         <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
           <Flex alignItems='center' justifyContent='center' className='card-preview'></Flex>
           <Flex alignItems='center' justifyContent='space-between' gap={1}>
