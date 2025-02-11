@@ -53,37 +53,43 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
   }, []);
 
   const openSimulation = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+S';
+    const hotkey = 'shift+alt+S';
     const keyCode = 'KeyS';
     return { hotkey, label: `Open Simulation (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const resizeSimulation = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+alt+S';
-    const keyCode = 'KeyS';
+    const hotkey = 'shift+alt+R';
+    const keyCode = 'KeyR';
     return { hotkey, label: `Resize Simulation (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const toggleAnimation = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+A';
-    const keyCode = 'KeyA';
+    const hotkey = 'shift+alt+N';
+    const keyCode = 'KeyN';
     return { hotkey, label: `Toggle Animation (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
+  const resetEngine = useMemo<KnownHotkey>(() => {
+    const hotkey = 'shift+alt+E';
+    const keyCode = 'KeyE';
+    return { hotkey, label: `Reset BPM Engine (${hotkeyText(hotkey)})`, keyCode };
+  }, []);
+
   const animationSpeed = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+R';
-    const keyCode = 'KeyR';
+    const hotkey = 'shift+alt+F';
+    const keyCode = 'KeyF';
     return { hotkey, label: `Animation Speed (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const animationMode = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+M';
+    const hotkey = 'shift+alt+M';
     const keyCode = 'KeyM';
     return { hotkey, label: `Animation Mode (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const changeTheme = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+T';
+    const hotkey = 'shift+alt+T';
     const keyCode = 'KeyT';
     return { hotkey, label: `Theme Switch (${hotkeyText(hotkey)})`, keyCode };
   }, []);
@@ -95,7 +101,7 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
 
   const deleteElement = useMemo<KnownHotkey>(() => {
     const hotkey = 'Delete';
-    return { hotkey, label: `Delete selected Element (${hotkeyText(hotkey)})` };
+    return { hotkey, label: `Delete Element (${hotkeyText(hotkey)})` };
   }, []);
 
   const importFromFile = useMemo<KnownHotkey>(() => {
@@ -108,14 +114,24 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     return { hotkey, label: `Import from Market (${hotkeyText(hotkey)})` };
   }, []);
 
+  const deployWorkspace = useMemo<KnownHotkey>(() => {
+    const hotkey = 'D';
+    return { hotkey, label: `Deploy Workspace (${hotkeyText(hotkey)})` };
+  }, []);
+
+  const exportWorkspace = useMemo<KnownHotkey>(() => {
+    const hotkey = 'E';
+    return { hotkey, label: `Export Workspace (${hotkeyText(hotkey)})` };
+  }, []);
+
   const focusTabs = useMemo<KnownHotkey>(() => {
-    const hotkey = 'mod+alt+1';
+    const hotkey = 'shift+alt+1';
     const keyCode = 'Digit1';
     return { hotkey, label: `Focus Tabs (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const focusNav = useMemo<KnownHotkey>(() => {
-    const hotkey = 'mod+alt+2';
+    const hotkey = 'shift+alt+2';
     const keyCode = 'Digit2';
     return { hotkey, label: `Focus Navigation (${hotkeyText(hotkey)})`, keyCode };
   }, []);
@@ -132,6 +148,7 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     openSimulation,
     resizeSimulation,
     toggleAnimation,
+    resetEngine,
     animationSpeed,
     animationMode,
     changeTheme,
@@ -139,6 +156,8 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     deleteElement,
     importFromFile,
     importFromMarket,
+    exportWorkspace,
+    deployWorkspace,
     focusNav,
     focusTabs
   };
@@ -149,6 +168,11 @@ export const useHotkeyDispatcher = (iframe: RefObject<HTMLIFrameElement | null>)
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT') {
+        return;
+      }
+
       for (const hotkeyObj of Object.values(hotkeys)) {
         if (hotkeyObj.keyCode === undefined) continue;
         const keys = hotkeyObj.hotkey.toLowerCase().split('+');
@@ -157,7 +181,12 @@ export const useHotkeyDispatcher = (iframe: RefObject<HTMLIFrameElement | null>)
         const ctrlPressed = keys.includes('mod');
         const keyCode = hotkeyObj.keyCode;
 
-        if (event.code === keyCode && event.shiftKey === shiftPressed && event.altKey === altPressed) {
+        if (
+          event.code === keyCode &&
+          event.shiftKey === shiftPressed &&
+          event.altKey === altPressed &&
+          (event.ctrlKey === ctrlPressed || event.metaKey === ctrlPressed)
+        ) {
           const customEvent = new KeyboardEvent('keydown', {
             key: event.key,
             code: keyCode,

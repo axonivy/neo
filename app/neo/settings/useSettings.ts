@@ -1,9 +1,11 @@
 import { toast } from '@axonivy/ui-components';
 import { useEffect } from 'react';
+import { useParams } from 'react-router';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AnimationSettings } from '~/data/neo-jsonrpc';
 import type { NeoClient } from '~/data/neo-protocol';
+import { useStopBpmEngine } from '~/data/project-api';
 
 const animationFollowModes = ['all', 'currentProcess', 'openProcesses', 'noDialogProcesses', 'noEmbeddedProcesses'] as const;
 export type AnimationFollowMode = (typeof animationFollowModes)[number];
@@ -44,6 +46,8 @@ export const useSyncSettings = (client?: NeoClient) => {
 
 export const useCycleAnimationSettings = () => {
   const { animation, enableAnimation, animationMode, animationSpeed } = useSettings();
+  const { app, pmv } = useParams();
+  const { stopBpmEngine } = useStopBpmEngine();
 
   const cycleAnimationMode = () => {
     const currentIndex = animationFollowModes.indexOf(animation.mode);
@@ -64,5 +68,8 @@ export const useCycleAnimationSettings = () => {
     enableAnimation(!animation.animate);
     toast.info(animation.animate ? 'Animation disabled' : 'Animation enabled');
   };
-  return { cycleAnimationMode, cycleAnimationSpeed, toggleAnimation };
+  const resetEngine = () => {
+    if (app && pmv) stopBpmEngine({ app, pmv });
+  };
+  return { cycleAnimationMode, cycleAnimationSpeed, toggleAnimation, resetEngine };
 };
