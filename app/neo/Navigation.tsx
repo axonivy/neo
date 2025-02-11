@@ -18,7 +18,7 @@ import { useCycleAnimationSettings } from './settings/useSettings';
 
 export const Navigation = () => {
   useNeoClient();
-  const { cycleAnimationMode, cycleAnimationSpeed, toggleAnimation } = useCycleAnimationSettings();
+  const { cycleAnimationMode, cycleAnimationSpeed, toggleAnimation, resetEngine } = useCycleAnimationSettings();
   const navigate = useNavigate();
   const cycleTheme = useCycleTheme();
 
@@ -35,6 +35,7 @@ export const Navigation = () => {
   useHotkeys(hotkeys.toggleAnimation.hotkey, toggleAnimation);
   useHotkeys(hotkeys.animationSpeed.hotkey, cycleAnimationSpeed);
   useHotkeys(hotkeys.animationMode.hotkey, cycleAnimationMode);
+  useHotkeys(hotkeys.resetEngine.hotkey, resetEngine);
 
   return (
     <Flex

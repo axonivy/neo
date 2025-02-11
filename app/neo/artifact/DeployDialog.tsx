@@ -8,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   Flex,
   Input,
   PasswordInput,
@@ -16,14 +15,18 @@ import {
   toast
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { type ReactNode, useState } from 'react';
+import { useState } from 'react';
 import type { DeployParams } from '~/data/workspace-api';
 
 export type DeployActionParams = Omit<DeployParams, 'workspaceId'>;
 
-type DeployDialogProps = { children: ReactNode; deployAction: (params: DeployActionParams) => Promise<string> };
+type DeployDialogProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  deployAction: (params: DeployActionParams) => Promise<string>;
+};
 
-export const DeployDialog = ({ children, deployAction }: DeployDialogProps) => {
+export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogProps) => {
   const [engineUrl, setEngineUrl] = useState(window.location.origin);
   const [appName, setAppName] = useState('myApp');
   const [user, setUser] = useState('admin');
@@ -37,8 +40,13 @@ export const DeployDialog = ({ children, deployAction }: DeployDialogProps) => {
       .finally(() => setDeploying(false));
   };
   return (
-    <Dialog onOpenChange={() => setLog(undefined)}>
-      <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog
+      open={open}
+      onOpenChange={open => {
+        onOpenChange(open);
+        setLog(undefined);
+      }}
+    >
       {log ? (
         DeployLogContent(log)
       ) : (
