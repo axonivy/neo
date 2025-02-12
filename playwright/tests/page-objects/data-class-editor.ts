@@ -48,6 +48,6 @@ export class DataClassEditorRow {
 
   async openInscription() {
     await this.row.click();
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.detail-container'));
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.dataclass-editor-detail-panel'));
   }
 }
