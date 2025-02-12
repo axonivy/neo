@@ -89,22 +89,22 @@ test('settings shortcuts', async ({ page }) => {
   await neo.home();
   const menu = await neo.navigation.openSettings();
   await expect(menu.getByRole('menuitemcheckbox', { name: 'Toggle Animation' })).toBeChecked();
-  await page.keyboard.press('Shift+Alt+N');
+  await page.keyboard.press('Shift+N');
   await expect(menu.getByRole('menuitemcheckbox', { name: 'Toggle Animation' })).not.toBeChecked();
 
   await menu.getByRole('menuitem', { name: 'Theme switch' }).click();
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'System' })).toBeChecked();
-  await page.keyboard.press('Shift+Alt+T');
+  await page.keyboard.press('Shift+T');
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Light' })).toBeChecked();
 
   await menu.getByRole('menuitem', { name: 'Speed' }).click();
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'normal' })).toBeChecked();
-  await page.keyboard.press('Shift+Alt+F');
+  await page.keyboard.press('Shift+F');
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'slow', exact: true })).toBeChecked();
 
   await menu.getByRole('menuitem', { name: 'Mode' }).click();
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'All processes' })).toBeChecked();
-  await page.keyboard.press('Shift+Alt+M');
+  await page.keyboard.press('Shift+M');
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Only current open process' })).toBeChecked();
 });
 
@@ -114,20 +114,20 @@ test('simulation shortcuts', async ({ page }) => {
 
   const browser = new Browser(page);
   await browser.expectClosed();
-  await page.keyboard.press('Shift+Alt+S');
+  await page.keyboard.press('Shift+S');
   await browser.expectOpen();
-  await page.keyboard.press('Shift+Alt+S');
+  await page.keyboard.press('Shift+S');
   await browser.expectClosed();
 
-  await page.keyboard.press('Shift+Alt+R');
+  await page.keyboard.press('Shift+R');
   await browser.expectOpenWidth('25.0');
-  await page.keyboard.press('Shift+Alt+R');
+  await page.keyboard.press('Shift+R');
   await browser.expectOpenWidth('40.0');
-  await page.keyboard.press('Shift+Alt+R');
+  await page.keyboard.press('Shift+R');
   await browser.expectOpenWidth('55.0');
-  await page.keyboard.press('Shift+Alt+R');
+  await page.keyboard.press('Shift+R');
   await browser.expectOpenWidth('70.0');
-  await page.keyboard.press('Shift+Alt+R');
+  await page.keyboard.press('Shift+R');
   await browser.expectClosed();
 });
 
@@ -150,6 +150,6 @@ test('tab shortcuts', async ({ page }) => {
   await page.keyboard.press('Shift+Alt+W');
   await expect(neo.controlBar.tabs()).toHaveCount(4);
   await neo.controlBar.tab('BusinessData').expectActive();
-  await page.keyboard.press('Shift+Alt+A');
+  await page.keyboard.press('Shift+Alt+Q');
   await expect(neo.controlBar.tabs()).toHaveCount(0);
 });

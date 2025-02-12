@@ -41,8 +41,8 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
   }, []);
 
   const closeAllTabs = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+alt+A';
-    const keyCode = 'KeyA';
+    const hotkey = 'shift+alt+Q';
+    const keyCode = 'KeyQ';
     return { hotkey, label: `Close All Tabs (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
@@ -53,43 +53,43 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
   }, []);
 
   const openSimulation = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+alt+S';
+    const hotkey = 'shift+S';
     const keyCode = 'KeyS';
     return { hotkey, label: `Open Simulation (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const resizeSimulation = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+alt+R';
+    const hotkey = 'shift+R';
     const keyCode = 'KeyR';
     return { hotkey, label: `Resize Simulation (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const toggleAnimation = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+alt+N';
+    const hotkey = 'shift+N';
     const keyCode = 'KeyN';
     return { hotkey, label: `Toggle Animation (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const resetEngine = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+alt+E';
+    const hotkey = 'shift+E';
     const keyCode = 'KeyE';
     return { hotkey, label: `Reset BPM Engine (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const animationSpeed = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+alt+F';
+    const hotkey = 'shift+F';
     const keyCode = 'KeyF';
     return { hotkey, label: `Animation Speed (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const animationMode = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+alt+M';
+    const hotkey = 'shift+M';
     const keyCode = 'KeyM';
     return { hotkey, label: `Animation Mode (${hotkeyText(hotkey)})`, keyCode };
   }, []);
 
   const changeTheme = useMemo<KnownHotkey>(() => {
-    const hotkey = 'shift+alt+T';
+    const hotkey = 'shift+T';
     const keyCode = 'KeyT';
     return { hotkey, label: `Theme Switch (${hotkeyText(hotkey)})`, keyCode };
   }, []);
