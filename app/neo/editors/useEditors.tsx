@@ -71,8 +71,8 @@ export const useEditors = () => {
     (ids: Array<string>) => {
       const nextEditor = close(ws, ids);
       const regex = new RegExp(`(?<=(${rootNav}/))[^/]+`);
-      const origin = ids[0].match(regex)?.[0];
-      navigate(nextEditor ? nextEditor.id : rootNav + '/' + origin, { replace: true });
+      const navigationTarget = nextEditor ? nextEditor.id : rootNav + '/' + ids[0].match(regex)?.[0];
+      navigate(navigationTarget, { replace: true });
     },
     [close, navigate, rootNav, ws]
   );
