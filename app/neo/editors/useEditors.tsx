@@ -70,7 +70,9 @@ export const useEditors = () => {
   const closeEditors = useCallback(
     (ids: Array<string>) => {
       const nextEditor = close(ws, ids);
-      navigate(nextEditor ? nextEditor.id : rootNav, { replace: true });
+      const regex = new RegExp(`(?<=(${rootNav}/))[^/]+`);
+      const origin = ids[0].match(regex)?.[0];
+      navigate(nextEditor ? nextEditor.id : rootNav + '/' + origin, { replace: true });
     },
     [close, navigate, rootNav, ws]
   );
