@@ -71,7 +71,9 @@ export const useEditors = () => {
   const closeEditors = useCallback(
     (ids: Array<string>) => {
       const nextEditor = close(ws, ids);
-      navigate(nextEditor ? nextEditor.id : rootNav, { replace: true });
+      const regex = new RegExp(`(?<=(${rootNav}/))[^/]+`);
+      const navigationTarget = nextEditor ? nextEditor.id : rootNav + '/' + ids[0].match(regex)?.[0];
+      navigate(navigationTarget, { replace: true });
     },
     [close, navigate, rootNav, ws]
   );
