@@ -8,11 +8,7 @@ import { useEditors } from './useEditors';
 vi.mock('react-router', async importOriginal => {
   const navigateFn = vi.fn();
   const paramsFn = vi.fn();
-  return {
-    ...(await importOriginal<typeof import('react-router')>()),
-    useParams: paramsFn,
-    useNavigate: () => navigateFn
-  };
+  return { ...(await importOriginal<typeof import('react-router')>()), useParams: paramsFn, useNavigate: () => navigateFn };
 });
 
 const paramsFn = useParams as unknown as Mock;
@@ -84,6 +80,23 @@ test('close all', () => {
   expect(result.current.editors).to.be.deep.equals([]);
 });
 
+test('close back to parent', () => {
+  const { result } = renderHook(() => useEditors());
+  expect(result.current.editors).to.be.deep.equals([]);
+  const editor: Editor = {
+    icon: IvyIcons.Process,
+    id: '/test-ws/processes/designer/workflow-demos/workflow/demo/form/formProcess',
+    name: 'formProcess',
+    path: 'workflow/demo/form/formProcess',
+    project: { app: 'designer', pmv: 'workflow-demos' },
+    type: 'processes'
+  };
+  act(() => result.current.openEditor(editor));
+  expect(result.current.editors).to.be.deep.equals([editor]);
+  act(() => result.current.closeEditors([editor.id]));
+  expect(useNavigate()).toHaveBeenLastCalledWith('/test-ws/processes', { replace: true });
+});
+
 test('navigate', () => {
   const { result } = renderHook(() => useEditors());
   expect(result.current.editors).to.be.deep.equals([]);
@@ -119,10 +132,7 @@ test('open all dialog editors', () => {
     id: '/test-ws/processes/designer/workflow-demos/workflow/demo/form/formProcess',
     name: 'formProcess',
     path: 'workflow/demo/form/formProcess',
-    project: {
-      app: 'designer',
-      pmv: 'workflow-demos'
-    },
+    project: { app: 'designer', pmv: 'workflow-demos' },
     type: 'processes'
   });
   expect(result.current.editors[2]).toEqual({
@@ -130,10 +140,7 @@ test('open all dialog editors', () => {
     id: '/test-ws/dataclasses/designer/workflow-demos/workflow/demo/form/formData',
     name: 'formData',
     path: 'workflow/demo/form/formData',
-    project: {
-      app: 'designer',
-      pmv: 'workflow-demos'
-    },
+    project: { app: 'designer', pmv: 'workflow-demos' },
     type: 'dataclasses'
   });
 });
