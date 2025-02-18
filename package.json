@@ -28,16 +28,16 @@
     "sbom": "npx --yes @cyclonedx/cyclonedx-npm --output-format JSON --output-file bom.json"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~13.1.0-next.416",
-    "@axonivy/dataclass-editor-protocol": "~13.1.0-next.416",
-    "@axonivy/form-editor": "~13.1.0-next.564",
-    "@axonivy/form-editor-core": "~13.1.0-next.564",
-    "@axonivy/form-editor-protocol": "~13.1.0-next.564",
-    "@axonivy/jsonrpc": "~13.1.0-next.558",
-    "@axonivy/ui-components": "~13.1.0-next.558",
-    "@axonivy/ui-icons": "~13.1.0-next.558",
-    "@axonivy/variable-editor": "~13.1.0-next.560",
-    "@axonivy/variable-editor-protocol": "~13.1.0-next.560",
+    "@axonivy/dataclass-editor": "~13.1.0-next.434",
+    "@axonivy/dataclass-editor-protocol": "~13.1.0-next.434",
+    "@axonivy/form-editor": "~13.1.0-next.568",
+    "@axonivy/form-editor-core": "~13.1.0-next.568",
+    "@axonivy/form-editor-protocol": "~13.1.0-next.568",
+    "@axonivy/jsonrpc": "~13.1.0-next.564",
+    "@axonivy/ui-components": "~13.1.0-next.564",
+    "@axonivy/ui-icons": "~13.1.0-next.564",
+    "@axonivy/variable-editor": "~13.1.0-next.576",
+    "@axonivy/variable-editor-protocol": "~13.1.0-next.576",
     "@react-router/node": "^7.1.3",
     "@tanstack/react-query": "5.66.4",
     "@tanstack/react-query-devtools": "5.66.4",
@@ -48,7 +48,7 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@axonivy/eslint-config": "^13.1.0-next.558",
+    "@axonivy/eslint-config": "^13.1.0-next.564",
     "@react-router/dev": "^7.1.3",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -66,6 +66,9 @@
     "vite-plugin-svgr": "^4.3.0",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.0.3"
+  },
+  "peerDependencies": {
+    "@axonivy/process-editor-inscription-protocol": "~13.1.0-next"
   },
   "engines": {
     "node": ">=20.0.0"
