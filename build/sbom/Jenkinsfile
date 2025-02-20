@@ -19,7 +19,8 @@ pipeline {
               sh 'npm install'
               sh 'npm run sbom'
               def version = sh (script: "node -p \"require('./package.json').version\"", returnStdout: true)
-              uploadBOM(projectName: 'neo', projectVersion: version, bomFile: 'bom.json')              
+              uploadBOM(projectName: 'neo', projectVersion: version, bomFile: 'bom.json')
+              sh 'npm run sbom --omit dev'              
             }
             docker.build('maven-build', '-f build/Dockerfile.maven .').inside {
               maven cmd: '-f build/sbom/pom.xml clean deploy'
