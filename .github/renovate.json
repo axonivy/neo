@@ -1,5 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["local>axonivy/renovate-config:npm", "group:allNonMajor", "npm:unpublishSafe"],
-  "rebaseWhen": "conflicted"
+  "rebaseWhen": "conflicted",
+  "packageRules": [
+    {
+      "description": "Disable Renovate for @codingame/* packages",
+      "matchDepNames": ["@codingame/*"],
+      "enabled": false
+    }
+  ]
 }
