@@ -7,6 +7,7 @@ import type { Process } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { lastSegment } from '~/utils/path';
 import {
+  CMS_EDITOR_SUFFIX,
   CONFIG_EDITOR_XML_SUFFIX,
   CONFIG_EDITOR_YAML_SUFFIX,
   DATACLASS_EDITOR_SUFFIX,
@@ -30,6 +31,7 @@ export const useCreateEditor = () => {
     },
     createConfigurationEditor: ({ path, project }: ConfigurationIdentifier): Editor =>
       createEditor(ws, typeFromPath(path), project, path, lastSegment(path)),
+    createCmsEditor: (project: ProjectIdentifier): Editor => createEditor(ws, 'cms', project, 'cms', CMS_EDITOR_SUFFIX),
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
       createEditor(ws, 'dataclasses', project, path, simpleName),
     createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
@@ -38,7 +40,7 @@ export const useCreateEditor = () => {
 };
 
 const createEditor = (ws: string, editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {
-  const routeEditorType = editorType === 'variables' ? 'configurations' : editorType;
+  const routeEditorType = editorType === 'variables' || editorType === 'cms' ? 'configurations' : editorType;
   const encodedPath = encodeURI(path);
   const id = `/${ws}/${routeEditorType}/${project.app}/${project.pmv}/${encodedPath}`;
   return {
@@ -72,6 +74,9 @@ const typeFromPath = (path: string): EditorType => {
   if (path.endsWith(VARIABLES_EDITOR_SUFFIX)) {
     return 'variables';
   }
+  if (path.endsWith(CMS_EDITOR_SUFFIX)) {
+    return 'cms';
+  }
   if (path.endsWith(CONFIG_EDITOR_YAML_SUFFIX) || path.endsWith(CONFIG_EDITOR_XML_SUFFIX)) {
     return 'configurations';
   }
@@ -86,6 +91,8 @@ const editorIcon = (editorType: EditorType) => {
     case 'variables':
     case 'configurations':
       return IvyIcons.Tool;
+    case 'cms':
+      return IvyIcons.Cms;
     case 'dataclasses':
       return IvyIcons.Database;
   }

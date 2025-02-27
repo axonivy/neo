@@ -254,4 +254,17 @@ describe('createEditorFromPath', () => {
       view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'dataclasses/form/Data.d.json', 'dataclasses')
     ).to.be.deep.equals(result);
   });
+
+  test('cms', () => {
+    const result: Editor = {
+      id: '/test-ws/configurations/designer/workflow-demos/cms',
+      type: 'cms',
+      icon: IvyIcons.Cms,
+      name: 'cms',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'cms'
+    };
+    const view = renderHook(() => useCreateEditor());
+    expect(view.result.current.createCmsEditor({ app: 'designer', pmv: 'workflow-demos' })).to.be.deep.equals(result);
+  });
 });
