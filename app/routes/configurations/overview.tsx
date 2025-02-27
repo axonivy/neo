@@ -6,7 +6,7 @@ import { configDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
-import { type Editor } from '~/neo/editors/editor';
+import { CMS_EDITOR_SUFFIX, type Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
@@ -19,12 +19,22 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Configurations')
 export default function Index() {
   const { data, isPending } = useGroupedConfigurations();
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (c: ConfigurationIdentifier) => `${c.project.pmv} ${c.path}`);
-  const { createConfigurationEditor } = useCreateEditor();
+  const { createConfigurationEditor, createCmsEditor } = useCreateEditor();
+  const { openEditor } = useEditors();
 
   return (
     <Overview title='Configurations' description={configDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
       {filteredGroups.map(({ project, artifacts }) => (
         <ArtifactGroup project={project} key={project}>
+          {(search.length === 0 || CMS_EDITOR_SUFFIX.startsWith(search.toLowerCase())) && (
+            <ArtifactCard
+              name={CMS_EDITOR_SUFFIX}
+              type='cms'
+              preview={<PreviewSVG />}
+              tooltip={CMS_EDITOR_SUFFIX}
+              onClick={() => openEditor(createCmsEditor(artifacts[0].project))}
+            />
+          )}
           {artifacts.map(config => {
             const editor = createConfigurationEditor(config);
             return <ConfigCard key={editor.id} {...editor} />;
