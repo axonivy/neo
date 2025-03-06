@@ -41,6 +41,7 @@ const useStore = create<EditorState>()(
       closeAll: ws =>
         set(state => {
           const workspaces = structuredClone(state.workspaces);
+          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
           delete workspaces[ws];
           return { workspaces };
         }),

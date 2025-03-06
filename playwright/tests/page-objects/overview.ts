@@ -114,7 +114,11 @@ export class Overview {
     if (options?.project) {
       await this.selectProject(dialog, options.project);
     }
-    expect(await dialog.getByLabel('Caller Data').isVisible()).toBe(options?.hasDataClassSelect ? true : false);
+    if (options?.hasDataClassSelect) {
+      await expect(dialog.getByLabel('Caller Data')).toBeVisible();
+    } else {
+      await expect(dialog.getByLabel('Caller Data')).toBeHidden();
+    }
     await dialog.getByRole('button', { name: 'Create' }).click();
   }
 
