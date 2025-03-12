@@ -1,4 +1,4 @@
-import editorStylesHref from '@axonivy/dataclass-editor/lib/style.css?url';
+import editorStylesHref from '@axonivy/dataclass-editor/lib/editor.css?url';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { editorMetaFunctionProvider } from '~/metaFunctionProvider';
 import { useRestoreEditor } from '~/neo/editors/useRestoreEditor';
