@@ -6,6 +6,6 @@ export default {
   output: 'app/translation/$NAMESPACE/$LOCALE.json',
   pluralSeparator: '_',
   input: ['app/**/*.ts', 'app/**/*.tsx'],
-  verbose: true,
+  verbose: false,
   sort: true
 };

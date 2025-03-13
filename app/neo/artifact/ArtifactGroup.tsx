@@ -58,7 +58,7 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
           marginBottom: 15
         }}
       >
-        {t('common.project')} {project}
+        {t('common.project', { proj: project })}
         {projectBean?.id.isIar && <ArtifactTag label={t('common.readOnly')} />}
       </CollapsibleTrigger>
       <CollapsibleContent style={{ padding: 0 }}>
