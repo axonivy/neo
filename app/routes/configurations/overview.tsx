@@ -1,8 +1,8 @@
+import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useGroupedConfigurations } from '~/data/config-api';
 import type { ConfigurationIdentifier } from '~/data/generated/openapi-dev';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { configDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -21,9 +21,16 @@ export default function Index() {
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (c: ConfigurationIdentifier) => `${c.project.pmv} ${c.path}`);
   const { createConfigurationEditor, createCmsEditor } = useCreateEditor();
   const { openEditor } = useEditors();
+  const { t } = useTranslation();
 
   return (
-    <Overview title='Configurations' description={configDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview
+      title={t('common.configs')}
+      description={t('configurations.configDescription')}
+      search={search}
+      onSearchChange={setSearch}
+      isPending={isPending}
+    >
       {filteredGroups.map(({ project, artifacts }) => (
         <ArtifactGroup project={project} key={project}>
           {(search.length === 0 || CMS_EDITOR_SUFFIX.startsWith(search.toLowerCase())) && (

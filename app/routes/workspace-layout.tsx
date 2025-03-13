@@ -10,6 +10,7 @@ import {
   useHotkeys
 } from '@axonivy/ui-components';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Outlet, useParams } from 'react-router';
 import { Navigation } from '~/neo/Navigation';
 import { WebBrowser } from '~/neo/browser/WebBrowser';
@@ -28,6 +29,7 @@ export default function Index() {
   const { ws } = useParams();
   const firstWebbrowserElement = useRef<HTMLButtonElement>(null);
   const { openSimulation, resizeSimulation } = useKnownHotkeys();
+  const { t } = useTranslation();
   useHotkeys(openSimulation.hotkey, () => {
     browser.toggle();
     if (!browser.openState) {
@@ -47,7 +49,7 @@ export default function Index() {
             <EditorsControl />
             <Separator orientation='vertical' style={{ margin: 'var(--size-2)' }} />
             <Field direction='row' alignItems='center' gap={2} title={openSimulation.label} aria-label={openSimulation.label}>
-              <Label>Simulate</Label>
+              <Label>{t('settings.simulate')}</Label>
               <Switch checked={browser.openState} onClick={browser.toggle} />
             </Field>
           </Flex>

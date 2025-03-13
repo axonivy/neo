@@ -1,10 +1,11 @@
 export default {
-  defaultNamespace: 'translation',
+  defaultNamespace: 'neo',
   defaultValue: '__MISSING_TRANSLATION__',
   keepRemoved: false,
-  locales: ['en', 'de', 'ja'],
-  output: 'public/locales/$NAMESPACE/$LOCALE.json',
+  locales: ['en', 'de'],
+  output: 'app/translation/$NAMESPACE/$LOCALE.json',
   pluralSeparator: '_',
   input: ['app/**/*.ts', 'app/**/*.tsx'],
-  verbose: false
+  verbose: true,
+  sort: true
 };

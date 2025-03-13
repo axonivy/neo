@@ -5,7 +5,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "ci": "npm run ci:prepare && npm run type && (npm run lint:ci || true) && npm run test:ci  && npx i18next-parser --fail-on-update",
+    "ci": "npm run ci:prepare && npm run type && (npm run lint:ci || true) && npm run test:ci  && npm run i18n:ci",
     "ci:prepare": "npm install && npm run build:editor && npm run build",
     "build": "react-router build",
     "dev": "react-router dev",
@@ -26,7 +26,8 @@
     "type": "react-router typegen && tsc && npm run -w webviews/process-editor type && npm run -w playwright type",
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u",
     "sbom": "npx --yes @cyclonedx/cyclonedx-npm --output-format JSON --output-file bom.json",
-    "extract": "npx i18next-parser"
+    "i18n:extract": "npx i18next-parser",
+    "i18n:ci": "npx i18next-parser --fail-on-update"
   },
   "dependencies": {
     "@axonivy/cms-editor": "~13.1.0-next.46",
@@ -47,6 +48,7 @@
     "i18next": "^24.2.2",
     "i18next-chained-backend": "^4.6.2",
     "i18next-http-backend": "^3.0.2",
+    "i18next-resources-to-backend": "^1.2.1",
     "isbot": "^5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

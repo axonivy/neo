@@ -12,16 +12,11 @@ import i18next from 'i18next';
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LocaleContext } from '~/root';
-import { getAvailableLanguages } from './translation';
 
 export const LanguageSelector = () => {
   const { t } = useTranslation();
   const { locale, setLocale } = useContext(LocaleContext);
-  const [availableLanguages, setAvailableLanguages] = useState<string[]>(['loading...']);
-
-  getAvailableLanguages().then(result => {
-    setAvailableLanguages(result);
-  });
+  const [availableLanguages] = useState<string[]>(['en', 'de']);
 
   const updateLanguage = (lng: string) => {
     setLocale(lng);
@@ -30,9 +25,9 @@ export const LanguageSelector = () => {
 
   return (
     <DropdownMenuSub>
-      <DropdownMenuSubTrigger aria-label='Language switch'>
+      <DropdownMenuSubTrigger aria-label={t('settings.languageSwitch')}>
         <IvyIcon icon={IvyIcons.Cms} />
-        <span>{t('language')}</span>
+        <span>{t('settings.language')}</span>
         <DropdownMenuPortal>
           <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
             <DropdownMenuRadioGroup value={locale} onValueChange={lng => updateLanguage(lng)}>

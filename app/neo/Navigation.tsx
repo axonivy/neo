@@ -9,6 +9,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
 import { LanguageSelector } from '~/translation/LanguageSelector';
 import { useKnownHotkeys } from '~/utils/hotkeys';
@@ -19,6 +20,7 @@ import { useCycleAnimationSettings } from './settings/useSettings';
 
 export const Navigation = () => {
   useNeoClient();
+  const { t } = useTranslation();
   const { cycleAnimationMode, cycleAnimationSpeed, toggleAnimation, resetEngine } = useCycleAnimationSettings();
   const navigate = useNavigate();
   const cycleTheme = useCycleTheme();
@@ -101,7 +103,7 @@ export const Navigation = () => {
       </Flex>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' title='Settings' />
+          <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.settings')} title={t('common.settings')} />
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
           <AnimationSettingsMenu />

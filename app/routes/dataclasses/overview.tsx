@@ -1,9 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
 import type { DataClassBean } from '~/data/generated/openapi-dev';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { dataClassDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -19,11 +19,18 @@ export const links: LinksFunction = () => [cardStylesLink];
 export const meta: MetaFunction = overviewMetaFunctionProvider('Data Classes');
 
 export default function Index() {
+  const { t } = useTranslation();
   const { data, isPending } = useGroupedDataClasses();
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
   const { createDataClassEditor } = useCreateEditor();
   return (
-    <Overview title='Data Classes' description={dataClassDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview
+      title={t('common.dataClasses')}
+      description={t('dataclasses.dataclassDescription')}
+      search={search}
+      onSearchChange={setSearch}
+      isPending={isPending}
+    >
       {filteredGroups.map(({ project, artifacts }) => (
         <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} key={project}>
           {artifacts.map(dc => {
@@ -65,6 +72,7 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
 };
 
 const NewDataClassCard = () => {
+  const { t } = useTranslation();
   const open = useNewArtifact();
   const { createDataClass } = useCreateDataClass();
   const { openEditor } = useEditors();
@@ -76,6 +84,6 @@ const NewDataClassCard = () => {
     data
       ?.find(group => group?.project === project?.pmv)
       ?.artifacts.some(dc => dc.name.toLowerCase() === `${namespace.toLowerCase()}.${name.toLowerCase()}`) ?? false;
-  const title = 'Create new Data Class';
+  const title = t('dataclasses.newDataclass');
   return <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Data Class', namespaceRequired: true })} />;
 };

@@ -10,9 +10,10 @@ import {
   Flex
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useMemo, useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useNavigate, useParams } from 'react-router';
-import { useMemo, useState, type ReactNode } from 'react';
 import { NEO_DESIGNER } from '~/constants';
 import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/data/dependency-api';
 import type { ProjectBean } from '~/data/generated/openapi-dev';
@@ -33,6 +34,7 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export default function Index() {
+  const { t } = useTranslation();
   const { app, pmv } = useParams();
   const { search, setSearch } = useSearch();
   const projects = useSortedProjects();
@@ -43,27 +45,30 @@ export default function Index() {
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='project-detail'>
-          <span style={{ fontWeight: 600 }}>Project details: {project?.id.pmv}</span>
+          <span style={{ fontWeight: 600 }}>{t('projects.details', { project: project?.id.pmv })}</span>
           <div className='project-detail-card' style={{ background: 'var(--N50)', padding: 10, borderRadius: 5 }}>
             <Flex direction='row' gap={4} style={{ flexWrap: 'wrap', columnGap: '150px' }}>
               <ProjectInfoContainer>
-                <ProjectInfo title={'ArtifactId'} value={project?.artifactId}></ProjectInfo>
-                <ProjectInfo title={'GroupId'} value={project?.groupId}></ProjectInfo>
+                <ProjectInfo title={t('common.artifactId')} value={project?.artifactId}></ProjectInfo>
+                <ProjectInfo title={t('common.groupId')} value={project?.groupId}></ProjectInfo>
               </ProjectInfoContainer>
               <ProjectInfoContainer>
-                <ProjectInfo title={'Version'} value={project?.version}></ProjectInfo>
-                <ProjectInfo title={'Editing rights'} value={project?.id.isIar ? 'Read only' : 'Editable'}></ProjectInfo>
+                <ProjectInfo title={t('common.version')} value={project?.version}></ProjectInfo>
+                <ProjectInfo
+                  title={t('projects.editRights')}
+                  value={project?.id.isIar ? t('common.readOnly') : t('common.editable')}
+                ></ProjectInfo>
               </ProjectInfoContainer>
               <ProjectInfoContainer>
-                <ProjectInfo title={'Deletable'} value={project?.isDeletable ? 'Yes' : 'No'}></ProjectInfo>
+                <ProjectInfo title={t('projects.deletable')} value={project?.isDeletable ? t('common.yes') : t('common.no')}></ProjectInfo>
               </ProjectInfoContainer>
             </Flex>
           </div>
         </Flex>
         <Overview
-          title={`Dependency details of: ${project?.id.pmv}`}
+          title={t('projects.dependencyDetails', { project: project?.id.pmv })}
           description='Here you can view the project dependencies.'
-          info='Dependencies are links between projects which allow one project to access the functionality or artefacts of another and avoid duplicating work.'
+          info={t('projects.dependecyInfo')}
           search={search}
           onSearchChange={setSearch}
           isPending={isPending}
@@ -72,7 +77,7 @@ export default function Index() {
             <>
               {!project.id.isIar && (
                 <AddDependencyDialog project={project.id}>
-                  <NewArtifactCard title={'Add new Dependency'} open={() => {}} />
+                  <NewArtifactCard title={t('projects.addDependency')} open={() => {}} />
                 </AddDependencyDialog>
               )}
               {dependencies.map(dep => (
@@ -126,6 +131,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
 };
 
 const AddDependencyDialog = ({ children, project }: { children: ReactNode; project: ProjectIdentifier }) => {
+  const { t } = useTranslation();
   const [dependency, setDependency] = useState<ProjectBean>();
   const { addDependency } = useAddDependencyReq();
   return (
@@ -135,23 +141,23 @@ const AddDependencyDialog = ({ children, project }: { children: ReactNode; proje
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add dependency to: {project.pmv}</DialogTitle>
+          <DialogTitle>{t('projects.addDependencyTo', { project: project.pmv })}</DialogTitle>
         </DialogHeader>
         <ProjectSelect
           setProject={setDependency}
           setDefaultValue={true}
           projectFilter={p => p.id.pmv !== project.pmv}
-          label='Select dependency'
+          label={t('projects.selectDependency')}
         ></ProjectSelect>
         <DialogFooter>
           <DialogClose asChild>
             <Button variant='primary' size='large' onClick={() => dependency && addDependency(project, dependency.id)} icon={IvyIcons.Plus}>
-              Add
+              {t('common.add')}
             </Button>
           </DialogClose>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              Cancel
+              {t('common.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>

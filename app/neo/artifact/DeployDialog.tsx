@@ -16,6 +16,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { DeployParams } from '~/data/workspace-api';
 
 export type DeployActionParams = Omit<DeployParams, 'workspaceId'>;
@@ -27,6 +28,7 @@ type DeployDialogProps = {
 };
 
 export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogProps) => {
+  const { t } = useTranslation();
   const [engineUrl, setEngineUrl] = useState(window.location.origin);
   const [appName, setAppName] = useState('myApp');
   const [user, setUser] = useState('admin');
@@ -52,20 +54,20 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
       ) : (
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Deploy Workspace</DialogTitle>
-            <DialogDescription>Specify the engine to which you want to deploy the current workspace.</DialogDescription>
+            <DialogTitle>{t('deploy.deployWs')}</DialogTitle>
+            <DialogDescription>{t('deploy.target')}</DialogDescription>
           </DialogHeader>
           <Flex direction='column' gap={2}>
-            <BasicField label='Engine Url'>
+            <BasicField label={t('deploy.engineUrl')}>
               <Input value={engineUrl} onChange={e => setEngineUrl(e.target.value)} />
             </BasicField>
-            <BasicField label='Application Name'>
+            <BasicField label={t('deploy.applicationName')}>
               <Input value={appName} onChange={e => setAppName(e.target.value)} />
             </BasicField>
-            <BasicField label='User'>
+            <BasicField label={t('common.user')}>
               <Input value={user} onChange={e => setUser(e.target.value)} />
             </BasicField>
-            <BasicField label='Password'>
+            <BasicField label={t('common.password')}>
               <PasswordInput value={password} onChange={pw => setPassword(pw)} />
             </BasicField>
           </Flex>
@@ -76,12 +78,12 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
               </Button>
             ) : (
               <Button variant='primary' size='large' onClick={deploy} icon={IvyIcons.Bpmn}>
-                Deploy
+                {t('common.deploy')}
               </Button>
             )}
             <DialogClose asChild>
               <Button variant='outline' size='large' icon={IvyIcons.Close}>
-                Cancel
+                {t('common.cancel')}
               </Button>
             </DialogClose>
           </DialogFooter>
@@ -91,29 +93,32 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
   );
 };
 
-const DeployLogContent = (log: string) => (
-  <DialogContent style={{ gridTemplateRows: 'auto 1fr auto', maxHeight: '80%', maxWidth: '80%' }}>
-    <DialogHeader>
-      <DialogTitle>Deployment Log</DialogTitle>
-      <DialogDescription>Returned log output from the engine.</DialogDescription>
-    </DialogHeader>
-    <pre style={{ overflow: 'auto' }}>
-      <code>{log}</code>
-    </pre>
-    <DialogFooter>
-      <DialogClose asChild>
-        <Button variant='primary' size='large' icon={IvyIcons.Close}>
-          Close
+const DeployLogContent = (log: string) => {
+  const { t } = useTranslation();
+  return (
+    <DialogContent style={{ gridTemplateRows: 'auto 1fr auto', maxHeight: '80%', maxWidth: '80%' }}>
+      <DialogHeader>
+        <DialogTitle>{t('deploy.log')}</DialogTitle>
+        <DialogDescription>{t('deploy.logDescription')}</DialogDescription>
+      </DialogHeader>
+      <pre style={{ overflow: 'auto' }}>
+        <code>{log}</code>
+      </pre>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button variant='primary' size='large' icon={IvyIcons.Close}>
+            {t('common.close')}
+          </Button>
+        </DialogClose>
+        <Button
+          variant='outline'
+          size='large'
+          icon={IvyIcons.Note}
+          onClick={() => navigator.clipboard.writeText(log).then(() => toast.success('Log copied to the clipboard'))}
+        >
+          {t('deploys.closeLog')}
         </Button>
-      </DialogClose>
-      <Button
-        variant='outline'
-        size='large'
-        icon={IvyIcons.Note}
-        onClick={() => navigator.clipboard.writeText(log).then(() => toast.success('Log copied to the clipboard'))}
-      >
-        Copy Log
-      </Button>
-    </DialogFooter>
-  </DialogContent>
-);
+      </DialogFooter>
+    </DialogContent>
+  );
+};

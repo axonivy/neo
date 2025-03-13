@@ -40,13 +40,12 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const { t } = useTranslation('overview');
+  const { t } = useTranslation();
   const { search, setSearch } = useSearch();
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const title = t('title', { neo: NEO_DESIGNER });
-  const customkey = t('thisKeyDoesNotExist');
-  const info = t('info') + customkey;
+  const title = t('workspaces.title', { neo: NEO_DESIGNER });
+  const info = t('workspaces.info');
 
   return (
     <>
@@ -54,7 +53,7 @@ export default function Index() {
         <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' title='Settings' />
+              <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.settings')} title={t('common.settings')} />
             </DropdownMenuTrigger>
             <DropdownMenuContent sideOffset={6} collisionPadding={10} side='bottom'>
               <LanguageSelector />
@@ -125,6 +124,7 @@ const WorkspaceCard = (workspace: Workspace) => {
 };
 
 const NewWorkspaceCard = () => {
+  const { t } = useTranslation();
   const [dialogState, setDialogState] = useState(false);
   const [name, setName] = useState('');
   const navigate = useNavigate();
@@ -138,15 +138,15 @@ const NewWorkspaceCard = () => {
   );
   return (
     <>
-      <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />
+      <NewArtifactCard open={() => setDialogState(true)} title={t('workspaces.newWorkspace')} />
       <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create new Workspace</DialogTitle>
+            <DialogTitle>{t('workspaces.newWorkspace')}</DialogTitle>
           </DialogHeader>
           <form>
             <Flex direction='column' gap={3}>
-              <BasicField label='Name' message={nameValidation}>
+              <BasicField label={t('common.name')} message={nameValidation}>
                 <Input value={name} onChange={e => setName(e.target.value)} />
               </BasicField>
               <DialogFooter>
@@ -163,12 +163,12 @@ const NewWorkspaceCard = () => {
                       create(name);
                     }}
                   >
-                    Create
+                    {t('common.create')}
                   </Button>
                 </DialogClose>
                 <DialogClose asChild>
                   <Button icon={IvyIcons.Close} size='large' variant='outline'>
-                    Cancel
+                    {t('common.cancel')}
                   </Button>
                 </DialogClose>
               </DialogFooter>
