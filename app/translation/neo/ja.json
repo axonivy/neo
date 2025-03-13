@@ -1,0 +1,132 @@
+{
+  "animation": {
+    "allOpen": "すべての開いているプロセス",
+    "allProcesses": "すべてのプロセス",
+    "animation": "アニメーション",
+    "enabled": "有効",
+    "mode": "モード",
+    "noDialog": "ダイアログプロセスなし",
+    "noEmbedded": "埋め込みプロセスなし",
+    "onlyCurrenltyOpen": "現在開いているプロセスのみ",
+    "reset": "リセット",
+    "speed": "速度"
+  },
+  "artifact": {
+    "callerData": "呼び出し元データ",
+    "deleteConfirm": "本当にこの{{artifact}}を削除しますか？",
+    "namespace": "名前空間",
+    "new": "新しい{{type}}を作成",
+    "optional": "オプション"
+  },
+  "browser": {
+    "back": "戻る",
+    "devBrowser": "開発ブラウザ",
+    "forward": "進む",
+    "goBack": "戻る",
+    "goForward": "進む",
+    "goHome": "ホームへ移動",
+    "home": "ホーム",
+    "openNewTab": "新しいタブで開く",
+    "reload": "再読み込み",
+    "reloadPage": "ページを再読み込み",
+    "simulate": "プロセスシミュレーション"
+  },
+  "common": {
+    "add": "追加",
+    "addDependency": "プロジェクトに依存関係を追加",
+    "artifactId": "アーティファクトID",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "closeAll": "すべて閉じる",
+    "configs": "設定",
+    "create": "作成",
+    "dataClasses": "データクラス",
+    "delete": "削除",
+    "deploy": "デプロイ",
+    "editable": "編集可能",
+    "export": "エクスポート",
+    "file": "ファイル",
+    "forms": "フォーム",
+    "groupId": "グループID",
+    "home": "NEO ホーム",
+    "import": "インポート",
+    "install": "インストール",
+    "monaco": "Monacoエディタ",
+    "name": "名前",
+    "no": "いいえ",
+    "open": "開く",
+    "password": "パスワード",
+    "processes": "プロセス",
+    "project": "プロジェクト",
+    "projects": "プロジェクト",
+    "readOnly": "読み取り専用",
+    "settings": "設定",
+    "user": "ユーザー",
+    "version": "バージョン",
+    "yes": "はい"
+  },
+  "configurations": {
+    "configDescription": "設定はアプリケーションの動作や他のシステムとの連携を定義するパラメータです。"
+  },
+  "dataclasses": {
+    "dataclassDescription": "データクラスは、プロセスアプリケーション内のデータを定義および構造化するために使用されます。プロセスやフォーム全体で一貫したデータ管理を提供します。",
+    "newDataclass": "新しいデータクラスを作成"
+  },
+  "deploy": {
+    "applicationName": "アプリケーション名",
+    "deployWs": "ワークスペースをデプロイ",
+    "engineUrl": "エンジンURL",
+    "log": "デプロイログ",
+    "logDescription": "エンジンから返されたログ出力。",
+    "target": "現在のワークスペースをデプロイするエンジンを指定してください。"
+  },
+  "deploys": {
+    "closeLog": "ログをコピー"
+  },
+  "forms": {
+    "formDescription": "フォームは、データ入力とアプリケーションとの対話を容易にするユーザーインターフェース要素であり、ユーザーとシステムをつなぐ橋渡しの役割を果たします。",
+    "newForm": "新しいフォームを作成"
+  },
+  "market": {
+    "install": "{{component}} をインストール",
+    "selectVersion": "インストールするバージョンを選択",
+    "showDetails": "詳細を見る",
+    "title": "Axon Ivy マーケット"
+  },
+  "processes": {
+    "newProcess": "新しいプロセスを作成",
+    "processDescription": "プロセスは、一連の自動化されたステップを定義し、ワークフローを最適化して効率的なタスク管理を可能にします。"
+  },
+  "projects": {
+    "addDependency": "新しい依存関係を追加",
+    "addDependencyTo": "{{project}} に依存関係を追加",
+    "deletable": "削除可能",
+    "dependecyInfo": "依存関係は、プロジェクト間のリンクであり、一つのプロジェクトが他のプロジェクトの機能やアーティファクトを利用できるようにし、作業の重複を避けるために使用されます。",
+    "dependencyDetails": "{{project}} の依存関係の詳細",
+    "details": "{{project}} のプロジェクト詳細",
+    "editRights": "編集権限",
+    "selectDependency": "依存関係を選択"
+  },
+  "settings": {
+    "dark": "ダーク",
+    "language": "Language",
+    "languageSwitch": "言語切り替え",
+    "light": "ライト",
+    "simulate": "シミュレート",
+    "system": "システム",
+    "theme": "テーマ"
+  },
+  "workspaces": {
+    "description": "ここでは、作成したプロジェクトやインポートしたプロジェクトを見つけることができます。プロジェクトには、アプリケーションを作成するために必要なすべての主要コンポーネントが含まれています。",
+    "importFile": "ファイルからインポート",
+    "importInto": "Axon Ivy プロジェクトを {{workspace}} にインポート",
+    "importMarket": "マーケットからインポート",
+    "importProject": "プロジェクトをインポート",
+    "importWarning": "インポートすると、既存のプロジェクトバージョンが上書きされる可能性があります。",
+    "importWarningLink": "事前にワークスペースをエクスポートすることを検討してください。",
+    "info": "ワークスペースは、アプリケーションの開発およびテストが行われる領域です。ここでビジネスプロセスが設計され、プレビューされ、シミュレーションされた後、実際のアプリケーションとしてデプロイされます。",
+    "newWorkspace": "新しいワークスペースを作成",
+    "title": "{{neo}} へようこそ: ワークスペースを管理",
+    "wsTitle": "ワークスペースへようこそ: {{workspace}}"
+  }
+}

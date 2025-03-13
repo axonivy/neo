@@ -16,7 +16,7 @@ import { LocaleContext } from '~/root';
 export const LanguageSelector = () => {
   const { t } = useTranslation();
   const { locale, setLocale } = useContext(LocaleContext);
-  const [availableLanguages] = useState<string[]>(['en', 'de']);
+  const [availableLanguages] = useState<string[]>(['en', 'de', 'ja']);
 
   const updateLanguage = (lng: string) => {
     setLocale(lng);
