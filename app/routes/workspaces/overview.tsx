@@ -15,6 +15,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useNavigate } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
@@ -28,6 +29,7 @@ import { Overview } from '~/neo/Overview';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
+import { LanguageSelector } from '~/translation/LanguageSelector';
 import welcomeSvgUrl from './welcome.svg?url';
 import PreviewSVG from './workspace-preview.svg?react';
 
@@ -38,12 +40,12 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const { t } = useTranslation('overview');
   const { search, setSearch } = useSearch();
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const title = `Welcome to ${NEO_DESIGNER}: Manage your workspaces`;
-  const info =
-    "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.";
+  const title = t('title', { neo: NEO_DESIGNER });
+  const info = t('info');
   return (
     <>
       <ControlBar>
@@ -53,6 +55,7 @@ export default function Index() {
               <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' title='Settings' />
             </DropdownMenuTrigger>
             <DropdownMenuContent sideOffset={6} collisionPadding={10} side='bottom'>
+              <LanguageSelector />
               <ThemeSettings />
             </DropdownMenuContent>
           </DropdownMenu>

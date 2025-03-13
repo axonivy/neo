@@ -3,6 +3,7 @@ import componentsStylesHref from '@axonivy/ui-components/lib/components.css?url'
 import iconStylesHref from '@axonivy/ui-icons/lib/ivy-icons.css?url';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import React, { useState } from 'react';
 import type { LinksFunction } from 'react-router';
 import { Links, Meta, Scripts, ScrollRestoration } from 'react-router';
 import rootStylesHref from '~/styles/root.css?url';
@@ -10,6 +11,7 @@ import favicon from './favicon.png?url';
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { Neo } from './neo/Neo';
+import { initTranslation } from './translation/translation';
 
 const queryClient = new QueryClient();
 
@@ -19,6 +21,12 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: rootStylesHref },
   { rel: 'icon', href: favicon, type: 'image/png' }
 ];
+
+interface LocaleContextType {
+  locale: string;
+  setLocale: React.Dispatch<React.SetStateAction<string>>;
+}
+export const LocaleContext = React.createContext<LocaleContextType>({ locale: '', setLocale: () => {} });
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -39,12 +47,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const [locale, setLocale] = useState('en');
+  initTranslation(locale);
   return (
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
         <WebBrowserProvider>
           <NewArtifactDialogProvider>
-            <Neo />
+            <LocaleContext.Provider value={{ locale: locale, setLocale: setLocale }}>
+              <Neo />
+            </LocaleContext.Provider>
           </NewArtifactDialogProvider>
         </WebBrowserProvider>
         <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} />

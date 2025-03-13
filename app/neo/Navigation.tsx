@@ -10,6 +10,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router';
+import { LanguageSelector } from '~/translation/LanguageSelector';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { useNeoClient } from './client/useNeoClient';
 import { AnimationSettingsMenu } from './settings/AnimationSettingsMenu';
@@ -105,6 +106,7 @@ export const Navigation = () => {
         <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
           <AnimationSettingsMenu />
           <DropdownMenuSeparator />
+          <LanguageSelector />
           <ThemeSettings />
         </DropdownMenuContent>
       </DropdownMenu>
