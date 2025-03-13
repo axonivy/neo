@@ -45,7 +45,9 @@ export default function Index() {
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
   const title = t('title', { neo: NEO_DESIGNER });
-  const info = t('info');
+  const customkey = t('thisKeyDoesNotExist');
+  const info = t('info') + customkey;
+
   return (
     <>
       <ControlBar>
