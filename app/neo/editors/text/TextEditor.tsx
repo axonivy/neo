@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useReadConfiguration, useWriteConfiguration } from '~/data/config-api';
 import { useThemeMode } from '~/theme/useUpdateTheme';
 import type { Editor } from '../editor';
@@ -14,6 +15,7 @@ function debouncedAction<T>(action: (input: T) => void, timeout: number) {
 }
 
 export const TextEditor = ({ project, path }: Editor) => {
+  const { t } = useTranslation();
   const frameRef = useRef<HTMLIFrameElement>(null);
   const { data } = useReadConfiguration({ app: project.app, pmv: project.pmv, path });
   const { writeConfig } = useWriteConfiguration();
@@ -39,7 +41,7 @@ export const TextEditor = ({ project, path }: Editor) => {
       onLoad={setupMonaco}
       ref={frameRef}
       style={{ width: '100%', height: '100%', border: 0 }}
-      title='Monaco Editor'
+      title={t('common.monaco')}
       src={`/monaco-yaml-ivy/index.html?demo=off&theme=${theme}`}
     ></iframe>
   );

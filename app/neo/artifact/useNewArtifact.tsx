@@ -14,6 +14,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { useGroupedDataClasses } from '~/data/data-class-api';
 import type { DataClassIdentifier, ProjectBean } from '~/data/generated/ivy-client';
@@ -49,6 +50,7 @@ type NewArtifactDialogState = {
 const NewArtifactDialogContext = createContext<NewArtifactDialogState | undefined>(undefined);
 
 export const NewArtifactDialogProvider = ({ children }: { children: React.ReactNode }) => {
+  const { t } = useTranslation();
   const { ws } = useParams();
   const [dialogState, setDialogState] = useState(false);
   const [newArtifact, setNewArtifact] = useState<NewArtifact>();
@@ -89,19 +91,24 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
         <Dialog open={dialogState} onOpenChange={() => close()}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Create new {newArtifact.type}</DialogTitle>
+              <DialogTitle>{t('artifact.new', { type: newArtifact.type })}</DialogTitle>
             </DialogHeader>
             <form>
               <Flex direction='column' gap={4}>
                 <Flex direction='column' gap={3}>
-                  <BasicField label='Name' message={nameValidation}>
+                  <BasicField label={t('common.name')} message={nameValidation}>
                     <Input value={name} onChange={e => setName(e.target.value)} />
                   </BasicField>
                   {newArtifact.project === undefined && (
-                    <ProjectSelect setProject={setProject} setDefaultValue={true} label='Project' projectFilter={p => !p.id.isIar} />
+                    <ProjectSelect
+                      setProject={setProject}
+                      setDefaultValue={true}
+                      label={t('common.project')}
+                      projectFilter={p => !p.id.isIar}
+                    />
                   )}
                   <BasicField
-                    label={`Namespace ${newArtifact.namespaceRequired ? '' : ' (Optional)'}`}
+                    label={`${t('artifact.namespace')} ${newArtifact.namespaceRequired ? '' : t('artifact.optional')}`}
                     message={namespaceValidation}
                     control={
                       <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
@@ -125,12 +132,12 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                         newArtifact.create(name, namespace, project?.id, newArtifact.pid, dataClass);
                       }}
                     >
-                      Create
+                      {t('common.create')}
                     </Button>
                   </DialogClose>
                   <DialogClose asChild>
                     <Button icon={IvyIcons.Close} size='large' variant='outline'>
-                      Cancel
+                      {t('common.cancel')}
                     </Button>
                   </DialogClose>
                 </DialogFooter>
@@ -144,11 +151,12 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
 };
 
 const DataClassSelect = ({ project, setDataClass }: { project: ProjectIdentifier; setDataClass: (d?: DataClassIdentifier) => void }) => {
+  const { t } = useTranslation();
   const { data, isPending } = useGroupedDataClasses();
   const dataClasses = useMemo(() => data?.find(g => g.project === project.pmv)?.artifacts ?? [], [data, project.pmv]);
   useEffect(() => setDataClass(undefined), [setDataClass]);
   return (
-    <BasicField label={'Caller Data'}>
+    <BasicField label={t('artifact.callerData')}>
       {isPending ? (
         <Spinner size='small' />
       ) : (

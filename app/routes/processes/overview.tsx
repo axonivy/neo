@@ -1,9 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import type { ProcessBean } from '~/data/generated/ivy-client';
 import { useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -19,11 +19,18 @@ export const links: LinksFunction = () => [cardStylesLink];
 export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
 
 export default function Index() {
+  const { t } = useTranslation();
   const { data, isPending } = useGroupedProcesses();
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
   const { createProcessEditor } = useCreateEditor();
   return (
-    <Overview title='Processes' description={processDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview
+      title={t('common.processes')}
+      description={t('processes.processDescription')}
+      search={search}
+      onSearchChange={setSearch}
+      isPending={isPending}
+    >
       {filteredGroups.map(({ project, artifacts }) => (
         <ArtifactGroup project={project} newArtifactCard={<NewProcessCard />} key={project}>
           {artifacts.map(process => {
@@ -75,6 +82,7 @@ export const useProcessExists = () => {
 };
 
 const NewProcessCard = () => {
+  const { t } = useTranslation();
   const open = useNewArtifact();
   const { createProcess } = useCreateProcess();
   const { openEditor } = useEditors();
@@ -82,6 +90,6 @@ const NewProcessCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
   const exists = useProcessExists();
-  const title = 'Create new Process';
+  const title = t('processes.newProcess');
   return <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Process', namespaceRequired: false })} />;
 };

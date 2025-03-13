@@ -1,6 +1,7 @@
 import { Collapsible, CollapsibleContent, CollapsibleTrigger, Flex } from '@axonivy/ui-components';
-import { useSearchParams } from 'react-router';
 import { useEffect, useMemo, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router';
 import { useSortedProjects } from '~/data/project-api';
 import { useWorkspace } from '~/data/workspace-api';
 import { useSearch } from '../useSearch';
@@ -35,6 +36,7 @@ const useGroupSearchParam = () => {
 };
 
 export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => {
+  const { t } = useTranslation();
   const { data } = useSortedProjects();
   const { hasGroup, isOpen, addGroup, removeGroup } = useGroupSearchParam();
   const projectBean = useMemo(() => data?.find(p => p.id.pmv === project), [data, project]);
@@ -56,8 +58,8 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
           marginBottom: 15
         }}
       >
-        Project: {project}
-        {projectBean?.id.isIar && <ArtifactTag label='Read only' />}
+        {t('common.project', { proj: project })}
+        {projectBean?.id.isIar && <ArtifactTag label={t('common.readOnly')} />}
       </CollapsibleTrigger>
       <CollapsibleContent style={{ padding: 0 }}>
         <Flex gap={4} style={{ flexWrap: 'wrap' }}>

@@ -11,6 +11,7 @@ import {
   type Theme
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useTranslation } from 'react-i18next';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 const themes = ['light', 'dark', 'system'] as const;
 
@@ -28,18 +29,19 @@ export const useCycleTheme = () => {
 export const ThemeSettings = () => {
   const { theme, setTheme } = useTheme();
   const { changeTheme } = useKnownHotkeys();
+  const { t } = useTranslation();
 
   return (
     <DropdownMenuSub>
       <DropdownMenuSubTrigger aria-label={changeTheme.label} title={changeTheme.label} data-theme={theme}>
         <IvyIcon icon={IvyIcons.DarkMode} />
-        <span>Theme</span>
+        <span>{t('settings.theme')}</span>
         <DropdownMenuPortal>
           <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
             <DropdownMenuRadioGroup value={theme} onValueChange={mode => setTheme(mode as Theme)}>
-              <DropdownMenuRadioItem value='light'>Light</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='dark'>Dark</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='system'>System</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value='light'>{t('settings.light')}</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value='dark'>{t('settings.dark')}</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value='system'>{t('settings.system')}</DropdownMenuRadioItem>
             </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>
         </DropdownMenuPortal>

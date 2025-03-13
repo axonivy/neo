@@ -14,6 +14,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { Link, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
@@ -37,6 +38,7 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export default function Index() {
+  const { t } = useTranslation();
   const { search, setSearch } = useSearch();
   const { data, isPending, isFetchingNextPage, fetchNextPage, hasNextPage } = useProducts();
   const products =
@@ -59,8 +61,8 @@ export default function Index() {
   const [dialogState, setDialogState] = useState(false);
   return (
     <Overview
-      title='Axon Ivy Market'
-      description='Here you can find and download reusable components, templates and solutions to accelerate development.'
+      title={t('market.title')}
+      description={t('market.description')}
       helpUrl={MARKET_URL}
       search={search}
       onSearchChange={setSearch}
@@ -110,6 +112,7 @@ type InstallDialogProps = {
 };
 
 const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogProps) => {
+  const { t } = useTranslation();
   const [version, setVersion] = useState<string>();
   const [project, setProject] = useState<ProjectBean>();
   const [needDependency, setNeedDependency] = useState(false);
@@ -120,21 +123,21 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
     <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Install {product.names?.en ?? ''}</DialogTitle>
+          <DialogTitle>{t('market.install', { component: product.names?.en ?? '' })}</DialogTitle>
           <DialogDescription>
             {product.shortDescriptions?.en ?? ''}{' '}
             <Link target='_blank' to={`${MARKET_URL}/${product.id}`} rel='noreferrer'>
-              See details
+              {t('market.showDetails')}
             </Link>
           </DialogDescription>
         </DialogHeader>
-        <DialogDescription>Select the version to be installed</DialogDescription>
+        <DialogDescription>{t('market.selectVersion')}</DialogDescription>
         <VersionSelect id={product.id} setVersion={setVersion} version={version}></VersionSelect>
         {needDependency && (
           <ProjectSelect
             setProject={setProject}
             setDefaultValue={true}
-            label='Add as dependency to project'
+            label={t('common.addDependency')}
             projectFilter={p => !p.id.isIar}
           />
         )}
@@ -142,7 +145,7 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
           <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project?.id}></InstallButton>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              Cancel
+              {t('common.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>
@@ -156,11 +159,12 @@ const VersionSelect = ({ id, setVersion, version }: { id: string; setVersion: (v
   const versions = useMemo(() => data ?? [], [data]);
   const engineVersion = useEngineVersion();
   const bestMatchingVersion = useBestMatchingVersion(id, engineVersion.data);
+  const { t } = useTranslation();
   useEffect(() => {
     setVersion(bestMatchingVersion.data);
   }, [bestMatchingVersion.data, setVersion]);
   return (
-    <BasicField label='Version'>
+    <BasicField label={t('common.version')}>
       {isPending ? (
         <Spinner size='small' />
       ) : (
@@ -204,6 +208,7 @@ const isDisabled = (needDependency: boolean, version?: string, project?: Project
 type ProductJson = { installers?: { id?: string }[] };
 
 const InstallButton = ({ id, version, project, setNeedDependency }: InstallButtonProps) => {
+  const { t } = useTranslation();
   const ws = useParams().ws ?? 'designer';
   const { installProduct } = useInstallProduct();
   const { data } = useProductJson(id, version);
@@ -229,7 +234,7 @@ const InstallButton = ({ id, version, project, setNeedDependency }: InstallButto
         icon={IvyIcons.Play}
         onClick={() => installProduct(ws, JSON.stringify(data), project).then(openDemos)}
       >
-        Install
+        {t('common.install')}
       </Button>
     </DialogClose>
   );
