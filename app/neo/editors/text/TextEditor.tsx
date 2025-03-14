@@ -41,7 +41,7 @@ export const TextEditor = ({ project, path }: Editor) => {
       onLoad={setupMonaco}
       ref={frameRef}
       style={{ width: '100%', height: '100%', border: 0 }}
-      title={t('common.monaco')}
+      title={t('neo.monaco')}
       src={`/monaco-yaml-ivy/index.html?demo=off&theme=${theme}`}
     ></iframe>
   );

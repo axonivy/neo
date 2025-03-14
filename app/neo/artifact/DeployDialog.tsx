@@ -50,7 +50,7 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
       }}
     >
       {log ? (
-        DeployLogContent(log)
+        <DeployLogContent log={log} />
       ) : (
         <DialogContent>
           <DialogHeader>
@@ -64,10 +64,10 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
             <BasicField label={t('deploy.applicationName')}>
               <Input value={appName} onChange={e => setAppName(e.target.value)} />
             </BasicField>
-            <BasicField label={t('common.user')}>
+            <BasicField label={t('common:label.user')}>
               <Input value={user} onChange={e => setUser(e.target.value)} />
             </BasicField>
-            <BasicField label={t('common.password')}>
+            <BasicField label={t('common:label.password')}>
               <PasswordInput value={password} onChange={pw => setPassword(pw)} />
             </BasicField>
           </Flex>
@@ -78,12 +78,12 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
               </Button>
             ) : (
               <Button variant='primary' size='large' onClick={deploy} icon={IvyIcons.Bpmn}>
-                {t('common.deploy')}
+                {t('common:label.deploy')}
               </Button>
             )}
             <DialogClose asChild>
               <Button variant='outline' size='large' icon={IvyIcons.Close}>
-                {t('common.cancel')}
+                {t('common:label.cancel')}
               </Button>
             </DialogClose>
           </DialogFooter>
@@ -93,7 +93,7 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
   );
 };
 
-const DeployLogContent = (log: string) => {
+const DeployLogContent = ({ log }: { log: string }) => {
   const { t } = useTranslation();
   return (
     <DialogContent style={{ gridTemplateRows: 'auto 1fr auto', maxHeight: '80%', maxWidth: '80%' }}>
@@ -107,7 +107,7 @@ const DeployLogContent = (log: string) => {
       <DialogFooter>
         <DialogClose asChild>
           <Button variant='primary' size='large' icon={IvyIcons.Close}>
-            {t('common.close')}
+            {t('common:label.close')}
           </Button>
         </DialogClose>
         <Button

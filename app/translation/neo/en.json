@@ -18,7 +18,7 @@
   },
   "artifact": {
     "callerData": "Caller Data",
-    "deleteConfirm": "`Are you sure you want to delete this {{artifact}}?`",
+    "deleteConfirm": "Are you sure you want to delete this {{artifact}}?",
     "namespace": "Namespace",
     "new": "Create new {{type}}",
     "optional": "Optional"
@@ -35,40 +35,6 @@
     "reload": "Reload",
     "reloadPage": "Reload Page",
     "simulate": "Process Simulate"
-  },
-  "common": {
-    "add": "Add",
-    "addDependency": "Add as dependency to project",
-    "artifactId": "ArtifactId",
-    "cancel": "Cancel",
-    "close": "Close",
-    "closeAll": "Close all",
-    "configs": "Configurations",
-    "create": "Create",
-    "dataClasses": "Data Classes",
-    "delete": "Delete",
-    "deploy": "Deploy",
-    "editable": "Editable",
-    "export": "Export",
-    "file": "File",
-    "forms": "Forms",
-    "groupId": "GroupId",
-    "home": "NEO Home",
-    "import": "Import",
-    "install": "Install",
-    "monaco": "Monaco Editor",
-    "name": "Name",
-    "no": "No",
-    "open": "Open",
-    "password": "Password",
-    "processes": "Processes",
-    "project": "Project: {{proj}}",
-    "projects": "Projects",
-    "readOnly": "Read Only",
-    "settings": "Settings",
-    "user": "User",
-    "version": "Version",
-    "yes": "Yes"
   },
   "configurations": {
     "configDescription": "Configurations are the settings and parameters that define how an application behaves and interacts with other systems."
@@ -99,9 +65,25 @@
     "showDetails": "See details",
     "title": "Axon Ivy Market"
   },
+  "neo": {
+    "addDependency": "Add as dependency to project",
+    "artifactId": "ArtifactId",
+    "configs": "Configurations",
+    "dataClasses": "Data Classes",
+    "forms": "Forms",
+    "groupId": "GroupId",
+    "home": "NEO Home",
+    "monaco": "Monaco Editor",
+    "processes": "Processes",
+    "project": "Project: {{proj}}",
+    "projects": "Projects"
+  },
   "processes": {
     "newProcess": "Create new Process",
     "processDescription": "A process describes a sequence of automated steps that optimize workflows and enables efficient task management within an application."
+  },
+  "project": {
+    "editable": "Editable"
   },
   "projects": {
     "addDependency": "Add new Dependency",

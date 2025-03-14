@@ -134,18 +134,13 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
         <DialogDescription>{t('market.selectVersion')}</DialogDescription>
         <VersionSelect id={product.id} setVersion={setVersion} version={version}></VersionSelect>
         {needDependency && (
-          <ProjectSelect
-            setProject={setProject}
-            setDefaultValue={true}
-            label={t('common.addDependency')}
-            projectFilter={p => !p.id.isIar}
-          />
+          <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
         )}
         <DialogFooter>
           <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project?.id}></InstallButton>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              {t('common.cancel')}
+              {t('common:label.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>
@@ -164,7 +159,7 @@ const VersionSelect = ({ id, setVersion, version }: { id: string; setVersion: (v
     setVersion(bestMatchingVersion.data);
   }, [bestMatchingVersion.data, setVersion]);
   return (
-    <BasicField label={t('common.version')}>
+    <BasicField label={t('common:label.version')}>
       {isPending ? (
         <Spinner size='small' />
       ) : (
@@ -234,7 +229,7 @@ const InstallButton = ({ id, version, project, setNeedDependency }: InstallButto
         icon={IvyIcons.Play}
         onClick={() => installProduct(ws, JSON.stringify(data), project).then(openDemos)}
       >
-        {t('common.install')}
+        {t('common:label.install')}
       </Button>
     </DialogClose>
   );

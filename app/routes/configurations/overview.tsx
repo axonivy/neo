@@ -25,7 +25,7 @@ export default function Index() {
 
   return (
     <Overview
-      title={t('common.configs')}
+      title={t('neo.configs')}
       description={t('configurations.configDescription')}
       search={search}
       onSearchChange={setSearch}

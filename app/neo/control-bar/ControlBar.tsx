@@ -14,7 +14,7 @@ export const ControlBar = ({ children }: { children?: ReactNode }) => {
   return (
     <Flex style={{ height: '40px', borderBottom: 'var(--basic-border)', background: 'var(--N50)' }} className='control-bar'>
       <Flex alignItems='center' gap={4} style={{ paddingInline: 'var(--size-3)', borderInlineEnd: 'var(--basic-border)' }}>
-        <Link to='/' prefetch='intent' style={{ all: 'unset' }} aria-label={t('common.home')} title={t('common.home')}>
+        <Link to='/' prefetch='intent' style={{ all: 'unset' }} aria-label={t('neo.home')} title={t('neo.home')}>
           <Button size='large' style={{ aspectRatio: 1, padding: 0 }} title={openHome.label} aria-label={openHome.label}>
             <IvyLogoSVG />
           </Button>

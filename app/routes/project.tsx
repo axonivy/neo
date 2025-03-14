@@ -14,7 +14,6 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useNavigate, useParams } from 'react-router';
-import { useMemo, useState, type ReactNode } from 'react';
 import { NEO_DESIGNER } from '~/constants';
 import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/data/dependency-api';
 import type { ProjectBean } from '~/data/generated/ivy-client';
@@ -35,6 +34,7 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export default function Index() {
+  const { t } = useTranslation();
   const { app, pmv } = useParams();
   const { search, setSearch } = useSearch();
   const projects = useSortedProjects();
@@ -49,18 +49,21 @@ export default function Index() {
           <div className='project-detail-card' style={{ background: 'var(--N50)', padding: 10, borderRadius: 5 }}>
             <Flex direction='row' gap={4} style={{ flexWrap: 'wrap', columnGap: '150px' }}>
               <ProjectInfoContainer>
-                <ProjectInfo title={t('common.artifactId')} value={project?.artifactId}></ProjectInfo>
-                <ProjectInfo title={t('common.groupId')} value={project?.groupId}></ProjectInfo>
+                <ProjectInfo title={t('neo.artifactId')} value={project?.artifactId}></ProjectInfo>
+                <ProjectInfo title={t('neo.groupId')} value={project?.groupId}></ProjectInfo>
               </ProjectInfoContainer>
               <ProjectInfoContainer>
-                <ProjectInfo title={t('common.version')} value={project?.version}></ProjectInfo>
+                <ProjectInfo title={t('common:label.version')} value={project?.version}></ProjectInfo>
                 <ProjectInfo
                   title={t('projects.editRights')}
-                  value={project?.id.isIar ? t('common.readOnly') : t('common.editable')}
+                  value={project?.id.isIar ? t('common:label.readOnly') : t('project.editable')}
                 ></ProjectInfo>
               </ProjectInfoContainer>
               <ProjectInfoContainer>
-                <ProjectInfo title={t('projects.deletable')} value={project?.isDeletable ? t('common.yes') : t('common.no')}></ProjectInfo>
+                <ProjectInfo
+                  title={t('projects.deletable')}
+                  value={project?.isDeletable ? t('common:label.yes') : t('common:label.no')}
+                ></ProjectInfo>
               </ProjectInfoContainer>
             </Flex>
           </div>
@@ -105,6 +108,7 @@ const ProjectInfo = ({ title, value }: { title: string; value?: string }) => (
 );
 
 const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; dependency: ProjectIdentifier }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { removeDependency } = useRemoveDependency();
   const open = () => {
@@ -125,7 +129,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
       actions={{ delete: deleteAction }}
       onClick={open}
       preview={<PreviewSVG />}
-      tagLabel={dependency.isIar ? 'Read only' : undefined}
+      tagLabel={dependency.isIar ? t('common:label.readOnly') : undefined}
     />
   );
 };
@@ -152,12 +156,12 @@ const AddDependencyDialog = ({ children, project }: { children: ReactNode; proje
         <DialogFooter>
           <DialogClose asChild>
             <Button variant='primary' size='large' onClick={() => dependency && addDependency(project, dependency.id)} icon={IvyIcons.Plus}>
-              {t('common.add')}
+              {t('common:label.add')}
             </Button>
           </DialogClose>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              {t('common.cancel')}
+              {t('common:label.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>

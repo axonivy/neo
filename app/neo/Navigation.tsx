@@ -11,7 +11,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
-import { LanguageSelector } from '~/translation/LanguageSelector';
+import { LanguageSelector } from '~/translation/languageSelector';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { useNeoClient } from './client/useNeoClient';
 import { AnimationSettingsMenu } from './settings/AnimationSettingsMenu';
@@ -103,7 +103,7 @@ export const Navigation = () => {
       </Flex>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.settings')} title={t('common.settings')} />
+          <Button icon={IvyIcons.Settings} size='large' aria-label={t('common:label.settings')} title={t('common:label.settings')} />
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
           <AnimationSettingsMenu />

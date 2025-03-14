@@ -16,13 +16,14 @@ export default tseslint.config(
       }
     }
   },
+
   // JSX a11y configs
   a11y.flatConfigs.recommended,
   // Project specific configs
   {
     name: 'ignore-files',
     ignores: [
-      '**/generated/openapi-*.ts',
+      '**/generated/*-client.ts',
       '.react-router/**',
       'playwright/global.teardown.ts',
       'eslint-plugin-custom-rules.js',

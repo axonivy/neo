@@ -58,8 +58,8 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
           marginBottom: 15
         }}
       >
-        {t('common.project', { proj: project })}
-        {projectBean?.id.isIar && <ArtifactTag label={t('common.readOnly')} />}
+        {t('neo.project', { proj: project })}
+        {projectBean?.id.isIar && <ArtifactTag label={t('common:label.readOnly')} />}
       </CollapsibleTrigger>
       <CollapsibleContent style={{ padding: 0 }}>
         <Flex gap={4} style={{ flexWrap: 'wrap' }}>

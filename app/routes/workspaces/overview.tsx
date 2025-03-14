@@ -29,7 +29,7 @@ import { Overview } from '~/neo/Overview';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
-import { LanguageSelector } from '~/translation/LanguageSelector';
+import { LanguageSelector } from '~/translation/languageSelector';
 import welcomeSvgUrl from './welcome.svg?url';
 import PreviewSVG from './workspace-preview.svg?react';
 
@@ -53,7 +53,7 @@ export default function Index() {
         <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.settings')} title={t('common.settings')} />
+              <Button icon={IvyIcons.Settings} size='large' aria-label={t('common:label.settings')} title={t('common:label.settings')} />
             </DropdownMenuTrigger>
             <DropdownMenuContent sideOffset={6} collisionPadding={10} side='bottom'>
               <LanguageSelector />
@@ -146,7 +146,7 @@ const NewWorkspaceCard = () => {
           </DialogHeader>
           <form>
             <Flex direction='column' gap={3}>
-              <BasicField label={t('common.name')} message={nameValidation}>
+              <BasicField label={t('common:label.name')} message={nameValidation}>
                 <Input value={name} onChange={e => setName(e.target.value)} />
               </BasicField>
               <DialogFooter>
@@ -163,12 +163,12 @@ const NewWorkspaceCard = () => {
                       create(name);
                     }}
                   >
-                    {t('common.create')}
+                    {t('common:label.create')}
                   </Button>
                 </DialogClose>
                 <DialogClose asChild>
                   <Button icon={IvyIcons.Close} size='large' variant='outline'>
-                    {t('common.cancel')}
+                    {t('common:label.cancel')}
                   </Button>
                 </DialogClose>
               </DialogFooter>

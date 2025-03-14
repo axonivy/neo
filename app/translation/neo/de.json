@@ -36,40 +36,6 @@
     "reloadPage": "Seite neu laden",
     "simulate": "Prozess simulieren"
   },
-  "common": {
-    "add": "Hinzufügen",
-    "addDependency": "Als Abhängigkeit zum Projekt hinzufügen",
-    "artifactId": "Artefakt-ID",
-    "cancel": "Abbrechen",
-    "close": "Schließen",
-    "closeAll": "Alle schließen",
-    "configs": "Konfigurationen",
-    "create": "Erstellen",
-    "dataClasses": "Datenklassen",
-    "delete": "Löschen",
-    "deploy": "Bereitstellen",
-    "editable": "Bearbeitbar",
-    "export": "Exportieren",
-    "file": "Datei",
-    "forms": "Formulare",
-    "groupId": "Gruppen-ID",
-    "home": "NEO Startseite",
-    "import": "Importieren",
-    "install": "Installieren",
-    "monaco": "Monaco-Editor",
-    "name": "Name",
-    "no": "Nein",
-    "open": "Öffnen",
-    "password": "Passwort",
-    "processes": "Prozesse",
-    "project": "Projekt: {{proj}}",
-    "projects": "Projekte",
-    "readOnly": "Nur lesen",
-    "settings": "Einstellungen",
-    "user": "Benutzer",
-    "version": "Version",
-    "yes": "Ja"
-  },
   "configurations": {
     "configDescription": "Konfigurationen sind die Einstellungen und Parameter, die das Verhalten einer Anwendung und ihre Interaktion mit anderen Systemen definieren."
   },
@@ -99,9 +65,25 @@
     "showDetails": "Details anzeigen",
     "title": "Axon Ivy Markt"
   },
+  "neo": {
+    "addDependency": "Als Abhängigkeit zum Projekt hinzufügen",
+    "artifactId": "Artefakt-ID",
+    "configs": "Konfigurationen",
+    "dataClasses": "Datenklassen",
+    "forms": "Formulare",
+    "groupId": "Gruppen-ID",
+    "home": "NEO Startseite",
+    "monaco": "Monaco-Editor",
+    "processes": "Prozesse",
+    "project": "Projekt: {{proj}}",
+    "projects": "Projekte"
+  },
   "processes": {
     "newProcess": "Neuen Prozess erstellen",
     "processDescription": "Ein Prozess beschreibt eine Abfolge automatisierter Schritte, die Arbeitsabläufe optimieren und ein effizientes Aufgabenmanagement innerhalb einer Anwendung ermöglichen."
+  },
+  "project": {
+    "editable": "Bearbeitbar"
   },
   "projects": {
     "addDependency": "Neue Abhängigkeit hinzufügen",

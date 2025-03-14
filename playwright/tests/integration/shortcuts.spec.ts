@@ -98,9 +98,9 @@ test('settings shortcuts', async ({ page }) => {
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Light' })).toBeChecked();
 
   await menu.getByRole('menuitem', { name: 'Speed' }).click();
-  await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'normal' })).toBeChecked();
+  await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Normal' })).toBeChecked();
   await page.keyboard.press('Shift+F');
-  await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'slow', exact: true })).toBeChecked();
+  await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Slow', exact: true })).toBeChecked();
 
   await menu.getByRole('menuitem', { name: 'Mode' }).click();
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'All processes' })).toBeChecked();
