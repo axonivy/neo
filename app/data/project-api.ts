@@ -6,7 +6,7 @@ import {
   projects,
   stopBpmEngine as stopBpmEngineReq,
   type ProjectIdentifier as ProjectId
-} from './generated/openapi-dev';
+} from './generated/ivy-client';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 

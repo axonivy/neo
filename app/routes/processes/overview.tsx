@@ -1,5 +1,5 @@
 import type { LinksFunction, MetaFunction } from 'react-router';
-import type { ProcessBean } from '~/data/generated/openapi-dev';
+import type { ProcessBean } from '~/data/generated/ivy-client';
 import { useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';

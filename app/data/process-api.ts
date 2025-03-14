@@ -8,7 +8,7 @@ import {
   type ProcessBean,
   type ProcessIdentifier as ProcessIdentifierBean,
   type ProcessInit
-} from './generated/openapi-dev';
+} from './generated/ivy-client';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 

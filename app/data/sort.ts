@@ -1,4 +1,4 @@
-import type { WorkspaceBean } from './generated/openapi-default';
+import type { WorkspaceBean } from './generated/ivy-client';
 
 export const projectSort = (a: string, b: string, ws?: WorkspaceBean) => {
   if (a === ws?.name) return -1;
