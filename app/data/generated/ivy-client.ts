@@ -4,19 +4,6 @@
  * Axon Ivy OpenAPI
  */
 import { customFetch } from '../custom-fetch';
-export type FormDataContentDispositionParameters = { [key: string]: string };
-
-export interface FormDataContentDisposition {
-  type?: string;
-  parameters?: FormDataContentDispositionParameters;
-  fileName?: string;
-  creationDate?: string;
-  modificationDate?: string;
-  readDate?: string;
-  size?: number;
-  name?: string;
-}
-
 export type WebNotificationOperationOperation = (typeof WebNotificationOperationOperation)[keyof typeof WebNotificationOperationOperation];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -188,121 +175,6 @@ export interface WorkspaceInit {
   path?: string;
 }
 
-export type BodyPartEntity = { [key: string]: unknown };
-
-export type BodyPartHeaders = { [key: string]: string[] };
-
-export type BodyPartMediaTypeParameters = { [key: string]: string };
-
-export type BodyPartMediaType = {
-  type?: string;
-  subtype?: string;
-  parameters?: BodyPartMediaTypeParameters;
-  wildcardType?: boolean;
-  wildcardSubtype?: boolean;
-};
-
-export type BodyPartProviders = { [key: string]: unknown };
-
-export type BodyPartParameterizedHeaders = { [key: string]: ParameterizedHeader[] };
-
-export interface BodyPart {
-  contentDisposition?: ContentDisposition;
-  entity?: BodyPartEntity;
-  headers?: BodyPartHeaders;
-  mediaType?: BodyPartMediaType;
-  messageBodyWorkers?: MessageBodyWorkers;
-  parent?: MultiPart;
-  providers?: BodyPartProviders;
-  parameterizedHeaders?: BodyPartParameterizedHeaders;
-}
-
-export type ContentDispositionParameters = { [key: string]: string };
-
-export interface ContentDisposition {
-  type?: string;
-  parameters?: ContentDispositionParameters;
-  fileName?: string;
-  creationDate?: string;
-  modificationDate?: string;
-  readDate?: string;
-  size?: number;
-}
-
-export type FormDataBodyPartEntity = { [key: string]: unknown };
-
-export type FormDataBodyPartHeaders = { [key: string]: string[] };
-
-export type FormDataBodyPartMediaTypeParameters = { [key: string]: string };
-
-export type FormDataBodyPartMediaType = {
-  type?: string;
-  subtype?: string;
-  parameters?: FormDataBodyPartMediaTypeParameters;
-  wildcardType?: boolean;
-  wildcardSubtype?: boolean;
-};
-
-export type FormDataBodyPartProviders = { [key: string]: unknown };
-
-export type FormDataBodyPartParameterizedHeaders = { [key: string]: ParameterizedHeader[] };
-
-export interface FormDataBodyPart {
-  contentDisposition?: ContentDisposition;
-  entity?: FormDataBodyPartEntity;
-  headers?: FormDataBodyPartHeaders;
-  mediaType?: FormDataBodyPartMediaType;
-  messageBodyWorkers?: MessageBodyWorkers;
-  parent?: MultiPart;
-  providers?: FormDataBodyPartProviders;
-  formDataContentDisposition?: FormDataContentDisposition;
-  simple?: boolean;
-  name?: string;
-  value?: string;
-  parameterizedHeaders?: FormDataBodyPartParameterizedHeaders;
-}
-
-export interface MessageBodyWorkers {
-  [key: string]: unknown;
-}
-
-export type MultiPartEntity = { [key: string]: unknown };
-
-export type MultiPartHeaders = { [key: string]: string[] };
-
-export type MultiPartMediaTypeParameters = { [key: string]: string };
-
-export type MultiPartMediaType = {
-  type?: string;
-  subtype?: string;
-  parameters?: MultiPartMediaTypeParameters;
-  wildcardType?: boolean;
-  wildcardSubtype?: boolean;
-};
-
-export type MultiPartProviders = { [key: string]: unknown };
-
-export type MultiPartParameterizedHeaders = { [key: string]: ParameterizedHeader[] };
-
-export interface MultiPart {
-  contentDisposition?: ContentDisposition;
-  entity?: MultiPartEntity;
-  headers?: MultiPartHeaders;
-  mediaType?: MultiPartMediaType;
-  messageBodyWorkers?: MessageBodyWorkers;
-  parent?: MultiPart;
-  providers?: MultiPartProviders;
-  bodyParts?: BodyPart[];
-  parameterizedHeaders?: MultiPartParameterizedHeaders;
-}
-
-export type ParameterizedHeaderParameters = { [key: string]: string };
-
-export interface ParameterizedHeader {
-  value?: string;
-  parameters?: ParameterizedHeaderParameters;
-}
-
 export interface MarketInstallResult {
   installedProjects: ProjectIdentifier[];
   demoProcesses: ProcessBean[];
@@ -359,6 +231,10 @@ export interface CaseBean {
   documents?: DocumentBean[];
 }
 
+export interface ResponsibleBean {
+  name?: string;
+}
+
 export interface TaskBean {
   id?: number;
   name?: string;
@@ -368,6 +244,7 @@ export interface TaskBean {
   priority?: number;
   state?: number;
   activatorName?: string;
+  responsibles?: ResponsibleBean[];
   fullRequestPath?: string;
   offline?: boolean;
   case?: CaseBean;
@@ -414,7 +291,8 @@ export type SetVariableParams = {
 };
 
 export type DeployBody = {
-  fileToDeploy: FormDataContentDisposition;
+  /** project .iar file or multiple projects in a .zip file */
+  fileToDeploy: Blob;
   /** deployment options as YAML file. If defined, the specific params below will be ignored. */
   deploymentOptions?: string;
   deployTestUsers?: string;
@@ -442,8 +320,8 @@ export type StopBpmEngineParams = {
 };
 
 export type ImportProjectsBody = {
-  file?: FormDataContentDisposition;
-  dependentProject?: FormDataBodyPart;
+  file?: Blob;
+  dependentProject?: Blob;
 };
 
 /**
@@ -621,7 +499,7 @@ export const getDeployUrl = (applicationName: string) => {
 
 export const deploy = async (applicationName: string, deployBody: DeployBody, options?: RequestInit): Promise<deployResponse> => {
   const formData = new FormData();
-  formData.append('fileToDeploy', JSON.stringify(deployBody.fileToDeploy));
+  formData.append('fileToDeploy', deployBody.fileToDeploy);
   if (deployBody.deploymentOptions !== undefined) {
     formData.append('deploymentOptions', deployBody.deploymentOptions);
   }
@@ -1174,10 +1052,10 @@ export const importProjects = async (
 ): Promise<importProjectsResponse> => {
   const formData = new FormData();
   if (importProjectsBody.file !== undefined) {
-    formData.append('file', JSON.stringify(importProjectsBody.file));
+    formData.append('file', importProjectsBody.file);
   }
   if (importProjectsBody.dependentProject !== undefined) {
-    formData.append('dependentProject', JSON.stringify(importProjectsBody.dependentProject));
+    formData.append('dependentProject', importProjectsBody.dependentProject);
   }
 
   return customFetch<importProjectsResponse>(getImportProjectsUrl(id), {
