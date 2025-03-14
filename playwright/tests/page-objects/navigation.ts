@@ -42,7 +42,7 @@ export class Navigation {
     }
   }
 
-  async changeAnimationSpeed(speed: 'fastest') {
+  async changeAnimationSpeed(speed: 'Fastest') {
     const menu = await this.openSettings();
     const speedTrigger = menu.getByRole('menuitem', { name: 'Speed' });
     await speedTrigger.click();

@@ -18,7 +18,7 @@ test('install from market', async ({ page, browserName }, testInfo) => {
   const neo = await Neo.open(page);
   const overview = new Overview(page);
   await overview.create(wsName);
-  await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
+  await expect(page.locator(`text=Welcome to your workspace: $<{wsName}`)).toBeVisible();
   await overview.clickMarketImport();
   await overview.card('Microsoft Excel').click();
   await page.getByRole('dialog').getByRole('button').getByText('Install').click();

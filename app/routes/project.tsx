@@ -105,6 +105,7 @@ const ProjectInfo = ({ title, value }: { title: string; value?: string }) => (
 );
 
 const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; dependency: ProjectIdentifier }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { removeDependency } = useRemoveDependency();
   const open = () => {
@@ -125,7 +126,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
       actions={{ delete: deleteAction }}
       onClick={open}
       preview={<PreviewSVG />}
-      tagLabel={dependency.isIar ? 'Read only' : undefined}
+      tagLabel={dependency.isIar ? t('common.readOnly') : undefined}
     />
   );
 };

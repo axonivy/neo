@@ -205,6 +205,7 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
 };
 
 const ProjectCard = ({ project }: { project: ProjectBean }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { deleteProject } = useDeleteProject();
   const ws = useWorkspace();
@@ -228,7 +229,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
       actions={{ delete: deleteAction }}
       onClick={open}
       preview={<PreviewSVG />}
-      tagLabel={project.id.isIar ? 'Read only' : undefined}
+      tagLabel={project.id.isIar ? t('common.readOnly') : undefined}
     />
   );
 };
