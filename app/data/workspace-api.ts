@@ -98,7 +98,8 @@ export const useExportWorkspace = () => {
 
 export const useImportProjectsIntoWs = () => {
   const importProjects = async (id: string, file: Blob, dependentProject?: ProjectIdentifier) => {
-    const res = await importProjectsReq(id, { file, dependentProject: { value: JSON.stringify(dependentProject) } });
+    const blob = dependentProject ? new Blob([JSON.stringify(dependentProject)], { type: 'application/json' }) : undefined;
+    const res = await importProjectsReq(id, { file, dependentProject: blob });
     if (ok(res)) {
       return;
     }
