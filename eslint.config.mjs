@@ -45,7 +45,7 @@ export default tseslint.config(
           framework: 'react',
           mode: 'jsx-only',
           'should-validate-template': true,
-          'jsx-attributes': { include: ['title', 'aria-label', 'label', 'tag-label', 'info'] }
+          'jsx-attributes': { include: ['title', 'aria-label', 'label', 'tag-label', 'info', 'description'] }
         }
       ]
     }

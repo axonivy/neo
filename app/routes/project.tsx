@@ -67,7 +67,7 @@ export default function Index() {
         </Flex>
         <Overview
           title={t('projects.dependencyDetails', { project: project?.id.pmv })}
-          description='Here you can view the project dependencies.'
+          description={t('projects.description')}
           info={t('projects.dependecyInfo')}
           search={search}
           onSearchChange={setSearch}

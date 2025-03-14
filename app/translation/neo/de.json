@@ -4,11 +4,16 @@
     "allProcesses": "Alle Prozesse",
     "animation": "Animation",
     "enabled": "Aktiviert",
+    "fast": "__MISSING_TRANSLATION__",
+    "fastest": "__MISSING_TRANSLATION__",
     "mode": "Modus",
     "noDialog": "Keine Dialogprozesse",
     "noEmbedded": "Keine eingebetteten Prozesse",
+    "normal": "__MISSING_TRANSLATION__",
     "onlyCurrenltyOpen": "Nur aktuell geöffneter Prozess",
     "reset": "Zurücksetzen",
+    "slow": "__MISSING_TRANSLATION__",
+    "slowest": "__MISSING_TRANSLATION__",
     "speed": "Geschwindigkeit"
   },
   "artifact": {
@@ -88,6 +93,7 @@
     "newForm": "Neues Formular erstellen"
   },
   "market": {
+    "description": "Hier können sie Vorlagen und Lösungen suchen und herunterlden, um die Entwicklung zu beschläunigen.",
     "install": "{{component}} installieren",
     "selectVersion": "Version zur Installation auswählen",
     "showDetails": "Details anzeigen",
@@ -103,6 +109,7 @@
     "deletable": "Löschbar",
     "dependecyInfo": "Abhängigkeiten sind Verknüpfungen zwischen Projekten, die es einem Projekt ermöglichen, die Funktionalität oder Artefakte eines anderen zu nutzen und so doppelte Arbeit zu vermeiden.",
     "dependencyDetails": "Abhängigkeitsdetails von: {{project}}",
+    "description": "Hier finden sie alle Projekt-Abhängigkeiten",
     "details": "Projektdetails: {{project}}",
     "editRights": "Bearbeitungsrechte",
     "selectDependency": "Abhängigkeit auswählen"

@@ -4,11 +4,16 @@
     "allProcesses": "All processes",
     "animation": "Animation",
     "enabled": "Enabled",
+    "fast": "Fast",
+    "fastest": "Fastest",
     "mode": "Mode",
     "noDialog": "No dialog processes",
     "noEmbedded": "No embedded processes",
+    "normal": "Normal",
     "onlyCurrenltyOpen": "Only current open process",
     "reset": "Reset",
+    "slow": "Slow",
+    "slowest": "Slowest",
     "speed": "Speed"
   },
   "artifact": {
@@ -88,6 +93,7 @@
     "newForm": "Create new Form"
   },
   "market": {
+    "description": "Here you can find and download reusable components, templates and solutions to accelerate development.",
     "install": "Install {{component}}",
     "selectVersion": "Select the version to be installed",
     "showDetails": "See details",
@@ -103,6 +109,7 @@
     "deletable": "Deletable",
     "dependecyInfo": "Dependencies are links between projects which allow one project to access the functionality or artefacts of another and avoid duplicating work.",
     "dependencyDetails": "Dependency details of: {{project}}",
+    "description": "Here you can view the project dependencies.",
     "details": "Project details: {{project}}",
     "editRights": "Editing rights",
     "selectDependency": "Select dependency"

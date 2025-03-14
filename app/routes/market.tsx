@@ -63,7 +63,7 @@ export default function Index() {
   return (
     <Overview
       title={t('market.title')}
-      description='Here you can find and download reusable components, templates and solutions to accelerate development.'
+      description={t('market.description')}
       helpUrl={MARKET_URL}
       search={search}
       onSearchChange={setSearch}
