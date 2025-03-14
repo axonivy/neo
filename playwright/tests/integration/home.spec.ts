@@ -36,7 +36,6 @@ test('import and delete project', async ({ page, browserName }, testInfo) => {
   const { overview, neo } = await Neo.exportWorkspace(page, zipFile);
   const wsName = `${browserName}_idp_${testInfo.retry}`;
   await overview.create(wsName);
-  await overview.cards.filter({ hasText: wsName }).first().click();
   await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
   await overview.clickFileImport();
   await new ImportDialog(page).import(zipFile);

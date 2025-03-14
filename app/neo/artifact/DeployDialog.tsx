@@ -50,7 +50,7 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
       }}
     >
       {log ? (
-        DeployLogContent(log)
+        <DeployLogContent log={log} />
       ) : (
         <DialogContent>
           <DialogHeader>
@@ -93,7 +93,7 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
   );
 };
 
-const DeployLogContent = (log: string) => {
+const DeployLogContent = ({ log }: { log: string }) => {
   const { t } = useTranslation();
   return (
     <DialogContent style={{ gridTemplateRows: 'auto 1fr auto', maxHeight: '80%', maxWidth: '80%' }}>
