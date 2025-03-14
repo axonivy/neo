@@ -43,7 +43,7 @@ pipeline {
         script {
           catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
             docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
-              sh 'npm run download:openapi --engine_base=https://neo.ivyteam.io'
+              sh 'npm run download:openapi'
               sh 'npm run codegen:openapi'
               sh 'npm run type'
               sh 'npm run lint:ci'
