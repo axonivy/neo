@@ -11,7 +11,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
-import { LanguageSelector } from '~/translation/LanguageSelector';
+import { LanguageSelector } from '~/translation/languageSelector';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { useNeoClient } from './client/useNeoClient';
 import { AnimationSettingsMenu } from './settings/AnimationSettingsMenu';
