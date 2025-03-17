@@ -16,7 +16,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router';
 import { useGroupedDataClasses } from '~/data/data-class-api';
-import type { DataClassIdentifier, ProjectBean } from '~/data/generated/openapi-dev';
+import type { DataClassIdentifier, ProjectBean } from '~/data/generated/ivy-client';
 import { type ProjectIdentifier } from '~/data/project-api';
 import { InfoPopover } from '../InfoPopover';
 import { ProjectSelect } from './ProjectSelect';

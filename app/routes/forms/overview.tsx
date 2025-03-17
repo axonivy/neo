@@ -1,6 +1,6 @@
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useCreateForm, useDeleteForm, useGroupedForms, type FormIdentifier } from '~/data/form-api';
-import type { DataClassIdentifier, HdBean } from '~/data/generated/openapi-dev';
+import type { DataClassIdentifier, HdBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { formDescription } from '~/neo/artifact/artifact-description';

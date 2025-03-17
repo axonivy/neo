@@ -19,7 +19,7 @@ export default tseslint.config(
   // Project specific configs
   {
     name: 'ignore-files',
-    ignores: ['**/generated/openapi-*.ts', '.react-router/**', 'playwright/global.teardown.ts']
+    ignores: ['**/generated/*-client.ts', '.react-router/**', 'playwright/global.teardown.ts']
   },
   {
     name: 'neo/rules',

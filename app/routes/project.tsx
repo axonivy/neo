@@ -10,12 +10,12 @@ import {
   Flex
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useMemo, useState, type ReactNode } from 'react';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useNavigate, useParams } from 'react-router';
-import { useMemo, useState, type ReactNode } from 'react';
 import { NEO_DESIGNER } from '~/constants';
 import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/data/dependency-api';
-import type { ProjectBean } from '~/data/generated/openapi-dev';
+import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';

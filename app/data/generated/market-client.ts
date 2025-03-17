@@ -69,6 +69,19 @@ export interface ProductModel {
   _links?: Links;
 }
 
+export interface GitHubReleaseModel {
+  /** Version of release */
+  name?: string;
+  /** Body of release */
+  body?: string;
+  /** Published date of release */
+  publishedAt?: string;
+  /** Link of release */
+  htmlUrl?: string;
+  latestRelease?: boolean;
+  _links?: Links;
+}
+
 /**
  * Product name by locale
  */
@@ -172,6 +185,7 @@ export interface MavenArtifactModel {
   name?: string;
   /** Artifact download url */
   downloadUrl?: string;
+  artifactId?: string;
 }
 
 export interface MavenArtifactVersionModel {
@@ -180,9 +194,23 @@ export interface MavenArtifactVersionModel {
   artifactsByVersion?: MavenArtifactModel[];
 }
 
+export type _PagedModelGitHubReleaseModelEmbedded = {
+  gitHubReleaseModelList?: GitHubReleaseModel[];
+};
+
+export interface PagedModelGitHubReleaseModel {
+  _embedded?: _PagedModelGitHubReleaseModelEmbedded;
+  _links?: Links;
+  page?: PageMetadata;
+}
+
 export interface VersionAndUrlModel {
   version?: string;
   url?: string;
+}
+
+export interface ResponseBodyEmitter {
+  timeout?: number;
 }
 
 export interface DesignerInstallation {
@@ -358,7 +386,27 @@ export type FindProductVersionsByIdParams = {
   designerVersion?: string;
 };
 
+export type FindGithubPublicReleasesParams = {
+  /**
+   * Page number to retrieve
+   */
+  page: number;
+  /**
+   * Number of items per page
+   */
+  size?: number;
+  /**
+   * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
+   */
+  sort?: string[];
+};
+
 export type GetLatestArtifactDownloadUrlParams = {
+  version: string;
+  artifact: string;
+};
+
+export type DownloadZipArtifactParams = {
   version: string;
   artifact: string;
 };
@@ -463,6 +511,34 @@ export const findProducts = async (params: FindProductsParams, options?: Request
     ...options,
     method: 'GET'
   });
+};
+
+/**
+ * Get release by product id and release id
+ * @summary Find release by product id and release id
+ */
+export type findGithubPublicReleaseByProductIdAndReleaseIdResponse = {
+  data: GitHubReleaseModel;
+  status: number;
+  headers: Headers;
+};
+
+export const getFindGithubPublicReleaseByProductIdAndReleaseIdUrl = (productId: string, releaseId: number) => {
+  return `/api/product-details/${productId}/releases/${releaseId}`;
+};
+
+export const findGithubPublicReleaseByProductIdAndReleaseId = async (
+  productId: string,
+  releaseId: number,
+  options?: RequestInit
+): Promise<findGithubPublicReleaseByProductIdAndReleaseIdResponse> => {
+  return customFetch<findGithubPublicReleaseByProductIdAndReleaseIdResponse>(
+    getFindGithubPublicReleaseByProductIdAndReleaseIdUrl(productId, releaseId),
+    {
+      ...options,
+      method: 'GET'
+    }
+  );
 };
 
 /**
@@ -605,6 +681,41 @@ export const findProductVersionsById = async (
 };
 
 /**
+ * Get all public releases by product id
+ * @summary Find public releases by product id
+ */
+export type findGithubPublicReleasesResponse = {
+  data: PagedModelGitHubReleaseModel;
+  status: number;
+  headers: Headers;
+};
+
+export const getFindGithubPublicReleasesUrl = (id: string, params: FindGithubPublicReleasesParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  return normalizedParams.size
+    ? `/api/product-details/${id}/releases?${normalizedParams.toString()}`
+    : `/api/product-details/${id}/releases`;
+};
+
+export const findGithubPublicReleases = async (
+  id: string,
+  params: FindGithubPublicReleasesParams,
+  options?: RequestInit
+): Promise<findGithubPublicReleasesResponse> => {
+  return customFetch<findGithubPublicReleasesResponse>(getFindGithubPublicReleasesUrl(id, params), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
  * Collect the released versions in product for ivy designer
  * @summary Get the list of released version in product
  */
@@ -655,6 +766,58 @@ export const getLatestArtifactDownloadUrl = async (
   options?: RequestInit
 ): Promise<getLatestArtifactDownloadUrlResponse> => {
   return customFetch<getLatestArtifactDownloadUrlResponse>(getGetLatestArtifactDownloadUrlUrl(id, params), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
+ * Return the download url of artifact from version and id
+ * @summary Get the download steam of artifact and it's dependencies by it's id and target version
+ */
+export type downloadZipArtifactResponse = {
+  data: ResponseBodyEmitter;
+  status: number;
+  headers: Headers;
+};
+
+export const getDownloadZipArtifactUrl = (id: string, params: DownloadZipArtifactParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  return normalizedParams.size
+    ? `/api/product-details/${id}/artifact/zip-file?${normalizedParams.toString()}`
+    : `/api/product-details/${id}/artifact/zip-file`;
+};
+
+export const downloadZipArtifact = async (
+  id: string,
+  params: DownloadZipArtifactParams,
+  options?: RequestInit
+): Promise<downloadZipArtifactResponse> => {
+  return customFetch<downloadZipArtifactResponse>(getDownloadZipArtifactUrl(id, params), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type syncLatestReleasesForProductsResponse = {
+  data: void;
+  status: number;
+  headers: Headers;
+};
+
+export const getSyncLatestReleasesForProductsUrl = () => {
+  return `/api/product-details/sync-release-notes`;
+};
+
+export const syncLatestReleasesForProducts = async (options?: RequestInit): Promise<syncLatestReleasesForProductsResponse> => {
+  return customFetch<syncLatestReleasesForProductsResponse>(getSyncLatestReleasesForProductsUrl(), {
     ...options,
     method: 'GET'
   });

@@ -1,6 +1,6 @@
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useGroupedConfigurations } from '~/data/config-api';
-import type { ConfigurationIdentifier } from '~/data/generated/openapi-dev';
+import type { ConfigurationIdentifier } from '~/data/generated/ivy-client';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { configDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';

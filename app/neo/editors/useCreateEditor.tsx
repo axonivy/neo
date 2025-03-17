@@ -2,7 +2,7 @@ import { toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useParams } from 'react-router';
 import type { Form } from '~/data/form-api';
-import type { ConfigurationIdentifier, DataClassBean } from '~/data/generated/openapi-dev';
+import type { ConfigurationIdentifier, DataClassBean } from '~/data/generated/ivy-client';
 import type { Process } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { lastSegment } from '~/utils/path';
