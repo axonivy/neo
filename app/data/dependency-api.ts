@@ -1,13 +1,13 @@
 import { toast } from '@axonivy/ui-components';
-import { useParams } from 'react-router';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'react-router';
 import { headers, ok } from './custom-fetch';
 import {
   addDependency as addDependencyReq,
   dependencies,
   type ProjectIdentifier,
   removeDependency as removeDependencyReq
-} from './generated/openapi-dev';
+} from './generated/ivy-client';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 

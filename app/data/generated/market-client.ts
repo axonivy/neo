@@ -69,13 +69,16 @@ export interface ProductModel {
   _links?: Links;
 }
 
-export interface GithubReleaseModel {
+export interface GitHubReleaseModel {
   /** Version of release */
   name?: string;
   /** Body of release */
   body?: string;
   /** Published date of release */
   publishedAt?: string;
+  /** Link of release */
+  htmlUrl?: string;
+  latestRelease?: boolean;
   _links?: Links;
 }
 
@@ -191,12 +194,12 @@ export interface MavenArtifactVersionModel {
   artifactsByVersion?: MavenArtifactModel[];
 }
 
-export type _PagedModelGithubReleaseModelEmbedded = {
-  githubReleaseModelList?: GithubReleaseModel[];
+export type _PagedModelGitHubReleaseModelEmbedded = {
+  gitHubReleaseModelList?: GitHubReleaseModel[];
 };
 
-export interface PagedModelGithubReleaseModel {
-  _embedded?: _PagedModelGithubReleaseModelEmbedded;
+export interface PagedModelGitHubReleaseModel {
+  _embedded?: _PagedModelGitHubReleaseModelEmbedded;
   _links?: Links;
   page?: PageMetadata;
 }
@@ -511,11 +514,11 @@ export const findProducts = async (params: FindProductsParams, options?: Request
 };
 
 /**
- * Get release by release id.
- * @summary Find release by id
+ * Get release by product id and release id
+ * @summary Find release by product id and release id
  */
 export type findGithubPublicReleaseByProductIdAndReleaseIdResponse = {
-  data: GithubReleaseModel;
+  data: GitHubReleaseModel;
   status: number;
   headers: Headers;
 };
@@ -678,11 +681,11 @@ export const findProductVersionsById = async (
 };
 
 /**
- * Get all public releases product id
+ * Get all public releases by product id
  * @summary Find public releases by product id
  */
 export type findGithubPublicReleasesResponse = {
-  data: PagedModelGithubReleaseModel;
+  data: PagedModelGitHubReleaseModel;
   status: number;
   headers: Headers;
 };
@@ -798,6 +801,23 @@ export const downloadZipArtifact = async (
   options?: RequestInit
 ): Promise<downloadZipArtifactResponse> => {
   return customFetch<downloadZipArtifactResponse>(getDownloadZipArtifactUrl(id, params), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type syncLatestReleasesForProductsResponse = {
+  data: void;
+  status: number;
+  headers: Headers;
+};
+
+export const getSyncLatestReleasesForProductsUrl = () => {
+  return `/api/product-details/sync-release-notes`;
+};
+
+export const syncLatestReleasesForProducts = async (options?: RequestInit): Promise<syncLatestReleasesForProductsResponse> => {
+  return customFetch<syncLatestReleasesForProductsResponse>(getSyncLatestReleasesForProductsUrl(), {
     ...options,
     method: 'GET'
   });

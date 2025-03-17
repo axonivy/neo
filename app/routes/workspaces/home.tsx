@@ -25,7 +25,7 @@ import { useMemo, useState } from 'react';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { Link, useNavigate, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
-import type { ProjectBean } from '~/data/generated/openapi-dev';
+import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
 import { configDescription, dataClassDescription, formDescription, processDescription } from '~/neo/artifact/artifact-description';

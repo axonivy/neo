@@ -1,7 +1,5 @@
 import { defineConfig } from 'orval';
 
-const hooks = { afterAllFilesWrite: 'prettier --write' };
-const filters = { tags: ['web-ide', 'engine'], schemas: [/.*/] };
 const client = 'fetch';
 const override = {
   mutator: {
@@ -11,50 +9,27 @@ const override = {
 };
 
 export default defineConfig({
-  openapiDev: {
+  openapiIvy: {
     input: {
-      target: './openapi-dev.yaml',
-      filters
+      target: 'target/engine/openapi.json',
+      filters: { tags: ['web-ide', 'engine'] }
     },
     output: {
-      target: './app/data/generated/openapi-dev.ts',
+      target: './app/data/generated/ivy-client.ts',
       client,
+      prettier: true,
       override
-    },
-    hooks
-  },
-  openapiDefault: {
-    input: {
-      target: './openapi-default.yaml',
-      filters
-    },
-    output: {
-      target: './app/data/generated/openapi-default.ts',
-      client,
-      override
-    },
-    hooks
-  },
-  openapiSystem: {
-    input: {
-      target: './openapi-system.yaml'
-    },
-    output: {
-      target: './app/data/generated/openapi-system.ts',
-      client,
-      override
-    },
-    hooks
+    }
   },
   openapiMarket: {
     input: {
-      target: './openapi-market.json'
+      target: 'target/market/openapi.json'
     },
     output: {
-      target: './app/data/generated/openapi-market.ts',
+      target: './app/data/generated/market-client.ts',
       client,
+      prettier: true,
       override
-    },
-    hooks
+    }
   }
 });

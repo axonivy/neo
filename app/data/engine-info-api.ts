@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ok } from './custom-fetch';
-import { getInfo } from './generated/openapi-default';
+import { getInfo } from './generated/ivy-client';
 
 export const useEngineInfoApi = () => {
   return { queryKey: ['neo', 'engine-info'] };

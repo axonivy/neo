@@ -9,7 +9,7 @@ import {
   findProductVersionsById,
   type PagedModelProductModel,
   type ProductDetailModel
-} from './generated/openapi-market';
+} from './generated/market-client';
 
 export const MARKET_URL = 'https://market.axonivy.com';
 

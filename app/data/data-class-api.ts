@@ -7,7 +7,7 @@ import {
   type DataClassIdentifier,
   type DataClassInit,
   deleteDataClass as deleteDataClassReq
-} from './generated/openapi-dev';
+} from './generated/ivy-client';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
