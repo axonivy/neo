@@ -3,7 +3,7 @@ import { renderHook } from '@testing-library/react';
 import { useParams } from 'react-router';
 import type { Mock } from 'vitest';
 import type { Form } from '~/data/form-api';
-import type { DataClassBean } from '~/data/generated/openapi-dev';
+import type { DataClassBean } from '~/data/generated/ivy-client';
 import type { Process } from '~/data/process-api';
 import type { Editor } from './editor';
 import { useCreateEditor } from './useCreateEditor';

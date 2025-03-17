@@ -5,14 +5,14 @@ import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createWorkspace as createWorkspaceReq,
   deleteWorkspace as deleteWorkspaceReq,
+  deploy,
   exportWorkspace as exportWorkspaceReq,
   importProjects as importProjectsReq,
   installMarketProduct,
   type WorkspaceBean,
   type WorkspaceInit,
   workspaces
-} from './generated/openapi-default';
-import { deploy } from './generated/openapi-system';
+} from './generated/ivy-client';
 import type { ProjectIdentifier } from './project-api';
 
 export type Workspace = WorkspaceBean;

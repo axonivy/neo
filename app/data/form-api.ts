@@ -8,7 +8,7 @@ import {
   type FormIdentifier as FormIdentifierBean,
   type HdBean,
   type HdInit
-} from './generated/openapi-dev';
+} from './generated/ivy-client';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 

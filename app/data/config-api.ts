@@ -7,7 +7,7 @@ import {
   readConfig,
   type ReadConfigParams,
   writeConfig as writeConfigReq
-} from './generated/openapi-dev';
+} from './generated/ivy-client';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 

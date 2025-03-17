@@ -1,6 +1,6 @@
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
-import type { DataClassBean } from '~/data/generated/openapi-dev';
+import type { DataClassBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { dataClassDescription } from '~/neo/artifact/artifact-description';
