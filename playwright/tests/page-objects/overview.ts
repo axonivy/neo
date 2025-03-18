@@ -134,7 +134,7 @@ export class Overview {
   async hoverCard(name: string | RegExp, content: string) {
     const card = this.card(name);
     await card.hover();
-    await expect(this.overview.getByRole('tooltip')).toHaveText(content);
+    await expect(this.page.getByRole('tooltip')).toHaveText(content);
   }
 
   async group(name: string, tagLabel?: string) {
