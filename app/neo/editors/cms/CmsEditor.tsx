@@ -17,7 +17,7 @@ export const CmsEditor = ({ project }: Editor) => {
     <ClientContextProvider client={client}>
       <ThemeProvider disabled>
         <ReadonlyProvider readonly={project.isIar ?? false}>
-          <App context={{ app: project.app, pmv: project.pmv }} />
+          <App context={{ app: project.app, pmv: project.pmv, file: 'cms' }} />
         </ReadonlyProvider>
       </ThemeProvider>
     </ClientContextProvider>
