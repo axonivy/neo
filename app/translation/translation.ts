@@ -1,5 +1,5 @@
 import i18n, { type Resource } from 'i18next';
-import ChainedBackend from 'i18next-chained-backend';
+import LngDetector from 'i18next-browser-languagedetector';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next';
 import deCommonTranslation from './commonConsolidated/de.json';
@@ -29,20 +29,16 @@ const localTranslations: Resource = {
   }
 };
 
-export const initTranslation = (defaultlocale: string) => {
+export const initTranslation = () => {
   if (i18n.isInitializing || i18n.isInitialized) return;
   i18n
-    .use(ChainedBackend)
+    .use(resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng]))
     .use(initReactI18next)
+    .use(LngDetector)
     .init({
       debug: true,
-      fallbackLng: defaultlocale,
-      ns: ['neo', 'dataclass-editor', 'variable-editor', 'common'],
-      defaultNS: 'neo',
-      lng: defaultlocale,
-      backend: {
-        backends: [resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng])],
-        backendOptions: []
-      }
+      fallbackLng: Object.keys(localTranslations['common']),
+      ns: Object.keys(localTranslations),
+      defaultNS: 'neo'
     });
 };

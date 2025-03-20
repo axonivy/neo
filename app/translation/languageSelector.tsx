@@ -9,17 +9,12 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import i18next from 'i18next';
-import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { LocaleContext } from '~/root';
 
 export const LanguageSelector = () => {
   const { t } = useTranslation();
-  const { locale, setLocale } = useContext(LocaleContext);
-  const [availableLanguages] = useState<string[]>(['en', 'de', 'ja']);
 
   const updateLanguage = (lng: string) => {
-    setLocale(lng);
     i18next.changeLanguage(lng);
   };
 
@@ -30,8 +25,8 @@ export const LanguageSelector = () => {
         <span>{t('settings.language')}</span>
         <DropdownMenuPortal>
           <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
-            <DropdownMenuRadioGroup value={locale} onValueChange={lng => updateLanguage(lng)}>
-              {availableLanguages.map(language => (
+            <DropdownMenuRadioGroup value={i18next.language} onValueChange={lng => updateLanguage(lng)}>
+              {i18next.languages.map(language => (
                 <DropdownMenuRadioItem key={language} value={language}>
                   {language}
                 </DropdownMenuRadioItem>
