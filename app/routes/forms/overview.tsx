@@ -25,7 +25,7 @@ export default function Index() {
   const { createFormEditor } = useCreateEditor();
   return (
     <Overview
-      title={t('common.forms')}
+      title={t('neo.forms')}
       description={t('forms.formDescription')}
       search={search}
       onSearchChange={setSearch}

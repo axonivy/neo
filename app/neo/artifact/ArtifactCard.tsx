@@ -107,7 +107,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
                   }}
                 >
                   <IvyIcon icon={IvyIcons.Trash} />
-                  <span>{actions.delete.label ?? t('common.delete')}</span>
+                  <span>{actions.delete.label ?? t('common:label.delete')}</span>
                 </DropdownMenuItem>
               )}
               {actions.export && actions.deploy && (
@@ -118,7 +118,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
                     aria-label={hotkeys.exportWorkspace.label}
                   >
                     <IvyIcon icon={IvyIcons.Upload} />
-                    <span>{t('common.export')}</span>
+                    <span>{t('common:label.export')}</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={e => {
@@ -129,7 +129,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
                     aria-label={hotkeys.deployWorkspace.label}
                   >
                     <IvyIcon icon={IvyIcons.Bpmn} />
-                    <span>{t('common.deploy')}</span>
+                    <span>{t('common:label.deploy')}</span>
                   </DropdownMenuItem>
                 </>
               )}

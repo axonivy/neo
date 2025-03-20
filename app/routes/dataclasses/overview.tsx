@@ -25,7 +25,7 @@ export default function Index() {
   const { createDataClassEditor } = useCreateEditor();
   return (
     <Overview
-      title={t('common.dataClasses')}
+      title={t('neo.dataClasses')}
       description={t('dataclasses.dataclassDescription')}
       search={search}
       onSearchChange={setSearch}

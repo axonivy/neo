@@ -96,14 +96,14 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
             <form>
               <Flex direction='column' gap={4}>
                 <Flex direction='column' gap={3}>
-                  <BasicField label={t('common.name')} message={nameValidation}>
+                  <BasicField label={t('common:label.name')} message={nameValidation}>
                     <Input value={name} onChange={e => setName(e.target.value)} />
                   </BasicField>
                   {newArtifact.project === undefined && (
                     <ProjectSelect
                       setProject={setProject}
                       setDefaultValue={true}
-                      label={t('common.project')}
+                      label={t('neo.project')}
                       projectFilter={p => !p.id.isIar}
                     />
                   )}
@@ -132,12 +132,12 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                         newArtifact.create(name, namespace, project?.id, newArtifact.pid, dataClass);
                       }}
                     >
-                      {t('common.create')}
+                      {t('common:label.create')}
                     </Button>
                   </DialogClose>
                   <DialogClose asChild>
                     <Button icon={IvyIcons.Close} size='large' variant='outline'>
-                      {t('common.cancel')}
+                      {t('common:label.cancel')}
                     </Button>
                   </DialogClose>
                 </DialogFooter>

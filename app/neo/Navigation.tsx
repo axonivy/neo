@@ -103,7 +103,7 @@ export const Navigation = () => {
       </Flex>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.settings')} title={t('common.settings')} />
+          <Button icon={IvyIcons.Settings} size='large' aria-label={t('common:label.settings')} title={t('common:label.settings')} />
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
           <AnimationSettingsMenu />

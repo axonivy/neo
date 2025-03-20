@@ -61,27 +61,27 @@ export default function Index() {
           <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{t('workspaces.description')}</span>
           <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
             <ArtifactInfoCard
-              title={t('common.processes')}
+              title={t('neo.processes')}
               description={t('processes.processDescription')}
               icon={IvyIcons.Process}
               link='processes'
             />
             <ArtifactInfoCard
-              title={t('common.dataClasses')}
+              title={t('neo.dataClasses')}
               description={t('dataclasses.dataclassDescription')}
               icon={IvyIcons.Database}
               link='dataClasses'
             />
-            <ArtifactInfoCard title={t('common.forms')} description={t('forms.formDescription')} icon={IvyIcons.File} link='forms' />
+            <ArtifactInfoCard title={t('neo.forms')} description={t('forms.formDescription')} icon={IvyIcons.File} link='forms' />
             <ArtifactInfoCard
-              title={t('common.configs')}
+              title={t('neo.configs')}
               description={t('configurations.configDescription')}
               icon={IvyIcons.Tool}
               link='configurations'
             />
           </Flex>
         </Flex>
-        <Overview title={t('common.projects')} search={search} onSearchChange={setSearch} isPending={isPending}>
+        <Overview title={t('neo.projects')} search={search} onSearchChange={setSearch} isPending={isPending}>
           <NewArtifactCard
             title={t('workspaces.importProject')}
             open={() => setOpen(true)}
@@ -169,7 +169,7 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
             </Link>
           </DialogDescription>
         </DialogHeader>
-        <BasicField label={t('common.file')} message={fileValidation}>
+        <BasicField label={t('common:label.file')} message={fileValidation}>
           <Input
             accept='.zip,.iar'
             type='file'
@@ -180,7 +180,7 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
             }}
           />
         </BasicField>
-        <ProjectSelect setProject={setProject} setDefaultValue={false} label={t('common.addDependency')} projectFilter={p => !p.id.isIar} />
+        <ProjectSelect setProject={setProject} setDefaultValue={false} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
         <DialogFooter>
           <DialogClose asChild>
             <Button
@@ -190,12 +190,12 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
               onClick={() => (file ? importAction(file) : {})}
               icon={IvyIcons.Download}
             >
-              {t('common.import')}
+              {t('common:label.import')}
             </Button>
           </DialogClose>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              {t('common.cancel')}
+              {t('common:label.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>
@@ -229,7 +229,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
       actions={{ delete: deleteAction }}
       onClick={open}
       preview={<PreviewSVG />}
-      tagLabel={project.id.isIar ? t('common.readOnly') : undefined}
+      tagLabel={project.id.isIar ? t('common:label.readOnly') : undefined}
     />
   );
 };

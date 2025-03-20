@@ -25,7 +25,7 @@ export default function Index() {
   const { createProcessEditor } = useCreateEditor();
   return (
     <Overview
-      title={t('common.processes')}
+      title={t('neo.processes')}
       description={t('processes.processDescription')}
       search={search}
       onSearchChange={setSearch}
