@@ -15,6 +15,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState, type ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { ArtifactTag } from './ArtifactTag';
 import cardStyles from './card.css?url';
@@ -41,6 +42,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
   const hotkeys = useKnownHotkeys();
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isDeployDialogOpen, setDeployDialogOpen] = useState(false);
+  const { t } = useTranslation();
 
   const artifactCardRef = useHotkeys(
     [hotkeys.deleteElement.hotkey, hotkeys.exportWorkspace.hotkey, hotkeys.deployWorkspace.hotkey],
@@ -105,7 +107,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
                   }}
                 >
                   <IvyIcon icon={IvyIcons.Trash} />
-                  <span>{actions.delete.label ?? 'Delete'}</span>
+                  <span>{actions.delete.label ?? t('common:label.delete')}</span>
                 </DropdownMenuItem>
               )}
               {actions.export && actions.deploy && (
@@ -116,7 +118,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
                     aria-label={hotkeys.exportWorkspace.label}
                   >
                     <IvyIcon icon={IvyIcons.Upload} />
-                    <span>Export</span>
+                    <span>{t('common:label.export')}</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onSelect={e => {
@@ -127,7 +129,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
                     aria-label={hotkeys.deployWorkspace.label}
                   >
                     <IvyIcon icon={IvyIcons.Bpmn} />
-                    <span>Deploy</span>
+                    <span>{t('common:label.deploy')}</span>
                   </DropdownMenuItem>
                 </>
               )}

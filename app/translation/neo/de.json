@@ -1,0 +1,121 @@
+{
+  "animation": {
+    "allOpen": "Alle offenen Prozesse",
+    "allProcesses": "Alle Prozesse",
+    "animation": "Animation",
+    "enabled": "Aktiviert",
+    "fast": "Schnell",
+    "fastest": "Schnellste",
+    "mode": "Modus",
+    "noDialog": "Keine Dialogprozesse",
+    "noEmbedded": "Keine eingebetteten Prozesse",
+    "normal": "Normal",
+    "onlyCurrenltyOpen": "Nur aktuell geöffneter Prozess",
+    "reset": "Zurücksetzen",
+    "slow": "Langsam",
+    "slowest": "Langsamste",
+    "speed": "Geschwindigkeit"
+  },
+  "artifact": {
+    "callerData": "Aufruferdaten",
+    "deleteConfirm": "Sind Sie sicher, dass Sie dieses {{artifact}} löschen möchten?",
+    "namespace": "Namensraum",
+    "new": "Neues {{type}} erstellen",
+    "optional": "Optional"
+  },
+  "browser": {
+    "back": "Zurück",
+    "devBrowser": "Entwicklungsbrowser",
+    "forward": "Vorwärts",
+    "goBack": "Zurückgehen",
+    "goForward": "Vorwärtsgehen",
+    "goHome": "Zur Startseite gehen",
+    "home": "Startseite",
+    "openNewTab": "In neuem Tab öffnen",
+    "reload": "Neu laden",
+    "reloadPage": "Seite neu laden",
+    "simulate": "Prozess simulieren"
+  },
+  "configurations": {
+    "configDescription": "Konfigurationen sind die Einstellungen und Parameter, die das Verhalten einer Anwendung und ihre Interaktion mit anderen Systemen definieren."
+  },
+  "dataclasses": {
+    "dataclassDescription": "Eine Datenklasse wird verwendet, um Daten innerhalb einer Prozessanwendung zu definieren und zu strukturieren. Sie dient dazu, Daten konsistent über Prozesse und Formulare hinweg zu verwalten.",
+    "newDataclass": "Neue Datenklasse erstellen"
+  },
+  "deploy": {
+    "applicationName": "Anwendungsname",
+    "deployWs": "Arbeitsbereich bereitstellen",
+    "engineUrl": "Engine-URL",
+    "log": "Bereitstellungsprotokoll",
+    "logDescription": "Zurückgegebene Protokollausgabe der Engine.",
+    "target": "Geben Sie die Engine an, auf die Sie den aktuellen Arbeitsbereich bereitstellen möchten."
+  },
+  "deploys": {
+    "closeLog": "Protokoll kopieren"
+  },
+  "forms": {
+    "formDescription": "Ein Formular ist ein Benutzerschnittstellenelement, das die Dateneingabe und Interaktion mit der Anwendung erleichtert und als Brücke zwischen Benutzern und System dient.",
+    "newForm": "Neues Formular erstellen"
+  },
+  "market": {
+    "description": "Hier können sie Vorlagen und Lösungen suchen und herunterlden, um die Entwicklung zu beschläunigen.",
+    "install": "{{component}} installieren",
+    "selectVersion": "Version zur Installation auswählen",
+    "showDetails": "Details anzeigen",
+    "title": "Axon Ivy Markt"
+  },
+  "neo": {
+    "addDependency": "Als Abhängigkeit zum Projekt hinzufügen",
+    "artifactId": "Artefakt-ID",
+    "configs": "Konfigurationen",
+    "dataClasses": "Datenklassen",
+    "forms": "Formulare",
+    "groupId": "Gruppen-ID",
+    "home": "NEO Startseite",
+    "monaco": "Monaco-Editor",
+    "processes": "Prozesse",
+    "project": "Projekt: {{proj}}",
+    "projects": "Projekte"
+  },
+  "processes": {
+    "newProcess": "Neuen Prozess erstellen",
+    "processDescription": "Ein Prozess beschreibt eine Abfolge automatisierter Schritte, die Arbeitsabläufe optimieren und ein effizientes Aufgabenmanagement innerhalb einer Anwendung ermöglichen."
+  },
+  "project": {
+    "editable": "Bearbeitbar"
+  },
+  "projects": {
+    "addDependency": "Neue Abhängigkeit hinzufügen",
+    "addDependencyTo": "Abhängigkeit hinzufügen zu: {{project}}",
+    "deletable": "Löschbar",
+    "dependecyInfo": "Abhängigkeiten sind Verknüpfungen zwischen Projekten, die es einem Projekt ermöglichen, die Funktionalität oder Artefakte eines anderen zu nutzen und so doppelte Arbeit zu vermeiden.",
+    "dependencyDetails": "Abhängigkeitsdetails von: {{project}}",
+    "description": "Hier finden sie alle Projekt-Abhängigkeiten",
+    "details": "Projektdetails: {{project}}",
+    "editRights": "Bearbeitungsrechte",
+    "selectDependency": "Abhängigkeit auswählen"
+  },
+  "settings": {
+    "dark": "Dunkel",
+    "language": "Language",
+    "languageSwitch": "Sprachwechsel",
+    "light": "Hell",
+    "simulate": "Simulieren",
+    "system": "System",
+    "theme": "Thema"
+  },
+  "workspaces": {
+    "description": "Hier finden Sie die von Ihnen erstellten sowie alle importierten Projekte in diesem Arbeitsbereich. Ein Projekt enthält alle wesentlichen Komponenten zum Erstellen einer Anwendung.",
+    "importFile": "Aus Datei importieren",
+    "importInto": "Axon Ivy Projekte importieren nach: {{workspace}}",
+    "importMarket": "Aus Markt importieren",
+    "importProject": "Projekte importieren",
+    "importWarning": "Der Import kann bestehende Projektversionen überschreiben.",
+    "importWarningLink": "Erwägen Sie, den Arbeitsbereich vorher zu exportieren.",
+    "info": "Ein Arbeitsbereich ist der Entwicklungsbereich, in dem eine Anwendung erstellt und getestet wird. Hier werden Geschäftsprozesse entworfen, in der Vorschau angezeigt und simuliert, bevor sie als funktionierende Anwendung bereitgestellt werden.",
+    "newWorkspace": "Neuen Arbeitsbereich erstellen",
+    "title": "Willkommen bei {{neo}}: Verwalten Sie Ihre Arbeitsbereiche",
+    "wsTitle": "Willkommen in Ihrem Arbeitsbereich: {{workspace}}"
+  }
+}

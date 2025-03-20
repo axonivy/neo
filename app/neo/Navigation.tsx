@@ -9,7 +9,9 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
+import { LanguageSelector } from '~/translation/languageSelector';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { useNeoClient } from './client/useNeoClient';
 import { AnimationSettingsMenu } from './settings/AnimationSettingsMenu';
@@ -18,6 +20,7 @@ import { useCycleAnimationSettings } from './settings/useSettings';
 
 export const Navigation = () => {
   useNeoClient();
+  const { t } = useTranslation();
   const { cycleAnimationMode, cycleAnimationSpeed, toggleAnimation, resetEngine } = useCycleAnimationSettings();
   const navigate = useNavigate();
   const cycleTheme = useCycleTheme();
@@ -100,11 +103,12 @@ export const Navigation = () => {
       </Flex>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' title='Settings' />
+          <Button icon={IvyIcons.Settings} size='large' aria-label={t('common:label.settings')} title={t('common:label.settings')} />
         </DropdownMenuTrigger>
         <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
           <AnimationSettingsMenu />
           <DropdownMenuSeparator />
+          <LanguageSelector />
           <ThemeSettings />
         </DropdownMenuContent>
       </DropdownMenu>

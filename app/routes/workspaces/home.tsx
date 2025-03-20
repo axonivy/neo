@@ -22,13 +22,13 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { Link, useNavigate, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
-import { configDescription, dataClassDescription, formDescription, processDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
@@ -45,32 +45,48 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export default function Index() {
+  const { t } = useTranslation();
   const { search, setSearch } = useSearch();
   const { data, isPending } = useSortedProjects();
   const [open, setOpen] = useState(false);
   const { ws } = useParams();
   const projects = data?.filter(({ id }) => id.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const title = `Welcome to your workspace: ${ws}`;
+  const title = t('workspaces.wsTitle', { workspace: ws });
 
   return (
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='app-info'>
           <span style={{ fontWeight: 600 }}>{title}</span>
-          <span style={{ fontWeight: 400, color: 'var(--N900)' }}>
-            {
-              'Here you can find the projects you have created along with any imported projects in this workspace. A project contains all the essential components needed to build an application.'
-            }
-          </span>
+          <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{t('workspaces.description')}</span>
           <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
-            <ArtifactInfoCard title='Processes' description={processDescription} icon={IvyIcons.Process} link='processes' />
-            <ArtifactInfoCard title='Data Classes' description={dataClassDescription} icon={IvyIcons.Database} link='dataClasses' />
-            <ArtifactInfoCard title='Forms' description={formDescription} icon={IvyIcons.File} link='forms' />
-            <ArtifactInfoCard title='Configurations' description={configDescription} icon={IvyIcons.Tool} link='configurations' />
+            <ArtifactInfoCard
+              title={t('neo.processes')}
+              description={t('processes.processDescription')}
+              icon={IvyIcons.Process}
+              link='processes'
+            />
+            <ArtifactInfoCard
+              title={t('neo.dataClasses')}
+              description={t('dataclasses.dataclassDescription')}
+              icon={IvyIcons.Database}
+              link='dataClasses'
+            />
+            <ArtifactInfoCard title={t('neo.forms')} description={t('forms.formDescription')} icon={IvyIcons.File} link='forms' />
+            <ArtifactInfoCard
+              title={t('neo.configs')}
+              description={t('configurations.configDescription')}
+              icon={IvyIcons.Tool}
+              link='configurations'
+            />
           </Flex>
         </Flex>
-        <Overview title={'Projects'} search={search} onSearchChange={setSearch} isPending={isPending}>
-          <NewArtifactCard title='Import Projects' open={() => setOpen(true)} menu={<ImportMenu open={open} setOpen={setOpen} />} />
+        <Overview title={t('neo.projects')} search={search} onSearchChange={setSearch} isPending={isPending}>
+          <NewArtifactCard
+            title={t('workspaces.importProject')}
+            open={() => setOpen(true)}
+            menu={<ImportMenu open={open} setOpen={setOpen} />}
+          />
           {projects.map(p => (
             <ProjectCard key={p.id.pmv} project={p} />
           ))}
@@ -81,6 +97,7 @@ export default function Index() {
 }
 
 const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const hotkeys = useKnownHotkeys();
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
@@ -105,7 +122,7 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
               aria-label={hotkeys.importFromMarket.label}
             >
               <IvyIcon icon={IvyIcons.Market} />
-              <span>Import from Market</span>
+              <span>{t('workspaces.importMarket')}</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               onSelect={e => {
@@ -116,7 +133,7 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
               aria-label={hotkeys.importFromFile.label}
             >
               <IvyIcon icon={IvyIcons.Download} />
-              <span>Import from File</span>
+              <span>{t('workspaces.importFile')}</span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
@@ -128,6 +145,7 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
 
 const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) => {
   const { ws } = useParams();
+  const { t } = useTranslation();
   const [file, setFile] = useState<File>();
   const downloadWorkspace = useDownloadWorkspace();
   const { importProjects } = useImportProjectsIntoWs();
@@ -143,15 +161,15 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Import Axon Ivy Projects into: {ws}</DialogTitle>
+          <DialogTitle>{t('workspaces.importInto', { workspace: ws })}</DialogTitle>
           <DialogDescription>
-            The import can overwrite existing project versions.{' '}
+            {t('workspaces.importWarning')}
             <Link onClick={downloadWorkspace} to={{}}>
-              Consider exporting the Workspace beforehand.
+              {t('workspaces.importWarningLink')}
             </Link>
           </DialogDescription>
         </DialogHeader>
-        <BasicField label='File' message={fileValidation}>
+        <BasicField label={t('common:label.file')} message={fileValidation}>
           <Input
             accept='.zip,.iar'
             type='file'
@@ -162,12 +180,7 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
             }}
           />
         </BasicField>
-        <ProjectSelect
-          setProject={setProject}
-          setDefaultValue={false}
-          label='Add as dependency to project'
-          projectFilter={p => !p.id.isIar}
-        />
+        <ProjectSelect setProject={setProject} setDefaultValue={false} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
         <DialogFooter>
           <DialogClose asChild>
             <Button
@@ -177,12 +190,12 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
               onClick={() => (file ? importAction(file) : {})}
               icon={IvyIcons.Download}
             >
-              Import
+              {t('common:label.import')}
             </Button>
           </DialogClose>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              Cancel
+              {t('common:label.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>
@@ -192,6 +205,7 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
 };
 
 const ProjectCard = ({ project }: { project: ProjectBean }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { deleteProject } = useDeleteProject();
   const ws = useWorkspace();
@@ -215,7 +229,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
       actions={{ delete: deleteAction }}
       onClick={open}
       preview={<PreviewSVG />}
-      tagLabel={project.id.isIar ? 'Read only' : undefined}
+      tagLabel={project.id.isIar ? t('common:label.readOnly') : undefined}
     />
   );
 };

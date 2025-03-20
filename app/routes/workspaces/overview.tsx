@@ -15,6 +15,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useNavigate } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
@@ -28,6 +29,7 @@ import { Overview } from '~/neo/Overview';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
+import { LanguageSelector } from '~/translation/languageSelector';
 import welcomeSvgUrl from './welcome.svg?url';
 import PreviewSVG from './workspace-preview.svg?react';
 
@@ -38,21 +40,23 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const { t } = useTranslation();
   const { search, setSearch } = useSearch();
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const title = `Welcome to ${NEO_DESIGNER}: Manage your workspaces`;
-  const info =
-    "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.";
+  const title = t('workspaces.title', { neo: NEO_DESIGNER });
+  const info = t('workspaces.info');
+
   return (
     <>
       <ControlBar>
         <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button icon={IvyIcons.Settings} size='large' aria-label='Settings' title='Settings' />
+              <Button icon={IvyIcons.Settings} size='large' aria-label={t('common:label.settings')} title={t('common:label.settings')} />
             </DropdownMenuTrigger>
             <DropdownMenuContent sideOffset={6} collisionPadding={10} side='bottom'>
+              <LanguageSelector />
               <ThemeSettings />
             </DropdownMenuContent>
           </DropdownMenu>
@@ -120,6 +124,7 @@ const WorkspaceCard = (workspace: Workspace) => {
 };
 
 const NewWorkspaceCard = () => {
+  const { t } = useTranslation();
   const [dialogState, setDialogState] = useState(false);
   const [name, setName] = useState('');
   const navigate = useNavigate();
@@ -133,15 +138,15 @@ const NewWorkspaceCard = () => {
   );
   return (
     <>
-      <NewArtifactCard open={() => setDialogState(true)} title='Create new Workspace' />
+      <NewArtifactCard open={() => setDialogState(true)} title={t('workspaces.newWorkspace')} />
       <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create new Workspace</DialogTitle>
+            <DialogTitle>{t('workspaces.newWorkspace')}</DialogTitle>
           </DialogHeader>
           <form>
             <Flex direction='column' gap={3}>
-              <BasicField label='Name' message={nameValidation}>
+              <BasicField label={t('common:label.name')} message={nameValidation}>
                 <Input value={name} onChange={e => setName(e.target.value)} />
               </BasicField>
               <DialogFooter>
@@ -158,12 +163,12 @@ const NewWorkspaceCard = () => {
                       create(name);
                     }}
                   >
-                    Create
+                    {t('common:label.create')}
                   </Button>
                 </DialogClose>
                 <DialogClose asChild>
                   <Button icon={IvyIcons.Close} size='large' variant='outline'>
-                    Cancel
+                    {t('common:label.cancel')}
                   </Button>
                 </DialogClose>
               </DialogFooter>

@@ -1,9 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useCreateForm, useDeleteForm, useGroupedForms, type FormIdentifier } from '~/data/form-api';
 import type { DataClassIdentifier, HdBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { formDescription } from '~/neo/artifact/artifact-description';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -19,11 +19,18 @@ export const links: LinksFunction = () => [cardStylesLink];
 export const meta: MetaFunction = overviewMetaFunctionProvider('Forms');
 
 export default function Index() {
+  const { t } = useTranslation();
   const { data, isPending } = useGroupedForms();
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (f: HdBean) => f.name);
   const { createFormEditor } = useCreateEditor();
   return (
-    <Overview title='Forms' description={formDescription} search={search} onSearchChange={setSearch} isPending={isPending}>
+    <Overview
+      title={t('neo.forms')}
+      description={t('forms.formDescription')}
+      search={search}
+      onSearchChange={setSearch}
+      isPending={isPending}
+    >
       {filteredGroups.map(({ project, artifacts }) => (
         <ArtifactGroup project={project} newArtifactCard={<NewFormCard />} key={project}>
           {artifacts.map(form => {
@@ -73,6 +80,7 @@ export const useFormExists = () => {
 };
 
 const NewFormCard = () => {
+  const { t } = useTranslation();
   const open = useNewArtifact();
   const { openEditor } = useEditors();
   const { createForm } = useCreateForm();
@@ -80,7 +88,7 @@ const NewFormCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string, dataClass?: DataClassIdentifier) =>
     createForm({ name, namespace, project, dataClass }).then(form => openEditor(createFormEditor(form)));
   const exists = useFormExists();
-  const title = 'Create new Form';
+  const title = t('forms.newForm');
   return (
     <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Form', namespaceRequired: true, selectDataClass: true })} />
   );

@@ -10,6 +10,7 @@ import favicon from './favicon.png?url';
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { Neo } from './neo/Neo';
+import { initTranslation } from './translation/translation';
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  initTranslation();
   return (
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>

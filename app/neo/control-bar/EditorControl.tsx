@@ -1,12 +1,14 @@
 import { Button, Flex, Popover, PopoverContent, PopoverTrigger, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { useEditors } from '../editors/useEditors';
 
 export const EditorsControl = () => {
   const [subMenu, setSubMenu] = useState(false);
   const { editors, closeAllEditors } = useEditors();
+  const { t } = useTranslation();
 
   const { closeAllTabs } = useKnownHotkeys();
   useHotkeys(closeAllTabs.hotkey, () => closeAllEditors());
@@ -30,7 +32,7 @@ export const EditorsControl = () => {
             aria-label={closeAllTabs.label}
             title={closeAllTabs.label}
           >
-            Close all
+            {t('common:label.closeAll')}
           </Button>
         </Flex>
       </PopoverContent>
