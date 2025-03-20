@@ -14,10 +14,6 @@ import { useTranslation } from 'react-i18next';
 export const LanguageSelector = () => {
   const { t } = useTranslation();
 
-  const updateLanguage = (lng: string) => {
-    i18next.changeLanguage(lng);
-  };
-
   return (
     <DropdownMenuSub>
       <DropdownMenuSubTrigger aria-label={t('settings.languageSwitch')}>
@@ -25,7 +21,7 @@ export const LanguageSelector = () => {
         <span>{t('settings.language')}</span>
         <DropdownMenuPortal>
           <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
-            <DropdownMenuRadioGroup value={i18next.language} onValueChange={lng => updateLanguage(lng)}>
+            <DropdownMenuRadioGroup value={i18next.language} onValueChange={i18next.changeLanguage}>
               {i18next.languages.map(language => (
                 <DropdownMenuRadioItem key={language} value={language}>
                   {language}

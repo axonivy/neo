@@ -36,7 +36,7 @@ export const initTranslation = () => {
     .use(initReactI18next)
     .use(LngDetector)
     .init({
-      debug: true,
+      debug: false,
       fallbackLng: Object.keys(localTranslations['common']),
       ns: Object.keys(localTranslations),
       defaultNS: 'neo'
