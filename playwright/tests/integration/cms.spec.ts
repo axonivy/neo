@@ -6,7 +6,7 @@ import { APP, TEST_PROJECT } from './constants';
 const openCms = async (page: Page) => {
   const neo = await Neo.openEditor(page, `configurations/${APP}/${TEST_PROJECT}/cms`);
   const editor = new CmsEditor(neo, 'cms');
-  await editor.expectOpen('/Labels');
+  await editor.expectOpen('/Labels/ReleaseDate');
   return { neo, editor };
 };
 
