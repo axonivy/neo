@@ -44,6 +44,7 @@ export default function Index() {
 }
 
 const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClassBean }) => {
+  const { t } = useTranslation();
   const { deleteDataClass } = useDeleteDataClass();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
@@ -55,9 +56,9 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
       deleteDataClass(dataClass.dataClassIdentifier);
     },
     isDeletable: editor.project.isIar === false,
-    message: 'The dataclass cannot be deleted as the project to which it belongs is packaged.'
+    message: t('message.dataclassPackaged')
   };
-  const tagLabel = dataClass.isEntityClass ? 'Entity' : dataClass.isBusinessCaseData ? 'Business Data' : '';
+  const tagLabel = dataClass.isEntityClass ? t('label.entity') : dataClass.isBusinessCaseData ? t('label.businessData') : '';
   return (
     <ArtifactCard
       name={editor.name}

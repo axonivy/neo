@@ -58,12 +58,53 @@
     "formDescription": "Ein Formular ist ein Benutzerschnittstellenelement, das die Dateneingabe und Interaktion mit der Anwendung erleichtert und als Brücke zwischen Benutzern und System dient.",
     "newForm": "Neues Formular erstellen"
   },
+  "hotkey": {
+    "animationMode": "Animationsmodus ({{hotkey}})",
+    "animationSpeed": "Animationsgeschwindigkeit ({{hotkey}})",
+    "closeAllTabs": "Alle Tabs schliessen ({{hotkey}})",
+    "closeTab": "Tab schliessen ({{hotkey}})",
+    "configurations": "Konfigurationen ({{hotkey}})",
+    "dataClasses": "Datenklassen ({{hotkey}})",
+    "deleteElement": "Element löschen ({{hotkey}})",
+    "deploy": "Arbeitsbereich bereitstellen ({{hotkey}})",
+    "exportWorkspace": "Arbeitsbereich exportieren ({{hotkey}})",
+    "focusNavigation": "Navigation fokussieren ({{hotkey}})",
+    "focusTabs": "Tabs fokussieren ({{hotkey}})",
+    "forms": "Formulare ({{hotkey}})",
+    "home": "Startseite ({{hotkey}})",
+    "importFile": "Aus Datei importieren ({{hotkey}})",
+    "importMarket": "Aus dem Markt importieren ({{hotkey}})",
+    "openSim": "Simulation öffnen ({{hotkey}})",
+    "processes": "Prozesse ({{hotkey}})",
+    "resetBpm": "BPM-Engine zurücksetzen ({{hotkey}})",
+    "resizeSim": "Simulation skalieren ({{hotkey}})",
+    "themeSwitch": "Design wechseln ({{hotkey}})",
+    "toggleAnimation": "Animation umschalten ({{hotkey}})",
+    "workspaces": "Arbeitsbereiche ({{hotkey}})"
+  },
+  "label": {
+    "businessData": "Geschäftsdaten",
+    "entity": "Entität",
+    "removeDependency": "Abhängigkeit entfernen"
+  },
   "market": {
     "description": "Hier können sie Vorlagen und Lösungen suchen und herunterlden, um die Entwicklung zu beschläunigen.",
     "install": "{{component}} installieren",
     "selectVersion": "Version zur Installation auswählen",
     "showDetails": "Details anzeigen",
     "title": "Axon Ivy Markt"
+  },
+  "message": {
+    "artifactNotEmpty": "Der Artifact-Name darf nicht leer sein.",
+    "artifctExisting": "Ein Artifact mit dem Namen {{name}} existiert bereits.",
+    "artifiactNamespaceNotEmpty": "Der Namespace des Artifacts darf nicht leer sein.",
+    "capitalizeName": "Es wird empfohlen, den ersten Buchstaben grosszuschreiben.",
+    "dataclassPackaged": "Die Datenklasse kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
+    "dependencyPackaged": "Die Abhängigkeit kann nicht gelöscht werden, da das aktuelle Projekt gepackt ist.",
+    "formPackaged": "Das Formular kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
+    "invalidChar": "Ungültiges Zeichen '{{- char}}' an Position {{pos}} in '{{- str}}'.",
+    "invalidIar": "Wählen Sie eine .iar-Datei oder eine .zip-Datei, die .iar-Dateien enthält.",
+    "processPackaged": "Der Prozess kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist."
   },
   "neo": {
     "addDependency": "Als Abhängigkeit zum Projekt hinzufügen",

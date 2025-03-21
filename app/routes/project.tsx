@@ -119,8 +119,8 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
       removeDependency(project, dependency);
     },
     isDeletable: project.isIar ? false : true,
-    message: 'The dependency cannot be deleted as the project at hand is packaged.',
-    label: 'Remove Dependency'
+    message: t('message.dependencyPackaged'),
+    label: t('label.removeDependency')
   };
   return (
     <ArtifactCard

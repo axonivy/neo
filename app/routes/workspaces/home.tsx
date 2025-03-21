@@ -154,8 +154,8 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
   const [project, setProject] = useState<ProjectBean>();
   const importAction = (file: File) => importProjects(ws ?? '', file, project?.id).then(() => client.invalidateQueries({ queryKey }));
   const fileValidation = useMemo<MessageData | undefined>(
-    () => (file ? undefined : { message: 'Select an .iar file or a .zip file that contains .iar files.', variant: 'warning' }),
-    [file]
+    () => (file ? undefined : { message: t('message.invalidIar'), variant: 'warning' }),
+    [file, t]
   );
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

@@ -21,7 +21,7 @@ import type { DataClassIdentifier, ProjectBean } from '~/data/generated/ivy-clie
 import { type ProjectIdentifier } from '~/data/project-api';
 import { InfoPopover } from '../InfoPopover';
 import { ProjectSelect } from './ProjectSelect';
-import { artifactAlreadyExists, validateArtifactName, validateArtifactNamespace } from './validation';
+import { useArtifactValidation } from './validation';
 
 export type NewArtifactType = 'Process' | 'Form' | 'Data Class';
 
@@ -55,6 +55,8 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const [dialogState, setDialogState] = useState(false);
   const [newArtifact, setNewArtifact] = useState<NewArtifact>();
 
+  const { artifactAlreadyExists, validateArtifactName, validateArtifactNamespace } = useArtifactValidation();
+
   const [name, setName] = useState('');
   const [namespace, setNamespace] = useState('');
   const [project, setProject] = useState<ProjectBean>();
@@ -77,9 +79,12 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const close = () => setDialogState(false);
   const nameValidation = useMemo(
     () => (newArtifact?.exists({ name, namespace, project: project?.id }) ? artifactAlreadyExists(name) : validateArtifactName(name)),
-    [name, namespace, newArtifact, project?.id]
+    [artifactAlreadyExists, name, namespace, newArtifact, project?.id, validateArtifactName]
   );
-  const namespaceValidation = useMemo(() => validateArtifactNamespace(namespace, newArtifact?.type), [namespace, newArtifact?.type]);
+  const namespaceValidation = useMemo(
+    () => validateArtifactNamespace(namespace, newArtifact?.type),
+    [namespace, newArtifact?.type, validateArtifactNamespace]
+  );
   const buttonDisabled = useMemo(
     () => nameValidation?.variant === 'error' || namespaceValidation?.variant === 'error',
     [nameValidation, namespaceValidation]

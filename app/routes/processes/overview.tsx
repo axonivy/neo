@@ -45,6 +45,7 @@ export default function Index() {
 
 const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) => {
   const { deleteProcess } = useDeleteProcess();
+  const { t } = useTranslation();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
     openEditor(editor);
@@ -55,7 +56,7 @@ const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) 
       deleteProcess(process.processIdentifier);
     },
     isDeletable: editor.project.isIar === false,
-    message: 'The process cannot be deleted as the project to which it belongs is packaged.'
+    message: t('message.processPackaged')
   };
   const tagLabel = process.kind === 'CALLABLE_SUB' ? 'Callable Subprocess' : process.kind === 'WEB_SERVICE' ? 'Web Service' : '';
   return (
