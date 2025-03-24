@@ -22,7 +22,7 @@ import { NEO_DESIGNER } from '~/constants';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
-import { artifactAlreadyExists, validateArtifactName } from '~/neo/artifact/validation';
+import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { InfoPopover } from '~/neo/InfoPopover';
 import { Overview } from '~/neo/Overview';
@@ -125,6 +125,7 @@ const WorkspaceCard = (workspace: Workspace) => {
 
 const NewWorkspaceCard = () => {
   const { t } = useTranslation();
+  const { artifactAlreadyExists, validateArtifactName } = useArtifactValidation();
   const [dialogState, setDialogState] = useState(false);
   const [name, setName] = useState('');
   const navigate = useNavigate();
@@ -134,7 +135,7 @@ const NewWorkspaceCard = () => {
   const nameValidation = useMemo(
     () =>
       workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : validateArtifactName(name),
-    [name, workspaces.data]
+    [artifactAlreadyExists, name, validateArtifactName, workspaces.data]
   );
   return (
     <>

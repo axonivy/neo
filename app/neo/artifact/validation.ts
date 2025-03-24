@@ -1,41 +1,53 @@
 import type { MessageData } from '@axonivy/ui-components';
+import { useTranslation } from 'react-i18next';
 import type { NewArtifactType } from './useNewArtifact';
 
-export const artifactAlreadyExists = (name: string): MessageData => ({ message: `Artifact ${name} already exists.`, variant: 'error' });
+export const useArtifactValidation = () => {
+  const { t } = useTranslation();
+  const artifactAlreadyExists = (name: string): MessageData => ({
+    message: t('message.artifctExisting', { name }),
+    variant: 'error'
+  });
 
-export const validateArtifactName = (name?: string): MessageData | undefined => {
-  if (!name) {
-    return { message: `Artifact name must not be empty.`, variant: 'error' };
-  }
-  const message = reservedCheck(name);
-  if (message) {
-    return message;
-  }
-  if (!ARTIFACT_NAME_REGEX.test(name)) {
-    const index = findFirstNonMatchingIndex(name, ARTIFACT_NAME_REGEX);
-    return { message: `Invalid character '${name[index]}' at position ${index + 1} in '${name}'.`, variant: 'error' };
-  }
-  if (startsWithLowercase(name)) {
-    return { message: "It's recommended to capitalize the first letter.", variant: 'warning' };
-  }
-};
-
-export const validateArtifactNamespace = (namespace?: string, type?: NewArtifactType): MessageData | undefined => {
-  if (!namespace) {
-    return type === 'Process' ? undefined : { message: `Artifact namespace must not be empty.`, variant: 'error' };
-  }
-  const separator = type === 'Process' ? '/' : '.';
-  for (const segment of namespace.split(separator)) {
-    const message = reservedCheck(segment);
+  const validateArtifactName = (name?: string): MessageData | undefined => {
+    if (!name) {
+      return { message: t('message.artifactNotEmpty'), variant: 'error' };
+    }
+    const message = reservedCheck(name);
     if (message) {
       return message;
     }
-  }
-  const nsRegex = namespaceRegex(separator);
-  if (!nsRegex.test(namespace)) {
-    const index = findFirstNonMatchingIndex(namespace, nsRegex);
-    return { message: `Invalid character '${namespace[index]}' at position ${index + 1} in '${namespace}'.`, variant: 'error' };
-  }
+    if (!ARTIFACT_NAME_REGEX.test(name)) {
+      const index = findFirstNonMatchingIndex(name, ARTIFACT_NAME_REGEX);
+      return { message: t('message.invalidChar', { char: name[index], pos: index + 1, str: name }), variant: 'error' };
+    }
+    if (startsWithLowercase(name)) {
+      return { message: t('message.capitalizeName'), variant: 'warning' };
+    }
+  };
+
+  const validateArtifactNamespace = (namespace?: string, type?: NewArtifactType): MessageData | undefined => {
+    if (!namespace) {
+      return type === 'Process' ? undefined : { message: t('message.artifiactNamespaceNotEmpty'), variant: 'error' };
+    }
+    const separator = type === 'Process' ? '/' : '.';
+    for (const segment of namespace.split(separator)) {
+      const message = reservedCheck(segment);
+      if (message) {
+        return message;
+      }
+    }
+    const nsRegex = namespaceRegex(separator);
+    if (!nsRegex.test(namespace)) {
+      const index = findFirstNonMatchingIndex(namespace, nsRegex);
+      return { message: t('message.invalidChar', { char: namespace[index], pos: index + 1, str: namespace }), variant: 'error' };
+    }
+  };
+  return {
+    artifactAlreadyExists,
+    validateArtifactName,
+    validateArtifactNamespace
+  };
 };
 
 const reservedCheck = (input: string): MessageData | undefined => {

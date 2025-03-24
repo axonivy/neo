@@ -1,5 +1,7 @@
 import { CmsEditor as App, ClientContextProvider } from '@axonivy/cms-editor';
 import { ReadonlyProvider, ThemeProvider } from '@axonivy/ui-components';
+import i18next from 'i18next';
+import { I18nextProvider } from 'react-i18next';
 import type { Editor } from '../editor';
 import { useWebSocket } from '../useWebSocket';
 import { CmsClientNeo } from './cms-client';
@@ -17,7 +19,9 @@ export const CmsEditor = ({ project }: Editor) => {
     <ClientContextProvider client={client}>
       <ThemeProvider disabled>
         <ReadonlyProvider readonly={project.isIar ?? false}>
-          <App context={{ app: project.app, pmv: project.pmv, file: 'cms' }} />
+          <I18nextProvider i18n={i18next} defaultNS={'cms-editor'}>
+            <App context={{ app: project.app, pmv: project.pmv, file: 'cms' }} />
+          </I18nextProvider>
         </ReadonlyProvider>
       </ThemeProvider>
     </ClientContextProvider>

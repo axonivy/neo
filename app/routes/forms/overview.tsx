@@ -45,6 +45,7 @@ export default function Index() {
 
 const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) => {
   const { deleteForm } = useDeleteForm();
+  const { t } = useTranslation();
   const { openEditor, removeEditor } = useEditors();
   const open = () => {
     openEditor(editor);
@@ -55,7 +56,7 @@ const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) =>
       deleteForm(formId);
     },
     isDeletable: editor.project.isIar === false,
-    message: 'The form cannot be deleted as the project to which it belongs is packaged.'
+    message: t('message.formPackaged')
   };
   return (
     <ArtifactCard

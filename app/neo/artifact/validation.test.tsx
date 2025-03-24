@@ -1,18 +1,25 @@
-import { validateArtifactName, validateArtifactNamespace } from './validation';
+import { renderHook } from '@testing-library/react';
+import { useArtifactValidation } from './validation';
 
 test('valid artifact names', () => {
+  const { result } = renderHook(() => useArtifactValidation());
+  const { validateArtifactName } = result.current;
   const validNames = ['ValidName', 'M', 'M1', 'A_', 'A_b'];
   for (const name of validNames) {
     expect(validateArtifactName(name)).toBeUndefined();
   }
 });
 
-test('valid but ugly artifact names', () => {
+test('valid but ugly artifact names', async () => {
+  const { result } = renderHook(() => useArtifactValidation());
+  const { validateArtifactName } = result.current;
   expect(validateArtifactName('makeWarning')).toEqual({ message: "It's recommended to capitalize the first letter.", variant: 'warning' });
   expect(validateArtifactName('m')).toEqual({ message: "It's recommended to capitalize the first letter.", variant: 'warning' });
 });
 
-test('invalid artifact names', () => {
+test('invalid artifact names', async () => {
+  const { result } = renderHook(() => useArtifactValidation());
+  const { validateArtifactName } = result.current;
   expect(validateArtifactName()).toEqual({ message: `Artifact name must not be empty.`, variant: 'error' });
   expect(validateArtifactName('')).toEqual({ message: `Artifact name must not be empty.`, variant: 'error' });
   expect(validateArtifactName('abstract')).toEqual({ message: `Input 'abstract' is a reserved keyword.`, variant: 'error' });
@@ -27,6 +34,8 @@ test('invalid artifact names', () => {
 });
 
 test('valid dot separated namespaces', () => {
+  const { result } = renderHook(() => useArtifactValidation());
+  const { validateArtifactNamespace } = result.current;
   const validNamespaces = ['ValidOne', 'othervalid', 'm', 'M', 'M1', 'A_', 'A_b', 'a.b', 'a.b.c_'];
   for (const namespace of validNamespaces) {
     expect(validateArtifactNamespace(namespace)).toBeUndefined();
@@ -34,6 +43,8 @@ test('valid dot separated namespaces', () => {
 });
 
 test('valid slash separated namespaces', () => {
+  const { result } = renderHook(() => useArtifactValidation());
+  const { validateArtifactNamespace } = result.current;
   const validNamespaces = ['', undefined, 'ValidOne', 'othervalid', 'm', 'M', 'M1', 'A_', 'A_b', 'a/b', 'a/b/c_'];
   for (const namespace of validNamespaces) {
     expect(validateArtifactNamespace(namespace, 'Process')).toBeUndefined();
@@ -41,6 +52,8 @@ test('valid slash separated namespaces', () => {
 });
 
 test('invalid dot separated namespaces', () => {
+  const { result } = renderHook(() => useArtifactValidation());
+  const { validateArtifactNamespace } = result.current;
   const invalidNamespaces = ['', undefined, ' ', '1', '-', '_', '_a', 'abc-abc', 'abc.', 'abc/', 'abc/abc'];
   for (const namespace of invalidNamespaces) {
     expect(validateArtifactNamespace(namespace)?.variant).toBe('error');
@@ -48,6 +61,8 @@ test('invalid dot separated namespaces', () => {
 });
 
 test('invalid slash separated namespaces', () => {
+  const { result } = renderHook(() => useArtifactValidation());
+  const { validateArtifactNamespace } = result.current;
   const invalidNamespaces = [' ', '1', '-', '_', '_a', 'abc-abc', 'abc.', 'abc/', 'abc.abc'];
   for (const namespace of invalidNamespaces) {
     expect(validateArtifactNamespace(namespace, 'Process')?.variant).toBe('error');
