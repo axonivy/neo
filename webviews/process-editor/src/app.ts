@@ -6,6 +6,7 @@ import { DiagramLoader, EditMode, GLSPActionDispatcher, GLSPWebSocketProvider, M
 import { ApplicationIdProvider, GLSPClient } from '@eclipse-glsp/protocol';
 import { Container } from 'inversify';
 import createContainer from './di.config';
+import { initTranslation } from './i18n';
 import './index.css';
 import { getParameters, getServerDomain, isReadonly, isSecureConnection } from './url-helper';
 
@@ -34,6 +35,7 @@ let container: Container;
 const wsProvider = new GLSPWebSocketProvider(webSocketUrl);
 wsProvider.listen({ onConnection: initialize, onReconnect: reconnect, logger: console });
 initMonaco();
+initTranslation();
 
 async function initialize(connectionProvider: MessageConnection, isReconnecting = false): Promise<void> {
   glspClient = new IvyBaseJsonrpcGLSPClient({ id, connectionProvider });

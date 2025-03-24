@@ -29,7 +29,7 @@ import { Overview } from '~/neo/Overview';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
-import { LanguageSelector } from '~/translation/languageSelector';
+import { LanguageSelector } from '~/translation/LanguageSelector';
 import welcomeSvgUrl from './welcome.svg?url';
 import PreviewSVG from './workspace-preview.svg?react';
 
