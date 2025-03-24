@@ -1,8 +1,4 @@
 import { renderHook } from '@testing-library/react';
-import i18next from 'i18next';
-import type { PropsWithChildren } from 'react';
-import { I18nextProvider } from 'react-i18next';
-import { initTranslation } from '~/translation/translation';
 import { useArtifactValidation } from './validation';
 
 test('valid artifact names', () => {
@@ -15,18 +11,14 @@ test('valid artifact names', () => {
 });
 
 test('valid but ugly artifact names', async () => {
-  await initTranslation();
-  const wrapper = ({ children }: PropsWithChildren) => <I18nextProvider i18n={i18next}>{children}</I18nextProvider>;
-  const { result } = renderHook(() => useArtifactValidation(), { wrapper });
+  const { result } = renderHook(() => useArtifactValidation());
   const { validateArtifactName } = result.current;
   expect(validateArtifactName('makeWarning')).toEqual({ message: "It's recommended to capitalize the first letter.", variant: 'warning' });
   expect(validateArtifactName('m')).toEqual({ message: "It's recommended to capitalize the first letter.", variant: 'warning' });
 });
 
 test('invalid artifact names', async () => {
-  await initTranslation();
-  const wrapper = ({ children }: PropsWithChildren) => <I18nextProvider i18n={i18next}>{children}</I18nextProvider>;
-  const { result } = renderHook(() => useArtifactValidation(), { wrapper });
+  const { result } = renderHook(() => useArtifactValidation());
   const { validateArtifactName } = result.current;
   expect(validateArtifactName()).toEqual({ message: `Artifact name must not be empty.`, variant: 'error' });
   expect(validateArtifactName('')).toEqual({ message: `Artifact name must not be empty.`, variant: 'error' });

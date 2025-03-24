@@ -32,14 +32,14 @@ const localTranslations: Resource = {
   common: commonTranslations
 };
 
-export const initTranslation = async () => {
+export const initTranslation = async (debug = true) => {
   if (i18n.isInitializing || i18n.isInitialized) return;
   await i18n
     .use(resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng]))
     .use(initReactI18next)
     .use(LngDetector)
     .init({
-      debug: true,
+      debug,
       fallbackLng: Object.keys(localTranslations['common']),
       ns: Object.keys(localTranslations),
       defaultNS: 'neo'
