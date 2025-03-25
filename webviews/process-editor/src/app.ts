@@ -84,8 +84,12 @@ async function initMonaco(): Promise<void> {
   MonacoEditorUtil.configureInstance({ theme: 'light', debug, worker: { workerConstructor: worker.default } });
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 window.setMonacoTheme = (theme: ThemeMode) => {
   MonacoEditorUtil.setTheme(theme);
 };
+
+declare global {
+  interface Window {
+    setMonacoTheme: (theme: ThemeMode) => void;
+  }
+}

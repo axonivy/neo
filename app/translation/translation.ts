@@ -1,5 +1,7 @@
 import i18n, { type Resource } from 'i18next';
 import LngDetector from 'i18next-browser-languagedetector';
+import ChainedBackend from 'i18next-chained-backend';
+import HttpBackend from 'i18next-http-backend';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next';
 import deTranslationNeo from './neo/de.json';
@@ -35,13 +37,24 @@ const localTranslations: Resource = {
 export const initTranslation = async (debug = true) => {
   if (i18n.isInitializing || i18n.isInitialized) return;
   await i18n
-    .use(resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng]))
+    .use(ChainedBackend)
     .use(initReactI18next)
     .use(LngDetector)
     .init({
       debug,
       fallbackLng: Object.keys(localTranslations['common']),
       ns: Object.keys(localTranslations),
-      defaultNS: 'neo'
+      defaultNS: 'neo',
+      load: 'languageOnly',
+      partialBundledLanguages: true,
+      backend: {
+        backends: [HttpBackend, resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng])],
+        backendOptions: [
+          {
+            loadPath: '/webjars/locales/{{lng}}/{{ns}}.json'
+          }
+        ]
+      }
     });
+  i18n.loadLanguages(['fr', 'ja']);
 };

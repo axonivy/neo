@@ -13,18 +13,18 @@ import { useTranslation } from 'react-i18next';
 
 export const LanguageSelector = () => {
   const { t } = useTranslation();
-
+  const languages = Object.keys(i18next.services.resourceStore.data);
   return (
     <DropdownMenuSub>
       <DropdownMenuSubTrigger aria-label={t('settings.languageSwitch')}>
-        <IvyIcon icon={IvyIcons.Cms} />
+        <IvyIcon icon={IvyIcons.WsStart} />
         <span>{t('settings.language')}</span>
         <DropdownMenuPortal>
           <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
-            <DropdownMenuRadioGroup value={i18next.language} onValueChange={i18next.changeLanguage}>
-              {i18next.languages.map(language => (
+            <DropdownMenuRadioGroup value={i18next.resolvedLanguage} onValueChange={i18next.changeLanguage}>
+              {languages.map(language => (
                 <DropdownMenuRadioItem key={language} value={language}>
-                  {language}
+                  {new Intl.DisplayNames([language], { type: 'language' }).of(language)}
                 </DropdownMenuRadioItem>
               ))}
             </DropdownMenuRadioGroup>
