@@ -51,10 +51,31 @@ export const initTranslation = async (debug = true) => {
         backends: [HttpBackend, resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng])],
         backendOptions: [
           {
-            loadPath: '/webjars/locales/{{lng}}/{{ns}}.json'
+            loadPath: (lngs: Array<string>, nss: Array<string>) => {
+              if (loadLanguages().includes(lngs[0])) {
+                return `/webjars/locales/${lngs[0]}/${nss[0]}.json`;
+              }
+              return;
+            }
           }
         ]
       }
     });
-  i18n.loadLanguages(['fr', 'ja']);
+  i18n.loadLanguages(loadLanguages());
+};
+
+const loadLanguages = () => {
+  const loadLngs = window.localStorage.getItem('i18nextLngLoad');
+  if (!loadLngs) {
+    return [];
+  }
+  try {
+    const parsedLngs = JSON.parse(loadLngs);
+    if (Array.isArray(parsedLngs)) {
+      return parsedLngs;
+    }
+  } catch {
+    console.log('Error parsing i18nextLngLoad');
+  }
+  return [];
 };
