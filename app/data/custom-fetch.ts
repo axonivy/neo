@@ -1,4 +1,5 @@
 import { toast } from '@axonivy/ui-components';
+import i18next from 'i18next';
 
 let unauthorizedCount = 0;
 
@@ -36,10 +37,7 @@ const getBody = <T>(c: Response | Request): Promise<T> => {
 export const customFetch = async <T>(url: string, options: RequestInit): Promise<T> => {
   const requestUrl = getUrl(url, options.headers as Record<string, string>);
   const headers = getHeaders(options.headers);
-  const requestInit: RequestInit = {
-    ...options,
-    headers
-  };
+  const requestInit: RequestInit = { ...options, headers };
   const request = new Request(requestUrl, requestInit);
   const response = await fetch(request);
   const data = await getBody<T>(response);
@@ -51,9 +49,9 @@ const handleUnauthorized = (response: Response) => {
   if (response.status === 401) {
     unauthorizedCount++;
     if (unauthorizedCount > 1) {
-      toast.error('Unauthorized, click reload to log in.', {
+      toast.error(i18next.t('toast.unauthorized'), {
         duration: Infinity,
-        action: { label: 'Reload', onClick: () => window.location.reload() }
+        action: { label: i18next.t('common:label.reload'), onClick: () => window.location.reload() }
       });
     }
     throw new Error(response.statusText);

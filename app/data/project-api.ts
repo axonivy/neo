@@ -1,5 +1,6 @@
 import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { headers, ok } from './custom-fetch';
 import {
   deleteProject as deleteProjectReq,
@@ -18,6 +19,7 @@ export const useProjectsApi = () => {
 };
 
 export const useSortedProjects = () => {
+  const { t } = useTranslation();
   const { queryKey, base, ws } = useProjectsApi();
   return useQuery({
     queryKey,
@@ -27,7 +29,7 @@ export const useSortedProjects = () => {
         if (ok(res)) {
           return res.data.sort((a, b) => projectSort(a.id.pmv, b.id.pmv, ws));
         }
-        toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
+        toast.error(t('toast.project.missing'), { description: t('toast.serverStatus') });
         return [];
       });
     }
@@ -35,6 +37,7 @@ export const useSortedProjects = () => {
 };
 
 export const useDeleteProject = () => {
+  const { t } = useTranslation();
   const { queryKey, base } = useProjectsApi();
   const client = useQueryClient();
   const deleteProject = async (identifier: ProjectIdentifier) => {
@@ -43,27 +46,36 @@ export const useDeleteProject = () => {
         client.invalidateQueries({ queryKey });
         return;
       }
-      throw new Error(`Failed to remove project '${identifier.pmv}'`);
+      throw new Error(t('toast.project.removeFail', { pmv: identifier.pmv }));
     });
   };
   return {
     deleteProject: (identifier: ProjectIdentifier) =>
-      toast.promise(() => deleteProject(identifier), { loading: 'Remove project', success: 'Project removed', error: e => e.message })
+      toast.promise(() => deleteProject(identifier), {
+        loading: t('toast.project.removing'),
+        success: t('toast.project.removed'),
+        error: e => e.message
+      })
   };
 };
 
 export const useStopBpmEngine = () => {
+  const { t } = useTranslation();
   const { base } = useProjectsApi();
   const stopBpmEngine = async (identifier: ProjectIdentifier) => {
     await stopBpmEngineReq(identifier, { headers: headers(base) }).then(res => {
       if (ok(res)) {
         return;
       }
-      throw new Error(`Failed to stop BPM Engine for project '${identifier.pmv}'`);
+      throw new Error(t('toast.project.bpmnEngineStopFail', { pmv: identifier.pmv }));
     });
   };
   return {
     stopBpmEngine: (identifier: ProjectIdentifier) =>
-      toast.promise(() => stopBpmEngine(identifier), { loading: 'Stop BPM Engine', success: 'BPM Engine stopped', error: e => e.message })
+      toast.promise(() => stopBpmEngine(identifier), {
+        loading: t('toast.project.stoppingBpmnEngine'),
+        success: t('toast.project.stoppedBpmnEngine'),
+        error: e => e.message
+      })
   };
 };

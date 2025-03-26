@@ -1,5 +1,6 @@
 import { groupBy, toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { headers, ok } from './custom-fetch';
 import {
   type ConfigurationBean,
@@ -18,6 +19,7 @@ const useConfigurationsApi = () => {
 
 export const useGroupedConfigurations = () => {
   const { queryKey, base, ws } = useConfigurationsApi();
+  const { t } = useTranslation();
   return useQuery({
     queryKey,
     queryFn: () => {
@@ -29,7 +31,7 @@ export const useGroupedConfigurations = () => {
             .map(([project, configurations]) => ({ project, artifacts: configurations }))
             .sort((a, b) => projectSort(a.project, b.project, ws));
         }
-        toast.error('Failed to load configurations', { description: 'Maybe the server is not correclty started' });
+        toast.error(t('toast.config.missing'), { description: t('toast.serverStatus') });
         return [];
       });
     }
@@ -37,6 +39,7 @@ export const useGroupedConfigurations = () => {
 };
 
 export const useReadConfiguration = ({ app, pmv, path }: ReadConfigParams) => {
+  const { t } = useTranslation();
   const { base, queryKey } = useConfigurationsApi();
   return useQuery({
     queryKey: [...queryKey, app, pmv, path],
@@ -48,13 +51,14 @@ export const useReadConfiguration = ({ app, pmv, path }: ReadConfigParams) => {
         if (ok(res)) {
           return res.data;
         }
-        throw new Error(`Failed to read configuration with params: ${app} ${pmv} ${path}`);
+        throw new Error(t('toast.config.readFail', { app: app, pmv: pmv, path: path }));
       });
     }
   });
 };
 
 export const useWriteConfiguration = () => {
+  const { t } = useTranslation();
   const client = useQueryClient();
   const { queryKey, base } = useConfigurationsApi();
   const writeConfig = async (bean: ConfigurationBean) => {
@@ -63,12 +67,12 @@ export const useWriteConfiguration = () => {
       client.invalidateQueries({ queryKey: [...queryKey, bean.id.project.app, bean.id.project.pmv, bean.id.path] });
       return res.data;
     }
-    throw new Error(`Failed to write config for ${bean.id.project.app} ${bean.id.project.pmv} ${bean.id.path}`);
+    throw new Error(t('toast.config.writeFail', { app: bean.id.project.app, pmv: bean.id.project.pmv, path: bean.id.path }));
   };
   return {
     writeConfig: (bean: ConfigurationBean) => {
       const newBean = writeConfig(bean);
-      toast.promise(() => newBean, { loading: 'Writing config', success: 'Saving config completed', error: e => e.message });
+      toast.promise(() => newBean, { loading: t('toast.config.writing'), success: t('toast.config.saved'), error: e => e.message });
       return newBean;
     }
   };

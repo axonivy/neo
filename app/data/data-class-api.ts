@@ -1,5 +1,6 @@
 import { groupBy, toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createDataClass as createDataClassReq,
@@ -18,6 +19,7 @@ const useDataClassesApi = () => {
 
 export const useGroupedDataClasses = () => {
   const { queryKey, base, ws } = useDataClassesApi();
+  const { t } = useTranslation();
   return useQuery({
     queryKey,
     queryFn: () => {
@@ -29,7 +31,7 @@ export const useGroupedDataClasses = () => {
             .map(([project, dataClasses]) => ({ project, artifacts: dataClasses }))
             .sort((a, b) => projectSort(a.project, b.project, ws));
         }
-        toast.error('Failed to load data classes', { description: 'Maybe the server is not correclty started' });
+        toast.error(t('toast.dataClass.missing'), { description: t('toast.serverStatus') });
         return [];
       });
     }
@@ -37,6 +39,7 @@ export const useGroupedDataClasses = () => {
 };
 
 export const useCreateDataClass = () => {
+  const { t } = useTranslation();
   const client = useQueryClient();
   const { queryKey, base } = useDataClassesApi();
   const createDataClass = async (dataClass: DataClassInit) => {
@@ -45,18 +48,23 @@ export const useCreateDataClass = () => {
       client.invalidateQueries({ queryKey });
       return res.data;
     }
-    throw new Error(resolveErrorMessage(res.data, 'Failed to create data class'));
+    throw new Error(resolveErrorMessage(res.data, t('toast.dataClass.creationFail')));
   };
   return {
     createDataClass: (dataClass: DataClassInit) => {
       const newDataClass = createDataClass(dataClass);
-      toast.promise(() => newDataClass, { loading: 'Creating data class', success: 'Data class created', error: e => e.message });
+      toast.promise(() => newDataClass, {
+        loading: t('toast.dataClass.create'),
+        success: t('toast.dataClass.created'),
+        error: e => e.message
+      });
       return newDataClass;
     }
   };
 };
 
 export const useDeleteDataClass = () => {
+  const { t } = useTranslation();
   const client = useQueryClient();
   const { queryKey, base } = useDataClassesApi();
   const deleteDataClass = async (identifier: DataClassIdentifier) => {
@@ -65,13 +73,13 @@ export const useDeleteDataClass = () => {
       client.invalidateQueries({ queryKey });
       return;
     }
-    throw new Error(`Failed to remove data class '${identifier.name}'`);
+    throw new Error(t('toast.dataClass.removeFail', { name: identifier.name }));
   };
   return {
     deleteDataClass: (identifier: DataClassIdentifier) =>
       toast.promise(() => deleteDataClass(identifier), {
-        loading: 'Remove data class',
-        success: 'Data class removed',
+        loading: t('toast.dataClass.removing'),
+        success: t('toast.dataClass.removed'),
         error: e => e.message
       })
   };

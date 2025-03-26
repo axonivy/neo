@@ -1,5 +1,6 @@
 import { toast } from '@axonivy/ui-components';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -45,6 +46,7 @@ export const useSyncSettings = (client?: NeoClient) => {
 };
 
 export const useCycleAnimationSettings = () => {
+  const { t } = useTranslation();
   const { animation, enableAnimation, animationMode, animationSpeed } = useSettings();
   const { app, pmv } = useParams();
   const { stopBpmEngine } = useStopBpmEngine();
@@ -53,7 +55,7 @@ export const useCycleAnimationSettings = () => {
     const currentIndex = animationFollowModes.indexOf(animation.mode);
     const nextMode = animationFollowModes[(currentIndex + 1) % animationFollowModes.length];
     animationMode(nextMode);
-    toast.info(`Animation mode: ${nextMode}`);
+    toast.info(t('toast.animation.mode', { mode: nextMode }));
   };
 
   const cycleAnimationSpeed = () => {
@@ -62,11 +64,11 @@ export const useCycleAnimationSettings = () => {
     const nextSpeed = speedModes[nextIndex];
 
     animationSpeed(nextSpeed.value.toString());
-    toast.info(`Animation speed: ${nextSpeed.label}`);
+    toast.info(t('toast.animation.speed', { speed: nextSpeed }));
   };
   const toggleAnimation = () => {
     enableAnimation(!animation.animate);
-    toast.info(animation.animate ? 'Animation disabled' : 'Animation enabled');
+    toast.info(animation.animate ? t('toast.animation.disabled') : t('toast.animation.enabled'));
   };
   const resetEngine = () => {
     if (app && pmv) stopBpmEngine({ app, pmv });

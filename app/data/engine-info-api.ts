@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { ok } from './custom-fetch';
 import { getInfo } from './generated/ivy-client';
 
@@ -8,6 +9,7 @@ export const useEngineInfoApi = () => {
 
 export const useEngineVersion = () => {
   const { queryKey } = useEngineInfoApi();
+  const { t } = useTranslation();
   return useQuery({
     queryKey,
     queryFn: () =>
@@ -16,7 +18,7 @@ export const useEngineVersion = () => {
         if (ok(res) && version) {
           return version.substring(0, version.lastIndexOf('.'));
         }
-        throw new Error('Failed to load engine version');
+        throw new Error(t('message.loadEngineVersionFail'));
       })
   });
 };

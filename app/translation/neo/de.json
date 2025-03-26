@@ -48,7 +48,8 @@
     "target": "Geben Sie die Engine an, auf die Sie den aktuellen Arbeitsbereich bereitstellen möchten."
   },
   "deploys": {
-    "closeLog": "Protokoll kopieren"
+    "closeLog": "Protokoll kopieren",
+    "copiedLog": "Protokoll in Zwischenablage kopiert"
   },
   "forms": {
     "formDescription": "Ein Formular ist ein Benutzerschnittstellenelement, das die Dateneingabe und Interaktion mit der Anwendung erleichtert und als Brücke zwischen Benutzern und System dient.",
@@ -100,6 +101,7 @@
     "formPackaged": "Das Formular kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
     "invalidChar": "Ungültiges Zeichen '{{- char}}' an Position {{pos}} in '{{- str}}'.",
     "invalidIar": "Wählen Sie eine .iar-Datei oder eine .zip-Datei, die .iar-Dateien enthält.",
+    "loadEngineVersionFail": "Engine Version konnte nicht geladen werden.",
     "processPackaged": "Der Prozess kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist."
   },
   "neo": {
@@ -135,12 +137,108 @@
   },
   "settings": {
     "dark": "Dunkel",
-    "language": "Language",
+    "language": "Sprache",
     "languageSwitch": "Sprachwechsel",
     "light": "Hell",
     "simulate": "Simulieren",
     "system": "System",
     "theme": "Thema"
+  },
+  "toast": {
+    "animation": {
+      "disabled": "Animation deaktiviert",
+      "enabled": "Animation aktiviert",
+      "mode": "Animationsmodus: {{mode}}",
+      "speed": "Animationsgeschwindigkeit: {{speed}}"
+    },
+    "config": {
+      "missing": "Konfigurationen konnten nicht geladen werden",
+      "readFail": "Konfiguration konnte nicht gelesen werden mit Parametern: {{app}} {{pmv}} {{path}}",
+      "saved": "Konfiguration erfolgreich gespeichert",
+      "writeFail": "Konfiguration konnte nicht gespeichert werden für {{app}} {{pmv}} {{path}}",
+      "writing": "Konfiguration wird gespeichert"
+    },
+    "dataClass": {
+      "create": "Datenklasse wird erstellt",
+      "created": "Datenklasse erstellt",
+      "creationFail": "Datenklasse konnte nicht erstellt werden",
+      "missing": "Datenklassen konnten nicht geladen werden",
+      "removed": "Datenklasse gelöscht",
+      "removeFail": "Datenklasse '{{name}}' konnte nicht gelöscht werden",
+      "removing": "Datenklasse wird gelöscht"
+    },
+    "dependency": {
+      "added": "Abhängigkeit hinzugefügt",
+      "addFail": "Abhängigkeit konnte nicht hinzugefügt werden",
+      "adding": "Abhängigkeit wird hinzugefügt",
+      "missing": "Projekte konnten nicht geladen werden",
+      "remove": "Abhängigkeit entfernen",
+      "removed": "Abhängigkeit entfernt",
+      "removeFail": "Abhängigkeit '{{pmv}}' konnte nicht entfernt werden"
+    },
+    "editor": {
+      "fileTypeIncompatible": "Dieser Dateityp '{{type}}' kann in NEO nicht bearbeitet werden.",
+      "unknownType": "Unbekannter Editor-Typ",
+      "unknownTypeForPath": "Unbekannter Editor-Typ für Pfad {{path}}"
+    },
+    "form": {
+      "created": "Formular erstellt",
+      "createFail": "Formular konnte nicht erstellt werden",
+      "creating": "Formular wird erstellt",
+      "missing": "Formulare konnten nicht geladen werden",
+      "removed": "Formular gelöscht",
+      "removeFail": "Formular '{{id}}' konnte nicht gelöscht werden",
+      "removing": "Formular wird gelöscht"
+    },
+    "market": {
+      "inaccsessible": "Der Marktplatz ist zurzeit möglicherweise nicht erreichbar",
+      "loadBestMatchingFail": "Passende Marktversion für {{id}} mit Engine-Version {{engineVersion}} konnte nicht geladen werden",
+      "loadFail": "Marktproduktversionen für {{id}} konnten nicht geladen werden",
+      "loadJsonFail": "Produkt-JSON für {{id}} mit Version {{version}} konnte nicht geladen werden",
+      "missing": "Marktprodukte konnten nicht geladen werden",
+      "versionUndefined": "Produktversion von {{id}} muss definiert sein, um Produkt-JSON abzurufen"
+    },
+    "process": {
+      "created": "Prozess erstellt",
+      "createFail": "Prozess konnte nicht erstellt werden",
+      "creating": "Prozess wird erstellt",
+      "missing": "Prozesse konnten nicht geladen werden",
+      "removed": "Prozess gelöscht",
+      "removeFail": "Prozess '{{pid}}' konnte nicht gelöscht werden",
+      "removing": "Prozess wird gelöscht"
+    },
+    "project": {
+      "bpmnEngineStopFail": "BPM-Engine für Projekt '{{pmv}}' konnte nicht gestoppt werden",
+      "missing": "Projekte konnten nicht geladen werden",
+      "removed": "Projekt gelöscht",
+      "removeFail": "Projekt '{{pmv}}' konnte nicht gelöscht werden",
+      "removing": "Projekt wird gelöscht",
+      "stoppedBpmnEngine": "BPM-Engine gestoppt",
+      "stoppingBpmnEngine": "BPM-Engine wird gestoppt"
+    },
+    "serverStatus": "Der Server wurde möglicherweise nicht korrekt gestartet",
+    "unauthorized": "Nicht autorisiert, klicken Sie auf 'Neu laden', um sich anzumelden.",
+    "workspace": {
+      "created": "Arbeitsbereich erstellt",
+      "createFail": "Arbeitsbereich konnte nicht erstellt werden",
+      "creating": "Arbeitsbereich wird erstellt",
+      "deployed": "Arbeitsbereich veröffentlicht",
+      "deployFail": "Arbeitsbereich '{{id}}' konnte nicht veröffentlicht werden",
+      "deploying": "Arbeitsbereich wird veröffentlicht",
+      "exported": "Arbeitsbereich exportiert",
+      "exportFail": "Arbeitsbereich '{{id}}' konnte nicht exportiert werden",
+      "exporting": "Arbeitsbereich wird exportiert",
+      "imported": "Projekte in Arbeitsbereich importiert",
+      "importFail": "Arbeitsbereich '{{id}}' konnte nicht importiert werden",
+      "importing": "Projekte werden importiert",
+      "installedMarketProduct": "Importierte Projekte: {{projects}}",
+      "installingMarketProduct": "Marktprodukt wird installiert",
+      "marketInstallFail": "Marktprodukt konnte nicht installiert werden",
+      "missing": "Arbeitsbereiche konnten nicht geladen werden",
+      "removed": "Arbeitsbereich gelöscht",
+      "removeFail": "Arbeitsbereich '{{id}}' konnte nicht gelöscht werden",
+      "removing": "Arbeitsbereich wird gelöscht"
+    }
   },
   "workspaces": {
     "description": "Hier finden Sie die von Ihnen erstellten sowie alle importierten Projekte in diesem Arbeitsbereich. Ein Projekt enthält alle wesentlichen Komponenten zum Erstellen einer Anwendung.",
