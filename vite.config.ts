@@ -30,6 +30,7 @@ export default defineConfig({
       '/monaco-yaml-ivy': DEV_PROXY,
       '/dev-workflow-ui': DEV_PROXY,
       '/system': DEV_PROXY,
+      '/webjars': DEV_PROXY,
       '/designer': WEBSOCKET_PROXY,
       '/ivy-script-lsp': WEBSOCKET_PROXY,
       '/ivy-inscription-lsp': WEBSOCKET_PROXY,

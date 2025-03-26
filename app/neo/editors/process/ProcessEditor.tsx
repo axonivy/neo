@@ -3,6 +3,7 @@ import { useHref, useLocation } from 'react-router';
 import { useWorkspace } from '~/data/workspace-api';
 import { baseUrl } from '~/data/ws-base';
 import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
+import { useUpdateLanguage } from '~/translation/useUpdateLanguage';
 import { useHotkeyDispatcher } from '~/utils/hotkeys';
 import { type Editor, PROCESS_EDITOR_SUFFIX } from '../editor';
 import { useFrameMessageHandler } from './message/useFrameMessageHandler';
@@ -33,6 +34,7 @@ export const ProcessEditor = ({ id, project, path, name }: Editor) => {
   const { pathname } = useLocation();
   useFrameMessageHandler(frame, project.app);
   useUpdateTheme(frame, updateFrameTheme);
+  useUpdateLanguage(frame, frame => frame.current?.contentWindow?.location.reload());
   useEffect(() => {
     if (pathname === id) {
       // trigger rerender of process to fix invisible connectors
