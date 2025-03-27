@@ -37,7 +37,7 @@ export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?
           <Button
             icon={IvyIcons.ArrowRight}
             rotate={180}
-            title={t('browser.back')}
+            title={t('browser.goBack')}
             onClick={nav.back}
             aria-label={t('browser.goBack')}
             ref={firstWebbrowserElement}
@@ -45,19 +45,25 @@ export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?
           />
           <Button
             icon={IvyIcons.ArrowRight}
-            title={t('browser.forward')}
+            title={t('browser.goForward')}
             onClick={nav.forward}
             aria-label={t('browser.goForward')}
             tabIndex={tabIndex}
           />
           <Button
             icon={IvyIcons.Redo}
-            title={t('browser.reload')}
+            title={t('browser.reloadPage')}
             onClick={nav.reload}
             aria-label={t('browser.reloadPage')}
             tabIndex={tabIndex}
           />
-          <Button icon={IvyIcons.Home} title={t('browser.home')} onClick={nav.home} aria-label={t('browser.goHome')} tabIndex={tabIndex} />
+          <Button
+            icon={IvyIcons.Home}
+            title={t('browser.goHome')}
+            onClick={nav.home}
+            aria-label={t('browser.goHome')}
+            tabIndex={tabIndex}
+          />
           <Button
             icon={IvyIcons.ExitEnd}
             title={t('browser.openNewTab')}
