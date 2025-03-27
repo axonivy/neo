@@ -209,12 +209,12 @@
     },
     "project": {
       "bpmnEngineStopFail": "BPM-Engine für Projekt '{{pmv}}' konnte nicht gestoppt werden",
+      "bpmnEngineStopped": "BPM-Engine gestoppt",
+      "bpmnEngineStopping": "BPM-Engine wird gestoppt",
       "missing": "Projekte konnten nicht geladen werden",
       "removed": "Projekt gelöscht",
       "removeFail": "Projekt '{{pmv}}' konnte nicht gelöscht werden",
-      "removing": "Projekt wird gelöscht",
-      "stoppedBpmnEngine": "BPM-Engine gestoppt",
-      "stoppingBpmnEngine": "BPM-Engine wird gestoppt"
+      "removing": "Projekt wird gelöscht"
     },
     "serverStatus": "Der Server wurde möglicherweise nicht korrekt gestartet",
     "unauthorized": "Nicht autorisiert, klicken Sie auf 'Neu laden', um sich anzumelden.",
@@ -231,9 +231,9 @@
       "imported": "Projekte in Arbeitsbereich importiert",
       "importFail": "Arbeitsbereich '{{id}}' konnte nicht importiert werden",
       "importing": "Projekte werden importiert",
-      "installedMarketProduct": "Importierte Projekte: {{projects}}",
-      "installingMarketProduct": "Marktprodukt wird installiert",
       "marketInstallFail": "Marktprodukt konnte nicht installiert werden",
+      "marketProductInstalled": "Importierte Projekte: {{projects}}",
+      "marketProductInstalling": "Marktprodukt wird installiert",
       "missing": "Arbeitsbereiche konnten nicht geladen werden",
       "removed": "Arbeitsbereich gelöscht",
       "removeFail": "Arbeitsbereich '{{id}}' konnte nicht gelöscht werden",

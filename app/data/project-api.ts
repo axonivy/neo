@@ -73,8 +73,8 @@ export const useStopBpmEngine = () => {
   return {
     stopBpmEngine: (identifier: ProjectIdentifier) =>
       toast.promise(() => stopBpmEngine(identifier), {
-        loading: t('toast.project.stoppingBpmnEngine'),
-        success: t('toast.project.stoppedBpmnEngine'),
+        loading: t('toast.project.bpmnEngineStopping'),
+        success: t('toast.project.bpmnEngineStopped'),
         error: e => e.message
       })
   };

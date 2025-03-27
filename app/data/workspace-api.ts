@@ -172,8 +172,8 @@ export const useInstallProduct = () => {
     installProduct: (id: string, json: string, project?: ProjectIdentifier) => {
       const installResult = installProduct(id, json, project);
       toast.promise(() => installResult, {
-        loading: t('toast.workspace.installingMarketProduct'),
-        success: res => t('toast.workspace.installedMarketProduct', { projects: res.installedProjects.map(p => p.pmv).join(', ') }),
+        loading: t('toast.workspace.marketProductInstalling'),
+        success: res => t('toast.workspace.marketProductInstalled', { projects: res.installedProjects.map(p => p.pmv).join(', ') }),
         error: e => e.message
       });
       return installResult;

@@ -24,15 +24,11 @@
     "optional": "Optional"
   },
   "browser": {
-    "back": "Back",
     "devBrowser": "Dev Browser",
-    "forward": "Forward",
     "goBack": "Go Back",
     "goForward": "Go Forward",
     "goHome": "Go to Home",
-    "home": "Home",
     "openNewTab": "Open in new tab",
-    "reload": "Reload",
     "reloadPage": "Reload Page",
     "simulate": "Process Simulate"
   },
@@ -213,12 +209,12 @@
     },
     "project": {
       "bpmnEngineStopFail": "Failed to stop BPM Engine for project '{{pmv}}'",
+      "bpmnEngineStopped": "BPM Engine stopped",
+      "bpmnEngineStopping": "Stopping BPM Engine",
       "missing": "Failed to load projects",
       "removed": "Project removed",
       "removeFail": "Failed to remove project '{{pmv}}'",
-      "removing": "Removing project",
-      "stoppedBpmnEngine": "BPM Engine stopped",
-      "stoppingBpmnEngine": "Stopping BPM Engine"
+      "removing": "Removing project"
     },
     "serverStatus": "Maybe the server is not correclty started",
     "unauthorized": "Unauthorized, click reload to log in.",
@@ -235,9 +231,9 @@
       "imported": "Projects imported into workspace",
       "importFail": "Failed to import workspace '{{id}}'",
       "importing": "Importing projects",
-      "installedMarketProduct": "Imported projects: {{projects}}",
-      "installingMarketProduct": "Installing market product",
       "marketInstallFail": "Failed to install market product",
+      "marketProductInstalled": "Imported projects: {{projects}}",
+      "marketProductInstalling": "Installing market product",
       "missing": "Failed to load workspaces",
       "removed": "Workspace deleted",
       "removeFail": "Failed to remove from '{{id}}'",
