@@ -1,0 +1,75 @@
+{
+  "browser": {
+    "dataClasses": "データクラス",
+    "ivyScriptTypes": "Ivy Scriptデータ型",
+    "ownTypes": "独自の型",
+    "searchAllTypes": "すべての型を検索",
+    "typeAsList": "リストとしての型"
+  },
+  "cardinality": {
+    "manyToOne": "多対一",
+    "oneToMany": "一対多",
+    "oneToOne": "一対一"
+  },
+  "cascade": {
+    "all": "すべて",
+    "merge": "マージ",
+    "persist": "永続化",
+    "refresh": "リフレッシュ",
+    "remove": "削除"
+  },
+  "dialog": {
+    "addAttr": {
+      "create": "属性を作成",
+      "createTooltip": "{{modifier}} を押しながら追加すると、追加の属性を追加できます。",
+      "desc": "追加したい属性の名前と型を選択してください。",
+      "title": "属性を追加"
+    }
+  },
+  "hotkey": {
+    "addAttribute": "属性を追加 ({{hotkey}})",
+    "combineAttribute": "属性を結合 ({{hotkey}})",
+    "deleteAttribute": "属性を削除 ({{hotkey}})",
+    "openForm": "フォームを開く ({{hotkey}})",
+    "openProcess": "プロセスを開く ({{hotkey}})"
+  },
+  "label": {
+    "annotations": "アノテーション",
+    "association": "関連付け",
+    "attributes": "属性",
+    "businessData": "ビジネスデータ",
+    "cardinality": "カーディナリティ",
+    "cascade": "カスケード",
+    "classType": "クラス型",
+    "data": "データ",
+    "dbField": "データベースフィールド",
+    "dbTable": "データベーステーブル",
+    "deleteAnnotation": "アノテーションを削除",
+    "entity": "エンティティ",
+    "entityProperties": "エンティティプロパティ",
+    "mappedBy": "マップ先",
+    "nameTypeComment": "名前/型/コメント",
+    "persistent": "永続的",
+    "removeOrphans": "孤立したものを削除",
+    "type": "型"
+  },
+  "message": {
+    "noDataClass": "データクラスが見つかりません"
+  },
+  "modifier": {
+    "generated": "生成済み",
+    "iD": "ID",
+    "notInsertable": "挿入不可",
+    "notNullable": "Null不可",
+    "notUpdateable": "更新不可",
+    "persistent": "永続的",
+    "unique": "ユニーク",
+    "version": "バージョン"
+  },
+  "title": {
+    "attribute": "属性 - {{name}}",
+    "businessData": "ビジネスデータクラス - {{name}}",
+    "data": "データクラス - {{name}}",
+    "entity": "エンティティクラス - {{name}}"
+  }
+}

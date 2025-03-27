@@ -1,0 +1,75 @@
+{
+  "browser": {
+    "dataClasses": "Datenklassen",
+    "ivyScriptTypes": "Ivy Script Datentypen",
+    "ownTypes": "Eigene Typen",
+    "searchAllTypes": "Suche über alle Typen",
+    "typeAsList": "Typ als Liste"
+  },
+  "cardinality": {
+    "manyToOne": "Viele-zu-Einem",
+    "oneToMany": "Eines-zu-Vielen",
+    "oneToOne": "Eines-zu-Einem"
+  },
+  "cascade": {
+    "all": "Alle",
+    "merge": "Verschmelzen",
+    "persist": "Persistent",
+    "refresh": "Aktualsieren",
+    "remove": "Löschen"
+  },
+  "dialog": {
+    "addAttr": {
+      "create": "Attribut erstellen",
+      "createTooltip": "Halte {{modifier}} um ein weiteres Attribut zu erstellen.",
+      "desc": "Wähle den Namen und den Typ des Attributs welches sie hinzufügen wollen.",
+      "title": "Attribut hinzufügen"
+    }
+  },
+  "hotkey": {
+    "addAttribute": "Attribut hinzufügen ({{hotkey}})",
+    "combineAttribute": "Attribute kombinieren ({{hotkey}})",
+    "deleteAttribute": "Attribut löschen ({{hotkey}})",
+    "openForm": "Form öffnen ({{hotkey}})",
+    "openProcess": "Prozess öffnen ({{hotkey}})"
+  },
+  "label": {
+    "annotations": "Annotationen",
+    "association": "Vereinigung",
+    "attributes": "Attribute",
+    "businessData": "Business Daten",
+    "cardinality": "Kardinalität",
+    "cascade": "Kaskadierung",
+    "classType": "Klassentyp",
+    "data": "Daten",
+    "dbField": "Datenbankfeld",
+    "dbTable": "Datenbanktabelle",
+    "deleteAnnotation": "Annotation löschen",
+    "entity": "Entität",
+    "entityProperties": "Entitätseigenschaften",
+    "mappedBy": "Zugeordnet durch",
+    "nameTypeComment": "Name / Typ / Kommentar",
+    "persistent": "Persistent",
+    "removeOrphans": "Entferne verwaiste Objekte",
+    "type": "Typ"
+  },
+  "message": {
+    "noDataClass": "Keine Datenklasse gefunden"
+  },
+  "modifier": {
+    "generated": "Generiert",
+    "iD": "ID",
+    "notInsertable": "Nicht einfügbar",
+    "notNullable": "Nicht null",
+    "notUpdateable": "Nicht aktualisierbar",
+    "persistent": "Persistent",
+    "unique": "Einzigartig",
+    "version": "Version"
+  },
+  "title": {
+    "attribute": "Attribut - {{name}}",
+    "businessData": "Business Datenklasse - {{name}}",
+    "data": "Datenklasse - {{name}}",
+    "entity": "Entitätklasse - {{name}}"
+  }
+}

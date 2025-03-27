@@ -1,0 +1,49 @@
+{
+  "dialog": {
+    "addVar": {
+      "desc": "追加したい変数の名前と名前空間を選択してください。",
+      "title": "変数を追加"
+    },
+    "create": "変数を作成",
+    "createTooltip": "{{modifier}} を押しながら追加すると、追加の変数を追加できます。",
+    "import": "変数をインポート",
+    "overwrite": {
+      "desc": "インポートして上書きしたい、必要なプロジェクトのフォルダーまたは変数を選択してください。",
+      "title": "変数をインポート"
+    }
+  },
+  "hotkey": {
+    "addVariable": "変数を追加 ({{hotkey}})",
+    "deleteVariable": "変数を削除 ({{hotkey}})",
+    "importVariable": "変数をインポート ({{hotkey}})"
+  },
+  "label": {
+    "addValue": "値を追加",
+    "deleteValue": "値を削除",
+    "filenameExtension": "ファイル名拡張子",
+    "listOfValues": "可能な値のリスト",
+    "metadata": "メタデータ",
+    "noVariableSelected": "プロパティを編集するには、変数を選択してください。",
+    "variables": "変数"
+  },
+  "message": {
+    "emptyName": "名前は空にできません。",
+    "namespaceIsNotFolder": "名前空間 '{{variable}}' はフォルダーではないため、子を追加できません。",
+    "notAllowedChar": "文字 '.' は許可されていません。",
+    "valueFromFile": "値はファイルから提供されます。",
+    "variableAlreadyExists": "名前はすでにこの名前空間に存在します。",
+    "variableInfo": "変数のフォルダー構造 (例: 'Connector.Key')。",
+    "variablePresent": "この変数は必要なプロジェクトにすでに存在します。インポートしますか？"
+  },
+  "metadata": {
+    "daytime": "時刻",
+    "default": "デフォルト",
+    "enum": "列挙型",
+    "file": "ファイル",
+    "password": "パスワード"
+  },
+  "title": {
+    "detail": "変数 - {{name}}",
+    "main": "変数 - {{name}}"
+  }
+}

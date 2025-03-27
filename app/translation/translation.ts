@@ -4,38 +4,33 @@ import ChainedBackend from 'i18next-chained-backend';
 import HttpBackend from 'i18next-http-backend';
 import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next';
-import deTranslationNeo from './neo/de.json';
+
+import { enTranslation as translationCms } from '@axonivy/cms-editor';
+import { enTranslation as translationDataClass } from '@axonivy/dataclass-editor';
+import { enMessages as translationForm } from '@axonivy/form-editor';
+import { enTranslation as translationVariable } from '@axonivy/variable-editor';
 import enTranslationNeo from './neo/en.json';
 
-import { deTranslation as deTranslationCms, enTranslation as enTranslationCms } from '@axonivy/cms-editor';
-import { deTranslation as deTranslationDataClass, enTranslation as enTranslationDataClass } from '@axonivy/dataclass-editor';
-import { deMessages as deTranslationForm, enMessages as enTranslationForm } from '@axonivy/form-editor';
-import { deTranslation as deTranslationVariable, enTranslation as enTranslationVariable } from '@axonivy/variable-editor';
-
 const localTranslations: Resource = {
-  neo: {
-    en: enTranslationNeo,
-    de: deTranslationNeo
-  },
-  'dataclass-editor': {
-    en: enTranslationDataClass,
-    de: deTranslationDataClass
-  },
-  'cms-editor': {
-    en: enTranslationCms,
-    de: deTranslationCms
-  },
-  'variable-editor': {
-    en: enTranslationVariable,
-    de: deTranslationVariable
-  },
-  'form-editor': {
-    en: enTranslationForm,
-    de: deTranslationForm
-  }
+  neo: { en: enTranslationNeo },
+  'dataclass-editor': { en: translationDataClass },
+  'cms-editor': { en: translationCms },
+  'variable-editor': { en: translationVariable },
+  'form-editor': { en: translationForm }
 };
 
-export const initTranslation = async (debug = false) => {
+const knownLanguages: Promise<Array<string>> = fetch(`assets/locals/meta.json`)
+  .then(async response => {
+    if (response.ok) {
+      return (await response.json()) as Array<string>;
+    }
+    return [];
+  })
+  .catch(() => {
+    return [];
+  });
+
+export const initTranslation = async (debug = true) => {
   if (i18n.isInitializing || i18n.isInitialized) return;
   await i18n
     .use(ChainedBackend)
@@ -43,7 +38,7 @@ export const initTranslation = async (debug = false) => {
     .use(LngDetector)
     .init({
       debug,
-      fallbackLng: Object.keys(localTranslations['neo']),
+      fallbackLng: 'en',
       ns: Object.keys(localTranslations),
       defaultNS: 'neo',
       load: 'languageOnly',
@@ -52,9 +47,9 @@ export const initTranslation = async (debug = false) => {
         backends: [HttpBackend, resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng])],
         backendOptions: [
           {
-            loadPath: (lngs: Array<string>, nss: Array<string>) => {
-              if (loadLanguages().includes(lngs[0])) {
-                return `/webjars/locales/${lngs[0]}/${nss[0]}.json`;
+            loadPath: async (lngs: Array<string>, nss: Array<string>) => {
+              if ((await knownLanguages).includes(lngs[0])) {
+                return `assets/locals/${lngs[0]}/${nss[0]}.json`;
               }
               return;
             }
@@ -62,21 +57,5 @@ export const initTranslation = async (debug = false) => {
         ]
       }
     });
-  i18n.loadLanguages(loadLanguages());
-};
-
-const loadLanguages = () => {
-  const loadLngs = window.localStorage.getItem('i18nextLngLoad');
-  if (!loadLngs) {
-    return [];
-  }
-  try {
-    const parsedLngs = JSON.parse(loadLngs);
-    if (Array.isArray(parsedLngs)) {
-      return parsedLngs;
-    }
-  } catch {
-    console.log('Error parsing i18nextLngLoad');
-  }
-  return [];
+  knownLanguages.then(i18n.loadLanguages);
 };

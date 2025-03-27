@@ -1,0 +1,162 @@
+{
+  "animation": {
+    "allOpen": "Tous les processus ouverts",
+    "allProcesses": "Tous les processus",
+    "animation": "Animation",
+    "enabled": "Activé",
+    "fast": "Rapide",
+    "fastest": "Très rapide",
+    "mode": "Mode",
+    "noDialog": "Pas de processus de dialogue",
+    "noEmbedded": "Pas de processus intégrés",
+    "normal": "Normal",
+    "onlyCurrenltyOpen": "Seulement le processus actuellement ouvert",
+    "reset": "Réinitialiser",
+    "slow": "Lent",
+    "slowest": "Très lent",
+    "speed": "Vitesse"
+  },
+  "artifact": {
+    "callerData": "Données de l'appelant",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cet {{artifact}} ?",
+    "namespace": "Espace de noms",
+    "new": "Créer un nouveau {{type}}",
+    "optional": "Optionnel"
+  },
+  "browser": {
+    "back": "Retour",
+    "devBrowser": "Navigateur de développement",
+    "forward": "Suivant",
+    "goBack": "Retour",
+    "goForward": "Suivant",
+    "goHome": "Aller à l'accueil",
+    "home": "Accueil",
+    "openNewTab": "Ouvrir dans un nouvel onglet",
+    "reload": "Recharger",
+    "reloadPage": "Recharger la page",
+    "simulate": "Simulation de processus"
+  },
+  "configurations": {
+    "configDescription": "Les configurations sont les paramètres qui définissent comment une application se comporte et interagit avec d'autres systèmes."
+  },
+  "dataclasses": {
+    "dataclassDescription": "Une classe de données est utilisée pour définir et structurer les données au sein d'une application de processus. Elle est utilisée pour gérer les données de manière cohérente à travers les processus et les formulaires.",
+    "newDataclass": "Créer une nouvelle classe de données"
+  },
+  "deploy": {
+    "applicationName": "Nom de l'application",
+    "deployWs": "Déployer l'espace de travail",
+    "engineUrl": "URL du moteur",
+    "log": "Journal de déploiement",
+    "logDescription": "Sortie du journal renvoyée par le moteur.",
+    "target": "Spécifiez le moteur sur lequel vous souhaitez déployer l'espace de travail actuel."
+  },
+  "deploys": {
+    "closeLog": "Copier le journal"
+  },
+  "forms": {
+    "formDescription": "Un formulaire est un élément d'interface utilisateur qui facilite la saisie de données et l'interaction avec l'application, agissant comme un pont entre les utilisateurs et le système.",
+    "newForm": "Créer un nouveau formulaire"
+  },
+  "hotkey": {
+    "animationMode": "Mode d'animation ({{hotkey}})",
+    "animationSpeed": "Vitesse d'animation ({{hotkey}})",
+    "closeAllTabs": "Fermer tous les onglets ({{hotkey}})",
+    "closeTab": "Fermer l'onglet ({{hotkey}})",
+    "configurations": "Configurations ({{hotkey}})",
+    "dataClasses": "Classes de données ({{hotkey}})",
+    "deleteElement": "Supprimer l'élément ({{hotkey}})",
+    "deploy": "Déployer l'espace de travail ({{hotkey}})",
+    "exportWorkspace": "Exporter l'espace de travail ({{hotkey}})",
+    "focusNavigation": "Focus Navigation ({{hotkey}})",
+    "focusTabs": "Focus Tabs ({{hotkey}})",
+    "forms": "Formulaires ({{hotkey}})",
+    "home": "Accueil ({{hotkey}})",
+    "importFile": "Importer depuis un fichier ({{hotkey}})",
+    "importMarket": "Importer depuis le Market ({{hotkey}})",
+    "openSim": "Ouvrir la simulation ({{hotkey}})",
+    "processes": "Processus ({{hotkey}})",
+    "resetBpm": "Réinitialiser le moteur BPM ({{hotkey}})",
+    "resizeSim": "Redimensionner la simulation ({{hotkey}})",
+    "themeSwitch": "Changer de thème ({{hotkey}})",
+    "toggleAnimation": "Activer/Désactiver l'animation ({{hotkey}})",
+    "workspaces": "Espaces de travail ({{hotkey}})"
+  },
+  "label": {
+    "businessData": "Données métier",
+    "entity": "Entité",
+    "removeDependency": "Supprimer la dépendance"
+  },
+  "market": {
+    "description": "Ici, vous pouvez trouver et télécharger des composants, des modèles et des solutions réutilisables pour accélérer le développement.",
+    "install": "Installer {{component}}",
+    "selectVersion": "Sélectionnez la version à installer",
+    "showDetails": "Voir les détails",
+    "title": "Axon Ivy Market"
+  },
+  "message": {
+    "artifactNotEmpty": "Le nom de l'artefact ne doit pas être vide.",
+    "artifctExisting": "L'artefact {{name}} existe déjà.",
+    "artifiactNamespaceNotEmpty": "L'espace de noms de l'artefact ne doit pas être vide.",
+    "capitalizeName": "Il est recommandé de mettre une majuscule à la première lettre.",
+    "dataclassPackaged": "La classe de données ne peut pas être supprimée car le projet auquel elle appartient est empaqueté.",
+    "dependencyPackaged": "La dépendance ne peut pas être supprimée car le projet en question est empaqueté.",
+    "formPackaged": "Le formulaire ne peut pas être supprimé car le projet auquel il appartient est empaqueté.",
+    "invalidChar": "Caractère invalide '{{- char}}' à la position {{pos}} dans '{{- str}}'.",
+    "invalidIar": "Sélectionnez un fichier .iar ou un fichier .zip contenant des fichiers .iar.",
+    "processPackaged": "Le processus ne peut pas être supprimé car le projet auquel il appartient est empaqueté."
+  },
+  "neo": {
+    "addDependency": "Ajouter comme dépendance au projet",
+    "artifactId": "ArtifactId",
+    "configs": "Configurations",
+    "dataClasses": "Classes de données",
+    "forms": "Formulaires",
+    "groupId": "GroupId",
+    "home": "NEO Accueil",
+    "monaco": "Éditeur Monaco",
+    "processes": "Processus",
+    "project": "Projet : {{proj}}",
+    "projects": "Projets"
+  },
+  "processes": {
+    "newProcess": "Créer un nouveau processus",
+    "processDescription": "Un processus décrit une séquence d'étapes automatisées qui optimisent les flux de travail et permettent une gestion efficace des tâches au sein d'une application."
+  },
+  "project": {
+    "editable": "Modifiable"
+  },
+  "projects": {
+    "addDependency": "Ajouter une nouvelle dépendance",
+    "addDependencyTo": "Ajouter une dépendance à : {{project}}",
+    "deletable": "Supprimable",
+    "dependecyInfo": "Les dépendances sont des liens entre les projets qui permettent à un projet d'accéder aux fonctionnalités ou aux artefacts d'un autre et d'éviter la duplication de travail.",
+    "dependencyDetails": "Détails de la dépendance de : {{project}}",
+    "description": "Ici, vous pouvez voir les dépendances du projet.",
+    "details": "Détails du projet : {{project}}",
+    "editRights": "Droits de modification",
+    "selectDependency": "Sélectionner une dépendance"
+  },
+  "settings": {
+    "dark": "Sombre",
+    "language": "Langue",
+    "languageSwitch": "Changement de langue",
+    "light": "Clair",
+    "simulate": "Simuler",
+    "system": "Système",
+    "theme": "Thème"
+  },
+  "workspaces": {
+    "description": "Ici, vous pouvez trouver les projets que vous avez créés ainsi que tous les projets importés dans cet espace de travail. Un projet contient tous les composants essentiels nécessaires à la création d'une application.",
+    "importFile": "Importer depuis un fichier",
+    "importInto": "Importer des projets Axon Ivy dans : {{workspace}}",
+    "importMarket": "Importer depuis le Market",
+    "importProject": "Importer des projets",
+    "importWarning": "L'importation peut écraser les versions de projet existantes.",
+    "importWarningLink": "Pensez à exporter l'espace de travail au préalable.",
+    "info": "Un espace de travail est la zone de développement où une application est construite et testée. C'est l'espace où vos processus métier sont conçus, prévisualisés et simulés avant d'être déployés en tant qu'application fonctionnelle.",
+    "newWorkspace": "Créer un nouvel espace de travail",
+    "title": "Bienvenue sur {{neo}} : Gérez vos espaces de travail",
+    "wsTitle": "Bienvenue dans votre espace de travail : {{workspace}}"
+  }
+}

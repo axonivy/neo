@@ -1,0 +1,75 @@
+{
+  "browser": {
+    "dataClasses": "Data Classes",
+    "ivyScriptTypes": "Ivy Script Data Types",
+    "ownTypes": "Own Types",
+    "searchAllTypes": "Search over all types",
+    "typeAsList": "Type as List"
+  },
+  "cardinality": {
+    "manyToOne": "Many-to-One",
+    "oneToMany": "One-to-Many",
+    "oneToOne": "One-to-One"
+  },
+  "cascade": {
+    "all": "All",
+    "merge": "Merge",
+    "persist": "Persist",
+    "refresh": "Refresh",
+    "remove": "Remove"
+  },
+  "dialog": {
+    "addAttr": {
+      "create": "Create Attribute",
+      "createTooltip": "Hold {{modifier}} to add an additional Attribute.",
+      "desc": "Choose the name and type of the Attribute you want to add.",
+      "title": "Add Attribute"
+    }
+  },
+  "hotkey": {
+    "addAttribute": "Add Attribute ({{hotkey}})",
+    "combineAttribute": "Combine Attributes ({{hotkey}})",
+    "deleteAttribute": "Delete Attribute ({{hotkey}})",
+    "openForm": "Open Form ({{hotkey}})",
+    "openProcess": "Open Process ({{hotkey}})"
+  },
+  "label": {
+    "annotations": "Annotations",
+    "association": "Association",
+    "attributes": "Attributes",
+    "businessData": "Business Data",
+    "cardinality": "Cardinality",
+    "cascade": "Cascade",
+    "classType": "Class type",
+    "data": "Data",
+    "dbField": "Database Field",
+    "dbTable": "Database Table",
+    "deleteAnnotation": "Delete Annotation",
+    "entity": "Entity",
+    "entityProperties": "Entity Properties",
+    "mappedBy": "Mapped by",
+    "nameTypeComment": "Name / Type / Comment",
+    "persistent": "Persistent",
+    "removeOrphans": "Remove orphans",
+    "type": "Type"
+  },
+  "message": {
+    "noDataClass": "Dataclass not found"
+  },
+  "modifier": {
+    "generated": "Generated",
+    "iD": "ID",
+    "notInsertable": "Not insertable",
+    "notNullable": "Not nullable",
+    "notUpdateable": "Not updateable",
+    "persistent": "Persistent",
+    "unique": "Unique",
+    "version": "Version"
+  },
+  "title": {
+    "attribute": "Attribute - {{name}}",
+    "businessData": "Business Data Class - {{name}}",
+    "data": "Data Class - {{name}}",
+    "entity": "Entity Class - {{name}}"
+  }
+}

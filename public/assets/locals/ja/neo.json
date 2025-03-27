@@ -1,0 +1,162 @@
+{
+  "animation": {
+    "allOpen": "すべての開いているプロセス",
+    "allProcesses": "すべてのプロセス",
+    "animation": "アニメーション",
+    "enabled": "有効",
+    "fast": "速い",
+    "fastest": "非常に速い",
+    "mode": "モード",
+    "noDialog": "ダイアログプロセスなし",
+    "noEmbedded": "埋め込みプロセスなし",
+    "normal": "標準",
+    "onlyCurrenltyOpen": "現在開いているプロセスのみ",
+    "reset": "リセット",
+    "slow": "遅い",
+    "slowest": "非常に遅い",
+    "speed": "速度"
+  },
+  "artifact": {
+    "callerData": "呼び出し元データ",
+    "deleteConfirm": "この{{artifact}}を削除してもよろしいですか？",
+    "namespace": "名前空間",
+    "new": "新しい{{type}}を作成",
+    "optional": "オプション"
+  },
+  "browser": {
+    "back": "戻る",
+    "devBrowser": "開発ブラウザ",
+    "forward": "進む",
+    "goBack": "戻る",
+    "goForward": "進む",
+    "goHome": "ホームへ移動",
+    "home": "ホーム",
+    "openNewTab": "新しいタブで開く",
+    "reload": "リロード",
+    "reloadPage": "ページをリロード",
+    "simulate": "プロセスシミュレーション"
+  },
+  "configurations": {
+    "configDescription": "構成は、アプリケーションの動作と他のシステムとの相互作用を定義する設定です。"
+  },
+  "dataclasses": {
+    "dataclassDescription": "データクラスは、プロセスアプリケーション内のデータを定義および構造化するために使用されます。プロセスとフォーム全体で一貫した方法でデータを管理するために使用されます。",
+    "newDataclass": "新しいデータクラスを作成"
+  },
+  "deploy": {
+    "applicationName": "アプリケーション名",
+    "deployWs": "ワークスペースをデプロイ",
+    "engineUrl": "エンジンURL",
+    "log": "デプロイログ",
+    "logDescription": "エンジンから返されたログ出力。",
+    "target": "現在のワークスペースをデプロイするエンジンを指定します。"
+  },
+  "deploys": {
+    "closeLog": "ログをコピー"
+  },
+  "forms": {
+    "formDescription": "フォームは、データ入力とアプリケーションとの対話を容易にするユーザーインターフェイス要素であり、ユーザーとシステム間の橋渡しとして機能します。",
+    "newForm": "新しいフォームを作成"
+  },
+  "hotkey": {
+    "animationMode": "アニメーションモード ({{hotkey}})",
+    "animationSpeed": "アニメーション速度 ({{hotkey}})",
+    "closeAllTabs": "すべてのタブを閉じる ({{hotkey}})",
+    "closeTab": "タブを閉じる ({{hotkey}})",
+    "configurations": "構成 ({{hotkey}})",
+    "dataClasses": "データクラス ({{hotkey}})",
+    "deleteElement": "要素を削除 ({{hotkey}})",
+    "deploy": "ワークスペースをデプロイ ({{hotkey}})",
+    "exportWorkspace": "ワークスペースをエクスポート ({{hotkey}})",
+    "focusNavigation": "ナビゲーションにフォーカス ({{hotkey}})",
+    "focusTabs": "タブにフォーカス ({{hotkey}})",
+    "forms": "フォーム ({{hotkey}})",
+    "home": "ホーム ({{hotkey}})",
+    "importFile": "ファイルからインポート ({{hotkey}})",
+    "importMarket": "マーケットからインポート ({{hotkey}})",
+    "openSim": "シミュレーションを開く ({{hotkey}})",
+    "processes": "プロセス ({{hotkey}})",
+    "resetBpm": "BPMエンジンをリセット ({{hotkey}})",
+    "resizeSim": "シミュレーションのサイズを変更 ({{hotkey}})",
+    "themeSwitch": "テーマを切り替え ({{hotkey}})",
+    "toggleAnimation": "アニメーションの切り替え ({{hotkey}})",
+    "workspaces": "ワークスペース ({{hotkey}})"
+  },
+  "label": {
+    "businessData": "ビジネスデータ",
+    "entity": "エンティティ",
+    "removeDependency": "依存関係を削除"
+  },
+  "market": {
+    "description": "ここでは、再利用可能なコンポーネント、テンプレート、およびソリューションを見つけてダウンロードし、開発を加速できます。",
+    "install": "{{component}}をインストール",
+    "selectVersion": "インストールするバージョンを選択",
+    "showDetails": "詳細を表示",
+    "title": "アクセンアイビー・マーケット"
+  },
+  "message": {
+    "artifactNotEmpty": "アーティファクト名は空にできません。",
+    "artifctExisting": "アーティファクト{{name}}はすでに存在します。",
+    "artifiactNamespaceNotEmpty": "アーティファクトの名前空間は空にできません。",
+    "capitalizeName": "最初の文字を大文字にすることをお勧めします。",
+    "dataclassPackaged": "データクラスは、それが属するプロジェクトがパッケージ化されているため削除できません。",
+    "dependencyPackaged": "依存関係は、問題のプロジェクトがパッケージ化されているため削除できません。",
+    "formPackaged": "フォームは、それが属するプロジェクトがパッケージ化されているため削除できません。",
+    "invalidChar": "無効な文字'{{- char}}'が'{{- str}}'の{{pos}}の位置にあります。",
+    "invalidIar": ".iarファイルまたは.iarファイルを含む.zipファイルを選択してください。",
+    "processPackaged": "プロセスは、それが属するプロジェクトがパッケージ化されているため削除できません。"
+  },
+  "neo": {
+    "addDependency": "プロジェクトに依存関係として追加",
+    "artifactId": "アーティファクトID",
+    "configs": "構成",
+    "dataClasses": "データクラス",
+    "forms": "フォーム",
+    "groupId": "グループID",
+    "home": "NEOホーム",
+    "monaco": "Monacoエディタ",
+    "processes": "プロセス",
+    "project": "プロジェクト：{{proj}}",
+    "projects": "プロジェクト"
+  },
+  "processes": {
+    "newProcess": "新しいプロセスを作成",
+    "processDescription": "プロセスは、ワークフローを最適化し、アプリケーション内のタスクを効率的に管理できるようにする自動化されたステップのシーケンスを記述します。"
+  },
+  "project": {
+    "editable": "編集可能"
+  },
+  "projects": {
+    "addDependency": "新しい依存関係を追加",
+    "addDependencyTo": "{{project}}に依存関係を追加",
+    "deletable": "削除可能",
+    "dependecyInfo": "依存関係は、プロジェクトが別のプロジェクトの機能またはアーティファクトにアクセスし、作業の重複を回避できるようにするプロジェクト間のリンクです。",
+    "dependencyDetails": "{{project}}の依存関係の詳細",
+    "description": "ここでは、プロジェクトの依存関係を確認できます。",
+    "details": "プロジェクトの詳細：{{project}}",
+    "editRights": "編集権限",
+    "selectDependency": "依存関係を選択"
+  },
+  "settings": {
+    "dark": "ダーク",
+    "language": "言語",
+    "languageSwitch": "言語の切り替え",
+    "light": "ライト",
+    "simulate": "シミュレート",
+    "system": "システム",
+    "theme": "テーマ"
+  },
+  "workspaces": {
+    "description": "ここでは、作成したプロジェクトと、このワークスペースにインポートされたすべてのプロジェクトを見つけることができます。プロジェクトには、アプリケーションの作成に必要なすべての重要なコンポーネントが含まれています。",
+    "importFile": "ファイルからインポート",
+    "importInto": "Axon Ivyプロジェクトを{{workspace}}にインポート",
+    "importMarket": "マーケットからインポート",
+    "importProject": "プロジェクトをインポート",
+    "importWarning": "インポートすると、既存のプロジェクトバージョンが上書きされる可能性があります。",
+    "importWarningLink": "事前にワークスペースをエクスポートすることを検討してください。",
+    "info": "ワークスペースは、アプリケーションが構築およびテストされる開発領域です。これは、ビジネスプロセスが設計、プレビュー、およびシミュレートされてから、機能的なアプリケーションとしてデプロイされる場所です。",
+    "newWorkspace": "新しいワークスペースを作成",
+    "title": "{{neo}}へようこそ：ワークスペースを管理",
+    "wsTitle": "ワークスペースへようこそ：{{workspace}}"
+  }
+}
