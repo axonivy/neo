@@ -1,5 +1,6 @@
 import { groupBy, toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createProcess as createProcessReq,
@@ -21,6 +22,7 @@ export const useProcessesApi = () => {
 };
 
 export const useGroupedProcesses = () => {
+  const { t } = useTranslation();
   const { queryKey, base, ws } = useProcessesApi();
   return useQuery({
     queryKey,
@@ -33,7 +35,7 @@ export const useGroupedProcesses = () => {
             .map(([project, processes]) => ({ project, artifacts: processes }))
             .sort((a, b) => projectSort(a.project, b.project, ws));
         }
-        toast.error('Failed to load processes', { description: 'Maybe the server is not correclty started' });
+        toast.error(t('toast.process.missing'), { description: t('toast.serverStatus') });
         return [];
       });
     }
@@ -41,6 +43,7 @@ export const useGroupedProcesses = () => {
 };
 
 export const useCreateProcess = () => {
+  const { t } = useTranslation();
   const { queryKey, base } = useProcessesApi();
   const client = useQueryClient();
   const createProcess = async (process: ProcessInit) => {
@@ -49,18 +52,19 @@ export const useCreateProcess = () => {
       client.invalidateQueries({ queryKey });
       return res.data;
     }
-    throw new Error(resolveErrorMessage(res.data, 'Failed to create process'));
+    throw new Error(resolveErrorMessage(res.data, t('toast.process.createFail')));
   };
   return {
     createProcess: (process: ProcessInit) => {
       const newProcess = createProcess(process);
-      toast.promise(() => newProcess, { loading: 'Creating process', success: 'Process created', error: e => e.message });
+      toast.promise(() => newProcess, { loading: t('toast.process.creating'), success: t('toast.process.created'), error: e => e.message });
       return newProcess;
     }
   };
 };
 
 export const useDeleteProcess = () => {
+  const { t } = useTranslation();
   const { queryKey, base } = useProcessesApi();
   const client = useQueryClient();
   const deleteProcess = async (identifier: ProcessIdentifier) => {
@@ -69,11 +73,15 @@ export const useDeleteProcess = () => {
         client.invalidateQueries({ queryKey });
         return;
       }
-      throw new Error(`Failed to remove process '${identifier.pid}'`);
+      throw new Error(t('toast.process.removeFail', { pid: identifier.pid }));
     });
   };
   return {
     deleteProcess: (identifier: ProcessIdentifier) =>
-      toast.promise(() => deleteProcess(identifier), { loading: 'Remove process', success: 'Process removed', error: e => e.message })
+      toast.promise(() => deleteProcess(identifier), {
+        loading: t('toast.process.removing'),
+        success: t('toast.process.removed'),
+        error: e => e.message
+      })
   };
 };

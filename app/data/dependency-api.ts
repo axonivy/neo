@@ -1,5 +1,6 @@
 import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import { headers, ok } from './custom-fetch';
 import {
@@ -18,6 +19,7 @@ export const useDependenciesApi = () => {
 };
 
 export const useDependencies = (app?: string, pmv?: string) => {
+  const { t } = useTranslation();
   const { queryKey, base, ws } = useDependenciesApi();
   return useQuery({
     queryKey,
@@ -27,7 +29,7 @@ export const useDependencies = (app?: string, pmv?: string) => {
         if (ok(res)) {
           return res.data.sort((a, b) => projectSort(a.pmv, b.pmv, ws));
         }
-        toast.error('Failed to load projects', { description: 'Maybe the server is not correclty started' });
+        toast.error(t('toast.dependency.missing'), { description: t('toast.serverStatus') });
         return [];
       });
     }
@@ -35,6 +37,7 @@ export const useDependencies = (app?: string, pmv?: string) => {
 };
 
 export const useRemoveDependency = () => {
+  const { t } = useTranslation();
   const { queryKey, base } = useDependenciesApi();
   const client = useQueryClient();
   const removeDependency = async ({ app, pmv }: ProjectIdentifier, dependency: ProjectIdentifier) => {
@@ -43,20 +46,21 @@ export const useRemoveDependency = () => {
         client.invalidateQueries({ queryKey });
         return;
       }
-      throw new Error(`Failed to remove dependency '${dependency.pmv}'`);
+      throw new Error(t('toast.dependency.removeFail', { pmv: dependency.pmv }));
     });
   };
   return {
     removeDependency: (dependent: ProjectIdentifier, dependency: ProjectIdentifier) =>
       toast.promise(() => removeDependency(dependent, dependency), {
-        loading: 'Remove dependency',
-        success: 'Dependency removed',
+        loading: t('toast.dependency.remove'),
+        success: t('toast.dependency.removed'),
         error: e => e.message
       })
   };
 };
 
 export const useAddDependencyReq = () => {
+  const { t } = useTranslation();
   const { queryKey, base } = useDependenciesApi();
   const client = useQueryClient();
   const addDependency = async ({ app, pmv }: ProjectIdentifier, dependency: ProjectIdentifier) => {
@@ -65,13 +69,13 @@ export const useAddDependencyReq = () => {
       client.invalidateQueries({ queryKey });
       return res.data;
     }
-    throw new Error('Failed to add dependency');
+    throw new Error(t('toast.dependency.addFail'));
   };
   return {
     addDependency: (dependent: ProjectIdentifier, dependency: ProjectIdentifier) => {
       toast.promise(addDependency(dependent, dependency), {
-        loading: 'Adding dependency',
-        success: 'Added dependency',
+        loading: t('toast.dependency.adding'),
+        success: t('toast.dependency.added'),
         error: e => e.message
       });
     }

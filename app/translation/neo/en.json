@@ -48,7 +48,8 @@
     "target": "Specify the engine to which you want to deploy the current workspace."
   },
   "deploys": {
-    "closeLog": "Copy Log"
+    "closeLog": "Copy Log",
+    "copiedLog": "Log copied to the clipboard"
   },
   "forms": {
     "formDescription": "A form is a user interface element that facilitates data entry and interaction with the application, acting as a bridge between users and the system.",
@@ -100,6 +101,7 @@
     "formPackaged": "The form cannot be deleted as the project to which it belongs is packaged.",
     "invalidChar": "Invalid character '{{- char}}' at position {{pos}} in '{{- str}}'.",
     "invalidIar": "Select an .iar file or a .zip file that contains .iar files.",
+    "loadEngineVersionFail": "Failed to load engine version",
     "processPackaged": "The process cannot be deleted as the project to which it belongs is packaged."
   },
   "neo": {
@@ -141,6 +143,102 @@
     "simulate": "Simulate",
     "system": "System",
     "theme": "Theme"
+  },
+  "toast": {
+    "animation": {
+      "disabled": "Animation disabled",
+      "enabled": "Animation enabled",
+      "mode": "Animation mode: {{mode}}",
+      "speed": "Animation speed: {{speed}}"
+    },
+    "config": {
+      "missing": "Failed to load configurations",
+      "readFail": "Failed to read configuration with params: {{app}} {{pmv}} {{path}}",
+      "saved": "Saving config completed",
+      "writeFail": "Failed to write config for {{app}} {{pmv}} {{path}}",
+      "writing": "Writing config"
+    },
+    "dataClass": {
+      "create": "Creating data class",
+      "created": "Data class created",
+      "creationFail": "Failed to create data class",
+      "missing": "Failed to load data classes",
+      "removed": "Data class removed",
+      "removeFail": "Failed to remove data class '{{name}}'",
+      "removing": "Removing data class"
+    },
+    "dependency": {
+      "added": "Added dependency",
+      "addFail": "Failed to add dependency",
+      "adding": "Adding dependency",
+      "missing": "Failed to load projects",
+      "remove": "Remove dependency",
+      "removed": "Dependency removed",
+      "removeFail": "Failed to remove dependency '{{pmv}}'"
+    },
+    "editor": {
+      "fileTypeIncompatible": "This file type '{{type}}' can not be edited in NEO.",
+      "unknownType": "Unknown editor type",
+      "unknownTypeForPath": "Unknown editor type for path {{path}}"
+    },
+    "form": {
+      "created": "Form created",
+      "createFail": "Failed to create form",
+      "creating": "Creating form",
+      "missing": "Failed to load forms",
+      "removed": "Form removed",
+      "removeFail": "Failed to remove from '{{id}}'",
+      "removing": "Removing form"
+    },
+    "market": {
+      "inaccsessible": "Maybe the market is currently not accessible",
+      "loadBestMatchingFail": "Failed to load best matching market artifact version for {{id}} with engine version {{engineVersion}}",
+      "loadFail": "Failed to load market product versions for {{id}}",
+      "loadJsonFail": "Failed to load product json for {{id}} with version {{version}}",
+      "missing": "Failed to load market products",
+      "versionUndefined": "Artifact version of {{id}} needs to be defined to retrieve product json"
+    },
+    "process": {
+      "created": "Process created",
+      "createFail": "Failed to create process",
+      "creating": "Creating process",
+      "missing": "Failed to load processes",
+      "removed": "Process removed",
+      "removeFail": "Failed to remove process '{{pid}}'",
+      "removing": "Removing process"
+    },
+    "project": {
+      "bpmnEngineStopFail": "Failed to stop BPM Engine for project '{{pmv}}'",
+      "bpmnEngineStopped": "BPM Engine stopped",
+      "bpmnEngineStopping": "Stopping BPM Engine",
+      "missing": "Failed to load projects",
+      "removed": "Project removed",
+      "removeFail": "Failed to remove project '{{pmv}}'",
+      "removing": "Removing project"
+    },
+    "serverStatus": "Maybe the server is not correclty started",
+    "unauthorized": "Unauthorized, click reload to log in.",
+    "workspace": {
+      "created": "Workspace created",
+      "createFail": "Failed to create workspace",
+      "creating": "Creating workspace",
+      "deployed": "Workspace deployed",
+      "deployFail": "Failed to deploy workspace '{{id}}'",
+      "deploying": "Deploying workspace",
+      "exported": "Workspace exported",
+      "exportFail": "Failed to export workspace '{{id}}'",
+      "exporting": "Exporting workspace",
+      "imported": "Projects imported into workspace",
+      "importFail": "Failed to import workspace '{{id}}'",
+      "importing": "Importing projects",
+      "marketInstallFail": "Failed to install market product",
+      "marketProductInstalled": "Imported projects: {{projects}}",
+      "marketProductInstalling": "Installing market product",
+      "missing": "Failed to load workspaces",
+      "removed": "Workspace deleted",
+      "removeFail": "Failed to remove from '{{id}}'",
+      "removing": "Deleting workspace"
+    }
   },
   "workspaces": {
     "description": "Here you can find the projects you have created along with any imported projects in this workspace. A project contains all the essential components needed to build an application.",

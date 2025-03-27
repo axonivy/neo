@@ -114,7 +114,7 @@ const DeployLogContent = ({ log }: { log: string }) => {
           variant='outline'
           size='large'
           icon={IvyIcons.Note}
-          onClick={() => navigator.clipboard.writeText(log).then(() => toast.success('Log copied to the clipboard'))}
+          onClick={() => navigator.clipboard.writeText(log).then(() => toast.success(t('deploys.copiedLog')))}
         >
           {t('deploys.closeLog')}
         </Button>

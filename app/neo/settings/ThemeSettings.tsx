@@ -17,11 +17,12 @@ const themes = ['light', 'dark', 'system'] as const;
 
 export const useCycleTheme = () => {
   const { theme, setTheme } = useTheme();
+  const { t } = useTranslation();
   const cycleTheme = () => {
     const currentIndex = themes.indexOf(theme);
     const nextTheme = themes[(currentIndex + 1) % themes.length];
     setTheme(nextTheme);
-    toast.info(`Theme: ${nextTheme}`);
+    toast.info(`${t('settings.theme')}: ${nextTheme}`);
   };
   return cycleTheme;
 };
