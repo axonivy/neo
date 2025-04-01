@@ -14,6 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
   Flex,
+  Graph,
   Input,
   IvyIcon,
   useHotkeys,
@@ -55,7 +56,7 @@ export default function Index() {
 
   return (
     <div style={{ overflowY: 'auto', height: '100%' }}>
-      <Flex direction='column' gap={1}>
+      <Flex direction='column' gap={1} style={{ height: '100%' }}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='app-info'>
           <span style={{ fontWeight: 600 }}>{title}</span>
           <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{t('workspaces.description')}</span>
@@ -81,7 +82,7 @@ export default function Index() {
             />
           </Flex>
         </Flex>
-        <Overview title={t('neo.projects')} search={search} onSearchChange={setSearch} isPending={isPending}>
+        <Overview title={t('neo.projects')} search={search} onSearchChange={setSearch} isPending={isPending} graph={<ProjectGraph />}>
           <NewArtifactCard
             title={t('workspaces.importProject')}
             open={() => setOpen(true)}
@@ -230,6 +231,25 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
       onClick={open}
       preview={<PreviewSVG />}
       tagLabel={project.id.isIar ? t('common:label.readOnly') : undefined}
+    />
+  );
+};
+
+const ProjectGraph = () => {
+  const { data: projects } = useSortedProjects(true);
+
+  return (
+    <Graph
+      graphNodes={
+        projects?.map(project => ({
+          id: project.id.pmv,
+          label: project.id.pmv,
+          content: `${project.artifactId} - ${project.version}`,
+          options: { expandContent: true },
+          target: project.dependencies ? project.dependencies.map(dep => ({ id: dep.pmv })) : []
+        })) ?? []
+      }
+      options={{ filter: true, circleFloatingEdges: true, minimap: false }}
     />
   );
 };

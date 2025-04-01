@@ -1,8 +1,11 @@
+import { BasicSelect, Button, Graph } from '@axonivy/ui-components';
+import { IvyIcons } from '@axonivy/ui-icons';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
-import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
-import type { DataClassBean } from '~/data/generated/ivy-client';
-import type { ProjectIdentifier } from '~/data/project-api';
+import { useCreateDataClass, useDataClassesWithFields, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
+import type { DataClassBean, DataClassField } from '~/data/generated/ivy-client';
+import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
@@ -28,6 +31,7 @@ export default function Index() {
       title={t('neo.dataClasses')}
       description={t('dataclasses.dataclassDescription')}
       search={search}
+      graph={<DataClassGraph />}
       onSearchChange={setSearch}
       isPending={isPending}
     >
@@ -35,6 +39,7 @@ export default function Index() {
         <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} key={project}>
           {artifacts.map(dc => {
             const editor = createDataClassEditor(dc);
+
             return <DataClassCard key={editor.id} dataClass={dc} {...editor} />;
           })}
         </ArtifactGroup>
@@ -87,4 +92,66 @@ const NewDataClassCard = () => {
       ?.artifacts.some(dc => dc.name.toLowerCase() === `${namespace.toLowerCase()}.${name.toLowerCase()}`) ?? false;
   const title = t('dataclasses.newDataclass');
   return <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Data Class', namespaceRequired: true })} />;
+};
+
+const DataClassGraph = () => {
+  const { data } = useDataClassesWithFields();
+  const { createDataClassEditor } = useCreateEditor();
+  const { openEditor } = useEditors();
+  const { data: projects } = useSortedProjects();
+  const [selectedProject, setSelectedProject] = useState<string>('all');
+
+  return (
+    <>
+      <BasicSelect
+        value={selectedProject}
+        onValueChange={setSelectedProject}
+        items={[
+          { value: 'all', label: 'Show all' },
+          ...(projects ?? []).map(project => ({
+            value: project.id.pmv,
+            label: project.id.pmv
+          }))
+        ]}
+        menuWidth='200px'
+      />
+      <Graph
+        graphNodes={(data ?? [])
+          .filter(dc => selectedProject === 'all' || dc.dataClassIdentifier.project.pmv === selectedProject)
+          .map(dc => ({
+            id: dc.name,
+            label: dc.simpleName,
+            info: dc.name,
+            content: <FieldContent fields={dc.fields} />,
+            options: {
+              expandContent: true,
+              controls: (
+                <Button
+                  icon={IvyIcons.DataClass}
+                  onClick={() => {
+                    const editor = createDataClassEditor(dc);
+                    openEditor(editor);
+                  }}
+                />
+              )
+            },
+            target: dc.fields.map(field => ({ id: field.type }))
+          }))}
+        options={{ filter: true, circleFloatingEdges: true, minimap: true }}
+      />
+    </>
+  );
+};
+
+const FieldContent = ({ fields }: { fields: DataClassField[] }) => {
+  return (
+    <ul style={{ padding: '0 10px', listStyle: 'none', margin: 0, overflow: 'auto' }}>
+      {fields.map((field: { name: string; type: string }) => (
+        <li key={field.name} style={{ display: 'flex', gap: '5px' }}>
+          <div>{field.name}:</div>
+          <div style={{ color: 'var(--N700) ' }}>{field.type}</div>
+        </li>
+      ))}
+    </ul>
+  );
 };

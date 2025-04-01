@@ -17,6 +17,26 @@ const useDataClassesApi = () => {
   return { queryKey: ['neo', ws?.id, 'dataclasses'], base: ws?.baseUrl, ws };
 };
 
+export const useDataClassesWithFields = () => {
+  const ws = useWorkspace();
+  const conf = { queryKey: ['neo', ws?.id, 'with-fields'], base: ws?.baseUrl, ws };
+
+  const { t } = useTranslation();
+  return useQuery({
+    queryKey: conf.queryKey,
+    queryFn: () => {
+      if (conf.base === undefined) return [];
+      return dataClasses({ headers: headers(conf.base) }, true).then(res => {
+        if (ok(res)) {
+          return res.data;
+        }
+        toast.error(t('toast.dataClass.missing'), { description: t('toast.serverStatus') });
+        return [];
+      });
+    }
+  });
+};
+
 export const useGroupedDataClasses = () => {
   const { queryKey, base, ws } = useDataClassesApi();
   const { t } = useTranslation();

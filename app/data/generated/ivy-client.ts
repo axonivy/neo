@@ -64,8 +64,14 @@ export interface DataClassBean {
   simpleName: string;
   dataClassIdentifier: DataClassIdentifier;
   path: string;
+  fields: DataClassField[];
   isEntityClass: boolean;
   isBusinessCaseData: boolean;
+}
+
+export interface DataClassField {
+  name: string;
+  type: string;
 }
 
 export interface DataClassIdentifier {
@@ -148,6 +154,7 @@ export interface ProjectBean {
   version: string;
   isDeletable: boolean;
   defaultNamespace: string;
+  dependencies: ProjectIdentifier[];
 }
 
 export interface NewProjectParams {
@@ -610,12 +617,12 @@ export type dataClassesResponse = {
   headers: Headers;
 };
 
-export const getDataClassesUrl = () => {
-  return `/web-ide/dataclasses`;
+export const getDataClassesUrl = (withFields: Boolean = false) => {
+  return `/web-ide/dataclasses${withFields ? '/with-fields' : ''}`;
 };
 
-export const dataClasses = async (options?: RequestInit): Promise<dataClassesResponse> => {
-  return customFetch<dataClassesResponse>(getDataClassesUrl(), {
+export const dataClasses = async (options?: RequestInit, withFields: Boolean = false): Promise<dataClassesResponse> => {
+  return customFetch<dataClassesResponse>(getDataClassesUrl(withFields), {
     ...options,
     method: 'GET'
   });
@@ -816,12 +823,12 @@ export type projectsResponse = {
   headers: Headers;
 };
 
-export const getProjectsUrl = () => {
-  return `/web-ide/projects`;
+export const getProjectsUrl = (withDependencies: boolean = false) => {
+  return `/web-ide/projects` + (withDependencies ? '/with-dependencies' : '');
 };
 
-export const projects = async (options?: RequestInit): Promise<projectsResponse> => {
-  return customFetch<projectsResponse>(getProjectsUrl(), {
+export const projects = async (withDependencies: boolean = false, options?: RequestInit): Promise<projectsResponse> => {
+  return customFetch<projectsResponse>(getProjectsUrl(withDependencies), {
     ...options,
     method: 'GET'
   });
