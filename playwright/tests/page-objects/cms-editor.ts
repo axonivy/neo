@@ -31,6 +31,6 @@ export class CmsEditorRow {
     readonly editor: CmsEditor,
     readonly name: string
   ) {
-    this.row = editor.editor.locator('.ui-table-row:not(.ui-message-row)').filter({ hasText: new RegExp(`^${name}$`) });
+    this.row = editor.editor.locator('.ui-table-row:not(.ui-message-row)').filter({ hasText: name });
   }
 }
