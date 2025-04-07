@@ -9,8 +9,8 @@
   "rebaseWhen": "conflicted",
   "packageRules": [
     {
-      "description": "Disable Renovate for @codingame/* and orval packages",
-      "matchDepNames": ["@codingame/*", "orval"],
+      "description": "Disable Renovate for @codingame/* packages",
+      "matchDepNames": ["@codingame/*"],
       "enabled": false
     }
   ]
