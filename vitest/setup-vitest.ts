@@ -4,6 +4,6 @@ import { initTranslation } from '~/translation/translation';
 
 vi.mock('zustand');
 
-initTranslation(false);
+initTranslation();
 
 afterEach(() => cleanup());

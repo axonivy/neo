@@ -108,7 +108,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
                     <ProjectSelect
                       setProject={setProject}
                       setDefaultValue={true}
-                      label={t('neo.project')}
+                      label={t('label.project')}
                       projectFilter={p => !p.id.isIar}
                     />
                   )}
