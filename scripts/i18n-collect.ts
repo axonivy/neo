@@ -1,37 +1,33 @@
-import { deTranslation as deCms, enTranslation as enCms } from '@axonivy/cms-editor';
-import { deTranslation as deDataClass, enTranslation as enDataClass } from '@axonivy/dataclass-editor';
-import { deMessages as deForm, enMessages as enForm } from '@axonivy/form-editor';
-import deProcess from '@axonivy/process-editor/lib/translation/process-editor/de.json' with { type: 'json' };
-import enProcess from '@axonivy/process-editor/lib/translation/process-editor/en.json' with { type: 'json' };
-import { deTranslation as deVariable, enTranslation as enVariable } from '@axonivy/variable-editor';
-import { mkdirSync, readdirSync, writeFileSync } from 'fs';
+import { copyFileSync, mkdirSync, readdirSync, writeFileSync } from 'fs';
 import path from 'path';
-import deNeo from '../app/translation/neo/de.json' with { type: 'json' };
-import enNeo from '../app/translation/neo/en.json' with { type: 'json' };
+
+const translations = {
+  'cms-editor': path.resolve('./node_modules/@axonivy/cms-editor/src/translation/cms-editor'),
+  'dataclass-editor': path.resolve('./node_modules/@axonivy/dataclass-editor/src/translation/dataclass-editor'),
+  'variable-editor': path.resolve('./node_modules/@axonivy/variable-editor/src/translation/variable-editor'),
+  'form-editor': path.resolve('./node_modules/@axonivy/form-editor/src/translation/form-editor'),
+  'process-editor': path.resolve('./node_modules/@axonivy/process-editor/src/translation/process-editor'),
+  neo: path.resolve('./app/translation/neo/')
+};
 
 const localsDir = path.resolve('./public/assets/locals/');
 
 const collectTranslations = () => {
-  const enDir = path.resolve(localsDir, 'en/');
-  writeFile(enDir, 'cms-editor.json', enCms);
-  writeFile(enDir, 'dataclass-editor.json', enDataClass);
-  writeFile(enDir, 'process-editor.json', enProcess);
-  writeFile(enDir, 'variable-editor.json', enVariable);
-  writeFile(enDir, 'form-editor.json', enForm);
-  writeFile(enDir, 'neo.json', enNeo);
-
-  const deDir = path.resolve(localsDir, 'de/');
-  writeFile(deDir, 'cms-editor.json', deCms);
-  writeFile(deDir, 'dataclass-editor.json', deDataClass);
-  writeFile(deDir, 'process-editor.json', deProcess);
-  writeFile(deDir, 'variable-editor.json', deVariable);
-  writeFile(deDir, 'form-editor.json', deForm);
-  writeFile(deDir, 'neo.json', deNeo);
+  Object.entries(translations).forEach(([targetFile, dir]) => scanDir(dir, targetFile));
 };
 
-const writeFile = (dir: string, file: string, content: object) => {
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(path.resolve(dir, file), JSON.stringify(content, null, 2), { encoding: 'utf-8' });
+const scanDir = (dir: string, targetFile: string) => {
+  const files = readdirSync(dir);
+  for (const file of files) {
+    const lng = file.replace('.json', '');
+    const lngDir = path.resolve(localsDir, lng);
+    copyFile(dir, lng, lngDir, `${targetFile}.json`);
+  }
+};
+
+const copyFile = (srcDir: string, lng: string, targetDir: string, targetFile: string) => {
+  mkdirSync(targetDir, { recursive: true });
+  copyFileSync(path.resolve(srcDir, `${lng}.json`), path.resolve(targetDir, targetFile));
 };
 
 type RecursiveValue = string | RecursiveRecord;
