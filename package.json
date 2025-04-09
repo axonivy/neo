@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "ci": "npm run ci:prepare && npm run type && (npm run lint:ci || true) && npm run test:ci  && npm run i18n:ci",
-    "ci:prepare": "npm install && npm run build:editor && npm run build",
+    "ci:prepare": "npm install && npm run build:editor && npm run i18n:collect && npm run build",
     "build": "react-router build",
     "dev": "react-router dev",
     "dev:debug": "export DEBUG=vite:* && remix vite:dev",
@@ -22,7 +22,7 @@
     "test:ci": "vitest --watch=false",
     "playwright": "npm run -w playwright --",
     "type": "react-router typegen && tsc && npm run -w webviews/process-editor type && npm run -w playwright type",
-    "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u && npm run i18n:collect",
+    "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t patch -u",
     "sbom": "npx --yes @cyclonedx/cyclonedx-npm --output-format JSON --output-file bom.json",
     "i18n:collect": "node --experimental-transform-types ./scripts/i18n-collect.ts",
     "i18n:extract": "npx i18next-parser",
