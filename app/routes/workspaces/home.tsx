@@ -169,7 +169,7 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
             </Link>
           </DialogDescription>
         </DialogHeader>
-        <BasicField label={t('common:label.file')} message={fileValidation}>
+        <BasicField label={t('common.label.file')} message={fileValidation}>
           <Input
             accept='.zip,.iar'
             type='file'
@@ -190,12 +190,12 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
               onClick={() => (file ? importAction(file) : {})}
               icon={IvyIcons.Download}
             >
-              {t('common:label.import')}
+              {t('common.label.import')}
             </Button>
           </DialogClose>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              {t('common:label.cancel')}
+              {t('common.label.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>
@@ -229,7 +229,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
       actions={{ delete: deleteAction }}
       onClick={open}
       preview={<PreviewSVG />}
-      tagLabel={project.id.isIar ? t('common:label.readOnly') : undefined}
+      tagLabel={project.id.isIar ? t('common.label.readOnly') : undefined}
     />
   );
 };

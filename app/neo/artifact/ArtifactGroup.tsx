@@ -59,7 +59,7 @@ export const ArtifactGroup = ({ project, newArtifactCard, children }: Group) => 
         }}
       >
         {t('neo.project', { proj: project })}
-        {projectBean?.id.isIar && <ArtifactTag label={t('common:label.readOnly')} />}
+        {projectBean?.id.isIar && <ArtifactTag label={t('common.label.readOnly')} />}
       </CollapsibleTrigger>
       <CollapsibleContent style={{ padding: 0 }}>
         <Flex gap={4} style={{ flexWrap: 'wrap' }}>

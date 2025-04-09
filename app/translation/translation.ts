@@ -11,9 +11,6 @@ import { deTranslation as deTranslationCms, enTranslation as enTranslationCms } 
 import { deTranslation as deTranslationDataClass, enTranslation as enTranslationDataClass } from '@axonivy/dataclass-editor';
 import { deMessages as deTranslationForm, enMessages as enTranslationForm } from '@axonivy/form-editor';
 import { deTranslation as deTranslationVariable, enTranslation as enTranslationVariable } from '@axonivy/variable-editor';
-import { getCommonTranslations } from './commonTranslation';
-
-const commonTranslations = getCommonTranslations();
 
 const localTranslations: Resource = {
   neo: {
@@ -35,8 +32,7 @@ const localTranslations: Resource = {
   'form-editor': {
     en: enTranslationForm,
     de: deTranslationForm
-  },
-  common: commonTranslations
+  }
 };
 
 export const initTranslation = async (debug = false) => {
@@ -47,7 +43,7 @@ export const initTranslation = async (debug = false) => {
     .use(LngDetector)
     .init({
       debug,
-      fallbackLng: Object.keys(localTranslations['common']),
+      fallbackLng: Object.keys(localTranslations['neo']),
       ns: Object.keys(localTranslations),
       defaultNS: 'neo',
       load: 'languageOnly',

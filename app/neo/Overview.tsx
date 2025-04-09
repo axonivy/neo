@@ -33,7 +33,7 @@ export const Overview = ({ title, description, search, onSearchChange, isPending
           {helpUrl && <HelpButton url={helpUrl} />}
         </Flex>
       )}
-      <SearchInput placeholder={t('common:label.search')} value={search} onChange={onSearchChange} autoFocus={true} />
+      <SearchInput placeholder={t('common.label.search')} value={search} onChange={onSearchChange} autoFocus={true} />
       <Flex gap={4} style={{ flexWrap: 'wrap' }}>
         {isPending ? <Spinner size='small' className='overview-loader' /> : <>{children}</>}
       </Flex>

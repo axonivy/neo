@@ -26,13 +26,13 @@ export const DeleteConfirm = ({
           {deleteAction.isDeletable && (
             <DialogClose asChild>
               <Button variant='primary' size='large' onClick={deleteAction.run} icon={IvyIcons.Trash}>
-                {t('common:label.delete')}
+                {t('common.label.delete')}
               </Button>
             </DialogClose>
           )}
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              {t('common:label.cancel')}
+              {t('common.label.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>

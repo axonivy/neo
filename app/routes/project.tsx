@@ -53,16 +53,16 @@ export default function Index() {
                 <ProjectInfo title={t('neo.groupId')} value={project?.groupId}></ProjectInfo>
               </ProjectInfoContainer>
               <ProjectInfoContainer>
-                <ProjectInfo title={t('common:label.version')} value={project?.version}></ProjectInfo>
+                <ProjectInfo title={t('common.label.version')} value={project?.version}></ProjectInfo>
                 <ProjectInfo
                   title={t('projects.editRights')}
-                  value={project?.id.isIar ? t('common:label.readOnly') : t('project.editable')}
+                  value={project?.id.isIar ? t('common.label.readOnly') : t('project.editable')}
                 ></ProjectInfo>
               </ProjectInfoContainer>
               <ProjectInfoContainer>
                 <ProjectInfo
                   title={t('projects.deletable')}
-                  value={project?.isDeletable ? t('common:label.yes') : t('common:label.no')}
+                  value={project?.isDeletable ? t('common.label.yes') : t('common.label.no')}
                 ></ProjectInfo>
               </ProjectInfoContainer>
             </Flex>
@@ -129,7 +129,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
       actions={{ delete: deleteAction }}
       onClick={open}
       preview={<PreviewSVG />}
-      tagLabel={dependency.isIar ? t('common:label.readOnly') : undefined}
+      tagLabel={dependency.isIar ? t('common.label.readOnly') : undefined}
     />
   );
 };
@@ -156,12 +156,12 @@ const AddDependencyDialog = ({ children, project }: { children: ReactNode; proje
         <DialogFooter>
           <DialogClose asChild>
             <Button variant='primary' size='large' onClick={() => dependency && addDependency(project, dependency.id)} icon={IvyIcons.Plus}>
-              {t('common:label.add')}
+              {t('common.label.add')}
             </Button>
           </DialogClose>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              {t('common:label.cancel')}
+              {t('common.label.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>
