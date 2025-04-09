@@ -51,7 +51,7 @@ const handleUnauthorized = (response: Response) => {
     if (unauthorizedCount > 1) {
       toast.error(i18next.t('toast.unauthorized'), {
         duration: Infinity,
-        action: { label: i18next.t('common:label.reload'), onClick: () => window.location.reload() }
+        action: { label: i18next.t('common.label.reload'), onClick: () => window.location.reload() }
       });
     }
     throw new Error(response.statusText);

@@ -22,7 +22,7 @@ export const ArtifactInfoCard = ({ title, description, icon, link }: ArtifactInf
         <span className='artifact-title'>{title}</span>
         <span>{description}</span>
         <Flex alignItems='center' gap={1} className='artifact-footer'>
-          {t('common:label.open')} <IvyIcon icon={IvyIcons.Chevron} />
+          {t('common.label.open')} <IvyIcon icon={IvyIcons.Chevron} />
         </Flex>
       </Flex>
     </button>

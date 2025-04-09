@@ -32,7 +32,7 @@ export const EditorsControl = () => {
             aria-label={closeAllTabs.label}
             title={closeAllTabs.label}
           >
-            {t('common:label.closeAll')}
+            {t('common.label.closeAll')}
           </Button>
         </Flex>
       </PopoverContent>

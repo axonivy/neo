@@ -140,7 +140,7 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
           <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project?.id}></InstallButton>
           <DialogClose asChild>
             <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              {t('common:label.cancel')}
+              {t('common.label.cancel')}
             </Button>
           </DialogClose>
         </DialogFooter>
@@ -159,7 +159,7 @@ const VersionSelect = ({ id, setVersion, version }: { id: string; setVersion: (v
     setVersion(bestMatchingVersion.data);
   }, [bestMatchingVersion.data, setVersion]);
   return (
-    <BasicField label={t('common:label.version')}>
+    <BasicField label={t('common.label.version')}>
       {isPending ? (
         <Spinner size='small' />
       ) : (
@@ -229,7 +229,7 @@ const InstallButton = ({ id, version, project, setNeedDependency }: InstallButto
         icon={IvyIcons.Play}
         onClick={() => installProduct(ws, JSON.stringify(data), project).then(openDemos)}
       >
-        {t('common:label.install')}
+        {t('common.label.install')}
       </Button>
     </DialogClose>
   );
