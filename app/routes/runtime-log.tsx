@@ -1,6 +1,6 @@
 import { App, ClientContextProvider } from '@axonivy/log-view';
 import viewStylesHref from '@axonivy/log-view/lib/view.css?url';
-import { ReadonlyProvider, ThemeProvider } from '@axonivy/ui-components';
+import { Spinner, ThemeProvider } from '@axonivy/ui-components';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import { RuntimeLogClientNeo } from '../neo/editors/runtime-log-client';
@@ -17,14 +17,12 @@ export default function Index() {
     RuntimeLogClientNeo.startNeoMessageClient(connection)
   );
   if (!client) {
-    return null;
+    return <Spinner style={{ marginLeft: '50%', marginTop: '10%' }} size='large' />;
   }
   return (
     <ClientContextProvider client={client}>
       <ThemeProvider disabled>
-        <ReadonlyProvider readonly={false}>
-          <App />
-        </ReadonlyProvider>
+        <App />
       </ThemeProvider>
     </ClientContextProvider>
   );
