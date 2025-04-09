@@ -100,6 +100,9 @@ export const Navigation = () => {
         >
           {({ isActive }) => <Button icon={IvyIcons.Tool} size='large' toggle={isActive} />}
         </NavLink>
+        <NavLink to='log' prefetch='intent' style={{ all: 'unset' }} tabIndex={-1}>
+          {({ isActive }) => <Button icon={IvyIcons.Note} size='large' toggle={isActive} />}
+        </NavLink>
       </Flex>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
