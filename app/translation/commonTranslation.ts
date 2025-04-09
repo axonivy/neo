@@ -1,5 +1,6 @@
 import { deCommonTranslation as deCommonCms, enCommonTranslation as enCommonCms } from '@axonivy/cms-editor';
 import { deCommonTranslation as deCommonDataClass, enCommonTranslation as enCommonDataClass } from '@axonivy/dataclass-editor';
+import { deCommonMessages as deCommonForm, enCommonMessages as enCommonForm } from '@axonivy/form-editor';
 import { deCommonTranslation as deCommonVariable, enCommonTranslation as enCommonVariable } from '@axonivy/variable-editor';
 import deCommonNeo from './common/de.json';
 import enCommonNeo from './common/en.json';
@@ -8,7 +9,8 @@ const additionalTranslations = [
   { de: deCommonNeo, en: enCommonNeo },
   { de: deCommonVariable, en: enCommonVariable },
   { de: deCommonCms, en: enCommonCms },
-  { de: deCommonDataClass, en: enCommonDataClass }
+  { de: deCommonDataClass, en: enCommonDataClass },
+  { de: deCommonForm, en: enCommonForm }
 ];
 
 export const getCommonTranslations = () => {

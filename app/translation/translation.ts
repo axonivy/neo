@@ -9,6 +9,7 @@ import enTranslationNeo from './neo/en.json';
 
 import { deTranslation as deTranslationCms, enTranslation as enTranslationCms } from '@axonivy/cms-editor';
 import { deTranslation as deTranslationDataClass, enTranslation as enTranslationDataClass } from '@axonivy/dataclass-editor';
+import { deMessages as deTranslationForm, enMessages as enTranslationForm } from '@axonivy/form-editor';
 import { deTranslation as deTranslationVariable, enTranslation as enTranslationVariable } from '@axonivy/variable-editor';
 import { getCommonTranslations } from './commonTranslation';
 
@@ -31,10 +32,14 @@ const localTranslations: Resource = {
     en: enTranslationVariable,
     de: deTranslationVariable
   },
+  'form-editor': {
+    en: enTranslationForm,
+    de: deTranslationForm
+  },
   common: commonTranslations
 };
 
-export const initTranslation = async (debug = true) => {
+export const initTranslation = async (debug = false) => {
   if (i18n.isInitializing || i18n.isInitialized) return;
   await i18n
     .use(ChainedBackend)
