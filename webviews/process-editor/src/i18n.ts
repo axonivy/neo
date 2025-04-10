@@ -1,4 +1,4 @@
-import { deCommonTranslation, deTranslation, enCommonTranslation, enTranslation } from '@axonivy/process-editor';
+import { deTranslation, enTranslation } from '@axonivy/process-editor';
 import i18n, { type Resource } from 'i18next';
 import LngDetector from 'i18next-browser-languagedetector';
 import ChainedBackend from 'i18next-chained-backend';
@@ -10,10 +10,6 @@ const localTranslations: Resource = {
   'process-editor': {
     en: enTranslation,
     de: deTranslation
-  },
-  common: {
-    en: enCommonTranslation,
-    de: deCommonTranslation
   }
 };
 
@@ -26,7 +22,7 @@ export const initTranslation = async () => {
     .init({
       debug: true,
       fallbackLng: 'en',
-      ns: ['process-editor', 'common'],
+      ns: ['process-editor'],
       defaultNS: 'process-editor',
       load: 'languageOnly',
       partialBundledLanguages: true,
