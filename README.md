@@ -7,6 +7,7 @@ It uses Remix in SPA mode for the UI.
 
 ```shellscript
 npm i
+npm run i18n:collect
 ```
 
 ## Development
