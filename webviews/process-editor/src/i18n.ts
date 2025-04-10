@@ -1,4 +1,4 @@
-import { deTranslation, enTranslation } from '@axonivy/process-editor';
+import { enTranslation } from '@axonivy/process-editor';
 import i18n, { type Resource } from 'i18next';
 import LngDetector from 'i18next-browser-languagedetector';
 import ChainedBackend from 'i18next-chained-backend';
@@ -8,8 +8,7 @@ import { initReactI18next } from 'react-i18next';
 
 const localTranslations: Resource = {
   'process-editor': {
-    en: enTranslation,
-    de: deTranslation
+    en: enTranslation
   }
 };
 
@@ -30,30 +29,9 @@ export const initTranslation = async () => {
         backends: [HttpBackend, resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng])],
         backendOptions: [
           {
-            loadPath: (lngs: Array<string>, nss: Array<string>) => {
-              if (loadLanguages().includes(lngs[0])) {
-                return `/webjars/locales/${lngs[0]}/${nss[0]}.json`;
-              }
-              return;
-            }
+            loadPath: (lngs: Array<string>, nss: Array<string>) => `/neo/assets/locales/${lngs[0]}/${nss[0]}.json`
           }
         ]
       }
     });
-};
-
-const loadLanguages = () => {
-  const loadLngs = window.localStorage.getItem('i18nextLngLoad');
-  if (!loadLngs) {
-    return [];
-  }
-  try {
-    const parsedLngs = JSON.parse(loadLngs);
-    if (Array.isArray(parsedLngs)) {
-      return parsedLngs;
-    }
-  } catch {
-    console.log('Error parsing i18nextLngLoad');
-  }
-  return [];
 };
