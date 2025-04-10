@@ -19,10 +19,15 @@ const localTranslations: Resource = {
   'form-editor': { en: translationForm }
 };
 
-const knownLanguages: Promise<Array<string>> = fetch(`assets/locals/meta.json`)
+const LOCALES_PATH = `${import.meta.env.BASE_URL ?? '/'}assets/locales`;
+
+let knownLanguages: string[] = [];
+
+const getKnownLanguages: Promise<Array<string>> = fetch(`${LOCALES_PATH}/meta.json`)
   .then(async response => {
     if (response.ok) {
-      return (await response.json()) as Array<string>;
+      knownLanguages = await response.json();
+      return knownLanguages;
     }
     return [];
   })
@@ -30,9 +35,9 @@ const knownLanguages: Promise<Array<string>> = fetch(`assets/locals/meta.json`)
     return [];
   });
 
-export const initTranslation = async (debug = true) => {
+export const initTranslation = (debug = false) => {
   if (i18n.isInitializing || i18n.isInitialized) return;
-  await i18n
+  i18n
     .use(ChainedBackend)
     .use(initReactI18next)
     .use(LngDetector)
@@ -47,9 +52,9 @@ export const initTranslation = async (debug = true) => {
         backends: [HttpBackend, resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng])],
         backendOptions: [
           {
-            loadPath: async (lngs: Array<string>, nss: Array<string>) => {
-              if ((await knownLanguages).includes(lngs[0])) {
-                return `assets/locals/${lngs[0]}/${nss[0]}.json`;
+            loadPath: (lngs: Array<string>, nss: Array<string>) => {
+              if (knownLanguages.includes(lngs[0])) {
+                return `${LOCALES_PATH}/${lngs[0]}/${nss[0]}.json`;
               }
               return;
             }
@@ -57,5 +62,5 @@ export const initTranslation = async (debug = true) => {
         ]
       }
     });
-  knownLanguages.then(i18n.loadLanguages);
+  getKnownLanguages.then(i18n.loadLanguages);
 };

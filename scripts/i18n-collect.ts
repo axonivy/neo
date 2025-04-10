@@ -10,7 +10,7 @@ const translations = {
   neo: path.resolve('./app/translation/neo/')
 };
 
-const localsDir = path.resolve('./public/assets/locals/');
+const localesDir = path.resolve('./public/assets/locales/');
 
 const collectTranslations = () => {
   Object.entries(translations).forEach(([targetFile, dir]) => scanDir(dir, targetFile));
@@ -18,11 +18,12 @@ const collectTranslations = () => {
 
 const scanDir = (dir: string, targetFile: string) => {
   const files = readdirSync(dir);
-  for (const file of files) {
+  files.forEach(file => {
+    if (file.includes('old')) return;
     const lng = file.replace('.json', '');
-    const lngDir = path.resolve(localsDir, lng);
+    const lngDir = path.resolve(localesDir, lng);
     copyFile(dir, lng, lngDir, `${targetFile}.json`);
-  }
+  });
 };
 
 const copyFile = (srcDir: string, lng: string, targetDir: string, targetFile: string) => {
@@ -35,8 +36,8 @@ type RecursiveRecord = { [key: string]: RecursiveValue };
 
 const updateKnownLanguages = () => {
   const metaFile = 'meta.json';
-  const knownLanguages = readdirSync(localsDir).filter(file => file !== metaFile);
-  const knownLanguagesFile = path.resolve(localsDir, metaFile);
+  const knownLanguages = readdirSync(localesDir).filter(file => file !== metaFile);
+  const knownLanguagesFile = path.resolve(localesDir, metaFile);
   writeFileSync(knownLanguagesFile, JSON.stringify(knownLanguages));
 };
 
