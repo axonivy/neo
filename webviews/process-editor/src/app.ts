@@ -35,9 +35,10 @@ let container: Container;
 const wsProvider = new GLSPWebSocketProvider(webSocketUrl);
 wsProvider.listen({ onConnection: initialize, onReconnect: reconnect, logger: console });
 initMonaco();
-initTranslation();
+const i18n = initTranslation();
 
 async function initialize(connectionProvider: MessageConnection, isReconnecting = false): Promise<void> {
+  await i18n;
   glspClient = new IvyBaseJsonrpcGLSPClient({ id, connectionProvider });
   container = createContainer({
     clientId,
