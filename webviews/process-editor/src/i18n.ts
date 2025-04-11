@@ -14,12 +14,12 @@ const localTranslations: Resource = {
 
 export const initTranslation = async () => {
   if (i18n.isInitializing || i18n.isInitialized) return;
-  i18n
+  await i18n
     .use(ChainedBackend)
     .use(initReactI18next)
     .use(LngDetector)
     .init({
-      debug: true,
+      debug: false,
       fallbackLng: 'en',
       ns: ['process-editor'],
       defaultNS: 'process-editor',
