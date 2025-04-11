@@ -20,10 +20,12 @@ export default function Index() {
     return <Spinner style={{ marginLeft: '50%', marginTop: '10%' }} size='large' />;
   }
   return (
-    <ClientContextProvider client={client}>
-      <ThemeProvider disabled>
-        <App />
-      </ThemeProvider>
-    </ClientContextProvider>
+    <div className='runtime-log' style={{ height: '100%' }}>
+      <ClientContextProvider client={client}>
+        <ThemeProvider disabled>
+          <App />
+        </ThemeProvider>
+      </ClientContextProvider>
+    </div>
   );
 }

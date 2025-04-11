@@ -38,8 +38,7 @@ export const AnimationSettingsMenu = () => {
       </DropdownMenuCheckboxItem>
       <DropdownMenuItem
         disabled={!app || !pmv}
-        onClick={e => {
-          e.preventDefault();
+        onClick={() => {
           if (app && pmv) stopBpmEngine({ app, pmv });
         }}
         aria-label={hotkeys.resetEngine.label}
