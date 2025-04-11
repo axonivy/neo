@@ -2,6 +2,8 @@ import type { Locator, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import type { OverviewTypes } from './neo';
 
+type MenuLinks = OverviewTypes | 'Log';
+
 export class Navigation {
   public readonly navBar: Locator;
   protected readonly page: Page;
@@ -11,7 +13,7 @@ export class Navigation {
     this.navBar = page.getByRole('navigation');
   }
 
-  async open(overview: OverviewTypes) {
+  async open(overview: MenuLinks) {
     const navLink = this.navBar.getByRole('link', { name: overview });
     await navLink.click();
     await expect(navLink).toHaveClass(/active/);
@@ -34,12 +36,23 @@ export class Navigation {
   }
 
   async disableAnimation() {
+    await this.toggleAnimation(false);
+  }
+
+  async enableAnimation() {
+    await this.toggleAnimation(true);
+  }
+
+  async toggleAnimation(force?: boolean) {
     const menu = await this.openSettings();
     const animationSwitch = menu.getByRole('menuitemcheckbox', { name: 'Toggle animation' });
     await expect(animationSwitch).toBeVisible();
-    if ((await animationSwitch.getAttribute('data-state')) === 'checked') {
-      await animationSwitch.click();
+    const state = await animationSwitch.getAttribute('data-state');
+    if ((force === true && state === 'checked') || (force === false && state === 'unchecked')) {
+      await this.page.keyboard.press('Escape');
+      return;
     }
+    await animationSwitch.click();
   }
 
   async changeAnimationSpeed(speed: 'Fastest') {

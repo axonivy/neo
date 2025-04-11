@@ -73,6 +73,7 @@ test('start from browser and reset - with animation', async ({ page, browserName
   test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException instead of the form dialog');
   const neo = await Neo.openWorkspace(page);
   await expect(neo.controlBar.tabs()).toHaveCount(0);
+  await neo.navigation.enableAnimation();
   await neo.navigation.changeAnimationSpeed('Fastest');
   const browser = await neo.browser();
   await browser.startProcess('jump/start.ivp');

@@ -30,10 +30,10 @@ export const Navigation = () => {
 
   useHotkeys(hotkeys.focusNav.hotkey, () => workspacesElement.current?.focus(), { enableOnFormTags: true });
   useHotkeys(hotkeys.openWorkspaces.hotkey, () => navigate(''), { enableOnFormTags: true });
-  useHotkeys(hotkeys.openProcesses.hotkey, () => navigate('Processes'), { enableOnFormTags: true });
-  useHotkeys(hotkeys.openForms.hotkey, () => navigate('Forms'), { enableOnFormTags: true });
-  useHotkeys(hotkeys.openDataClasses.hotkey, () => navigate('Dataclasses'), { enableOnFormTags: true });
-  useHotkeys(hotkeys.openConfigs.hotkey, () => navigate('Configurations'), { enableOnFormTags: true });
+  useHotkeys(hotkeys.openProcesses.hotkey, () => navigate('processes'), { enableOnFormTags: true });
+  useHotkeys(hotkeys.openForms.hotkey, () => navigate('forms'), { enableOnFormTags: true });
+  useHotkeys(hotkeys.openDataClasses.hotkey, () => navigate('dataclasses'), { enableOnFormTags: true });
+  useHotkeys(hotkeys.openConfigs.hotkey, () => navigate('configurations'), { enableOnFormTags: true });
   useHotkeys(hotkeys.changeTheme.hotkey, cycleTheme);
   useHotkeys(hotkeys.toggleAnimation.hotkey, toggleAnimation);
   useHotkeys(hotkeys.animationSpeed.hotkey, cycleAnimationSpeed);
@@ -100,7 +100,14 @@ export const Navigation = () => {
         >
           {({ isActive }) => <Button icon={IvyIcons.Tool} size='large' toggle={isActive} />}
         </NavLink>
-        <NavLink to='log' prefetch='intent' style={{ all: 'unset' }} tabIndex={-1}>
+        <NavLink
+          to='log'
+          prefetch='intent'
+          style={{ all: 'unset' }}
+          aria-label={t('label.runtimeLogs')}
+          title={t('label.runtimeLogs')}
+          tabIndex={-1}
+        >
           {({ isActive }) => <Button icon={IvyIcons.Note} size='large' toggle={isActive} />}
         </NavLink>
       </Flex>
