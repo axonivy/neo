@@ -5,6 +5,7 @@ import type { ProjectIdentifier } from '~/data/project-api';
 import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX } from '../editor';
 import { useCreateEditor } from '../useCreateEditor';
 import { useEditors } from '../useEditors';
+import { useOpenUrl } from '../useOpenUrl';
 import type { FormActionHandler } from './form-client';
 
 const editorPath = (action: FormActionArgs, formEditorPath: string) => {
@@ -21,10 +22,11 @@ export const useActionHandler = (project: ProjectIdentifier, formEditorPath: str
   const { openEditor } = useEditors();
   const { createEditorFromPath, createFormEditor } = useCreateEditor();
   const { getComponentForm } = useComponentForm();
+  const openUrl = useOpenUrl();
   return useCallback<FormActionHandler>(
     action => {
       if (action.actionId === 'openUrl') {
-        window.open(action.payload);
+        openUrl(action.payload);
         return;
       }
       if (action.actionId === 'openComponent') {

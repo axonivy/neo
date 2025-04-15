@@ -1,5 +1,6 @@
 import { toast } from '@axonivy/ui-components';
 import { createContext, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
 import type { NeoClient } from '~/data/neo-protocol';
@@ -26,16 +27,17 @@ export const NeoClientProvider = ({ children }: { children: React.ReactNode }) =
 };
 
 export const useNeoClient = () => {
+  const { t } = useTranslation();
   const { animation } = useSettings();
   const context = useContext(NeoClientProviderContext);
   const { editors, openEditor } = useEditors();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { createProcessEditor } = useCreateEditor();
+  const { createProcessEditor, createFormEditor } = useCreateEditor();
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
   useSyncSettings(client);
-  client?.onOpenEditor.set(async process => {
+  client?.onOpenProcessEditor.set(async process => {
     const editor = createProcessEditor(process);
     switch (animation.mode) {
       case 'all':
@@ -63,6 +65,15 @@ export const useNeoClient = () => {
         await waitUntilPathnameMatches(editor);
         return true;
     }
+  });
+  client?.onOpenFormEditor.set(async form => {
+    if (form.type !== 'Form') {
+      toast.error(t('toast.editor.unknownType'), { description: t('toast.editor.unknownTypeForType', { type: form.type }) });
+      return false;
+    }
+    const editor = createFormEditor(form);
+    openEditor(editor);
+    return true;
   });
   return client;
 };

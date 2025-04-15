@@ -53,3 +53,46 @@ test.describe('inscription', () => {
     await expect(newPage).toHaveURL(/form-editor.html/);
   });
 });
+
+test.describe('preview', () => {
+  test('open preview', async ({ page, browserName }) => {
+    test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException');
+    const { neo, editor } = await openForm(page);
+    await editor.editor.getByRole('button', { name: 'Open Preview' }).click();
+    const browser = await neo.browser();
+    await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText('Preview');
+  });
+
+  test('navigate jsf', async ({ page, browserName }) => {
+    test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException');
+    const neo = await navigate(page, 'userdialog/jsf.ivp', 'JSF Dialog');
+    await neo.toast.expectError('Unknown editor type');
+  });
+
+  test('navigate form', async ({ page, browserName }) => {
+    test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException');
+    const neo = await navigate(page, 'userdialog/form.ivp', 'Form Dialog');
+    const editor = new FormEditor(neo, 'EnterProduct');
+    await editor.expectOpen();
+    await editor.blockByName('Product').expectSelected();
+  });
+
+  const navigate = async (page: Page, process: string, expectedTaskName: string) => {
+    const neo = await Neo.openWorkspace(page);
+    await neo.navigation.disableAnimation();
+    const browser = await neo.browser();
+    await browser.startProcess(process);
+    await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText(expectedTaskName);
+    const frame = browser.browserView.frameLocator('iframe');
+    const label = frame.getByLabel('Product');
+    await expect(label).toBeVisible();
+
+    const overlay = frame.locator('#selectionOverlay');
+    await expect(overlay).toBeHidden();
+    await browser.browserView.locator('#iFrameForm\\:previewElementPicker').click();
+    await expect(overlay).toBeVisible();
+    await label.click();
+    await expect(overlay).toBeHidden();
+    return neo;
+  };
+});
