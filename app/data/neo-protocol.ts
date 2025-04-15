@@ -1,4 +1,5 @@
 import type { Disposable } from '@axonivy/jsonrpc';
+import type { Form } from './form-api';
 import type { AnimationSettings } from './neo-jsonrpc';
 import type { Process } from './process-api';
 
@@ -19,7 +20,8 @@ export class Callback<T, R = void> implements Disposable {
 }
 
 export interface NeoClient {
-  onOpenEditor: Callback<Process, boolean>;
+  onOpenProcessEditor: Callback<Process, boolean>;
+  onOpenFormEditor: Callback<Form, boolean>;
   animationSettings(settings: AnimationSettings): void;
 
   stop(): void;

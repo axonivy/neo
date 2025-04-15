@@ -15,19 +15,14 @@ export const FormEditor = ({ project, path }: Editor) => {
   if (!client) {
     return null;
   }
+  const context = { app: project.app, pmv: project.pmv, file: path.endsWith(FORM_EDITOR_SUFFIX) ? path : `${path}${FORM_EDITOR_SUFFIX}` };
+  client.initialize(context);
   return (
     <ClientContextProvider client={client}>
       <ThemeProvider disabled>
         <ReadonlyProvider readonly={project.isIar ?? false}>
           <I18nextProvider i18n={i18next} defaultNS={'form-editor'}>
-            <App
-              context={{
-                app: project.app,
-                pmv: project.pmv,
-                file: path.endsWith(FORM_EDITOR_SUFFIX) ? path : `${path}${FORM_EDITOR_SUFFIX}`
-              }}
-              directSave={true}
-            />
+            <App context={context} directSave={true} />
           </I18nextProvider>
         </ReadonlyProvider>
       </ThemeProvider>

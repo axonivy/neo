@@ -207,7 +207,8 @@
     "editor": {
       "fileTypeIncompatible": "This file type '{{type}}' can not be edited in NEO.",
       "unknownType": "Unknown editor type",
-      "unknownTypeForPath": "Unknown editor type for path {{path}}"
+      "unknownTypeForPath": "Unknown editor type for path '{{path}}'",
+      "unknownTypeForType": "Unknown editor type '{{type}}'"
     },
     "form": {
       "created": "Form created",
