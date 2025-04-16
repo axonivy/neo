@@ -7,6 +7,7 @@ const translations = {
   'variable-editor': path.resolve('./node_modules/@axonivy/variable-editor/src/translation/variable-editor'),
   'form-editor': path.resolve('./node_modules/@axonivy/form-editor/src/translation/form-editor'),
   'process-editor': path.resolve('./node_modules/@axonivy/process-editor/src/translation/process-editor'),
+  'log-view': path.resolve('./node_modules/@axonivy/log-view/src/translation/log-view'),
   neo: path.resolve('./app/translation/neo/')
 };
 
