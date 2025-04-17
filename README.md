@@ -1,5 +1,7 @@
 # Axon Ivy NEO Designer
 
+[![translation-status](https://hosted.weblate.org/widget/axonivy/neo/neo/svg-badge.svg)](https://hosted.weblate.org/engage/axonivy/)
+
 This repo contains the beta version of the Axon Ivy low-code Designer called Axon Ivy NEO Designer.
 It uses Remix in SPA mode for the UI.
 
