@@ -1,11 +1,16 @@
 import { useCallback } from 'react';
+import { useOpenUrl } from '../useOpenUrl';
 import type { CmsActionHandler } from './cms-client';
 
 export const useActionHandler = () => {
-  return useCallback<CmsActionHandler>(action => {
-    if (action.actionId === 'openUrl') {
-      window.open(action.payload);
-      return;
-    }
-  }, []);
+  const openUrl = useOpenUrl();
+  return useCallback<CmsActionHandler>(
+    action => {
+      if (action.actionId === 'openUrl') {
+        openUrl(action.payload);
+        return;
+      }
+    },
+    [openUrl]
+  );
 };
