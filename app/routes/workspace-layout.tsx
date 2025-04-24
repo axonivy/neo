@@ -1,20 +1,8 @@
-import {
-  Field,
-  Flex,
-  Label,
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-  Separator,
-  Switch,
-  useHotkeys
-} from '@axonivy/ui-components';
+import { Field, Flex, Label, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator } from '@axonivy/ui-components';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Outlet, useParams } from 'react-router';
 import { Navigation } from '~/neo/Navigation';
-import { WebBrowser } from '~/neo/browser/WebBrowser';
-import { useWebBrowser } from '~/neo/browser/useWebBrowser';
 import { NeoClientProvider } from '~/neo/client/useNeoClient';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { EditorsControl } from '~/neo/control-bar/EditorControl';
@@ -25,20 +13,19 @@ import { useKnownHotkeys } from '~/utils/hotkeys';
 
 export default function Index() {
   const { editors } = useEditors();
-  const { browser } = useWebBrowser();
   const { ws } = useParams();
   const firstWebbrowserElement = useRef<HTMLButtonElement>(null);
   const { openSimulation, resizeSimulation } = useKnownHotkeys();
   const { t } = useTranslation();
-  useHotkeys(openSimulation.hotkey, () => {
-    browser.toggle();
-    if (!browser.openState) {
-      setTimeout(() => {
-        firstWebbrowserElement.current?.focus();
-      }, 0);
-    }
-  });
-  useHotkeys(resizeSimulation.hotkey, browser.cycleSize);
+  // useHotkeys(openSimulation.hotkey, () => {
+  //   // browser.toggle();
+  //   if (!browser.openState) {
+  //     setTimeout(() => {
+  //       firstWebbrowserElement.current?.focus();
+  //     }, 0);
+  //   }
+  // });
+  // useHotkeys(resizeSimulation.hotkey, browser.cycleSize);
 
   return (
     <NeoClientProvider>
@@ -50,7 +37,7 @@ export default function Index() {
             <Separator orientation='vertical' style={{ margin: 'var(--size-2)' }} />
             <Field direction='row' alignItems='center' gap={2} title={openSimulation.label} aria-label={openSimulation.label}>
               <Label>{t('settings.simulate')}</Label>
-              <Switch checked={browser.openState} onClick={browser.toggle} />
+              {/* <Switch checked={browser.openState} onClick={browser.toggle} /> */}
             </Field>
           </Flex>
         </>
@@ -71,9 +58,9 @@ export default function Index() {
         </ResizablePanel>
 
         <ResizableHandle style={{ width: 3, height: 'calc(100% - 42px)', backgroundColor: 'var(--N200)' }} />
-        <ResizablePanel ref={browser.panelRef} id='Browser' collapsible defaultSize={0} maxSize={70} minSize={10}>
+        {/* <ResizablePanel ref={browser.panelRef} id='Browser' collapsible defaultSize={0} maxSize={70} minSize={10}>
           <WebBrowser firstWebbrowserElement={firstWebbrowserElement} />
-        </ResizablePanel>
+        </ResizablePanel> */}
       </ResizablePanelGroup>
     </NeoClientProvider>
   );
