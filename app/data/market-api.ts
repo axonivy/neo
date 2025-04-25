@@ -78,7 +78,7 @@ export const useProductJson = (id: string, version?: string) => {
       if (version === undefined) {
         throw Error(t('toast.market.versionUndefined', { id: id }));
       }
-      return findProductJsonContent(id, version, { headers }).then(res => {
+      return findProductJsonContent(id, version, {}, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
         }
