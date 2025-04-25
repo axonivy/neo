@@ -82,7 +82,7 @@ export const useProductJson = (id: string, version?: string) => {
       if (version === undefined) {
         throw Error(`Artifact version of ${id} needs to be defined to retrieve product json`);
       }
-      return findProductJsonContent(id, version, { headers }).then(res => {
+      return findProductJsonContent(id, version, {}, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
         }

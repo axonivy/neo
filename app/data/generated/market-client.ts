@@ -157,6 +157,8 @@ export type ProductModuleContentSetup = { [key: string]: string };
 export type ProductModuleContentDemo = { [key: string]: string };
 
 export interface ProductModuleContent {
+  createdAt?: string;
+  updatedAt?: string;
   id?: string;
   /** product Id (from meta.json) */
   productId?: string;
@@ -177,21 +179,27 @@ export interface ProductModuleContent {
   artifactId?: string;
   /** Artifact file type */
   type?: string;
-  updatedAt?: string;
 }
 
-export interface MavenArtifactModel {
+export interface MavenArtifactKey {
+  artifactId?: string;
+  productVersion?: string;
+  additionalVersion?: boolean;
+}
+
+export interface MavenArtifactVersion {
+  id?: MavenArtifactKey;
   /** Display name and type of artifact */
   name?: string;
   /** Artifact download url */
   downloadUrl?: string;
-  artifactId?: string;
+  productId?: string;
 }
 
 export interface MavenArtifactVersionModel {
   /** Target version */
   version?: string;
-  artifactsByVersion?: MavenArtifactModel[];
+  artifactsByVersion?: MavenArtifactVersion[];
 }
 
 export type _PagedModelGitHubReleaseModelEmbedded = {
@@ -209,8 +217,9 @@ export interface VersionAndUrlModel {
   url?: string;
 }
 
-export interface ResponseBodyEmitter {
-  timeout?: number;
+export interface VersionDownload {
+  installationCount?: number;
+  fileData?: string[];
 }
 
 export interface DesignerInstallation {
@@ -219,24 +228,34 @@ export interface DesignerInstallation {
   numberOfDownloads?: number;
 }
 
-/**
- * The image content as binary type
- */
-export interface Binary {
-  type?: string;
-  data?: string[];
-}
-
 export interface Image {
   id?: string;
   /** Product id */
   productId?: string;
   /** The download url from github */
   imageUrl?: string;
-  imageData?: Binary;
+  /** The image content as byte array */
+  imageData?: string[];
   /** The SHA from github */
   sha?: string;
 }
+
+/**
+ * Product name (from meta.json)
+ */
+export type FeedbackModelProductNames = { [key: string]: string };
+
+/**
+ * User's feedback status
+ */
+export type FeedbackModelFeedbackStatus = (typeof FeedbackModelFeedbackStatus)[keyof typeof FeedbackModelFeedbackStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const FeedbackModelFeedbackStatus = {
+  APPROVED: 'APPROVED',
+  PENDING: 'PENDING',
+  REJECTED: 'REJECTED'
+} as const;
 
 export interface FeedbackModel {
   /** Id of feedback */
@@ -251,6 +270,8 @@ export interface FeedbackModel {
   userProvider?: string;
   /** Product id (from meta.json) */
   productId?: string;
+  /** Product name (from meta.json) */
+  productNames?: FeedbackModelProductNames;
   /** User's feedback content */
   content?: string;
   /**
@@ -263,6 +284,16 @@ export interface FeedbackModel {
   createdAt?: string;
   /** Latest feedback/rating updating timestamp */
   updatedAt?: string;
+  /** User's feedback status */
+  feedbackStatus?: FeedbackModelFeedbackStatus;
+  /** Moderator name reviewed feedback */
+  moderatorName?: string;
+  /** Feedback reviewing timestamp */
+  reviewDate?: string;
+  /** Feedback modification version */
+  version?: number;
+  /** Is latest approved or pending feedback */
+  isLatest?: boolean;
   _links?: Links;
 }
 
@@ -376,6 +407,10 @@ export type FindProductDetailsParams = {
   isShowDevVersion?: boolean;
 };
 
+export type FindProductJsonContentParams = {
+  designerVersion?: string;
+};
+
 export type FindProductJsonContent200 = { [key: string]: { [key: string]: unknown } };
 
 export type FindProductVersionsByIdParams = {
@@ -399,6 +434,10 @@ export type FindGithubPublicReleasesParams = {
    * Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.
    */
   sort?: string[];
+};
+
+export type FindVersionsForDesignerParams = {
+  designerVersion?: string;
 };
 
 export type GetLatestArtifactDownloadUrlParams = {
@@ -431,7 +470,7 @@ export type FindFeedbacksParams = {
  * @summary Find all feedbacks by user id and product id
  */
 export type findFeedbackByUserIdAndProductIdResponse200 = {
-  data: FeedbackModel;
+  data: FeedbackModel[];
   status: 200;
 };
 
@@ -532,6 +571,28 @@ export const getFindProductsUrl = (params: FindProductsParams) => {
 
 export const findProducts = async (params: FindProductsParams, options?: RequestInit): Promise<findProductsResponse> => {
   return customFetch<findProductsResponse>(getFindProductsUrl(params), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type findInstallationCountResponse200 = {
+  data: number;
+  status: 200;
+};
+
+export type findInstallationCountResponseComposite = findInstallationCountResponse200;
+
+export type findInstallationCountResponse = findInstallationCountResponseComposite & {
+  headers: Headers;
+};
+
+export const getFindInstallationCountUrl = (id: string) => {
+  return `/api/product-marketplace-data/installation-count/${id}`;
+};
+
+export const findInstallationCount = async (id: string, options?: RequestInit): Promise<findInstallationCountResponse> => {
+  return customFetch<findInstallationCountResponse>(getFindInstallationCountUrl(id), {
     ...options,
     method: 'GET'
   });
@@ -655,16 +716,29 @@ export type findProductJsonContentResponse = findProductJsonContentResponseCompo
   headers: Headers;
 };
 
-export const getFindProductJsonContentUrl = (id: string, version: string) => {
-  return `/api/product-details/${id}/${version}/json`;
+export const getFindProductJsonContentUrl = (id: string, version: string, params?: FindProductJsonContentParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/product-details/${id}/${version}/json?${stringifiedParams}`
+    : `/api/product-details/${id}/${version}/json`;
 };
 
 export const findProductJsonContent = async (
   id: string,
   version: string,
+  params?: FindProductJsonContentParams,
   options?: RequestInit
 ): Promise<findProductJsonContentResponse> => {
-  return customFetch<findProductJsonContentResponse>(getFindProductJsonContentUrl(id, version), {
+  return customFetch<findProductJsonContentResponse>(getFindProductJsonContentUrl(id, version, params), {
     ...options,
     method: 'GET'
   });
@@ -791,12 +865,28 @@ export type findVersionsForDesignerResponse = findVersionsForDesignerResponseCom
   headers: Headers;
 };
 
-export const getFindVersionsForDesignerUrl = (id: string) => {
-  return `/api/product-details/${id}/designerversions`;
+export const getFindVersionsForDesignerUrl = (id: string, params?: FindVersionsForDesignerParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0
+    ? `/api/product-details/${id}/designerversions?${stringifiedParams}`
+    : `/api/product-details/${id}/designerversions`;
 };
 
-export const findVersionsForDesigner = async (id: string, options?: RequestInit): Promise<findVersionsForDesignerResponse> => {
-  return customFetch<findVersionsForDesignerResponse>(getFindVersionsForDesignerUrl(id), {
+export const findVersionsForDesigner = async (
+  id: string,
+  params?: FindVersionsForDesignerParams,
+  options?: RequestInit
+): Promise<findVersionsForDesignerResponse> => {
+  return customFetch<findVersionsForDesignerResponse>(getFindVersionsForDesignerUrl(id, params), {
     ...options,
     method: 'GET'
   });
@@ -847,7 +937,7 @@ export const getLatestArtifactDownloadUrl = async (
  * @summary Get the download steam of artifact and it's dependencies by it's id and target version
  */
 export type downloadZipArtifactResponse200 = {
-  data: ResponseBodyEmitter;
+  data: VersionDownload;
   status: 200;
 };
 
