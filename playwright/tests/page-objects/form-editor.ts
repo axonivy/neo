@@ -4,6 +4,7 @@ import { Neo } from './neo';
 
 export class FormEditor {
   readonly editor: Locator;
+  readonly toolbar: Locator;
   readonly canvas: Locator;
 
   constructor(
@@ -11,7 +12,8 @@ export class FormEditor {
     readonly name: string
   ) {
     this.editor = neo.page.locator(`.editor[data-editor-type="forms"][data-editor-name="${name}"]`);
-    this.canvas = this.editor.locator('#canvas');
+    this.toolbar = this.editor.locator('.toolbar');
+    this.canvas = this.editor.locator('.canvas');
   }
 
   async expectOpen(block?: string) {
@@ -35,7 +37,7 @@ export class FormEditorBlock {
     readonly editor: FormEditor,
     readonly name: string
   ) {
-    this.block = editor.canvas.locator(`.draggable:has-text("${name}")`);
+    this.block = editor.canvas.locator(`.draggable:not(:has(>.block-layout)):has-text("${name}")`);
   }
 
   async openInscription() {
