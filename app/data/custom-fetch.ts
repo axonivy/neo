@@ -1,8 +1,6 @@
 import { toast } from '@axonivy/ui-components';
 import i18next from 'i18next';
 
-let unauthorizedCount = 0;
-
 const getUrl = (contextUrl: string, headers?: Record<string, string>): string => {
   const base = headers && headers['base'] ? headers['base'] : '';
   const apiPrefix = '/api';
@@ -46,17 +44,14 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
 };
 
 const handleUnauthorized = (response: Response) => {
-  if (response.status === 401) {
-    unauthorizedCount++;
-    if (unauthorizedCount > 1) {
-      toast.error(i18next.t('toast.unauthorized'), {
-        duration: Infinity,
-        action: { label: i18next.t('common.label.reload'), onClick: () => window.location.reload() }
-      });
-    }
-    throw new Error(response.statusText);
+  if (response.status !== 401) {
+    return;
   }
-  unauthorizedCount = 0;
+  toast.error(i18next.t('toast.unauthorized'), {
+    duration: Infinity,
+    action: { label: i18next.t('common.label.reload'), onClick: () => window.location.reload() }
+  });
+  throw new Error(response.statusText);
 };
 
 export const headers = (base?: string) => {
