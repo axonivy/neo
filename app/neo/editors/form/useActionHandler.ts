@@ -1,5 +1,6 @@
 import type { FormActionArgs } from '@axonivy/form-editor-protocol';
 import { useCallback } from 'react';
+import { useComponentForm } from '~/data/form-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX } from '../editor';
 import { useCreateEditor } from '../useCreateEditor';
@@ -18,16 +19,24 @@ const editorPath = (action: FormActionArgs, formEditorPath: string) => {
 
 export const useActionHandler = (project: ProjectIdentifier, formEditorPath: string) => {
   const { openEditor } = useEditors();
-  const { createEditorFromPath } = useCreateEditor();
-
+  const { createEditorFromPath, createFormEditor } = useCreateEditor();
+  const { getComponentForm } = useComponentForm();
   return useCallback<FormActionHandler>(
     action => {
       if (action.actionId === 'openUrl') {
         window.open(action.payload);
         return;
       }
+      if (action.actionId === 'openComponent') {
+        getComponentForm({ componentId: action.payload, app: project.app, pmv: project.pmv })
+          .unwrap()
+          .then(form => {
+            openEditor(createFormEditor(form));
+          });
+        return;
+      }
       openEditor(createEditorFromPath(project, editorPath(action, formEditorPath)));
     },
-    [createEditorFromPath, formEditorPath, openEditor, project]
+    [createEditorFromPath, createFormEditor, formEditorPath, getComponentForm, openEditor, project]
   );
 };
