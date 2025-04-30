@@ -5,6 +5,8 @@ import {
   createHd,
   deleteForm as deleteFormReq,
   forms,
+  componentForm as getComponentFormReq,
+  type ComponentFormParams,
   type FormIdentifier as FormIdentifierBean,
   type HdBean,
   type HdInit
@@ -40,6 +42,23 @@ export const useGroupedForms = () => {
   });
 };
 
+export const useComponentForm = () => {
+  const { base } = useFormsApi();
+  const getComponentForm = async (params: ComponentFormParams) => {
+    const res = await getComponentFormReq(params, { headers: headers(base) });
+    if (ok(res)) {
+      return res.data;
+    }
+    throw new Error(`Failed to jump into component '${params.componentId}'`);
+  };
+  return {
+    getComponentForm: (params: ComponentFormParams) =>
+      toast.promise(() => getComponentForm(params), {
+        error: e => e.message
+      })
+  };
+};
+
 export const useDeleteForm = () => {
   const client = useQueryClient();
   const { queryKey, base } = useFormsApi();
@@ -51,6 +70,7 @@ export const useDeleteForm = () => {
     }
     throw new Error(`Failed to remove from '${identifier.id}'`);
   };
+
   return {
     deleteForm: (identifier: FormIdentifier) =>
       toast.promise(() => deleteForm(identifier), { loading: 'Remove form', success: 'Form removed', error: e => e.message })
