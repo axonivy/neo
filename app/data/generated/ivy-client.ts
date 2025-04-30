@@ -308,6 +308,12 @@ export type ReadConfigParams = {
   pmv?: string;
 };
 
+export type ComponentFormParams = {
+  componentId?: string;
+  app?: string;
+  pmv?: string;
+};
+
 export type DeleteProjectParams = {
   projectDir?: string;
   app?: string;
@@ -791,6 +797,38 @@ export const getFormsUrl = () => {
 
 export const forms = async (options?: RequestInit): Promise<formsResponse> => {
   return customFetch<formsResponse>(getFormsUrl(), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type componentFormResponseDefault = {
+  data: HdBean;
+  status: number;
+};
+
+export type componentFormResponseComposite = componentFormResponseDefault;
+
+export type componentFormResponse = componentFormResponseComposite & {
+  headers: Headers;
+};
+
+export const getComponentFormUrl = (params?: ComponentFormParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/web-ide/form?${stringifiedParams}` : `/web-ide/form`;
+};
+
+export const componentForm = async (params?: ComponentFormParams, options?: RequestInit): Promise<componentFormResponse> => {
+  return customFetch<componentFormResponse>(getComponentFormUrl(params), {
     ...options,
     method: 'GET'
   });

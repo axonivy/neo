@@ -6,6 +6,8 @@ import {
   createHd,
   deleteForm as deleteFormReq,
   forms,
+  componentForm as getComponentFormReq,
+  type ComponentFormParams,
   type FormIdentifier as FormIdentifierBean,
   type HdBean,
   type HdInit
@@ -42,6 +44,24 @@ export const useGroupedForms = () => {
   });
 };
 
+export const useComponentForm = () => {
+  const { t } = useTranslation();
+  const { base } = useFormsApi();
+  const getComponentForm = async (params: ComponentFormParams) => {
+    const res = await getComponentFormReq(params, { headers: headers(base) });
+    if (ok(res)) {
+      return res.data;
+    }
+    throw new Error(t('toast.form.jumpIntoFailed', { id: params.componentId }));
+  };
+  return {
+    getComponentForm: (params: ComponentFormParams) =>
+      toast.promise(() => getComponentForm(params), {
+        error: e => e.message
+      })
+  };
+};
+
 export const useDeleteForm = () => {
   const { t } = useTranslation();
   const client = useQueryClient();
@@ -54,6 +74,7 @@ export const useDeleteForm = () => {
     }
     throw new Error(t('toast.form.removeFail', { id: identifier.id }));
   };
+
   return {
     deleteForm: (identifier: FormIdentifier) =>
       toast.promise(() => deleteForm(identifier), {
