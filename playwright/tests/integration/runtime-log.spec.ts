@@ -3,15 +3,16 @@ import { Neo } from '../page-objects/neo';
 import { ProcessEditor } from '../page-objects/process-editor';
 import { RuntimeLogView } from '../page-objects/runtimelog-view';
 
-test('should render table and rows correctly', async ({ page }) => {
+test('logs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const logView = new RuntimeLogView(neo);
-  await neo.navigation.open('Log');
+  await neo.views.openView('Runtime Log');
   await logView.expectOpen();
   await expect(logView.logs()).toHaveCount(0);
+  await neo.views.close();
 
   await startLogProcess(neo);
-  await neo.navigation.open('Log');
+  await neo.views.openView('Runtime Log');
   await logView.expectOpen();
   await expect(logView.logs()).toHaveCount(3);
   await logView.clear();

@@ -1,20 +1,11 @@
 import { App, ClientContextProvider } from '@axonivy/log-view';
-import viewStylesHref from '@axonivy/log-view/lib/view.css?url';
 import { Spinner, ThemeProvider } from '@axonivy/ui-components';
 import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
-import type { LinksFunction, MetaFunction } from 'react-router';
-import { NEO_DESIGNER } from '~/constants';
-import { RuntimeLogClientNeo } from '../neo/editors/runtime-log-client';
-import { useWebSocket } from '../neo/editors/useWebSocket';
+import { useWebSocket } from '~/neo/editors/useWebSocket';
+import { RuntimeLogClientNeo } from './runtime-log-client';
 
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: viewStylesHref }];
-
-export const meta: MetaFunction = ({ params }) => {
-  return [{ title: `Runtime Log - ${params.ws} - ${NEO_DESIGNER}` }, { name: 'description', content: 'Runtime Log View' }];
-};
-
-export default function Index() {
+export const RuntimeLog = () => {
   const client = useWebSocket<RuntimeLogClientNeo>(RuntimeLogClientNeo.webSocketUrl, connection =>
     RuntimeLogClientNeo.startNeoMessageClient(connection)
   );
@@ -32,4 +23,4 @@ export default function Index() {
       </ClientContextProvider>
     </div>
   );
-}
+};

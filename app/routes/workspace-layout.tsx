@@ -1,3 +1,4 @@
+import runtimeLogStylesHref from '@axonivy/log-view/lib/view.css?url';
 import {
   Field,
   Flex,
@@ -7,11 +8,12 @@ import {
   ResizablePanelGroup,
   Separator,
   Switch,
+  Tabs,
   useHotkeys
 } from '@axonivy/ui-components';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Outlet, useParams } from 'react-router';
+import { Outlet, useParams, type LinksFunction } from 'react-router';
 import { Navigation } from '~/neo/Navigation';
 import { WebBrowser } from '~/neo/browser/WebBrowser';
 import { useWebBrowser } from '~/neo/browser/useWebBrowser';
@@ -21,7 +23,10 @@ import { EditorsControl } from '~/neo/control-bar/EditorControl';
 import { EditorTabs } from '~/neo/control-bar/EditorTabs';
 import { MountedEditor } from '~/neo/editors/MountedEditor';
 import { renderEditor, useEditors } from '~/neo/editors/useEditors';
+import { useViews, ViewContent, ViewTabs, type ViewIds } from '~/neo/views/Views';
 import { useKnownHotkeys } from '~/utils/hotkeys';
+
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: runtimeLogStylesHref }];
 
 export default function Index() {
   const { editors } = useEditors();
@@ -39,6 +44,7 @@ export default function Index() {
     }
   });
   useHotkeys(resizeSimulation.hotkey, browser.cycleSize);
+  const views = useViews();
 
   return (
     <NeoClientProvider>
@@ -57,16 +63,28 @@ export default function Index() {
       </ControlBar>
       <ResizablePanelGroup direction='horizontal' style={{ height: '100vh' }} autoSaveId={`neo-layout-${ws}`}>
         <ResizablePanel id='Neo'>
-          <Flex direction='row' style={{ height: 'calc(100vh - 41px)' }}>
+          <Flex direction='row' style={{ height: 'calc(100vh - 41px)', width: '100%' }}>
             <Navigation />
-            <div style={{ width: '100%' }}>
-              <Outlet />
-              {editors.map(editor => (
-                <MountedEditor key={editor.id} {...editor}>
-                  {renderEditor(editor)}
-                </MountedEditor>
-              ))}
-            </div>
+            <Tabs variant='slim' value={views.view} onValueChange={value => views.setView(value as ViewIds)} style={{ flex: 1 }}>
+              <ResizablePanelGroup direction='vertical' autoSaveId={`neo-layout-${ws}-2`}>
+                <ResizablePanel id='Neo2'>
+                  <div style={{ width: '100%', height: '100%' }}>
+                    <Outlet />
+                    {editors.map(editor => (
+                      <MountedEditor key={editor.id} {...editor}>
+                        {renderEditor(editor)}
+                      </MountedEditor>
+                    ))}
+                  </div>
+                </ResizablePanel>
+                <ResizableHandle>
+                  <ViewTabs {...views} />
+                </ResizableHandle>
+                <ResizablePanel ref={views.viewsRef} id='Views' collapsible defaultSize={0} maxSize={50} minSize={10}>
+                  <ViewContent />
+                </ResizablePanel>
+              </ResizablePanelGroup>
+            </Tabs>
           </Flex>
         </ResizablePanel>
 
