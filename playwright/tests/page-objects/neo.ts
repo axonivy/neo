@@ -7,17 +7,20 @@ import { ControlBar } from './control-bar';
 import { Navigation } from './navigation';
 import { Overview } from './overview';
 import { Toaster } from './toaster';
+import { Views } from './views';
 
 export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Classes' | 'Workspace';
 
 export class Neo {
   readonly page: Page;
   readonly navigation: Navigation;
+  readonly views: Views;
   readonly controlBar: ControlBar;
 
   private constructor(page: Page) {
     this.page = page;
     this.navigation = new Navigation(this.page);
+    this.views = new Views(this.page);
     this.controlBar = new ControlBar(this.page);
   }
 
