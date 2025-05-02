@@ -39,6 +39,6 @@ export const useActionHandler = (project: ProjectIdentifier, formEditorPath: str
       }
       openEditor(createEditorFromPath(project, editorPath(action, formEditorPath)));
     },
-    [createEditorFromPath, createFormEditor, formEditorPath, getComponentForm, openEditor, project]
+    [createEditorFromPath, createFormEditor, formEditorPath, getComponentForm, openEditor, openUrl, project]
   );
 };
