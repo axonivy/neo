@@ -113,6 +113,8 @@ test.describe('preview', () => {
     await browser.browserView.locator('#iFrameForm\\:previewElementPicker').click();
     await expect(overlay).toBeVisible();
     await label.click();
+    await expect(overlay).toBeVisible();
+    await browser.browserView.locator('#iFrameForm\\:previewElementPicker').click();
     await expect(overlay).toBeHidden();
     return neo;
   };
