@@ -17,13 +17,13 @@ test('restore editor', async ({ page }) => {
 test.describe('jump to editor', () => {
   test('jump to data class', async ({ page }) => {
     const { neo, editor } = await openForm(page);
-    await editor.canvas.getByRole('button', { name: 'Open Data Class' }).click();
+    await editor.toolbar.getByRole('button', { name: 'Open Data Class' }).click();
     await neo.controlBar.tab('EnterProductData').expectActive();
   });
 
   test('jump to process', async ({ page }) => {
     const { neo, editor } = await openForm(page);
-    await editor.canvas.getByRole('button', { name: 'Open Process' }).click();
+    await editor.toolbar.getByRole('button', { name: 'Open Process' }).click();
     await neo.controlBar.tab('EnterProductProcess').expectActive();
   });
 });
@@ -52,4 +52,68 @@ test.describe('inscription', () => {
     await expect(newPage).toHaveURL(/developer.axonivy.com/);
     await expect(newPage).toHaveURL(/form-editor.html/);
   });
+});
+
+test.describe('preview', () => {
+  test('open preview', async ({ page, browserName }) => {
+    test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException');
+    const { neo, editor } = await openForm(page);
+    await editor.toolbar.getByRole('button', { name: 'Open Preview' }).click();
+    const browser = await neo.browser();
+    await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText('Preview');
+  });
+
+  test('navigate jsf', async ({ page, browserName }) => {
+    test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException');
+    const neo = await navigate(page, 'userdialog/jsf.ivp', 'JSF Dialog');
+    await neo.toast.expectError('Unknown editor type');
+  });
+
+  test('navigate form', async ({ page, browserName }) => {
+    test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException');
+    const neo = await navigate(page, 'userdialog/form.ivp', 'Form Dialog');
+    const editor = new FormEditor(neo, 'EnterProduct');
+    await editor.expectOpen();
+    await editor.blockByName('Product').expectSelected();
+  });
+
+  test('refresh', async ({ page, browserName }, testInfo) => {
+    test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException');
+    const neo = await Neo.openWorkspace(page);
+    const overview = await neo.forms();
+    const fromName = `${browserName}refresh${testInfo.retry}`;
+    await overview.create(fromName, 'test', { hasDataClassSelect: true });
+    const editor = new FormEditor(neo, fromName);
+    await editor.expectOpen();
+
+    await editor.toolbar.getByRole('button', { name: 'Open Preview' }).click();
+    const browser = await neo.browser();
+    await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText('Preview');
+    const frame = browser.browserView.frameLocator('iframe');
+    await expect(frame.getByRole('button', { name: 'Proceed' })).toBeHidden();
+
+    await editor.canvas.getByRole('button', { name: 'Create from data' }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Create' }).click();
+    await expect(editor.blockByName('Proceed').block).toBeVisible();
+    await expect(frame.getByRole('button', { name: 'Proceed' })).toBeVisible({ timeout: 10000 });
+  });
+
+  const navigate = async (page: Page, process: string, expectedTaskName: string) => {
+    const neo = await Neo.openWorkspace(page);
+    await neo.navigation.disableAnimation();
+    const browser = await neo.browser();
+    await browser.startProcess(process);
+    await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText(expectedTaskName);
+    const frame = browser.browserView.frameLocator('iframe');
+    const label = frame.getByLabel('Product');
+    await expect(label).toBeVisible();
+
+    const overlay = frame.locator('#selectionOverlay');
+    await expect(overlay).toBeHidden();
+    await browser.browserView.locator('#iFrameForm\\:previewElementPicker').click();
+    await expect(overlay).toBeVisible();
+    await label.click();
+    await expect(overlay).toBeHidden();
+    return neo;
+  };
 });

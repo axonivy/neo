@@ -31,11 +31,11 @@ export const useNeoClient = () => {
   const { editors, openEditor } = useEditors();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { createProcessEditor } = useCreateEditor();
+  const { createProcessEditor, createFormEditor } = useCreateEditor();
   if (context === undefined) throw new Error('useNeoClient must be used within a NeoClientProvider');
   const { client } = context;
   useSyncSettings(client);
-  client?.onOpenEditor.set(async process => {
+  client?.onOpenProcessEditor.set(async process => {
     const editor = createProcessEditor(process);
     switch (animation.mode) {
       case 'all':
@@ -63,6 +63,15 @@ export const useNeoClient = () => {
         await waitUntilPathnameMatches(editor);
         return true;
     }
+  });
+  client?.onOpenFormEditor.set(async form => {
+    if (form.type !== 'Form') {
+      toast.error('Unknown editor type', { description: `Unknown editor type '${form.type}'` });
+      return false;
+    }
+    const editor = createFormEditor(form);
+    openEditor(editor);
+    return true;
   });
   return client;
 };

@@ -3,7 +3,7 @@ import { type ProxyOptions, defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-const DESIGNER_URL = process.env.BASE_URL ?? 'http://localhost:8081/';
+const DESIGNER_URL = process.env.BASE_URL ?? 'http://localhost:8080/';
 const WEBSOCKET_PROXY: ProxyOptions = {
   target: DESIGNER_URL,
   ws: true

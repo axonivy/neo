@@ -4,6 +4,7 @@ import type { ProjectIdentifier } from '~/data/project-api';
 import { DIALOG_PROCESS_EDITOR_SUFFIX, FORM_EDITOR_SUFFIX } from '../editor';
 import { useCreateEditor } from '../useCreateEditor';
 import { useEditors } from '../useEditors';
+import { useOpenUrl } from '../useOpenUrl';
 import type { DataClassActionHandler } from './data-class-client';
 
 const editorPath = (action: DataActionArgs, dataClassEditorPath: string) => {
@@ -20,15 +21,15 @@ const editorPath = (action: DataActionArgs, dataClassEditorPath: string) => {
 export const useActionHandler = (project: ProjectIdentifier, dataClassEditorPath: string) => {
   const { openEditor } = useEditors();
   const { createEditorFromPath } = useCreateEditor();
-
+  const openUrl = useOpenUrl();
   return useCallback<DataClassActionHandler>(
     action => {
       if (action.actionId === 'openUrl') {
-        window.open(action.payload);
+        openUrl(action.payload);
         return;
       }
       openEditor(createEditorFromPath(project, editorPath(action, dataClassEditorPath)));
     },
-    [createEditorFromPath, dataClassEditorPath, openEditor, project]
+    [createEditorFromPath, dataClassEditorPath, openEditor, openUrl, project]
   );
 };
