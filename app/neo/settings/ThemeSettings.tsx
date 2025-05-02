@@ -2,9 +2,11 @@ import {
   DropdownMenuPortal,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
+  hotkeyText,
   IvyIcon,
   toast,
   useTheme,
@@ -37,8 +39,9 @@ export const ThemeSettings = () => {
       <DropdownMenuSubTrigger aria-label={changeTheme.label} title={changeTheme.label} data-theme={theme}>
         <IvyIcon icon={IvyIcons.DarkMode} />
         <span>{t('settings.theme')}</span>
+        <DropdownMenuShortcut>{hotkeyText(changeTheme.hotkey)}</DropdownMenuShortcut>
         <DropdownMenuPortal>
-          <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
+          <DropdownMenuSubContent>
             <DropdownMenuRadioGroup value={theme} onValueChange={mode => setTheme(mode as Theme)}>
               <DropdownMenuRadioItem value='light'>{t('settings.light')}</DropdownMenuRadioItem>
               <DropdownMenuRadioItem value='dark'>{t('settings.dark')}</DropdownMenuRadioItem>

@@ -87,25 +87,26 @@ test('import project', async ({ page }) => {
 test('settings shortcuts', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   await neo.home();
-  const menu = await neo.navigation.openSettings();
-  await expect(menu.getByRole('menuitemcheckbox', { name: 'Toggle Animation' })).toBeChecked();
+  const animationMenu = await neo.navigation.openAnimationSettings();
+  await expect(animationMenu.getByRole('menuitemcheckbox', { name: 'Toggle Animation' })).toBeChecked();
   await page.keyboard.press('Shift+N');
-  await expect(menu.getByRole('menuitemcheckbox', { name: 'Toggle Animation' })).not.toBeChecked();
+  await expect(animationMenu.getByRole('menuitemcheckbox', { name: 'Toggle Animation' })).not.toBeChecked();
 
-  await menu.getByRole('menuitem', { name: 'Theme switch' }).click();
-  await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'System' })).toBeChecked();
-  await page.keyboard.press('Shift+T');
-  await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Light' })).toBeChecked();
-
-  await menu.getByRole('menuitem', { name: 'Speed' }).click();
+  await animationMenu.getByRole('menuitem', { name: 'Speed' }).click();
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Normal' })).toBeChecked();
   await page.keyboard.press('Shift+F');
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Slow', exact: true })).toBeChecked();
 
-  await menu.getByRole('menuitem', { name: 'Mode' }).click();
+  await animationMenu.getByRole('menuitem', { name: 'Mode' }).click();
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'All processes' })).toBeChecked();
   await page.keyboard.press('Shift+M');
   await expect(page.getByRole('menu').last().getByRole('menuitemradio', { name: 'Only current open process' })).toBeChecked();
+  await page.keyboard.press('Escape');
+
+  const themeMenu = await neo.navigation.openThemeSettings();
+  await expect(themeMenu.getByRole('menuitemradio', { name: 'System' })).toBeChecked();
+  await page.keyboard.press('Shift+T');
+  await expect(themeMenu.getByRole('menuitemradio', { name: 'Light' })).toBeChecked();
 });
 
 test('simulation shortcuts', async ({ page }) => {
