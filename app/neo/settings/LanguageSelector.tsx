@@ -17,10 +17,10 @@ export const LanguageSelector = () => {
   return (
     <DropdownMenuSub>
       <DropdownMenuSubTrigger aria-label={t('settings.languageSwitch')}>
-        <IvyIcon icon={IvyIcons.WsStart} />
+        <IvyIcon icon={IvyIcons.Language} />
         <span>{t('settings.language')}</span>
         <DropdownMenuPortal>
-          <DropdownMenuSubContent sideOffset={6} collisionPadding={10}>
+          <DropdownMenuSubContent>
             <DropdownMenuRadioGroup value={i18next.resolvedLanguage} onValueChange={i18next.changeLanguage}>
               {languages.map(language => (
                 <DropdownMenuRadioItem key={language} value={language}>

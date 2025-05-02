@@ -55,7 +55,7 @@ export default function Index() {
             <DropdownMenuTrigger asChild>
               <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.label.settings')} title={t('common.label.settings')} />
             </DropdownMenuTrigger>
-            <DropdownMenuContent sideOffset={6} collisionPadding={10} side='bottom'>
+            <DropdownMenuContent side='bottom'>
               <LanguageSelector />
               <ThemeSettings />
             </DropdownMenuContent>

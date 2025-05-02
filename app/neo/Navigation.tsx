@@ -1,12 +1,4 @@
-import {
-  Button,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  Flex,
-  useHotkeys
-} from '@axonivy/ui-components';
+import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, Flex, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -105,9 +97,8 @@ export const Navigation = () => {
         <DropdownMenuTrigger asChild>
           <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.label.settings')} title={t('common.label.settings')} />
         </DropdownMenuTrigger>
-        <DropdownMenuContent sideOffset={6} collisionPadding={10} side='right'>
+        <DropdownMenuContent side='right'>
           <AnimationSettingsMenu />
-          <DropdownMenuSeparator />
           <LanguageSelector />
           <ThemeSettings />
         </DropdownMenuContent>

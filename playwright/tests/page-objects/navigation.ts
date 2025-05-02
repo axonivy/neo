@@ -23,16 +23,27 @@ export class Navigation {
     const settings = this.navBar.getByRole('button', { name: 'Settings' });
     await expect(settings).toHaveAttribute('data-state', 'closed');
     await settings.click();
-    const settingsMenu = this.page.getByRole('menu');
+    const settingsMenu = this.page.getByRole('menu', { name: 'Settings' });
     await expect(settingsMenu).toHaveAttribute('data-state', 'open');
     return settingsMenu;
   }
 
-  async changeTheme(theme: 'light' | 'dark') {
+  async openSubSettings(name: string) {
     const menu = await this.openSettings();
-    const themeMenu = menu.getByRole('menuitem', { name: 'Theme switch' });
-    await themeMenu.click();
-    await this.page.getByRole('menu').last().getByRole('menuitemradio', { name: theme }).click();
+    const subMenuTrigger = menu.getByRole('menuitem', { name });
+    await subMenuTrigger.click();
+    const subMenu = this.page.getByRole('menu', { name });
+    await expect(subMenu).toHaveAttribute('data-state', 'open');
+    return subMenu;
+  }
+
+  async changeTheme(theme: 'light' | 'dark') {
+    const menu = await this.openThemeSettings();
+    await menu.getByRole('menuitemradio', { name: theme }).click();
+  }
+
+  async openThemeSettings() {
+    return await this.openSubSettings('Theme');
   }
 
   async disableAnimation() {
@@ -44,7 +55,7 @@ export class Navigation {
   }
 
   async toggleAnimation(force?: boolean) {
-    const menu = await this.openSettings();
+    const menu = await this.openAnimationSettings();
     const animationSwitch = menu.getByRole('menuitemcheckbox', { name: 'Toggle animation' });
     await expect(animationSwitch).toBeVisible();
     const state = await animationSwitch.getAttribute('data-state');
@@ -56,14 +67,27 @@ export class Navigation {
   }
 
   async changeAnimationSpeed(speed: 'Fastest') {
-    const menu = await this.openSettings();
+    const menu = await this.openAnimationSettings();
     const speedTrigger = menu.getByRole('menuitem', { name: 'Speed' });
     await speedTrigger.click();
     await this.page.getByRole('menu').last().getByRole('menuitemradio', { name: speed, exact: true }).click();
   }
 
   async resetAnimation() {
-    const menu = await this.openSettings();
+    const menu = await this.openAnimationSettings();
     await menu.getByRole('menuitem', { name: 'Reset' }).click();
+  }
+
+  async openAnimationSettings() {
+    return await this.openSubSettings('Animation');
+  }
+
+  async changeLanguage(language: 'English' | 'Deutsch') {
+    const menu = await this.openLanguageSettings();
+    await menu.getByRole('menuitemradio', { name: language }).click();
+  }
+
+  async openLanguageSettings() {
+    return await this.openSubSettings('Language');
   }
 }

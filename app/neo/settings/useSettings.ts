@@ -64,7 +64,7 @@ export const useCycleAnimationSettings = () => {
     const nextSpeed = speedModes[nextIndex];
 
     animationSpeed(nextSpeed.value.toString());
-    toast.info(t('toast.animation.speed', { speed: nextSpeed }));
+    toast.info(t('toast.animation.speed', { speed: nextSpeed.label }));
   };
   const toggleAnimation = () => {
     enableAnimation(!animation.animate);

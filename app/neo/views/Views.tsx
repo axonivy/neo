@@ -13,7 +13,7 @@ type View = {
 const views = [
   {
     id: 'Log',
-    icon: IvyIcons.File,
+    icon: IvyIcons.Note,
     content: <RuntimeLog />
   }
 ] as const satisfies Array<View>;

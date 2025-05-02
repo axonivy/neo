@@ -1,4 +1,4 @@
-import { copyFileSync, mkdirSync, readdirSync, writeFileSync } from 'fs';
+import { copyFileSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'fs';
 import path from 'path';
 
 const translations = {
@@ -14,10 +14,11 @@ const translations = {
 const localesDir = path.resolve('./public/assets/locales/');
 
 const collectTranslations = () => {
-  Object.entries(translations).forEach(([targetFile, dir]) => scanDir(dir, targetFile));
+  rmSync(localesDir, { force: true, recursive: true });
+  Object.entries(translations).forEach(([targetFile, dir]) => copyLocales(dir, targetFile));
 };
 
-const scanDir = (dir: string, targetFile: string) => {
+const copyLocales = (dir: string, targetFile: string) => {
   const files = readdirSync(dir);
   files.forEach(file => {
     if (file.includes('old')) return;
