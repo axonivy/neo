@@ -60,7 +60,7 @@ test.describe('preview', () => {
     const { neo, editor } = await openForm(page);
     await editor.toolbar.getByRole('button', { name: 'Open Preview' }).click();
     const browser = await neo.browser();
-    await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText('Preview');
+    await expect(browser.dialogTitle).toHaveText('Preview');
   });
 
   test('navigate jsf', async ({ page, browserName }) => {
@@ -88,14 +88,13 @@ test.describe('preview', () => {
 
     await editor.toolbar.getByRole('button', { name: 'Open Preview' }).click();
     const browser = await neo.browser();
-    await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText('Preview');
-    const frame = browser.browserView.frameLocator('iframe');
-    await expect(frame.getByRole('button', { name: 'Proceed' })).toBeHidden();
+    await expect(browser.dialogTitle).toHaveText('Preview');
+    await expect(browser.dialogFrame.getByRole('button', { name: 'Proceed' })).toBeHidden();
 
     await editor.canvas.getByRole('button', { name: 'Create from data' }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'Create' }).click();
     await expect(editor.blockByName('Proceed').block).toBeVisible();
-    await expect(frame.getByRole('button', { name: 'Proceed' })).toBeVisible({ timeout: 10000 });
+    await expect(browser.dialogFrame.getByRole('button', { name: 'Proceed' })).toBeVisible({ timeout: 10000 });
   });
 
   const navigate = async (page: Page, process: string, expectedTaskName: string) => {
@@ -103,12 +102,11 @@ test.describe('preview', () => {
     await neo.navigation.disableAnimation();
     const browser = await neo.browser();
     await browser.startProcess(process);
-    await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText(expectedTaskName);
-    const frame = browser.browserView.frameLocator('iframe');
-    const label = frame.getByLabel('Product');
+    await expect(browser.dialogTitle).toHaveText(expectedTaskName);
+    const label = browser.dialogFrame.getByLabel('Product');
     await expect(label).toBeVisible();
 
-    const overlay = frame.locator('#selectionOverlay');
+    const overlay = browser.dialogFrame.locator('#selectionOverlay');
     await expect(overlay).toBeHidden();
     await browser.browserView.locator('#iFrameForm\\:previewElementPicker').click();
     await expect(overlay).toBeVisible();
