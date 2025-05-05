@@ -1,5 +1,5 @@
 import type { ImperativePanelHandle } from '@axonivy/ui-components';
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { createContext, useContext, useMemo, useRef, useState } from 'react';
 import { useWorkspace } from '~/data/workspace-api';
 
 type WebBrowserProviderState = {
@@ -34,24 +34,19 @@ export const useWebBrowser = () => {
   if (context === undefined) throw new Error('useWebBrowser must be used within a WebBrowserProvider');
   const { panelRef, frameRef, openUrl } = context;
   const [open, setOpen] = context.openState;
-  useEffect(() => {
-    setOpen(panelRef.current?.isExpanded() ?? false);
-  }, [panelRef, setOpen]);
   const browser = {
     openState: open,
+    setOpenState: setOpen,
     panelRef,
     toggle: () => {
       if (panelRef.current?.isCollapsed()) {
         panelRef.current?.expand(40);
-        setOpen(true);
       } else {
         panelRef.current?.collapse();
-        setOpen(false);
       }
     },
     open: (url?: string) => {
       panelRef.current?.expand(40);
-      setOpen(true);
       if (url) {
         openUrl(url);
       }
@@ -62,10 +57,8 @@ export const useWebBrowser = () => {
         const nextBrowserSize = browserSizes.find(size => size > currentSize);
         if (nextBrowserSize === undefined) {
           panelRef.current.collapse();
-          setOpen(false);
         } else if (nextBrowserSize) {
           panelRef.current.resize(nextBrowserSize);
-          setOpen(true);
         }
       }
     }

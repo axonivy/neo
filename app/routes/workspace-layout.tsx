@@ -80,19 +80,35 @@ export default function Index() {
                 <ResizableHandle>
                   <ViewTabs {...views} />
                 </ResizableHandle>
-                <ResizablePanel ref={views.viewsRef} id='Views' collapsible defaultSize={0} maxSize={50} minSize={10}>
-                  <ViewContent />
+                <ResizablePanel
+                  ref={views.viewsRef}
+                  onCollapse={() => views.setViewsCollapsed(false)}
+                  onExpand={() => views.setViewsCollapsed(true)}
+                  id='Views'
+                  collapsible
+                  defaultSize={0}
+                  maxSize={50}
+                  minSize={10}
+                  style={{ overflow: 'auto' }}
+                >
+                  {views.viewsCollapsed && <ViewContent />}
                 </ResizablePanel>
               </ResizablePanelGroup>
             </Tabs>
           </Flex>
         </ResizablePanel>
 
-        <ResizableHandle
-          className='browser-resize-handle'
-          style={{ width: 3, height: 'calc(100% - 42px)', backgroundColor: 'var(--N200)' }}
-        />
-        <ResizablePanel ref={browser.panelRef} id='Browser' collapsible defaultSize={0} maxSize={70} minSize={10}>
+        <ResizableHandle className='browser-resize-handle' style={{ width: 3, height: 'calc(100% - 42px)' }} />
+        <ResizablePanel
+          ref={browser.panelRef}
+          onCollapse={() => browser.setOpenState(false)}
+          onExpand={() => browser.setOpenState(true)}
+          id='Browser'
+          collapsible
+          defaultSize={0}
+          maxSize={70}
+          minSize={10}
+        >
           <WebBrowser firstWebbrowserElement={firstWebbrowserElement} />
         </ResizablePanel>
       </ResizablePanelGroup>

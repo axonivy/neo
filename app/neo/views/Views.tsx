@@ -21,9 +21,10 @@ const views = [
 export type ViewIds = (typeof views)[number]['id'];
 
 export const useViews = () => {
-  const [view, setView] = useState<ViewIds | ''>('');
+  const [view, setView] = useState<ViewIds | ''>(views[0].id);
+  const [viewsCollapsed, setViewsCollapsed] = useState(true);
   const viewsRef = useRef<ImperativePanelHandle>(null);
-  return { viewsRef, view, setView };
+  return { viewsRef, view, setView, viewsCollapsed, setViewsCollapsed };
 };
 
 export const ViewTabs = ({ viewsRef, view, setView }: ReturnType<typeof useViews>) => {
