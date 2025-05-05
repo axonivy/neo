@@ -20,11 +20,8 @@ export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?
   const { nav, homeUrl, browser } = useWebBrowser();
   useUpdateTheme(nav.frameRef, updateFrameTheme);
   useHotkeyDispatcher(nav.frameRef);
-
-  const tabIndex = browser.openState ? 0 : -1;
-
   return (
-    <Flex direction='column' gap={1} style={{ height: '100%' }}>
+    <Flex direction='column' gap={1} style={{ height: '100%', display: browser.openState ? undefined : 'none' }}>
       <Flex
         direction='row'
         alignItems='center'
@@ -41,36 +38,11 @@ export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?
             onClick={nav.back}
             aria-label={t('browser.goBack')}
             ref={firstWebbrowserElement}
-            tabIndex={tabIndex}
           />
-          <Button
-            icon={IvyIcons.ArrowRight}
-            title={t('browser.goForward')}
-            onClick={nav.forward}
-            aria-label={t('browser.goForward')}
-            tabIndex={tabIndex}
-          />
-          <Button
-            icon={IvyIcons.Redo}
-            title={t('browser.reloadPage')}
-            onClick={nav.reload}
-            aria-label={t('browser.reloadPage')}
-            tabIndex={tabIndex}
-          />
-          <Button
-            icon={IvyIcons.Home}
-            title={t('browser.goHome')}
-            onClick={nav.home}
-            aria-label={t('browser.goHome')}
-            tabIndex={tabIndex}
-          />
-          <Button
-            icon={IvyIcons.ExitEnd}
-            title={t('browser.openNewTab')}
-            onClick={nav.openExternal}
-            aria-label={t('browser.openNewTab')}
-            tabIndex={tabIndex}
-          />
+          <Button icon={IvyIcons.ArrowRight} title={t('browser.goForward')} onClick={nav.forward} aria-label={t('browser.goForward')} />
+          <Button icon={IvyIcons.Redo} title={t('browser.reloadPage')} onClick={nav.reload} aria-label={t('browser.reloadPage')} />
+          <Button icon={IvyIcons.Home} title={t('browser.goHome')} onClick={nav.home} aria-label={t('browser.goHome')} />
+          <Button icon={IvyIcons.ExitEnd} title={t('browser.openNewTab')} onClick={nav.openExternal} aria-label={t('browser.openNewTab')} />
         </Flex>
       </Flex>
       <iframe
@@ -79,7 +51,6 @@ export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?
         title={t('browser.devBrowser')}
         style={{ width: '100%', height: '100%', border: 'none' }}
         loading='lazy'
-        tabIndex={tabIndex}
       />
     </Flex>
   );
