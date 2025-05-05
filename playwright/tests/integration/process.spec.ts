@@ -66,7 +66,7 @@ test('start from process - without animation', async ({ page, browserName }) => 
   await element.expectExecuted();
   const browser = await neo.browser();
   await browser.expectOpen();
-  await expect(browser.browserView.locator('#iFrameForm\\:frameTaskName')).toHaveText('Enter Product Task');
+  await expect(browser.dialogTitle).toHaveText('Enter Product Task');
 });
 
 test('start from browser and reset - with animation', async ({ page, browserName }) => {
