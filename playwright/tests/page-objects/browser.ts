@@ -33,4 +33,12 @@ export class Browser {
     await this.browserView.locator(`#menuform\\:sr_starts`).click();
     await this.browserView.locator(`span:has-text("${name}")`).click();
   }
+
+  get dialogTitle() {
+    return this.browserView.locator('#iFrameForm\\:frameTaskName');
+  }
+
+  get dialogFrame() {
+    return this.browserView.frameLocator('iframe');
+  }
 }

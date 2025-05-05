@@ -13,3 +13,9 @@ test('settings', async ({ page }) => {
   await neo.navigation.openSettings();
   await screenshot(page, 'view-settings', { width: 500, height: 400 });
 });
+
+test('runtime-log', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  await neo.views.openView('Runtime Log');
+  await screenshot(page, 'runtime-log');
+});
