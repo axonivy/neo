@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import type { OverviewTypes } from './neo';
+import { Toaster } from './toaster';
 
 type MenuLinks = OverviewTypes | 'Log';
 
@@ -76,6 +77,7 @@ export class Navigation {
   async resetAnimation() {
     const menu = await this.openAnimationSettings();
     await menu.getByRole('menuitem', { name: 'Reset' }).click();
+    await new Toaster(this.page).expectSuccess('BPM Engine stopped');
   }
 
   async openAnimationSettings() {
