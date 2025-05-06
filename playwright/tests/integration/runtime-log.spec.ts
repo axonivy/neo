@@ -5,8 +5,9 @@ import { RuntimeLogView } from '../page-objects/runtimelog-view';
 
 test('logs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
-  const logView = new RuntimeLogView(neo);
+  await neo.controlBar.toggleBrowser();
   await neo.views.openView('Runtime Log');
+  const logView = new RuntimeLogView(neo);
   await logView.expectOpen();
   await expect(logView.logs()).toHaveCount(0);
   await neo.views.close();
