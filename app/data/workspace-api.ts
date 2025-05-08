@@ -117,7 +117,7 @@ export const useImportProjectsIntoWs = () => {
     if (ok(res)) {
       return;
     }
-    throw new Error(t('toast.workspace.importFail', { id: id }));
+    throw new Error(resolveErrorMessage(res.data, t('toast.workspace.importFail', { id: id })));
   };
   return {
     importProjects: (id: string, file: Blob, dependentProject?: ProjectIdentifier) => {
