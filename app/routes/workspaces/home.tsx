@@ -152,7 +152,7 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
   const { queryKey } = useProjectsApi();
   const client = useQueryClient();
   const [project, setProject] = useState<ProjectBean>();
-  const importAction = (file: File) => importProjects(ws ?? '', file, project?.id).then(() => client.invalidateQueries({ queryKey }));
+  const importAction = (file: File) => importProjects(ws ?? '', file, project?.id).finally(() => client.invalidateQueries({ queryKey }));
   const fileValidation = useMemo<MessageData | undefined>(
     () => (file ? undefined : { message: t('message.invalidIar'), variant: 'warning' }),
     [file, t]
