@@ -36,7 +36,7 @@
     "label": {
       "add": "Hinzufügen",
       "cancel": "Abbrechen",
-      "close": "Schliessen",
+      "close": "Schließen",
       "closeAll": "Alle schliessen",
       "create": "Erstellen",
       "delete": "Löschen",
@@ -67,7 +67,7 @@
   },
   "deploy": {
     "applicationName": "Anwendungsname",
-    "deployWs": "Arbeitsbereich bereitstellen",
+    "deployWs": "Workspace bereitstellen",
     "engineUrl": "Engine-URL",
     "log": "Bereitstellungsprotokoll",
     "logDescription": "Zurückgegebene Protokollausgabe der Engine.",
@@ -103,7 +103,7 @@
     "resizeSim": "Simulation skalieren ({{hotkey}})",
     "themeSwitch": "Design wechseln ({{hotkey}})",
     "toggleAnimation": "Animation umschalten ({{hotkey}})",
-    "workspaces": "Arbeitsbereiche ({{hotkey}})"
+    "workspaces": "Workspaces ({{hotkey}})"
   },
   "label": {
     "businessData": "Business Daten",
@@ -252,38 +252,38 @@
     "serverStatus": "Der Server wurde möglicherweise nicht korrekt gestartet",
     "unauthorized": "Nicht autorisiert, klicken Sie auf 'Neu laden', um sich anzumelden.",
     "workspace": {
-      "created": "Arbeitsbereich erstellt",
-      "createFail": "Arbeitsbereich konnte nicht erstellt werden",
-      "creating": "Arbeitsbereich wird erstellt",
+      "created": "Workspace erstellt",
+      "createFail": "Workspace konnte nicht erstellt werden",
+      "creating": "Workspace wird erstellt",
       "deployed": "Arbeitsbereich veröffentlicht",
       "deployFail": "Arbeitsbereich '{{id}}' konnte nicht veröffentlicht werden",
       "deploying": "Arbeitsbereich wird veröffentlicht",
-      "exported": "Arbeitsbereich exportiert",
-      "exportFail": "Arbeitsbereich '{{id}}' konnte nicht exportiert werden",
-      "exporting": "Arbeitsbereich wird exportiert",
-      "imported": "Projekte in Arbeitsbereich importiert",
-      "importFail": "Projekte konnten nicht in Arbeitsbereich '{{id}}' importiert werden",
+      "exported": "Workspace exportiert",
+      "exportFail": "Workspace '{{id}}' konnte nicht exportiert werden",
+      "exporting": "Workspace wird exportiert",
+      "imported": "Projekte in Workspace importiert",
+      "importFail": "Projekte konnten nicht in Workspace '{{id}}' importiert werden",
       "importing": "Projekte werden importiert",
       "marketInstallFail": "Marktprodukt konnte nicht installiert werden",
       "marketProductInstalled": "Importierte Projekte: {{projects}}",
       "marketProductInstalling": "Marktprodukt wird installiert",
-      "missing": "Arbeitsbereiche konnten nicht geladen werden",
-      "removed": "Arbeitsbereich gelöscht",
-      "removeFail": "Arbeitsbereich '{{id}}' konnte nicht gelöscht werden",
-      "removing": "Arbeitsbereich wird gelöscht"
+      "missing": "Workspaces konnten nicht geladen werden",
+      "removed": "Workspace gelöscht",
+      "removeFail": "Entfernen aus '{{id}}' fehlgeschlagen",
+      "removing": "Workspace wird gelöscht"
     }
   },
   "workspaces": {
-    "description": "Hier finden Sie die von Ihnen erstellten sowie alle importierten Projekte in diesem Arbeitsbereich. Ein Projekt enthält alle wesentlichen Komponenten zum Erstellen einer Anwendung.",
+    "description": "Hier finden Sie die von Ihnen erstellten sowie alle importierten Projekte in diesem Workspace. Ein Projekt enthält alle wesentlichen Komponenten zum Erstellen einer Anwendung.",
     "importFile": "Aus Datei importieren",
     "importInto": "Axon Ivy Projekte importieren nach: {{workspace}}",
     "importMarket": "Aus Markt importieren",
     "importProject": "Projekte importieren",
-    "importWarning": "Der Import kann bestehende Projektversionen überschreiben.",
-    "importWarningLink": "Erwägen Sie, den Arbeitsbereich vorher zu exportieren.",
-    "info": "Ein Arbeitsbereich ist der Entwicklungsbereich, in dem eine Anwendung erstellt und getestet wird. Hier werden Geschäftsprozesse entworfen, in der Vorschau angezeigt und simuliert, bevor sie als funktionierende Anwendung bereitgestellt werden.",
-    "newWorkspace": "Neuen Arbeitsbereich erstellen",
-    "title": "Willkommen bei {{neo}}: Verwalten Sie Ihre Arbeitsbereiche",
-    "wsTitle": "Willkommen in Ihrem Arbeitsbereich: {{workspace}}"
+    "importWarning": "Der Import kann bestehende Projektversionen überschreiben. ",
+    "importWarningLink": "Erwägen Sie, den Workspace vorher zu exportieren.",
+    "info": "Ein Workspace ist der Entwicklungsbereich, in dem eine Anwendung erstellt und getestet wird. Hier werden Geschäftsprozesse entworfen, in der Vorschau angezeigt und simuliert, bevor sie als funktionierende Anwendung bereitgestellt werden.",
+    "newWorkspace": "Neuen Workspace erstellen",
+    "title": "Willkommen bei {{neo}}: Verwalten Sie Ihre Workspaces",
+    "wsTitle": "Willkommen in Ihrem Workspace: {{workspace}}"
   }
 }
