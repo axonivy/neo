@@ -98,7 +98,7 @@ export const useBestMatchingVersion = (id: string, engineVersion?: string) => {
       return findBestMatchProductDetailsByVersion(id, engineVersion, { headers }).then(res => {
         if (ok(res)) {
           const data = JSON.parse(res.data as string) as ProductDetailModel;
-          return data.productModuleContent?.version;
+          return data.productModuleContent?.version ?? '';
         }
         throw new Error(t('toast.market.loadBestMatchingFail', { id: id, engineVersion: engineVersion }));
       });
