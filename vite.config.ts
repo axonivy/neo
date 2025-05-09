@@ -1,7 +1,8 @@
 import { reactRouter } from '@react-router/dev/vite';
-import { type ProxyOptions, defineConfig } from 'vite';
+import type { ProxyOptions } from 'vite';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vitest/config';
 
 const ENGINE_URL = process.env.BASE_URL ?? 'http://localhost:8080/';
 const WEBSOCKET_PROXY: ProxyOptions = {
@@ -42,5 +43,15 @@ export default defineConfig({
   },
   build: {
     target: 'es2022'
+  },
+  test: {
+    include: ['**/*.test.ts?(x)'],
+    globals: true,
+    environment: 'happy-dom',
+    setupFiles: ['vitest/setup-vitest.ts'],
+    css: false,
+    reporters: process.env.CI ? ['basic', 'junit'] : ['default'],
+    outputFile: 'report.xml',
+    sequence: { hooks: 'parallel' }
   }
 });
