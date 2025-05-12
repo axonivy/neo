@@ -137,6 +137,7 @@ describe('createDataClassEditor', () => {
       name: 'data.d.json',
       simpleName: 'data',
       path: 'workflow/demo/data/data.d.json',
+      fields: [],
       isEntityClass: false,
       isBusinessCaseData: false
     };

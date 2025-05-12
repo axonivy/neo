@@ -36,6 +36,7 @@ import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import { useKnownHotkeys } from '~/utils/hotkeys';
+import { ProjectGraph } from './ProjectGraph';
 import PreviewSVG from './workspace-preview.svg?react';
 
 export const links: LinksFunction = () => [cardStylesLink];
@@ -55,7 +56,7 @@ export default function Index() {
 
   return (
     <div style={{ overflowY: 'auto', height: '100%' }}>
-      <Flex direction='column' gap={1}>
+      <Flex direction='column' gap={1} style={{ height: '100%' }}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='app-info'>
           <span style={{ fontWeight: 600 }}>{title}</span>
           <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{t('workspaces.description')}</span>
@@ -81,7 +82,13 @@ export default function Index() {
             />
           </Flex>
         </Flex>
-        <Overview title={t('neo.projects')} search={search} onSearchChange={setSearch} isPending={isPending}>
+        <Overview
+          title={t('neo.projects')}
+          search={search}
+          onSearchChange={setSearch}
+          isPending={isPending}
+          graph={{ graph: <ProjectGraph /> }}
+        >
           <NewArtifactCard
             title={t('workspaces.importProject')}
             open={() => setOpen(true)}

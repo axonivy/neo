@@ -1,5 +1,6 @@
 import { Flex, Spinner, ThemeProvider } from '@axonivy/ui-components';
 import componentsStylesHref from '@axonivy/ui-components/lib/components.css?url';
+import graphStylesHref from '@axonivy/ui-graph/lib/graph.css?url';
 import iconStylesHref from '@axonivy/ui-icons/lib/ivy-icons.css?url';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -17,6 +18,7 @@ const queryClient = new QueryClient();
 export const links: LinksFunction = () => [
   { rel: 'preload stylesheet', href: iconStylesHref, as: 'style' },
   { rel: 'stylesheet', href: componentsStylesHref },
+  { rel: 'stylesheet', href: graphStylesHref },
   { rel: 'stylesheet', href: rootStylesHref },
   { rel: 'icon', href: favicon, type: 'image/png' }
 ];

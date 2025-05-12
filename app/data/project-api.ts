@@ -18,14 +18,14 @@ export const useProjectsApi = () => {
   return { queryKey: ['neo', ws?.id, 'projects'], base: ws?.baseUrl, ws };
 };
 
-export const useSortedProjects = () => {
+export const useSortedProjects = (withDependencies?: boolean) => {
   const { t } = useTranslation();
   const { queryKey, base, ws } = useProjectsApi();
   return useQuery({
     queryKey,
     queryFn: () => {
       if (base === undefined) return [];
-      return projects({ headers: headers(base) }).then(res => {
+      return projects({ withDependencies }, { headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data.sort((a, b) => projectSort(a.id.pmv, b.id.pmv, ws));
         }

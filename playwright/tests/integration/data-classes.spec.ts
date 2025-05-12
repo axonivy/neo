@@ -55,3 +55,21 @@ test('data class tags', async ({ page }) => {
   await overview.hasCardWithTag('BusinessData', 'Business Data');
   await overview.hasCardWithTag('EntitySample', 'Entity');
 });
+
+test('data classes graph', async ({ page }) => {
+  const { neo, overview } = await openDataClasses(page);
+  await overview.hasGroup(`Project: ${TEST_PROJECT}`);
+  await overview.viewToggle.getByRole('radio', { name: 'Graph View' }).click();
+  const graph = overview.graph;
+  await expect(graph.edges).toHaveCount(2);
+  await expect(graph.nodes).toHaveCount(9);
+  const quickStartNode = graph.getNodeByText('QuickStartTutorial');
+  await expect(quickStartNode.detailSeperator).toBeHidden();
+  await quickStartNode.expandNode.click();
+  await expect(quickStartNode.detailSeperator).toBeVisible();
+
+  await expect(quickStartNode.node).toHaveText('QuickStartTutorialneo.test.project.QuickStartTutorialproduct:StringreleaseDate:Dateprice:Number');
+
+  await quickStartNode.jumpInto.click();
+  await new DataClassEditor(neo, 'QuickStartTutorial').expectOpen('releaseDate');
+});
