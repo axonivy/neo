@@ -57,7 +57,7 @@
           <deployToEngineApplication>${engine.test.app}</deployToEngineApplication>
           <engineDirectory>${engine.dir}</engineDirectory>
           <additionalVmOptions>
-            -Divy.enable.lsp=true -Ddev.mode=true
+            -Ddev.mode=true
           </additionalVmOptions>
         </configuration>
         <executions>
