@@ -10,11 +10,9 @@ test('logs', async ({ page }) => {
   const logView = new RuntimeLogView(neo);
   await logView.expectOpen();
   await expect(logView.logs()).toHaveCount(0);
-  await neo.views.close();
 
   await startLogProcess(neo);
-  await neo.views.openView('Runtime Log');
-  await logView.expectOpen();
+  await logView.view.getByRole('button', { name: 'Refresh' }).click();
   await expect(logView.logs()).toHaveCount(3);
   await logView.clear();
 });
