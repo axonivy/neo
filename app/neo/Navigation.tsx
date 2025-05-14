@@ -1,32 +1,27 @@
-import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, Flex, useHotkeys } from '@axonivy/ui-components';
+import { Button, Flex, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { NavLink, useNavigate } from 'react-router';
-import { LanguageSelector } from '~/neo/settings/LanguageSelector';
+import { LanguageSettings } from '~/neo/settings/LanguageSettings';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { useNeoClient } from './client/useNeoClient';
-import { AnimationSettingsMenu } from './settings/AnimationSettingsMenu';
-import { ThemeSettings, useCycleTheme } from './settings/ThemeSettings';
+import { AnimationSettings } from './settings/AnimationSettings';
+import { Settings } from './settings/Settings';
+import { ThemeSettings } from './settings/ThemeSettings';
 import { useCycleAnimationSettings } from './settings/useSettings';
 
 export const Navigation = () => {
   useNeoClient();
-  const { t } = useTranslation();
   const { cycleAnimationMode, cycleAnimationSpeed, toggleAnimation, resetEngine } = useCycleAnimationSettings();
   const navigate = useNavigate();
-  const cycleTheme = useCycleTheme();
-
   const hotkeys = useKnownHotkeys();
   const workspacesElement = useRef<HTMLButtonElement>(null);
-
   useHotkeys(hotkeys.focusNav.hotkey, () => workspacesElement.current?.focus(), { enableOnFormTags: true });
   useHotkeys(hotkeys.openWorkspaces.hotkey, () => navigate(''), { enableOnFormTags: true });
   useHotkeys(hotkeys.openProcesses.hotkey, () => navigate('processes'), { enableOnFormTags: true });
   useHotkeys(hotkeys.openForms.hotkey, () => navigate('forms'), { enableOnFormTags: true });
   useHotkeys(hotkeys.openDataClasses.hotkey, () => navigate('dataclasses'), { enableOnFormTags: true });
   useHotkeys(hotkeys.openConfigs.hotkey, () => navigate('configurations'), { enableOnFormTags: true });
-  useHotkeys(hotkeys.changeTheme.hotkey, cycleTheme);
   useHotkeys(hotkeys.toggleAnimation.hotkey, toggleAnimation);
   useHotkeys(hotkeys.animationSpeed.hotkey, cycleAnimationSpeed);
   useHotkeys(hotkeys.animationMode.hotkey, cycleAnimationMode);
@@ -93,16 +88,11 @@ export const Navigation = () => {
           {({ isActive }) => <Button icon={IvyIcons.Tool} size='large' toggle={isActive} />}
         </NavLink>
       </Flex>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.label.settings')} title={t('common.label.settings')} />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent side='right'>
-          <AnimationSettingsMenu />
-          <LanguageSelector />
-          <ThemeSettings />
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Settings side='right'>
+        <AnimationSettings />
+        <LanguageSettings />
+        <ThemeSettings />
+      </Settings>
     </Flex>
   );
 };
