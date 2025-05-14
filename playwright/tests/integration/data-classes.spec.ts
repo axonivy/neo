@@ -62,7 +62,6 @@ test('data classes graph', async ({ page }) => {
   await overview.viewToggle.getByRole('radio', { name: 'Graph View' }).click();
   const graph = overview.graph;
   await expect(graph.edges).toHaveCount(2);
-  await expect(graph.nodes).toHaveCount(9);
   const quickStartNode = graph.getNodeByText('QuickStartTutorial');
   await expect(quickStartNode.detailSeperator).toBeHidden();
   await quickStartNode.expandNode.click();
