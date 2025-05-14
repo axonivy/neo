@@ -1,4 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
+import { Graph } from './graph';
 import { ImportDialog } from './import-dialog';
 import { ValidationMessage } from './validation-message';
 
@@ -7,8 +8,10 @@ export class Overview {
   protected readonly overview: Locator;
   readonly title: Locator;
   readonly search: Locator;
+  readonly viewToggle: Locator;
   readonly cards: Locator;
   readonly newCard: Locator;
+  readonly graph: Graph;
 
   constructor(page: Page) {
     this.page = page;
@@ -17,6 +20,8 @@ export class Overview {
     this.search = this.overview.locator('input');
     this.cards = this.overview.locator('.artifact-card:not(.new-artifact-card)');
     this.newCard = this.overview.locator('.new-artifact-card');
+    this.viewToggle = this.overview.locator('.ui-toggle-group');
+    this.graph = new Graph(page);
   }
 
   card(name: string | RegExp) {

@@ -3,6 +3,7 @@ import { AppInfo } from '../page-objects/app-info';
 import { ImportDialog } from '../page-objects/import-dialog';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
+import { ProjectDetail } from '../page-objects/project-detail';
 import { rmWorkspaceExportDir, TEST_PROJECT, WORKSPACE, workspaceExportZip } from './constants';
 
 test.afterAll(() => {
@@ -49,4 +50,24 @@ test('import and delete project', async ({ page, browserName }, testInfo) => {
   await neo.toast.expectSuccess('Project removed');
   await page.goto('');
   await overview.deleteCard(wsName, true);
+});
+
+test('project graph', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.home();
+  await overview.viewToggle.getByRole('radio', { name: 'Graph View' }).click();
+  await page.evaluate(() => {
+    document.body.style.zoom = '75%';
+  });
+  const graph = overview.graph;
+  await expect(graph.edges).toHaveCount(0);
+  await expect(graph.nodes).toHaveCount(1);
+  const neoTestProjectNode = graph.getNodeByText('neo-test-project');
+  await expect(neoTestProjectNode.detailSeperator).toBeHidden();
+  await neoTestProjectNode.expandNode.click();
+  await expect(neoTestProjectNode.detailSeperator).toBeVisible();
+  await expect(neoTestProjectNode.node).toHaveText('neo-test-projectneo-test-project - 13.1.0-SNAPSHOT');
+  await neoTestProjectNode.jumpInto.click();
+  const detail = new ProjectDetail(page);
+  await expect(detail.title).toHaveText(`Project details: ${TEST_PROJECT}`);
 });

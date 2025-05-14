@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { LinksFunction, MetaFunction } from 'react-router';
 import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
@@ -13,6 +14,7 @@ import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
 import PreviewSVG from './dataclass-preview.svg?react';
+import { DataClasGraph, ProjectGraphFilter } from './DataClassGraph';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -23,11 +25,17 @@ export default function Index() {
   const { data, isPending } = useGroupedDataClasses();
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
   const { createDataClassEditor } = useCreateEditor();
+  const [selectedProject, setSelectedProject] = useState<string>('all');
+
   return (
     <Overview
       title={t('neo.dataClasses')}
       description={t('dataclasses.dataclassDescription')}
       search={search}
+      graph={{
+        graph: <DataClasGraph selectedProject={selectedProject} />,
+        filter: <ProjectGraphFilter selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
+      }}
       onSearchChange={setSearch}
       isPending={isPending}
     >
