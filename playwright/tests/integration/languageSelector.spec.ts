@@ -13,5 +13,5 @@ test('switch language to german', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   await expect(neo.page.getByText('Welcome to your workspace: neo-test-project')).toBeVisible();
   await neo.navigation.changeLanguage('Deutsch');
-  await expect(neo.page.getByText('Willkommen in Ihrem Arbeitsbereich: neo-test-project')).toBeVisible();
+  await expect(neo.page.getByText('Willkommen in Ihrem Workspace: neo-test-project')).toBeVisible();
 });
