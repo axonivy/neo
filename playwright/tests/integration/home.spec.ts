@@ -60,6 +60,7 @@ test('project graph', async ({ page }) => {
     document.body.style.zoom = '75%';
   });
   const graph = overview.graph;
+  await graph.horizontalAlignButton.click();
   await expect(graph.edges).toHaveCount(0);
   await expect(graph.nodes).toHaveCount(1);
   const neoTestProjectNode = graph.getNodeByText('neo-test-project');
