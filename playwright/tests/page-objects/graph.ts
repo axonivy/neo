@@ -6,7 +6,7 @@ export class Graph {
 
   constructor(page: Page) {
     this.page = page;
-    this.graphRoot = page.locator('.react-flow__viewport');
+    this.graphRoot = page.locator('.react-flow');
   }
 
   get nodes(): Locator {
@@ -14,7 +14,11 @@ export class Graph {
   }
 
   get edges(): Locator {
-    return this.page.locator('.react-flow__edge');
+    return this.graphRoot.locator('.react-flow__edge');
+  }
+
+  get horizontalAlignButton(): Locator {
+    return this.graphRoot.locator('.react-flow__panel.top.right button[title="horizontal alignment"]');
   }
 
   getNodeByText(text: string | RegExp): GraphNode {
