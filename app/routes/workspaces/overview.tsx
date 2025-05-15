@@ -7,9 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
   Flex,
   Input
 } from '@axonivy/ui-components';
@@ -26,7 +23,8 @@ import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { InfoPopover } from '~/neo/InfoPopover';
 import { Overview } from '~/neo/Overview';
-import { LanguageSelector } from '~/neo/settings/LanguageSelector';
+import { LanguageSettings } from '~/neo/settings/LanguageSettings';
+import { Settings } from '~/neo/settings/Settings';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
@@ -51,15 +49,10 @@ export default function Index() {
     <>
       <ControlBar>
         <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button icon={IvyIcons.Settings} size='large' aria-label={t('common.label.settings')} title={t('common.label.settings')} />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent side='bottom'>
-              <LanguageSelector />
-              <ThemeSettings />
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Settings side='bottom'>
+            <LanguageSettings />
+            <ThemeSettings />
+          </Settings>
         </Flex>
       </ControlBar>
       <div style={{ height: 'calc(100vh - 41px)' }}>

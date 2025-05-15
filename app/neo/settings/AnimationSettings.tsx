@@ -18,7 +18,7 @@ import { useStopBpmEngine } from '~/data/project-api';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { speedModes, useSettings, type AnimationFollowMode } from './useSettings';
 
-export const AnimationSettingsMenu = () => {
+export const AnimationSettings = () => {
   const { t } = useTranslation();
   const { animation, enableAnimation, animationSpeed, animationMode } = useSettings();
   const { stopBpmEngine } = useStopBpmEngine();

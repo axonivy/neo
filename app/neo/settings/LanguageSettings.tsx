@@ -11,7 +11,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 
-export const LanguageSelector = () => {
+export const LanguageSettings = () => {
   const { t } = useTranslation();
   const languages = Object.keys(i18next.services.resourceStore.data);
   return (
