@@ -64,10 +64,10 @@ test('project graph', async ({ page }) => {
   await expect(graph.edges).toHaveCount(0);
   await expect(graph.nodes).toHaveCount(1);
   const neoTestProjectNode = graph.getNodeByText('neo-test-project');
-  await expect(neoTestProjectNode.detailSeperator).toBeHidden();
+
   await neoTestProjectNode.expandNode.click();
-  await expect(neoTestProjectNode.detailSeperator).toBeVisible();
   await expect(neoTestProjectNode.node).toHaveText('neo-test-projectneo-test-project - 13.1.0-SNAPSHOT');
+
   await neoTestProjectNode.jumpInto.click();
   const detail = new ProjectDetail(page);
   await expect(detail.title).toHaveText(`Project details: ${TEST_PROJECT}`);

@@ -67,7 +67,7 @@ const FieldContent = ({ fields }: { fields: DataClassField[] }) => {
       {fields.map((field: { name: string; type: string }) => (
         <li key={field.name} style={{ display: 'flex', gap: '5px' }}>
           <div>{field.name}:</div>
-          <div style={{ color: 'var(--N700) ' }}>{field.type}</div>
+          <div style={{ color: 'var(--N700)' }}>{field.type}</div>
         </li>
       ))}
     </ul>
@@ -78,12 +78,5 @@ const ProjectGraphControls = ({ dc }: { dc: DataClassBean }) => {
   const { createDataClassEditor } = useCreateEditor();
   const { openEditor } = useEditors();
   const editor = createDataClassEditor(dc);
-
-  return (
-    <GraphControls
-      openAction={() => {
-        openEditor(editor);
-      }}
-    />
-  );
+  return <GraphControls openAction={() => openEditor(editor)} />;
 };

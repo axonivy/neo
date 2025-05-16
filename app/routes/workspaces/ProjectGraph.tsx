@@ -1,6 +1,7 @@
 import { Button } from '@axonivy/ui-components';
 import { Graph, type NodeData } from '@axonivy/ui-graph';
 import { IvyIcons } from '@axonivy/ui-icons';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects } from '~/data/project-api';
@@ -29,16 +30,11 @@ export const mapProjectsToGraphNodes = (projects: ProjectBean[] | undefined): No
 
 const ProjectGraphControls = ({ project }: { project: ProjectBean }) => {
   const navigate = useNavigate();
-
-  return (
-    <GraphControls
-      openAction={() => {
-        navigate(`projects/${project.id.app}/${project.id.pmv}`);
-      }}
-    />
-  );
+  const projectUrl = `${project.id.app}/${project.id.pmv}`;
+  return <GraphControls openAction={() => navigate(`projects/${projectUrl}`)} />;
 };
 
 export const GraphControls = ({ openAction }: { openAction: () => void }) => {
-  return <Button icon={IvyIcons.SubEnd} rotate={180} onClick={openAction} />;
+  const { t } = useTranslation();
+  return <Button icon={IvyIcons.SubEnd} rotate={180} onClick={openAction} aria-label={t('common.label.open')} />;
 };
