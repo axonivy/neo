@@ -28,25 +28,13 @@ export class Graph {
 }
 
 export class GraphNode {
-  private readonly root: Locator;
-
-  constructor(root: Locator) {
-    this.root = root;
-  }
-
-  get node(): Locator {
-    return this.root;
-  }
+  constructor(readonly node: Locator) {}
 
   get jumpInto(): Locator {
-    return this.root.locator('button.ui-button');
+    return this.node.getByRole('button', { name: 'Open' });
   }
 
   get expandNode(): Locator {
-    return this.root.locator('i.ivy-chevron');
-  }
-
-  get detailSeperator(): Locator {
-    return this.root.locator('div[data-orientation="horizontal"][role="none"]');
+    return this.node.getByRole('button', { name: 'Expand node' });
   }
 }

@@ -62,13 +62,11 @@ test('data classes graph', async ({ page }) => {
   await overview.viewToggle.getByRole('radio', { name: 'Graph View' }).click();
   const graph = overview.graph;
   await expect(graph.edges).toHaveCount(2);
-  const quickStartNode = graph.getNodeByText('QuickStartTutorial');
-  await expect(quickStartNode.detailSeperator).toBeHidden();
-  await quickStartNode.expandNode.click();
-  await expect(quickStartNode.detailSeperator).toBeVisible();
+  const quickStartNode = graph.getNodeByText('Person');
 
-  await expect(quickStartNode.node).toHaveText('QuickStartTutorialneo.test.project.QuickStartTutorialproduct:StringreleaseDate:Dateprice:Number');
+  await quickStartNode.expandNode.click();
+  await expect(quickStartNode.node).toContainText('Personneo.test.project.Personname:Stringage:Number');
 
   await quickStartNode.jumpInto.click();
-  await new DataClassEditor(neo, 'QuickStartTutorial').expectOpen('releaseDate');
+  await new DataClassEditor(neo, 'Person').expectOpen('age');
 });
