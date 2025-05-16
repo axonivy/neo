@@ -31,13 +31,13 @@ import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/proj
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
+import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { ProjectGraph } from './ProjectGraph';
-import PreviewSVG from './workspace-preview.svg?react';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -235,7 +235,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
       type='project'
       actions={{ delete: deleteAction }}
       onClick={open}
-      preview={<PreviewSVG />}
+      preview={<PreviewSvg type='workspace' />}
       tagLabel={project.id.isIar ? t('common.label.readOnly') : undefined}
     />
   );
