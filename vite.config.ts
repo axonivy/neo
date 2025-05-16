@@ -1,6 +1,5 @@
 import { reactRouter } from '@react-router/dev/vite';
 import { type ProxyOptions, defineConfig } from 'vite';
-import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 const ENGINE_URL = process.env.BASE_URL ?? 'http://localhost:8080/';
@@ -14,7 +13,7 @@ const DEV_PROXY: ProxyOptions = {
 };
 
 export default defineConfig({
-  plugins: [reactRouter(), tsconfigPaths({ projects: ['tsconfig.json'] }), svgr()],
+  plugins: [reactRouter(), tsconfigPaths({ projects: ['tsconfig.json'] })],
   base: '/neo/',
   server: {
     proxy: {

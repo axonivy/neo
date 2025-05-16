@@ -19,10 +19,10 @@ import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/dat
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
-import PreviewSVG from './workspaces/workspace-preview.svg?react';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -128,7 +128,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
       type='dependency'
       actions={{ delete: deleteAction }}
       onClick={open}
-      preview={<PreviewSVG />}
+      preview={<PreviewSvg type='workspace' />}
       tagLabel={dependency.isIar ? t('common.label.readOnly') : undefined}
     />
   );

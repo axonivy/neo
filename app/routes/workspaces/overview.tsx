@@ -19,6 +19,7 @@ import { NEO_DESIGNER } from '~/constants';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
+import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { InfoPopover } from '~/neo/InfoPopover';
@@ -28,8 +29,7 @@ import { Settings } from '~/neo/settings/Settings';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
-import welcomeSvgUrl from './welcome.svg?url';
-import PreviewSVG from './workspace-preview.svg?react';
+import welcomeSvgUrl from '/assets/welcome.svg?url';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -111,7 +111,7 @@ const WorkspaceCard = (workspace: Workspace) => {
       type='workspace'
       onClick={open}
       actions={{ delete: deleteAction, export: downloadWorkspace, deploy: deployAction }}
-      preview={<PreviewSVG />}
+      preview={<PreviewSvg type='workspace' />}
     />
   );
 };
