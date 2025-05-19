@@ -6,13 +6,13 @@ import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
+import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
-import PreviewSVG from './form-preview.svg?react';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -62,7 +62,7 @@ const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) =>
     <ArtifactCard
       name={editor.name}
       type='form'
-      preview={<PreviewSVG />}
+      preview={<PreviewSvg type='form' />}
       tooltip={editor.path}
       onClick={open}
       actions={{ delete: deleteAction }}

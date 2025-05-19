@@ -5,12 +5,12 @@ import type { ConfigurationIdentifier } from '~/data/generated/ivy-client';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
+import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { CMS_EDITOR_SUFFIX, type Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { Overview } from '~/neo/Overview';
-import PreviewSVG from './variables-preview.svg?react';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -37,7 +37,7 @@ export default function Index() {
             <ArtifactCard
               name={CMS_EDITOR_SUFFIX}
               type='cms'
-              preview={<PreviewSVG />}
+              preview={<PreviewSvg type='config' />}
               tooltip={CMS_EDITOR_SUFFIX}
               onClick={() => openEditor(createCmsEditor(artifacts[0].project))}
             />
@@ -55,6 +55,12 @@ export default function Index() {
 const ConfigCard = ({ ...editor }: Editor) => {
   const { openEditor } = useEditors();
   return (
-    <ArtifactCard name={editor.name} type='variables' preview={<PreviewSVG />} tooltip={editor.path} onClick={() => openEditor(editor)} />
+    <ArtifactCard
+      name={editor.name}
+      type='variables'
+      preview={<PreviewSvg type='config' />}
+      tooltip={editor.path}
+      onClick={() => openEditor(editor)}
+    />
   );
 };
