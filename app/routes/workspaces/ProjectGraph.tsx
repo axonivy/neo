@@ -8,7 +8,12 @@ import { useSortedProjects } from '~/data/project-api';
 
 export const ProjectGraph = () => {
   const { data: projects } = useSortedProjects(true);
-  return <Graph graphNodes={mapProjectsToGraphNodes(projects)} options={{ filter: true, circleFloatingEdges: true, minimap: false }} />;
+  return (
+    <Graph
+      graphNodes={mapProjectsToGraphNodes(projects)}
+      options={{ filter: true, circleFloatingEdges: true, minimap: false, zoomOnInit: { level: 1, applyOnLayoutAndFilter: true } }}
+    />
+  );
 };
 
 export const mapProjectsToGraphNodes = (projects: ProjectBean[] | undefined): NodeData[] => {
