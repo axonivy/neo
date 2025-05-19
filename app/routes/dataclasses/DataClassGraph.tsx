@@ -12,7 +12,7 @@ export const DataClasGraph = ({ selectedProject }: { selectedProject: string }) 
   return (
     <Graph
       graphNodes={mapDataClassesToGraphNodes(data, selectedProject)}
-      options={{ filter: true, circleFloatingEdges: true, minimap: true }}
+      options={{ filter: true, circleFloatingEdges: true, minimap: true, zoomOnInit: { level: 1, applyOnLayoutAndFilter: true } }}
     />
   );
 };

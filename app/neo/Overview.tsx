@@ -39,7 +39,7 @@ export const Overview = ({ title, description, search, onSearchChange, isPending
         </Flex>
       )}
 
-      <Flex direction='row' alignItems='center' justifyContent='flex-end' gap={4}>
+      <Flex direction='row' alignItems='center' justifyContent='flex-end' gap={4} style={{ width: '100%' }}>
         <div style={{ width: '100%', height: '34px' }}>
           {!showGraph || graph === undefined ? (
             <SearchInput placeholder={t('common.label.search')} value={search} onChange={onSearchChange} autoFocus={true} />
