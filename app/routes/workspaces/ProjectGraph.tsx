@@ -8,10 +8,16 @@ import { useSortedProjects } from '~/data/project-api';
 
 export const ProjectGraph = () => {
   const { data: projects } = useSortedProjects(true);
+  const { t } = useTranslation();
   return (
     <Graph
       graphNodes={mapProjectsToGraphNodes(projects)}
-      options={{ filter: true, circleFloatingEdges: true, minimap: false, zoomOnInit: { level: 1, applyOnLayoutAndFilter: true } }}
+      options={{
+        filter: { enabled: true, allLabel: t('common.label.showAll') },
+        circleFloatingEdges: true,
+        minimap: false,
+        zoomOnInit: { level: 1, applyOnLayoutAndFilter: true }
+      }}
     />
   );
 };
