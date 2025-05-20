@@ -1,5 +1,6 @@
 import { BasicSelect } from '@axonivy/ui-components';
 import { Graph, type NodeData } from '@axonivy/ui-graph';
+import { useTranslation } from 'react-i18next';
 import { useDataClassesWithFields } from '~/data/data-class-api';
 import type { DataClassBean, DataClassField } from '~/data/generated/ivy-client';
 import { useSortedProjects } from '~/data/project-api';
@@ -9,10 +10,16 @@ import { GraphControls } from '../workspaces/ProjectGraph';
 
 export const DataClasGraph = ({ selectedProject }: { selectedProject: string }) => {
   const { data } = useDataClassesWithFields();
+  const { t } = useTranslation();
   return (
     <Graph
       graphNodes={mapDataClassesToGraphNodes(data, selectedProject)}
-      options={{ filter: true, circleFloatingEdges: true, minimap: true, zoomOnInit: { level: 1, applyOnLayoutAndFilter: true } }}
+      options={{
+        filter: { enabled: true, allLabel: t('common.label.showAll') },
+        circleFloatingEdges: true,
+        minimap: true,
+        zoomOnInit: { level: 1, applyOnLayoutAndFilter: true }
+      }}
     />
   );
 };
