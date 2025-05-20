@@ -1,16 +1,6 @@
 import runtimeLogStylesHref from '@axonivy/log-view/lib/view.css?url';
-import {
-  Field,
-  Flex,
-  Label,
-  ResizableHandle,
-  ResizablePanel,
-  ResizablePanelGroup,
-  Separator,
-  Switch,
-  Tabs,
-  useHotkeys
-} from '@axonivy/ui-components';
+import { Button, Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Tabs, useHotkeys } from '@axonivy/ui-components';
+import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Outlet, useParams, type LinksFunction } from 'react-router';
@@ -54,10 +44,20 @@ export default function Index() {
           <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
             <EditorsControl />
             <Separator orientation='vertical' style={{ margin: 'var(--size-2)' }} />
-            <Field direction='row' alignItems='center' gap={2} title={openSimulation.label} aria-label={openSimulation.label}>
-              <Label>{t('settings.simulate')}</Label>
-              <Switch checked={browser.openState} onClick={browser.toggle} />
-            </Field>
+            <Button
+              onClick={views.toggleView}
+              rotate={270}
+              icon={IvyIcons.PoolSwimlanes}
+              title={t('browser.openPanel')}
+              aria-label={t('browser.openPanel')}
+            />
+            <Button
+              onClick={browser.toggle}
+              rotate={180}
+              icon={IvyIcons.PoolSwimlanes}
+              title={openSimulation.label}
+              aria-label={openSimulation.label}
+            />
           </Flex>
         </>
       </ControlBar>

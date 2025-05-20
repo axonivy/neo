@@ -18,7 +18,7 @@ export class ControlBar {
   }
 
   async toggleBrowser() {
-    const button = this.bar.getByRole('switch', { name: 'Simulate' });
+    const button = this.bar.getByRole('button', { name: 'Open Simulation' });
     await button.click();
   }
 }
