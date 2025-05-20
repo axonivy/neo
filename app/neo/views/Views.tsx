@@ -24,14 +24,6 @@ export const useViews = () => {
   const [view, setView] = useState<ViewIds | ''>(views[0].id);
   const [viewsCollapsed, setViewsCollapsed] = useState(true);
   const viewsRef = useRef<ImperativePanelHandle>(null);
-  return { viewsRef, view, setView, viewsCollapsed, setViewsCollapsed };
-};
-
-export const ViewTabs = ({ viewsRef, view, setView }: ReturnType<typeof useViews>) => {
-  const { t } = useTranslation();
-  const viewLabels: Record<ViewIds, string> = {
-    Log: t('label.runtimeLog')
-  };
 
   const toggleView = () => {
     if (viewsRef.current?.isCollapsed()) {
@@ -44,6 +36,16 @@ export const ViewTabs = ({ viewsRef, view, setView }: ReturnType<typeof useViews
       setView('');
     }
   };
+
+  return { viewsRef, view, setView, viewsCollapsed, setViewsCollapsed, toggleView };
+};
+
+export const ViewTabs = ({ viewsRef, toggleView }: ReturnType<typeof useViews>) => {
+  const { t } = useTranslation();
+  const viewLabels: Record<ViewIds, string> = {
+    Log: t('label.runtimeLog')
+  };
+
   return (
     <Flex
       className='views-tabs'
@@ -60,7 +62,12 @@ export const ViewTabs = ({ viewsRef, view, setView }: ReturnType<typeof useViews
           </TabsTrigger>
         ))}
       </TabsList>
-      <Button aria-label={t('label.toggleView')} icon={IvyIcons.Chevron} rotate={90} onClick={toggleView} />
+      <Button
+        aria-label={t('label.toggleView')}
+        onClick={toggleView}
+        icon={IvyIcons.Chevron}
+        rotate={viewsRef.current?.isCollapsed() ? 270 : 90}
+      />
     </Flex>
   );
 };
