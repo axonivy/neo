@@ -17,8 +17,8 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useKnownHotkeys } from '~/utils/hotkeys';
+import cardStyles from './ArtifactCard.css?url';
 import { ArtifactTag } from './ArtifactTag';
-import cardStyles from './card.css?url';
 import { DeleteConfirm, type DeleteAction } from './DeleteConfirm';
 import { DeployDialog, type DeployActionParams } from './DeployDialog';
 
