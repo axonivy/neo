@@ -2,7 +2,7 @@ import { Flex, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import './ArifactInfoCard.css';
+import './ArtifactInfoCard.css';
 
 type ArtifactInfoCardProps = {
   title: string;
