@@ -60,6 +60,12 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     return { hotkey, label: t('hotkey.openSim', { hotkey: hotkeyText(hotkey) }), keyCode };
   }, [t]);
 
+  const openPanel = useMemo<KnownHotkey>(() => {
+    const hotkey = 'shift+P';
+    const keyCode = 'KeyP';
+    return { hotkey, label: t('hotkey.openPanel', { hotkey: hotkeyText(hotkey) }), keyCode };
+  }, [t]);
+
   const resizeSimulation = useMemo<KnownHotkey>(() => {
     const hotkey = 'shift+R';
     const keyCode = 'KeyR';
@@ -148,6 +154,7 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     closeAllTabs,
     closeActiveTabs,
     openSimulation,
+    openPanel,
     resizeSimulation,
     toggleAnimation,
     resetEngine,

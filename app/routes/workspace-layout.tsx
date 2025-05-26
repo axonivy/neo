@@ -2,7 +2,6 @@ import runtimeLogStylesHref from '@axonivy/log-view/lib/view.css?url';
 import { Button, Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Tabs, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Outlet, useParams, type LinksFunction } from 'react-router';
 import { Navigation } from '~/neo/Navigation';
 import { WebBrowser } from '~/neo/browser/WebBrowser';
@@ -24,7 +23,6 @@ export default function Index() {
   const { ws } = useParams();
   const firstWebbrowserElement = useRef<HTMLButtonElement>(null);
   const { openSimulation, resizeSimulation } = useKnownHotkeys();
-  const { t } = useTranslation();
   useHotkeys(openSimulation.hotkey, () => {
     browser.toggle();
     if (!browser.openState) {
@@ -35,6 +33,8 @@ export default function Index() {
   });
   useHotkeys(resizeSimulation.hotkey, browser.cycleSize);
   const views = useViews();
+  const { openPanel } = useKnownHotkeys();
+  useHotkeys(openPanel.hotkey, () => views.toggleView());
 
   return (
     <NeoClientProvider>
@@ -48,8 +48,8 @@ export default function Index() {
               onClick={views.toggleView}
               rotate={270}
               icon={IvyIcons.PoolSwimlanes}
-              title={t('browser.openPanel')}
-              aria-label={t('browser.openPanel')}
+              title={openPanel.label}
+              aria-label={openPanel.label}
             />
             <Button
               onClick={browser.toggle}
