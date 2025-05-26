@@ -56,10 +56,10 @@ export const Overview = ({ title, description, search, onSearchChange, isPending
             gap={1}
           >
             <ToggleGroupItem value='tile' asChild>
-              <Button icon={IvyIcons.GridDots} size='large' title={t('label.tileView')} aria-label={t('label.tileView')} />
+              <Button icon={IvyIcons.BoxView} size='large' title={t('label.tileView')} aria-label={t('label.tileView')} />
             </ToggleGroupItem>
             <ToggleGroupItem value='graph' asChild>
-              <Button icon={IvyIcons.Process} rotate={90} size='large' title={t('label.graphView')} aria-label={t('label.graphView')} />
+              <Button icon={IvyIcons.GraphView} size='large' title={t('label.graphView')} aria-label={t('label.graphView')} />
             </ToggleGroupItem>
           </ToggleGroup>
         )}
