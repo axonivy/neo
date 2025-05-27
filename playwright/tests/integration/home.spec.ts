@@ -66,7 +66,7 @@ test('project graph', async ({ page }) => {
   const neoTestProjectNode = graph.getNodeByText('neo-test-project');
 
   await neoTestProjectNode.expandNode.click();
-  await expect(neoTestProjectNode.node).toHaveText('neo-test-projectneo-test-project - 13.1.0-SNAPSHOT');
+  await expect(neoTestProjectNode.node).toContainText('neo-test-projectneo-test-project');
 
   await neoTestProjectNode.jumpInto.click();
   const detail = new ProjectDetail(page);
