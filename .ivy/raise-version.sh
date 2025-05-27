@@ -7,5 +7,5 @@ mvn --batch-mode -f playwright/neo-test-project/pom.xml versions:set versions:co
 mvn --batch-mode -f playwright/tests/screenshots/pom.xml versions:set versions:commit -DnewVersion=${1}
 
 npm install
-npm version -f --no-git-tag-version -ws --include-workspace-root ${1/SNAPSHOT/next}
+npm version -f --allow-same-version --no-git-tag-version -ws --include-workspace-root ${1/SNAPSHOT/next}
 npm install
