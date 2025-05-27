@@ -13,7 +13,7 @@
     "onlyCurrenltyOpen": "Nur aktuell geöffneter Prozess",
     "reset": "Zurücksetzen",
     "slow": "Langsam",
-    "slowest": "Langsamste",
+    "slowest": "Sehr langsam",
     "speed": "Geschwindigkeit"
   },
   "artifact": {
@@ -72,14 +72,14 @@
     "engineUrl": "Engine-URL",
     "log": "Bereitstellungsprotokoll",
     "logDescription": "Zurückgegebene Protokollausgabe der Engine.",
-    "target": "Geben Sie die Engine an, auf die Sie den aktuellen Arbeitsbereich bereitstellen möchten."
+    "target": "Geben Sie die Engine an, auf der Sie den aktuellen Arbeitsbereich bereitstellen möchten."
   },
   "deploys": {
     "closeLog": "Protokoll kopieren",
     "copiedLog": "Protokoll in Zwischenablage kopiert"
   },
   "forms": {
-    "formDescription": "Ein Formular ist ein Benutzerschnittstellenelement, das die Dateneingabe und Interaktion mit der Anwendung erleichtert und als Brücke zwischen Benutzern und System dient.",
+    "formDescription": "Ein Formular ist eine Benutzeroberfläche, das die Dateneingabe und Interaktion mit der Anwendung ermöglicht. Es bildet die Schnittstelle zwischen Benutzer und System.",
     "newForm": "Neues Formular erstellen"
   },
   "hotkey": {
@@ -97,7 +97,7 @@
     "forms": "Formulare ({{hotkey}})",
     "home": "Startseite ({{hotkey}})",
     "importFile": "Aus Datei importieren ({{hotkey}})",
-    "importMarket": "Aus dem Markt importieren ({{hotkey}})",
+    "importMarket": "Aus dem Axon Ivy Market importieren ({{hotkey}})",
     "openPanel": "Panel öffnen ({{hotkey}})",
     "openSim": "Simulation öffnen ({{hotkey}})",
     "processes": "Prozesse ({{hotkey}})",
@@ -118,11 +118,11 @@
     "toggleView": "Ansicht umschalten"
   },
   "market": {
-    "description": "Hier können Sie wiederverwendbare Komponenten, Templates und Lösungen finden und herunterladen, um Ihre Entwicklung zu beschleunigen.",
+    "description": "Hier können Sie wiederverwendbare Komponenten, Vorlagen und Lösungen finden und herunterladen, um die Entwicklung zu beschleunigen.",
     "install": "{{component}} installieren",
     "selectVersion": "Version zur Installation auswählen",
     "showDetails": "Details anzeigen",
-    "title": "Axon Ivy Markt"
+    "title": "Axon Ivy Market"
   },
   "message": {
     "artifactNotEmpty": "Der Artifact-Name darf nicht leer sein.",
@@ -225,7 +225,7 @@
       "removing": "Formular wird gelöscht"
     },
     "market": {
-      "inaccsessible": "Der Marktplatz ist zurzeit möglicherweise nicht erreichbar",
+      "inaccsessible": "Der Axon Ivy Market ist zurzeit möglicherweise nicht erreichbar",
       "loadBestMatchingFail": "Passende Marktversion für {{id}} mit Engine-Version {{engineVersion}} konnte nicht geladen werden",
       "loadFail": "Marktproduktversionen für {{id}} konnten nicht geladen werden",
       "loadJsonFail": "Produkt-JSON für {{id}} mit Version {{version}} konnte nicht geladen werden",
@@ -237,7 +237,7 @@
       "createFail": "Prozess konnte nicht erstellt werden",
       "creating": "Prozess wird erstellt",
       "missing": "Prozesse konnten nicht geladen werden",
-      "removed": "Prozess gelöscht",
+      "removed": "Prozess wurde gelöscht",
       "removeFail": "Prozess '{{pid}}' konnte nicht gelöscht werden",
       "removing": "Prozess wird gelöscht"
     },
@@ -256,9 +256,9 @@
       "created": "Workspace erstellt",
       "createFail": "Workspace konnte nicht erstellt werden",
       "creating": "Workspace wird erstellt",
-      "deployed": "Arbeitsbereich veröffentlicht",
-      "deployFail": "Arbeitsbereich '{{id}}' konnte nicht veröffentlicht werden",
-      "deploying": "Arbeitsbereich wird veröffentlicht",
+      "deployed": "Arbeitsbereich wurde bereitgestellt",
+      "deployFail": "Arbeitsbereich '{{id}}' konnte nicht bereitgestellt werden",
+      "deploying": "Arbeitsbereich wird bereitgestellt",
       "exported": "Workspace exportiert",
       "exportFail": "Workspace '{{id}}' konnte nicht exportiert werden",
       "exporting": "Workspace wird exportiert",
@@ -278,11 +278,11 @@
     "description": "Hier finden Sie die von Ihnen erstellten sowie alle importierten Projekte in diesem Workspace. Ein Projekt enthält alle wesentlichen Komponenten zum Erstellen einer Anwendung.",
     "importFile": "Aus Datei importieren",
     "importInto": "Axon Ivy Projekte importieren nach: {{workspace}}",
-    "importMarket": "Aus Markt importieren",
+    "importMarket": "Aus dem Axon Ivy Market importieren",
     "importProject": "Projekte importieren",
     "importWarning": "Der Import kann bestehende Projektversionen überschreiben. ",
     "importWarningLink": "Erwägen Sie, den Workspace vorher zu exportieren.",
-    "info": "Ein Workspace ist der Entwicklungsbereich, in dem eine Anwendung erstellt und getestet wird. Hier werden Geschäftsprozesse entworfen, in der Vorschau angezeigt und simuliert, bevor sie als funktionierende Anwendung bereitgestellt werden.",
+    "info": "Ein Workspace ist der Entwicklungsbereich, in dem neue Anwendungen erstellt und getestet werden. Hier werden Geschäftsprozesse entworfen, automatisiert und simuliert, bevor sie als funktionierende Anwendung bereitgestellt werden.",
     "newWorkspace": "Neuen Workspace erstellen",
     "title": "Willkommen bei {{neo}}: Verwalten Sie Ihre Workspaces",
     "wsTitle": "Willkommen in Ihrem Workspace: {{workspace}}"
