@@ -2,7 +2,7 @@ import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { headers, ok } from './custom-fetch';
+import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   addDependency as addDependencyReq,
   dependencies,
@@ -69,7 +69,7 @@ export const useAddDependencyReq = () => {
       client.invalidateQueries({ queryKey });
       return res.data;
     }
-    throw new Error(t('toast.dependency.addFail'));
+    throw new Error(resolveErrorMessage(res.data, t('toast.dependency.addFail')));
   };
   return {
     addDependency: (dependent: ProjectIdentifier, dependency: ProjectIdentifier) => {
