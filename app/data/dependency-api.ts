@@ -1,7 +1,7 @@
 import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'react-router';
-import { headers, ok } from './custom-fetch';
+import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   addDependency as addDependencyReq,
   dependencies,
@@ -65,7 +65,7 @@ export const useAddDependencyReq = () => {
       client.invalidateQueries({ queryKey });
       return res.data;
     }
-    throw new Error('Failed to add dependency');
+    throw new Error(resolveErrorMessage(res.data, 'Failed to add dependency'));
   };
   return {
     addDependency: (dependent: ProjectIdentifier, dependency: ProjectIdentifier) => {
