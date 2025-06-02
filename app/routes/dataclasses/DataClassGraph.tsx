@@ -28,21 +28,41 @@ export const mapDataClassesToGraphNodes = (data: DataClassBean[] | undefined, se
   if (!data) {
     return [];
   }
+  if (selectedProject === 'all') {
+    return data.map(toNode);
+  }
 
-  return data
-    .filter(dc => selectedProject === 'all' || dc.dataClassIdentifier.project.pmv === selectedProject)
-    .map(dc => ({
-      id: dc.name,
-      label: dc.simpleName,
-      info: dc.name,
-      content: <FieldContent fields={dc.fields} />,
-      options: {
-        expandContent: true,
-        controls: <ProjectGraphControls dc={dc} />
-      },
-      target: dc.fields.map(field => ({ id: field.type }))
-    }));
+  //classes that are 'in' the project
+  const inProject = data.filter(dc => dc.dataClassIdentifier.project.pmv === selectedProject);
+  const inProjectIds = new Set(inProject.map(dc => dc.name));
+
+  //classes that the project’s classes 'refer to'
+  const referencedIds = new Set<string>();
+  inProject.forEach(dc => dc.fields.forEach(f => referencedIds.add(f.type)));
+
+  //classes that 'refer back' to the project’s classes
+  const referringIds = new Set<string>();
+  data.forEach(dc => {
+    if (dc.fields.some(f => inProjectIds.has(f.type))) {
+      referringIds.add(dc.name);
+    }
+  });
+
+  const keepIds = new Set<string>([...inProjectIds, ...referencedIds, ...referringIds]);
+  return data.filter(dc => keepIds.has(dc.name)).map(toNode);
 };
+
+const toNode = (dc: DataClassBean): NodeData => ({
+  id: dc.name,
+  label: dc.simpleName,
+  info: dc.name,
+  content: <FieldContent fields={dc.fields} />,
+  options: {
+    expandContent: true,
+    controls: <ProjectGraphControls dc={dc} />
+  },
+  target: dc.fields.map(field => ({ id: field.type }))
+});
 
 export const ProjectGraphFilter = ({
   selectedProject,
