@@ -25,7 +25,7 @@ export default function Index() {
   const { data, isPending } = useGroupedDataClasses();
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
   const { createDataClassEditor } = useCreateEditor();
-  const [selectedProject, setSelectedProject] = useState<string>('all');
+  const [selectedProject, setSelectedProject] = useState<string>(filteredGroups ? filteredGroups[0]?.project : 'all');
 
   return (
     <Overview
