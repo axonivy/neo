@@ -15,7 +15,7 @@ pipeline {
         script {
           catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
             docker.build('node', '-f build/Dockerfile.node .').inside {
-              sh 'npm run update:axonivy:next'
+              sh 'npm run update:axonivy:next && npm i --force'
               sh 'npm run ci'
               archiveArtifacts 'dist/**'
             }
