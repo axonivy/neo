@@ -16,7 +16,7 @@ pipeline {
           if (isReleasingBranch()) {
             docker.build('node', '-f build/Dockerfile.node .').inside {
               sh 'npm run update:axonivy:next'
-              sh 'npm install'
+              sh 'npm install --force'
               sh 'npm run sbom'
               def version = sh (script: "node -p \"require('./package.json').version\"", returnStdout: true)
               uploadBOM(projectName: 'neo', projectVersion: version, bomFile: 'bom.json')
