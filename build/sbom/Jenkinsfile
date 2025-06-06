@@ -15,7 +15,7 @@ pipeline {
         script {
           if (isReleasingBranch()) {
             docker.build('node', '-f build/Dockerfile.node .').inside {
-              sh 'npm run update:axonivy:next && npm i --force'
+              sh 'npm run update:axonivy:next'
               sh 'npm install'
               sh 'npm run sbom'
               def version = sh (script: "node -p \"require('./package.json').version\"", returnStdout: true)
