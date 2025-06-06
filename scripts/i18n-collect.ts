@@ -1,4 +1,4 @@
-import { copyFileSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'fs';
+import { copyFileSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'fs';
 import path from 'path';
 
 const translations = {
@@ -19,6 +19,10 @@ const collectTranslations = () => {
 };
 
 const copyLocales = (dir: string, targetFile: string) => {
+  if (!existsSync(dir)) {
+    console.warn(`Skip translations directory ${dir} as it does not exist`);
+    return;
+  }
   const files = readdirSync(dir);
   files.forEach(file => {
     if (file.includes('old')) return;
