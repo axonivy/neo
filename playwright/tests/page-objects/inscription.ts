@@ -6,11 +6,11 @@ export class Inscription {
     readonly inscription: Locator
   ) {}
 
-  async openAccordion(name: string) {
-    const accordionHeader = this.inscription.locator(`.ui-accordion-header:has-text("${name}")`);
-    await expect(accordionHeader).toBeVisible();
-    if ((await accordionHeader.getAttribute('data-state')) === 'closed') {
-      await accordionHeader.click();
+  async openInscriptionTab(name: string) {
+    const inscriptionTabHeader = this.inscription.getByRole('tab', { name: name });
+    await expect(inscriptionTabHeader).toBeVisible();
+    if ((await inscriptionTabHeader.getAttribute('aria-selected')) !== 'true') {
+      await inscriptionTabHeader.click();
     }
   }
 
