@@ -40,7 +40,7 @@ test('switch theme', async ({ page }) => {
   const { neo, editor } = await openSubProcess(page);
   const element = editor.elementByPid('1907DD74AA37CDB2-f3');
   const inscription = await element.openInscription();
-  await inscription.openAccordion('Output');
+  await inscription.openInscriptionTab('Output');
   await inscription.openSection('Code');
   const monacoTheme = inscription.inscription.locator('.monaco-editor');
   const editorTheme = editor.frame.locator('html');
@@ -150,7 +150,7 @@ test.describe('inscription', () => {
     const { editor } = await openSubProcess(page);
     const element = editor.elementByPid('1907DD74AA37CDB2-f3');
     const inscription = await element.openInscription();
-    await inscription.openAccordion('General');
+    await inscription.openInscriptionTab('General');
     await inscription.openSection('Name / Description');
     const nameInput = inscription.inscription.getByLabel('Display Name');
     await nameInput.fill('script');
@@ -179,7 +179,7 @@ test.describe('inscription', () => {
 
   const assertCreateNewAction = async (page: Page, element: ProcessEditorElement, accordion: string, section: string, newButton: string, dialogTitle: string) => {
     const inscription = await element.openInscription();
-    await inscription.openAccordion(accordion);
+    await inscription.openInscriptionTab(accordion);
     await inscription.openSection(section);
     await inscription.inscription.getByRole('button', { name: newButton }).click();
     await expect(page.getByRole('dialog').locator(`.ui-dialog-title:has-text("${dialogTitle}")`)).toBeVisible();
@@ -189,7 +189,7 @@ test.describe('inscription', () => {
     const { editor } = await openSubProcess(page);
     const element = editor.elementByPid('1907DD74AA37CDB2-f3');
     const inscription = await element.openInscription();
-    await inscription.openAccordion('Output');
+    await inscription.openInscriptionTab('Output');
     await inscription.openSection('Code');
 
     const monacoEditor = inscription.monacoEditor();
