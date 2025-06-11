@@ -29,21 +29,21 @@
     "i18n:ci": "npx i18next-parser --fail-on-update"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~13.1.0-next.586.61b8cfc",
-    "@axonivy/dataclass-editor-protocol": "~13.1.0-next.586.61b8cfc",
-    "@axonivy/form-editor": "~13.1.0-next.831.345df7a",
-    "@axonivy/form-editor-core": "~13.1.0-next.831.345df7a",
-    "@axonivy/form-editor-protocol": "~13.1.0-next.831.345df7a",
-    "@axonivy/jsonrpc": "~13.1.0-next.730",
-    "@axonivy/log-view": "^13.1.0-next.136.0b3ca01",
-    "@axonivy/log-view-core": "^13.1.0-next.136.0b3ca01",
-    "@axonivy/ui-components": "~13.1.0-next.730",
-    "@axonivy/ui-graph": "~13.1.0-next.730",
-    "@axonivy/ui-icons": "~13.1.0-next.730",
-    "@axonivy/variable-editor": "~13.1.0-next.727.53dde98",
-    "@axonivy/variable-editor-protocol": "~13.1.0-next.727.53dde98",
-    "@axonivy/cms-editor": "~13.1.0-next.257.20e54b8",
-    "@axonivy/cms-editor-protocol": "~13.1.0-next.257.20e54b8",
+    "@axonivy/dataclass-editor": "~13.1.1-next.594.2f0b501",
+    "@axonivy/dataclass-editor-protocol": "~13.1.1-next.594.2f0b501",
+    "@axonivy/form-editor": "~13.1.1-next.841.1e7a049",
+    "@axonivy/form-editor-core": "~13.1.1-next.841.1e7a049",
+    "@axonivy/form-editor-protocol": "~13.1.1-next.841.1e7a049",
+    "@axonivy/jsonrpc": "~13.1.1-next.734",
+    "@axonivy/log-view": "~13.1.1-next.146.e5e3707",
+    "@axonivy/log-view-core": "~13.1.1-next.146.e5e3707",
+    "@axonivy/ui-components": "~13.1.1-next.734",
+    "@axonivy/ui-graph": "~13.1.1-next.734",
+    "@axonivy/ui-icons": "~13.1.1-next.734",
+    "@axonivy/variable-editor": "~13.1.1-next.739.635eea9",
+    "@axonivy/variable-editor-protocol": "~13.1.1-next.739.635eea9",
+    "@axonivy/cms-editor": "~13.1.1-next.265.d669b95",
+    "@axonivy/cms-editor-protocol": "~13.1.1-next.265.d669b95",
     "@react-router/node": "^7.1.3",
     "@tanstack/react-query": "5.79.0",
     "@tanstack/react-query-devtools": "5.79.0",
@@ -60,8 +60,8 @@
     "zustand": "^5.0.3"
   },
   "devDependencies": {
-    "@axonivy/eslint-config": "^13.1.0-next.730",
-    "@axonivy/prettier-config": "~13.1.0-next.730",
+    "@axonivy/eslint-config": "~13.1.1-next.734",
+    "@axonivy/prettier-config": "~13.1.1-next.734",
     "@react-router/dev": "^7.5.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
@@ -82,7 +82,7 @@
     "vitest": "^3.0.3"
   },
   "peerDependencies": {
-    "@axonivy/process-editor-inscription-protocol": "~13.1.0-next"
+    "@axonivy/process-editor-inscription-protocol": "~13.1.1-next"
   },
   "engines": {
     "node": ">=20.0.0"
