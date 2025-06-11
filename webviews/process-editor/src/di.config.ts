@@ -1,10 +1,14 @@
-import { createIvyDiagramContainer, ivyOpenDataClassModule, ivyOpenFormModule } from '@axonivy/process-editor';
+import {
+  createIvyDiagramContainer,
+  ivyOpenDataClassModule,
+  ivyOpenFormModule,
+  ivyStandaloneCopyPasteModule
+} from '@axonivy/process-editor';
 import { ivyInscriptionModule } from '@axonivy/process-editor-inscription';
 import { InscriptionContext } from '@axonivy/process-editor-inscription-protocol';
 import { IDiagramOptions, createDiagramOptionsModule, standaloneSelectModule, undoRedoModule } from '@eclipse-glsp/client';
 import { Container } from 'inversify';
 import ivyAutoSaveModule from './auto-save/di.config';
-import ivyStandaloneCopyPasteModule from './copy-paste/di.config';
 import ivyNeoModule from './neo/di.config';
 import { ivyStartupDiagramModule } from './startup';
 
