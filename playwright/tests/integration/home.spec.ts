@@ -54,17 +54,18 @@ test('import and delete project', async ({ page, browserName }, testInfo) => {
 
 test('project graph', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
-  const overview = await neo.home();
-  await overview.viewToggle.getByRole('radio', { name: 'Graph View' }).click();
   await page.evaluate(() => {
     document.body.style.zoom = '75%';
   });
+  const overview = await neo.home();
+  await overview.viewToggle.getByRole('radio', { name: 'Graph View' }).click();
+
   const graph = overview.graph;
   await graph.horizontalAlignButton.click();
   await expect(graph.edges).toHaveCount(0);
   await expect(graph.nodes).toHaveCount(1);
-  const neoTestProjectNode = graph.getNodeByText('neo-test-project');
 
+  const neoTestProjectNode = graph.getNodeByText('neo-test-project');
   await neoTestProjectNode.expandNode.click();
   await expect(neoTestProjectNode.node).toContainText('neo-test-projectneo-test-project');
 
