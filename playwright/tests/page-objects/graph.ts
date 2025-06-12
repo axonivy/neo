@@ -21,6 +21,10 @@ export class Graph {
     return this.graphRoot.locator('.react-flow__panel.top.right button[title="horizontal alignment"]');
   }
 
+  get fitViewButton(): Locator {
+    return this.graphRoot.locator('.react-flow__panel.bottom.right').getByRole('button', { name: 'fit view' });
+  }
+
   getNodeByText(text: string | RegExp): GraphNode {
     const locator = this.nodes.filter({ hasText: text }).first();
     return new GraphNode(locator);
