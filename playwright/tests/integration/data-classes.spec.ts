@@ -60,10 +60,12 @@ test('data classes graph', async ({ page }) => {
   const { neo, overview } = await openDataClasses(page);
   await overview.hasGroup(`Project: ${TEST_PROJECT}`);
   await overview.viewToggle.getByRole('radio', { name: 'Graph View' }).click();
-  const graph = overview.graph;
-  await expect(graph.edges).toHaveCount(2);
-  const quickStartNode = graph.getNodeByText('Person');
 
+  const graph = overview.graph;
+  await graph.fitViewButton.click();
+  await expect(graph.edges).toHaveCount(2);
+
+  const quickStartNode = graph.getNodeByText('Person');
   await quickStartNode.expandNode.click();
   await expect(quickStartNode.node).toContainText('Personneo.test.project.Personname:Stringage:Number');
 
