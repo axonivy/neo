@@ -195,6 +195,7 @@ test.describe('inscription', () => {
     const monacoEditor = inscription.monacoEditor();
     await expect(monacoEditor).toBeVisible();
     await monacoEditor.click();
+    await clearAll(page);
     await inscription.triggerMonacoContentAssist();
     await expect(monacoEditor).toHaveText('');
     await inscription.triggerMonacoCompletion('ivy');
