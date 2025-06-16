@@ -6,12 +6,14 @@ import {
   IDiagramStartup,
   NavigationTarget,
   SelectAction,
+  SetUIExtensionVisibilityAction,
   ShowGridAction,
   TYPES
 } from '@eclipse-glsp/client';
 import { ContainerModule, inject, injectable } from 'inversify';
 import { IvyDiagramOptions } from './di.config';
 
+import { NotificationToasterId } from '@axonivy/process-editor';
 import './index.css';
 import { createWebSocketConnection } from './ws-connection';
 
@@ -26,6 +28,7 @@ export class StandaloneDiagramStartup implements IDiagramStartup {
   async preRequestModel(): Promise<void> {
     this.actionDispatcher.dispatch(EnableToolPaletteAction.create());
     this.actionDispatcher.dispatch(EnableViewportAction.create());
+    this.actionDispatcher.dispatch(SetUIExtensionVisibilityAction.create({ extensionId: NotificationToasterId, visible: true }));
   }
 
   async postRequestModel(): Promise<void> {

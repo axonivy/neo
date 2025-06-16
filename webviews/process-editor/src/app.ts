@@ -1,8 +1,16 @@
 import { MessageConnection } from '@axonivy/jsonrpc';
-import { IvyBaseJsonrpcGLSPClient } from '@axonivy/process-editor';
+import { IvyBaseJsonrpcGLSPClient, NotificationToasterId } from '@axonivy/process-editor';
 import { MonacoEditorUtil } from '@axonivy/process-editor-inscription-view';
 import { ThemeMode } from '@axonivy/process-editor-protocol';
-import { DiagramLoader, EditMode, GLSPActionDispatcher, GLSPWebSocketProvider, MessageAction, StatusAction } from '@eclipse-glsp/client';
+import {
+  DiagramLoader,
+  EditMode,
+  GLSPActionDispatcher,
+  GLSPWebSocketProvider,
+  MessageAction,
+  SetUIExtensionVisibilityAction,
+  StatusAction
+} from '@eclipse-glsp/client';
 import { ApplicationIdProvider, GLSPClient } from '@eclipse-glsp/protocol';
 import { Container } from 'inversify';
 import createContainer from './di.config';
@@ -71,6 +79,10 @@ async function initialize(connectionProvider: MessageConnection, isReconnecting 
     const severity = 'WARNING';
     actionDispatcher.dispatchAll([StatusAction.create(message, { severity, timeout }), MessageAction.create(message, { severity })]);
   }
+
+  window.themeChanged = () => {
+    actionDispatcher.dispatch(SetUIExtensionVisibilityAction.create({ extensionId: NotificationToasterId, visible: true }));
+  };
 }
 
 async function reconnect(connectionProvider: MessageConnection): Promise<void> {
@@ -87,10 +99,12 @@ async function initMonaco(): Promise<void> {
 
 window.setMonacoTheme = (theme: ThemeMode) => {
   MonacoEditorUtil.setTheme(theme);
+  window.themeChanged?.();
 };
 
 declare global {
   interface Window {
     setMonacoTheme: (theme: ThemeMode) => void;
+    themeChanged?: () => void;
   }
 }
