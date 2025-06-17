@@ -1,5 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
-import { randomUUID } from 'crypto';
+import { randomInt } from 'crypto';
 import { DataClassEditor } from '../page-objects/data-class-editor';
 import { Neo } from '../page-objects/neo';
 import { APP, TEST_PROJECT } from './constants';
@@ -21,11 +21,15 @@ const openFormDataClass = async (page: Page) => {
 const openTempDataClass = async (page: Page) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.dataClasses();
-  const dataClassName = `dataClass${randomUUID().replaceAll('-', '')}`;
+  const dataClassName = `dc${randomInt(10000)}`;
   await overview.create(dataClassName, 'temp', { project: TEST_PROJECT });
   const editor = new DataClassEditor(neo, dataClassName);
   await editor.expectOpen();
-  return { neo, editor };
+  const removeTempDataClass = async () => {
+    const overview = await neo.dataClasses();
+    await overview.deleteCard(dataClassName);
+  };
+  return { neo, editor, removeTempDataClass };
 };
 
 test('restore editor', async ({ page }) => {
@@ -50,12 +54,13 @@ test.describe('jump to editor', () => {
 
 test.describe('inscription', () => {
   test('add and delete field', async ({ page }) => {
-    const { editor } = await openTempDataClass(page);
+    const { editor, removeTempDataClass } = await openTempDataClass(page);
     await expect(editor.rows).toHaveCount(0);
     await editor.addField();
     await expect(editor.rows).toHaveCount(1);
     await editor.deleteField();
     await expect(editor.rows).toHaveCount(0);
+    await removeTempDataClass();
   });
 
   test('open help', async ({ page, context }) => {
