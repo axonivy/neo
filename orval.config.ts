@@ -12,7 +12,7 @@ export default defineConfig({
   openapiIvy: {
     input: {
       target: 'target/engine/openapi.json',
-      filters: { tags: ['web-ide', 'engine'] }
+      filters: { tags: ['web-ide', 'engine', 'security'] }
     },
     output: {
       target: './app/data/generated/ivy-client.ts',

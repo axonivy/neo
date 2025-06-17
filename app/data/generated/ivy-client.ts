@@ -457,6 +457,36 @@ export const resetConfig = async (applicationName: string, configKey: string, op
 };
 
 /**
+ * Reloads the system configuration and the configuration of all applications
+ */
+export type reloadResponse200 = {
+  data: void;
+  status: 200;
+};
+
+export type reloadResponse401 = {
+  data: void;
+  status: 401;
+};
+
+export type reloadResponseComposite = reloadResponse200 | reloadResponse401;
+
+export type reloadResponse = reloadResponseComposite & {
+  headers: Headers;
+};
+
+export const getReloadUrl = () => {
+  return `/config/reload`;
+};
+
+export const reload = async (options?: RequestInit): Promise<reloadResponse> => {
+  return customFetch<reloadResponse>(getReloadUrl(), {
+    ...options,
+    method: 'POST'
+  });
+};
+
+/**
  * Returns the value of the variable with the given name.
  */
 export type getVariableResponse200 = {
@@ -616,6 +646,31 @@ export const deploy = async (applicationName: string, deployBody: DeployBody, op
     ...options,
     method: 'POST',
     body: formData
+  });
+};
+
+/**
+ * Returns the current user.
+ */
+export type meResponseDefault = {
+  data: UserBean;
+  status: number;
+};
+
+export type meResponseComposite = meResponseDefault;
+
+export type meResponse = meResponseComposite & {
+  headers: Headers;
+};
+
+export const getMeUrl = () => {
+  return `/me`;
+};
+
+export const me = async (options?: RequestInit): Promise<meResponse> => {
+  return customFetch<meResponse>(getMeUrl(), {
+    ...options,
+    method: 'GET'
   });
 };
 

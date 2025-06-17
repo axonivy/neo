@@ -1,4 +1,4 @@
-import { Button, Flex, useHotkeys } from '@axonivy/ui-components';
+import { Button, DropdownMenuSeparator, Flex, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router';
@@ -8,6 +8,7 @@ import { useNeoClient } from './client/useNeoClient';
 import { AnimationSettings } from './settings/AnimationSettings';
 import { Settings } from './settings/Settings';
 import { ThemeSettings } from './settings/ThemeSettings';
+import { UserName } from './settings/UserName';
 import { useCycleAnimationSettings } from './settings/useSettings';
 
 export const Navigation = () => {
@@ -89,6 +90,8 @@ export const Navigation = () => {
         </NavLink>
       </Flex>
       <Settings side='right'>
+        <UserName />
+        <DropdownMenuSeparator />
         <AnimationSettings />
         <LanguageSettings />
         <ThemeSettings />
