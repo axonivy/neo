@@ -1,5 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
-import { randomUUID } from 'crypto';
+import { randomInt } from 'crypto';
 import { DataClassEditor } from '../page-objects/data-class-editor';
 import { Neo } from '../page-objects/neo';
 import { TEST_PROJECT } from './constants';
@@ -33,7 +33,7 @@ test('create data class validations', async ({ page }) => {
 
 test('create and delete data class', async ({ page }) => {
   const { neo, overview } = await openDataClasses(page);
-  const dataClassName = `dataClass${randomUUID().replaceAll('-', '')}`;
+  const dataClassName = `dc${randomInt(10000)}`;
   await overview.create(dataClassName, 'temp', { project: TEST_PROJECT });
   await new DataClassEditor(neo, dataClassName).expectOpen();
   await neo.page.goBack();
