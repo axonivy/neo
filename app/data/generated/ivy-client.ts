@@ -844,6 +844,31 @@ export const deploy = async (applicationName: string, deployBody: DeployBody, op
 };
 
 /**
+ * Returns the current user.
+ */
+export type meResponseDefault = {
+  data: UserBean;
+  status: number;
+};
+
+export type meResponseComposite = meResponseDefault;
+
+export type meResponse = meResponseComposite & {
+  headers: Headers;
+};
+
+export const getMeUrl = () => {
+  return `/me`;
+};
+
+export const me = async (options?: RequestInit): Promise<meResponse> => {
+  return customFetch<meResponse>(getMeUrl(), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
  * Returns the version and the name of the engine
  */
 export type getInfoResponseDefault = {
