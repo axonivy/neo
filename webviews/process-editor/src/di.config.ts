@@ -1,12 +1,13 @@
 import {
   createIvyDiagramContainer,
+  IVY_ACCESSIBILITY_MODULES,
   ivyOpenDataClassModule,
   ivyOpenFormModule,
   ivyStandaloneCopyPasteModule
 } from '@axonivy/process-editor';
 import { ivyInscriptionModule } from '@axonivy/process-editor-inscription';
 import { InscriptionContext } from '@axonivy/process-editor-inscription-protocol';
-import { IDiagramOptions, createDiagramOptionsModule, standaloneSelectModule, undoRedoModule } from '@eclipse-glsp/client';
+import { createDiagramOptionsModule, IDiagramOptions, standaloneSelectModule, undoRedoModule } from '@eclipse-glsp/client';
 import { Container } from 'inversify';
 import ivyAutoSaveModule from './auto-save/di.config';
 import ivyNeoModule from './neo/di.config';
@@ -32,7 +33,8 @@ export default function createContainer(options: IvyDiagramOptions): Container {
     ivyAutoSaveModule,
     ivyNeoModule,
     ivyOpenDataClassModule,
-    ivyOpenFormModule
+    ivyOpenFormModule,
+    ...IVY_ACCESSIBILITY_MODULES
   );
   return container;
 }
