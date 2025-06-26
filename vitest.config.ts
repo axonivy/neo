@@ -10,7 +10,7 @@ export default defineConfig({
     environment: 'happy-dom',
     setupFiles: ['vitest/setup-vitest.ts'],
     css: false,
-    reporters: process.env.CI ? ['basic', 'junit'] : ['default'],
+    reporters: process.env.CI ? ['default', 'junit'] : ['default'],
     outputFile: 'report.xml',
     sequence: { hooks: 'parallel' }
   }
