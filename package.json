@@ -19,7 +19,7 @@
     "lint:fix": "eslint --fix",
     "lint:inspect": "eslint --inspect-config",
     "test": "vitest",
-    "test:ci": "vitest --watch=false",
+    "test:ci": "vitest run",
     "playwright": "npm run -w playwright --",
     "type": "react-router typegen && tsc && npm run -w @axonivy/neo-webview-process-editor type && npm run -w @axonivy/neo-playwright type",
     "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t semver -u",
