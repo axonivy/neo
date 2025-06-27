@@ -11,6 +11,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
+  useHotkeyLocalScopes,
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -43,17 +44,34 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [isDeployDialogOpen, setDeployDialogOpen] = useState(false);
   const { t } = useTranslation();
+  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['artifactCardActionDialog']);
+  const onDeleteDialogOpenChange = (open: boolean) => {
+    setDeleteDialogOpen(open);
+    if (open) {
+      activateLocalScopes();
+    } else {
+      restoreLocalScopes();
+    }
+  };
 
+  const onDeployDialogOpenChange = (open: boolean) => {
+    setDeployDialogOpen(open);
+    if (open) {
+      activateLocalScopes();
+    } else {
+      restoreLocalScopes();
+    }
+  };
   const artifactCardRef = useHotkeys(
     [hotkeys.deleteElement.hotkey, hotkeys.exportWorkspace.hotkey, hotkeys.deployWorkspace.hotkey],
     (_, { hotkey }) => {
       switch (hotkey) {
         case hotkeys.deleteElement.hotkey:
-          setDeleteDialogOpen(true);
+          onDeleteDialogOpenChange(true);
           break;
         case hotkeys.deployWorkspace.hotkey:
           if (actions && actions.export && actions.deploy) {
-            setDeployDialogOpen(true);
+            onDeployDialogOpenChange(true);
           }
           break;
         case hotkeys.exportWorkspace.hotkey:
@@ -103,7 +121,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
                   className='card-delete'
                   onSelect={e => {
                     e.preventDefault();
-                    setDeleteDialogOpen(true);
+                    onDeleteDialogOpenChange(true);
                   }}
                 >
                   <IvyIcon icon={IvyIcons.Trash} />
@@ -123,7 +141,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
                   <DropdownMenuItem
                     onSelect={e => {
                       e.preventDefault();
-                      setDeployDialogOpen(true);
+                      onDeployDialogOpenChange(true);
                     }}
                     title={hotkeys.deployWorkspace.label}
                     aria-label={hotkeys.deployWorkspace.label}
@@ -139,10 +157,10 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
       )}
 
       {actions?.delete && isDeleteDialogOpen && (
-        <DeleteConfirm open={isDeleteDialogOpen} onOpenChange={setDeleteDialogOpen} title={type} deleteAction={actions.delete} />
+        <DeleteConfirm open={isDeleteDialogOpen} onOpenChange={onDeleteDialogOpenChange} title={type} deleteAction={actions.delete} />
       )}
       {actions?.export && actions?.deploy && isDeployDialogOpen && (
-        <DeployDialog open={isDeployDialogOpen} onOpenChange={setDeployDialogOpen} deployAction={actions.deploy} />
+        <DeployDialog open={isDeployDialogOpen} onOpenChange={onDeployDialogOpenChange} deployAction={actions.deploy} />
       )}
     </div>
   );
@@ -150,7 +168,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
 
 export const NewArtifactCard = ({ title, open, menu }: { title: string; open: () => void; menu?: ReactNode }) => {
   const { addElement, importFromFile, importFromMarket } = useKnownHotkeys(title);
-  useHotkeys(addElement.hotkey, open, { keydown: false, keyup: true });
+  useHotkeys(addElement.hotkey, open, { keydown: false, keyup: true, scopes: ['neo'] });
   const addTooltip = title.match('Import Projects') ? importFromFile.label + '\n' + importFromMarket.label : addElement.label;
 
   return (

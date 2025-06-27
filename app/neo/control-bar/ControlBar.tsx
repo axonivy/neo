@@ -7,7 +7,7 @@ import { useKnownHotkeys } from '~/utils/hotkeys';
 export const ControlBar = ({ children }: { children?: ReactNode }) => {
   const navigate = useNavigate();
   const { openHome } = useKnownHotkeys();
-  useHotkeys(openHome.hotkey, () => navigate('/'));
+  useHotkeys(openHome.hotkey, () => navigate('/'), { scopes: ['neo'] });
   const { t } = useTranslation();
 
   return (

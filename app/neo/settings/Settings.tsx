@@ -9,7 +9,7 @@ export const Settings = (props: ComponentProps<typeof DropdownMenuContent>) => {
   const { t } = useTranslation();
   const cycleTheme = useCycleTheme();
   const { changeTheme } = useKnownHotkeys();
-  useHotkeys(changeTheme.hotkey, cycleTheme);
+  useHotkeys(changeTheme.hotkey, cycleTheme, { scopes: ['neo'] });
 
   return (
     <DropdownMenu>
