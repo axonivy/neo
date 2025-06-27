@@ -1,4 +1,4 @@
-import { Flex, Spinner, ThemeProvider } from '@axonivy/ui-components';
+import { Flex, HotkeysProvider, Spinner, ThemeProvider } from '@axonivy/ui-components';
 import componentsStylesHref from '@axonivy/ui-components/lib/components.css?url';
 import iconStylesHref from '@axonivy/ui-icons/lib/ivy-icons.css?url';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -43,9 +43,11 @@ export default function App() {
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
         <WebBrowserProvider>
-          <NewArtifactDialogProvider>
-            <Neo />
-          </NewArtifactDialogProvider>
+          <HotkeysProvider initiallyActiveScopes={['neo', 'global']}>
+            <NewArtifactDialogProvider>
+              <Neo />
+            </NewArtifactDialogProvider>
+          </HotkeysProvider>
         </WebBrowserProvider>
         <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} />
       </QueryClientProvider>

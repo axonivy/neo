@@ -9,7 +9,7 @@ export const EditorsControl = () => {
   const { editors, closeAllEditors } = useEditors();
 
   const { closeAllTabs } = useKnownHotkeys();
-  useHotkeys(closeAllTabs.hotkey, () => closeAllEditors());
+  useHotkeys(closeAllTabs.hotkey, () => closeAllEditors(), { scopes: ['neo'] });
 
   if (editors.length === 0) {
     return null;

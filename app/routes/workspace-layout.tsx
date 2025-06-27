@@ -28,15 +28,19 @@ export default function Index() {
   const { ws } = useParams();
   const firstWebbrowserElement = useRef<HTMLButtonElement>(null);
   const { openSimulation, resizeSimulation } = useKnownHotkeys();
-  useHotkeys(openSimulation.hotkey, () => {
-    browser.toggle();
-    if (!browser.openState) {
-      setTimeout(() => {
-        firstWebbrowserElement.current?.focus();
-      }, 0);
-    }
-  });
-  useHotkeys(resizeSimulation.hotkey, browser.cycleSize);
+  useHotkeys(
+    openSimulation.hotkey,
+    () => {
+      browser.toggle();
+      if (!browser.openState) {
+        setTimeout(() => {
+          firstWebbrowserElement.current?.focus();
+        }, 0);
+      }
+    },
+    { scopes: ['neo'] }
+  );
+  useHotkeys(resizeSimulation.hotkey, browser.cycleSize, { scopes: ['neo'] });
 
   return (
     <NeoClientProvider>

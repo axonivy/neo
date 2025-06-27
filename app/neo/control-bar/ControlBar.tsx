@@ -7,7 +7,7 @@ import IvyLogoSVG from '../axonivy.svg?react';
 export const ControlBar = ({ children }: { children?: ReactNode }) => {
   const navigate = useNavigate();
   const { openHome } = useKnownHotkeys();
-  useHotkeys(openHome.hotkey, () => navigate('/'));
+  useHotkeys(openHome.hotkey, () => navigate('/'), { scopes: ['neo'] });
 
   return (
     <Flex style={{ height: '40px', borderBottom: 'var(--basic-border)', background: 'var(--N50)' }} className='control-bar'>
