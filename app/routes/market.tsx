@@ -10,7 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
   Flex,
-  Spinner
+  Spinner,
+  useHotkeyLocalScopes
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useEffect, useMemo, useState } from 'react';
@@ -41,6 +42,7 @@ export default function Index() {
   const { t } = useTranslation();
   const { search, setSearch } = useSearch();
   const { data, isPending, isFetchingNextPage, fetchNextPage, hasNextPage } = useProducts();
+  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['installDialog']);
   const products =
     data?.pages
       .flatMap(page => page)
@@ -59,6 +61,15 @@ export default function Index() {
   });
   const [product, setProduct] = useState<ProductModel>();
   const [dialogState, setDialogState] = useState(false);
+  const onDialogOpenChange = (open: boolean) => {
+    setDialogState(open);
+    if (open) {
+      activateLocalScopes();
+    } else {
+      restoreLocalScopes();
+    }
+  };
+
   return (
     <Overview
       title={t('market.title')}
@@ -68,9 +79,9 @@ export default function Index() {
       onSearchChange={setSearch}
       isPending={isPending}
     >
-      <InstallDialog product={product} dialogState={dialogState} setDialogState={setDialogState} />
+      <InstallDialog product={product} dialogState={dialogState} setDialogState={onDialogOpenChange} />
       {products.map(p => (
-        <ProductCard key={p.id} product={p} setProduct={setProduct} setDialogState={setDialogState} />
+        <ProductCard key={p.id} product={p} setProduct={setProduct} setDialogState={onDialogOpenChange} />
       ))}
     </Overview>
   );

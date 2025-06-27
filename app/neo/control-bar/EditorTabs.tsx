@@ -19,7 +19,7 @@ export const EditorTabs = () => {
   const groupedEditors = useGroupedEditors();
   const navigate = useNavigate();
   const { focusTabs } = useKnownHotkeys();
-  useHotkeys(focusTabs.hotkey, () => firstTabRef.current?.focus(), { enableOnFormTags: true });
+  useHotkeys(focusTabs.hotkey, () => firstTabRef.current?.focus(), { enableOnFormTags: true, scopes: ['neo'] });
 
   return (
     <Tabs
@@ -55,11 +55,15 @@ const EditorsTab = ({
   const { closeEditors } = useEditors();
 
   const { closeActiveTabs } = useKnownHotkeys();
-  useHotkeys(closeActiveTabs.hotkey, () => {
-    if (pathname.endsWith(group)) {
-      closeEditors(editors.map(e => e.id));
-    }
-  });
+  useHotkeys(
+    closeActiveTabs.hotkey,
+    () => {
+      if (pathname.endsWith(group)) {
+        closeEditors(editors.map(e => e.id));
+      }
+    },
+    { scopes: ['neo'] }
+  );
 
   if (editors.length === 0) {
     return null;

@@ -8,7 +8,8 @@ import {
   DialogHeader,
   DialogTitle,
   Flex,
-  Input
+  Input,
+  useHotkeyLocalScopes
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState } from 'react';
@@ -119,6 +120,7 @@ const WorkspaceCard = (workspace: Workspace) => {
 const NewWorkspaceCard = () => {
   const { t } = useTranslation();
   const { artifactAlreadyExists, validateArtifactName } = useArtifactValidation();
+  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['newWorkspaceDialog']);
   const [dialogState, setDialogState] = useState(false);
   const [name, setName] = useState('');
   const navigate = useNavigate();
@@ -130,10 +132,19 @@ const NewWorkspaceCard = () => {
       workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : validateArtifactName(name),
     [artifactAlreadyExists, name, validateArtifactName, workspaces.data]
   );
+  const onDialogOpenChange = (open: boolean) => {
+    setDialogState(open);
+    if (open) {
+      activateLocalScopes();
+    } else {
+      restoreLocalScopes();
+    }
+  };
+
   return (
     <>
-      <NewArtifactCard open={() => setDialogState(true)} title={t('workspaces.newWorkspace')} />
-      <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
+      <NewArtifactCard open={() => onDialogOpenChange(true)} title={t('workspaces.newWorkspace')} />
+      <Dialog open={dialogState} onOpenChange={() => onDialogOpenChange(false)}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t('workspaces.newWorkspace')}</DialogTitle>

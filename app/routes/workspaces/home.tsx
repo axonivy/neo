@@ -16,6 +16,7 @@ import {
   Flex,
   Input,
   IvyIcon,
+  useHotkeyLocalScopes,
   useHotkeys,
   type MessageData
 } from '@axonivy/ui-components';
@@ -108,11 +109,23 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
   const navigate = useNavigate();
   const hotkeys = useKnownHotkeys();
   const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
-  useHotkeys(hotkeys.importFromMarket.hotkey, () => navigate('market'), { enableOnFormTags: true });
-  useHotkeys(hotkeys.importFromFile.hotkey, () => {
-    setIsImportDialogOpen(true);
-  });
-
+  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['importDialog']);
+  useHotkeys(hotkeys.importFromMarket.hotkey, () => navigate('market'), { enableOnFormTags: true, scopes: ['neo'] });
+  useHotkeys(
+    hotkeys.importFromFile.hotkey,
+    () => {
+      onDialogOpenChange(true);
+    },
+    { scopes: ['neo'] }
+  );
+  const onDialogOpenChange = (open: boolean) => {
+    setIsImportDialogOpen(open);
+    if (open) {
+      activateLocalScopes();
+    } else {
+      restoreLocalScopes();
+    }
+  };
   return (
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
@@ -134,7 +147,7 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
             <DropdownMenuItem
               onSelect={e => {
                 e.preventDefault();
-                setIsImportDialogOpen(true);
+                onDialogOpenChange(true);
               }}
               title={hotkeys.importFromFile.label}
               aria-label={hotkeys.importFromFile.label}
@@ -145,7 +158,7 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      <ImportDialog open={isImportDialogOpen} onOpenChange={setIsImportDialogOpen} />
+      <ImportDialog open={isImportDialogOpen} onOpenChange={onDialogOpenChange} />
     </>
   );
 };
@@ -164,6 +177,7 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
     () => (file ? undefined : { message: t('message.invalidIar'), variant: 'warning' }),
     [file, t]
   );
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>

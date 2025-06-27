@@ -10,7 +10,8 @@ import {
   DialogTitle,
   Flex,
   Input,
-  Spinner
+  Spinner,
+  useHotkeyLocalScopes
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
@@ -53,6 +54,8 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const { t } = useTranslation();
   const { ws } = useParams();
   const [dialogState, setDialogState] = useState(false);
+  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['newArtifactDialog']);
+
   const [newArtifact, setNewArtifact] = useState<NewArtifact>();
 
   const { artifactAlreadyExists, validateArtifactName, validateArtifactNamespace } = useArtifactValidation();
@@ -71,12 +74,20 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   useEffect(() => {
     setNamespace(newArtifact?.namespaceRequired && project ? project.defaultNamespace : '');
   }, [newArtifact?.namespaceRequired, project]);
+  const onDialogOpenChange = (open: boolean) => {
+    setDialogState(open);
+    if (open) {
+      activateLocalScopes();
+    } else {
+      restoreLocalScopes();
+    }
+  };
 
   const open = (context: NewArtifact) => {
-    setDialogState(true);
+    onDialogOpenChange(true);
     setNewArtifact(context);
   };
-  const close = () => setDialogState(false);
+  const close = () => onDialogOpenChange(false);
   const nameValidation = useMemo(
     () => (newArtifact?.exists({ name, namespace, project: project?.id }) ? artifactAlreadyExists(name) : validateArtifactName(name)),
     [artifactAlreadyExists, name, namespace, newArtifact, project?.id, validateArtifactName]
