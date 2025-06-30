@@ -2,6 +2,7 @@ import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
+import { useStore } from '~/neo/editors/useEditors';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createWorkspace as createWorkspaceReq,
@@ -70,6 +71,7 @@ export const useDeleteWorkspace = () => {
 export const useCreateWorkspace = () => {
   const { t } = useTranslation();
   const client = useQueryClient();
+  const { closeAll } = useStore();
   const createWorkspace = async (workspaceInit: WorkspaceInit) => {
     const res = await createWorkspaceReq(workspaceInit);
     if (ok(res)) {
@@ -80,6 +82,7 @@ export const useCreateWorkspace = () => {
   };
   return {
     createWorkspace: (workspaceInit: WorkspaceInit) => {
+      closeAll(workspaceInit.name);
       const workspace = createWorkspace(workspaceInit);
       toast.promise(() => workspace, {
         loading: t('toast.workspace.creating'),
