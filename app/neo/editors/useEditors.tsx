@@ -19,7 +19,7 @@ type EditorState = {
   open: (ws: string, editor: Editor) => void;
 };
 
-const useStore = create<EditorState>()(
+export const useStore = create<EditorState>()(
   persist(
     set => ({
       workspaces: {},
