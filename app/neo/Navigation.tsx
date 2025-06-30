@@ -24,18 +24,17 @@ export const Navigation = () => {
 
   const hotkeys = useKnownHotkeys();
   const workspacesElement = useRef<HTMLButtonElement>(null);
-
-  useHotkeys(hotkeys.focusNav.hotkey, () => workspacesElement.current?.focus(), { enableOnFormTags: true });
-  useHotkeys(hotkeys.openWorkspaces.hotkey, () => navigate(''), { enableOnFormTags: true });
-  useHotkeys(hotkeys.openProcesses.hotkey, () => navigate('Processes'), { enableOnFormTags: true });
-  useHotkeys(hotkeys.openForms.hotkey, () => navigate('Forms'), { enableOnFormTags: true });
-  useHotkeys(hotkeys.openDataClasses.hotkey, () => navigate('Dataclasses'), { enableOnFormTags: true });
-  useHotkeys(hotkeys.openConfigs.hotkey, () => navigate('Configurations'), { enableOnFormTags: true });
-  useHotkeys(hotkeys.changeTheme.hotkey, cycleTheme);
-  useHotkeys(hotkeys.toggleAnimation.hotkey, toggleAnimation);
-  useHotkeys(hotkeys.animationSpeed.hotkey, cycleAnimationSpeed);
-  useHotkeys(hotkeys.animationMode.hotkey, cycleAnimationMode);
-  useHotkeys(hotkeys.resetEngine.hotkey, resetEngine);
+  useHotkeys(hotkeys.focusNav.hotkey, () => workspacesElement.current?.focus(), { enableOnFormTags: true, scopes: ['neo'] });
+  useHotkeys(hotkeys.openWorkspaces.hotkey, () => navigate(''), { enableOnFormTags: true, scopes: ['neo'] });
+  useHotkeys(hotkeys.openProcesses.hotkey, () => navigate('processes'), { enableOnFormTags: true, scopes: ['neo'] });
+  useHotkeys(hotkeys.openForms.hotkey, () => navigate('forms'), { enableOnFormTags: true, scopes: ['neo'] });
+  useHotkeys(hotkeys.openDataClasses.hotkey, () => navigate('dataclasses'), { enableOnFormTags: true, scopes: ['neo'] });
+  useHotkeys(hotkeys.openConfigs.hotkey, () => navigate('configurations'), { enableOnFormTags: true, scopes: ['neo'] });
+  useHotkeys(hotkeys.changeTheme.hotkey, cycleTheme, { scopes: ['neo'] });
+  useHotkeys(hotkeys.toggleAnimation.hotkey, toggleAnimation, { scopes: ['neo'] });
+  useHotkeys(hotkeys.animationSpeed.hotkey, cycleAnimationSpeed, { scopes: ['neo'] });
+  useHotkeys(hotkeys.animationMode.hotkey, cycleAnimationMode, { scopes: ['neo'] });
+  useHotkeys(hotkeys.resetEngine.hotkey, resetEngine, { scopes: ['neo'] });
 
   return (
     <Flex

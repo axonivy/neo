@@ -7,7 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  Flex
+  Flex,
+  useHotkeyLocalScopes
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState, type ReactNode } from 'react';
@@ -35,10 +36,20 @@ export const meta: MetaFunction = ({ params }) => {
 export default function Index() {
   const { app, pmv } = useParams();
   const { search, setSearch } = useSearch();
+  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['addDependencyDialog']);
   const projects = useSortedProjects();
   const project = useMemo(() => projects.data?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects.data]);
   const { data, isPending } = useDependencies(app, pmv);
   const dependencies = useMemo(() => data?.filter(d => d.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())), [data, search]);
+  const [addDependencyDialog, setAddDependencyDialog] = useState(false);
+  const onDialogOpenChange = (open: boolean) => {
+    setAddDependencyDialog(open);
+    if (open) {
+      activateLocalScopes();
+    } else {
+      restoreLocalScopes();
+    }
+  };
   return (
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1}>
@@ -71,8 +82,8 @@ export default function Index() {
           {project && dependencies && (
             <>
               {!project.id.isIar && (
-                <AddDependencyDialog project={project.id}>
-                  <NewArtifactCard title={'Add new Dependency'} open={() => {}} />
+                <AddDependencyDialog project={project.id} open={addDependencyDialog} onOpenChange={onDialogOpenChange}>
+                  <NewArtifactCard title={'Add new Dependency'} open={() => onDialogOpenChange(true)} />
                 </AddDependencyDialog>
               )}
               {dependencies.map(dep => (
@@ -125,11 +136,21 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   );
 };
 
-const AddDependencyDialog = ({ children, project }: { children: ReactNode; project: ProjectIdentifier }) => {
+const AddDependencyDialog = ({
+  children,
+  project,
+  open,
+  onOpenChange
+}: {
+  children: ReactNode;
+  project: ProjectIdentifier;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) => {
   const [dependency, setDependency] = useState<ProjectBean>();
   const { addDependency } = useAddDependencyReq();
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <div>{children}</div>
       </DialogTrigger>
