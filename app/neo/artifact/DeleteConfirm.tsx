@@ -1,4 +1,5 @@
 import { BasicDialog, Button } from '@axonivy/ui-components';
+import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
 
 export type DeleteAction = { run: () => void; isDeletable: boolean; message?: string; label?: string };
@@ -27,8 +28,8 @@ export const DeleteConfirm = ({
             {t('common.label.cancel')}
           </Button>
         ),
-        buttonCustom: (
-          <Button variant='primary' size='large' onClick={deleteAction.run}>
+        buttonCustom: deleteAction.isDeletable && (
+          <Button variant='primary' size='large' onClick={deleteAction.run} icon={IvyIcons.Trash}>
             {t('common.label.delete')}
           </Button>
         )

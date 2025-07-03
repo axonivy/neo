@@ -137,7 +137,7 @@ const NewWorkspaceCard = () => {
         onOpenChange={() => onDialogOpenChange(false)}
         contentProps={{
           title: t('workspaces.newWorkspace'),
-          description: '',
+          description: t('workspaces.newWorkspaceDescription'),
           buttonClose: (
             <Button icon={IvyIcons.Close} size='large' variant='outline'>
               {t('common.label.cancel')}
