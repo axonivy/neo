@@ -1,7 +1,7 @@
 import {
+  BasicDialog,
   BasicField,
   Button,
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -42,21 +42,39 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
       .finally(() => setDeploying(false));
   };
   return (
-    <Dialog
+    <BasicDialog
       open={open}
       onOpenChange={open => {
         onOpenChange(open);
         setLog(undefined);
       }}
+      contentProps={{
+        title: t('deploy.deployWs'),
+        description: t('deploy.target'),
+        buttonClose: (
+          <Button variant='outline' size='large' icon={IvyIcons.Close}>
+            {t('common.label.cancel')}
+          </Button>
+        ),
+        buttonCustom: (
+          <>
+            {deploying ? (
+              <Button variant='primary' size='large' disabled>
+                <Spinner size='small' style={{ borderColor: 'inherit', borderBottomColor: 'transparent' }} />
+              </Button>
+            ) : (
+              <Button variant='primary' size='large' onClick={deploy} icon={IvyIcons.Bpmn}>
+                {t('common.label.deploy')}
+              </Button>
+            )}
+          </>
+        )
+      }}
     >
       {log ? (
         <DeployLogContent log={log} />
       ) : (
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('deploy.deployWs')}</DialogTitle>
-            <DialogDescription>{t('deploy.target')}</DialogDescription>
-          </DialogHeader>
+        <>
           <Flex direction='column' gap={2}>
             <BasicField label={t('deploy.engineUrl')}>
               <Input value={engineUrl} onChange={e => setEngineUrl(e.target.value)} />
@@ -71,25 +89,9 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
               <PasswordInput value={password} onChange={pw => setPassword(pw)} />
             </BasicField>
           </Flex>
-          <DialogFooter>
-            {deploying ? (
-              <Button variant='primary' size='large' disabled>
-                <Spinner size='small' style={{ borderColor: 'inherit', borderBottomColor: 'transparent' }} />
-              </Button>
-            ) : (
-              <Button variant='primary' size='large' onClick={deploy} icon={IvyIcons.Bpmn}>
-                {t('common.label.deploy')}
-              </Button>
-            )}
-            <DialogClose asChild>
-              <Button variant='outline' size='large' icon={IvyIcons.Close}>
-                {t('common.label.cancel')}
-              </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
+        </>
       )}
-    </Dialog>
+    </BasicDialog>
   );
 };
 
