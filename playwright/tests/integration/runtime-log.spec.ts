@@ -12,7 +12,6 @@ test('logs', async ({ page }) => {
   await expect(logView.logs()).toHaveCount(0);
 
   await startLogProcess(neo);
-  await logView.view.getByRole('button', { name: 'Refresh' }).click();
   await expect(logView.logs()).toHaveCount(3);
   await logView.clear();
 });
