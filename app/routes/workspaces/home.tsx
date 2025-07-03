@@ -1,13 +1,7 @@
 import {
+  BasicDialog,
   BasicField,
   Button,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -179,49 +173,51 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
   );
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('workspaces.importInto', { workspace: ws })}</DialogTitle>
-          <DialogDescription>
+    <BasicDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      contentProps={{
+        title: t('workspaces.importInto', { workspace: ws }),
+        description: (
+          <>
             {t('workspaces.importWarning')}
+            <br />
             <Link onClick={downloadWorkspace} to={{}}>
               {t('workspaces.importWarningLink')}
             </Link>
-          </DialogDescription>
-        </DialogHeader>
-        <BasicField label={t('common.label.file')} message={fileValidation}>
-          <Input
-            accept='.zip,.iar'
-            type='file'
-            onChange={e => {
-              if (e.target.files && e.target.files.length > 0) {
-                setFile(e.target.files[0]);
-              }
-            }}
-          />
-        </BasicField>
-        <ProjectSelect setProject={setProject} setDefaultValue={false} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button
-              variant='primary'
-              size='large'
-              disabled={fileValidation !== undefined}
-              onClick={() => (file ? importAction(file) : {})}
-              icon={IvyIcons.Download}
-            >
-              {t('common.label.import')}
-            </Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              {t('common.label.cancel')}
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </>
+        ),
+        buttonClose: (
+          <Button variant='outline' size='large' icon={IvyIcons.Close}>
+            {t('common.label.cancel')}
+          </Button>
+        ),
+        buttonCustom: (
+          <Button
+            variant='primary'
+            size='large'
+            disabled={fileValidation !== undefined}
+            onClick={() => (file ? importAction(file) : {})}
+            icon={IvyIcons.Download}
+          >
+            {t('common.label.import')}
+          </Button>
+        )
+      }}
+    >
+      <BasicField label={t('common.label.file')} message={fileValidation}>
+        <Input
+          accept='.zip,.iar'
+          type='file'
+          onChange={e => {
+            if (e.target.files && e.target.files.length > 0) {
+              setFile(e.target.files[0]);
+            }
+          }}
+        />
+      </BasicField>
+      <ProjectSelect setProject={setProject} setDefaultValue={false} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
+    </BasicDialog>
   );
 };
 

@@ -162,19 +162,19 @@ test.describe('inscription', () => {
   test('create hd', async ({ page }) => {
     const { editor } = await openJumpProcess(page);
     const element = editor.elementByPid('1907DD66AA11FCD9-f5');
-    await assertCreateNewAction(page, element, 'Dialog', 'Dialog', 'Create new Html Dialog', 'Create new Form');
+    await assertCreateNewAction(page, element, 'Dialog', 'Dialog', 'Create new Html Dialog', 'New Form');
   });
 
   test('create sub', async ({ page }) => {
     const { editor } = await openJumpProcess(page);
     const element = editor.elementByPid('1907DD66AA11FCD9-f6');
-    await assertCreateNewAction(page, element, 'Process', 'Process start', 'Create new Sub Process', 'Create new Process');
+    await assertCreateNewAction(page, element, 'Process', 'Process start', 'Create new Sub Process', 'New Process');
   });
 
   test('create trigger', async ({ page }) => {
     const { editor } = await openJumpProcess(page);
     const element = editor.elementByPid('1907DD66AA11FCD9-f3');
-    await assertCreateNewAction(page, element, 'Process', 'Process start', 'Create new Trigger Process', 'Create new Process');
+    await assertCreateNewAction(page, element, 'Process', 'Process start', 'Create new Trigger Process', 'New Process');
   });
 
   const assertCreateNewAction = async (page: Page, element: ProcessEditorElement, accordion: string, section: string, newButton: string, dialogTitle: string) => {
