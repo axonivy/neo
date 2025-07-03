@@ -181,7 +181,6 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
         description: (
           <>
             {t('workspaces.importWarning')}
-            <br />
             <Link onClick={downloadWorkspace} to={{}}>
               {t('workspaces.importWarningLink')}
             </Link>
