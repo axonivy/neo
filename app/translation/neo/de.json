@@ -18,9 +18,13 @@
   },
   "artifact": {
     "callerData": "Aufruferdaten",
-    "deleteConfirm": "Sind Sie sicher, dass Sie dieses {{artifact}} löschen möchten?",
+    "deleteConfirmMsg": "Sind Sie sicher, dass Sie diesen {{artifact}} löschen möchten?",
+    "deleteConfirmTitle": "Löschen bestätigen",
     "namespace": "Namensraum",
-    "new": "Neues {{type}} erstellen",
+    "newDataClass": "Erstellen Sie eine neue Datenklasse zur Verwaltung Ihrer Prozessdaten.",
+    "newForm": "Erstellen Sie ein neues Formular, um Informationen oder Benutzereingaben zu sammeln.",
+    "newProcess": "Erstellen Sie einen neuen Prozess, um einen Workflow zu definieren.",
+    "newTitle": "{{type}}",
     "optional": "Optional"
   },
   "browser": {

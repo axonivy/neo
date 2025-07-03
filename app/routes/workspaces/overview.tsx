@@ -1,16 +1,4 @@
-import {
-  BasicField,
-  Button,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  Flex,
-  Input,
-  useHotkeyLocalScopes
-} from '@axonivy/ui-components';
+import { BasicDialog, BasicField, Button, Flex, Input, useHotkeyLocalScopes } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -144,43 +132,43 @@ const NewWorkspaceCard = () => {
   return (
     <>
       <NewArtifactCard open={() => onDialogOpenChange(true)} title={t('workspaces.newWorkspace')} />
-      <Dialog open={dialogState} onOpenChange={() => onDialogOpenChange(false)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('workspaces.newWorkspace')}</DialogTitle>
-          </DialogHeader>
-          <form>
-            <Flex direction='column' gap={3}>
-              <BasicField label={t('common.label.name')} message={nameValidation}>
-                <Input value={name} onChange={e => setName(e.target.value)} />
-              </BasicField>
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button
-                    disabled={nameValidation?.variant === 'error'}
-                    icon={IvyIcons.Plus}
-                    size='large'
-                    variant='primary'
-                    type='submit'
-                    onClick={e => {
-                      e.preventDefault();
-                      setDialogState(false);
-                      create(name);
-                    }}
-                  >
-                    {t('common.label.create')}
-                  </Button>
-                </DialogClose>
-                <DialogClose asChild>
-                  <Button icon={IvyIcons.Close} size='large' variant='outline'>
-                    {t('common.label.cancel')}
-                  </Button>
-                </DialogClose>
-              </DialogFooter>
-            </Flex>
-          </form>
-        </DialogContent>
-      </Dialog>
+      <BasicDialog
+        open={dialogState}
+        onOpenChange={() => onDialogOpenChange(false)}
+        contentProps={{
+          title: t('workspaces.newWorkspace'),
+          description: '',
+          buttonClose: (
+            <Button icon={IvyIcons.Close} size='large' variant='outline'>
+              {t('common.label.cancel')}
+            </Button>
+          ),
+          buttonCustom: (
+            <Button
+              disabled={nameValidation?.variant === 'error'}
+              icon={IvyIcons.Plus}
+              size='large'
+              variant='primary'
+              type='submit'
+              onClick={e => {
+                e.preventDefault();
+                setDialogState(false);
+                create(name);
+              }}
+            >
+              {t('common.label.create')}
+            </Button>
+          )
+        }}
+      >
+        <form>
+          <Flex direction='column' gap={3}>
+            <BasicField label={t('common.label.name')} message={nameValidation}>
+              <Input value={name} onChange={e => setName(e.target.value)} />
+            </BasicField>
+          </Flex>
+        </form>
+      </BasicDialog>
     </>
   );
 };
