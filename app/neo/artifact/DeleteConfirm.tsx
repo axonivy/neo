@@ -28,7 +28,7 @@ export const DeleteConfirm = ({
             {t('common.label.cancel')}
           </Button>
         ),
-        buttonCustom: deleteAction.isDeletable && (
+        buttonCustom: (
           <Button variant='primary' size='large' onClick={deleteAction.run} icon={IvyIcons.Trash}>
             {t('common.label.delete')}
           </Button>
