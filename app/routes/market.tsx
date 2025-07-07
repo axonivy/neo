@@ -1,18 +1,4 @@
-import {
-  BasicField,
-  BasicSelect,
-  Button,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  Flex,
-  Spinner,
-  useHotkeyLocalScopes
-} from '@axonivy/ui-components';
+import { BasicDialog, BasicField, BasicSelect, Button, DialogClose, Flex, Spinner, useHotkeyLocalScopes } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -131,32 +117,35 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
     return;
   }
   return (
-    <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t('market.install', { component: product.names?.en ?? '' })}</DialogTitle>
-          <DialogDescription>
+    <BasicDialog
+      open={dialogState}
+      onOpenChange={() => setDialogState(false)}
+      contentProps={{
+        title: t('market.install', { component: product.names?.en ?? '' }),
+        description: (
+          <>
             {product.shortDescriptions?.en ?? ''}{' '}
             <Link target='_blank' to={`${MARKET_URL}/${product.id}`} rel='noreferrer'>
               {t('market.showDetails')}
             </Link>
-          </DialogDescription>
-        </DialogHeader>
-        <DialogDescription>{t('market.selectVersion')}</DialogDescription>
-        <VersionSelect id={product.id} setVersion={setVersion} version={version}></VersionSelect>
-        {needDependency && (
-          <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
-        )}
-        <DialogFooter>
+          </>
+        ),
+        buttonClose: (
+          <Button variant='outline' size='large' icon={IvyIcons.Close}>
+            {t('common.label.cancel')}
+          </Button>
+        ),
+        buttonCustom: (
           <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project?.id}></InstallButton>
-          <DialogClose asChild>
-            <Button variant='outline' size='large' icon={IvyIcons.Close}>
-              {t('common.label.cancel')}
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        )
+      }}
+    >
+      {t('market.selectVersion')}
+      <VersionSelect id={product.id} setVersion={setVersion} version={version}></VersionSelect>
+      {needDependency && (
+        <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
+      )}
+    </BasicDialog>
   );
 };
 
