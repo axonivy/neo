@@ -1,7 +1,7 @@
 import {
+  BasicDialog,
   BasicField,
   Button,
-  Dialog,
   DialogClose,
   DialogContent,
   DialogDescription,
@@ -42,8 +42,12 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
       .finally(() => setDeploying(false));
   };
   return (
-    <Dialog
+    <BasicDialog
       open={open}
+      contentProps={{
+        title: t('deploy.deployWs'),
+        description: t('deploy.target')
+      }}
       onOpenChange={open => {
         onOpenChange(open);
         setLog(undefined);
@@ -89,7 +93,7 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
           </DialogFooter>
         </DialogContent>
       )}
-    </Dialog>
+    </BasicDialog>
   );
 };
 

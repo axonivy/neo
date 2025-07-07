@@ -59,7 +59,7 @@ test('open add and delete dialog', async ({ page }) => {
   await page.keyboard.press('A');
   const dialog = page.getByRole('dialog');
   await expect(dialog).toBeVisible();
-  const title = dialog.locator('h2', { hasText: /^Create new Form$/ });
+  const title = dialog.locator('h2', { hasText: /^New Form$/ });
   await expect(title).toBeVisible();
   await dialog.focus();
   await page.keyboard.press('Alt+ControlOrMeta+D');
@@ -70,7 +70,7 @@ test('open add and delete dialog', async ({ page }) => {
   await overview.card('EnterProduct').locator('.card').focus();
   await page.keyboard.press('Delete');
   await expect(dialog).toBeVisible();
-  await expect(dialog.locator('h2', { hasText: 'Are you sure you want to delete this form?' })).toBeVisible();
+  await expect(dialog.locator('p', { hasText: 'Are you sure you want to delete this form?' })).toBeVisible();
 });
 
 test('open dialog inside editor deactivates shortcuts', async ({ page }) => {

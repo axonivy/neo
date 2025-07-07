@@ -18,9 +18,13 @@
   },
   "artifact": {
     "callerData": "Aufruferdaten",
-    "deleteConfirm": "Sind Sie sicher, dass Sie dieses {{artifact}} löschen möchten?",
+    "deleteConfirmMsg": "Sind Sie sicher, dass Sie diesen {{artifact}} löschen möchten?",
+    "deleteConfirmTitle": "Löschen bestätigen",
     "namespace": "Namensraum",
-    "new": "Neues {{type}} erstellen",
+    "newDataClass": "Erstellen Sie eine neue Datenklasse zur Verwaltung Ihrer Prozessdaten.",
+    "newForm": "Erstellen Sie ein neues Formular, um Informationen oder Benutzereingaben zu sammeln.",
+    "newProcess": "Erstellen Sie einen neuen Prozess, um einen Workflow zu definieren.",
+    "newTitle": "{{type}}",
     "optional": "Optional"
   },
   "browser": {
@@ -159,6 +163,7 @@
   },
   "projects": {
     "addDependency": "Neue Abhängigkeit hinzufügen",
+    "addDependencyDescription": "Erzeuge eine Abhängigkeit, um Funktionalitäten des Projekts zu nutzen.",
     "addDependencyTo": "Abhängigkeit hinzufügen zu: {{project}}",
     "deletable": "Löschbar",
     "dependecyInfo": "Abhängigkeiten sind Verknüpfungen zwischen Projekten, die es einem Projekt ermöglichen, die Funktionalität oder Artefakte eines anderen zu nutzen und so doppelte Arbeit zu vermeiden.",
@@ -284,6 +289,7 @@
     "importWarningLink": "Erwägen Sie, den Workspace vorher zu exportieren.",
     "info": "Ein Workspace ist der Entwicklungsbereich, in dem neue Anwendungen erstellt und getestet werden. Hier werden Geschäftsprozesse entworfen, automatisiert und simuliert, bevor sie als funktionierende Anwendung bereitgestellt werden.",
     "newWorkspace": "Neuen Workspace erstellen",
+    "newWorkspaceDescription": "Der Workspace ist der Entwicklungsbereich für die Erstellung neuer Anwendungen und Geschäftsprozesse",
     "title": "Willkommen bei {{neo}}: Verwalten Sie Ihre Workspaces",
     "wsTitle": "Willkommen in Ihrem Workspace: {{workspace}}"
   }
