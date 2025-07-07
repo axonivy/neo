@@ -86,19 +86,18 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     () => nameValidation?.variant === 'error' || namespaceValidation?.variant === 'error',
     [nameValidation, namespaceValidation]
   );
-  let description;
-  switch (newArtifact?.type) {
-    case 'Data Class':
-      description = t('artifact.newDataClass');
-      break;
-    case 'Form':
-      description = t('artifact.newForm');
-      break;
-    case 'Process':
-      description = t('artifact.newProcess');
-      break;
-    default:
-      description = '';
+
+  function getDescription(type: string) {
+    switch (type) {
+      case 'Data Class':
+        return t('artifact.newDataClass');
+      case 'Form':
+        return t('artifact.newForm');
+      case 'Process':
+        return t('artifact.newProcess');
+      default:
+        return '';
+    }
   }
 
   return (
@@ -110,7 +109,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
           onOpenChange={() => close()}
           contentProps={{
             title: t('artifact.newTitle', { type: newArtifact.type }),
-            description: description,
+            description: getDescription(newArtifact.type),
             buttonClose: (
               <Button icon={IvyIcons.Close} size='large' variant='outline'>
                 {t('common.label.cancel')}
