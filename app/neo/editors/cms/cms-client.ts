@@ -14,6 +14,7 @@ export class CmsClientNeo extends ClientJsonRpc {
 
   action(action: CmsActionArgs) {
     this.actionHandler(action);
+    return Promise.resolve();
   }
 
   public static async startNeoMessageClient(connection: MessageConnection, actionHandler: (action: CmsActionArgs) => void) {
