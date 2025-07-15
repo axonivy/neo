@@ -1,6 +1,6 @@
 .artifact-info-card {
   background: var(--N50);
-  padding: 10px;
+  padding: 22px;
   border-radius: 10px;
   font-size: 14px;
   flex: 1 0 300px;
@@ -9,6 +9,7 @@
   cursor: pointer;
   transition: box-shadow 0.3s ease;
   position: relative;
+  font-weight: 600;
   .artifact-icon {
     font-size: 35px;
     color: var(--P75);
@@ -20,13 +21,7 @@
     color: var(--N800);
     font-size: 20px;
   }
-  .artifact-title {
-    font-weight: 600;
+  &:hover {
+    box-shadow: var(--focus-shadow);
   }
-  .artifact-info-center {
-    padding: 12px;
-  }
-}
-.artifact-info-card:hover {
-  box-shadow: var(--focus-shadow);
 }
