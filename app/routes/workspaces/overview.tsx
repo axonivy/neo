@@ -129,6 +129,14 @@ const NewWorkspaceCard = () => {
     }
   };
 
+  const formSubmitHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (nameValidation?.variant !== 'error') {
+      setDialogState(false);
+      create(name);
+    }
+  };
+
   return (
     <>
       <NewArtifactCard open={() => onDialogOpenChange(true)} title={t('workspaces.newWorkspace')} />
@@ -150,18 +158,14 @@ const NewWorkspaceCard = () => {
               size='large'
               variant='primary'
               type='submit'
-              onClick={e => {
-                e.preventDefault();
-                setDialogState(false);
-                create(name);
-              }}
+              onClick={formSubmitHandler}
             >
               {t('common.label.create')}
             </Button>
           )
         }}
       >
-        <form>
+        <form onSubmit={formSubmitHandler}>
           <Flex direction='column' gap={3}>
             <BasicField label={t('common.label.name')} message={nameValidation}>
               <Input value={name} onChange={e => setName(e.target.value)} />
