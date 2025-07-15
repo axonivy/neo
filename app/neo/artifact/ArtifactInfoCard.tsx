@@ -1,6 +1,5 @@
-import { Flex, IvyIcon } from '@axonivy/ui-components';
+import { Flex, IvyIcon, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import './ArtifactInfoCard.css';
 
@@ -14,16 +13,23 @@ type ArtifactInfoCardProps = {
 export const ArtifactInfoCard = ({ title, description, icon, link }: ArtifactInfoCardProps) => {
   const naviagte = useNavigate();
   const open = () => naviagte(link);
-  const { t } = useTranslation();
   return (
     <button className='artifact-info-card' onClick={open}>
-      <Flex direction='column' gap={3}>
+      <Flex alignItems='center' direction='column' gap={1} className='artifact-info-center'>
+        <Flex className='artifact-info-icon'>
+          <TooltipProvider>
+            <Tooltip delayDuration={700}>
+              <TooltipTrigger asChild>
+                <IvyIcon icon={IvyIcons.InfoCircle} />
+              </TooltipTrigger>
+              <TooltipContent style={{ width: '30em' }}>
+                <span>{description}</span>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </Flex>
         <IvyIcon icon={icon} className='artifact-icon' />
         <span className='artifact-title'>{title}</span>
-        <span>{description}</span>
-        <Flex alignItems='center' gap={1} className='artifact-footer'>
-          {t('common.label.open')} <IvyIcon icon={IvyIcons.Chevron} />
-        </Flex>
       </Flex>
     </button>
   );
