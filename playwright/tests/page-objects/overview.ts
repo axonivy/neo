@@ -103,7 +103,11 @@ export class Overview {
     }
   }
 
-  async create(name: string, namespace?: string, options?: { file?: string; project?: string; hasDataClassSelect?: boolean }) {
+  async create(
+    name: string,
+    namespace?: string,
+    options?: { file?: string; project?: string; hasDataClassSelect?: boolean; useKeyToCreate?: boolean }
+  ) {
     await this.waitForHiddenSpinner();
     await expect(this.newCard).toBeVisible();
     await this.newCard.click();
@@ -124,7 +128,11 @@ export class Overview {
     } else {
       await expect(dialog.getByLabel('Caller Data')).toBeHidden();
     }
-    await dialog.getByRole('button', { name: 'Create' }).click();
+    if (options?.useKeyToCreate) {
+      await this.page.keyboard.press('Enter');
+    } else {
+      await dialog.getByRole('button', { name: 'Create' }).click();
+    }
   }
 
   async expectCardsCountGreaterThan(count: number) {

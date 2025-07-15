@@ -22,6 +22,16 @@ test('create workspace validations', async ({ page }) => {
   await overview.checkCreateValidationMessage({ name: 'lowercase', nameWarning: "It's recommended to capitalize the first letter." });
 });
 
+test('create with keyboard and delete workspace', async ({ page, browserName }, testInfo) => {
+  const wsName = `${browserName}ws${testInfo.retry}`;
+  await Neo.open(page);
+  const overview = new Overview(page);
+  await overview.create(wsName, undefined, { useKeyToCreate: true });
+  await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
+  await page.goBack();
+  await overview.deleteCard(wsName, true);
+});
+
 test('create and delete workspace', async ({ page, browserName }, testInfo) => {
   const wsName = `${browserName}ws${testInfo.retry}`;
   await Neo.open(page);
