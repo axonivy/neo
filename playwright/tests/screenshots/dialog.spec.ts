@@ -8,7 +8,7 @@ test.describe('workspace', () => {
   test('new', async ({ page }) => {
     await Neo.open(page);
     const workspaces = new Overview(page);
-    await workspaces.newCard.click();
+    await workspaces.createNewButton.click();
     await screenshotDialog(page, 'dialog-new-workspace');
   });
 
@@ -25,14 +25,14 @@ test.describe('project', () => {
   test('import from file', async ({ page }) => {
     await Neo.openWorkspace(page);
     const projects = new Overview(page);
-    await projects.clickCardAction(projects.newCard, 'Import from File');
+    await projects.clickFileImport();
     await screenshotDialog(page, 'dialog-import-from-file');
   });
 
   test('import from market', async ({ page }) => {
     await Neo.openWorkspace(page);
     const projects = new Overview(page);
-    await projects.clickCardAction(projects.newCard, 'Import from Market');
+    await projects.clickMarketImport();
     const market = new Overview(page);
     await market.card('Axon Ivy Portal').click();
     await screenshotDialog(page, 'dialog-import-from-market');
@@ -43,7 +43,7 @@ test.describe('project', () => {
     const projects = new Overview(page);
     await projects.card(TEST_PROJECT).click();
     const dependencies = new Overview(page);
-    await dependencies.newCard.click();
+    await dependencies.createNewButton.click();
     await screenshotDialog(page, 'dialog-new-dependency');
   });
 });
@@ -52,21 +52,21 @@ test.describe('new aritfact', () => {
   test('process', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const processes = await neo.processes();
-    await processes.newCard.click();
+    await processes.createNewButton.click();
     await screenshotDialog(page, 'dialog-new-process');
   });
 
   test('form', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const forms = await neo.forms();
-    await forms.newCard.click();
+    await forms.createNewButton.click();
     await screenshotDialog(page, 'dialog-new-form');
   });
 
   test('data class', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const dataclasses = await neo.dataClasses();
-    await dataclasses.newCard.click();
+    await dataclasses.createNewButton.click();
     await screenshotDialog(page, 'dialog-new-data-class');
   });
 });

@@ -6,13 +6,13 @@ import type { LinksFunction, MetaFunction } from 'react-router';
 import { useNavigate } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
-import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { InfoPopover } from '~/neo/InfoPopover';
-import { Overview } from '~/neo/Overview';
+import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
 import { LanguageSettings } from '~/neo/settings/LanguageSettings';
 import { Settings } from '~/neo/settings/Settings';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
@@ -66,8 +66,7 @@ export default function Index() {
                 </InfoPopover>
               </Flex>
             </Flex>
-            <Overview search={search} onSearchChange={setSearch} isPending={isPending}>
-              <NewWorkspaceCard />
+            <Overview search={search} onSearchChange={setSearch} isPending={isPending} control={<NewWorkspaceButton />}>
               {workspaces.map(workspace => (
                 <WorkspaceCard key={workspace.name} {...workspace} />
               ))}
@@ -105,7 +104,7 @@ const WorkspaceCard = (workspace: Workspace) => {
   );
 };
 
-const NewWorkspaceCard = () => {
+const NewWorkspaceButton = () => {
   const { t } = useTranslation();
   const { artifactAlreadyExists, validateArtifactName } = useArtifactValidation();
   const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['newWorkspaceDialog']);
@@ -139,7 +138,7 @@ const NewWorkspaceCard = () => {
 
   return (
     <>
-      <NewArtifactCard open={() => onDialogOpenChange(true)} title={t('workspaces.newWorkspace')} />
+      <CreateNewArtefactButton title={t('workspaces.importProject')} open={() => onDialogOpenChange(true)} />
       <BasicDialog
         open={dialogState}
         onOpenChange={() => onDialogOpenChange(false)}

@@ -37,7 +37,7 @@ test('project', async ({ page }) => {
 test('market', async ({ page }) => {
   await Neo.openWorkspace(page);
   const projects = new Overview(page);
-  await projects.clickCardAction(projects.newCard, 'Import from Market');
+  await projects.clickMarketImport();
   const market = new Overview(page);
   await expect(market.title).toHaveText(/Axon Ivy Market/);
   await market.expectCardsCountGreaterThan(0);

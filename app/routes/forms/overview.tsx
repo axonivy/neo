@@ -4,7 +4,7 @@ import { useCreateForm, useDeleteForm, useGroupedForms, type FormIdentifier } fr
 import type { DataClassIdentifier, HdBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -12,7 +12,7 @@ import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNe
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import { Overview } from '~/neo/Overview';
+import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -23,6 +23,7 @@ export default function Index() {
   const { data, isPending } = useGroupedForms();
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (f: HdBean) => f.name);
   const { createFormEditor } = useCreateEditor();
+
   return (
     <Overview
       title={t('neo.forms')}
@@ -30,9 +31,10 @@ export default function Index() {
       search={search}
       onSearchChange={setSearch}
       isPending={isPending}
+      control={<NewFormButton />}
     >
       {filteredGroups.map(({ project, artifacts }) => (
-        <ArtifactGroup project={project} newArtifactCard={<NewFormCard />} key={project}>
+        <ArtifactGroup project={project} key={project}>
           {artifacts.map(form => {
             const editor = createFormEditor(form);
             return <FormCard key={editor.id} formId={form.identifier} {...editor} />;
@@ -80,7 +82,7 @@ export const useFormExists = () => {
       ) ?? false;
 };
 
-const NewFormCard = () => {
+const NewFormButton = () => {
   const { t } = useTranslation();
   const open = useNewArtifact();
   const { openEditor } = useEditors();
@@ -89,8 +91,10 @@ const NewFormCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string, dataClass?: DataClassIdentifier) =>
     createForm({ name, namespace, project, dataClass }).then(form => openEditor(createFormEditor(form)));
   const exists = useFormExists();
-  const title = t('forms.newForm');
   return (
-    <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Form', namespaceRequired: true, selectDataClass: true })} />
+    <CreateNewArtefactButton
+      title={t('forms.newForm')}
+      open={() => open({ create, exists, type: 'Form', namespaceRequired: true, selectDataClass: true })}
+    />
   );
 };

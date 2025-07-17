@@ -8,10 +8,10 @@ import { NEO_DESIGNER } from '~/constants';
 import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/data/dependency-api';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
-import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
-import { Overview } from '~/neo/Overview';
+import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 
 export const links: LinksFunction = () => [cardStylesLink];
@@ -41,6 +41,7 @@ export default function Index() {
       restoreLocalScopes();
     }
   };
+
   return (
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1}>
@@ -75,13 +76,12 @@ export default function Index() {
           search={search}
           onSearchChange={setSearch}
           isPending={isPending}
+          control={<CreateNewArtefactButton title={t('projects.addDependency')} open={() => onDialogOpenChange(true)} />}
         >
           {project && dependencies && (
             <>
               {!project.id.isIar && (
-                <AddDependencyDialog project={project.id} open={addDependencyDialog} onOpenChange={onDialogOpenChange}>
-                  <NewArtifactCard title={t('projects.addDependency')} open={() => onDialogOpenChange(true)} />
-                </AddDependencyDialog>
+                <AddDependencyDialog project={project.id} open={addDependencyDialog} onOpenChange={onDialogOpenChange} />
               )}
               {dependencies.map(dep => (
                 <DependencyCard key={dep.pmv} dependency={dep} project={project?.id} />
@@ -140,7 +140,7 @@ const AddDependencyDialog = ({
   open,
   onOpenChange
 }: {
-  children: ReactNode;
+  children?: ReactNode;
   project: ProjectIdentifier;
   open: boolean;
   onOpenChange: (open: boolean) => void;

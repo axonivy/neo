@@ -4,7 +4,7 @@ import type { ProcessBean } from '~/data/generated/ivy-client';
 import { useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -12,7 +12,7 @@ import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNe
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import { Overview } from '~/neo/Overview';
+import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -23,6 +23,7 @@ export default function Index() {
   const { data, isPending } = useGroupedProcesses();
   const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
   const { createProcessEditor } = useCreateEditor();
+
   return (
     <Overview
       title={t('neo.processes')}
@@ -30,9 +31,10 @@ export default function Index() {
       search={search}
       onSearchChange={setSearch}
       isPending={isPending}
+      control={<NewProcessButton />}
     >
       {filteredGroups.map(({ project, artifacts }) => (
-        <ArtifactGroup project={project} newArtifactCard={<NewProcessCard />} key={project}>
+        <ArtifactGroup project={project} key={project}>
           {artifacts.map(process => {
             const editor = createProcessEditor(process);
             return <ProcessCard key={editor.id} process={process} {...editor} />;
@@ -82,7 +84,7 @@ export const useProcessExists = () => {
       ) ?? false;
 };
 
-const NewProcessCard = () => {
+const NewProcessButton = () => {
   const { t } = useTranslation();
   const open = useNewArtifact();
   const { createProcess } = useCreateProcess();
@@ -91,6 +93,10 @@ const NewProcessCard = () => {
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createProcess({ name, namespace, kind: 'Business Process', project }).then(process => openEditor(createProcessEditor(process)));
   const exists = useProcessExists();
-  const title = t('processes.newProcess');
-  return <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Process', namespaceRequired: false })} />;
+  return (
+    <CreateNewArtefactButton
+      title={t('processes.newProcess')}
+      open={() => open({ create, exists, type: 'Process', namespaceRequired: false })}
+    />
+  );
 };

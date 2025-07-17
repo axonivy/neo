@@ -18,12 +18,12 @@ export const ArtifactInfoCard = ({ title, description, icon, link }: ArtifactInf
       <Flex alignItems='center' direction='column' gap={1} className='artifact-info-center'>
         <Flex className='artifact-info-icon'>
           <TooltipProvider>
-            <Tooltip delayDuration={700}>
+            <Tooltip delayDuration={400}>
               <TooltipTrigger asChild>
                 <IvyIcon icon={IvyIcons.InfoCircle} />
               </TooltipTrigger>
               <TooltipContent style={{ width: '30em' }}>
-                <span>{description}</span>
+                <span style={{ fontSize: 16, fontWeight: 400, color: 'var(--N900)' }}>{description}</span>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>

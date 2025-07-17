@@ -33,7 +33,7 @@ test('add and remove dependency', async ({ page, browserName }, testInfo) => {
   await page.keyboard.press('Escape');
   await overview.card(wsName).click();
   await expect(overview.cards).toHaveCount(0);
-  await overview.newCard.getByText('Add new Dependency').click();
+  await overview.createNewButton.getByText('Add new Dependency').click();
   const dialog = page.getByRole('dialog');
   await expect(dialog.getByRole('combobox')).toHaveText(TEST_PROJECT);
   await dialog.getByRole('button', { name: 'Add' }).click();

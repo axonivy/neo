@@ -5,7 +5,7 @@ import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~
 import type { DataClassBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
@@ -13,7 +13,7 @@ import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNe
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import { Overview } from '~/neo/Overview';
+import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
 import { DataClasGraph, ProjectGraphFilter } from './DataClassGraph';
 
 export const links: LinksFunction = () => [cardStylesLink];
@@ -38,9 +38,10 @@ export default function Index() {
       }}
       onSearchChange={setSearch}
       isPending={isPending}
+      control={<NewDataClassButton />}
     >
       {filteredGroups.map(({ project, artifacts }) => (
-        <ArtifactGroup project={project} newArtifactCard={<NewDataClassCard />} key={project}>
+        <ArtifactGroup project={project} key={project}>
           {artifacts.map(dc => {
             const editor = createDataClassEditor(dc);
             return <DataClassCard key={editor.id} dataClass={dc} {...editor} />;
@@ -66,6 +67,7 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
     isDeletable: editor.project.isIar === false,
     message: t('message.dataclassPackaged')
   };
+
   const tagLabel = dataClass.isEntityClass ? t('label.entity') : dataClass.isBusinessCaseData ? t('label.businessData') : '';
   return (
     <ArtifactCard
@@ -80,7 +82,7 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
   );
 };
 
-const NewDataClassCard = () => {
+const NewDataClassButton = () => {
   const { t } = useTranslation();
   const open = useNewArtifact();
   const { createDataClass } = useCreateDataClass();
@@ -93,6 +95,10 @@ const NewDataClassCard = () => {
     data
       ?.find(group => group?.project === project?.pmv)
       ?.artifacts.some(dc => dc.name.toLowerCase() === `${namespace.toLowerCase()}.${name.toLowerCase()}`) ?? false;
-  const title = t('dataclasses.newDataclass');
-  return <NewArtifactCard title={title} open={() => open({ create, exists, type: 'Data Class', namespaceRequired: true })} />;
+  return (
+    <CreateNewArtefactButton
+      title={t('dataclasses.newDataclass')}
+      open={() => open({ create, exists, type: 'Data Class', namespaceRequired: true })}
+    />
+  );
 };
