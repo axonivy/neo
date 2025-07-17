@@ -3,6 +3,7 @@ import { Browser } from '../page-objects/browser';
 import { DataClassEditor } from '../page-objects/data-class-editor';
 import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
+import { ProcessEditor } from '../page-objects/process-editor';
 import { APP, TEST_PROJECT } from './constants';
 
 test('navigate overviews and focus searchinput', async ({ page }) => {
@@ -45,6 +46,8 @@ test('focus nav and tabs and nav tabs with arrowkey', async ({ page }) => {
   await new FormEditor(neo, 'EnterProduct').expectOpen('Product');
 
   await page.keyboard.press('ArrowRight');
+  await new ProcessEditor(neo, 'EnterProductProcess').expectOpen('1907DDC2CCF1790F-f0');
+
   await page.keyboard.press('ArrowRight');
   await new DataClassEditor(neo, 'EnterProductData').expectOpen('data');
 });
