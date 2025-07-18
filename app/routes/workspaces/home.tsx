@@ -121,10 +121,10 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
           <Button
+            title={t('workspaces.importProject')}
             icon={IvyIcons.Download}
             size='large'
             variant='primary'
-            type='button'
             onClick={() => setOpen(true)}
             style={{ height: '32px' }}
           >

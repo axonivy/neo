@@ -28,10 +28,10 @@ export const CreateNewArtefactButton = ({ title, open }: { title: string; open: 
 
   return (
     <Button
+      title={addElement.label}
       icon={IvyIcons.Plus}
       size='large'
       variant='primary'
-      type='button'
       aria-label={addElement.label}
       onClick={open}
       style={{ height: 32 }}

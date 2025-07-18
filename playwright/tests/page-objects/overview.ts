@@ -173,7 +173,7 @@ export class Overview {
     const { group, trigger } = await this.group(name, tagLabel);
     await expect(trigger).toHaveAttribute('data-state', 'open');
     const nestedNew = group.locator('.new-artifact-card');
-    expect(await nestedNew.count()).toBe(numOfNewCards ?? 0);
+    await expect(nestedNew).toHaveCount(numOfNewCards ?? 0);
   }
 
   async hasCardWithTag(name: string, tagLabel?: string) {
