@@ -27,11 +27,14 @@ import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
-import { Overview } from '~/neo/Overview';
-import { useSearch } from '~/neo/useSearch';
+import { Breadcrumbs } from '~/neo/Breadcrumb';
+import { Overview } from '~/neo/overview/Overview';
+import { OverviewContent } from '~/neo/overview/OverviewContent';
+import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewInfoCard } from '~/neo/overview/OverviewInfoCard';
+import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { ProjectGraph } from './ProjectGraph';
@@ -44,55 +47,47 @@ export const meta: MetaFunction = ({ params }) => {
 
 export default function Index() {
   const { t } = useTranslation();
-  const { search, setSearch } = useSearch();
+  const overviewFilter = useOverviewFilter();
   const { data, isPending } = useSortedProjects();
   const [open, setOpen] = useState(false);
   const { ws } = useParams();
-  const projects = data?.filter(({ id }) => id.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const title = t('workspaces.wsTitle', { workspace: ws });
+  const projects = data?.filter(({ id }) => id.pmv.toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase())) ?? [];
 
   return (
-    <div style={{ overflowY: 'auto', height: '100%' }}>
-      <Flex direction='column' gap={1} style={{ height: '100%' }}>
-        <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='app-info'>
-          <span style={{ fontWeight: 600 }}>{title}</span>
-          <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{t('workspaces.description')}</span>
-          <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
-            <ArtifactInfoCard
-              title={t('neo.processes')}
-              description={t('processes.processDescription')}
-              icon={IvyIcons.Process}
-              link='processes'
-            />
-            <ArtifactInfoCard
-              title={t('neo.dataClasses')}
-              description={t('dataclasses.dataclassDescription')}
-              icon={IvyIcons.Database}
-              link='dataClasses'
-            />
-            <ArtifactInfoCard title={t('neo.forms')} description={t('forms.formDescription')} icon={IvyIcons.File} link='forms' />
-            <ArtifactInfoCard
-              title={t('neo.configs')}
-              description={t('configurations.configDescription')}
-              icon={IvyIcons.Tool}
-              link='configurations'
-            />
-          </Flex>
-        </Flex>
-        <Overview
-          title={t('neo.projects')}
-          search={search}
-          onSearchChange={setSearch}
-          isPending={isPending}
-          graph={{ graph: <ProjectGraph /> }}
-          control={<ImportMenu open={open} setOpen={setOpen} />}
-        >
-          {projects.map(p => (
-            <ProjectCard key={p.id.pmv} project={p} />
-          ))}
-        </Overview>
+    <Overview>
+      <Breadcrumbs />
+      <OverviewTitle title={t('workspaces.wsTitle', { workspace: ws })} description={t('workspaces.description')} />
+      <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
+        <OverviewInfoCard
+          title={t('neo.processes')}
+          description={t('processes.processDescription')}
+          icon={IvyIcons.Process}
+          link='processes'
+        />
+        <OverviewInfoCard
+          title={t('neo.dataClasses')}
+          description={t('dataclasses.dataclassDescription')}
+          icon={IvyIcons.Database}
+          link='dataClasses'
+        />
+        <OverviewInfoCard title={t('neo.forms')} description={t('forms.formDescription')} icon={IvyIcons.File} link='forms' />
+        <OverviewInfoCard
+          title={t('neo.configs')}
+          description={t('configurations.configDescription')}
+          icon={IvyIcons.Tool}
+          link='configurations'
+        />
       </Flex>
-    </div>
+      <OverviewTitle title={t('neo.projects')}>
+        <ImportMenu open={open} setOpen={setOpen} />
+      </OverviewTitle>
+      <OverviewFilter {...overviewFilter} viewTypes={{ graph: true }} />
+      <OverviewContent isPending={isPending} viewType={overviewFilter.viewType} viewTypes={{ graph: <ProjectGraph /> }}>
+        {projects.map(p => (
+          <ProjectCard key={p.id.pmv} project={p} />
+        ))}
+      </OverviewContent>
+    </Overview>
   );
 }
 

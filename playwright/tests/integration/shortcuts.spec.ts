@@ -8,28 +8,28 @@ import { APP, TEST_PROJECT } from './constants';
 
 test('navigate overviews and focus searchinput', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
-  await neo.home();
-  await expect(page.locator('span', { hasText: /^Welcome to your workspace:/ })).toBeVisible();
+  const overview = await neo.home();
+  await expect(overview.title).toHaveText('Projects');
 
   await page.keyboard.press('Alt+ControlOrMeta+P');
-  await expect(page.locator('span', { hasText: /^Processes$/ })).toBeVisible();
-  await expect(page.locator('input[placeholder="Search"]')).toBeFocused();
+  await expect(overview.title).toHaveText('Processes');
+  await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Alt+ControlOrMeta+D');
-  await expect(page.locator('span', { hasText: /^Data Classes$/ })).toBeVisible();
-  await expect(page.locator('input[placeholder="Search"]')).toBeFocused();
+  await expect(overview.title).toHaveText('Data Classes');
+  await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Alt+ControlOrMeta+F');
-  await expect(page.locator('span', { hasText: /^Forms$/ })).toBeVisible();
-  await expect(page.locator('input[placeholder="Search"]')).toBeFocused();
+  await expect(overview.title).toHaveText('Forms');
+  await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Alt+ControlOrMeta+C');
-  await expect(page.locator('span', { hasText: /^Configurations$/ })).toBeVisible();
-  await expect(page.locator('input[placeholder="Search"]')).toBeFocused();
+  await expect(overview.title).toHaveText('Configurations');
+  await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Alt+ControlOrMeta+W');
-  await expect(page.locator('span', { hasText: /^Welcome to your workspace:/ })).toBeVisible();
-  await expect(page.locator('input[placeholder="Search"]')).toBeFocused();
+  await expect(overview.title).toHaveText('Projects');
+  await expect(overview.search).toBeFocused();
 });
 
 test('focus nav and tabs and nav tabs with arrowkey', async ({ page }) => {
@@ -56,7 +56,7 @@ test('open add and delete dialog', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
   await overview.hasGroup(`Project: ${TEST_PROJECT}`);
-  await expect(page.locator('input[placeholder="Search"]')).toBeFocused();
+  await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Tab');
   await page.keyboard.press('A');
@@ -93,10 +93,10 @@ test('open dialog inside editor deactivates shortcuts', async ({ page }) => {
 
 test('import project', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
-  await neo.home();
+  const overview = await neo.home();
 
   await page.keyboard.press('M');
-  await expect(page.locator('span', { hasText: /^Axon Ivy Market$/ })).toBeVisible();
+  await expect(overview.title).toHaveText('Axon Ivy Market');
 
   await neo.home();
   await page.keyboard.press('Tab');

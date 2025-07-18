@@ -1,9 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { AppInfo } from '../page-objects/app-info';
 import { ImportDialog } from '../page-objects/import-dialog';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
-import { ProjectDetail } from '../page-objects/project-detail';
 import { rmWorkspaceExportDir, TEST_PROJECT, WORKSPACE, workspaceExportZip } from './constants';
 
 test.afterAll(() => {
@@ -14,13 +12,12 @@ test('navigate to home', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.home();
   await overview.expectCardsCountGreaterThan(0);
-  const appInfo = new AppInfo(page);
-  await expect(appInfo.title).toHaveText(`Welcome to your workspace: ${WORKSPACE}`);
-  await expect(appInfo.infoCards).toHaveCount(4);
-  await appInfo.clickInfoCard('Processes');
-  await appInfo.clickInfoCard('Data Classes');
-  await appInfo.clickInfoCard('Forms');
-  await appInfo.clickInfoCard('Configurations');
+  await expect(overview.infoTitle).toHaveText(`Welcome to your workspace: ${WORKSPACE}`);
+  await expect(overview.infoCards).toHaveCount(4);
+  await overview.clickInfoCard('Processes');
+  await overview.clickInfoCard('Data Classes');
+  await overview.clickInfoCard('Forms');
+  await overview.clickInfoCard('Configurations');
 });
 
 test('search projects', async ({ page }) => {
@@ -70,6 +67,5 @@ test('project graph', async ({ page }) => {
   await expect(neoTestProjectNode.node).toContainText('neo-test-projectneo-test-project');
 
   await neoTestProjectNode.jumpInto.click();
-  const detail = new ProjectDetail(page);
-  await expect(detail.title).toHaveText(`Project details: ${TEST_PROJECT}`);
+  await expect(overview.infoTitle).toHaveText(`Project details: ${TEST_PROJECT}`);
 });

@@ -11,8 +11,11 @@ import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
-import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
-import { useSearch } from '~/neo/useSearch';
+import { Breadcrumbs } from '~/neo/Breadcrumb';
+import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
+import { OverviewContent } from '~/neo/overview/OverviewContent';
+import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -26,12 +29,15 @@ export const meta: MetaFunction = ({ params }) => {
 export default function Index() {
   const { t } = useTranslation();
   const { app, pmv } = useParams();
-  const { search, setSearch } = useSearch();
+  const overviewFilter = useOverviewFilter();
   const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['addDependencyDialog']);
   const projects = useSortedProjects();
   const project = useMemo(() => projects.data?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects.data]);
   const { data, isPending } = useDependencies(app, pmv);
-  const dependencies = useMemo(() => data?.filter(d => d.pmv.toLocaleLowerCase().includes(search.toLocaleLowerCase())), [data, search]);
+  const dependencies = useMemo(
+    () => data?.filter(d => d.pmv.toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase())),
+    [data, overviewFilter.search]
+  );
   const [addDependencyDialog, setAddDependencyDialog] = useState(false);
   const onDialogOpenChange = (open: boolean) => {
     setAddDependencyDialog(open);
@@ -43,54 +49,52 @@ export default function Index() {
   };
 
   return (
-    <div style={{ overflowY: 'auto', height: '100%' }}>
-      <Flex direction='column' gap={1}>
-        <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='project-detail'>
-          <span style={{ fontWeight: 600 }}>{t('projects.details', { project: project?.id.pmv })}</span>
-          <div className='project-detail-card' style={{ background: 'var(--N50)', padding: 10, borderRadius: 5 }}>
-            <Flex direction='row' gap={4} style={{ flexWrap: 'wrap', columnGap: '150px' }}>
-              <ProjectInfoContainer>
-                <ProjectInfo title={t('neo.artifactId')} value={project?.artifactId}></ProjectInfo>
-                <ProjectInfo title={t('neo.groupId')} value={project?.groupId}></ProjectInfo>
-              </ProjectInfoContainer>
-              <ProjectInfoContainer>
-                <ProjectInfo title={t('common.label.version')} value={project?.version}></ProjectInfo>
-                <ProjectInfo
-                  title={t('projects.editRights')}
-                  value={project?.id.isIar ? t('common.label.readOnly') : t('project.editable')}
-                ></ProjectInfo>
-              </ProjectInfoContainer>
-              <ProjectInfoContainer>
-                <ProjectInfo
-                  title={t('projects.deletable')}
-                  value={project?.isDeletable ? t('common.label.yes') : t('common.label.no')}
-                ></ProjectInfo>
-              </ProjectInfoContainer>
-            </Flex>
-          </div>
-        </Flex>
-        <Overview
-          title={t('projects.dependencyDetails', { project: project?.id.pmv })}
-          description={t('projects.description')}
-          info={t('projects.dependecyInfo')}
-          search={search}
-          onSearchChange={setSearch}
-          isPending={isPending}
-          control={<CreateNewArtefactButton title={t('projects.addDependency')} open={() => onDialogOpenChange(true)} />}
-        >
-          {project && dependencies && (
-            <>
-              {!project.id.isIar && (
-                <AddDependencyDialog project={project.id} open={addDependencyDialog} onOpenChange={onDialogOpenChange} />
-              )}
-              {dependencies.map(dep => (
-                <DependencyCard key={dep.pmv} dependency={dep} project={project?.id} />
-              ))}
-            </>
-          )}
-        </Overview>
+    <Overview>
+      <Breadcrumbs items={[{ name: t('neo.projects') }, { name: project?.id.pmv ?? '' }]} />
+      <OverviewTitle title={t('projects.details', { project: project?.id.pmv })} />
+      <Flex
+        direction='row'
+        gap={4}
+        className='project-detail-card'
+        style={{ flexWrap: 'wrap', columnGap: '150px', background: 'var(--N50)', padding: 10, borderRadius: 5 }}
+      >
+        <ProjectInfoContainer>
+          <ProjectInfo title={t('neo.artifactId')} value={project?.artifactId}></ProjectInfo>
+          <ProjectInfo title={t('neo.groupId')} value={project?.groupId}></ProjectInfo>
+        </ProjectInfoContainer>
+        <ProjectInfoContainer>
+          <ProjectInfo title={t('common.label.version')} value={project?.version}></ProjectInfo>
+          <ProjectInfo
+            title={t('projects.editRights')}
+            value={project?.id.isIar ? t('common.label.readOnly') : t('project.editable')}
+          ></ProjectInfo>
+        </ProjectInfoContainer>
+        <ProjectInfoContainer>
+          <ProjectInfo
+            title={t('projects.deletable')}
+            value={project?.isDeletable ? t('common.label.yes') : t('common.label.no')}
+          ></ProjectInfo>
+        </ProjectInfoContainer>
       </Flex>
-    </div>
+      <OverviewTitle
+        title={t('projects.dependencyDetails', { project: project?.id.pmv })}
+        description={t('projects.description')}
+        info={t('projects.dependecyInfo')}
+      >
+        <CreateNewArtefactButton title={t('projects.addDependency')} open={() => onDialogOpenChange(true)} />
+      </OverviewTitle>
+      <OverviewFilter {...overviewFilter} />
+      <OverviewContent isPending={isPending}>
+        {project && dependencies && (
+          <>
+            {!project.id.isIar && <AddDependencyDialog project={project.id} open={addDependencyDialog} onOpenChange={onDialogOpenChange} />}
+            {dependencies.map(dep => (
+              <DependencyCard key={dep.pmv} dependency={dep} project={project?.id} />
+            ))}
+          </>
+        )}
+      </OverviewContent>
+    </Overview>
   );
 }
 

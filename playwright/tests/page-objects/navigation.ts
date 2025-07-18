@@ -11,7 +11,7 @@ export class Navigation {
 
   constructor(page: Page) {
     this.page = page;
-    this.navBar = page.getByRole('navigation');
+    this.navBar = page.locator('.neo-navigation');
   }
 
   async open(overview: MenuLinks) {

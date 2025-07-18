@@ -10,10 +10,14 @@ import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
+import { Breadcrumbs } from '~/neo/Breadcrumb';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
+import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
+import { OverviewContent } from '~/neo/overview/OverviewContent';
+import { OverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { DataClassGraph, DataClassGraphFilter } from './DataClassGraph';
 
 export const links: LinksFunction = () => [cardStylesLink];
@@ -23,31 +27,34 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Data Classes');
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useGroupedDataClasses();
-  const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
+  const { filteredGroups, overviewFilter } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
   const { createDataClassEditor } = useCreateEditor();
   const [selectedProject, setSelectedProject] = useState<string>(filteredGroups ? filteredGroups[0]?.project : 'all');
 
   return (
-    <Overview
-      title={t('neo.dataClasses')}
-      description={t('dataclasses.dataclassDescription')}
-      search={search}
-      graph={{
-        graph: <DataClassGraph selectedProject={selectedProject} />,
-        filter: <DataClassGraphFilter selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
-      }}
-      onSearchChange={setSearch}
-      isPending={isPending}
-      control={<NewDataClassButton />}
-    >
-      {filteredGroups.map(({ project, artifacts }) => (
-        <ArtifactGroup project={project} key={project}>
-          {artifacts.map(dc => {
-            const editor = createDataClassEditor(dc);
-            return <DataClassCard key={editor.id} dataClass={dc} {...editor} />;
-          })}
-        </ArtifactGroup>
-      ))}
+    <Overview>
+      <Breadcrumbs items={[{ name: t('neo.dataClasses') }]} />
+      <OverviewTitle title={t('neo.dataClasses')} description={t('dataclasses.dataclassDescription')}>
+        <NewDataClassButton />
+      </OverviewTitle>
+      <OverviewFilter
+        {...overviewFilter}
+        viewTypes={{ graph: <DataClassGraphFilter selectedProject={selectedProject} setSelectedProject={setSelectedProject} /> }}
+      />
+      <OverviewContent
+        isPending={isPending}
+        viewType={overviewFilter.viewType}
+        viewTypes={{ graph: <DataClassGraph selectedProject={selectedProject} /> }}
+      >
+        {filteredGroups.map(({ project, artifacts }) => (
+          <ArtifactGroup project={project} key={project}>
+            {artifacts.map(dc => {
+              const editor = createDataClassEditor(dc);
+              return <DataClassCard key={editor.id} dataClass={dc} {...editor} />;
+            })}
+          </ArtifactGroup>
+        ))}
+      </OverviewContent>
     </Overview>
   );
 }

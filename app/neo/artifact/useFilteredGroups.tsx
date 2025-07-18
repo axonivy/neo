@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useWorkspace } from '~/data/workspace-api';
-import { useSearch } from '../useSearch';
+import { useOverviewFilter } from '../overview/OverviewFilter';
 
 type ProjectGroup<T> = {
   project: string;
@@ -9,13 +9,18 @@ type ProjectGroup<T> = {
 
 export function useFilteredGroups<T>(groups: ProjectGroup<T>[], artifactSearchTarget: (t: T) => string) {
   const ws = useWorkspace();
-  const { search, setSearch } = useSearch();
+  const overviewFilter = useOverviewFilter();
   const extendedGroups = useMemo(() => insertWorkspaceIfAbsent(groups ?? [], ws?.name), [groups, ws?.name]);
   const filteredGroups = useMemo(
-    () => filterArifacts(extendedGroups, t => artifactSearchTarget(t).toLocaleLowerCase().includes(search.toLocaleLowerCase()), ws?.name),
-    [artifactSearchTarget, extendedGroups, search, ws]
+    () =>
+      filterArifacts(
+        extendedGroups,
+        t => artifactSearchTarget(t).toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase()),
+        ws?.name
+      ),
+    [artifactSearchTarget, extendedGroups, overviewFilter.search, ws]
   );
-  return { filteredGroups, search, setSearch };
+  return { filteredGroups, overviewFilter };
 }
 
 function insertWorkspaceIfAbsent<T>(groups: ProjectGroup<T>[], wsName?: string) {

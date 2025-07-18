@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router';
 import { useSortedProjects } from '~/data/project-api';
 import { useWorkspace } from '~/data/workspace-api';
-import { useSearch } from '../useSearch';
+import { useSearch } from '../overview/useSearch';
 import { ArtifactTag } from './ArtifactTag';
 
 type Group = {

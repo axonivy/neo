@@ -34,6 +34,7 @@ export const Navigation = () => {
       justifyContent='space-between'
       style={{ paddingBlock: 'var(--size-4)', borderInlineEnd: 'var(--basic-border)', flex: '0 0 50px' }}
       role='navigation'
+      className='neo-navigation'
     >
       <Flex direction='column' gap={4}>
         <NavLink

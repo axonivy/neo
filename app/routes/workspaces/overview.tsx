@@ -11,11 +11,13 @@ import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
-import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
+import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
+import { OverviewContent } from '~/neo/overview/OverviewContent';
+import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { LanguageSettings } from '~/neo/settings/LanguageSettings';
 import { Settings } from '~/neo/settings/Settings';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
-import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import welcomeSvgUrl from '/assets/welcome.svg?url';
 
@@ -27,9 +29,9 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const { t } = useTranslation();
-  const { search, setSearch } = useSearch();
+  const overviewFilter = useOverviewFilter();
   const { data, isPending } = useWorkspaces();
-  const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
+  const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase())) ?? [];
 
   return (
     <>
@@ -44,34 +46,21 @@ export default function Index() {
       <div style={{ height: 'calc(100vh - 41px)' }}>
         <div style={{ height: '100%', overflowY: 'auto' }}>
           <Flex direction='column'>
-            <Flex
-              className='welcome-card'
-              style={{
-                margin: 30,
-                marginBlockEnd: 0,
-                backgroundImage: `url(${welcomeSvgUrl})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'top',
-                height: 154,
-                borderRadius: 'var(--border-r3)'
-              }}
-            >
-              <Flex direction='row' gap={1} style={{ padding: 20 }}>
-                <span style={{ color: 'white', fontSize: 22, fontWeight: 500 }}>{t('workspaces.title', { neo: NEO_DESIGNER })}</span>
-              </Flex>
-            </Flex>
-            <Overview
-              title={t('workspaces.manageWorkspaces')}
-              description={t('workspaces.newWorkspaceDescription')}
-              info={t('workspaces.info')}
-              search={search}
-              onSearchChange={setSearch}
-              isPending={isPending}
-              control={<NewWorkspaceButton />}
-            >
-              {workspaces.map(workspace => (
-                <WorkspaceCard key={workspace.name} {...workspace} />
-              ))}
+            <WelcomeHeader />
+            <Overview>
+              <OverviewTitle
+                title={t('workspaces.manageWorkspaces')}
+                description={t('workspaces.newWorkspaceDescription')}
+                info={t('workspaces.info')}
+              >
+                <NewWorkspaceButton />
+              </OverviewTitle>
+              <OverviewFilter {...overviewFilter} />
+              <OverviewContent isPending={isPending}>
+                {workspaces.map(workspace => (
+                  <WorkspaceCard key={workspace.name} {...workspace} />
+                ))}
+              </OverviewContent>
             </Overview>
           </Flex>
         </div>
@@ -79,6 +68,28 @@ export default function Index() {
     </>
   );
 }
+
+const WelcomeHeader = () => {
+  const { t } = useTranslation();
+  return (
+    <Flex
+      className='welcome-card'
+      style={{
+        margin: 30,
+        marginBlockEnd: 0,
+        backgroundImage: `url(${welcomeSvgUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'top',
+        height: 154,
+        borderRadius: 'var(--border-r3)'
+      }}
+    >
+      <Flex direction='row' gap={1} style={{ padding: 20 }}>
+        <span style={{ color: 'white', fontSize: 22, fontWeight: 500 }}>{t('workspaces.title', { neo: NEO_DESIGNER })}</span>
+      </Flex>
+    </Flex>
+  );
+};
 
 const WorkspaceCard = (workspace: Workspace) => {
   const navigate = useNavigate();

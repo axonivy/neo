@@ -6,20 +6,26 @@ import { ValidationMessage } from './validation-message';
 export class Overview {
   protected readonly page: Page;
   protected readonly overview: Locator;
+  protected readonly titleSection: Locator;
+  readonly infoTitle: Locator;
   readonly title: Locator;
+  readonly createButton: Locator;
   readonly search: Locator;
   readonly viewToggle: Locator;
   readonly cards: Locator;
-  readonly createNewButton: Locator;
+  readonly infoCards: Locator;
   readonly graph: Graph;
 
   constructor(page: Page) {
     this.page = page;
     this.overview = page.locator('.overview');
-    this.title = this.overview.locator('span').first();
+    this.titleSection = this.overview.locator('.overview-title-section');
+    this.infoTitle = this.titleSection.locator('.overview-title').first();
+    this.title = this.titleSection.locator('.overview-title').last();
+    this.createButton = this.titleSection.getByRole('button').last();
     this.search = this.overview.locator('input');
     this.cards = this.overview.locator('.artifact-card');
-    this.createNewButton = this.overview.locator('.createNewButton').getByRole('button');
+    this.infoCards = this.overview.locator('.overview-info-card');
     this.viewToggle = this.overview.locator('.ui-toggle-group');
     this.graph = new Graph(page);
   }
@@ -59,12 +65,12 @@ export class Overview {
   }
 
   async clickFileImport() {
-    await this.createNewButton.click();
+    await this.titleSection.getByRole('button', { name: 'Import Projects' }).click();
     await this.page.getByRole('menuitem').getByText('Import from File').click();
   }
 
   async clickMarketImport() {
-    await this.createNewButton.click();
+    await this.titleSection.getByRole('button', { name: 'Import Projects' }).click();
     await this.page.getByRole('menuitem').getByText('Import from Market').click();
   }
 
@@ -78,7 +84,7 @@ export class Overview {
     await this.waitForHiddenSpinner();
     const dialog = this.page.getByRole('dialog');
     if (await dialog.isHidden()) {
-      await this.createNewButton.click();
+      await this.createButton.click();
     }
     const nameInput = dialog.getByLabel('Name').first();
     const namespaceInput = dialog.getByLabel('Namespace').first();
@@ -111,8 +117,8 @@ export class Overview {
     options?: { file?: string; project?: string; hasDataClassSelect?: boolean; useKeyToCreate?: boolean }
   ) {
     await this.waitForHiddenSpinner();
-    await expect(this.createNewButton).toBeVisible();
-    await this.createNewButton.click();
+    await expect(this.createButton).toBeVisible();
+    await this.createButton.click();
     const dialog = this.page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     await dialog.getByLabel('Name').first().fill(name);
@@ -186,5 +192,12 @@ export class Overview {
     await expect(trigger).toHaveAttribute('data-state', 'closed');
     await trigger.click();
     await expect(trigger).toHaveAttribute('data-state', 'open');
+  }
+
+  async clickInfoCard(name: string) {
+    await this.infoCards.locator('span').getByText(name, { exact: true }).click();
+    const overview = new Overview(this.page);
+    await expect(overview.title).toHaveText(name);
+    await this.page.goBack();
   }
 }
