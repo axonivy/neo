@@ -6,9 +6,9 @@ import type { DataClassBean, DataClassField } from '~/data/generated/ivy-client'
 import { useSortedProjects } from '~/data/project-api';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import { GraphControls } from '../workspaces/ProjectGraph';
+import { GraphControls } from '../workspace/ProjectGraph';
 
-export const DataClasGraph = ({ selectedProject }: { selectedProject: string }) => {
+export const DataClassGraph = ({ selectedProject }: { selectedProject: string }) => {
   const { data } = useDataClassesWithFields();
   const { t } = useTranslation();
   return (
@@ -59,18 +59,17 @@ const toNode = (dc: DataClassBean): NodeData => ({
   content: <FieldContent fields={dc.fields} />,
   options: {
     expandContent: true,
-    controls: <ProjectGraphControls dc={dc} />
+    controls: <DataClassGraphControls dc={dc} />
   },
   target: dc.fields.map(field => ({ id: field.type }))
 });
 
-export const ProjectGraphFilter = ({
-  selectedProject,
-  setSelectedProject
-}: {
+type DataClassGraphFilterProps = {
   selectedProject: string;
   setSelectedProject: (project: string) => void;
-}) => {
+};
+
+export const DataClassGraphFilter = ({ selectedProject, setSelectedProject }: DataClassGraphFilterProps) => {
   const { data: projects } = useSortedProjects();
 
   return (
@@ -88,20 +87,18 @@ export const ProjectGraphFilter = ({
   );
 };
 
-const FieldContent = ({ fields }: { fields: DataClassField[] }) => {
-  return (
-    <ul style={{ padding: '0 10px', listStyle: 'none', margin: 0, overflow: 'auto' }}>
-      {fields.map((field: { name: string; type: string }) => (
-        <li key={field.name} style={{ display: 'flex', gap: '5px' }}>
-          <div>{field.name}:</div>
-          <div style={{ color: 'var(--N700)' }}>{field.type}</div>
-        </li>
-      ))}
-    </ul>
-  );
-};
+const FieldContent = ({ fields }: { fields: DataClassField[] }) => (
+  <ul style={{ padding: '0 10px', listStyle: 'none', margin: 0, overflow: 'auto' }}>
+    {fields.map((field: { name: string; type: string }) => (
+      <li key={field.name} style={{ display: 'flex', gap: '5px' }}>
+        <div>{field.name}:</div>
+        <div style={{ color: 'var(--N700)' }}>{field.type}</div>
+      </li>
+    ))}
+  </ul>
+);
 
-const ProjectGraphControls = ({ dc }: { dc: DataClassBean }) => {
+const DataClassGraphControls = ({ dc }: { dc: DataClassBean }) => {
   const { createDataClassEditor } = useCreateEditor();
   const { openEditor } = useEditors();
   const editor = createDataClassEditor(dc);

@@ -6,8 +6,10 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
   Flex,
+  hotkeyText,
   Input,
   IvyIcon,
   useHotkeyLocalScopes,
@@ -133,26 +135,21 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
         </DropdownMenuTrigger>
         <DropdownMenuContent side='bottom' align='start' className='import-menu'>
           <DropdownMenuGroup>
-            <DropdownMenuItem
-              onSelect={() => {
-                navigate('market');
-              }}
-              title={hotkeys.importFromMarket.label}
-              aria-label={hotkeys.importFromMarket.label}
-            >
+            <DropdownMenuItem onSelect={() => navigate('market')} aria-label={hotkeys.importFromMarket.label}>
               <IvyIcon icon={IvyIcons.Market} />
               <span>{t('workspaces.importMarket')}</span>
+              <DropdownMenuShortcut>{hotkeyText(hotkeys.importFromMarket.hotkey)}</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem
               onSelect={e => {
                 e.preventDefault();
                 onDialogOpenChange(true);
               }}
-              title={hotkeys.importFromFile.label}
               aria-label={hotkeys.importFromFile.label}
             >
               <IvyIcon icon={IvyIcons.Download} />
               <span>{t('workspaces.importFile')}</span>
+              <DropdownMenuShortcut>{hotkeyText(hotkeys.importFromFile.hotkey)}</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
