@@ -45,15 +45,6 @@
   }
 }
 
-.new-artifact-card {
-  background: var(--P50);
-  color: var(--P300);
-}
-
-.new-artifact-card:hover {
-  background: var(--P75);
-}
-
 .card-menu .card-delete {
   color: var(--error-color);
 }

@@ -24,7 +24,7 @@ import { NEO_DESIGNER } from '~/constants';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
-import { ArtifactCard, cardStylesLink, NewArtifactCard } from '~/neo/artifact/ArtifactCard';
+import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
@@ -83,12 +83,8 @@ export default function Index() {
           onSearchChange={setSearch}
           isPending={isPending}
           graph={{ graph: <ProjectGraph /> }}
+          control={<ImportMenu open={open} setOpen={setOpen} />}
         >
-          <NewArtifactCard
-            title={t('workspaces.importProject')}
-            open={() => setOpen(true)}
-            menu={<ImportMenu open={open} setOpen={setOpen} />}
-          />
           {projects.map(p => (
             <ProjectCard key={p.id.pmv} project={p} />
           ))}
@@ -124,7 +120,16 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
     <>
       <DropdownMenu open={open} onOpenChange={setOpen}>
         <DropdownMenuTrigger asChild>
-          <Button icon={IvyIcons.Dots} className='card-menu-trigger' />
+          <Button
+            title={t('workspaces.importProject')}
+            icon={IvyIcons.Download}
+            size='large'
+            variant='primary'
+            onClick={() => setOpen(true)}
+            style={{ height: '32px' }}
+          >
+            {t('workspaces.importProject')}
+          </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent side='bottom' align='start' className='import-menu'>
           <DropdownMenuGroup>

@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/no-autofocus */
-import { Button, Flex, SearchInput, Spinner, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
+import { Button, Flex, SearchInput, Spinner, ToggleGroup, ToggleGroupItem, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useKnownHotkeys } from '~/utils/hotkeys';
 import { InfoPopover } from './InfoPopover';
 
 type OverviewProps = {
@@ -18,11 +19,43 @@ type OverviewProps = {
   children: ReactNode;
   info?: string;
   helpUrl?: string;
+  control?: ReactNode;
 };
 
-export const Overview = ({ title, description, search, onSearchChange, isPending, children, info, helpUrl, graph }: OverviewProps) => {
+export const CreateNewArtefactButton = ({ title, open }: { title: string; open: () => void }) => {
+  const { addElement } = useKnownHotkeys(title);
+  useHotkeys(addElement.hotkey, open, { keydown: false, keyup: true, scopes: ['neo'] });
+
+  return (
+    <Button
+      title={addElement.label}
+      icon={IvyIcons.Plus}
+      size='large'
+      variant='primary'
+      aria-label={addElement.label}
+      onClick={open}
+      style={{ height: 32 }}
+    >
+      {title}
+    </Button>
+  );
+};
+
+export const Overview = ({
+  title,
+  description,
+  search,
+  onSearchChange,
+  isPending,
+  children,
+  info,
+  helpUrl,
+  graph,
+  control
+}: OverviewProps) => {
   const { t } = useTranslation();
   const [showGraph, setShowGraph] = useState(false);
+
   return (
     <Flex
       direction='column'
@@ -30,14 +63,21 @@ export const Overview = ({ title, description, search, onSearchChange, isPending
       style={{ fontSize: 16, padding: 30, height: 'calc(100% - 60px)', overflowY: 'auto' }}
       className='overview'
     >
-      {title && <span style={{ fontWeight: 600 }}>{title}</span>}
-      {description && (
-        <Flex direction='row' gap={1}>
-          <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{description}</span>
-          {info && <InfoPopover info={info} />}
-          {helpUrl && <HelpButton url={helpUrl} />}
+      <Flex direction='row' justifyContent='space-between'>
+        <Flex direction='column' gap={1}>
+          {title && <span style={{ fontWeight: 600 }}>{title}</span>}
+          {description && (
+            <Flex direction='row'>
+              <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{description}</span>
+              {info && <InfoPopover info={info} />}
+              {helpUrl && <HelpButton url={helpUrl} />}
+            </Flex>
+          )}
         </Flex>
-      )}
+        <Flex justifyContent='flex-end' style={{ minWidth: 210 }} className='createNewButton'>
+          {control}
+        </Flex>
+      </Flex>
 
       <Flex direction='row' alignItems='center' justifyContent='flex-end' gap={4} style={{ width: '100%' }}>
         <div style={{ width: '100%', height: '34px' }}>

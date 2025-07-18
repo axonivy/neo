@@ -10,7 +10,7 @@ export class Overview {
   readonly search: Locator;
   readonly viewToggle: Locator;
   readonly cards: Locator;
-  readonly newCard: Locator;
+  readonly createNewButton: Locator;
   readonly graph: Graph;
 
   constructor(page: Page) {
@@ -18,8 +18,8 @@ export class Overview {
     this.overview = page.locator('.overview');
     this.title = this.overview.locator('span').first();
     this.search = this.overview.locator('input');
-    this.cards = this.overview.locator('.artifact-card:not(.new-artifact-card)');
-    this.newCard = this.overview.locator('.new-artifact-card');
+    this.cards = this.overview.locator('.artifact-card');
+    this.createNewButton = this.overview.locator('.createNewButton').getByRole('button');
     this.viewToggle = this.overview.locator('.ui-toggle-group');
     this.graph = new Graph(page);
   }
@@ -59,11 +59,13 @@ export class Overview {
   }
 
   async clickFileImport() {
-    await this.clickCardAction(this.newCard, 'Import from File');
+    await this.createNewButton.click();
+    await this.page.getByRole('menuitem').getByText('Import from File').click();
   }
 
   async clickMarketImport() {
-    await this.clickCardAction(this.newCard, 'Import from Market');
+    await this.createNewButton.click();
+    await this.page.getByRole('menuitem').getByText('Import from Market').click();
   }
 
   async checkCreateValidationMessage(options: {
@@ -76,7 +78,7 @@ export class Overview {
     await this.waitForHiddenSpinner();
     const dialog = this.page.getByRole('dialog');
     if (await dialog.isHidden()) {
-      await this.newCard.click();
+      await this.createNewButton.click();
     }
     const nameInput = dialog.getByLabel('Name').first();
     const namespaceInput = dialog.getByLabel('Namespace').first();
@@ -109,8 +111,8 @@ export class Overview {
     options?: { file?: string; project?: string; hasDataClassSelect?: boolean; useKeyToCreate?: boolean }
   ) {
     await this.waitForHiddenSpinner();
-    await expect(this.newCard).toBeVisible();
-    await this.newCard.click();
+    await expect(this.createNewButton).toBeVisible();
+    await this.createNewButton.click();
     const dialog = this.page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     await dialog.getByLabel('Name').first().fill(name);
@@ -170,10 +172,8 @@ export class Overview {
   async hasGroup(name: string, tagLabel?: string, numOfNewCards?: number) {
     const { group, trigger } = await this.group(name, tagLabel);
     await expect(trigger).toHaveAttribute('data-state', 'open');
-    const nestedArtifacts = group.locator('.artifact-card');
-    expect(await nestedArtifacts.count()).toBeGreaterThan(0);
     const nestedNew = group.locator('.new-artifact-card');
-    expect(await nestedNew.count()).toBe(numOfNewCards ?? 1);
+    await expect(nestedNew).toHaveCount(numOfNewCards ?? 0);
   }
 
   async hasCardWithTag(name: string, tagLabel?: string) {

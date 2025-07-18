@@ -165,24 +165,3 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
     </div>
   );
 };
-
-export const NewArtifactCard = ({ title, open, menu }: { title: string; open: () => void; menu?: ReactNode }) => {
-  const { addElement, importFromFile, importFromMarket } = useKnownHotkeys(title);
-  useHotkeys(addElement.hotkey, open, { keydown: false, keyup: true, scopes: ['neo'] });
-  const addTooltip = title.match('Import Projects') ? importFromFile.label + '\n' + importFromMarket.label : addElement.label;
-
-  return (
-    <div className='artifact-card new-artifact-card'>
-      <button className='card' onClick={open} title={addTooltip} aria-label={addTooltip}>
-        <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
-          <Flex alignItems='center' justifyContent='center' className='card-preview'></Flex>
-          <Flex alignItems='center' justifyContent='space-between' gap={1}>
-            <span className='card-name'>{title}</span>
-            {!menu && <IvyIcon icon={IvyIcons.Plus} />}
-          </Flex>
-        </Flex>
-      </button>
-      {menu}
-    </div>
-  );
-};
