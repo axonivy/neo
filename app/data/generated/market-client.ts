@@ -447,6 +447,10 @@ export type FindGithubPublicReleasesParams = {
 
 export type FindVersionsForDesignerParams = {
   designerVersion?: string;
+  /**
+   * Option to get Dev Version (Snapshot/ sprint release)
+   */
+  isShowDevVersion: boolean;
 };
 
 export type GetLatestArtifactDownloadUrlParams = {
@@ -876,7 +880,7 @@ export type findVersionsForDesignerResponse = findVersionsForDesignerResponseCom
   headers: Headers;
 };
 
-export const getFindVersionsForDesignerUrl = (id: string, params?: FindVersionsForDesignerParams) => {
+export const getFindVersionsForDesignerUrl = (id: string, params: FindVersionsForDesignerParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -894,7 +898,7 @@ export const getFindVersionsForDesignerUrl = (id: string, params?: FindVersionsF
 
 export const findVersionsForDesigner = async (
   id: string,
-  params?: FindVersionsForDesignerParams,
+  params: FindVersionsForDesignerParams,
   options?: RequestInit
 ): Promise<findVersionsForDesignerResponse> => {
   return customFetch<findVersionsForDesignerResponse>(getFindVersionsForDesignerUrl(id, params), {
