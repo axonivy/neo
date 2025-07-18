@@ -1,4 +1,14 @@
-import { BasicDialog, BasicField, BasicSelect, Button, Flex, Input, Spinner, useHotkeyLocalScopes } from '@axonivy/ui-components';
+import {
+  BasicDialog,
+  BasicField,
+  BasicSelect,
+  Button,
+  Flex,
+  Input,
+  Spinner,
+  useHotkeyLocalScopes,
+  useHotkeys
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -82,7 +92,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     () => validateArtifactNamespace(namespace, newArtifact?.type),
     [namespace, newArtifact?.type, validateArtifactNamespace]
   );
-  const buttonDisabled = useMemo(
+  const hasErros = useMemo(
     () => nameValidation?.variant === 'error' || namespaceValidation?.variant === 'error',
     [nameValidation, namespaceValidation]
   );
@@ -100,6 +110,14 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     }
   }
 
+  const createNewArtifact = () => {
+    if (newArtifact && !hasErros) {
+      setDialogState(false);
+      newArtifact.create(name, namespace, project?.id, newArtifact.pid, dataClass);
+    }
+  };
+  const enter = useHotkeys('Enter', createNewArtifact, { scopes: ['newArtifactDialog'], enabled: dialogState, enableOnFormTags: true });
+
   return (
     <NewArtifactDialogContext.Provider value={{ open, close, dialogState, newArtifact }}>
       {children}
@@ -116,50 +134,30 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
               </Button>
             ),
             buttonCustom: (
-              <Button
-                icon={IvyIcons.Plus}
-                disabled={buttonDisabled}
-                variant='primary'
-                size='large'
-                type='submit'
-                onClick={e => {
-                  e.preventDefault();
-                  setDialogState(false);
-                  newArtifact.create(name, namespace, project?.id, newArtifact.pid, dataClass);
-                }}
-              >
+              <Button icon={IvyIcons.Plus} disabled={hasErros} variant='primary' size='large' onClick={createNewArtifact}>
                 {t('common.label.create')}
               </Button>
             )
           }}
         >
-          <form>
-            <Flex direction='column' gap={4}>
-              <Flex direction='column' gap={3}>
-                <BasicField label={t('common.label.name')} message={nameValidation}>
-                  <Input value={name} onChange={e => setName(e.target.value)} />
-                </BasicField>
-                {newArtifact.project === undefined && (
-                  <ProjectSelect
-                    setProject={setProject}
-                    setDefaultValue={true}
-                    label={t('label.project')}
-                    projectFilter={p => !p.id.isIar}
-                  />
-                )}
-                <BasicField
-                  label={`${t('artifact.namespace')} ${newArtifact.namespaceRequired ? '' : t('artifact.optional')}`}
-                  message={namespaceValidation}
-                  control={
-                    <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
-                  }
-                >
-                  <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
-                </BasicField>
-                {newArtifact.selectDataClass && project && <DataClassSelect project={project.id} setDataClass={setDataClass} />}
-              </Flex>
-            </Flex>
-          </form>
+          <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
+            <BasicField label={t('common.label.name')} message={nameValidation}>
+              <Input value={name} onChange={e => setName(e.target.value)} />
+            </BasicField>
+            {newArtifact.project === undefined && (
+              <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('label.project')} projectFilter={p => !p.id.isIar} />
+            )}
+            <BasicField
+              label={`${t('artifact.namespace')} ${newArtifact.namespaceRequired ? '' : t('artifact.optional')}`}
+              message={namespaceValidation}
+              control={
+                <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
+              }
+            >
+              <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
+            </BasicField>
+            {newArtifact.selectDataClass && project && <DataClassSelect project={project.id} setDataClass={setDataClass} />}
+          </Flex>
         </BasicDialog>
       )}
     </NewArtifactDialogContext.Provider>

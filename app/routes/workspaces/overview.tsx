@@ -1,4 +1,4 @@
-import { BasicDialog, BasicField, Button, Flex, Input, useHotkeyLocalScopes } from '@axonivy/ui-components';
+import { BasicDialog, BasicField, Button, Flex, Input, useHotkeyLocalScopes, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -119,6 +119,8 @@ const NewWorkspaceButton = () => {
       workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : validateArtifactName(name),
     [artifactAlreadyExists, name, validateArtifactName, workspaces.data]
   );
+  const hasErros = useMemo(() => nameValidation?.variant === 'error', [nameValidation]);
+
   const onDialogOpenChange = (open: boolean) => {
     setDialogState(open);
     if (open) {
@@ -128,17 +130,17 @@ const NewWorkspaceButton = () => {
     }
   };
 
-  const formSubmitHandler = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (nameValidation?.variant !== 'error') {
+  const createNewWorkspace = () => {
+    if (!hasErros) {
       setDialogState(false);
       create(name);
     }
   };
+  const enter = useHotkeys('Enter', createNewWorkspace, { scopes: ['newWorkspaceDialog'], enabled: dialogState, enableOnFormTags: true });
 
   return (
     <>
-      <CreateNewArtefactButton title={t('workspaces.importProject')} open={() => onDialogOpenChange(true)} />
+      <CreateNewArtefactButton title={t('workspaces.newWorkspace')} open={() => onDialogOpenChange(true)} />
       <BasicDialog
         open={dialogState}
         onOpenChange={() => onDialogOpenChange(false)}
@@ -151,26 +153,17 @@ const NewWorkspaceButton = () => {
             </Button>
           ),
           buttonCustom: (
-            <Button
-              disabled={nameValidation?.variant === 'error'}
-              icon={IvyIcons.Plus}
-              size='large'
-              variant='primary'
-              type='submit'
-              onClick={formSubmitHandler}
-            >
+            <Button disabled={hasErros} icon={IvyIcons.Plus} size='large' variant='primary' onClick={createNewWorkspace}>
               {t('common.label.create')}
             </Button>
           )
         }}
       >
-        <form onSubmit={formSubmitHandler}>
-          <Flex direction='column' gap={3}>
-            <BasicField label={t('common.label.name')} message={nameValidation}>
-              <Input value={name} onChange={e => setName(e.target.value)} />
-            </BasicField>
-          </Flex>
-        </form>
+        <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
+          <BasicField label={t('common.label.name')} message={nameValidation}>
+            <Input value={name} onChange={e => setName(e.target.value)} />
+          </BasicField>
+        </Flex>
       </BasicDialog>
     </>
   );
