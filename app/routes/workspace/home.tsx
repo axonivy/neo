@@ -30,6 +30,7 @@ import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactInfoCard } from '~/neo/artifact/ArtifactInfoCard';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
+import { Breadcrumbs } from '~/neo/Breadcrumb';
 import { Overview } from '~/neo/Overview';
 import { useSearch } from '~/neo/useSearch';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
@@ -55,6 +56,7 @@ export default function Index() {
     <div style={{ overflowY: 'auto', height: '100%' }}>
       <Flex direction='column' gap={1} style={{ height: '100%' }}>
         <Flex direction='column' gap={4} style={{ fontSize: 16, padding: 30, paddingBottom: 0 }} className='app-info'>
+          <Breadcrumbs page={ws ?? ''} />
           <span style={{ fontWeight: 600 }}>{title}</span>
           <span style={{ fontWeight: 400, color: 'var(--N900)' }}>{t('workspaces.description')}</span>
           <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
