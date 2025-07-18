@@ -1,21 +1,16 @@
-import type { ProjectBean } from '~/data/generated/ivy-client';
-import { mapProjectsToGraphNodes } from './ProjectGraph';
+import { mapProjectsToGraphNodes, type ProjectGraphBean } from './ProjectGraph';
 
 test('maps projects correctly', () => {
-  const projects: ProjectBean[] = [
+  const projects: ProjectGraphBean[] = [
     {
       artifactId: 'my-artifact',
-      groupId: 'my.group',
       id: { app: 'app1', pmv: 'project1' },
       version: '1.0.0',
-      isDeletable: true,
-      defaultNamespace: 'ns',
       dependencies: [{ app: 'app2', pmv: 'project2' }]
     }
   ];
 
   const result = mapProjectsToGraphNodes(projects);
-
   expect(result).toHaveLength(1);
   expect(result[0]).toMatchObject({
     id: 'project1',

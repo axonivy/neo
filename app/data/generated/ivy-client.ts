@@ -154,7 +154,9 @@ export interface ProjectBean {
   version: string;
   isDeletable: boolean;
   defaultNamespace: string;
+  projectDirectory: string;
   dependencies: ProjectIdentifier[];
+  errorMessage: string;
 }
 
 export interface NewProjectParams {
@@ -284,14 +286,21 @@ export interface LocationBean {
   position?: GeoPositionBean;
 }
 
-export type SetConfigParams = {
+export type SetParams = {
   /**
    * new value for config
    */
   value?: string;
 };
 
-export type SetVariableParams = {
+export type Set1Params = {
+  /**
+   * new value for config
+   */
+  value?: string;
+};
+
+export type Set2Params = {
   /**
    * new value for variable
    */
@@ -329,6 +338,12 @@ export type ProjectsParams = {
   withDependencies?: boolean;
 };
 
+export type ConvertProjectParams = {
+  projectDir?: string;
+  app?: string;
+  pmv?: string;
+};
+
 export type DeleteProjectParams = {
   projectDir?: string;
   app?: string;
@@ -347,30 +362,60 @@ export type ImportProjectsBody = {
 };
 
 /**
- * Returns the value of the config with the given name.
+ * Returns all cluster nodes of where this node is part of.
  */
-export type getConfigResponse200 = {
+export type nodesResponse200 = {
   data: void;
   status: 200;
 };
 
-export type getConfigResponse401 = {
+export type nodesResponse401 = {
   data: void;
   status: 401;
 };
 
-export type getConfigResponseComposite = getConfigResponse200 | getConfigResponse401;
+export type nodesResponseComposite = nodesResponse200 | nodesResponse401;
 
-export type getConfigResponse = getConfigResponseComposite & {
+export type nodesResponse = nodesResponseComposite & {
   headers: Headers;
 };
 
-export const getGetConfigUrl = (applicationName: string, configKey: string) => {
+export const getNodesUrl = () => {
+  return `/cluster/nodes`;
+};
+
+export const nodes = async (options?: RequestInit): Promise<nodesResponse> => {
+  return customFetch<nodesResponse>(getNodesUrl(), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
+ * Returns the value of the config with the given name.
+ */
+export type getResponse200 = {
+  data: void;
+  status: 200;
+};
+
+export type getResponse401 = {
+  data: void;
+  status: 401;
+};
+
+export type getResponseComposite = getResponse200 | getResponse401;
+
+export type getResponse = getResponseComposite & {
+  headers: Headers;
+};
+
+export const getGetUrl = (applicationName: string, configKey: string) => {
   return `/apps/${applicationName}/configs/${configKey}`;
 };
 
-export const getConfig = async (applicationName: string, configKey: string, options?: RequestInit): Promise<getConfigResponse> => {
-  return customFetch<getConfigResponse>(getGetConfigUrl(applicationName, configKey), {
+export const get = async (applicationName: string, configKey: string, options?: RequestInit): Promise<getResponse> => {
+  return customFetch<getResponse>(getGetUrl(applicationName, configKey), {
     ...options,
     method: 'GET'
   });
@@ -379,23 +424,23 @@ export const getConfig = async (applicationName: string, configKey: string, opti
 /**
  * Sets a new value for the config with the given name.
  */
-export type setConfigResponse200 = {
+export type setResponse200 = {
   data: void;
   status: 200;
 };
 
-export type setConfigResponse401 = {
+export type setResponse401 = {
   data: void;
   status: 401;
 };
 
-export type setConfigResponseComposite = setConfigResponse200 | setConfigResponse401;
+export type setResponseComposite = setResponse200 | setResponse401;
 
-export type setConfigResponse = setConfigResponseComposite & {
+export type setResponse = setResponseComposite & {
   headers: Headers;
 };
 
-export const getSetConfigUrl = (applicationName: string, configKey: string, params?: SetConfigParams) => {
+export const getSetUrl = (applicationName: string, configKey: string, params?: SetParams) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -411,46 +456,178 @@ export const getSetConfigUrl = (applicationName: string, configKey: string, para
     : `/apps/${applicationName}/configs/${configKey}`;
 };
 
-export const setConfig = async (
+export const set = async (
   applicationName: string,
   configKey: string,
-  setConfigBody: string,
-  params?: SetConfigParams,
+  setBody: string,
+  params?: SetParams,
   options?: RequestInit
-): Promise<setConfigResponse> => {
-  return customFetch<setConfigResponse>(getSetConfigUrl(applicationName, configKey, params), {
+): Promise<setResponse> => {
+  return customFetch<setResponse>(getSetUrl(applicationName, configKey, params), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': '*/*', ...options?.headers },
-    body: JSON.stringify(setConfigBody)
+    body: JSON.stringify(setBody)
   });
 };
 
 /**
  * Resets the config with the given name to the default value.
  */
-export type resetConfigResponse200 = {
+export type resetResponse200 = {
   data: void;
   status: 200;
 };
 
-export type resetConfigResponse401 = {
+export type resetResponse401 = {
   data: void;
   status: 401;
 };
 
-export type resetConfigResponseComposite = resetConfigResponse200 | resetConfigResponse401;
+export type resetResponseComposite = resetResponse200 | resetResponse401;
 
-export type resetConfigResponse = resetConfigResponseComposite & {
+export type resetResponse = resetResponseComposite & {
   headers: Headers;
 };
 
-export const getResetConfigUrl = (applicationName: string, configKey: string) => {
+export const getResetUrl = (applicationName: string, configKey: string) => {
   return `/apps/${applicationName}/configs/${configKey}`;
 };
 
-export const resetConfig = async (applicationName: string, configKey: string, options?: RequestInit): Promise<resetConfigResponse> => {
-  return customFetch<resetConfigResponse>(getResetConfigUrl(applicationName, configKey), {
+export const reset = async (applicationName: string, configKey: string, options?: RequestInit): Promise<resetResponse> => {
+  return customFetch<resetResponse>(getResetUrl(applicationName, configKey), {
+    ...options,
+    method: 'DELETE'
+  });
+};
+
+/**
+ * Reloads the system configuration and the configuration of all applications
+ */
+export type reloadResponse200 = {
+  data: void;
+  status: 200;
+};
+
+export type reloadResponse401 = {
+  data: void;
+  status: 401;
+};
+
+export type reloadResponseComposite = reloadResponse200 | reloadResponse401;
+
+export type reloadResponse = reloadResponseComposite & {
+  headers: Headers;
+};
+
+export const getReloadUrl = () => {
+  return `/config/reload`;
+};
+
+export const reload = async (options?: RequestInit): Promise<reloadResponse> => {
+  return customFetch<reloadResponse>(getReloadUrl(), {
+    ...options,
+    method: 'POST'
+  });
+};
+
+/**
+ * Returns the value of the config with the given name.
+ */
+export type get1Response200 = {
+  data: void;
+  status: 200;
+};
+
+export type get1Response401 = {
+  data: void;
+  status: 401;
+};
+
+export type get1ResponseComposite = get1Response200 | get1Response401;
+
+export type get1Response = get1ResponseComposite & {
+  headers: Headers;
+};
+
+export const getGet1Url = (configKey: string) => {
+  return `/configs/${configKey}`;
+};
+
+export const get1 = async (configKey: string, options?: RequestInit): Promise<get1Response> => {
+  return customFetch<get1Response>(getGet1Url(configKey), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
+ * Sets a new value for the config with the given name.
+ */
+export type set1Response200 = {
+  data: void;
+  status: 200;
+};
+
+export type set1Response401 = {
+  data: void;
+  status: 401;
+};
+
+export type set1ResponseComposite = set1Response200 | set1Response401;
+
+export type set1Response = set1ResponseComposite & {
+  headers: Headers;
+};
+
+export const getSet1Url = (configKey: string, params?: Set1Params) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/configs/${configKey}?${stringifiedParams}` : `/configs/${configKey}`;
+};
+
+export const set1 = async (configKey: string, set1Body: string, params?: Set1Params, options?: RequestInit): Promise<set1Response> => {
+  return customFetch<set1Response>(getSet1Url(configKey, params), {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': '*/*', ...options?.headers },
+    body: JSON.stringify(set1Body)
+  });
+};
+
+/**
+ * Resets the config with the given name to the default value.
+ */
+export type reset1Response200 = {
+  data: void;
+  status: 200;
+};
+
+export type reset1Response401 = {
+  data: void;
+  status: 401;
+};
+
+export type reset1ResponseComposite = reset1Response200 | reset1Response401;
+
+export type reset1Response = reset1ResponseComposite & {
+  headers: Headers;
+};
+
+export const getReset1Url = (configKey: string) => {
+  return `/configs/${configKey}`;
+};
+
+export const reset1 = async (configKey: string, options?: RequestInit): Promise<reset1Response> => {
+  return customFetch<reset1Response>(getReset1Url(configKey), {
     ...options,
     method: 'DELETE'
   });
@@ -459,28 +636,28 @@ export const resetConfig = async (applicationName: string, configKey: string, op
 /**
  * Returns the value of the variable with the given name.
  */
-export type getVariableResponse200 = {
+export type get2Response200 = {
   data: void;
   status: 200;
 };
 
-export type getVariableResponse401 = {
+export type get2Response401 = {
   data: void;
   status: 401;
 };
 
-export type getVariableResponseComposite = getVariableResponse200 | getVariableResponse401;
+export type get2ResponseComposite = get2Response200 | get2Response401;
 
-export type getVariableResponse = getVariableResponseComposite & {
+export type get2Response = get2ResponseComposite & {
   headers: Headers;
 };
 
-export const getGetVariableUrl = (applicationName: string, variableName: string) => {
+export const getGet2Url = (applicationName: string, variableName: string) => {
   return `/apps/${applicationName}/variables/${variableName}`;
 };
 
-export const getVariable = async (applicationName: string, variableName: string, options?: RequestInit): Promise<getVariableResponse> => {
-  return customFetch<getVariableResponse>(getGetVariableUrl(applicationName, variableName), {
+export const get2 = async (applicationName: string, variableName: string, options?: RequestInit): Promise<get2Response> => {
+  return customFetch<get2Response>(getGet2Url(applicationName, variableName), {
     ...options,
     method: 'GET'
   });
@@ -489,23 +666,23 @@ export const getVariable = async (applicationName: string, variableName: string,
 /**
  * Sets a new value for the variable with the given name.
  */
-export type setVariableResponse200 = {
+export type set2Response200 = {
   data: void;
   status: 200;
 };
 
-export type setVariableResponse401 = {
+export type set2Response401 = {
   data: void;
   status: 401;
 };
 
-export type setVariableResponseComposite = setVariableResponse200 | setVariableResponse401;
+export type set2ResponseComposite = set2Response200 | set2Response401;
 
-export type setVariableResponse = setVariableResponseComposite & {
+export type set2Response = set2ResponseComposite & {
   headers: Headers;
 };
 
-export const getSetVariableUrl = (applicationName: string, variableName: string, params?: SetVariableParams) => {
+export const getSet2Url = (applicationName: string, variableName: string, params?: Set2Params) => {
   const normalizedParams = new URLSearchParams();
 
   Object.entries(params || {}).forEach(([key, value]) => {
@@ -521,50 +698,46 @@ export const getSetVariableUrl = (applicationName: string, variableName: string,
     : `/apps/${applicationName}/variables/${variableName}`;
 };
 
-export const setVariable = async (
+export const set2 = async (
   applicationName: string,
   variableName: string,
-  setVariableBody: string,
-  params?: SetVariableParams,
+  set2Body: string,
+  params?: Set2Params,
   options?: RequestInit
-): Promise<setVariableResponse> => {
-  return customFetch<setVariableResponse>(getSetVariableUrl(applicationName, variableName, params), {
+): Promise<set2Response> => {
+  return customFetch<set2Response>(getSet2Url(applicationName, variableName, params), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': '*/*', ...options?.headers },
-    body: JSON.stringify(setVariableBody)
+    body: JSON.stringify(set2Body)
   });
 };
 
 /**
  * Resets the variable with the given name to the default value.
  */
-export type resetVariableResponse200 = {
+export type reset2Response200 = {
   data: void;
   status: 200;
 };
 
-export type resetVariableResponse401 = {
+export type reset2Response401 = {
   data: void;
   status: 401;
 };
 
-export type resetVariableResponseComposite = resetVariableResponse200 | resetVariableResponse401;
+export type reset2ResponseComposite = reset2Response200 | reset2Response401;
 
-export type resetVariableResponse = resetVariableResponseComposite & {
+export type reset2Response = reset2ResponseComposite & {
   headers: Headers;
 };
 
-export const getResetVariableUrl = (applicationName: string, variableName: string) => {
+export const getReset2Url = (applicationName: string, variableName: string) => {
   return `/apps/${applicationName}/variables/${variableName}`;
 };
 
-export const resetVariable = async (
-  applicationName: string,
-  variableName: string,
-  options?: RequestInit
-): Promise<resetVariableResponse> => {
-  return customFetch<resetVariableResponse>(getResetVariableUrl(applicationName, variableName), {
+export const reset2 = async (applicationName: string, variableName: string, options?: RequestInit): Promise<reset2Response> => {
+  return customFetch<reset2Response>(getReset2Url(applicationName, variableName), {
     ...options,
     method: 'DELETE'
   });
@@ -1054,6 +1227,60 @@ export const projects = async (params?: ProjectsParams, options?: RequestInit): 
   return customFetch<projectsResponse>(getProjectsUrl(params), {
     ...options,
     method: 'GET'
+  });
+};
+
+export type refreshProjectStatusesResponseDefault = {
+  data: ProjectBean[];
+  status: number;
+};
+
+export type refreshProjectStatusesResponseComposite = refreshProjectStatusesResponseDefault;
+
+export type refreshProjectStatusesResponse = refreshProjectStatusesResponseComposite & {
+  headers: Headers;
+};
+
+export const getRefreshProjectStatusesUrl = () => {
+  return `/web-ide/projects/refreshProjectStatuses`;
+};
+
+export const refreshProjectStatuses = async (options?: RequestInit): Promise<refreshProjectStatusesResponse> => {
+  return customFetch<refreshProjectStatusesResponse>(getRefreshProjectStatusesUrl(), {
+    ...options,
+    method: 'POST'
+  });
+};
+
+export type convertProjectResponseDefault = {
+  data: unknown;
+  status: number;
+};
+
+export type convertProjectResponseComposite = convertProjectResponseDefault;
+
+export type convertProjectResponse = convertProjectResponseComposite & {
+  headers: Headers;
+};
+
+export const getConvertProjectUrl = (params?: ConvertProjectParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/web-ide/project/convert?${stringifiedParams}` : `/web-ide/project/convert`;
+};
+
+export const convertProject = async (params?: ConvertProjectParams, options?: RequestInit): Promise<convertProjectResponse> => {
+  return customFetch<convertProjectResponse>(getConvertProjectUrl(params), {
+    ...options,
+    method: 'POST'
   });
 };
 

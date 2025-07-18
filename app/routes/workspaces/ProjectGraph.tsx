@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects } from '~/data/project-api';
 
+export type ProjectGraphBean = Pick<ProjectBean, 'id' | 'artifactId' | 'version' | 'dependencies'>;
+
 export const ProjectGraph = () => {
   const { data: projects } = useSortedProjects(true);
   const { t } = useTranslation();
@@ -22,12 +24,12 @@ export const ProjectGraph = () => {
   );
 };
 
-export const mapProjectsToGraphNodes = (projects: ProjectBean[] | undefined): NodeData[] => {
+export const mapProjectsToGraphNodes = (projects?: Array<ProjectGraphBean>) => {
   if (!projects) {
     return [];
   }
 
-  return projects.map(project => ({
+  return projects.map<NodeData>(project => ({
     id: project.id.pmv,
     label: project.id.pmv,
     content: `${project.artifactId} - ${project.version}`,
@@ -39,7 +41,7 @@ export const mapProjectsToGraphNodes = (projects: ProjectBean[] | undefined): No
   }));
 };
 
-const ProjectGraphControls = ({ project }: { project: ProjectBean }) => {
+const ProjectGraphControls = ({ project }: { project: ProjectGraphBean }) => {
   const navigate = useNavigate();
   const projectUrl = `${project.id.app}/${project.id.pmv}`;
   return <GraphControls openAction={() => navigate(`projects/${projectUrl}`)} />;
