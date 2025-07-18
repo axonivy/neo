@@ -14,7 +14,7 @@ import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
-import { DataClasGraph, ProjectGraphFilter } from './DataClassGraph';
+import { DataClassGraph, DataClassGraphFilter } from './DataClassGraph';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -33,8 +33,8 @@ export default function Index() {
       description={t('dataclasses.dataclassDescription')}
       search={search}
       graph={{
-        graph: <DataClasGraph selectedProject={selectedProject} />,
-        filter: <ProjectGraphFilter selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
+        graph: <DataClassGraph selectedProject={selectedProject} />,
+        filter: <DataClassGraphFilter selectedProject={selectedProject} setSelectedProject={setSelectedProject} />
       }}
       onSearchChange={setSearch}
       isPending={isPending}

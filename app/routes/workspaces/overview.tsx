@@ -11,7 +11,6 @@ import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
-import { InfoPopover } from '~/neo/InfoPopover';
 import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
 import { LanguageSettings } from '~/neo/settings/LanguageSettings';
 import { Settings } from '~/neo/settings/Settings';
@@ -31,8 +30,6 @@ export default function Index() {
   const { search, setSearch } = useSearch();
   const { data, isPending } = useWorkspaces();
   const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())) ?? [];
-  const title = t('workspaces.title', { neo: NEO_DESIGNER });
-  const info = t('workspaces.info');
 
   return (
     <>
@@ -60,13 +57,18 @@ export default function Index() {
               }}
             >
               <Flex direction='row' gap={1} style={{ padding: 20 }}>
-                <span style={{ color: 'white', fontSize: 22, fontWeight: 500 }}>{title}</span>
-                <InfoPopover info={info}>
-                  <Button size='large' style={{ color: 'white' }} icon={IvyIcons.InfoCircle} />
-                </InfoPopover>
+                <span style={{ color: 'white', fontSize: 22, fontWeight: 500 }}>{t('workspaces.title', { neo: NEO_DESIGNER })}</span>
               </Flex>
             </Flex>
-            <Overview search={search} onSearchChange={setSearch} isPending={isPending} control={<NewWorkspaceButton />}>
+            <Overview
+              title={t('workspaces.manageWorkspaces')}
+              description={t('workspaces.newWorkspaceDescription')}
+              info={t('workspaces.info')}
+              search={search}
+              onSearchChange={setSearch}
+              isPending={isPending}
+              control={<NewWorkspaceButton />}
+            >
               {workspaces.map(workspace => (
                 <WorkspaceCard key={workspace.name} {...workspace} />
               ))}
@@ -139,32 +141,30 @@ const NewWorkspaceButton = () => {
   const enter = useHotkeys('Enter', createNewWorkspace, { scopes: ['newWorkspaceDialog'], enabled: dialogState, enableOnFormTags: true });
 
   return (
-    <>
-      <CreateNewArtefactButton title={t('workspaces.newWorkspace')} open={() => onDialogOpenChange(true)} />
-      <BasicDialog
-        open={dialogState}
-        onOpenChange={() => onDialogOpenChange(false)}
-        contentProps={{
-          title: t('workspaces.newWorkspace'),
-          description: t('workspaces.newWorkspaceDescription'),
-          buttonClose: (
-            <Button icon={IvyIcons.Close} size='large' variant='outline'>
-              {t('common.label.cancel')}
-            </Button>
-          ),
-          buttonCustom: (
-            <Button disabled={hasErros} icon={IvyIcons.Plus} size='large' variant='primary' onClick={createNewWorkspace}>
-              {t('common.label.create')}
-            </Button>
-          )
-        }}
-      >
-        <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
-          <BasicField label={t('common.label.name')} message={nameValidation}>
-            <Input value={name} onChange={e => setName(e.target.value)} />
-          </BasicField>
-        </Flex>
-      </BasicDialog>
-    </>
+    <BasicDialog
+      open={dialogState}
+      onOpenChange={() => onDialogOpenChange(false)}
+      dialogTrigger={<CreateNewArtefactButton title={t('workspaces.newWorkspace')} open={() => onDialogOpenChange(true)} />}
+      contentProps={{
+        title: t('workspaces.newWorkspace'),
+        description: t('workspaces.newWorkspaceDescription'),
+        buttonClose: (
+          <Button icon={IvyIcons.Close} size='large' variant='outline'>
+            {t('common.label.cancel')}
+          </Button>
+        ),
+        buttonCustom: (
+          <Button disabled={hasErros} icon={IvyIcons.Plus} size='large' variant='primary' onClick={createNewWorkspace}>
+            {t('common.label.create')}
+          </Button>
+        )
+      }}
+    >
+      <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
+        <BasicField label={t('common.label.name')} message={nameValidation}>
+          <Input value={name} onChange={e => setName(e.target.value)} />
+        </BasicField>
+      </Flex>
+    </BasicDialog>
   );
 };
