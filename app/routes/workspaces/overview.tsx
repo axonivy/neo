@@ -149,7 +149,7 @@ const NewWorkspaceButton = () => {
         title: t('workspaces.newWorkspace'),
         description: t('workspaces.newWorkspaceDescription'),
         buttonClose: (
-          <Button icon={IvyIcons.Close} size='large' variant='outline'>
+          <Button size='large' variant='outline'>
             {t('common.label.cancel')}
           </Button>
         ),
