@@ -129,7 +129,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
             title: t('artifact.newTitle', { type: newArtifact.type }),
             description: getDescription(newArtifact.type),
             buttonClose: (
-              <Button icon={IvyIcons.Close} size='large' variant='outline'>
+              <Button size='large' variant='outline'>
                 {t('common.label.cancel')}
               </Button>
             ),

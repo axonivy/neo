@@ -156,7 +156,7 @@ const AddDependencyDialog = ({
         title: t('projects.addDependencyTo', { project: project.pmv }),
         description: t('projects.addDependencyDescription'),
         buttonClose: (
-          <Button variant='outline' size='large' icon={IvyIcons.Close}>
+          <Button variant='outline' size='large'>
             {t('common.label.cancel')}
           </Button>
         ),

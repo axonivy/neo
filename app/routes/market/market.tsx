@@ -131,7 +131,7 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
           </>
         ),
         buttonClose: (
-          <Button variant='outline' size='large' icon={IvyIcons.Close}>
+          <Button variant='outline' size='large'>
             {t('common.label.cancel')}
           </Button>
         ),
