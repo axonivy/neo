@@ -1,296 +1,64 @@
 {
   "animation": {
-    "allOpen": "",
-    "allProcesses": "",
-    "animation": "",
-    "enabled": "",
-    "fast": "",
-    "fastest": "",
-    "mode": "",
-    "noDialog": "",
-    "noEmbedded": "",
-    "normal": "",
-    "onlyCurrenltyOpen": "",
-    "reset": "",
-    "slow": "",
-    "slowest": "",
-    "speed": ""
   },
   "artifact": {
-    "callerData": "",
-    "deleteConfirmMsg": "",
-    "deleteConfirmTitle": "",
-    "namespace": "",
-    "newDataClass": "",
-    "newForm": "",
-    "newProcess": "",
-    "newTitle": "",
-    "optional": ""
   },
   "browser": {
-    "devBrowser": "",
-    "goBack": "",
-    "goForward": "",
-    "goHome": "",
-    "openNewTab": "",
-    "reloadPage": "",
-    "simulate": ""
   },
   "common": {
     "label": {
-      "add": "",
-      "cancel": "",
-      "close": "",
-      "closeAll": "",
-      "create": "",
-      "delete": "",
-      "deploy": "",
-      "export": "",
-      "file": "",
-      "import": "",
-      "install": "",
-      "name": "",
-      "no": "",
-      "open": "",
-      "password": "",
-      "readOnly": "",
-      "reload": "",
-      "search": "",
-      "settings": "",
-      "showAll": "",
-      "user": "",
-      "version": "",
-      "yes": ""
     }
   },
   "configurations": {
-    "configDescription": ""
   },
   "dataclasses": {
-    "dataclassDescription": "",
-    "newDataclass": ""
   },
   "deploy": {
-    "applicationName": "",
-    "deployWs": "",
-    "engineUrl": "",
-    "log": "",
-    "logDescription": "",
-    "target": ""
   },
   "deploys": {
-    "closeLog": "",
-    "copiedLog": ""
   },
   "forms": {
-    "formDescription": "",
-    "newForm": ""
   },
   "hotkey": {
-    "animationMode": "",
-    "animationSpeed": "",
-    "closeAllTabs": "",
-    "closeTab": "",
-    "configurations": "",
-    "dataClasses": "",
-    "deleteElement": "",
-    "deploy": "",
-    "exportWorkspace": "",
-    "focusNavigation": "",
-    "focusTabs": "",
-    "forms": "",
-    "home": "",
-    "importFile": "",
-    "importMarket": "",
-    "openPanel": "",
-    "openSim": "",
-    "processes": "",
-    "resetBpm": "",
-    "resizeSim": "",
-    "themeSwitch": "",
-    "toggleAnimation": "",
-    "workspaces": ""
   },
   "label": {
-    "businessData": "",
-    "entity": "",
-    "graphView": "",
-    "project": "",
-    "removeDependency": "",
-    "runtimeLog": "",
-    "tileView": "",
-    "toggleView": ""
   },
   "market": {
-    "description": "",
-    "install": "",
-    "selectVersion": "",
-    "showDetails": "",
-    "title": ""
   },
   "message": {
-    "artifactNotEmpty": "",
-    "artifctExisting": "",
-    "artifiactNamespaceNotEmpty": "",
-    "capitalizeName": "",
-    "dataclassPackaged": "",
-    "dependencyPackaged": "",
-    "formPackaged": "",
-    "invalidChar": "",
-    "invalidIar": "",
-    "loadEngineVersionFail": "",
-    "processPackaged": ""
   },
   "neo": {
-    "addDependency": "",
-    "artifactId": "",
-    "configs": "",
-    "dataClasses": "",
-    "forms": "",
-    "groupId": "",
-    "home": "",
-    "monaco": "",
-    "processes": "",
-    "project": "",
-    "projects": ""
   },
   "processes": {
-    "newProcess": "",
-    "processDescription": ""
   },
   "project": {
-    "editable": ""
   },
   "projects": {
-    "addDependency": "",
-    "addDependencyDescription": "",
-    "addDependencyTo": "",
-    "deletable": "",
-    "dependecyInfo": "",
-    "dependencyDetails": "",
-    "description": "",
-    "details": "",
-    "editRights": "",
-    "selectDependency": ""
   },
   "settings": {
-    "dark": "",
-    "language": "",
-    "languageSwitch": "",
-    "light": "",
-    "system": "",
-    "theme": ""
   },
   "toast": {
     "animation": {
-      "disabled": "",
-      "enabled": "",
-      "mode": "",
-      "speed": ""
     },
     "config": {
-      "missing": "",
-      "readFail": "",
-      "saved": "",
-      "writeFail": "",
-      "writing": ""
     },
     "dataClass": {
-      "create": "",
-      "created": "",
-      "creationFail": "",
-      "missing": "",
-      "removed": "",
-      "removeFail": "",
-      "removing": ""
     },
     "dependency": {
-      "added": "",
-      "addFail": "",
-      "adding": "",
-      "missing": "",
-      "remove": "",
-      "removed": "",
-      "removeFail": ""
     },
     "editor": {
-      "fileTypeIncompatible": "",
-      "unknownType": "",
-      "unknownTypeForPath": "",
-      "unknownTypeForType": ""
     },
     "form": {
-      "created": "",
-      "createFail": "",
-      "creating": "",
-      "jumpIntoFailed": "",
-      "missing": "",
-      "removed": "",
-      "removeFail": "",
-      "removing": ""
     },
     "market": {
-      "inaccsessible": "",
-      "loadBestMatchingFail": "",
-      "loadFail": "",
-      "loadJsonFail": "",
-      "missing": "",
-      "versionUndefined": ""
     },
     "process": {
-      "created": "",
-      "createFail": "",
-      "creating": "",
-      "missing": "",
-      "removed": "",
-      "removeFail": "",
-      "removing": ""
     },
     "project": {
-      "bpmnEngineStopFail": "",
-      "bpmnEngineStopped": "",
-      "bpmnEngineStopping": "",
-      "missing": "",
-      "removed": "",
-      "removeFail": "",
-      "removing": ""
     },
-    "serverStatus": "",
-    "unauthorized": "",
     "workspace": {
-      "created": "",
-      "createFail": "",
-      "creating": "",
-      "deployed": "",
-      "deployFail": "",
-      "deploying": "",
-      "exported": "",
-      "exportFail": "",
-      "exporting": "",
-      "imported": "",
-      "importFail": "",
-      "importing": "",
-      "marketInstallFail": "",
-      "marketProductInstalled": "",
-      "marketProductInstalling": "",
-      "missing": "",
-      "removed": "",
-      "removeFail": "",
-      "removing": ""
     }
   },
   "workspaces": {
-    "description": "",
-    "importFile": "",
-    "importInto": "",
-    "importMarket": "",
-    "importProject": "",
-    "importWarning": "",
-    "importWarningLink": "",
-    "info": "",
-    "newWorkspace": "",
-    "newWorkspaceDescription": "",
-    "title": "",
-    "wsTitle": ""
   }
 }
