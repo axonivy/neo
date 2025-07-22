@@ -19,7 +19,7 @@ export const Breadcrumbs = ({ style, items = [] }: BreadcrumbProps) => {
     <Breadcrumb style={style ?? { fontSize: 12 }}>
       <BreadcrumbList>
         {breadcrumbItems?.map(({ name, href }) => (
-          <Fragment key={name}>
+          <Fragment key={`${name}-${href}`}>
             <BreadcrumbItem>
               {href !== undefined ? (
                 <BreadcrumbLink asChild>
