@@ -1,16 +1,15 @@
-import { Flex, HotkeysProvider, Spinner, ThemeProvider } from '@axonivy/ui-components';
+import { Flex, HotkeysProvider, Spinner, ThemeProvider, Toaster } from '@axonivy/ui-components';
 import componentsStylesHref from '@axonivy/ui-components/lib/components.css?url';
 import graphStylesHref from '@axonivy/ui-graph/lib/graph.css?url';
 import iconStylesHref from '@axonivy/ui-icons/lib/ivy-icons.css?url';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { LinksFunction } from 'react-router';
-import { Links, Meta, Scripts, ScrollRestoration } from 'react-router';
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 import rootStylesHref from '~/styles/root.css?url';
 import favicon from './favicon.png?url';
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
-import { Neo } from './neo/Neo';
 import { initTranslation } from './translation/translation';
 
 const queryClient = new QueryClient();
@@ -49,7 +48,10 @@ export default function App() {
         <WebBrowserProvider>
           <HotkeysProvider initiallyActiveScopes={['neo', 'global']}>
             <NewArtifactDialogProvider>
-              <Neo />
+              <div className='neo-layout'>
+                <Outlet />
+                <Toaster closeButton={true} />
+              </div>
             </NewArtifactDialogProvider>
           </HotkeysProvider>
         </WebBrowserProvider>

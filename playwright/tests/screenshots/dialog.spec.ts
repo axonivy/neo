@@ -8,7 +8,7 @@ test.describe('workspace', () => {
   test('new', async ({ page }) => {
     await Neo.open(page);
     const workspaces = new Overview(page);
-    await workspaces.createNewButton.click();
+    await workspaces.createButton.click();
     await screenshotDialog(page, 'dialog-new-workspace');
   });
 
@@ -43,7 +43,7 @@ test.describe('project', () => {
     const projects = new Overview(page);
     await projects.card(TEST_PROJECT).click();
     const dependencies = new Overview(page);
-    await dependencies.createNewButton.click();
+    await dependencies.createButton.click();
     await screenshotDialog(page, 'dialog-new-dependency');
   });
 });
@@ -52,21 +52,21 @@ test.describe('new aritfact', () => {
   test('process', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const processes = await neo.processes();
-    await processes.createNewButton.click();
+    await processes.createButton.click();
     await screenshotDialog(page, 'dialog-new-process');
   });
 
   test('form', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const forms = await neo.forms();
-    await forms.createNewButton.click();
+    await forms.createButton.click();
     await screenshotDialog(page, 'dialog-new-form');
   });
 
   test('data class', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const dataclasses = await neo.dataClasses();
-    await dataclasses.createNewButton.click();
+    await dataclasses.createButton.click();
     await screenshotDialog(page, 'dialog-new-data-class');
   });
 });

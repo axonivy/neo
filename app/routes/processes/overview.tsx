@@ -9,10 +9,14 @@ import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
+import { Breadcrumbs } from '~/neo/Breadcrumb';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import { CreateNewArtefactButton, Overview } from '~/neo/Overview';
+import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
+import { OverviewContent } from '~/neo/overview/OverviewContent';
+import { OverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -21,26 +25,26 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useGroupedProcesses();
-  const { filteredGroups, search, setSearch } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
+  const { filteredGroups, overviewFilter } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
   const { createProcessEditor } = useCreateEditor();
 
   return (
-    <Overview
-      title={t('neo.processes')}
-      description={t('processes.processDescription')}
-      search={search}
-      onSearchChange={setSearch}
-      isPending={isPending}
-      control={<NewProcessButton />}
-    >
-      {filteredGroups.map(({ project, artifacts }) => (
-        <ArtifactGroup project={project} key={project}>
-          {artifacts.map(process => {
-            const editor = createProcessEditor(process);
-            return <ProcessCard key={editor.id} process={process} {...editor} />;
-          })}
-        </ArtifactGroup>
-      ))}
+    <Overview>
+      <Breadcrumbs items={[{ name: t('neo.processes') }]} />
+      <OverviewTitle title={t('neo.processes')} description={t('processes.processDescription')}>
+        <NewProcessButton />
+      </OverviewTitle>
+      <OverviewFilter {...overviewFilter} />
+      <OverviewContent isPending={isPending}>
+        {filteredGroups.map(({ project, artifacts }) => (
+          <ArtifactGroup project={project} key={project}>
+            {artifacts.map(process => {
+              const editor = createProcessEditor(process);
+              return <ProcessCard key={editor.id} process={process} {...editor} />;
+            })}
+          </ArtifactGroup>
+        ))}
+      </OverviewContent>
     </Overview>
   );
 }

@@ -13,10 +13,13 @@ import type { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
 import { cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
+import { Breadcrumbs } from '~/neo/Breadcrumb';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import { Overview } from '~/neo/Overview';
-import { useSearch } from '~/neo/useSearch';
+import { Overview } from '~/neo/overview/Overview';
+import { OverviewContent } from '~/neo/overview/OverviewContent';
+import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const links: LinksFunction = () => [cardStylesLink];
 
@@ -26,14 +29,14 @@ export const meta: MetaFunction = ({ params }) => {
 
 export default function Index() {
   const { t } = useTranslation();
-  const { search, setSearch } = useSearch();
+  const overviewFilter = useOverviewFilter();
   const { data, isPending, isFetchingNextPage, fetchNextPage, hasNextPage } = useProducts();
   const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['installDialog']);
   const products =
     data?.pages
       .flatMap(page => page)
       ?.filter(product => {
-        const lowerCaseSearch = search.toLocaleLowerCase();
+        const lowerCaseSearch = overviewFilter.search.toLocaleLowerCase();
         return (
           product.names?.en.toLocaleLowerCase().includes(lowerCaseSearch) ||
           product.shortDescriptions?.en.includes(lowerCaseSearch) ||
@@ -57,18 +60,16 @@ export default function Index() {
   };
 
   return (
-    <Overview
-      title={t('market.title')}
-      description={t('market.description')}
-      helpUrl={MARKET_URL}
-      search={search}
-      onSearchChange={setSearch}
-      isPending={isPending}
-    >
-      <InstallDialog product={product} dialogState={dialogState} setDialogState={onDialogOpenChange} />
-      {products.map(p => (
-        <ProductCard key={p.id} product={p} setProduct={setProduct} setDialogState={onDialogOpenChange} />
-      ))}
+    <Overview>
+      <Breadcrumbs items={[{ name: t('market.title') }]} />
+      <OverviewTitle title={t('market.title')} description={t('market.description')} helpUrl={MARKET_URL} />
+      <OverviewFilter {...overviewFilter} />
+      <OverviewContent isPending={isPending}>
+        <InstallDialog product={product} dialogState={dialogState} setDialogState={onDialogOpenChange} />
+        {products.map(p => (
+          <ProductCard key={p.id} product={p} setProduct={setProduct} setDialogState={onDialogOpenChange} />
+        ))}
+      </OverviewContent>
     </Overview>
   );
 }

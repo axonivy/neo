@@ -1,6 +1,5 @@
 import { expect, test } from '@playwright/test';
 import { TEST_PROJECT } from '../integration/constants';
-import { AppInfo } from '../page-objects/app-info';
 import { Neo } from '../page-objects/neo';
 import { Overview } from '../page-objects/overview';
 import { ProjectDetail } from '../page-objects/project-detail';
@@ -17,9 +16,8 @@ test('workspaces', async ({ page }) => {
 test('home', async ({ page }) => {
   await Neo.openWorkspace(page);
   const overview = new Overview(page);
-  const appInfo = new AppInfo(page);
-  await expect(appInfo.title).toHaveText(/Welcome to your workspace/);
-  await expect(appInfo.infoCards).toHaveCount(4);
+  await expect(overview.infoTitle).toHaveText(/Welcome to your workspace/);
+  await expect(overview.infoCards).toHaveCount(4);
   await overview.expectCardsCountGreaterThan(0);
   await screenshot(page, 'overview-home', { width: 900, height: 900 });
 });
@@ -29,7 +27,7 @@ test('project', async ({ page }) => {
   const overview = new Overview(page);
   await overview.card(TEST_PROJECT).click();
   const detail = new ProjectDetail(page);
-  await expect(detail.title).toHaveText(/Project details/);
+  await expect(overview.infoTitle).toHaveText(/Project details/);
   await expect(detail.detailCard).toContainText(`ArtifactId:${TEST_PROJECT}`);
   await screenshot(page, 'overview-project');
 });
