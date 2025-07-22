@@ -58,6 +58,7 @@ test.describe('inscription', () => {
     await expect(editor.rows).toHaveCount(0);
     await editor.addField();
     await expect(editor.rows).toHaveCount(1);
+    await editor.rows.nth(0).click();
     await editor.deleteField();
     await expect(editor.rows).toHaveCount(0);
     await removeTempDataClass();
