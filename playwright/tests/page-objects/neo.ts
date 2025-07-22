@@ -2,6 +2,7 @@ import type { Page } from '@playwright/test';
 import { expect } from '@playwright/test';
 import * as fs from 'fs';
 import { WORKSPACE } from '../integration/constants';
+import { Breadcrumbs } from './breadcrumbs';
 import { Browser } from './browser';
 import { ControlBar } from './control-bar';
 import { Navigation } from './navigation';
@@ -14,12 +15,14 @@ export type OverviewTypes = 'Processes' | 'Forms' | 'Configurations' | 'Data Cla
 export class Neo {
   readonly page: Page;
   readonly navigation: Navigation;
+  readonly breadcrumbs: Breadcrumbs;
   readonly views: Views;
   readonly controlBar: ControlBar;
 
   private constructor(page: Page) {
     this.page = page;
     this.navigation = new Navigation(this.page);
+    this.breadcrumbs = new Breadcrumbs(this.page);
     this.views = new Views(this.page);
     this.controlBar = new ControlBar(this.page);
   }

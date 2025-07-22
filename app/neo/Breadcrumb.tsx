@@ -4,10 +4,11 @@ import { NavLink, useParams } from 'react-router';
 import { Fragment } from 'react/jsx-runtime';
 
 type BreadcrumbProps = {
+  style?: React.CSSProperties;
   items?: Array<{ name: string; href?: string }>;
 };
 
-export const Breadcrumbs = ({ items = [] }: BreadcrumbProps) => {
+export const Breadcrumbs = ({ style, items = [] }: BreadcrumbProps) => {
   const { t } = useTranslation();
   const { ws } = useParams();
   const workspacesItem = { name: t('neo.workspaces'), href: '' };
@@ -15,7 +16,7 @@ export const Breadcrumbs = ({ items = [] }: BreadcrumbProps) => {
   const breadcrumbItems = [workspacesItem, wsItem, ...items];
   const lastItem = breadcrumbItems.pop();
   return (
-    <Breadcrumb style={{ fontSize: 12 }}>
+    <Breadcrumb style={style ?? { fontSize: 12 }}>
       <BreadcrumbList>
         {breadcrumbItems?.map(({ name, href }) => (
           <Fragment key={name}>
