@@ -48,7 +48,7 @@ test.describe('jump to editor', () => {
   test('jump to process', async ({ page }) => {
     const { neo, editor } = await openFormDataClass(page);
     await editor.editor.getByRole('button', { name: 'Open Process' }).click();
-    await neo.controlBar.tab(/EnterProduct$/).expectActive();
+    await neo.controlBar.tab(/EnterProductProcess$/).expectActive();
   });
 });
 

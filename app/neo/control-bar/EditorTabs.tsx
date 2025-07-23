@@ -1,6 +1,19 @@
-import { Button, Flex, IvyIcon, Tabs, TabsList, TabsTrigger, useHotkeys } from '@axonivy/ui-components';
+import {
+  Button,
+  cn,
+  Flex,
+  IvyIcon,
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  useHotkeys
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentProps } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { lastSegment } from '~/utils/path';
@@ -72,22 +85,43 @@ const EditorsTab = ({
 
   return (
     <Flex className='editor-tab-wrapper' alignItems='center' gap={1}>
-      <TabsTrigger value={editors[0].id} title={editors[0].path} className='editor-tab' aria-label={name} ref={firstTabRef}>
+      <EditorTrigger {...editors[0]} ref={firstTabRef}>
         <IvyIcon className='editor-tab-icon' icon={editors[0].icon} />
         {name}
-      </TabsTrigger>
-      {editors.slice(1).map(({ id, path, icon, name }) => (
-        <EditorSubTab key={id} icon={icon} path={path} id={id} name={name} />
+        <span className='editor-tab-hint'>{`- ${editors[0].project.pmv}`}</span>
+      </EditorTrigger>
+      {editors.slice(1).map(editor => (
+        <EditorSubTab key={editor.id} {...editor} />
       ))}
       <EditorTabClose ids={editors.map(e => e.id)} />
     </Flex>
   );
 };
 
-const EditorSubTab = ({ icon, path, id, name }: Pick<Editor, 'icon' | 'path' | 'id' | 'name'>) => (
-  <TabsTrigger value={id} title={path} className='editor-tab editor-sub-tab' aria-label={name}>
-    <IvyIcon className='editor-tab-icon' icon={icon} />
-  </TabsTrigger>
+const EditorSubTab = (props: Editor) => (
+  <EditorTrigger className='editor-sub-tab' {...props}>
+    <IvyIcon className='editor-tab-icon' icon={props.icon} />
+  </EditorTrigger>
+);
+
+type EditorTriggerProps = Editor & Pick<ComponentProps<typeof TabsTrigger>, 'ref' | 'className' | 'children'>;
+
+const EditorTrigger = ({ id, path, name, project, className, children, ref }: EditorTriggerProps) => (
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Flex className='editor-tab-root' alignItems='center'>
+          <TabsTrigger ref={ref} value={id} className={cn('editor-tab', className)} aria-label={name}>
+            {children}
+          </TabsTrigger>
+        </Flex>
+      </TooltipTrigger>
+      <TooltipContent align='start'>
+        <div>{project.pmv}</div>
+        <div>{path}</div>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
 );
 
 const EditorTabClose = ({ ids }: { ids: Array<string> }) => {
