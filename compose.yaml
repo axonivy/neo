@@ -5,3 +5,4 @@ services:
       - 8080:8080
     volumes:
       - ./playwright/neo-test-project:/ivy/data/workspaces/Developer/neo-test-project/neo-test-project/
+      - /home/lgi/dev/sandbox/smart-neo/smart-neo/target/smart-neo-1.0.0-SNAPSHOT.jar:/ivy/dropins/smart-neo-1.0.0-SNAPSHOT.jar

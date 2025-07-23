@@ -4,7 +4,7 @@ import type { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUpdateTheme } from '~/theme/useUpdateTheme';
 import { useHotkeyDispatcher } from '~/utils/hotkeys';
-import { useWebBrowser } from './useWebBrowser';
+import { useSidePanel } from '../workspace/useSidePanel';
 
 const updateFrameTheme = (frame: RefObject<HTMLIFrameElement | null>, theme: string) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -17,11 +17,11 @@ const updateFrameTheme = (frame: RefObject<HTMLIFrameElement | null>, theme: str
 
 export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?: React.Ref<HTMLButtonElement> }) => {
   const { t } = useTranslation();
-  const { nav, homeUrl, browser } = useWebBrowser();
-  useUpdateTheme(nav.frameRef, updateFrameTheme);
-  useHotkeyDispatcher(nav.frameRef);
+  const { nav, homeUrl, sidePanel } = useSidePanel();
+  useUpdateTheme(nav.browserFrameRef, updateFrameTheme);
+  useHotkeyDispatcher(nav.browserFrameRef);
   return (
-    <Flex direction='column' gap={1} style={{ height: '100%', display: browser.openState ? undefined : 'none' }}>
+    <Flex direction='column' gap={1} style={{ height: '100%', display: sidePanel.openState ? undefined : 'none' }}>
       <Flex
         direction='row'
         alignItems='center'
@@ -29,7 +29,6 @@ export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?
         gap={1}
         style={{ flex: '0 0 48px', paddingInline: 'var(--size-2)', borderBottom: '1px solid var(--N100)' }}
       >
-        {t('browser.simulate')}
         <Flex alignItems='center' gap={1}>
           <Button
             icon={IvyIcons.ArrowRight}
@@ -46,7 +45,7 @@ export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?
         </Flex>
       </Flex>
       <iframe
-        ref={nav.frameRef}
+        ref={nav.browserFrameRef}
         src={homeUrl}
         title={t('browser.devBrowser')}
         style={{ width: '100%', height: '100%', border: 'none' }}

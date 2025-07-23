@@ -30,7 +30,7 @@ test('form editor preview', async ({ page }) => {
   await editor.expectOpen('Product');
   await editor.toolbar.getByRole('button', { name: 'Open Preview' }).click();
   const browser = await neo.browser();
-  await page.locator('.browser-resize-handle').focus();
+  await page.locator('.side-panel-resize-handle').focus();
   await page.keyboard.press('ArrowLeft');
   await expect(browser.dialogTitle).toHaveText('Preview');
   await browser.dialogTitle.click(); //Remove focus line from resize handle

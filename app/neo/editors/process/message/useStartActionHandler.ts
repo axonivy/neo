@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
-import { useWebBrowser } from '~/neo/browser/useWebBrowser';
 import { Action } from '@eclipse-glsp/protocol/lib/action-protocol/base-protocol';
+import { useCallback } from 'react';
+import { useSidePanel } from '~/neo/workspace/useSidePanel';
 
 interface StartProcessAction extends Action {
   kind: 'startProcess';
@@ -18,14 +18,14 @@ const isStartProcessAction = (object: unknown): object is StartProcessAction => 
 };
 
 export const useStartActionHandler = () => {
-  const { browser } = useWebBrowser();
+  const { sidePanel } = useSidePanel();
   return useCallback(
     (data: unknown) => {
       if (!isStartProcessAction(data)) {
         return;
       }
-      browser.open(data.processStartUri);
+      sidePanel.openUrl(data.processStartUri);
     },
-    [browser]
+    [sidePanel]
   );
 };

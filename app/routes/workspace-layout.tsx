@@ -1,42 +1,46 @@
 import runtimeLogStylesHref from '@axonivy/log-view/lib/view.css?url';
+import smartNeoClientStylesHref from '@axonivy/smart-neo-client/lib/client.css?url';
 import { Button, Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Tabs, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { Outlet, useParams, type LinksFunction } from 'react-router';
-import { Navigation } from '~/neo/Navigation';
-import { WebBrowser } from '~/neo/browser/WebBrowser';
-import { useWebBrowser } from '~/neo/browser/useWebBrowser';
 import { NeoClientProvider } from '~/neo/client/useNeoClient';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { EditorsControl } from '~/neo/control-bar/EditorControl';
 import { EditorTabs } from '~/neo/control-bar/EditorTabs';
 import { MountedEditor } from '~/neo/editors/MountedEditor';
 import { renderEditor, useEditors } from '~/neo/editors/useEditors';
+import { Navigation } from '~/neo/Navigation';
 import { useViews, ViewContent, ViewTabs, type ViewIds } from '~/neo/views/Views';
+import { SidePanel } from '~/neo/workspace/SidePanel';
+import { useSidePanel } from '~/neo/workspace/useSidePanel';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: runtimeLogStylesHref }];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: runtimeLogStylesHref },
+  { rel: 'stylesheet', href: smartNeoClientStylesHref }
+];
 
 export default function Index() {
   const { editors } = useEditors();
-  const { browser } = useWebBrowser();
+  const { sidePanel } = useSidePanel();
   const { ws } = useParams();
-  const firstWebbrowserElement = useRef<HTMLButtonElement>(null);
-  const { openSimulation, resizeSimulation } = useKnownHotkeys();
+  const firstSidePanelElement = useRef<HTMLDivElement>(null);
+  const { openSidePanel, resizeSidePanel } = useKnownHotkeys();
 
   useHotkeys(
-    openSimulation.hotkey,
+    openSidePanel.hotkey,
     () => {
-      browser.toggle();
-      if (!browser.openState) {
+      sidePanel.toggle();
+      if (!sidePanel.openState) {
         setTimeout(() => {
-          firstWebbrowserElement.current?.focus();
+          firstSidePanelElement.current?.focus();
         }, 0);
       }
     },
     { scopes: ['neo'] }
   );
-  useHotkeys(resizeSimulation.hotkey, browser.cycleSize, { scopes: ['neo'] });
+  useHotkeys(resizeSidePanel.hotkey, sidePanel.cycleSize, { scopes: ['neo'] });
   const views = useViews();
   const { openPanel } = useKnownHotkeys();
   useHotkeys(openPanel.hotkey, () => views.toggleView(), { scopes: ['neo'] });
@@ -57,16 +61,16 @@ export default function Index() {
               aria-label={openPanel.label}
             />
             <Button
-              onClick={browser.toggle}
+              onClick={sidePanel.toggle}
               rotate={180}
               icon={IvyIcons.PoolSwimlanes}
-              title={openSimulation.label}
-              aria-label={openSimulation.label}
+              title={openSidePanel.label}
+              aria-label={openSidePanel.label}
             />
           </Flex>
         </>
       </ControlBar>
-      <ResizablePanelGroup direction='horizontal' style={{ height: '100vh' }} autoSaveId={`neo-layout-${ws}`}>
+      <ResizablePanelGroup direction='horizontal' autoSaveId={`neo-layout-${ws}`}>
         <ResizablePanel id='Neo'>
           <Flex direction='row' style={{ height: 'calc(100vh - 41px)', width: '100%' }}>
             <Navigation />
@@ -103,18 +107,18 @@ export default function Index() {
           </Flex>
         </ResizablePanel>
 
-        <ResizableHandle className='browser-resize-handle' style={{ width: 3, height: 'calc(100% - 42px)' }} />
+        <ResizableHandle className='side-panel-resize-handle' style={{ width: 3 }} />
         <ResizablePanel
-          ref={browser.panelRef}
-          onCollapse={() => browser.setOpenState(false)}
-          onExpand={() => browser.setOpenState(true)}
-          id='Browser'
+          ref={sidePanel.panelRef}
+          onCollapse={() => sidePanel.setOpenState(false)}
+          onExpand={() => sidePanel.setOpenState(true)}
+          id='SidePanel'
           collapsible
           defaultSize={0}
           maxSize={70}
           minSize={10}
         >
-          <WebBrowser firstWebbrowserElement={firstWebbrowserElement} />
+          <SidePanel firstSidePanelElement={firstSidePanelElement} />
         </ResizablePanel>
       </ResizablePanelGroup>
     </NeoClientProvider>

@@ -3,13 +3,12 @@ import componentsStylesHref from '@axonivy/ui-components/lib/components.css?url'
 import graphStylesHref from '@axonivy/ui-graph/lib/graph.css?url';
 import iconStylesHref from '@axonivy/ui-icons/lib/ivy-icons.css?url';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { LinksFunction } from 'react-router';
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
 import rootStylesHref from '~/styles/root.css?url';
 import favicon from './favicon.png?url';
 import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
-import { WebBrowserProvider } from './neo/browser/useWebBrowser';
+import { SidePanelProvider } from './neo/workspace/useSidePanel';
 import { initTranslation } from './translation/translation';
 
 const queryClient = new QueryClient();
@@ -45,17 +44,17 @@ export default function App() {
   return (
     <ThemeProvider storageKey='neo-editor-theme'>
       <QueryClientProvider client={queryClient}>
-        <WebBrowserProvider>
+        <SidePanelProvider>
           <HotkeysProvider initiallyActiveScopes={['neo', 'global']}>
             <NewArtifactDialogProvider>
-              <div className='neo-layout'>
+              <Flex direction='column' className='neo-layout'>
                 <Outlet />
                 <Toaster closeButton={true} />
-              </div>
+              </Flex>
             </NewArtifactDialogProvider>
           </HotkeysProvider>
-        </WebBrowserProvider>
-        <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} />
+        </SidePanelProvider>
+        {/* <ReactQueryDevtools initialIsOpen={false} buttonPosition={'bottom-right'} /> */}
       </QueryClientProvider>
     </ThemeProvider>
   );

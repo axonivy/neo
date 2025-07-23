@@ -1,17 +1,17 @@
 import { useCallback } from 'react';
-import { useWebBrowser } from '../browser/useWebBrowser';
+import { useSidePanel } from '../workspace/useSidePanel';
 
 export const useOpenUrl = () => {
-  const { browser } = useWebBrowser();
+  const { sidePanel } = useSidePanel();
   return useCallback(
     (url: string) => {
       if (url.includes('dev-workflow-ui')) {
         const devWfUiUrl = new URL(url);
-        browser.open(`${devWfUiUrl.pathname}${devWfUiUrl.search}`);
+        sidePanel.openUrl(`${devWfUiUrl.pathname}${devWfUiUrl.search}`);
       } else {
         window.open(url);
       }
     },
-    [browser]
+    [sidePanel]
   );
 };

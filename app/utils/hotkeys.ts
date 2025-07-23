@@ -54,10 +54,10 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     return { hotkey, label: t('hotkey.closeTab', { hotkey: hotkeyText(hotkey) }), keyCode };
   }, [t]);
 
-  const openSimulation = useMemo<KnownHotkey>(() => {
+  const openSidePanel = useMemo<KnownHotkey>(() => {
     const hotkey = 'shift+S';
     const keyCode = 'KeyS';
-    return { hotkey, label: t('hotkey.openSim', { hotkey: hotkeyText(hotkey) }), keyCode };
+    return { hotkey, label: t('hotkey.openSidePanel', { hotkey: hotkeyText(hotkey) }), keyCode };
   }, [t]);
 
   const openPanel = useMemo<KnownHotkey>(() => {
@@ -66,10 +66,10 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     return { hotkey, label: t('hotkey.openPanel', { hotkey: hotkeyText(hotkey) }), keyCode };
   }, [t]);
 
-  const resizeSimulation = useMemo<KnownHotkey>(() => {
+  const resizeSidePanel = useMemo<KnownHotkey>(() => {
     const hotkey = 'shift+R';
     const keyCode = 'KeyR';
-    return { hotkey, label: t('hotkey.resizeSim', { hotkey: hotkeyText(hotkey) }), keyCode };
+    return { hotkey, label: t('hotkey.resizeSidePanel', { hotkey: hotkeyText(hotkey) }), keyCode };
   }, [t]);
 
   const toggleAnimation = useMemo<KnownHotkey>(() => {
@@ -153,9 +153,9 @@ export const useKnownHotkeys = (overviewAddTitle?: string) => {
     openConfigs,
     closeAllTabs,
     closeActiveTabs,
-    openSimulation,
+    openSidePanel,
     openPanel,
-    resizeSimulation,
+    resizeSidePanel,
     toggleAnimation,
     resetEngine,
     animationSpeed,
