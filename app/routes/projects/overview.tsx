@@ -1,4 +1,4 @@
-import { BasicDialog, Button, DialogTrigger, Flex, useHotkeyLocalScopes } from '@axonivy/ui-components';
+import { BasicDialogContent, Button, Dialog, DialogContent, DialogTrigger, Flex, useHotkeyLocalScopes } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +9,7 @@ import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/dat
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
+import type { DeleteAction } from '~/neo/artifact/DeleteConfirm';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
@@ -118,7 +119,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   const open = () => {
     navigate(`../projects/${dependency.app}/${dependency.pmv}`);
   };
-  const deleteAction = {
+  const deleteAction: DeleteAction = {
     run: () => {
       removeDependency(project, dependency);
     },
@@ -153,35 +154,33 @@ const AddDependencyDialog = ({
   const [dependency, setDependency] = useState<ProjectBean>();
   const { addDependency } = useAddDependencyReq();
   return (
-    <BasicDialog
-      open={open}
-      onOpenChange={onOpenChange}
-      contentProps={{
-        title: t('projects.addDependencyTo', { project: project.pmv }),
-        description: t('projects.addDependencyDescription'),
-        buttonClose: (
-          <Button variant='outline' size='large'>
-            {t('common.label.cancel')}
-          </Button>
-        ),
-        buttonCustom: (
-          <Button variant='primary' size='large' onClick={() => dependency && addDependency(project, dependency.id)} icon={IvyIcons.Plus}>
-            {t('common.label.add')}
-          </Button>
-        )
-      }}
-      dialogTrigger={
-        <DialogTrigger asChild>
-          <div>{children}</div>
-        </DialogTrigger>
-      }
-    >
-      <ProjectSelect
-        setProject={setDependency}
-        setDefaultValue={true}
-        projectFilter={p => p.id.pmv !== project.pmv}
-        label={t('projects.selectDependency')}
-      ></ProjectSelect>
-    </BasicDialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogTrigger asChild>
+        <div>{children}</div>
+      </DialogTrigger>
+      <DialogContent>
+        <BasicDialogContent
+          title={t('projects.addDependencyTo', { project: project.pmv })}
+          description={t('projects.addDependencyDescription')}
+          cancel={
+            <Button variant='outline' size='large'>
+              {t('common.label.cancel')}
+            </Button>
+          }
+          submit={
+            <Button variant='primary' size='large' onClick={() => dependency && addDependency(project, dependency.id)} icon={IvyIcons.Plus}>
+              {t('common.label.add')}
+            </Button>
+          }
+        >
+          <ProjectSelect
+            setProject={setDependency}
+            setDefaultValue={true}
+            projectFilter={p => p.id.pmv !== project.pmv}
+            label={t('projects.selectDependency')}
+          />
+        </BasicDialogContent>
+      </DialogContent>
+    </Dialog>
   );
 };

@@ -1,9 +1,10 @@
 import {
-  BasicDialog,
+  BasicDialogContent,
   BasicField,
   BasicSelect,
   Button,
-  Flex,
+  Dialog,
+  DialogContent,
   Input,
   Spinner,
   useHotkeyLocalScopes,
@@ -122,43 +123,43 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     <NewArtifactDialogContext.Provider value={{ open, close, dialogState, newArtifact }}>
       {children}
       {newArtifact && name !== undefined && (
-        <BasicDialog
-          open={dialogState}
-          onOpenChange={() => close()}
-          contentProps={{
-            title: t('artifact.newTitle', { type: newArtifact.type }),
-            description: getDescription(newArtifact.type),
-            buttonClose: (
-              <Button size='large' variant='outline'>
-                {t('common.label.cancel')}
-              </Button>
-            ),
-            buttonCustom: (
-              <Button icon={IvyIcons.Plus} disabled={hasErros} variant='primary' size='large' onClick={createNewArtifact}>
-                {t('common.label.create')}
-              </Button>
-            )
-          }}
-        >
-          <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
-            <BasicField label={t('common.label.name')} message={nameValidation}>
-              <Input value={name} onChange={e => setName(e.target.value)} />
-            </BasicField>
-            {newArtifact.project === undefined && (
-              <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('label.project')} projectFilter={p => !p.id.isIar} />
-            )}
-            <BasicField
-              label={`${t('artifact.namespace')} ${newArtifact.namespaceRequired ? '' : t('artifact.optional')}`}
-              message={namespaceValidation}
-              control={
-                <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
+        <Dialog open={dialogState} onOpenChange={() => close()}>
+          <DialogContent>
+            <BasicDialogContent
+              title={t('artifact.newTitle', { type: newArtifact.type })}
+              description={getDescription(newArtifact.type)}
+              cancel={
+                <Button size='large' variant='outline'>
+                  {t('common.label.cancel')}
+                </Button>
               }
+              submit={
+                <Button icon={IvyIcons.Plus} disabled={hasErros} variant='primary' size='large' onClick={createNewArtifact}>
+                  {t('common.label.create')}
+                </Button>
+              }
+              ref={enter}
+              tabIndex={-1}
             >
-              <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
-            </BasicField>
-            {newArtifact.selectDataClass && project && <DataClassSelect project={project.id} setDataClass={setDataClass} />}
-          </Flex>
-        </BasicDialog>
+              <BasicField label={t('common.label.name')} message={nameValidation}>
+                <Input value={name} onChange={e => setName(e.target.value)} />
+              </BasicField>
+              {newArtifact.project === undefined && (
+                <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('label.project')} projectFilter={p => !p.id.isIar} />
+              )}
+              <BasicField
+                label={`${t('artifact.namespace')} ${newArtifact.namespaceRequired ? '' : t('artifact.optional')}`}
+                message={namespaceValidation}
+                control={
+                  <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
+                }
+              >
+                <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
+              </BasicField>
+              {newArtifact.selectDataClass && project && <DataClassSelect project={project.id} setDataClass={setDataClass} />}
+            </BasicDialogContent>
+          </DialogContent>
+        </Dialog>
       )}
     </NewArtifactDialogContext.Provider>
   );

@@ -1,7 +1,10 @@
 import {
-  BasicDialog,
+  BasicDialogContent,
   BasicField,
   Button,
+  Dialog,
+  DialogContent,
+  DialogTrigger,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -12,7 +15,7 @@ import {
   hotkeyText,
   Input,
   IvyIcon,
-  useHotkeyLocalScopes,
+  useDialogHotkeys,
   useHotkeys,
   type MessageData
 } from '@axonivy/ui-components';
@@ -27,6 +30,7 @@ import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
+import type { DeleteAction } from '~/neo/artifact/DeleteConfirm';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
@@ -49,7 +53,6 @@ export default function Index() {
   const { t } = useTranslation();
   const overviewFilter = useOverviewFilter();
   const { data, isPending } = useSortedProjects();
-  const [open, setOpen] = useState(false);
   const { ws } = useParams();
   const projects = data?.filter(({ id }) => id.pmv.toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase())) ?? [];
 
@@ -79,7 +82,7 @@ export default function Index() {
         />
       </Flex>
       <OverviewTitle title={t('neo.projects')}>
-        <ImportMenu open={open} setOpen={setOpen} />
+        <ImportMenu />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter} viewTypes={{ graph: true }} />
       <OverviewContent isPending={isPending} viewType={overviewFilter.viewType} viewTypes={{ graph: <ProjectGraph /> }}>
@@ -91,40 +94,18 @@ export default function Index() {
   );
 }
 
-const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean) => void }) => {
+const ImportMenu = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const hotkeys = useKnownHotkeys();
-  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
-  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['importDialog']);
+  const { open, onOpenChange } = useDialogHotkeys(['importDialog']);
   useHotkeys(hotkeys.importFromMarket.hotkey, () => navigate('market'), { enableOnFormTags: true, scopes: ['neo'] });
-  useHotkeys(
-    hotkeys.importFromFile.hotkey,
-    () => {
-      onDialogOpenChange(true);
-    },
-    { scopes: ['neo'] }
-  );
-  const onDialogOpenChange = (open: boolean) => {
-    setIsImportDialogOpen(open);
-    if (open) {
-      activateLocalScopes();
-    } else {
-      restoreLocalScopes();
-    }
-  };
+  useHotkeys(hotkeys.importFromFile.hotkey, () => onOpenChange(true), { scopes: ['neo'] });
   return (
-    <>
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            title={t('workspaces.importProject')}
-            icon={IvyIcons.Download}
-            size='large'
-            variant='primary'
-            onClick={() => setOpen(true)}
-            style={{ height: '32px' }}
-          >
+          <Button title={t('workspaces.importProject')} icon={IvyIcons.Download} size='large' variant='primary' style={{ height: '32px' }}>
             {t('workspaces.importProject')}
           </Button>
         </DropdownMenuTrigger>
@@ -135,26 +116,24 @@ const ImportMenu = ({ open, setOpen }: { open: boolean; setOpen: (open: boolean)
               <span>{t('workspaces.importMarket')}</span>
               <DropdownMenuShortcut>{hotkeyText(hotkeys.importFromMarket.hotkey)}</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onSelect={e => {
-                e.preventDefault();
-                onDialogOpenChange(true);
-              }}
-              aria-label={hotkeys.importFromFile.label}
-            >
-              <IvyIcon icon={IvyIcons.Download} />
-              <span>{t('workspaces.importFile')}</span>
-              <DropdownMenuShortcut>{hotkeyText(hotkeys.importFromFile.hotkey)}</DropdownMenuShortcut>
-            </DropdownMenuItem>
+            <DialogTrigger asChild>
+              <DropdownMenuItem>
+                <IvyIcon icon={IvyIcons.Download} />
+                <span>{t('workspaces.importFile')}</span>
+                <DropdownMenuShortcut>{hotkeyText(hotkeys.importFromFile.hotkey)}</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DialogTrigger>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      <ImportDialog open={isImportDialogOpen} onOpenChange={onDialogOpenChange} />
-    </>
+      <DialogContent>
+        <ImportDialogContent />
+      </DialogContent>
+    </Dialog>
   );
 };
 
-const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) => {
+const ImportDialogContent = () => {
   const { ws } = useParams();
   const { t } = useTranslation();
   const [file, setFile] = useState<File>();
@@ -170,36 +149,32 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
   );
 
   return (
-    <BasicDialog
-      open={open}
-      onOpenChange={onOpenChange}
-      contentProps={{
-        title: t('workspaces.importInto', { workspace: ws }),
-        description: (
-          <>
-            <div>{t('workspaces.importWarning')}</div>
-            <Link onClick={downloadWorkspace} to={{}}>
-              {t('workspaces.importWarningLink')}
-            </Link>
-          </>
-        ),
-        buttonClose: (
-          <Button variant='outline' size='large' icon={IvyIcons.Close}>
-            {t('common.label.cancel')}
-          </Button>
-        ),
-        buttonCustom: (
-          <Button
-            variant='primary'
-            size='large'
-            disabled={fileValidation !== undefined}
-            onClick={() => (file ? importAction(file) : {})}
-            icon={IvyIcons.Download}
-          >
-            {t('common.label.import')}
-          </Button>
-        )
-      }}
+    <BasicDialogContent
+      title={t('workspaces.importInto', { workspace: ws })}
+      description={
+        <>
+          <div>{t('workspaces.importWarning')}</div>
+          <Link onClick={downloadWorkspace} to={{}}>
+            {t('workspaces.importWarningLink')}
+          </Link>
+        </>
+      }
+      submit={
+        <Button
+          variant='primary'
+          size='large'
+          disabled={fileValidation !== undefined}
+          onClick={() => (file ? importAction(file) : {})}
+          icon={IvyIcons.Download}
+        >
+          {t('common.label.import')}
+        </Button>
+      }
+      cancel={
+        <Button variant='outline' size='large'>
+          {t('common.label.cancel')}
+        </Button>
+      }
     >
       <BasicField label={t('common.label.file')} message={fileValidation}>
         <Input
@@ -213,7 +188,7 @@ const ImportDialog = ({ open, onOpenChange }: { open: boolean; onOpenChange: (op
         />
       </BasicField>
       <ProjectSelect setProject={setProject} setDefaultValue={false} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
-    </BasicDialog>
+    </BasicDialogContent>
   );
 };
 
@@ -226,7 +201,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
     navigate(`projects/${project.id.app}/${project.id.pmv}`);
   };
   const defaultProject = project.id.pmv === ws?.name;
-  const deleteAction = {
+  const deleteAction: DeleteAction = {
     run: () => {
       deleteProject(project.id);
     },
