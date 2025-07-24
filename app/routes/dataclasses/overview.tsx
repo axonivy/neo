@@ -1,26 +1,26 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { LinksFunction, MetaFunction } from 'react-router';
+import type { MetaFunction } from 'react-router';
 import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
 import type { DataClassBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
+import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
+import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
+import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
+import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { DataClassGraph, DataClassGraphFilter } from './DataClassGraph';
-
-export const links: LinksFunction = () => [cardStylesLink];
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Data Classes');
 
@@ -63,29 +63,29 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
   const { t } = useTranslation();
   const { deleteDataClass } = useDeleteDataClass();
   const { openEditor, removeEditor } = useEditors();
-  const open = () => {
-    openEditor(editor);
-  };
-  const deleteAction = {
-    run: () => {
-      removeEditor(editor.id);
-      deleteDataClass(dataClass.dataClassIdentifier);
-    },
-    isDeletable: editor.project.isIar === false,
-    message: t('message.dataclassPackaged')
-  };
-
-  const tagLabel = dataClass.isEntityClass ? t('label.entity') : dataClass.isBusinessCaseData ? t('label.businessData') : '';
+  const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   return (
     <ArtifactCard
+      ref={artifactCardRef}
       name={editor.name}
-      type='dataclass'
       preview={<PreviewSvg type='dataClass' />}
       tooltip={editor.path}
-      onClick={open}
-      actions={{ delete: deleteAction }}
-      tagLabel={tagLabel}
-    />
+      onClick={() => openEditor(editor)}
+      tagLabel={dataClass.isEntityClass ? t('label.entity') : dataClass.isBusinessCaseData ? t('label.businessData') : undefined}
+    >
+      <ArtifactCardMenu
+        deleteAction={{
+          run: () => {
+            removeEditor(editor.id);
+            deleteDataClass(dataClass.dataClassIdentifier);
+          },
+          isDeletable: editor.project.isIar === false,
+          message: t('message.dataclassPackaged'),
+          artifact: t('artifact.type.dataclass')
+        }}
+        {...dialogState}
+      />
+    </ArtifactCard>
   );
 };
 

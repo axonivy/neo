@@ -1,24 +1,24 @@
 import { useTranslation } from 'react-i18next';
-import type { LinksFunction, MetaFunction } from 'react-router';
+import type { MetaFunction } from 'react-router';
 import { useCreateForm, useDeleteForm, useGroupedForms, type FormIdentifier } from '~/data/form-api';
 import type { DataClassIdentifier, HdBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
+import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
+import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
+import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
+import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
-
-export const links: LinksFunction = () => [cardStylesLink];
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Forms');
 
@@ -50,29 +50,31 @@ export default function Index() {
 }
 
 const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) => {
-  const { deleteForm } = useDeleteForm();
   const { t } = useTranslation();
+  const { deleteForm } = useDeleteForm();
   const { openEditor, removeEditor } = useEditors();
-  const open = () => {
-    openEditor(editor);
-  };
-  const deleteAction = {
-    run: () => {
-      removeEditor(editor.id);
-      deleteForm(formId);
-    },
-    isDeletable: editor.project.isIar === false,
-    message: t('message.formPackaged')
-  };
+  const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   return (
     <ArtifactCard
+      ref={artifactCardRef}
       name={editor.name}
-      type='form'
       preview={<PreviewSvg type='form' />}
       tooltip={editor.path}
-      onClick={open}
-      actions={{ delete: deleteAction }}
-    />
+      onClick={() => openEditor(editor)}
+    >
+      <ArtifactCardMenu
+        deleteAction={{
+          run: () => {
+            removeEditor(editor.id);
+            deleteForm(formId);
+          },
+          isDeletable: editor.project.isIar === false,
+          message: t('message.formPackaged'),
+          artifact: t('artifact.type.form')
+        }}
+        {...dialogState}
+      />
+    </ArtifactCard>
   );
 };
 

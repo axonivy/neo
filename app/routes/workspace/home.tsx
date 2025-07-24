@@ -23,17 +23,18 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { LinksFunction, MetaFunction } from 'react-router';
+import type { MetaFunction } from 'react-router';
 import { Link, useNavigate, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
-import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import type { DeleteAction } from '~/neo/artifact/DeleteConfirm';
-import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
+import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
+import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
+import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
+import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
@@ -42,8 +43,6 @@ import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { ProjectGraph } from './ProjectGraph';
-
-export const links: LinksFunction = () => [cardStylesLink];
 
 export const meta: MetaFunction = ({ params }) => {
   return [{ title: `Home - ${params.ws} - ${NEO_DESIGNER}` }, { name: 'description', content: 'Workspace home view' }];
@@ -197,25 +196,25 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const navigate = useNavigate();
   const { deleteProject } = useDeleteProject();
   const ws = useWorkspace();
-  const open = () => {
-    navigate(`projects/${project.id.app}/${project.id.pmv}`);
-  };
+  const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const defaultProject = project.id.pmv === ws?.name;
-  const deleteAction: DeleteAction = {
-    run: () => {
-      deleteProject(project.id);
-    },
-    isDeletable: !defaultProject && project.isDeletable,
-    message: defaultProject ? t('workspaces.deleteWarning.mainProject') : t('workspaces.deleteWarning.requiredByOtherProjects')
-  };
   return (
     <ArtifactCard
+      ref={artifactCardRef}
       name={project.id.pmv}
-      type='project'
-      actions={{ delete: deleteAction }}
-      onClick={open}
+      onClick={() => navigate(`projects/${project.id.app}/${project.id.pmv}`)}
       preview={<PreviewSvg type='workspace' />}
       tagLabel={project.id.isIar ? t('common.label.readOnly') : defaultProject ? t('common.label.default') : undefined}
-    />
+    >
+      <ArtifactCardMenu
+        deleteAction={{
+          run: () => deleteProject(project.id),
+          isDeletable: !defaultProject && project.isDeletable,
+          message: defaultProject ? t('workspaces.deleteWarning.mainProject') : t('workspaces.deleteWarning.requiredByOtherProjects'),
+          artifact: t('artifact.type.project')
+        }}
+        {...dialogState}
+      />
+    </ArtifactCard>
   );
 };
