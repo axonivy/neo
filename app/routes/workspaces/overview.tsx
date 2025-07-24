@@ -4,8 +4,10 @@ import {
   Button,
   Dialog,
   DialogContent,
+  DropdownMenuItem,
   Flex,
   Input,
+  IvyIcon,
   useDialogHotkeys,
   useHotkeys
 } from '@axonivy/ui-components';
@@ -17,7 +19,6 @@ import { useNavigate } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import { DeployDialog } from '~/neo/artifact/DeployDialog';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
@@ -29,6 +30,7 @@ import { LanguageSettings } from '~/neo/settings/LanguageSettings';
 import { Settings } from '~/neo/settings/Settings';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
+import { DeployDialog } from '~/routes/workspaces/DeployDialog';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import welcomeSvgUrl from '/assets/welcome.svg?url';
 
@@ -135,6 +137,7 @@ const WorkspaceCard = ({
   name,
   deployWorkspace
 }: Pick<Workspace, 'id' | 'name'> & { deployWorkspace: (workspaceId: string) => void }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
   const downloadWorkspace = useDownloadWorkspace(id);
@@ -163,13 +166,26 @@ const WorkspaceCard = ({
         delete: {
           run: () => deleteWorkspace(id),
           isDeletable: true
-        },
-        export: downloadWorkspace,
-        deploy: () => deployWorkspace(id)
+        }
       }}
       preview={<PreviewSvg type='workspace' />}
       ref={cardRef}
-    />
+    >
+      <>
+        <DropdownMenuItem onSelect={downloadWorkspace} title={hotkeys.exportWorkspace.label} aria-label={hotkeys.exportWorkspace.label}>
+          <IvyIcon icon={IvyIcons.Upload} />
+          <span>{t('common.label.export')}</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onSelect={() => deployWorkspace(id)}
+          title={hotkeys.deployWorkspace.label}
+          aria-label={hotkeys.deployWorkspace.label}
+        >
+          <IvyIcon icon={IvyIcons.Bpmn} />
+          <span>{t('common.label.deploy')}</span>
+        </DropdownMenuItem>
+      </>
+    </ArtifactCard>
   );
 };
 

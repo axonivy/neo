@@ -33,13 +33,12 @@ type Card = {
   onClick: () => void;
   actions?: {
     delete?: DeleteAction;
-    export?: () => void;
-    deploy?: () => void;
   };
   ref?: Ref<HTMLDivElement>;
+  children?: ReactNode;
 };
 
-export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, tagLabel, ref }: Card) => {
+export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, tagLabel, ref, children }: Card) => {
   const hotkeys = useKnownHotkeys();
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['artifactCardActionDialog']);
@@ -83,7 +82,9 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
         onDeleteDialogOpenChange={onDeleteDialogOpenChange}
         isDeleteDialogOpen={isDeleteDialogOpen}
         type={type}
-      ></ArtifactCardMenu>
+      >
+        {children}
+      </ArtifactCardMenu>
     </div>
   );
 };
@@ -92,20 +93,18 @@ const ArtifactCardMenu = ({
   actions,
   onDeleteDialogOpenChange,
   isDeleteDialogOpen,
-  type
+  type,
+  children
 }: {
   actions?: {
     delete?: DeleteAction;
-    export?: () => void;
-    deploy?: () => void;
   };
   onDeleteDialogOpenChange: (open: boolean) => void;
   isDeleteDialogOpen: boolean;
   type: string;
+  children?: ReactNode;
 }) => {
   const { t } = useTranslation();
-  const hotkeys = useKnownHotkeys();
-
   if (!actions) {
     return null;
   }
@@ -129,26 +128,7 @@ const ArtifactCardMenu = ({
                 <span>{actions.delete.label ?? t('common.label.delete')}</span>
               </DropdownMenuItem>
             )}
-            {actions.export && actions.deploy && (
-              <>
-                <DropdownMenuItem
-                  onSelect={actions.export}
-                  title={hotkeys.exportWorkspace.label}
-                  aria-label={hotkeys.exportWorkspace.label}
-                >
-                  <IvyIcon icon={IvyIcons.Upload} />
-                  <span>{t('common.label.export')}</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onSelect={actions.deploy}
-                  title={hotkeys.deployWorkspace.label}
-                  aria-label={hotkeys.deployWorkspace.label}
-                >
-                  <IvyIcon icon={IvyIcons.Bpmn} />
-                  <span>{t('common.label.deploy')}</span>
-                </DropdownMenuItem>
-              </>
-            )}
+            {children}
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
