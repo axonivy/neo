@@ -1,4 +1,15 @@
-import { BasicDialog, BasicField, BasicSelect, Button, DialogClose, Flex, Spinner, useHotkeyLocalScopes } from '@axonivy/ui-components';
+import {
+  BasicDialogContent,
+  BasicField,
+  BasicSelect,
+  Button,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  Flex,
+  Spinner,
+  useHotkeyLocalScopes
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -118,35 +129,33 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
     return;
   }
   return (
-    <BasicDialog
-      open={dialogState}
-      onOpenChange={() => setDialogState(false)}
-      contentProps={{
-        title: t('market.install', { component: product.names?.en ?? '' }),
-        description: (
-          <>
-            {product.shortDescriptions?.en ?? ''}{' '}
-            <Link target='_blank' to={`${MARKET_URL}/${product.id}`} rel='noreferrer'>
-              {t('market.showDetails')}
-            </Link>
-          </>
-        ),
-        buttonClose: (
-          <Button variant='outline' size='large'>
-            {t('common.label.cancel')}
-          </Button>
-        ),
-        buttonCustom: (
-          <InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project?.id}></InstallButton>
-        )
-      }}
-    >
-      {t('market.selectVersion')}
-      <VersionSelect id={product.id} setVersion={setVersion} version={version}></VersionSelect>
-      {needDependency && (
-        <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
-      )}
-    </BasicDialog>
+    <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
+      <DialogContent>
+        <BasicDialogContent
+          title={t('market.install', { component: product.names?.en ?? '' })}
+          description={
+            <>
+              {product.shortDescriptions?.en ?? ''}{' '}
+              <Link target='_blank' to={`${MARKET_URL}/${product.id}`} rel='noreferrer'>
+                {t('market.showDetails')}
+              </Link>
+            </>
+          }
+          submit={<InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project?.id} />}
+          cancel={
+            <Button variant='outline' size='large'>
+              {t('common.label.cancel')}
+            </Button>
+          }
+        >
+          {t('market.selectVersion')}
+          <VersionSelect id={product.id} setVersion={setVersion} version={version}></VersionSelect>
+          {needDependency && (
+            <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
+          )}
+        </BasicDialogContent>
+      </DialogContent>
+    </Dialog>
   );
 };
 

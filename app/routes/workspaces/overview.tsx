@@ -1,4 +1,14 @@
-import { BasicDialog, BasicField, Button, Flex, Input, useHotkeyLocalScopes, useHotkeys } from '@axonivy/ui-components';
+import {
+  BasicDialogContent,
+  BasicField,
+  Button,
+  Dialog,
+  DialogContent,
+  Flex,
+  Input,
+  useDialogHotkeys,
+  useHotkeys
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -119,63 +129,58 @@ const WorkspaceCard = (workspace: Workspace) => {
 
 const NewWorkspaceButton = () => {
   const { t } = useTranslation();
-  const { artifactAlreadyExists, validateArtifactName } = useArtifactValidation();
-  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['newWorkspaceDialog']);
-  const [dialogState, setDialogState] = useState(false);
+  const { open, onOpenChange } = useDialogHotkeys(['newWorkspaceDialog']);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <CreateNewArtefactButton title={t('workspaces.newWorkspace')} open={() => onOpenChange(true)} />
+      <DialogContent>
+        <NewWorkspaceDialogContent closeDialog={() => onOpenChange(false)} />
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const NewWorkspaceDialogContent = ({ closeDialog }: { closeDialog: () => void }) => {
+  const { t } = useTranslation();
   const [name, setName] = useState('');
+  const { artifactAlreadyExists, validateArtifactName } = useArtifactValidation();
+  const workspaces = useWorkspaces();
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
   const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.id));
-  const workspaces = useWorkspaces();
   const nameValidation = useMemo(
     () =>
       workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : validateArtifactName(name),
     [artifactAlreadyExists, name, validateArtifactName, workspaces.data]
   );
   const hasErros = useMemo(() => nameValidation?.variant === 'error', [nameValidation]);
-
-  const onDialogOpenChange = (open: boolean) => {
-    setDialogState(open);
-    if (open) {
-      activateLocalScopes();
-    } else {
-      restoreLocalScopes();
-    }
-  };
-
   const createNewWorkspace = () => {
     if (!hasErros) {
-      setDialogState(false);
+      closeDialog();
       create(name);
     }
   };
-  const enter = useHotkeys('Enter', createNewWorkspace, { scopes: ['newWorkspaceDialog'], enabled: dialogState, enableOnFormTags: true });
-
+  const enter = useHotkeys('Enter', createNewWorkspace, { scopes: ['newWorkspaceDialog'], enableOnFormTags: true });
   return (
-    <BasicDialog
-      open={dialogState}
-      onOpenChange={() => onDialogOpenChange(false)}
-      dialogTrigger={<CreateNewArtefactButton title={t('workspaces.newWorkspace')} open={() => onDialogOpenChange(true)} />}
-      contentProps={{
-        title: t('workspaces.newWorkspace'),
-        description: t('workspaces.newWorkspaceDescription'),
-        buttonClose: (
-          <Button size='large' variant='outline'>
-            {t('common.label.cancel')}
-          </Button>
-        ),
-        buttonCustom: (
-          <Button disabled={hasErros} icon={IvyIcons.Plus} size='large' variant='primary' onClick={createNewWorkspace}>
-            {t('common.label.create')}
-          </Button>
-        )
-      }}
+    <BasicDialogContent
+      title={t('workspaces.newWorkspace')}
+      description={t('workspaces.newWorkspaceDescription')}
+      cancel={
+        <Button size='large' variant='outline'>
+          {t('common.label.cancel')}
+        </Button>
+      }
+      submit={
+        <Button disabled={hasErros} icon={IvyIcons.Plus} size='large' variant='primary' onClick={createNewWorkspace}>
+          {t('common.label.create')}
+        </Button>
+      }
+      ref={enter}
+      tabIndex={-1}
     >
-      <Flex ref={enter} tabIndex={-1} direction='column' gap={2}>
-        <BasicField label={t('common.label.name')} message={nameValidation}>
-          <Input value={name} onChange={e => setName(e.target.value)} />
-        </BasicField>
-      </Flex>
-    </BasicDialog>
+      <BasicField label={t('common.label.name')} message={nameValidation}>
+        <Input value={name} onChange={e => setName(e.target.value)} />
+      </BasicField>
+    </BasicDialogContent>
   );
 };

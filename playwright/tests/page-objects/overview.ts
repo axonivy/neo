@@ -37,7 +37,7 @@ export class Overview {
   async deleteCard(name: string, reload = false, label = 'Delete') {
     const card = this.card(name);
     await this.clickCardAction(card, label);
-    await this.page.getByRole('dialog').getByRole('button', { name: 'Delete' }).click();
+    await this.page.getByRole('dialog').getByRole('button', { name: label }).click();
     if (reload) {
       // TODO: remove this after fix delete workspace
       await this.page.reload();
