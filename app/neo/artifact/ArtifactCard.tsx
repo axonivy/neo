@@ -11,11 +11,11 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-  useHotkeyLocalScopes,
+  useDialogHotkeys,
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useState, type ReactNode, type Ref } from 'react';
+import { type ReactNode, type Ref } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import cardStyles from './ArtifactCard.css?url';
@@ -38,17 +38,8 @@ type Card = {
 
 export const ArtifactCard = ({ name, type, preview, onClick, deleteAction, tooltip, tagLabel, ref, children }: Card) => {
   const hotkeys = useKnownHotkeys();
-  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['artifactCardActionDialog']);
-  const onDeleteDialogOpenChange = (open: boolean) => {
-    setDeleteDialogOpen(open);
-    if (open) {
-      activateLocalScopes();
-    } else {
-      restoreLocalScopes();
-    }
-  };
-  const artifactCardRef = useHotkeys([hotkeys.deleteElement.hotkey], () => onDeleteDialogOpenChange(true), { keydown: false, keyup: true });
+  const { open, onOpenChange } = useDialogHotkeys(['artifactCardActionDialog']);
+  const artifactCardRef = useHotkeys([hotkeys.deleteElement.hotkey], () => onOpenChange(true), { keydown: false, keyup: true });
 
   return (
     <div className='artifact-card' ref={ref}>
@@ -76,12 +67,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, deleteAction, toolt
       </TooltipProvider>
       <div className='card-menu-trigger'>
         {deleteAction ? (
-          <ArtifactCardMenu
-            deleteAction={deleteAction}
-            onDeleteDialogOpenChange={onDeleteDialogOpenChange}
-            isDeleteDialogOpen={isDeleteDialogOpen}
-            type={type}
-          >
+          <ArtifactCardMenu deleteAction={deleteAction} onDeleteDialogOpenChange={onOpenChange} isDeleteDialogOpen={open} type={type}>
             {children}
           </ArtifactCardMenu>
         ) : (
@@ -110,7 +96,7 @@ const ArtifactCardMenu = ({
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button icon={IvyIcons.Dots} className='card-menu-trigger' />
+          <Button icon={IvyIcons.Dots} />
         </DropdownMenuTrigger>
         <DropdownMenuContent side='bottom' align='start' className='card-menu'>
           <DropdownMenuGroup>
