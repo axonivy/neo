@@ -43,6 +43,7 @@
       "close": "Schließen",
       "closeAll": "Alle Tabs schliessen",
       "create": "Erstellen",
+      "default": "Default",
       "delete": "Löschen",
       "deploy": "Bereitstellen",
       "export": "Exportieren",
@@ -281,12 +282,16 @@
     }
   },
   "workspaces": {
+    "deleteWarning": {
+      "mainProject": "Hauptprojekt kann nicht gelöscht werden.",
+      "requiredByOtherProjects": "Das Projekt kann nicht gelöscht werden, da es von anderen Projekten in diesem Workspace benötigt wird."
+    },
     "description": "Hier finden Sie die von Ihnen erstellten sowie alle importierten Projekte in diesem Workspace. Ein Projekt enthält alle wesentlichen Komponenten zum Erstellen einer Anwendung.",
     "importFile": "Aus Datei importieren",
     "importInto": "Axon Ivy Projekte importieren nach: {{workspace}}",
     "importMarket": "Aus dem Axon Ivy Market importieren",
     "importProject": "Projekte importieren",
-    "importWarning": "Der Import kann bestehende Projektversionen überschreiben. ",
+    "importWarning": "Der Import kann bestehende Projektversionen überschreiben.",
     "importWarningLink": "Erwägen Sie, den Workspace vorher zu exportieren.",
     "info": "Ein Workspace ist der Entwicklungsbereich, in dem neue Anwendungen erstellt und getestet werden. Hier werden Geschäftsprozesse entworfen, automatisiert und simuliert, bevor sie als funktionierende Anwendung bereitgestellt werden.",
     "manageWorkspaces": "Verwalten Sie Ihre Workspaces",

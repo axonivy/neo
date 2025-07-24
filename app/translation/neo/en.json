@@ -43,6 +43,7 @@
       "close": "Close",
       "closeAll": "Close All Tabs",
       "create": "Create",
+      "default": "Default",
       "delete": "Delete",
       "deploy": "Deploy",
       "export": "Export",
@@ -281,12 +282,16 @@
     }
   },
   "workspaces": {
+    "deleteWarning": {
+      "mainProject": "Main project cannot be deleted.",
+      "requiredByOtherProjects": "The project cannot be deleted as it is required by other projects in the workspace."
+    },
     "description": "Here you can find the projects you have created along with any imported projects in this workspace. A project contains all the essential components needed to build an application.",
     "importFile": "Import from File",
     "importInto": "Import Axon Ivy Projects into: {{workspace}}",
     "importMarket": "Import from Market",
     "importProject": "Import Projects",
-    "importWarning": "The import can overwrite existing project versions. ",
+    "importWarning": "The import can overwrite existing project versions.",
     "importWarningLink": "Consider exporting the Workspace beforehand.",
     "info": "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.",
     "manageWorkspaces": "Manage your workspaces",

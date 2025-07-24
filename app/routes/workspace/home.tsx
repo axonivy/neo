@@ -225,15 +225,13 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const open = () => {
     navigate(`projects/${project.id.app}/${project.id.pmv}`);
   };
+  const defaultProject = project.id.pmv === ws?.name;
   const deleteAction = {
     run: () => {
       deleteProject(project.id);
     },
-    isDeletable: project.id.pmv !== ws?.name && project.isDeletable,
-    message:
-      project.id.pmv == ws?.name
-        ? 'Main project cannot be deleted.'
-        : 'The project cannot be deleted as it is required by other projects in the workspace.'
+    isDeletable: !defaultProject && project.isDeletable,
+    message: defaultProject ? t('workspaces.deleteWarning.mainProject') : t('workspaces.deleteWarning.requiredByOtherProjects')
   };
   return (
     <ArtifactCard
@@ -242,7 +240,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
       actions={{ delete: deleteAction }}
       onClick={open}
       preview={<PreviewSvg type='workspace' />}
-      tagLabel={project.id.isIar ? t('common.label.readOnly') : undefined}
+      tagLabel={project.id.isIar ? t('common.label.readOnly') : defaultProject ? t('common.label.default') : undefined}
     />
   );
 };
