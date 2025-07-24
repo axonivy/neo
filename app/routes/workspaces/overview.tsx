@@ -164,10 +164,7 @@ const WorkspaceCard = ({
       name={name}
       type='workspace'
       onClick={() => navigate(id)}
-      deleteAction={{
-        run: () => deleteWorkspace(id),
-        isDeletable: true
-      }}
+      deleteAction={{ run: () => deleteWorkspace(id), isDeletable: true }}
       preview={<PreviewSvg type='workspace' />}
       ref={cardRef}
     >
