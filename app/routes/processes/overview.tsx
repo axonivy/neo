@@ -4,15 +4,15 @@ import type { ProcessBean } from '~/data/generated/ivy-client';
 import { useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
+import { ArtifactCard, cardStylesLink } from '~/neo/overview/artifact/ArtifactCard';
+import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter } from '~/neo/overview/OverviewFilter';
@@ -53,27 +53,28 @@ const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) 
   const { deleteProcess } = useDeleteProcess();
   const { t } = useTranslation();
   const { openEditor, removeEditor } = useEditors();
-  const open = () => {
-    openEditor(editor);
-  };
-  const deleteAction = {
-    run: () => {
-      removeEditor(editor.id);
-      deleteProcess(process.processIdentifier);
-    },
-    isDeletable: editor.project.isIar === false,
-    message: t('message.processPackaged')
-  };
-  const tagLabel = process.kind === 'CALLABLE_SUB' ? 'Callable Subprocess' : process.kind === 'WEB_SERVICE' ? 'Web Service' : '';
   return (
     <ArtifactCard
       name={editor.name}
-      type='process'
       preview={<PreviewSvg type='process' />}
       tooltip={editor.path}
-      onClick={open}
-      actions={{ delete: deleteAction }}
-      tagLabel={tagLabel}
+      onClick={() => openEditor(editor)}
+      deleteAction={{
+        run: () => {
+          removeEditor(editor.id);
+          deleteProcess(process.processIdentifier);
+        },
+        isDeletable: editor.project.isIar === false,
+        message: t('message.processPackaged'),
+        artifact: t('artifact.type.process')
+      }}
+      tagLabel={
+        process.kind === 'CALLABLE_SUB'
+          ? t('label.callableSubProcess')
+          : process.kind === 'WEB_SERVICE'
+            ? t('label.webServiceProcess')
+            : undefined
+      }
     />
   );
 };

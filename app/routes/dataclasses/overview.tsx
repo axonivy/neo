@@ -5,15 +5,15 @@ import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~
 import type { DataClassBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
 import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
+import { ArtifactCard, cardStylesLink } from '~/neo/overview/artifact/ArtifactCard';
+import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter } from '~/neo/overview/OverviewFilter';
@@ -63,28 +63,22 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
   const { t } = useTranslation();
   const { deleteDataClass } = useDeleteDataClass();
   const { openEditor, removeEditor } = useEditors();
-  const open = () => {
-    openEditor(editor);
-  };
-  const deleteAction = {
-    run: () => {
-      removeEditor(editor.id);
-      deleteDataClass(dataClass.dataClassIdentifier);
-    },
-    isDeletable: editor.project.isIar === false,
-    message: t('message.dataclassPackaged')
-  };
-
-  const tagLabel = dataClass.isEntityClass ? t('label.entity') : dataClass.isBusinessCaseData ? t('label.businessData') : '';
   return (
     <ArtifactCard
       name={editor.name}
-      type='dataclass'
       preview={<PreviewSvg type='dataClass' />}
       tooltip={editor.path}
-      onClick={open}
-      actions={{ delete: deleteAction }}
-      tagLabel={tagLabel}
+      onClick={() => openEditor(editor)}
+      deleteAction={{
+        run: () => {
+          removeEditor(editor.id);
+          deleteDataClass(dataClass.dataClassIdentifier);
+        },
+        isDeletable: editor.project.isIar === false,
+        message: t('message.dataclassPackaged'),
+        artifact: t('artifact.type.dataclass')
+      }}
+      tagLabel={dataClass.isEntityClass ? t('label.entity') : dataClass.isBusinessCaseData ? t('label.businessData') : undefined}
     />
   );
 };

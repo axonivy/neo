@@ -8,11 +8,10 @@ import { NEO_DESIGNER } from '~/constants';
 import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/data/dependency-api';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
-import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import type { DeleteAction } from '~/neo/artifact/DeleteConfirm';
-import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
+import { ArtifactCard, cardStylesLink } from '~/neo/overview/artifact/ArtifactCard';
+import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
@@ -116,23 +115,17 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { removeDependency } = useRemoveDependency();
-  const open = () => {
-    navigate(`../projects/${dependency.app}/${dependency.pmv}`);
-  };
-  const deleteAction: DeleteAction = {
-    run: () => {
-      removeDependency(project, dependency);
-    },
-    isDeletable: project.isIar ? false : true,
-    message: t('message.dependencyPackaged'),
-    label: t('label.removeDependency')
-  };
   return (
     <ArtifactCard
       name={dependency.pmv}
-      type='dependency'
-      actions={{ delete: deleteAction }}
-      onClick={open}
+      deleteAction={{
+        run: () => removeDependency(project, dependency),
+        isDeletable: project.isIar ? false : true,
+        message: t('message.dependencyPackaged'),
+        label: t('label.removeDependency'),
+        artifact: t('artifact.type.dependency')
+      }}
+      onClick={() => navigate(`../projects/${dependency.app}/${dependency.pmv}`)}
       preview={<PreviewSvg type='workspace' />}
       tagLabel={dependency.isIar ? t('common.label.readOnly') : undefined}
     />

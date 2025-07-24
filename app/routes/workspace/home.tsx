@@ -29,11 +29,10 @@ import { NEO_DESIGNER } from '~/constants';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
-import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import type { DeleteAction } from '~/neo/artifact/DeleteConfirm';
-import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
+import { ArtifactCard, cardStylesLink } from '~/neo/overview/artifact/ArtifactCard';
+import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
@@ -197,23 +196,17 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const navigate = useNavigate();
   const { deleteProject } = useDeleteProject();
   const ws = useWorkspace();
-  const open = () => {
-    navigate(`projects/${project.id.app}/${project.id.pmv}`);
-  };
   const defaultProject = project.id.pmv === ws?.name;
-  const deleteAction: DeleteAction = {
-    run: () => {
-      deleteProject(project.id);
-    },
-    isDeletable: !defaultProject && project.isDeletable,
-    message: defaultProject ? t('workspaces.deleteWarning.mainProject') : t('workspaces.deleteWarning.requiredByOtherProjects')
-  };
   return (
     <ArtifactCard
       name={project.id.pmv}
-      type='project'
-      actions={{ delete: deleteAction }}
-      onClick={open}
+      deleteAction={{
+        run: () => deleteProject(project.id),
+        isDeletable: !defaultProject && project.isDeletable,
+        message: defaultProject ? t('workspaces.deleteWarning.mainProject') : t('workspaces.deleteWarning.requiredByOtherProjects'),
+        artifact: t('artifact.type.project')
+      }}
+      onClick={() => navigate(`projects/${project.id.app}/${project.id.pmv}`)}
       preview={<PreviewSvg type='workspace' />}
       tagLabel={project.id.isIar ? t('common.label.readOnly') : defaultProject ? t('common.label.default') : undefined}
     />

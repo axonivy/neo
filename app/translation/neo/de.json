@@ -25,7 +25,15 @@
     "newForm": "Erstellen Sie ein neues Formular, um Informationen oder Benutzereingaben zu sammeln.",
     "newProcess": "Erstellen Sie einen neuen Prozess, um einen Workflow zu definieren.",
     "newTitle": "{{type}}",
-    "optional": "Optional"
+    "optional": "Optional",
+    "type": {
+      "dataclass": "Datenklasse",
+      "dependency": "Abhängigkeit",
+      "form": "Formular",
+      "process": "Prozess",
+      "project": "Projekt",
+      "workspace": "Workspace"
+    }
   },
   "browser": {
     "devBrowser": "Entwicklungsbrowser",
@@ -114,13 +122,15 @@
   },
   "label": {
     "businessData": "Business Daten",
+    "callableSubProcess": "Aufrufbarer Sub Prozess",
     "entity": "Entität",
     "graphView": "Diagrammansicht",
     "project": "Projekt",
     "removeDependency": "Abhängigkeit entfernen",
     "runtimeLog": "Laufzeitprotokoll",
     "tileView": "Kachelansicht",
-    "toggleView": "Ansicht umschalten"
+    "toggleView": "Ansicht umschalten",
+    "webServiceProcess": "Web Service"
   },
   "market": {
     "description": "Hier können Sie wiederverwendbare Komponenten, Vorlagen und Lösungen finden und herunterladen, um die Entwicklung zu beschleunigen.",

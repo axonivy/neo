@@ -25,7 +25,15 @@
     "newForm": "Create a new Form to collect information or user input.",
     "newProcess": "Create a new Process to define a workflow.",
     "newTitle": "New {{type}}",
-    "optional": "Optional"
+    "optional": "Optional",
+    "type": {
+      "dataclass": "Data Class",
+      "dependency": "Dependency",
+      "form": "Form",
+      "process": "Process",
+      "project": "Project",
+      "workspace": "Workspace"
+    }
   },
   "browser": {
     "devBrowser": "Dev Browser",
@@ -114,13 +122,15 @@
   },
   "label": {
     "businessData": "Business Data",
+    "callableSubProcess": "Callable Subprocess",
     "entity": "Entity",
     "graphView": "Graph View",
     "project": "Project",
     "removeDependency": "Remove Dependency",
     "runtimeLog": "Runtime Log",
     "tileView": "Tile View",
-    "toggleView": "Toggle Views"
+    "toggleView": "Toggle Views",
+    "webServiceProcess": "Web Service"
   },
   "market": {
     "description": "Here you can find and download reusable components, templates and solutions to accelerate development.",
