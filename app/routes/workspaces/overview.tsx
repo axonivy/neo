@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
+import { DeployDialog } from '~/neo/artifact/DeployDialog';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
@@ -29,6 +29,7 @@ import { LanguageSettings } from '~/neo/settings/LanguageSettings';
 import { Settings } from '~/neo/settings/Settings';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
+import { useKnownHotkeys } from '~/utils/hotkeys';
 import welcomeSvgUrl from '/assets/welcome.svg?url';
 
 export const links: LinksFunction = () => [cardStylesLink];
@@ -67,9 +68,7 @@ export default function Index() {
               </OverviewTitle>
               <OverviewFilter {...overviewFilter} />
               <OverviewContent isPending={isPending}>
-                {workspaces.map(workspace => (
-                  <WorkspaceCard key={workspace.name} {...workspace} />
-                ))}
+                <WorkspacesOverview workspaces={workspaces} />
               </OverviewContent>
             </Overview>
           </Flex>
@@ -101,28 +100,75 @@ const WelcomeHeader = () => {
   );
 };
 
-const WorkspaceCard = (workspace: Workspace) => {
+const WorkspacesOverview = ({ workspaces }: { workspaces: Workspace[] }) => {
+  const [workspaceId, setWorkspaceId] = useState<string>();
+  const { open, onOpenChange } = useDialogHotkeys(['deployDialog']);
+  const { deployWorkspace } = useDeployWorkspace();
+  return (
+    <>
+      {workspaces.map(workspace => (
+        <WorkspaceCard
+          key={workspace.name}
+          {...workspace}
+          deployWorkspace={() => {
+            setWorkspaceId(workspace.id);
+            onOpenChange(true);
+          }}
+        />
+      ))}
+      <DeployDialog
+        open={open}
+        onOpenChange={onOpenChange}
+        deployAction={params => {
+          if (workspaceId) {
+            return deployWorkspace({ workspaceId, ...params });
+          }
+          return Promise.reject(new Error('No workspace selected'));
+        }}
+      />
+    </>
+  );
+};
+
+const WorkspaceCard = ({
+  id,
+  name,
+  deployWorkspace
+}: Pick<Workspace, 'id' | 'name'> & { deployWorkspace: (workspaceId: string) => void }) => {
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
-  const downloadWorkspace = useDownloadWorkspace(workspace.id);
-  const { deployWorkspace } = useDeployWorkspace();
-  const open = () => navigate(workspace.id);
-  const deployAction = (params: DeployActionParams) => {
-    return deployWorkspace({ workspaceId: workspace.id, ...params });
-  };
-
-  const deleteAction = {
-    run: () => deleteWorkspace(workspace.id),
-    isDeletable: true
-  };
+  const downloadWorkspace = useDownloadWorkspace(id);
+  const hotkeys = useKnownHotkeys();
+  const cardRef = useHotkeys(
+    [hotkeys.exportWorkspace.hotkey, hotkeys.deployWorkspace.hotkey],
+    (_, { hotkey }) => {
+      switch (hotkey) {
+        case hotkeys.deployWorkspace.hotkey:
+          deployWorkspace(id);
+          break;
+        case hotkeys.exportWorkspace.hotkey:
+          downloadWorkspace();
+          break;
+      }
+    },
+    { keydown: false, keyup: true }
+  );
 
   return (
     <ArtifactCard
-      name={workspace.name}
+      name={name}
       type='workspace'
-      onClick={open}
-      actions={{ delete: deleteAction, export: downloadWorkspace, deploy: deployAction }}
+      onClick={() => navigate(id)}
+      actions={{
+        delete: {
+          run: () => deleteWorkspace(id),
+          isDeletable: true
+        },
+        export: downloadWorkspace,
+        deploy: () => deployWorkspace(id)
+      }}
       preview={<PreviewSvg type='workspace' />}
+      ref={cardRef}
     />
   );
 };

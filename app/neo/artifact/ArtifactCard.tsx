@@ -15,13 +15,12 @@ import {
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useState, type ReactNode } from 'react';
+import { useState, type ReactNode, type Ref } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import cardStyles from './ArtifactCard.css?url';
 import { ArtifactTag } from './ArtifactTag';
 import { DeleteConfirm, type DeleteAction } from './DeleteConfirm';
-import { DeployDialog, type DeployActionParams } from './DeployDialog';
 
 export const cardStylesLink = { rel: 'stylesheet', href: cardStyles };
 
@@ -35,15 +34,14 @@ type Card = {
   actions?: {
     delete?: DeleteAction;
     export?: () => void;
-    deploy?: (params: DeployActionParams) => Promise<string>;
+    deploy?: () => void;
   };
+  ref?: Ref<HTMLDivElement>;
 };
 
-export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, tagLabel }: Card) => {
+export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, tagLabel, ref }: Card) => {
   const hotkeys = useKnownHotkeys();
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [isDeployDialogOpen, setDeployDialogOpen] = useState(false);
-  const { t } = useTranslation();
   const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['artifactCardActionDialog']);
   const onDeleteDialogOpenChange = (open: boolean) => {
     setDeleteDialogOpen(open);
@@ -53,39 +51,10 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
       restoreLocalScopes();
     }
   };
-
-  const onDeployDialogOpenChange = (open: boolean) => {
-    setDeployDialogOpen(open);
-    if (open) {
-      activateLocalScopes();
-    } else {
-      restoreLocalScopes();
-    }
-  };
-  const artifactCardRef = useHotkeys(
-    [hotkeys.deleteElement.hotkey, hotkeys.exportWorkspace.hotkey, hotkeys.deployWorkspace.hotkey],
-    (_, { hotkey }) => {
-      switch (hotkey) {
-        case hotkeys.deleteElement.hotkey:
-          onDeleteDialogOpenChange(true);
-          break;
-        case hotkeys.deployWorkspace.hotkey:
-          if (actions && actions.export && actions.deploy) {
-            onDeployDialogOpenChange(true);
-          }
-          break;
-        case hotkeys.exportWorkspace.hotkey:
-          if (actions && actions.export && actions.deploy) {
-            actions.export();
-          }
-          break;
-      }
-    },
-    { keydown: false, keyup: true }
-  );
+  const artifactCardRef = useHotkeys([hotkeys.deleteElement.hotkey], () => onDeleteDialogOpenChange(true), { keydown: false, keyup: true });
 
   return (
-    <div className='artifact-card'>
+    <div className='artifact-card' ref={ref}>
       <TooltipProvider>
         <Tooltip delayDuration={700}>
           {tooltip && <TooltipContent>{tooltip}</TooltipContent>}
@@ -109,59 +78,83 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
           </TooltipTrigger>
         </Tooltip>
       </TooltipProvider>
-      {actions && (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button icon={IvyIcons.Dots} className='card-menu-trigger' />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent side='bottom' align='start' className='card-menu'>
-            <DropdownMenuGroup>
-              {actions.delete && (
-                <DropdownMenuItem
-                  className='card-delete'
-                  onSelect={e => {
-                    e.preventDefault();
-                    onDeleteDialogOpenChange(true);
-                  }}
-                >
-                  <IvyIcon icon={IvyIcons.Trash} />
-                  <span>{actions.delete.label ?? t('common.label.delete')}</span>
-                </DropdownMenuItem>
-              )}
-              {actions.export && actions.deploy && (
-                <>
-                  <DropdownMenuItem
-                    onSelect={actions.export}
-                    title={hotkeys.exportWorkspace.label}
-                    aria-label={hotkeys.exportWorkspace.label}
-                  >
-                    <IvyIcon icon={IvyIcons.Upload} />
-                    <span>{t('common.label.export')}</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onSelect={e => {
-                      e.preventDefault();
-                      onDeployDialogOpenChange(true);
-                    }}
-                    title={hotkeys.deployWorkspace.label}
-                    aria-label={hotkeys.deployWorkspace.label}
-                  >
-                    <IvyIcon icon={IvyIcons.Bpmn} />
-                    <span>{t('common.label.deploy')}</span>
-                  </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )}
+      <ArtifactCardMenu
+        actions={actions}
+        onDeleteDialogOpenChange={onDeleteDialogOpenChange}
+        isDeleteDialogOpen={isDeleteDialogOpen}
+        type={type}
+      ></ArtifactCardMenu>
+    </div>
+  );
+};
 
+const ArtifactCardMenu = ({
+  actions,
+  onDeleteDialogOpenChange,
+  isDeleteDialogOpen,
+  type
+}: {
+  actions?: {
+    delete?: DeleteAction;
+    export?: () => void;
+    deploy?: () => void;
+  };
+  onDeleteDialogOpenChange: (open: boolean) => void;
+  isDeleteDialogOpen: boolean;
+  type: string;
+}) => {
+  const { t } = useTranslation();
+  const hotkeys = useKnownHotkeys();
+
+  if (!actions) {
+    return null;
+  }
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button icon={IvyIcons.Dots} className='card-menu-trigger' />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent side='bottom' align='start' className='card-menu'>
+          <DropdownMenuGroup>
+            {actions.delete && (
+              <DropdownMenuItem
+                className='card-delete'
+                onSelect={e => {
+                  e.preventDefault();
+                  onDeleteDialogOpenChange(true);
+                }}
+              >
+                <IvyIcon icon={IvyIcons.Trash} />
+                <span>{actions.delete.label ?? t('common.label.delete')}</span>
+              </DropdownMenuItem>
+            )}
+            {actions.export && actions.deploy && (
+              <>
+                <DropdownMenuItem
+                  onSelect={actions.export}
+                  title={hotkeys.exportWorkspace.label}
+                  aria-label={hotkeys.exportWorkspace.label}
+                >
+                  <IvyIcon icon={IvyIcons.Upload} />
+                  <span>{t('common.label.export')}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={actions.deploy}
+                  title={hotkeys.deployWorkspace.label}
+                  aria-label={hotkeys.deployWorkspace.label}
+                >
+                  <IvyIcon icon={IvyIcons.Bpmn} />
+                  <span>{t('common.label.deploy')}</span>
+                </DropdownMenuItem>
+              </>
+            )}
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
       {actions?.delete && isDeleteDialogOpen && (
         <DeleteConfirm open={isDeleteDialogOpen} onOpenChange={onDeleteDialogOpenChange} title={type} deleteAction={actions.delete} />
       )}
-      {actions?.export && actions?.deploy && isDeployDialogOpen && (
-        <DeployDialog open={isDeployDialogOpen} onOpenChange={onDeployDialogOpenChange} deployAction={actions.deploy} />
-      )}
-    </div>
+    </>
   );
 };
