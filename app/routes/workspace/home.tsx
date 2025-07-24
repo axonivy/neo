@@ -30,7 +30,7 @@ import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
 import { useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import type { DeleteAction } from '~/neo/artifact/DeleteConfirm';
+import type { DeleteAction } from '~/neo/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
@@ -212,7 +212,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
     <ArtifactCard
       name={project.id.pmv}
       type='project'
-      actions={{ delete: deleteAction }}
+      deleteAction={deleteAction}
       onClick={open}
       preview={<PreviewSvg type='workspace' />}
       tagLabel={project.id.isIar ? t('common.label.readOnly') : defaultProject ? t('common.label.default') : undefined}

@@ -83,7 +83,7 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
       preview={<PreviewSvg type='dataClass' />}
       tooltip={editor.path}
       onClick={open}
-      actions={{ delete: deleteAction }}
+      deleteAction={deleteAction}
       tagLabel={tagLabel}
     />
   );

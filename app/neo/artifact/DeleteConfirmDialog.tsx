@@ -11,7 +11,7 @@ type DeleteConfirmProps = {
   deleteAction: DeleteAction;
 };
 
-export const DeleteConfirm = ({ open, onOpenChange, title, deleteAction }: DeleteConfirmProps) => {
+export const DeleteConfirmDialog = ({ open, onOpenChange, title, deleteAction }: DeleteConfirmProps) => {
   const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

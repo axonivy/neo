@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import cardStyles from './ArtifactCard.css?url';
 import { ArtifactTag } from './ArtifactTag';
-import { DeleteConfirm, type DeleteAction } from './DeleteConfirm';
+import { DeleteConfirmDialog, type DeleteAction } from './DeleteConfirmDialog';
 
 export const cardStylesLink = { rel: 'stylesheet', href: cardStyles };
 
@@ -31,14 +31,12 @@ type Card = {
   tooltip?: string;
   tagLabel?: string;
   onClick: () => void;
-  actions?: {
-    delete?: DeleteAction;
-  };
+  deleteAction?: DeleteAction;
   ref?: Ref<HTMLDivElement>;
   children?: ReactNode;
 };
 
-export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, tagLabel, ref, children }: Card) => {
+export const ArtifactCard = ({ name, type, preview, onClick, deleteAction, tooltip, tagLabel, ref, children }: Card) => {
   const hotkeys = useKnownHotkeys();
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['artifactCardActionDialog']);
@@ -70,44 +68,44 @@ export const ArtifactCard = ({ name, type, preview, onClick, actions, tooltip, t
                 </Flex>
                 <Flex alignItems='center' justifyContent='space-between' gap={1}>
                   <span className='card-name'>{name}</span>
-                  {!actions && <IvyIcon icon={IvyIcons.ArrowRight} />}
                 </Flex>
               </Flex>
             </button>
           </TooltipTrigger>
         </Tooltip>
       </TooltipProvider>
-      <ArtifactCardMenu
-        actions={actions}
-        onDeleteDialogOpenChange={onDeleteDialogOpenChange}
-        isDeleteDialogOpen={isDeleteDialogOpen}
-        type={type}
-      >
-        {children}
-      </ArtifactCardMenu>
+      <div className='card-menu-trigger'>
+        {deleteAction ? (
+          <ArtifactCardMenu
+            deleteAction={deleteAction}
+            onDeleteDialogOpenChange={onDeleteDialogOpenChange}
+            isDeleteDialogOpen={isDeleteDialogOpen}
+            type={type}
+          >
+            {children}
+          </ArtifactCardMenu>
+        ) : (
+          <IvyIcon icon={IvyIcons.ArrowRight} />
+        )}
+      </div>
     </div>
   );
 };
 
 const ArtifactCardMenu = ({
-  actions,
+  deleteAction,
   onDeleteDialogOpenChange,
   isDeleteDialogOpen,
   type,
   children
 }: {
-  actions?: {
-    delete?: DeleteAction;
-  };
+  deleteAction: DeleteAction;
   onDeleteDialogOpenChange: (open: boolean) => void;
   isDeleteDialogOpen: boolean;
   type: string;
   children?: ReactNode;
 }) => {
   const { t } = useTranslation();
-  if (!actions) {
-    return null;
-  }
   return (
     <>
       <DropdownMenu>
@@ -116,24 +114,16 @@ const ArtifactCardMenu = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent side='bottom' align='start' className='card-menu'>
           <DropdownMenuGroup>
-            {actions.delete && (
-              <DropdownMenuItem
-                className='card-delete'
-                onSelect={e => {
-                  e.preventDefault();
-                  onDeleteDialogOpenChange(true);
-                }}
-              >
-                <IvyIcon icon={IvyIcons.Trash} />
-                <span>{actions.delete.label ?? t('common.label.delete')}</span>
-              </DropdownMenuItem>
-            )}
+            <DropdownMenuItem className='card-delete' onSelect={() => onDeleteDialogOpenChange(true)}>
+              <IvyIcon icon={IvyIcons.Trash} />
+              <span>{deleteAction.label ?? t('common.label.delete')}</span>
+            </DropdownMenuItem>
             {children}
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      {actions?.delete && isDeleteDialogOpen && (
-        <DeleteConfirm open={isDeleteDialogOpen} onOpenChange={onDeleteDialogOpenChange} title={type} deleteAction={actions.delete} />
+      {isDeleteDialogOpen && (
+        <DeleteConfirmDialog open={isDeleteDialogOpen} onOpenChange={onDeleteDialogOpenChange} title={type} deleteAction={deleteAction} />
       )}
     </>
   );

@@ -72,7 +72,7 @@ const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) 
       preview={<PreviewSvg type='process' />}
       tooltip={editor.path}
       onClick={open}
-      actions={{ delete: deleteAction }}
+      deleteAction={deleteAction}
       tagLabel={tagLabel}
     />
   );

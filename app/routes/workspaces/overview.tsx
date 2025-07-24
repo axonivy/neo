@@ -5,7 +5,9 @@ import {
   Dialog,
   DialogContent,
   DropdownMenuItem,
+  DropdownMenuShortcut,
   Flex,
+  hotkeyText,
   Input,
   IvyIcon,
   useDialogHotkeys,
@@ -162,27 +164,23 @@ const WorkspaceCard = ({
       name={name}
       type='workspace'
       onClick={() => navigate(id)}
-      actions={{
-        delete: {
-          run: () => deleteWorkspace(id),
-          isDeletable: true
-        }
+      deleteAction={{
+        run: () => deleteWorkspace(id),
+        isDeletable: true
       }}
       preview={<PreviewSvg type='workspace' />}
       ref={cardRef}
     >
       <>
-        <DropdownMenuItem onSelect={downloadWorkspace} title={hotkeys.exportWorkspace.label} aria-label={hotkeys.exportWorkspace.label}>
+        <DropdownMenuItem onSelect={downloadWorkspace} aria-label={hotkeys.exportWorkspace.label}>
           <IvyIcon icon={IvyIcons.Upload} />
           <span>{t('common.label.export')}</span>
+          <DropdownMenuShortcut>{hotkeyText(hotkeys.exportWorkspace.hotkey)}</DropdownMenuShortcut>
         </DropdownMenuItem>
-        <DropdownMenuItem
-          onSelect={() => deployWorkspace(id)}
-          title={hotkeys.deployWorkspace.label}
-          aria-label={hotkeys.deployWorkspace.label}
-        >
+        <DropdownMenuItem onSelect={() => deployWorkspace(id)} aria-label={hotkeys.deployWorkspace.label}>
           <IvyIcon icon={IvyIcons.Bpmn} />
           <span>{t('common.label.deploy')}</span>
+          <DropdownMenuShortcut>{hotkeyText(hotkeys.deployWorkspace.hotkey)}</DropdownMenuShortcut>
         </DropdownMenuItem>
       </>
     </ArtifactCard>

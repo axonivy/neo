@@ -71,7 +71,7 @@ const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) =>
       preview={<PreviewSvg type='form' />}
       tooltip={editor.path}
       onClick={open}
-      actions={{ delete: deleteAction }}
+      deleteAction={deleteAction}
     />
   );
 };

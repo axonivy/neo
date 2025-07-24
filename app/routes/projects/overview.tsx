@@ -9,7 +9,7 @@ import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/dat
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import type { DeleteAction } from '~/neo/artifact/DeleteConfirm';
+import type { DeleteAction } from '~/neo/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
@@ -131,7 +131,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
     <ArtifactCard
       name={dependency.pmv}
       type='dependency'
-      actions={{ delete: deleteAction }}
+      deleteAction={deleteAction}
       onClick={open}
       preview={<PreviewSvg type='workspace' />}
       tagLabel={dependency.isIar ? t('common.label.readOnly') : undefined}
