@@ -63,28 +63,22 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
   const { t } = useTranslation();
   const { deleteDataClass } = useDeleteDataClass();
   const { openEditor, removeEditor } = useEditors();
-  const open = () => {
-    openEditor(editor);
-  };
-  const deleteAction = {
-    run: () => {
-      removeEditor(editor.id);
-      deleteDataClass(dataClass.dataClassIdentifier);
-    },
-    isDeletable: editor.project.isIar === false,
-    message: t('message.dataclassPackaged')
-  };
-
-  const tagLabel = dataClass.isEntityClass ? t('label.entity') : dataClass.isBusinessCaseData ? t('label.businessData') : '';
   return (
     <ArtifactCard
       name={editor.name}
-      type='dataclass'
       preview={<PreviewSvg type='dataClass' />}
       tooltip={editor.path}
-      onClick={open}
-      deleteAction={deleteAction}
-      tagLabel={tagLabel}
+      onClick={() => openEditor(editor)}
+      deleteAction={{
+        run: () => {
+          removeEditor(editor.id);
+          deleteDataClass(dataClass.dataClassIdentifier);
+        },
+        isDeletable: editor.project.isIar === false,
+        message: t('message.dataclassPackaged'),
+        artifact: t('artifact.type.dataclass')
+      }}
+      tagLabel={dataClass.isEntityClass ? t('label.entity') : dataClass.isBusinessCaseData ? t('label.businessData') : undefined}
     />
   );
 };

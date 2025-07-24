@@ -50,28 +50,24 @@ export default function Index() {
 }
 
 const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) => {
-  const { deleteForm } = useDeleteForm();
   const { t } = useTranslation();
+  const { deleteForm } = useDeleteForm();
   const { openEditor, removeEditor } = useEditors();
-  const open = () => {
-    openEditor(editor);
-  };
-  const deleteAction = {
-    run: () => {
-      removeEditor(editor.id);
-      deleteForm(formId);
-    },
-    isDeletable: editor.project.isIar === false,
-    message: t('message.formPackaged')
-  };
   return (
     <ArtifactCard
       name={editor.name}
-      type='form'
       preview={<PreviewSvg type='form' />}
       tooltip={editor.path}
-      onClick={open}
-      deleteAction={deleteAction}
+      onClick={() => openEditor(editor)}
+      deleteAction={{
+        run: () => {
+          removeEditor(editor.id);
+          deleteForm(formId);
+        },
+        isDeletable: editor.project.isIar === false,
+        message: t('message.formPackaged'),
+        artifact: t('artifact.type.form')
+      }}
     />
   );
 };

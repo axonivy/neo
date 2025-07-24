@@ -9,7 +9,6 @@ import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/dat
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import type { DeleteAction } from '~/neo/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
@@ -116,23 +115,17 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { removeDependency } = useRemoveDependency();
-  const open = () => {
-    navigate(`../projects/${dependency.app}/${dependency.pmv}`);
-  };
-  const deleteAction: DeleteAction = {
-    run: () => {
-      removeDependency(project, dependency);
-    },
-    isDeletable: project.isIar ? false : true,
-    message: t('message.dependencyPackaged'),
-    label: t('label.removeDependency')
-  };
   return (
     <ArtifactCard
       name={dependency.pmv}
-      type='dependency'
-      deleteAction={deleteAction}
-      onClick={open}
+      deleteAction={{
+        run: () => removeDependency(project, dependency),
+        isDeletable: project.isIar ? false : true,
+        message: t('message.dependencyPackaged'),
+        label: t('label.removeDependency'),
+        artifact: t('artifact.type.dependency')
+      }}
+      onClick={() => navigate(`../projects/${dependency.app}/${dependency.pmv}`)}
       preview={<PreviewSvg type='workspace' />}
       tagLabel={dependency.isIar ? t('common.label.readOnly') : undefined}
     />

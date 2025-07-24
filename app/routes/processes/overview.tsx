@@ -53,27 +53,28 @@ const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) 
   const { deleteProcess } = useDeleteProcess();
   const { t } = useTranslation();
   const { openEditor, removeEditor } = useEditors();
-  const open = () => {
-    openEditor(editor);
-  };
-  const deleteAction = {
-    run: () => {
-      removeEditor(editor.id);
-      deleteProcess(process.processIdentifier);
-    },
-    isDeletable: editor.project.isIar === false,
-    message: t('message.processPackaged')
-  };
-  const tagLabel = process.kind === 'CALLABLE_SUB' ? 'Callable Subprocess' : process.kind === 'WEB_SERVICE' ? 'Web Service' : '';
   return (
     <ArtifactCard
       name={editor.name}
-      type='process'
       preview={<PreviewSvg type='process' />}
       tooltip={editor.path}
-      onClick={open}
-      deleteAction={deleteAction}
-      tagLabel={tagLabel}
+      onClick={() => openEditor(editor)}
+      deleteAction={{
+        run: () => {
+          removeEditor(editor.id);
+          deleteProcess(process.processIdentifier);
+        },
+        isDeletable: editor.project.isIar === false,
+        message: t('message.processPackaged'),
+        artifact: t('artifact.type.process')
+      }}
+      tagLabel={
+        process.kind === 'CALLABLE_SUB'
+          ? t('label.callableSubProcess')
+          : process.kind === 'WEB_SERVICE'
+            ? t('label.webServiceProcess')
+            : undefined
+      }
     />
   );
 };

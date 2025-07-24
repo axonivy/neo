@@ -162,9 +162,8 @@ const WorkspaceCard = ({
   return (
     <ArtifactCard
       name={name}
-      type='workspace'
       onClick={() => navigate(id)}
-      deleteAction={{ run: () => deleteWorkspace(id), isDeletable: true }}
+      deleteAction={{ run: () => deleteWorkspace(id), isDeletable: true, artifact: t('artifact.type.workspace') }}
       preview={<PreviewSvg type='workspace' />}
       ref={cardRef}
     >

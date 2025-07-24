@@ -15,7 +15,7 @@ import {
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { type ReactNode, type Ref } from 'react';
+import { type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import cardStyles from './ArtifactCard.css?url';
@@ -26,17 +26,14 @@ export const cardStylesLink = { rel: 'stylesheet', href: cardStyles };
 
 type Card = {
   name: string;
-  type: string;
-  preview?: ReactNode;
+  onClick: () => void;
+  preview: ReactNode;
   tooltip?: string;
   tagLabel?: string;
-  onClick: () => void;
   deleteAction?: DeleteAction;
-  ref?: Ref<HTMLDivElement>;
-  children?: ReactNode;
-};
+} & React.ComponentProps<'div'>;
 
-export const ArtifactCard = ({ name, type, preview, onClick, deleteAction, tooltip, tagLabel, ref, children }: Card) => {
+export const ArtifactCard = ({ name, preview, onClick, deleteAction, tooltip, tagLabel, ref, children }: Card) => {
   const hotkeys = useKnownHotkeys();
   const { open, onOpenChange } = useDialogHotkeys(['artifactCardActionDialog']);
   const artifactCardRef = useHotkeys([hotkeys.deleteElement.hotkey], () => onOpenChange(true), { keydown: false, keyup: true });
@@ -67,7 +64,7 @@ export const ArtifactCard = ({ name, type, preview, onClick, deleteAction, toolt
       </TooltipProvider>
       <div className='card-menu-trigger'>
         {deleteAction ? (
-          <ArtifactCardMenu deleteAction={deleteAction} onDeleteDialogOpenChange={onOpenChange} isDeleteDialogOpen={open} type={type}>
+          <ArtifactCardMenu deleteAction={deleteAction} onDeleteDialogOpenChange={onOpenChange} isDeleteDialogOpen={open}>
             {children}
           </ArtifactCardMenu>
         ) : (
@@ -82,13 +79,11 @@ const ArtifactCardMenu = ({
   deleteAction,
   onDeleteDialogOpenChange,
   isDeleteDialogOpen,
-  type,
   children
 }: {
   deleteAction: DeleteAction;
   onDeleteDialogOpenChange: (open: boolean) => void;
   isDeleteDialogOpen: boolean;
-  type: string;
   children?: ReactNode;
 }) => {
   const { t } = useTranslation();
@@ -109,7 +104,7 @@ const ArtifactCardMenu = ({
         </DropdownMenuContent>
       </DropdownMenu>
       {isDeleteDialogOpen && (
-        <DeleteConfirmDialog open={isDeleteDialogOpen} onOpenChange={onDeleteDialogOpenChange} title={type} deleteAction={deleteAction} />
+        <DeleteConfirmDialog open={isDeleteDialogOpen} onOpenChange={onDeleteDialogOpenChange} deleteAction={deleteAction} />
       )}
     </>
   );
