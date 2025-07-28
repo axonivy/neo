@@ -39,8 +39,6 @@ test('import and delete project', async ({ page, browserName }, testInfo) => {
   await new ImportDialog(page).import(zipFile);
   await page.keyboard.press('Escape');
   await neo.navigation.open('Processes');
-  await overview.hasGroup(`Project: ${wsName}`);
-  await overview.openGroup(TEST_PROJECT);
   await expect(overview.card('quickstart')).toBeVisible();
   await neo.home();
   await overview.deleteCard(TEST_PROJECT);

@@ -158,40 +158,13 @@ export class Overview {
     await expect(this.page.getByRole('tooltip')).toHaveText(content);
   }
 
-  async group(name: string, tagLabel?: string) {
-    const groupTitel = tagLabel ? `${name}${tagLabel}` : name;
-    const group = this.overview.locator(`.ui-collapsible:has-text("${groupTitel}")`);
-    const trigger = group.locator('button.ui-collapsible-trigger');
-    await this.hasTag(trigger, tagLabel);
-    return { group, trigger };
-  }
-
-  private async hasTag(locator: Locator, tagLabel?: string) {
-    const tag = locator.locator('.artifact-tag');
+  async hasCardWithTag(name: string, tagLabel?: string) {
+    const tag = this.card(name).locator('.artifact-tag');
     if (tagLabel) {
-      await expect(tag).toHaveText(tagLabel);
+      await expect(tag.locator('span', { hasText: tagLabel })).toBeVisible();
     } else {
       await expect(tag).toBeHidden();
     }
-  }
-
-  async hasGroup(name: string, tagLabel?: string, numOfNewCards?: number) {
-    const { group, trigger } = await this.group(name, tagLabel);
-    await expect(trigger).toHaveAttribute('data-state', 'open');
-    const nestedNew = group.locator('.new-artifact-card');
-    await expect(nestedNew).toHaveCount(numOfNewCards ?? 0);
-  }
-
-  async hasCardWithTag(name: string, tagLabel?: string) {
-    const card = this.card(name);
-    await this.hasTag(card, tagLabel);
-  }
-
-  async openGroup(name: string, tagLabel?: string) {
-    const { trigger } = await this.group(name, tagLabel);
-    await expect(trigger).toHaveAttribute('data-state', 'closed');
-    await trigger.click();
-    await expect(trigger).toHaveAttribute('data-state', 'open');
   }
 
   async clickInfoCard(name: string) {

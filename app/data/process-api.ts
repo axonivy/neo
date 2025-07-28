@@ -1,4 +1,4 @@
-import { groupBy, toast } from '@axonivy/ui-components';
+import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
@@ -21,7 +21,7 @@ export const useProcessesApi = () => {
   return { queryKey: ['neo', ws?.id, 'processes'], base: ws?.baseUrl, ws };
 };
 
-export const useGroupedProcesses = () => {
+export const useProcesses = () => {
   const { t } = useTranslation();
   const { queryKey, base, ws } = useProcessesApi();
   return useQuery({
@@ -30,10 +30,7 @@ export const useGroupedProcesses = () => {
       if (base === undefined) return [];
       return getProcesses({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          const grouped = groupBy(res.data, p => p.processIdentifier.project.pmv);
-          return Object.entries(grouped)
-            .map(([project, processes]) => ({ project, artifacts: processes }))
-            .sort((a, b) => projectSort(a.project, b.project, ws));
+          return res.data.sort((a, b) => projectSort(a.processIdentifier.project.pmv, b.processIdentifier.project.pmv, ws));
         }
         toast.error(t('toast.process.missing'), { description: t('toast.serverStatus') });
         return [];

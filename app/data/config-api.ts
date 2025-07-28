@@ -1,4 +1,4 @@
-import { groupBy, toast } from '@axonivy/ui-components';
+import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { headers, ok } from './custom-fetch';
@@ -17,7 +17,7 @@ const useConfigurationsApi = () => {
   return { queryKey: ['neo', ws?.id, 'configurations'], base: ws?.baseUrl, ws };
 };
 
-export const useGroupedConfigurations = () => {
+export const useConfigurations = () => {
   const { queryKey, base, ws } = useConfigurationsApi();
   const { t } = useTranslation();
   return useQuery({
@@ -26,10 +26,7 @@ export const useGroupedConfigurations = () => {
       if (base === undefined) return [];
       return configurations({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          const grouped = groupBy(res.data, c => c.project.pmv);
-          return Object.entries(grouped)
-            .map(([project, configurations]) => ({ project, artifacts: configurations }))
-            .sort((a, b) => projectSort(a.project, b.project, ws));
+          return res.data.sort((a, b) => projectSort(a.project.pmv, b.project.pmv, ws));
         }
         toast.error(t('toast.config.missing'), { description: t('toast.serverStatus') });
         return [];

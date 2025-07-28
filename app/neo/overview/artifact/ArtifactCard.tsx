@@ -10,21 +10,17 @@ type Card = {
   preview: ReactNode;
   description?: string;
   tooltip?: string;
-  tagLabel?: string;
+  tags?: Array<string>;
 } & React.ComponentProps<'div'>;
 
-export const ArtifactCard = ({ name, description, preview, onClick, tooltip, tagLabel, ref, children }: Card) => (
+export const ArtifactCard = ({ name, description, preview, onClick, tooltip, tags, ref, children }: Card) => (
   <div className='artifact-card' ref={ref}>
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <Flex direction='column' gap={1} className='card-content'>
             <button className='card' onClick={onClick}>
-              {tagLabel && (
-                <div style={{ position: 'absolute', top: 5, right: 5 }}>
-                  <ArtifactTag label={tagLabel} />
-                </div>
-              )}
+              {tags && <ArtifactTag tags={tags} />}
               {preview}
             </button>
             <Flex direction='row' gap={2} justifyContent='space-between'>

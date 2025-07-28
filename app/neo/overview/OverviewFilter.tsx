@@ -1,50 +1,154 @@
-import { Button, Flex, SearchInput, ToggleGroup, ToggleGroupItem } from '@axonivy/ui-components';
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  Flex,
+  IvyIcon,
+  SearchInput,
+  Separator,
+  ToggleGroup,
+  ToggleGroupItem
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useState, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSortedProjects } from '~/data/project-api';
 import { useSearch } from './useSearch';
 
 export type ViewTypes = 'tile' | 'graph';
 
-export const useOverviewFilter = () => {
-  const search = useSearch();
+export const useOverviewFilter = <T,>(artifacts: Array<T>, filter: (t: T, search: string, projects: Array<string>) => boolean) => {
+  const { search, setSearch, projects, setProjects } = useSearch();
   const [viewType, setViewType] = useState<ViewTypes>('tile');
-  return { ...search, viewType, setViewType };
+  const filteredAritfacts = useMemo(
+    () => artifacts.filter(artifact => filter(artifact, search.toLocaleLowerCase(), projects)),
+    [artifacts, filter, projects, search]
+  );
+  return { filteredAritfacts, search, setSearch, projects, setProjects, viewType, setViewType };
 };
 
-type OverviewFilterProps = ReturnType<typeof useOverviewFilter> & {
+type OverviewFilterProps = Omit<ReturnType<typeof useOverviewFilter>, 'filteredAritfacts'> & {
   viewTypes?: Record<Exclude<ViewTypes, 'tile'>, ReactNode>;
+  children?: ReactNode;
 };
 
-export const OverviewFilter = ({ search, setSearch, viewType, setViewType, viewTypes }: OverviewFilterProps) => {
+export const OverviewFilter = (props: OverviewFilterProps) => {
   const { t } = useTranslation();
   const onViewTypeChange = (change: string) => {
     if (change.length !== 0) {
-      setViewType(change as ViewTypes);
+      props.setViewType(change as ViewTypes);
     }
   };
   return (
-    <Flex direction='row' alignItems='center' justifyContent='flex-end' gap={4} style={{ width: '100%' }}>
-      <div style={{ width: '100%', height: '34px' }}>
-        {viewType === 'graph' && viewTypes?.graph ? (
-          viewTypes?.graph
+    <Flex direction='row' alignItems='center' gap={2} style={{ width: '100%' }}>
+      <div style={{ flex: 1, height: 36 }}>
+        {props.viewType === 'graph' && props.viewTypes?.graph ? (
+          props.viewTypes?.graph
         ) : (
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          <SearchInput placeholder={t('common.label.search')} value={search} onChange={setSearch} autoFocus={true} />
+          <Flex direction='row' alignItems='center' gap={2}>
+            <div style={{ flex: 1 }}>
+              <SearchInput
+                placeholder={t('common.label.search')}
+                value={props.search}
+                onChange={props.setSearch}
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus={true}
+                autoComplete='off'
+              />
+            </div>
+            {props.children}
+          </Flex>
         )}
       </div>
-      {viewTypes && (
-        <ToggleGroup type='single' value={viewType} onValueChange={onViewTypeChange} gap={1}>
-          <ToggleGroupItem value='tile' asChild>
-            <Button icon={IvyIcons.BoxView} size='large' title={t('label.tileView')} aria-label={t('label.tileView')} />
-          </ToggleGroupItem>
-          {viewTypes.graph && (
-            <ToggleGroupItem value='graph' asChild>
-              <Button icon={IvyIcons.GraphView} size='large' title={t('label.graphView')} aria-label={t('label.graphView')} />
+      {props.viewTypes && (
+        <>
+          <Separator orientation='vertical' style={{ margin: 0 }} />
+          <ToggleGroup type='single' value={props.viewType} onValueChange={onViewTypeChange} gap={1}>
+            <ToggleGroupItem value='tile' asChild>
+              <Button icon={IvyIcons.BoxView} size='large' title={t('label.tileView')} aria-label={t('label.tileView')} />
             </ToggleGroupItem>
-          )}
-        </ToggleGroup>
+            {props.viewTypes.graph && (
+              <ToggleGroupItem value='graph' asChild>
+                <Button icon={IvyIcons.GraphView} size='large' title={t('label.graphView')} aria-label={t('label.graphView')} />
+              </ToggleGroupItem>
+            )}
+          </ToggleGroup>
+        </>
       )}
+    </Flex>
+  );
+};
+
+type OverviewProjectFilterProps = {
+  projects: Array<string>;
+  setProjects: (projects: Array<string>) => void;
+};
+
+export const OverviewProjectFilter = ({ projects, setProjects }: OverviewProjectFilterProps) => {
+  const { t } = useTranslation();
+  const allProjects = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Flex alignItems='center' className='overview-filter-button' style={{ position: 'relative' }}>
+          <Button size='large' icon={IvyIcons.Configuration} title={t('label.filterBy')} aria-label={t('label.filterBy')} />
+          <Badges count={projects.length} />
+        </Flex>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuLabel>{t('label.filterBy')}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuLabel>
+          <IvyIcon icon={IvyIcons.Folders} />
+          {t('label.project')}
+        </DropdownMenuLabel>
+        {allProjects.map(project => (
+          <DropdownMenuCheckboxItem
+            key={project}
+            checked={projects.includes(project)}
+            onCheckedChange={(checked: boolean) => setProjects(checked ? [...projects, project] : projects.filter(p => p !== project))}
+            onSelect={e => e.preventDefault()}
+          >
+            {project}
+          </DropdownMenuCheckboxItem>
+        ))}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem style={{ color: 'var(--error-color)' }} onSelect={() => setProjects([])}>
+          <IvyIcon icon={IvyIcons.Reset} />
+          <span>{t('label.resetAllFilters')}</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+const Badges = ({ count }: { count: number }) => {
+  if (count === 0) {
+    return null;
+  }
+  return (
+    <Flex
+      alignItems='center'
+      justifyContent='center'
+      className='verview-filter-badge'
+      style={{
+        width: 14,
+        height: 14,
+        fontSize: 10,
+        borderRadius: '50%',
+        backgroundColor: 'var(--P300)',
+        color: 'var(--background)',
+        position: 'absolute',
+        right: -2,
+        top: -2
+      }}
+    >
+      {count}
     </Flex>
   );
 };

@@ -1,15 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { MetaFunction } from 'react-router';
-import { useCreateDataClass, useDeleteDataClass, useGroupedDataClasses } from '~/data/data-class-api';
+import { useParams, type MetaFunction } from 'react-router';
+import { useCreateDataClass, useDataClasses, useDeleteDataClass } from '~/data/data-class-api';
 import type { DataClassBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
-import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
@@ -18,7 +15,7 @@ import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDia
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
-import { OverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { DataClassGraph, DataClassGraphFilter } from './DataClassGraph';
 
@@ -26,11 +23,14 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Data Classes');
 
 export default function Index() {
   const { t } = useTranslation();
-  const { data, isPending } = useGroupedDataClasses();
-  const { filteredGroups, overviewFilter } = useFilteredGroups(data ?? [], (d: DataClassBean) => d.name);
-  const { createDataClassEditor } = useCreateEditor();
-  const [selectedProject, setSelectedProject] = useState<string>(filteredGroups ? filteredGroups[0]?.project : 'all');
-
+  const { data, isPending } = useDataClasses();
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(
+    data ?? [],
+    (dc, search, projects) =>
+      (projects.length === 0 || projects.includes(dc.dataClassIdentifier.project.pmv)) && dc.simpleName.toLocaleLowerCase().includes(search)
+  );
+  const { ws } = useParams();
+  const [selectedProject, setSelectedProject] = useState<string>(ws ?? 'all');
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.dataClasses') }]} />
@@ -40,30 +40,33 @@ export default function Index() {
       <OverviewFilter
         {...overviewFilter}
         viewTypes={{ graph: <DataClassGraphFilter selectedProject={selectedProject} setSelectedProject={setSelectedProject} /> }}
-      />
+      >
+        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+      </OverviewFilter>
       <OverviewContent
         isPending={isPending}
         viewType={overviewFilter.viewType}
         viewTypes={{ graph: <DataClassGraph selectedProject={selectedProject} /> }}
       >
-        {filteredGroups.map(({ project, artifacts }) => (
-          <ArtifactGroup project={project} key={project}>
-            {artifacts.map(dc => {
-              const editor = createDataClassEditor(dc);
-              return <DataClassCard key={editor.id} dataClass={dc} {...editor} />;
-            })}
-          </ArtifactGroup>
+        {filteredAritfacts.map(dataclass => (
+          <DataClassCard
+            key={`${dataclass.dataClassIdentifier.project.pmv}/${dataclass.path}/${dataclass.simpleName}`}
+            dataClass={dataclass}
+          />
         ))}
       </OverviewContent>
     </Overview>
   );
 }
 
-const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClassBean }) => {
+const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
   const { t } = useTranslation();
   const { deleteDataClass } = useDeleteDataClass();
   const { openEditor, removeEditor } = useEditors();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
+  const { createDataClassEditor } = useCreateEditor();
+  const editor = createDataClassEditor(dataClass);
+  const tags = useDataClassTags(dataClass);
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -72,7 +75,7 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
       preview={<PreviewSvg type='dataClass' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
-      tagLabel={dataClass.isEntityClass ? t('label.entity') : dataClass.isBusinessCaseData ? t('label.businessData') : undefined}
+      tags={tags}
     >
       <ArtifactCardMenu
         deleteAction={{
@@ -90,6 +93,29 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
   );
 };
 
+const useDataClassTags = (dataClass: DataClassBean) => {
+  const { t } = useTranslation();
+  const tags = [];
+  if (dataClass.dataClassIdentifier.project.isIar) {
+    tags.push(t('common.label.readOnly'));
+  }
+  if (dataClass.isEntityClass) {
+    tags.push(t('label.entity'));
+  }
+  if (dataClass.isBusinessCaseData) {
+    tags.push(t('label.businessData'));
+  }
+  return tags;
+};
+
+const useDataClassExists = () => {
+  const { data } = useDataClasses();
+  return ({ name, namespace, project }: NewArtifactIdentifier) =>
+    data
+      ?.filter(dc => dc.dataClassIdentifier.project.pmv === project?.pmv)
+      ?.some(dc => dc.name.toLowerCase() === `${namespace.toLowerCase()}.${name.toLowerCase()}`) ?? false;
+};
+
 const NewDataClassButton = () => {
   const { t } = useTranslation();
   const open = useNewArtifact();
@@ -98,11 +124,7 @@ const NewDataClassButton = () => {
   const { createDataClassEditor } = useCreateEditor();
   const create = (name: string, namespace: string, project?: ProjectIdentifier) =>
     createDataClass({ name: `${namespace}.${name}`, project }).then(dataClass => openEditor(createDataClassEditor(dataClass)));
-  const { data } = useGroupedDataClasses();
-  const exists = ({ name, namespace, project }: NewArtifactIdentifier) =>
-    data
-      ?.find(group => group?.project === project?.pmv)
-      ?.artifacts.some(dc => dc.name.toLowerCase() === `${namespace.toLowerCase()}.${name.toLowerCase()}`) ?? false;
+  const exists = useDataClassExists();
   return (
     <CreateNewArtefactButton
       title={t('dataclasses.newDataclass')}

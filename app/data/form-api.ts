@@ -1,4 +1,4 @@
-import { groupBy, toast } from '@axonivy/ui-components';
+import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
@@ -23,7 +23,7 @@ export const useFormsApi = () => {
   return { queryKey: ['neo', ws?.id, 'forms'], base: ws?.baseUrl, ws };
 };
 
-export const useGroupedForms = () => {
+export const useForms = () => {
   const { t } = useTranslation();
   const { queryKey, base, ws } = useFormsApi();
   return useQuery({
@@ -32,10 +32,7 @@ export const useGroupedForms = () => {
       if (base === undefined) return [];
       return forms({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          const grouped = groupBy(res.data, f => f.identifier.project.pmv);
-          return Object.entries(grouped)
-            .map(([project, forms]) => ({ project, artifacts: forms }))
-            .sort((a, b) => projectSort(a.project, b.project, ws));
+          return res.data.sort((a, b) => projectSort(a.identifier.project.pmv, b.identifier.project.pmv, ws));
         }
         toast.error(t('toast.form.missing'), { description: t('toast.serverStatus') });
         return [];

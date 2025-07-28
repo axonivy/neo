@@ -12,7 +12,6 @@ const openDataClasses = async (page: Page) => {
 
 test('navigate to data classes', async ({ page }) => {
   const { neo, overview } = await openDataClasses(page);
-  await overview.hasGroup(`Project: ${TEST_PROJECT}`);
   const dataClassName = 'QuickStartTutorial';
   await overview.card(dataClassName).click();
   await new DataClassEditor(neo, dataClassName).expectOpen('releaseDate');
@@ -58,7 +57,6 @@ test('data class tags', async ({ page }) => {
 
 test('data classes graph', async ({ page }) => {
   const { neo, overview } = await openDataClasses(page);
-  await overview.hasGroup(`Project: ${TEST_PROJECT}`);
   await overview.viewToggle.getByRole('radio', { name: 'Graph View' }).click();
 
   const graph = overview.graph;

@@ -37,20 +37,16 @@ export const meta: MetaFunction = ({ params }) => {
 
 export default function Index() {
   const { t } = useTranslation();
-  const overviewFilter = useOverviewFilter();
   const { data, isPending, isFetchingNextPage, fetchNextPage, hasNextPage } = useProducts();
   const { open, onOpenChange } = useDialogHotkeys(['installDialog']);
-  const products =
-    data?.pages
-      .flatMap(page => page)
-      ?.filter(product => {
-        const lowerCaseSearch = overviewFilter.search.toLocaleLowerCase();
-        return (
-          product.names?.en.toLocaleLowerCase().includes(lowerCaseSearch) ||
-          product.shortDescriptions?.en.includes(lowerCaseSearch) ||
-          product.type?.includes(lowerCaseSearch)
-        );
-      }) ?? [];
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data?.pages.flatMap(page => page) ?? [], (product, search) => {
+    return (
+      (product.names?.en.toLocaleLowerCase().includes(search) ||
+        product.shortDescriptions?.en.includes(search) ||
+        product.type?.includes(search)) ??
+      false
+    );
+  });
   useEffect(() => {
     if (!isFetchingNextPage && hasNextPage) {
       fetchNextPage();
@@ -67,10 +63,10 @@ export default function Index() {
       <OverviewFilter {...overviewFilter} />
       <OverviewContent isPending={isPending}>
         <InstallDialog product={product} dialogState={open} setDialogState={onOpenChange} />
-        {products.map(p => (
+        {filteredAritfacts.map(product => (
           <ProductCard
-            key={p.id}
-            product={p}
+            key={product.id}
+            product={product}
             openProductDialog={product => {
               setProduct(product);
               onOpenChange(true);
@@ -90,7 +86,7 @@ type ProductCardProps = {
 export const ProductCard = ({ product, openProductDialog }: ProductCardProps) => {
   const preview = <img src={product.logoUrl} width={70} alt={'product logo'} />;
   const title = product.names?.en ?? '';
-  return <ArtifactCard name={title} preview={preview} onClick={() => openProductDialog(product)} />;
+  return <ArtifactCard name={title} preview={preview} onClick={() => openProductDialog(product)} tooltip={product.shortDescriptions?.en} />;
 };
 
 type InstallDialogProps = {
