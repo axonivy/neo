@@ -61,28 +61,18 @@ export default function Index() {
         style={{ flexWrap: 'wrap', columnGap: '150px', background: 'var(--N50)', padding: 10, borderRadius: 5 }}
       >
         <ProjectInfoContainer>
-          <ProjectInfo title={t('neo.artifactId')} value={project.artifactId}></ProjectInfo>
-          <ProjectInfo title={t('neo.groupId')} value={project.groupId}></ProjectInfo>
+          <ProjectInfo title={t('neo.artifactId')} value={project.artifactId} />
+          <ProjectInfo title={t('neo.groupId')} value={project.groupId} />
         </ProjectInfoContainer>
         <ProjectInfoContainer>
-          <ProjectInfo title={t('common.label.version')} value={project.version}></ProjectInfo>
-          <ProjectInfo
-            title={t('projects.editRights')}
-            value={project.id.isIar ? t('common.label.readOnly') : t('project.editable')}
-          ></ProjectInfo>
+          <ProjectInfo title={t('common.label.version')} value={project.version} />
+          <ProjectInfo title={t('projects.editRights')} value={project.id.isIar ? t('common.label.readOnly') : t('project.editable')} />
         </ProjectInfoContainer>
         <ProjectInfoContainer>
-          <ProjectInfo
-            title={t('projects.deletable')}
-            value={project.isDeletable ? t('common.label.yes') : t('common.label.no')}
-          ></ProjectInfo>
+          <ProjectInfo title={t('projects.deletable')} value={project.isDeletable ? t('common.label.yes') : t('common.label.no')} />
         </ProjectInfoContainer>
       </Flex>
-      <OverviewTitle
-        title={t('projects.dependencyDetails', { project: project.id.pmv })}
-        description={t('projects.description')}
-        info={t('projects.dependecyInfo')}
-      >
+      <OverviewTitle title={t('projects.dependencyDetails', { project: project.id.pmv })} description={t('projects.dependecyInfo')}>
         <AddDependencyDialog project={project.id} />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter} />

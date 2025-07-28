@@ -61,7 +61,9 @@ export default function Index() {
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('market.title') }]} />
-      <OverviewTitle title={t('market.title')} description={t('market.description')} helpUrl={MARKET_URL} />
+      <OverviewTitle title={t('market.title')} description={t('market.description')}>
+        <Button size='large' style={{ color: 'var(--P300)' }} icon={IvyIcons.Help} onClick={() => window.open(MARKET_URL, '_blank')} />
+      </OverviewTitle>
       <OverviewFilter {...overviewFilter} />
       <OverviewContent isPending={isPending}>
         <InstallDialog product={product} dialogState={open} setDialogState={onOpenChange} />
