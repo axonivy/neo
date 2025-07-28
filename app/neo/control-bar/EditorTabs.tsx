@@ -87,7 +87,7 @@ const EditorsTab = ({
     <Flex className='editor-tab-wrapper' alignItems='center' gap={1}>
       <EditorTrigger {...editors[0]} ref={firstTabRef}>
         <IvyIcon className='editor-tab-icon' icon={editors[0].icon} />
-        {name}
+        <span>{name}</span>
         <span className='editor-tab-hint'>{`- ${editors[0].project.pmv}`}</span>
       </EditorTrigger>
       {editors.slice(1).map(editor => (

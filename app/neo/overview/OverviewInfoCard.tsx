@@ -19,9 +19,7 @@ export const OverviewInfoCard = ({ title, description, icon, link }: OverviewInf
             <TooltipTrigger asChild>
               <IvyIcon icon={IvyIcons.InfoCircle} />
             </TooltipTrigger>
-            <TooltipContent style={{ width: '30em' }}>
-              <span style={{ fontSize: 14, fontWeight: 400, color: 'var(--N900)' }}>{description}</span>
-            </TooltipContent>
+            <TooltipContent style={{ width: '30em', padding: 15 }}>{description}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </Flex>
