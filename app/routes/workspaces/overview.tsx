@@ -64,11 +64,7 @@ export default function Index() {
           <Flex direction='column'>
             <WelcomeHeader />
             <Overview>
-              <OverviewTitle
-                title={t('workspaces.manageWorkspaces')}
-                description={t('workspaces.newWorkspaceDescription')}
-                info={t('workspaces.info')}
-              >
+              <OverviewTitle title={t('workspaces.manageWorkspaces')} description={t('workspaces.info')}>
                 <NewWorkspaceButton />
               </OverviewTitle>
               <OverviewFilter {...overviewFilter} />
