@@ -246,8 +246,7 @@
       "loadBestMatchingFail": "Failed to load best matching market artifact version for {{id}} with engine version {{engineVersion}}",
       "loadFail": "Failed to load market product versions for {{id}}",
       "loadJsonFail": "Failed to load product json for {{id}} with version {{version}}",
-      "missing": "Failed to load market products",
-      "versionUndefined": "Artifact version of {{id}} needs to be defined to retrieve product json"
+      "missing": "Failed to load market products"
     },
     "process": {
       "created": "Process created",

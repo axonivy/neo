@@ -107,7 +107,7 @@ const NewProcessButton = () => {
   return (
     <CreateNewArtefactButton
       title={t('processes.newProcess')}
-      open={() => open({ create, exists, type: 'Process', namespaceRequired: false })}
+      onClick={() => open({ create, exists, type: 'Process', namespaceRequired: false })}
     />
   );
 };

@@ -188,7 +188,7 @@ const NewWorkspaceButton = () => {
   const { open, onOpenChange } = useDialogHotkeys(['newWorkspaceDialog']);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <CreateNewArtefactButton title={t('workspaces.newWorkspace')} open={() => onOpenChange(true)} />
+      <CreateNewArtefactButton title={t('workspaces.newWorkspace')} onClick={() => onOpenChange(true)} />
       <DialogContent>
         <NewWorkspaceDialogContent closeDialog={() => onOpenChange(false)} />
       </DialogContent>

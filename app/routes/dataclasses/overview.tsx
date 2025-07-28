@@ -105,7 +105,7 @@ const NewDataClassButton = () => {
   return (
     <CreateNewArtefactButton
       title={t('dataclasses.newDataclass')}
-      open={() => open({ create, exists, type: 'Data Class', namespaceRequired: true })}
+      onClick={() => open({ create, exists, type: 'Data Class', namespaceRequired: true })}
     />
   );
 };
