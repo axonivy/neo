@@ -46,7 +46,7 @@ export const ProcessEditor = ({ id, project, path, name }: Editor) => {
       ref={frame}
       title={name}
       src={editorUrl}
-      style={{ width: '100%', height: 'calc(100% - 20px)', border: 'none' }}
+      style={{ width: '100%', height: 'calc(100% - 24px)', border: 'none' }}
       onLoad={() => updateFrameTheme(frame, theme)}
     />
   );

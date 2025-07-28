@@ -8,34 +8,40 @@ type Card = {
   name: string;
   onClick: () => void;
   preview: ReactNode;
+  description?: string;
   tooltip?: string;
   tagLabel?: string;
 } & React.ComponentProps<'div'>;
 
-export const ArtifactCard = ({ name, preview, onClick, tooltip, tagLabel, ref, children }: Card) => (
+export const ArtifactCard = ({ name, description, preview, onClick, tooltip, tagLabel, ref, children }: Card) => (
   <div className='artifact-card' ref={ref}>
     <TooltipProvider>
-      <Tooltip delayDuration={700}>
-        {tooltip && <TooltipContent>{tooltip}</TooltipContent>}
+      <Tooltip>
         <TooltipTrigger asChild>
-          <button className='card normal-card' onClick={onClick}>
-            <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
-              <Flex alignItems='center' justifyContent='center' className='card-preview'>
-                {tagLabel && (
-                  <div style={{ position: 'absolute', top: 15, right: 15 }}>
-                    <ArtifactTag label={tagLabel} />
-                  </div>
-                )}
-                {preview}
+          <Flex direction='column' gap={1} className='card-content'>
+            <button className='card' onClick={onClick}>
+              {tagLabel && (
+                <div style={{ position: 'absolute', top: 5, right: 5 }}>
+                  <ArtifactTag label={tagLabel} />
+                </div>
+              )}
+              {preview}
+            </button>
+            <Flex direction='row' gap={2} justifyContent='space-between'>
+              <Flex direction='column' gap={1} className='card-name'>
+                <span>{name}</span>
+                {description && <span className='card-description'>{description}</span>}
               </Flex>
-              <Flex alignItems='center' justifyContent='space-between' gap={1}>
-                <span className='card-name'>{name}</span>
-              </Flex>
+              {children ?? <IvyIcon icon={IvyIcons.ArrowRight} />}
             </Flex>
-          </button>
+          </Flex>
         </TooltipTrigger>
+        {tooltip && (
+          <TooltipContent side='bottom' align='start'>
+            {tooltip}
+          </TooltipContent>
+        )}
       </Tooltip>
     </TooltipProvider>
-    <div className='card-menu-trigger'>{children ?? <IvyIcon icon={IvyIcons.ArrowRight} />}</div>
   </div>
 );

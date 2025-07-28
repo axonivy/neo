@@ -36,6 +36,7 @@ export default function Index() {
             {(overviewFilter.search.length === 0 || CMS_EDITOR_SUFFIX.startsWith(overviewFilter.search.toLowerCase())) && (
               <ArtifactCard
                 name={CMS_EDITOR_SUFFIX}
+                description={project}
                 preview={<PreviewSvg type='config' />}
                 tooltip={CMS_EDITOR_SUFFIX}
                 onClick={() => openEditor(createCmsEditor(artifacts[0].project))}
@@ -47,6 +48,7 @@ export default function Index() {
                 <ArtifactCard
                   key={editor.id}
                   name={editor.name}
+                  description={editor.project.pmv}
                   preview={<PreviewSvg type='config' />}
                   tooltip={editor.path}
                   onClick={() => openEditor(editor)}

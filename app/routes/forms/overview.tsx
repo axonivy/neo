@@ -58,6 +58,7 @@ const FormCard = ({ formId, ...editor }: Editor & { formId: FormIdentifier }) =>
     <ArtifactCard
       ref={artifactCardRef}
       name={editor.name}
+      description={editor.project.pmv}
       preview={<PreviewSvg type='form' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}

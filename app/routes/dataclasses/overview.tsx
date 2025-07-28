@@ -68,6 +68,7 @@ const DataClassCard = ({ dataClass, ...editor }: Editor & { dataClass: DataClass
     <ArtifactCard
       ref={artifactCardRef}
       name={editor.name}
+      description={editor.project.pmv}
       preview={<PreviewSvg type='dataClass' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
