@@ -1,22 +1,20 @@
 import { useTranslation } from 'react-i18next';
-import type { LinksFunction, MetaFunction } from 'react-router';
+import type { MetaFunction } from 'react-router';
 import { useGroupedConfigurations } from '~/data/config-api';
 import type { ConfigurationIdentifier } from '~/data/generated/ivy-client';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
-import { CMS_EDITOR_SUFFIX, type Editor } from '~/neo/editors/editor';
+import { CMS_EDITOR_SUFFIX } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
+import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
+import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
-
-export const links: LinksFunction = () => [cardStylesLink];
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Configurations');
 
@@ -38,7 +36,6 @@ export default function Index() {
             {(overviewFilter.search.length === 0 || CMS_EDITOR_SUFFIX.startsWith(overviewFilter.search.toLowerCase())) && (
               <ArtifactCard
                 name={CMS_EDITOR_SUFFIX}
-                type='cms'
                 preview={<PreviewSvg type='config' />}
                 tooltip={CMS_EDITOR_SUFFIX}
                 onClick={() => openEditor(createCmsEditor(artifacts[0].project))}
@@ -46,7 +43,15 @@ export default function Index() {
             )}
             {artifacts.map(config => {
               const editor = createConfigurationEditor(config);
-              return <ConfigCard key={editor.id} {...editor} />;
+              return (
+                <ArtifactCard
+                  key={editor.id}
+                  name={editor.name}
+                  preview={<PreviewSvg type='config' />}
+                  tooltip={editor.path}
+                  onClick={() => openEditor(editor)}
+                />
+              );
             })}
           </ArtifactGroup>
         ))}
@@ -54,16 +59,3 @@ export default function Index() {
     </Overview>
   );
 }
-
-const ConfigCard = ({ ...editor }: Editor) => {
-  const { openEditor } = useEditors();
-  return (
-    <ArtifactCard
-      name={editor.name}
-      type='variables'
-      preview={<PreviewSvg type='config' />}
-      tooltip={editor.path}
-      onClick={() => openEditor(editor)}
-    />
-  );
-};

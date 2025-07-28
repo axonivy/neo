@@ -6,14 +6,13 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  Flex,
   Spinner,
   useHotkeyLocalScopes
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { LinksFunction, MetaFunction } from 'react-router';
+import type { MetaFunction } from 'react-router';
 import { Link, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import { useEngineVersion } from '~/data/engine-info-api';
@@ -22,17 +21,15 @@ import type { FindProductJsonContent200, ProductModel } from '~/data/generated/m
 import { MARKET_URL, useBestMatchingVersion, useProductJson, useProducts, useProductVersions } from '~/data/market-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
-import { cardStylesLink } from '~/neo/artifact/ArtifactCard';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
+import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
-
-export const links: LinksFunction = () => [cardStylesLink];
 
 export const meta: MetaFunction = ({ params }) => {
   return [{ title: `Axon Ivy Market - ${params.ws} - ${NEO_DESIGNER}` }, { name: 'description', content: 'Axon Ivy Market Overview' }];
@@ -98,20 +95,7 @@ export const ProductCard = ({ product, setProduct, setDialogState }: ProductCard
     setProduct(product);
     setDialogState(true);
   };
-  return (
-    <div className='artifact-card'>
-      <button className='card' onClick={openDialog}>
-        <Flex direction='column' justifyContent='space-between' gap={2} className='card-content'>
-          <Flex alignItems='center' justifyContent='center' className='card-preview'>
-            {preview}
-          </Flex>
-          <Flex alignItems='center' justifyContent='space-between' gap={1}>
-            <span className='card-name'>{title}</span>
-          </Flex>
-        </Flex>
-      </button>
-    </div>
-  );
+  return <ArtifactCard name={title} preview={preview} onClick={openDialog} />;
 };
 
 type InstallDialogProps = {

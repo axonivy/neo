@@ -4,23 +4,28 @@ import {
   Button,
   Dialog,
   DialogContent,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
   Flex,
+  hotkeyText,
   Input,
+  IvyIcon,
   useDialogHotkeys,
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import type { LinksFunction, MetaFunction } from 'react-router';
+import type { MetaFunction } from 'react-router';
 import { useNavigate } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
-import { ArtifactCard, cardStylesLink } from '~/neo/artifact/ArtifactCard';
-import type { DeployActionParams } from '~/neo/artifact/DeployDialog';
-import { PreviewSvg } from '~/neo/artifact/PreviewSvg';
 import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
+import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
+import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
+import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
+import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
@@ -29,9 +34,10 @@ import { LanguageSettings } from '~/neo/settings/LanguageSettings';
 import { Settings } from '~/neo/settings/Settings';
 import { ThemeSettings } from '~/neo/settings/ThemeSettings';
 import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
+import { DeployDialog } from '~/routes/workspaces/DeployDialog';
+import { useKnownHotkeys } from '~/utils/hotkeys';
+import { useMergeRefs } from '~/utils/merge-refs';
 import welcomeSvgUrl from '/assets/welcome.svg?url';
-
-export const links: LinksFunction = () => [cardStylesLink];
 
 export const meta: MetaFunction = () => {
   return [{ title: `Welcome - ${NEO_DESIGNER}` }, { name: 'description', content: `Welcome page of ${NEO_DESIGNER}` }];
@@ -67,9 +73,7 @@ export default function Index() {
               </OverviewTitle>
               <OverviewFilter {...overviewFilter} />
               <OverviewContent isPending={isPending}>
-                {workspaces.map(workspace => (
-                  <WorkspaceCard key={workspace.name} {...workspace} />
-                ))}
+                <WorkspacesOverview workspaces={workspaces} />
               </OverviewContent>
             </Overview>
           </Flex>
@@ -101,29 +105,81 @@ const WelcomeHeader = () => {
   );
 };
 
-const WorkspaceCard = (workspace: Workspace) => {
+const WorkspacesOverview = ({ workspaces }: { workspaces: Workspace[] }) => {
+  const [workspaceId, setWorkspaceId] = useState<string>();
+  const { open, onOpenChange } = useDialogHotkeys(['deployDialog']);
+  const { deployWorkspace } = useDeployWorkspace();
+  return (
+    <>
+      {workspaces.map(workspace => (
+        <WorkspaceCard
+          key={workspace.name}
+          {...workspace}
+          deployWorkspace={() => {
+            setWorkspaceId(workspace.id);
+            onOpenChange(true);
+          }}
+        />
+      ))}
+      <DeployDialog
+        open={open}
+        onOpenChange={onOpenChange}
+        deployAction={params => {
+          if (workspaceId) {
+            return deployWorkspace({ workspaceId, ...params });
+          }
+          return Promise.reject(new Error('No workspace selected'));
+        }}
+      />
+    </>
+  );
+};
+
+const WorkspaceCard = ({
+  id,
+  name,
+  deployWorkspace
+}: Pick<Workspace, 'id' | 'name'> & { deployWorkspace: (workspaceId: string) => void }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
-  const downloadWorkspace = useDownloadWorkspace(workspace.id);
-  const { deployWorkspace } = useDeployWorkspace();
-  const open = () => navigate(workspace.id);
-  const deployAction = (params: DeployActionParams) => {
-    return deployWorkspace({ workspaceId: workspace.id, ...params });
-  };
-
-  const deleteAction = {
-    run: () => deleteWorkspace(workspace.id),
-    isDeletable: true
-  };
+  const downloadWorkspace = useDownloadWorkspace(id);
+  const hotkeys = useKnownHotkeys();
+  const cardRef = useHotkeys(
+    [hotkeys.exportWorkspace.hotkey, hotkeys.deployWorkspace.hotkey],
+    (_, { hotkey }) => {
+      switch (hotkey) {
+        case hotkeys.deployWorkspace.hotkey:
+          deployWorkspace(id);
+          break;
+        case hotkeys.exportWorkspace.hotkey:
+          downloadWorkspace();
+          break;
+      }
+    },
+    { keydown: false, keyup: true }
+  );
+  const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
+  const ref = useMergeRefs<HTMLDivElement>([cardRef, artifactCardRef]);
 
   return (
-    <ArtifactCard
-      name={workspace.name}
-      type='workspace'
-      onClick={open}
-      actions={{ delete: deleteAction, export: downloadWorkspace, deploy: deployAction }}
-      preview={<PreviewSvg type='workspace' />}
-    />
+    <ArtifactCard name={name} onClick={() => navigate(id)} preview={<PreviewSvg type='workspace' />} ref={ref}>
+      <ArtifactCardMenu
+        deleteAction={{ run: () => deleteWorkspace(id), isDeletable: true, artifact: t('artifact.type.workspace') }}
+        {...dialogState}
+      >
+        <DropdownMenuItem onSelect={downloadWorkspace} aria-label={hotkeys.exportWorkspace.label}>
+          <IvyIcon icon={IvyIcons.Upload} />
+          <span>{t('common.label.export')}</span>
+          <DropdownMenuShortcut>{hotkeyText(hotkeys.exportWorkspace.hotkey)}</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem onSelect={() => deployWorkspace(id)} aria-label={hotkeys.deployWorkspace.label}>
+          <IvyIcon icon={IvyIcons.Bpmn} />
+          <span>{t('common.label.deploy')}</span>
+          <DropdownMenuShortcut>{hotkeyText(hotkeys.deployWorkspace.hotkey)}</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </ArtifactCardMenu>
+    </ArtifactCard>
   );
 };
 
