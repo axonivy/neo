@@ -1,50 +1,37 @@
 .artifact-card {
   position: relative;
-  flex: 0 1 200px;
-  background: var(--N75);
-  border-radius: 10px;
+  flex: 0 1 210px;
   white-space: nowrap;
+  font-size: 14px;
   .card {
-    border: none;
-    border-radius: 10px;
     padding: 0;
-    background: transparent;
-    height: 150px;
-    width: 100%;
     cursor: pointer;
-    color: inherit;
-    .card-content {
-      padding: var(--size-2);
-      height: calc(100% - 2 * var(--size-2));
-    }
-    .card-preview {
-      background: var(--background);
-      border-radius: 8px;
-      flex: 1 0 auto;
+    background: var(--N50);
+    border: var(--basic-border);
+    border-radius: 6px;
+    width: 210px;
+    height: 110px;
+    svg,
+    img {
+      padding: 5px;
+      height: 100px;
       width: 200px;
-      svg,
-      img {
-        height: 100px;
-        width: 200px;
-        object-fit: contain;
-      }
+      object-fit: contain;
     }
-    .card-name {
+    &:hover {
+      border: var(--activ-border);
+    }
+  }
+  .card-name {
+    max-width: calc(210px - var(--size-2) - 20px);
+    cursor: default;
+    > span {
       text-overflow: ellipsis;
       overflow: hidden;
-      max-width: calc(200px - var(--size-1) - 20px);
     }
   }
-  .normal-card:hover {
-    background-color: var(--N200);
+  .card-description {
+    color: var(--N800);
+    font-size: 12px;
   }
-  .card-menu-trigger {
-    position: absolute;
-    bottom: var(--size-1);
-    right: var(--size-2);
-  }
-}
-
-.card-menu .card-delete {
-  color: var(--error-color);
 }

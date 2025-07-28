@@ -58,6 +58,7 @@ const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) 
     <ArtifactCard
       ref={artifactCardRef}
       name={editor.name}
+      description={editor.project.pmv}
       preview={<PreviewSvg type='process' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
