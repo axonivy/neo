@@ -15,8 +15,10 @@ import {
   hotkeyText,
   Input,
   IvyIcon,
+  Separator,
   useDialogHotkeys,
   useHotkeys,
+  vars,
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -81,6 +83,7 @@ export default function Index() {
           link='configurations'
         />
       </Flex>
+      <Separator style={{ marginBlock: vars.size.s2, flex: '0 0 1px' }} />
       <OverviewTitle title={t('neo.projects')}>
         <ImportMenu />
       </OverviewTitle>

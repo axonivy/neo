@@ -27,7 +27,7 @@ const HotkeysEditor = ({ id, type, name, children }: Editor & { children: React.
     >
       <Breadcrumbs
         items={[overviewBreadcrumbItem, { name: pmv ?? '' }, { name }]}
-        style={{ borderBottom: 'var(--basic-border)', padding: '2px var(--size-3)' }}
+        style={{ borderBottom: 'var(--basic-border)', padding: '4px var(--size-3)' }}
       />
       {children}
     </div>

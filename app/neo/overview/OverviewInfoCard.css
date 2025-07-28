@@ -4,7 +4,7 @@
   border-radius: 10px;
   font-size: 14px;
   flex: 1 0 150px;
-  border: none;
+  border: 1px solid transparent;
   transition: box-shadow 0.3s ease;
   position: relative;
   font-weight: 600;
@@ -22,6 +22,6 @@
     font-size: 20px;
   }
   &:hover {
-    box-shadow: var(--focus-shadow);
+    border: var(--activ-border);
   }
 }
