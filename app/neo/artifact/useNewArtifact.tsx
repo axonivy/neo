@@ -7,7 +7,7 @@ import {
   DialogContent,
   Input,
   Spinner,
-  useHotkeyLocalScopes,
+  useDialogHotkeys,
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -50,8 +50,7 @@ const NewArtifactDialogContext = createContext<NewArtifactDialogState | undefine
 export const NewArtifactDialogProvider = ({ children }: { children: React.ReactNode }) => {
   const { t } = useTranslation();
   const { ws } = useParams();
-  const [dialogState, setDialogState] = useState(false);
-  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['newArtifactDialog']);
+  const { open: dialogState, onOpenChange: onDialogOpenChange } = useDialogHotkeys(['newArtifactDialog']);
 
   const [newArtifact, setNewArtifact] = useState<NewArtifact>();
 
@@ -71,14 +70,6 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   useEffect(() => {
     setNamespace(newArtifact?.namespaceRequired && project ? project.defaultNamespace : '');
   }, [newArtifact?.namespaceRequired, project]);
-  const onDialogOpenChange = (open: boolean) => {
-    setDialogState(open);
-    if (open) {
-      activateLocalScopes();
-    } else {
-      restoreLocalScopes();
-    }
-  };
 
   const open = (context: NewArtifact) => {
     onDialogOpenChange(true);
@@ -113,7 +104,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
 
   const createNewArtifact = () => {
     if (newArtifact && !hasErros) {
-      setDialogState(false);
+      onDialogOpenChange(false);
       newArtifact.create(name, namespace, project?.id, newArtifact.pid, dataClass);
     }
   };
@@ -123,7 +114,7 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
     <NewArtifactDialogContext.Provider value={{ open, close, dialogState, newArtifact }}>
       {children}
       {newArtifact && name !== undefined && (
-        <Dialog open={dialogState} onOpenChange={() => close()}>
+        <Dialog open={dialogState} onOpenChange={onDialogOpenChange}>
           <DialogContent>
             <BasicDialogContent
               title={t('artifact.newTitle', { type: newArtifact.type })}

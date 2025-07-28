@@ -63,7 +63,8 @@ export const useAddDependencyReq = () => {
   const { t } = useTranslation();
   const { queryKey, base } = useDependenciesApi();
   const client = useQueryClient();
-  const addDependency = async ({ app, pmv }: ProjectIdentifier, dependency: ProjectIdentifier) => {
+  const addDependency = async ({ app, pmv }: ProjectIdentifier, dependency?: ProjectIdentifier) => {
+    if (dependency === undefined) return;
     const res = await addDependencyReq(app, pmv, dependency, { headers: headers(base) });
     if (ok(res)) {
       client.invalidateQueries({ queryKey });
@@ -72,7 +73,7 @@ export const useAddDependencyReq = () => {
     throw new Error(resolveErrorMessage(res.data, t('toast.dependency.addFail')));
   };
   return {
-    addDependency: (dependent: ProjectIdentifier, dependency: ProjectIdentifier) => {
+    addDependency: (dependent: ProjectIdentifier, dependency?: ProjectIdentifier) => {
       toast.promise(addDependency(dependent, dependency), {
         loading: t('toast.dependency.adding'),
         success: t('toast.dependency.added'),

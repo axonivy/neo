@@ -4,13 +4,12 @@ import {
   BasicSelect,
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
   Spinner,
-  useHotkeyLocalScopes
+  useDialogHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import { Link, useParams } from 'react-router';
@@ -26,6 +25,7 @@ import { Breadcrumbs } from '~/neo/Breadcrumb';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
+import { InfoPopover } from '~/neo/overview/InfoPopover';
 import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
@@ -39,7 +39,7 @@ export default function Index() {
   const { t } = useTranslation();
   const overviewFilter = useOverviewFilter();
   const { data, isPending, isFetchingNextPage, fetchNextPage, hasNextPage } = useProducts();
-  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['installDialog']);
+  const { open, onOpenChange } = useDialogHotkeys(['installDialog']);
   const products =
     data?.pages
       .flatMap(page => page)
@@ -57,15 +57,6 @@ export default function Index() {
     }
   });
   const [product, setProduct] = useState<ProductModel>();
-  const [dialogState, setDialogState] = useState(false);
-  const onDialogOpenChange = (open: boolean) => {
-    setDialogState(open);
-    if (open) {
-      activateLocalScopes();
-    } else {
-      restoreLocalScopes();
-    }
-  };
 
   return (
     <Overview>
@@ -73,9 +64,16 @@ export default function Index() {
       <OverviewTitle title={t('market.title')} description={t('market.description')} helpUrl={MARKET_URL} />
       <OverviewFilter {...overviewFilter} />
       <OverviewContent isPending={isPending}>
-        <InstallDialog product={product} dialogState={dialogState} setDialogState={onDialogOpenChange} />
+        <InstallDialog product={product} dialogState={open} setDialogState={onOpenChange} />
         {products.map(p => (
-          <ProductCard key={p.id} product={p} setProduct={setProduct} setDialogState={onDialogOpenChange} />
+          <ProductCard
+            key={p.id}
+            product={p}
+            openProductDialog={product => {
+              setProduct(product);
+              onOpenChange(true);
+            }}
+          />
         ))}
       </OverviewContent>
     </Overview>
@@ -84,18 +82,13 @@ export default function Index() {
 
 type ProductCardProps = {
   product: ProductModel;
-  setProduct: (p: ProductModel) => void;
-  setDialogState: (s: boolean) => void;
+  openProductDialog: (product: ProductModel) => void;
 };
 
-export const ProductCard = ({ product, setProduct, setDialogState }: ProductCardProps) => {
+export const ProductCard = ({ product, openProductDialog }: ProductCardProps) => {
   const preview = <img src={product.logoUrl} width={70} alt={'product logo'} />;
   const title = product.names?.en ?? '';
-  const openDialog = () => {
-    setProduct(product);
-    setDialogState(true);
-  };
-  return <ArtifactCard name={title} preview={preview} onClick={openDialog} />;
+  return <ArtifactCard name={title} preview={preview} onClick={() => openProductDialog(product)} />;
 };
 
 type InstallDialogProps = {
@@ -105,77 +98,109 @@ type InstallDialogProps = {
 };
 
 const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogProps) => {
-  const { t } = useTranslation();
-  const [version, setVersion] = useState<string>();
-  const [project, setProject] = useState<ProjectBean>();
-  const [needDependency, setNeedDependency] = useState(false);
   if (product?.id === undefined) {
     return;
   }
   return (
-    <Dialog open={dialogState} onOpenChange={() => setDialogState(false)}>
+    <Dialog open={dialogState} onOpenChange={setDialogState}>
       <DialogContent>
-        <BasicDialogContent
-          title={t('market.install', { component: product.names?.en ?? '' })}
-          description={
-            <>
-              {product.shortDescriptions?.en ?? ''}{' '}
-              <Link target='_blank' to={`${MARKET_URL}/${product.id}`} rel='noreferrer'>
-                {t('market.showDetails')}
-              </Link>
-            </>
-          }
-          submit={<InstallButton id={product.id} version={version} setNeedDependency={setNeedDependency} project={project?.id} />}
-          cancel={
-            <Button variant='outline' size='large'>
-              {t('common.label.cancel')}
-            </Button>
-          }
-        >
-          {t('market.selectVersion')}
-          <VersionSelect id={product.id} setVersion={setVersion} version={version}></VersionSelect>
-          {needDependency && (
-            <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
-          )}
-        </BasicDialogContent>
+        <InstallDialogContent product={product} />
       </DialogContent>
     </Dialog>
   );
 };
 
-const VersionSelect = ({ id, setVersion, version }: { id: string; setVersion: (version?: string) => void; version?: string }) => {
-  const { data, isPending } = useProductVersions(id);
-  const versions = useMemo(() => data ?? [], [data]);
-  const engineVersion = useEngineVersion();
-  const bestMatchingVersion = useBestMatchingVersion(id, engineVersion.data);
+const InstallDialogContent = ({ product }: { product: ProductModel }) => {
   const { t } = useTranslation();
-  useEffect(() => {
-    setVersion(bestMatchingVersion.data);
-  }, [bestMatchingVersion.data, setVersion]);
+  const { version, setVersion, versions, isPending } = useInstallVersion(product.id);
+  const [project, setProject] = useState<ProjectBean>();
+  const { needDependency, isInstallDisabled, install } = useInstallButton(product.id, version, project?.id);
+  if (product?.id === undefined) {
+    return;
+  }
   return (
-    <BasicField label={t('common.label.version')}>
-      {isPending ? (
-        <Spinner size='small' />
-      ) : (
-        <BasicSelect
-          placeholder={isPending && <Spinner size='small' />}
-          items={versions.map(v => ({
-            value: v.version ?? '',
-            label: v.version ?? ''
-          }))}
-          value={version}
-          onValueChange={value => setVersion(value)}
-        />
+    <BasicDialogContent
+      title={t('market.install', { component: product.names?.en ?? '' })}
+      description={
+        <>
+          {product.shortDescriptions?.en ?? ''}
+          <Link target='_blank' to={`${MARKET_URL}/${product.id}`} rel='noreferrer'>
+            {t('market.showDetails')}
+          </Link>
+        </>
+      }
+      cancel={
+        <Button variant='outline' size='large'>
+          {t('common.label.cancel')}
+        </Button>
+      }
+      submit={
+        <Button disabled={isInstallDisabled} variant='primary' size='large' icon={IvyIcons.Play} onClick={install}>
+          {t('common.label.install')}
+        </Button>
+      }
+    >
+      <BasicField label={t('common.label.version')} control={<InfoPopover info={t('market.selectVersion')} />}>
+        {isPending ? (
+          <Spinner size='small' />
+        ) : (
+          <BasicSelect
+            items={versions.map(v => ({
+              value: v.version ?? '',
+              label: v.version ?? ''
+            }))}
+            value={version}
+            onValueChange={value => setVersion(value)}
+          />
+        )}
+      </BasicField>
+      {needDependency && (
+        <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
       )}
-    </BasicField>
+    </BasicDialogContent>
   );
 };
 
-type InstallButtonProps = {
-  id: string;
-  setNeedDependency: (needDependency: boolean) => void;
-  version?: string;
-  project?: ProjectIdentifier;
+const useInstallVersion = (id?: string) => {
+  const [version, setVersion] = useState<string>();
+  const { data: versions, isPending, isError } = useProductVersions(id);
+  const engineVersion = useEngineVersion();
+  const bestMatchingVersion = useBestMatchingVersion(id, engineVersion.data);
+  useEffect(() => {
+    setVersion(bestMatchingVersion.data);
+  }, [bestMatchingVersion.data, setVersion]);
+  if (isError) {
+    return { version, setVersion, versions: [], isPending: false };
+  }
+  if (isPending) {
+    return { version, setVersion, versions: [], isPending: true };
+  }
+  return { version, setVersion, versions, isPending: false };
+};
+
+type ProductJson = { installers?: { id?: string }[] };
+
+const useInstallButton = (id?: string, version?: string, project?: ProjectIdentifier) => {
+  const [needDependency, setNeedDependency] = useState(false);
+  const [isInstallDisabled, setInstallDisabled] = useState(true);
+  const { installProduct } = useInstallProduct();
+  const ws = useParams().ws ?? 'designer';
+  const { data } = useProductJson(id, version);
+  const { openEditor } = useEditors();
+  const { createProcessEditor } = useCreateEditor();
+  const openDemos = (result: MarketInstallResult) => {
+    result.demoProcesses.forEach(process => openEditor(createProcessEditor(process)));
+  };
+  useEffect(() => {
+    setInstallDisabled(true);
+    if (!data) {
+      return;
+    }
+    const needDependency = (data as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false;
+    setNeedDependency(needDependency);
+    setInstallDisabled(isDisabled(needDependency, version, project, data));
+  }, [data, project, setNeedDependency, version]);
+  return { needDependency, isInstallDisabled, install: () => installProduct(ws, JSON.stringify(data), project).then(openDemos) };
 };
 
 const isDisabled = (needDependency: boolean, version?: string, project?: ProjectIdentifier, data?: FindProductJsonContent200) => {
@@ -192,39 +217,4 @@ const isDisabled = (needDependency: boolean, version?: string, project?: Project
     return true;
   }
   return false;
-};
-
-type ProductJson = { installers?: { id?: string }[] };
-
-const InstallButton = ({ id, version, project, setNeedDependency }: InstallButtonProps) => {
-  const { t } = useTranslation();
-  const ws = useParams().ws ?? 'designer';
-  const { installProduct } = useInstallProduct();
-  const { data } = useProductJson(id, version);
-  const [disabledInstall, setDisabledInstall] = useState(true);
-  const { openEditor } = useEditors();
-  const { createProcessEditor } = useCreateEditor();
-  const openDemos = (result: MarketInstallResult) => {
-    result.demoProcesses.forEach(process => openEditor(createProcessEditor(process)));
-  };
-  useEffect(() => {
-    setDisabledInstall(true);
-    const needDependency = (data as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false;
-    setNeedDependency(needDependency);
-    setDisabledInstall(isDisabled(needDependency, version, project, data));
-  }, [data, project, setNeedDependency, version]);
-
-  return (
-    <DialogClose asChild>
-      <Button
-        disabled={disabledInstall}
-        variant='primary'
-        size='large'
-        icon={IvyIcons.Play}
-        onClick={() => installProduct(ws, JSON.stringify(data), project).then(openDemos)}
-      >
-        {t('common.label.install')}
-      </Button>
-    </DialogClose>
-  );
 };

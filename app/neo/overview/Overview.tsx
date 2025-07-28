@@ -3,9 +3,9 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { type ReactNode } from 'react';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 
-export const CreateNewArtefactButton = ({ title, open }: { title: string; open: () => void }) => {
+export const CreateNewArtefactButton = ({ title, onClick }: { title: string; onClick: () => void }) => {
   const { addElement } = useKnownHotkeys(title);
-  useHotkeys(addElement.hotkey, open, { keydown: false, keyup: true, scopes: ['neo'] });
+  useHotkeys(addElement.hotkey, onClick, { keydown: false, keyup: true, scopes: ['neo'] });
 
   return (
     <Button
@@ -14,7 +14,7 @@ export const CreateNewArtefactButton = ({ title, open }: { title: string; open: 
       size='large'
       variant='primary'
       aria-label={addElement.label}
-      onClick={open}
+      onClick={onClick}
       style={{ height: 32, whiteSpace: 'nowrap' }}
     >
       {title}

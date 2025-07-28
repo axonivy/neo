@@ -100,7 +100,7 @@ const NewFormButton = () => {
   return (
     <CreateNewArtefactButton
       title={t('forms.newForm')}
-      open={() => open({ create, exists, type: 'Form', namespaceRequired: true, selectDataClass: true })}
+      onClick={() => open({ create, exists, type: 'Form', namespaceRequired: true, selectDataClass: true })}
     />
   );
 };

@@ -53,31 +53,31 @@ export const useProducts = () => {
   });
 };
 
-export const useProductVersions = (id: string) => {
+export const useProductVersions = (id?: string) => {
   const { t } = useTranslation();
   const { headers, queryKey } = useMarketApi();
   return useQuery({
     queryKey: [...queryKey, 'versions', id],
-    queryFn: () =>
-      findProductVersionsById(id, { isShowDevVersion: true }, { headers }).then(res => {
+    queryFn: () => {
+      if (id === undefined) return [];
+      return findProductVersionsById(id, { isShowDevVersion: true }, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
         }
         toast.error(t('toast.market.loadFail', { id: id }), { description: t('toast.market.inaccsessible') });
         return [];
-      })
+      });
+    }
   });
 };
 
-export const useProductJson = (id: string, version?: string) => {
+export const useProductJson = (id?: string, version?: string) => {
   const { t } = useTranslation();
   const { headers, queryKey } = useMarketApi();
   return useQuery({
     queryKey: [...queryKey, 'productJson', id, version],
     queryFn: () => {
-      if (version === undefined) {
-        throw Error(t('toast.market.versionUndefined', { id: id }));
-      }
+      if (id === undefined || version === undefined) return null;
       return findProductJsonContent(id, version, {}, { headers }).then(res => {
         if (ok(res)) {
           return res.data;
@@ -88,13 +88,13 @@ export const useProductJson = (id: string, version?: string) => {
   });
 };
 
-export const useBestMatchingVersion = (id: string, engineVersion?: string) => {
+export const useBestMatchingVersion = (id?: string, engineVersion?: string) => {
   const { t } = useTranslation();
   const { headers, queryKey } = useMarketApi();
   return useQuery({
     queryKey: [...queryKey, 'bestMatchingVersion', id, engineVersion],
     queryFn: () => {
-      if (!engineVersion) return '';
+      if (!engineVersion || !id) return '';
       return findBestMatchProductDetailsByVersion(id, engineVersion, { headers }).then(res => {
         if (ok(res)) {
           const data = JSON.parse(res.data as string) as ProductDetailModel;

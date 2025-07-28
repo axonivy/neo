@@ -1,4 +1,4 @@
-import { BasicDialogContent, Button, Dialog, DialogContent, DialogTrigger, Flex, useHotkeyLocalScopes } from '@axonivy/ui-components';
+import { BasicDialogContent, Button, Dialog, DialogContent, Flex, Spinner, useDialogHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -30,28 +30,30 @@ export default function Index() {
   const { t } = useTranslation();
   const { app, pmv } = useParams();
   const overviewFilter = useOverviewFilter();
-  const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['addDependencyDialog']);
-  const projects = useSortedProjects();
-  const project = useMemo(() => projects.data?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects.data]);
-  const { data, isPending } = useDependencies(app, pmv);
-  const dependencies = useMemo(
-    () => data?.filter(d => d.pmv.toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase())),
-    [data, overviewFilter.search]
+  const { data: projects, isPending: isProjectsPending } = useSortedProjects();
+  const project = useMemo(() => projects?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects]);
+  const { data: depencencies, isPending: isDependenciesPending } = useDependencies(app, pmv);
+  const filteredDependencies = useMemo(
+    () => depencencies?.filter(d => d.pmv.toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase())),
+    [depencencies, overviewFilter.search]
   );
-  const [addDependencyDialog, setAddDependencyDialog] = useState(false);
-  const onDialogOpenChange = (open: boolean) => {
-    setAddDependencyDialog(open);
-    if (open) {
-      activateLocalScopes();
-    } else {
-      restoreLocalScopes();
-    }
-  };
+
+  if (isProjectsPending) {
+    return (
+      <Flex alignItems='center' justifyContent='center' style={{ height: '100%' }}>
+        <Spinner />
+      </Flex>
+    );
+  }
+
+  if (project === undefined) {
+    return null;
+  }
 
   return (
     <Overview>
-      <Breadcrumbs items={[{ name: t('neo.projects') }, { name: project?.id.pmv ?? '' }]} />
-      <OverviewTitle title={t('projects.details', { project: project?.id.pmv })} />
+      <Breadcrumbs items={[{ name: t('neo.projects') }, { name: project.id.pmv }]} />
+      <OverviewTitle title={t('projects.details', { project: project.id.pmv })} />
       <Flex
         direction='row'
         gap={4}
@@ -59,40 +61,35 @@ export default function Index() {
         style={{ flexWrap: 'wrap', columnGap: '150px', background: 'var(--N50)', padding: 10, borderRadius: 5 }}
       >
         <ProjectInfoContainer>
-          <ProjectInfo title={t('neo.artifactId')} value={project?.artifactId}></ProjectInfo>
-          <ProjectInfo title={t('neo.groupId')} value={project?.groupId}></ProjectInfo>
+          <ProjectInfo title={t('neo.artifactId')} value={project.artifactId}></ProjectInfo>
+          <ProjectInfo title={t('neo.groupId')} value={project.groupId}></ProjectInfo>
         </ProjectInfoContainer>
         <ProjectInfoContainer>
-          <ProjectInfo title={t('common.label.version')} value={project?.version}></ProjectInfo>
+          <ProjectInfo title={t('common.label.version')} value={project.version}></ProjectInfo>
           <ProjectInfo
             title={t('projects.editRights')}
-            value={project?.id.isIar ? t('common.label.readOnly') : t('project.editable')}
+            value={project.id.isIar ? t('common.label.readOnly') : t('project.editable')}
           ></ProjectInfo>
         </ProjectInfoContainer>
         <ProjectInfoContainer>
           <ProjectInfo
             title={t('projects.deletable')}
-            value={project?.isDeletable ? t('common.label.yes') : t('common.label.no')}
+            value={project.isDeletable ? t('common.label.yes') : t('common.label.no')}
           ></ProjectInfo>
         </ProjectInfoContainer>
       </Flex>
       <OverviewTitle
-        title={t('projects.dependencyDetails', { project: project?.id.pmv })}
+        title={t('projects.dependencyDetails', { project: project.id.pmv })}
         description={t('projects.description')}
         info={t('projects.dependecyInfo')}
       >
-        <CreateNewArtefactButton title={t('projects.addDependency')} open={() => onDialogOpenChange(true)} />
+        <AddDependencyDialog project={project.id} />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter} />
-      <OverviewContent isPending={isPending}>
-        {project && dependencies && (
-          <>
-            {!project.id.isIar && <AddDependencyDialog project={project.id} open={addDependencyDialog} onOpenChange={onDialogOpenChange} />}
-            {dependencies.map(dep => (
-              <DependencyCard key={dep.pmv} dependency={dep} project={project?.id} />
-            ))}
-          </>
-        )}
+      <OverviewContent isPending={isDependenciesPending}>
+        {filteredDependencies?.map(dep => (
+          <DependencyCard key={dep.pmv} dependency={dep} project={project.id} />
+        ))}
       </OverviewContent>
     </Overview>
   );
@@ -138,48 +135,50 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   );
 };
 
-const AddDependencyDialog = ({
-  children,
-  project,
-  open,
-  onOpenChange
-}: {
-  children?: ReactNode;
-  project: ProjectIdentifier;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) => {
+const AddDependencyDialog = ({ project }: { project: ProjectIdentifier }) => {
+  const { t } = useTranslation();
+  const { open, onOpenChange } = useDialogHotkeys(['addDependencyDialog']);
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <CreateNewArtefactButton title={t('projects.addDependency')} onClick={() => onOpenChange(true)} />
+      <DialogContent>
+        <AddDependencyDialogContent project={project} />
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const AddDependencyDialogContent = ({ project }: { project: ProjectIdentifier }) => {
   const { t } = useTranslation();
   const [dependency, setDependency] = useState<ProjectBean>();
   const { addDependency } = useAddDependencyReq();
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        <div>{children}</div>
-      </DialogTrigger>
-      <DialogContent>
-        <BasicDialogContent
-          title={t('projects.addDependencyTo', { project: project.pmv })}
-          description={t('projects.addDependencyDescription')}
-          cancel={
-            <Button variant='outline' size='large'>
-              {t('common.label.cancel')}
-            </Button>
-          }
-          submit={
-            <Button variant='primary' size='large' onClick={() => dependency && addDependency(project, dependency.id)} icon={IvyIcons.Plus}>
-              {t('common.label.add')}
-            </Button>
-          }
+    <BasicDialogContent
+      title={t('projects.addDependencyTo', { project: project.pmv })}
+      description={t('projects.addDependencyDescription')}
+      cancel={
+        <Button variant='outline' size='large'>
+          {t('common.label.cancel')}
+        </Button>
+      }
+      submit={
+        <Button
+          variant='primary'
+          size='large'
+          disabled={dependency === undefined}
+          onClick={() => addDependency(project, dependency?.id)}
+          icon={IvyIcons.Plus}
         >
-          <ProjectSelect
-            setProject={setDependency}
-            setDefaultValue={true}
-            projectFilter={p => p.id.pmv !== project.pmv}
-            label={t('projects.selectDependency')}
-          />
-        </BasicDialogContent>
-      </DialogContent>
-    </Dialog>
+          {t('common.label.add')}
+        </Button>
+      }
+    >
+      <ProjectSelect
+        setProject={setDependency}
+        setDefaultValue={true}
+        projectFilter={p => p.id.pmv !== project.pmv}
+        label={t('projects.selectDependency')}
+      />
+    </BasicDialogContent>
   );
 };
