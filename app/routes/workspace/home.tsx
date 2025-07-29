@@ -101,7 +101,7 @@ const ImportMenu = () => {
   const navigate = useNavigate();
   const hotkeys = useKnownHotkeys();
   const { open, onOpenChange } = useDialogHotkeys(['importDialog']);
-  useHotkeys(hotkeys.importFromMarket.hotkey, () => navigate('market'), { enableOnFormTags: true, scopes: ['neo'] });
+  useHotkeys(hotkeys.importFromMarket.hotkey, () => navigate('market'), { scopes: ['neo'] });
   useHotkeys(hotkeys.importFromFile.hotkey, () => onOpenChange(true), { scopes: ['neo'] });
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
