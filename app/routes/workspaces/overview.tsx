@@ -45,10 +45,8 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   const { t } = useTranslation();
-  const overviewFilter = useOverviewFilter();
   const { data, isPending } = useWorkspaces();
-  const workspaces = data?.filter(ws => ws.name.toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase())) ?? [];
-
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (ws, search) => ws.name.includes(search));
   return (
     <>
       <ControlBar>
@@ -69,7 +67,7 @@ export default function Index() {
               </OverviewTitle>
               <OverviewFilter {...overviewFilter} />
               <OverviewContent isPending={isPending}>
-                <WorkspacesOverview workspaces={workspaces} />
+                <WorkspacesOverview workspaces={filteredAritfacts} />
               </OverviewContent>
             </Overview>
           </Flex>

@@ -1,4 +1,4 @@
-import { groupBy, toast } from '@axonivy/ui-components';
+import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
@@ -37,7 +37,7 @@ export const useDataClassesWithFields = () => {
   });
 };
 
-export const useGroupedDataClasses = () => {
+export const useDataClasses = () => {
   const { queryKey, base, ws } = useDataClassesApi();
   const { t } = useTranslation();
   return useQuery({
@@ -46,10 +46,7 @@ export const useGroupedDataClasses = () => {
       if (base === undefined) return [];
       return dataClasses(undefined, { headers: headers(base) }).then(res => {
         if (ok(res)) {
-          const grouped = groupBy(res.data, p => p.dataClassIdentifier.project.pmv);
-          return Object.entries(grouped)
-            .map(([project, dataClasses]) => ({ project, artifacts: dataClasses }))
-            .sort((a, b) => projectSort(a.project, b.project, ws));
+          return res.data.sort((a, b) => projectSort(a.dataClassIdentifier.project.pmv, b.dataClassIdentifier.project.pmv, ws));
         }
         toast.error(t('toast.dataClass.missing'), { description: t('toast.serverStatus') });
         return [];

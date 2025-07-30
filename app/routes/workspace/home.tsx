@@ -52,11 +52,9 @@ export const meta: MetaFunction = ({ params }) => {
 
 export default function Index() {
   const { t } = useTranslation();
-  const overviewFilter = useOverviewFilter();
   const { data, isPending } = useSortedProjects();
   const { ws } = useParams();
-  const projects = data?.filter(({ id }) => id.pmv.toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase())) ?? [];
-
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (project, search) => project.id.pmv.includes(search));
   return (
     <Overview>
       <Breadcrumbs />
@@ -88,7 +86,7 @@ export default function Index() {
       </OverviewTitle>
       <OverviewFilter {...overviewFilter} viewTypes={{ graph: true }} />
       <OverviewContent isPending={isPending} viewType={overviewFilter.viewType} viewTypes={{ graph: <ProjectGraph /> }}>
-        {projects.map(p => (
+        {filteredAritfacts.map(p => (
           <ProjectCard key={p.id.pmv} project={p} />
         ))}
       </OverviewContent>
@@ -201,13 +199,14 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const ws = useWorkspace();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const defaultProject = project.id.pmv === ws?.name;
+  const tags = useProjectTags(project, defaultProject);
   return (
     <ArtifactCard
       ref={artifactCardRef}
       name={project.id.pmv}
       onClick={() => navigate(`projects/${project.id.app}/${project.id.pmv}`)}
       preview={<PreviewSvg type='workspace' />}
-      tagLabel={project.id.isIar ? t('common.label.readOnly') : defaultProject ? t('common.label.default') : undefined}
+      tags={tags}
     >
       <ArtifactCardMenu
         deleteAction={{
@@ -220,4 +219,16 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
       />
     </ArtifactCard>
   );
+};
+
+const useProjectTags = (project: ProjectBean, defaultProject: boolean) => {
+  const { t } = useTranslation();
+  const tags = [];
+  if (project.id.isIar) {
+    tags.push(t('common.label.readOnly'));
+  }
+  if (defaultProject) {
+    tags.push(t('common.label.default'));
+  }
+  return tags;
 };

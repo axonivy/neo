@@ -35,7 +35,6 @@ test('navigate overviews and focus searchinput', async ({ page }) => {
 test('focus nav and tabs and nav tabs with arrowkey', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
-  await overview.hasGroup(`Project: ${TEST_PROJECT}`);
   await overview.card('EnterProduct').click();
   await new FormEditor(neo, 'EnterProduct').expectOpen('Product');
 
@@ -55,7 +54,6 @@ test('focus nav and tabs and nav tabs with arrowkey', async ({ page }) => {
 test('open add and delete dialog', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
-  await overview.hasGroup(`Project: ${TEST_PROJECT}`);
   await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Tab');
@@ -157,15 +155,12 @@ test('simulation shortcuts', async ({ page }) => {
 test('tab shortcuts', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overviewForm = await neo.forms();
-  await overviewForm.hasGroup(`Project: ${TEST_PROJECT}`);
   await overviewForm.card('EnterProduct').click();
 
   const overviewData = await neo.dataClasses();
-  await overviewData.hasGroup(`Project: ${TEST_PROJECT}`);
   await overviewData.card('BusinessData').click();
 
   await neo.dataClasses();
-  await overviewData.hasGroup(`Project: ${TEST_PROJECT}`);
   await overviewData.card('EntitySample').click();
 
   await expect(neo.controlBar.tabs()).toHaveCount(5);

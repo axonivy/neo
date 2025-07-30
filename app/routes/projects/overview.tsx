@@ -29,14 +29,10 @@ export const meta: MetaFunction = ({ params }) => {
 export default function Index() {
   const { t } = useTranslation();
   const { app, pmv } = useParams();
-  const overviewFilter = useOverviewFilter();
   const { data: projects, isPending: isProjectsPending } = useSortedProjects();
   const project = useMemo(() => projects?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects]);
   const { data: depencencies, isPending: isDependenciesPending } = useDependencies(app, pmv);
-  const filteredDependencies = useMemo(
-    () => depencencies?.filter(d => d.pmv.toLocaleLowerCase().includes(overviewFilter.search.toLocaleLowerCase())),
-    [depencencies, overviewFilter.search]
-  );
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(depencencies ?? [], (dep, search) => dep.pmv.includes(search));
 
   if (isProjectsPending) {
     return (
@@ -77,7 +73,7 @@ export default function Index() {
       </OverviewTitle>
       <OverviewFilter {...overviewFilter} />
       <OverviewContent isPending={isDependenciesPending}>
-        {filteredDependencies?.map(dep => (
+        {filteredAritfacts?.map(dep => (
           <DependencyCard key={dep.pmv} dependency={dep} project={project.id} />
         ))}
       </OverviewContent>
@@ -86,7 +82,7 @@ export default function Index() {
 }
 
 const ProjectInfoContainer = ({ children }: { children: ReactNode }) => (
-  <Flex direction='column' gap={2}>
+  <Flex direction='column' gap={2} style={{ fontSize: 14 }}>
     {children}
   </Flex>
 );
@@ -103,13 +99,14 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   const navigate = useNavigate();
   const { removeDependency } = useRemoveDependency();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
+  const tags = useDepsTags(dependency);
   return (
     <ArtifactCard
       ref={artifactCardRef}
       name={dependency.pmv}
       onClick={() => navigate(`../projects/${dependency.app}/${dependency.pmv}`)}
       preview={<PreviewSvg type='workspace' />}
-      tagLabel={dependency.isIar ? t('common.label.readOnly') : undefined}
+      tags={tags}
     >
       <ArtifactCardMenu
         deleteAction={{
@@ -123,6 +120,15 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
       />
     </ArtifactCard>
   );
+};
+
+const useDepsTags = (dependency: ProjectIdentifier) => {
+  const { t } = useTranslation();
+  const tags = [];
+  if (dependency.isIar) {
+    tags.push(t('common.label.readOnly'));
+  }
+  return tags;
 };
 
 const AddDependencyDialog = ({ project }: { project: ProjectIdentifier }) => {

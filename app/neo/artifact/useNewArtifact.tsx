@@ -14,7 +14,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
-import { useGroupedDataClasses } from '~/data/data-class-api';
+import { useDataClasses } from '~/data/data-class-api';
 import type { DataClassIdentifier, ProjectBean } from '~/data/generated/ivy-client';
 import { type ProjectIdentifier } from '~/data/project-api';
 import { InfoPopover } from '../overview/InfoPopover';
@@ -158,8 +158,8 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
 
 const DataClassSelect = ({ project, setDataClass }: { project: ProjectIdentifier; setDataClass: (d?: DataClassIdentifier) => void }) => {
   const { t } = useTranslation();
-  const { data, isPending } = useGroupedDataClasses();
-  const dataClasses = useMemo(() => data?.find(g => g.project === project.pmv)?.artifacts ?? [], [data, project.pmv]);
+  const { data, isPending } = useDataClasses();
+  const dataClasses = useMemo(() => data?.filter(dc => dc.dataClassIdentifier.project.pmv === project.pmv) ?? [], [data, project.pmv]);
   useEffect(() => setDataClass(undefined), [setDataClass]);
   return (
     <BasicField label={t('artifact.callerData')}>

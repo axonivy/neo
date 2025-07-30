@@ -1,14 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import type { ProcessBean } from '~/data/generated/ivy-client';
-import { useCreateProcess, useDeleteProcess, useGroupedProcesses } from '~/data/process-api';
+import { useCreateProcess, useDeleteProcess, useProcesses } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
-import { ArtifactGroup } from '~/neo/artifact/ArtifactGroup';
-import { useFilteredGroups } from '~/neo/artifact/useFilteredGroups';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
-import type { Editor } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
@@ -17,43 +14,43 @@ import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDia
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
-import { OverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
 
 export default function Index() {
   const { t } = useTranslation();
-  const { data, isPending } = useGroupedProcesses();
-  const { filteredGroups, overviewFilter } = useFilteredGroups(data ?? [], (p: ProcessBean) => p.name);
-  const { createProcessEditor } = useCreateEditor();
-
+  const { data, isPending } = useProcesses();
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects) => {
+    return (projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv)) && proc.name.includes(search);
+  });
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.processes') }]} />
       <OverviewTitle title={t('neo.processes')} description={t('processes.processDescription')}>
         <NewProcessButton />
       </OverviewTitle>
-      <OverviewFilter {...overviewFilter} />
+      <OverviewFilter {...overviewFilter}>
+        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+      </OverviewFilter>
       <OverviewContent isPending={isPending}>
-        {filteredGroups.map(({ project, artifacts }) => (
-          <ArtifactGroup project={project} key={project}>
-            {artifacts.map(process => {
-              const editor = createProcessEditor(process);
-              return <ProcessCard key={editor.id} process={process} {...editor} />;
-            })}
-          </ArtifactGroup>
+        {filteredAritfacts.map(process => (
+          <ProcessCard key={`${process.processIdentifier.project.pmv}/${process.processIdentifier.pid}`} process={process} />
         ))}
       </OverviewContent>
     </Overview>
   );
 }
 
-const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) => {
-  const { deleteProcess } = useDeleteProcess();
+const ProcessCard = ({ process }: { process: ProcessBean }) => {
   const { t } = useTranslation();
+  const { deleteProcess } = useDeleteProcess();
   const { openEditor, removeEditor } = useEditors();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
+  const { createProcessEditor } = useCreateEditor();
+  const editor = createProcessEditor(process);
+  const tags = useProcessTags(process);
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -62,13 +59,7 @@ const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) 
       preview={<PreviewSvg type='process' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
-      tagLabel={
-        process.kind === 'CALLABLE_SUB'
-          ? t('label.callableSubProcess')
-          : process.kind === 'WEB_SERVICE'
-            ? t('label.webServiceProcess')
-            : undefined
-      }
+      tags={tags}
     >
       <ArtifactCardMenu
         deleteAction={{
@@ -86,14 +77,28 @@ const ProcessCard = ({ process, ...editor }: Editor & { process: ProcessBean }) 
   );
 };
 
+const useProcessTags = (process: ProcessBean) => {
+  const { t } = useTranslation();
+  const tags = [];
+  if (process.processIdentifier.project.isIar) {
+    tags.push(t('common.label.readOnly'));
+  }
+  if (process.kind === 'WEB_SERVICE') {
+    tags.push(t('label.webServiceProcess'));
+  }
+  if (process.kind === 'CALLABLE_SUB') {
+    tags.push(t('label.callableSubProcess'));
+  }
+  return tags;
+};
+
 export const useProcessExists = () => {
-  const { data } = useGroupedProcesses();
+  const { data } = useProcesses();
   return ({ name, namespace, project }: NewArtifactIdentifier) =>
     data
-      ?.find(group => group?.project === project?.pmv)
-      ?.artifacts.some(
-        process => process.name.toLowerCase() === name.toLowerCase() && process.namespace.toLowerCase() === namespace.toLowerCase()
-      ) ?? false;
+      ?.filter(process => process.processIdentifier.project.pmv === project?.pmv)
+      ?.some(process => process.name.toLowerCase() === name.toLowerCase() && process.namespace.toLowerCase() === namespace.toLowerCase()) ??
+    false;
 };
 
 const NewProcessButton = () => {
