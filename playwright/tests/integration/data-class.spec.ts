@@ -5,14 +5,14 @@ import { Neo } from '../page-objects/neo';
 import { APP, TEST_PROJECT } from './constants';
 
 const openDataClass = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `dataclasses/${APP}/${TEST_PROJECT}/dataclasses/neo/test/project/QuickStartTutorial`);
+  const neo = await Neo.openWorkspace(page, `dataclasses/${APP}/${TEST_PROJECT}/dataclasses/neo/test/project/QuickStartTutorial`);
   const editor = new DataClassEditor(neo, 'QuickStartTutorial');
   await editor.expectOpen('product');
   return { neo, editor };
 };
 
 const openFormDataClass = async (page: Page) => {
-  const neo = await Neo.openEditor(page, `dataclasses/${APP}/${TEST_PROJECT}/src_hd/neo/test/project/EnterProduct/EnterProductData`);
+  const neo = await Neo.openWorkspace(page, `dataclasses/${APP}/${TEST_PROJECT}/src_hd/neo/test/project/EnterProduct/EnterProductData`);
   const editor = new DataClassEditor(neo, 'EnterProductData');
   await editor.expectOpen('data');
   return { neo, editor };

@@ -5,7 +5,7 @@ import { Overview } from '../page-objects/overview';
 import { APP, TEST_PROJECT } from './constants';
 
 test('navigate via breadcrumbs', async ({ page }) => {
-  const neo = await Neo.openEditor(page, `dataclasses/${APP}/${TEST_PROJECT}/dataclasses/neo/test/project/QuickStartTutorial`);
+  const neo = await Neo.openWorkspace(page, `dataclasses/${APP}/${TEST_PROJECT}/dataclasses/neo/test/project/QuickStartTutorial`);
   const editor = new DataClassEditor(neo, 'QuickStartTutorial');
   await editor.expectOpen('product');
   await neo.breadcrumbs.expectItems(['Workspaces', 'neo-test-project', 'Data Classes', 'neo-test-project', 'QuickStartTutorial']);

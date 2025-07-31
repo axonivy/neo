@@ -11,6 +11,7 @@ import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewFilterTags } from '~/neo/overview/OverviewFilterTags';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Configurations');
@@ -30,6 +31,7 @@ export default function Index() {
       <OverviewFilter {...overviewFilter}>
         <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
       </OverviewFilter>
+      <OverviewFilterTags {...overviewFilter} />
       <OverviewContent isPending={isPending}>
         {filteredAritfacts.map(config => (
           <ConfigCard key={`${config.project.pmv}/${config.path}`} config={config} />

@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { CmsEditor } from '../page-objects/cms-editor';
 import { Neo } from '../page-objects/neo';
+import { Overview } from '../page-objects/overview';
 import { VariableEditor } from '../page-objects/variables-editor';
+import { TEST_PROJECT } from './constants';
 
 test('navigate to configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
@@ -22,4 +24,26 @@ test('search configs', async ({ page }) => {
 
   await overview.search.fill('cms');
   await expect(overview.cards).toHaveCount(1);
+});
+
+test('filter processes', async ({ page }) => {
+  await Neo.openWorkspace(page, 'configurations?p=not-existing');
+  const overview = new Overview(page);
+  await expect(overview.filter.filterTag('not-existing')).toBeVisible();
+  await expect(overview.filter.badge).toHaveText('1');
+  await expect(overview.cards).toHaveCount(0);
+
+  await overview.filter.filterProject(TEST_PROJECT);
+  await expect(overview.filter.badge).toHaveText('2');
+  await expect(overview.cards).not.toHaveCount(0);
+
+  await overview.filter.filterTag('not-existing').getByRole('button').click();
+  await expect(overview.filter.filterTag('not-existing')).toBeHidden();
+  await expect(overview.filter.badge).toHaveText('1');
+  await expect(overview.cards).not.toHaveCount(0);
+
+  await page.reload();
+  expect(page.url()).toContain(`?p=${TEST_PROJECT}`);
+  await overview.filter.resetFilter();
+  await expect(overview.cards).not.toHaveCount(0);
 });
