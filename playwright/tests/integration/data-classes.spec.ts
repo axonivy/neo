@@ -2,6 +2,7 @@ import { expect, type Page, test } from '@playwright/test';
 import { randomInt } from 'crypto';
 import { DataClassEditor } from '../page-objects/data-class-editor';
 import { Neo } from '../page-objects/neo';
+import { Overview } from '../page-objects/overview';
 import { TEST_PROJECT } from './constants';
 
 const openDataClasses = async (page: Page) => {
@@ -46,6 +47,28 @@ test('search data classes', async ({ page }) => {
   await expect(overview.cards).toHaveCount(0);
   await overview.search.fill('quick');
   await expect(overview.cards).toHaveCount(1);
+});
+
+test('filter processes', async ({ page }) => {
+  await Neo.openWorkspace(page, 'dataclasses?p=not-existing');
+  const overview = new Overview(page);
+  await expect(overview.filter.filterTag('not-existing')).toBeVisible();
+  await expect(overview.filter.badge).toHaveText('1');
+  await expect(overview.cards).toHaveCount(0);
+
+  await overview.filter.filterProject(TEST_PROJECT);
+  await expect(overview.filter.badge).toHaveText('2');
+  await expect(overview.cards).not.toHaveCount(0);
+
+  await overview.filter.filterTag('not-existing').getByRole('button').click();
+  await expect(overview.filter.filterTag('not-existing')).toBeHidden();
+  await expect(overview.filter.badge).toHaveText('1');
+  await expect(overview.cards).not.toHaveCount(0);
+
+  await page.reload();
+  expect(page.url()).toContain(`?p=${TEST_PROJECT}`);
+  await overview.filter.resetFilter();
+  await expect(overview.cards).not.toHaveCount(0);
 });
 
 test('data class tags', async ({ page }) => {

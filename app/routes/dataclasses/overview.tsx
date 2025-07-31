@@ -16,6 +16,7 @@ import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewFilterTags } from '~/neo/overview/OverviewFilterTags';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { DataClassGraph, DataClassGraphFilter } from './DataClassGraph';
 
@@ -43,6 +44,7 @@ export default function Index() {
       >
         <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
       </OverviewFilter>
+      <OverviewFilterTags {...overviewFilter} />
       <OverviewContent
         isPending={isPending}
         viewType={overviewFilter.viewType}

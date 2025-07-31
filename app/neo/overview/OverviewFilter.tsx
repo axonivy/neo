@@ -135,7 +135,7 @@ const Badges = ({ count }: { count: number }) => {
     <Flex
       alignItems='center'
       justifyContent='center'
-      className='verview-filter-badge'
+      className='overview-filter-badge'
       style={{
         width: 14,
         height: 14,

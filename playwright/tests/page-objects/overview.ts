@@ -11,6 +11,7 @@ export class Overview {
   readonly title: Locator;
   readonly createButton: Locator;
   readonly search: Locator;
+  readonly filter: OverviewFilter;
   readonly viewToggle: Locator;
   readonly cards: Locator;
   readonly infoCards: Locator;
@@ -24,6 +25,7 @@ export class Overview {
     this.title = this.titleSection.locator('.overview-title').last();
     this.createButton = this.titleSection.getByRole('button').last();
     this.search = this.overview.locator('input');
+    this.filter = new OverviewFilter(page, this.overview);
     this.cards = this.overview.locator('.artifact-card');
     this.infoCards = this.overview.locator('.overview-info-card');
     this.viewToggle = this.overview.locator('.ui-toggle-group');
@@ -172,5 +174,49 @@ export class Overview {
     const overview = new Overview(this.page);
     await expect(overview.title).toHaveText(name);
     await this.page.goBack();
+  }
+}
+
+class OverviewFilter {
+  readonly button: Locator;
+  readonly badge: Locator;
+  readonly menu: Locator;
+  readonly tags: Locator;
+
+  constructor(
+    readonly page: Page,
+    readonly parent: Locator
+  ) {
+    this.button = parent.getByRole('button', { name: 'Filter by' });
+    this.badge = parent.locator('.overview-filter-badge');
+    this.menu = this.page.getByRole('menu', { name: 'Filter by' });
+    this.tags = this.parent.locator('.overview-filter-tags');
+  }
+
+  async openFilter() {
+    await this.button.click();
+    await expect(this.menu).toBeVisible();
+  }
+
+  async filterProject(project: string) {
+    await this.openFilter();
+    await this.menu.getByRole('menuitemcheckbox', { name: project }).click();
+    await expect(this.menu).toBeVisible();
+    await this.page.keyboard.press('Escape');
+    await expect(this.menu).toBeHidden();
+    await expect(this.filterTag(project)).toBeVisible();
+    await expect(this.badge).toBeVisible();
+  }
+
+  async resetFilter() {
+    await this.openFilter();
+    await this.page.getByRole('menuitem', { name: 'Reset all Filters' }).click();
+    await expect(this.menu).toBeHidden();
+    await expect(this.tags).toBeHidden();
+    await expect(this.badge).toBeHidden();
+  }
+
+  filterTag(tag: string) {
+    return this.tags.locator('.overview-filter-tag', { hasText: tag });
   }
 }

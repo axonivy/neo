@@ -32,13 +32,8 @@ export class Neo {
     return await Neo.createNeo(page);
   }
 
-  static async openWorkspace(page: Page) {
-    await page.goto(`/neo/${WORKSPACE}/`);
-    return await Neo.createNeo(page);
-  }
-
-  static async openEditor(page: Page, url: string) {
-    await page.goto(`/neo/${WORKSPACE}/${url}`);
+  static async openWorkspace(page: Page, url?: string) {
+    await page.goto(`/neo/${WORKSPACE}/${url ?? ''}`);
     return await Neo.createNeo(page);
   }
 
