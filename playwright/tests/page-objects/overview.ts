@@ -161,11 +161,10 @@ export class Overview {
   }
 
   async hasCardWithTag(name: string, tagLabel?: string) {
-    const tag = this.card(name).locator('.artifact-tag');
     if (tagLabel) {
-      await expect(tag.locator('span', { hasText: tagLabel })).toBeVisible();
+      await expect(this.card(name).locator('.artifact-tag', { hasText: tagLabel })).toBeVisible();
     } else {
-      await expect(tag).toBeHidden();
+      await expect(this.card(name).locator('.artifact-tag')).toBeHidden();
     }
   }
 

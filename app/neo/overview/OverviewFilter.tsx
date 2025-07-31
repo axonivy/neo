@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -132,23 +133,8 @@ const Badges = ({ count }: { count: number }) => {
     return null;
   }
   return (
-    <Flex
-      alignItems='center'
-      justifyContent='center'
-      className='overview-filter-badge'
-      style={{
-        width: 14,
-        height: 14,
-        fontSize: 10,
-        borderRadius: '50%',
-        backgroundColor: 'var(--P300)',
-        color: 'var(--background)',
-        position: 'absolute',
-        right: -2,
-        top: -2
-      }}
-    >
+    <Badge size='xs' round style={{ position: 'absolute', right: -3, top: -3 }} className='overview-filter-badge'>
       {count}
-    </Flex>
+    </Badge>
   );
 };
