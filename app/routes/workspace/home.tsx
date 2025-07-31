@@ -105,7 +105,7 @@ const ImportMenu = () => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button title={t('workspaces.importProject')} icon={IvyIcons.Download} size='large' variant='primary' style={{ height: '32px' }}>
+          <Button title={t('workspaces.importProject')} icon={IvyIcons.Download} size='xl' variant='primary-outline'>
             {t('workspaces.importProject')}
           </Button>
         </DropdownMenuTrigger>

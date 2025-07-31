@@ -11,11 +11,11 @@ export const CreateNewArtefactButton = ({ title, onClick }: { title: string; onC
     <Button
       title={addElement.label}
       icon={IvyIcons.Plus}
-      size='large'
-      variant='primary'
+      size='xl'
+      variant='primary-outline'
       aria-label={addElement.label}
       onClick={onClick}
-      style={{ height: 32, whiteSpace: 'nowrap' }}
+      style={{ whiteSpace: 'nowrap' }}
     >
       {title}
     </Button>
