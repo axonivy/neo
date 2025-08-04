@@ -5,3 +5,4 @@ services:
       - 8080:8080
     volumes:
       - ./playwright/neo-test-project:/ivy/data/workspaces/Developer/neo-test-project/neo-test-project/
+    user: root
