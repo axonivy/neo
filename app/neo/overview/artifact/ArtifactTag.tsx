@@ -1,4 +1,4 @@
-import { Flex } from '@axonivy/ui-components';
+import { Badge, Flex } from '@axonivy/ui-components';
 
 export const ArtifactTag = ({ tags }: { tags: Array<string> }) => (
   <Flex
@@ -8,13 +8,9 @@ export const ArtifactTag = ({ tags }: { tags: Array<string> }) => (
     style={{ position: 'absolute', top: 5, right: 5, flexWrap: 'wrap', fontSize: 10 }}
   >
     {tags.map(tag => (
-      <div
-        key={tag}
-        className='artifact-tag'
-        style={{ background: 'var(--P50)', padding: 'var(--size-1)', borderRadius: 'var(--border-r2)' }}
-      >
-        <span style={{ color: 'var(--P300)' }}>{tag}</span>
-      </div>
+      <Badge key={tag} size='s' variant='primary' className='artifact-tag'>
+        {tag}
+      </Badge>
     ))}
   </Flex>
 );
