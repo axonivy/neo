@@ -81,15 +81,15 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
 
 const useProcessTags = (process: ProcessBean) => {
   const { t } = useTranslation();
-  const tags = [];
+  const tags: { label: string; classname: string }[] = [];
   if (process.processIdentifier.project.isIar) {
-    tags.push(t('common.label.readOnly'));
+    tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
   }
   if (process.kind === 'WEB_SERVICE') {
-    tags.push(t('label.webServiceProcess'));
+    tags.push({ label: t('label.webServiceProcess'), classname: 'tag-webService' });
   }
   if (process.kind === 'CALLABLE_SUB') {
-    tags.push(t('label.callableSubProcess'));
+    tags.push({ label: t('label.callableSubProcess'), classname: 'tag-callableSub' });
   }
   return tags;
 };

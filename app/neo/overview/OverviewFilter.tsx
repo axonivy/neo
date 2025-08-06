@@ -16,9 +16,9 @@ import {
   ToggleGroupItem
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSortedProjects } from '~/data/project-api';
+import { useSortedProjects } from '../../data/project-api';
 import { useSearch } from './useSearch';
 
 export type ViewTypes = 'tile' | 'graph';
@@ -26,7 +26,7 @@ export type ViewTypes = 'tile' | 'graph';
 export const useOverviewFilter = <T,>(artifacts: Array<T>, filter: (t: T, search: string, projects: Array<string>) => boolean) => {
   const { search, setSearch, projects, setProjects } = useSearch();
   const [viewType, setViewType] = useState<ViewTypes>('tile');
-  const filteredAritfacts = useMemo(
+  const filteredAritfacts = useMeo(
     () => artifacts.filter(artifact => filter(artifact, search.toLocaleLowerCase(), projects)),
     [artifacts, filter, projects, search]
   );
@@ -88,11 +88,15 @@ export const OverviewFilter = (props: OverviewFilterProps) => {
 type OverviewProjectFilterProps = {
   projects: Array<string>;
   setProjects: (projects: Array<string>) => void;
+  tags: { label: string; classname: string }[];
+  setTags: (tags: Array<string>) => void;
 };
 
+//here
 export const OverviewProjectFilter = ({ projects, setProjects }: OverviewProjectFilterProps) => {
   const { t } = useTranslation();
   const allProjects = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
+  const allTags = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -118,7 +122,24 @@ export const OverviewProjectFilter = ({ projects, setProjects }: OverviewProject
             {project}
           </DropdownMenuCheckboxItem>
         ))}
+        {/*  */}
         <DropdownMenuSeparator />
+        <DropdownMenuLabel>
+          <IvyIcon icon={IvyIcons.Label} />
+          {'Tags'}
+        </DropdownMenuLabel>
+        {allTags.map(project => (
+          <DropdownMenuCheckboxItem
+            key={project}
+            checked={projects.includes(project)}
+            onCheckedChange={(checked: boolean) => setProjects(checked ? [...projects, project] : projects.filter(p => p !== project))}
+            onSelect={e => e.preventDefault()}
+          >
+            {project}
+          </DropdownMenuCheckboxItem>
+        ))}
+        <DropdownMenuSeparator />
+        {/* reset */}
         <DropdownMenuItem style={{ color: 'var(--error-color)' }} onSelect={() => setProjects([])}>
           <IvyIcon icon={IvyIcons.Reset} />
           <span>{t('label.resetAllFilters')}</span>

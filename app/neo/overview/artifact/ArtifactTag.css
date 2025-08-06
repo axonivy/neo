@@ -1,0 +1,19 @@
+.artifact-tag {
+  color: rgb(0, 0, 0);
+}
+.tag-readOnly {
+  background: rgb(201, 201, 201);
+}
+.tag-callableSub {
+  /* background: var(--glsp-activity-workflow-bg); */
+  background: rgb(206, 224, 253);
+}
+.tag-businessData {
+  background: rgb(49, 199, 74);
+}
+.tag-entity {
+  background: rgb(199, 171, 49);
+}
+.tag-webService {
+  background: rgb(199, 171, 49);
+}

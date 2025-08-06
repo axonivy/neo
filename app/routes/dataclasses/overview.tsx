@@ -97,15 +97,15 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
 
 const useDataClassTags = (dataClass: DataClassBean) => {
   const { t } = useTranslation();
-  const tags = [];
+  const tags: { label: string; classname: string }[] = [];
   if (dataClass.dataClassIdentifier.project.isIar) {
-    tags.push(t('common.label.readOnly'));
+    tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
   }
   if (dataClass.isEntityClass) {
-    tags.push(t('label.entity'));
+    tags.push({ label: t('label.entity'), classname: 'tag-entity' });
   }
   if (dataClass.isBusinessCaseData) {
-    tags.push(t('label.businessData'));
+    tags.push({ label: t('label.businessData'), classname: 'tag-businessData' });
   }
   return tags;
 };

@@ -83,9 +83,9 @@ const FormCard = ({ form }: { form: HdBean }) => {
 
 const useFormTags = (form: HdBean) => {
   const { t } = useTranslation();
-  const tags = [];
+  const tags: { label: string; classname: string }[] = [];
   if (form.identifier.project.isIar) {
-    tags.push(t('common.label.readOnly'));
+    tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
   }
   return tags;
 };

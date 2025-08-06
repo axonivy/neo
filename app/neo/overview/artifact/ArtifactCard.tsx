@@ -10,7 +10,7 @@ type Card = {
   preview: ReactNode;
   description?: string;
   tooltip?: string;
-  tags?: Array<string>;
+  tags?: Array<{ label: string; classname: string }>;
 } & React.ComponentProps<'div'>;
 
 export const ArtifactCard = ({ name, description, preview, onClick, tooltip, tags, ref, children }: Card) => (
