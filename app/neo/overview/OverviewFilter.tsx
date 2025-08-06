@@ -16,21 +16,24 @@ import {
   ToggleGroupItem
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useState, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSortedProjects } from '../../data/project-api';
+import { useSortedProjects } from '~/data/project-api';
 import { useSearch } from './useSearch';
 
 export type ViewTypes = 'tile' | 'graph';
 
-export const useOverviewFilter = <T,>(artifacts: Array<T>, filter: (t: T, search: string, projects: Array<string>) => boolean) => {
-  const { search, setSearch, projects, setProjects } = useSearch();
+export const useOverviewFilter = <T,>(
+  artifacts: Array<T>,
+  filter: (t: T, search: string, projects: Array<string>, tags: Array<string>) => boolean
+) => {
+  const { search, setSearch, projects, setProjects, tags, setTags } = useSearch();
   const [viewType, setViewType] = useState<ViewTypes>('tile');
-  const filteredAritfacts = useMeo(
-    () => artifacts.filter(artifact => filter(artifact, search.toLocaleLowerCase(), projects)),
-    [artifacts, filter, projects, search]
+  const filteredAritfacts = useMemo(
+    () => artifacts.filter(artifact => filter(artifact, search.toLocaleLowerCase(), projects, tags)),
+    [artifacts, filter, projects, tags, search]
   );
-  return { filteredAritfacts, search, setSearch, projects, setProjects, viewType, setViewType };
+  return { filteredAritfacts, search, setSearch, projects, setProjects, tags, setTags, viewType, setViewType };
 };
 
 type OverviewFilterProps = Omit<ReturnType<typeof useOverviewFilter>, 'filteredAritfacts'> & {
@@ -88,15 +91,22 @@ export const OverviewFilter = (props: OverviewFilterProps) => {
 type OverviewProjectFilterProps = {
   projects: Array<string>;
   setProjects: (projects: Array<string>) => void;
-  tags: { label: string; classname: string }[];
+  tags: Array<string>;
   setTags: (tags: Array<string>) => void;
+  // setTags: (tags: Array<{ label: string; classname: string }>) => void;
+  // tags: Array<string>;
+  // setTags: (projects: Array<string>) => void;
 };
 
-//here
-export const OverviewProjectFilter = ({ projects, setProjects }: OverviewProjectFilterProps) => {
+export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags }: OverviewProjectFilterProps) => {
   const { t } = useTranslation();
   const allProjects = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
-  const allTags = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
+  // const allTags = useSortedTags().data?.map(p => p.id.pmv) ?? [];
+  const allTags: Array<string> = [];
+  allTags.push(t('common.label.readOnly'));
+  allTags.push(t('label.webServiceProcess'));
+  allTags.push(t('label.callableSubProcess'));
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -122,22 +132,22 @@ export const OverviewProjectFilter = ({ projects, setProjects }: OverviewProject
             {project}
           </DropdownMenuCheckboxItem>
         ))}
-        {/*  */}
         <DropdownMenuSeparator />
         <DropdownMenuLabel>
           <IvyIcon icon={IvyIcons.Label} />
-          {'Tags'}
+          {t('label.tags')}
         </DropdownMenuLabel>
-        {allTags.map(project => (
+        {allTags.map(t => (
           <DropdownMenuCheckboxItem
-            key={project}
-            checked={projects.includes(project)}
-            onCheckedChange={(checked: boolean) => setProjects(checked ? [...projects, project] : projects.filter(p => p !== project))}
+            key={t}
+            checked={tags.includes(t)}
+            onCheckedChange={(checked: boolean) => setTags(checked ? [...tags, t] : tags.filter(p => p !== t))}
             onSelect={e => e.preventDefault()}
           >
-            {project}
+            {t}
           </DropdownMenuCheckboxItem>
         ))}
+
         <DropdownMenuSeparator />
         {/* reset */}
         <DropdownMenuItem style={{ color: 'var(--error-color)' }} onSelect={() => setProjects([])}>

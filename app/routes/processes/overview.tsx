@@ -19,6 +19,7 @@ import { OverviewFilterTags } from '~/neo/overview/OverviewFilterTags';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
+// const allTags: Array<{ label: string; classname: string }> = [];
 
 export default function Index() {
   const { t } = useTranslation();
@@ -26,6 +27,11 @@ export default function Index() {
   const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects) => {
     return (projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv)) && proc.name.includes(search);
   });
+
+  // allTags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
+  // allTags.push({ label: t('label.webServiceProcess'), classname: 'tag-webService' });
+  // allTags.push({ label: t('label.callableSubProcess'), classname: 'tag-callableSub' });
+
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.processes') }]} />
@@ -33,7 +39,12 @@ export default function Index() {
         <NewProcessButton />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter}>
-        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+        <OverviewProjectFilter
+          projects={overviewFilter.projects}
+          setProjects={overviewFilter.setProjects}
+          tags={overviewFilter.tags}
+          setTags={overviewFilter.setTags}
+        />
       </OverviewFilter>
       <OverviewFilterTags {...overviewFilter} />
       <OverviewContent isPending={isPending}>
@@ -79,9 +90,9 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
   );
 };
 
-const useProcessTags = (process: ProcessBean) => {
+export const useProcessTags = (process: ProcessBean) => {
   const { t } = useTranslation();
-  const tags: { label: string; classname: string }[] = [];
+  const tags: Array<{ label: string; classname: string }> = [];
   if (process.processIdentifier.project.isIar) {
     tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
   }
