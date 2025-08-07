@@ -21,6 +21,7 @@ import {
   vars,
   type MessageData
 } from '@axonivy/ui-components';
+import type { BadgeVariants } from '@axonivy/ui-components/lib/components/common/badge/badge.css';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import { useMemo, useState } from 'react';
@@ -223,12 +224,12 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
 
 const useProjectTags = (project: ProjectBean, defaultProject: boolean) => {
   const { t } = useTranslation();
-  const tags = [];
+  const tags: Array<{ label: string; badgeVariants: BadgeVariants }> = [];
   if (project.id.isIar) {
-    tags.push(t('common.label.readOnly'));
+    tags.push({ label: t('common.label.readOnly'), badgeVariants: { variant: 'secondary' } });
   }
   if (defaultProject) {
-    tags.push(t('common.label.default'));
+    tags.push({ label: t('common.label.default'), badgeVariants: { variant: 'primary' } });
   }
   return tags;
 };

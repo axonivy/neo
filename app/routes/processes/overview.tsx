@@ -1,3 +1,4 @@
+import type { BadgeVariants } from '@axonivy/ui-components/lib/components/common/badge/badge.css';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import type { ProcessBean } from '~/data/generated/ivy-client';
@@ -23,9 +24,30 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useProcesses();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects) => {
-    return (projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv)) && proc.name.includes(search);
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects, tags) => {
+    const hasMatchingProject = projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv);
+    const hasMatchingTag =
+      tags.length === 0 ||
+      tags.some(tag =>
+        getProcessTags(proc, t)
+          ?.map(t => t.label)
+          .includes(tag)
+      );
+    const nameMatches = proc.name.includes(search);
+
+    return hasMatchingProject && hasMatchingTag && nameMatches;
   });
+  const allTags = [
+    ...new Set(
+      useProcesses().data?.flatMap(p => {
+        const tags = getProcessTags(p, t);
+        return tags ? tags.map(t => t.label) : [];
+      }) ?? []
+    )
+  ]
+    .filter(tag => tag !== 'NORMAL' && tag !== '')
+    .sort((a, b) => a.localeCompare(b));
+
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.processes') }]} />
@@ -33,7 +55,13 @@ export default function Index() {
         <NewProcessButton />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter}>
-        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+        <OverviewProjectFilter
+          projects={overviewFilter.projects}
+          setProjects={overviewFilter.setProjects}
+          tags={overviewFilter.tags}
+          setTags={overviewFilter.setTags}
+          allTags={allTags}
+        />
       </OverviewFilter>
       <OverviewFilterTags {...overviewFilter} />
       <OverviewContent isPending={isPending}>
@@ -52,7 +80,7 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const { createProcessEditor } = useCreateEditor();
   const editor = createProcessEditor(process);
-  const tags = useProcessTags(process);
+  const tags = getProcessTags(process, t);
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -79,17 +107,16 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
   );
 };
 
-const useProcessTags = (process: ProcessBean) => {
-  const { t } = useTranslation();
-  const tags = [];
+export const getProcessTags = (process: ProcessBean, t: (key: string) => string) => {
+  const tags: Array<{ label: string; badgeVariants: BadgeVariants }> = [];
   if (process.processIdentifier.project.isIar) {
-    tags.push(t('common.label.readOnly'));
-  }
-  if (process.kind === 'WEB_SERVICE') {
-    tags.push(t('label.webServiceProcess'));
+    tags.push({ label: t('common.label.readOnly'), badgeVariants: { variant: 'secondary' } });
   }
   if (process.kind === 'CALLABLE_SUB') {
-    tags.push(t('label.callableSubProcess'));
+    tags.push({ label: t('label.callableSubProcess'), badgeVariants: { variant: 'primary' } });
+  }
+  if (process.kind === 'WEB_SERVICE') {
+    tags.push({ label: t('label.webServiceProcess'), badgeVariants: { variant: 'destructive' } });
   }
   return tags;
 };

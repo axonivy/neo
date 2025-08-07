@@ -7,24 +7,29 @@ type OverviewFilterProps = {
   viewType: ViewTypes;
   projects: Array<string>;
   setProjects: (projects: Array<string>) => void;
+  tags: Array<string>;
+  setTags: (tags: Array<string>) => void;
 };
 
-export const OverviewFilterTags = ({ viewType, projects, setProjects }: OverviewFilterProps) => {
+export const OverviewFilterTags = ({ viewType, projects, setProjects, tags, setTags }: OverviewFilterProps) => {
   const { t } = useTranslation();
-  if (viewType !== 'tile' || projects.length === 0) {
+  if (viewType !== 'tile' || (projects.length === 0 && tags.length === 0)) {
     return null;
   }
   return (
     <Flex direction='row' alignItems='center' gap={2} className='overview-filter-tags' style={{ fontSize: 14, color: 'var(--N700)' }}>
       <span>{t('label.filterBy')}</span>
       {projects.map(project => (
-        <Tag key={project} project={project} remove={() => setProjects(projects.filter(p => p !== project))} />
+        <Tag key={project} name={project} icon={IvyIcons.Folders} remove={() => setProjects(projects.filter(p => p !== project))} />
+      ))}
+      {tags.map(tag => (
+        <Tag key={tag} name={tag} icon={IvyIcons.Label} remove={() => setTags(tags.filter(t => t !== tag))} />
       ))}
     </Flex>
   );
 };
 
-const Tag = ({ project, remove }: { project: string; remove: () => void }) => {
+const Tag = ({ name, remove, icon }: { name: string; remove: () => void; icon: IvyIcons }) => {
   return (
     <Flex
       alignItems='center'
@@ -39,8 +44,8 @@ const Tag = ({ project, remove }: { project: string; remove: () => void }) => {
         border: '1px solid var(--N100)'
       }}
     >
-      <span>{project}</span>
-      <Button icon={IvyIcons.Close} size='small' onClick={remove} style={{ height: 16 }} />
+      <span>{name}</span>
+      <Button icon={icon} size='small' onClick={remove} style={{ height: 16 }} />
     </Flex>
   );
 };
