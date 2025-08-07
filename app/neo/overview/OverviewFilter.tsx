@@ -142,7 +142,6 @@ export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags, al
         ))}
 
         <DropdownMenuSeparator />
-        {/* reset */}
         <DropdownMenuItem
           style={{ color: 'var(--error-color)' }}
           onSelect={() => {
