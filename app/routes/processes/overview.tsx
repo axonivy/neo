@@ -1,3 +1,4 @@
+import type { BadgeVariants } from '@axonivy/ui-components/lib/components/common/badge/badge.css';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import type { ProcessBean } from '~/data/generated/ivy-client';
@@ -107,15 +108,15 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
 };
 
 export const getProcessTags = (process: ProcessBean, t: (key: string) => string) => {
-  const tags: Array<{ label: string; classname: string }> = [];
+  const tags: Array<{ label: string; badgeVariants: BadgeVariants }> = [];
   if (process.processIdentifier.project.isIar) {
-    tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
-  }
-  if (process.kind === 'WEB_SERVICE') {
-    tags.push({ label: t('label.webServiceProcess'), classname: 'tag-webService' });
+    tags.push({ label: t('common.label.readOnly'), badgeVariants: { variant: 'secondary' } });
   }
   if (process.kind === 'CALLABLE_SUB') {
-    tags.push({ label: t('label.callableSubProcess'), classname: 'tag-callableSub' });
+    tags.push({ label: t('label.callableSubProcess'), badgeVariants: { variant: 'primary' } });
+  }
+  if (process.kind === 'WEB_SERVICE') {
+    tags.push({ label: t('label.webServiceProcess'), badgeVariants: { variant: 'destructive' } });
   }
   return tags;
 };

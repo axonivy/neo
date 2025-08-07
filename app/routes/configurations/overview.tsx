@@ -1,3 +1,4 @@
+import type { BadgeVariants } from '@axonivy/ui-components/lib/components/common/badge/badge.css';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import { useConfigurations } from '~/data/config-api';
@@ -85,9 +86,9 @@ const ConfigCard = ({ config }: { config: ConfigurationIdentifier }) => {
 };
 
 const getConfigTags = (config: ConfigurationIdentifier, t: (key: string) => string) => {
-  const tags: Array<{ label: string; classname: string }> = [];
+  const tags: Array<{ label: string; badgeVariants: BadgeVariants }> = [];
   if (config.project.isIar) {
-    tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
+    tags.push({ label: t('common.label.readOnly'), badgeVariants: { variant: 'secondary' } });
   }
   return tags;
 };

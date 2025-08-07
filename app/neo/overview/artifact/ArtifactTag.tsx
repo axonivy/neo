@@ -1,7 +1,7 @@
 import { Badge, Flex } from '@axonivy/ui-components';
-import './ArtifactTag.css';
+import type { BadgeVariants } from '@axonivy/ui-components/lib/components/common/badge/badge.css';
 
-export const ArtifactTag = ({ tags }: { tags: Array<{ label: string; classname: string }> }) => {
+export const ArtifactTag = ({ tags }: { tags: Array<{ label: string; badgeVariants: BadgeVariants }> }) => {
   return (
     <Flex
       direction='row'
@@ -10,7 +10,7 @@ export const ArtifactTag = ({ tags }: { tags: Array<{ label: string; classname: 
       style={{ position: 'absolute', top: 5, right: 5, flexWrap: 'wrap', fontSize: 10 }}
     >
       {tags.map(tag => (
-        <Badge key={tag.label} size='s' variant='primary' className={'artifact-tag ' + tag.classname}>
+        <Badge key={tag.label} size='s' variant={tag.badgeVariants?.variant} className='artifact-tag'>
           {tag.label}
         </Badge>
       ))}

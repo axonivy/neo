@@ -1,3 +1,4 @@
+import type { BadgeVariants } from '@axonivy/ui-components/lib/components/common/badge/badge.css';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, type MetaFunction } from 'react-router';
@@ -122,15 +123,15 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
 };
 
 const getDataClassTags = (dataClass: DataClassBean, t: (key: string) => string) => {
-  const tags: { label: string; classname: string }[] = [];
+  const tags: { label: string; badgeVariants: BadgeVariants }[] = [];
   if (dataClass.dataClassIdentifier.project.isIar) {
-    tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
-  }
-  if (dataClass.isEntityClass) {
-    tags.push({ label: t('label.entity'), classname: 'tag-entity' });
+    tags.push({ label: t('common.label.readOnly'), badgeVariants: { variant: 'secondary' } });
   }
   if (dataClass.isBusinessCaseData) {
-    tags.push({ label: t('label.businessData'), classname: 'tag-businessData' });
+    tags.push({ label: t('label.businessData'), badgeVariants: { variant: 'primary' } });
+  }
+  if (dataClass.isEntityClass) {
+    tags.push({ label: t('label.entity'), badgeVariants: { variant: 'destructive' } });
   }
   return tags;
 };

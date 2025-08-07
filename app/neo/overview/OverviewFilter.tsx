@@ -105,7 +105,7 @@ export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags, al
       <DropdownMenuTrigger asChild>
         <Flex alignItems='center' className='overview-filter-button' style={{ position: 'relative' }}>
           <Button size='large' icon={IvyIcons.Configuration} title={t('label.filterBy')} aria-label={t('label.filterBy')} />
-          <Badges count={projects.length} />
+          <Badges count={projects.length + tags.length} />
         </Flex>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -143,7 +143,13 @@ export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags, al
 
         <DropdownMenuSeparator />
         {/* reset */}
-        <DropdownMenuItem style={{ color: 'var(--error-color)' }} onSelect={() => setProjects([])}>
+        <DropdownMenuItem
+          style={{ color: 'var(--error-color)' }}
+          onSelect={() => {
+            setProjects([]);
+            setTags([]);
+          }}
+        >
           <IvyIcon icon={IvyIcons.Reset} />
           <span>{t('label.resetAllFilters')}</span>
         </DropdownMenuItem>

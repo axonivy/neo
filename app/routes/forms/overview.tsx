@@ -1,3 +1,4 @@
+import type { BadgeVariants } from '@axonivy/ui-components/lib/components/common/badge/badge.css';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import { useCreateForm, useDeleteForm, useForms } from '~/data/form-api';
@@ -91,9 +92,9 @@ const FormCard = ({ form }: { form: HdBean }) => {
 
 const useFormTags = (form: HdBean) => {
   const { t } = useTranslation();
-  const tags: { label: string; classname: string }[] = [];
+  const tags: { label: string; badgeVariants: BadgeVariants }[] = [];
   if (form.identifier.project.isIar) {
-    tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
+    tags.push({ label: t('common.label.readOnly'), badgeVariants: { variant: 'secondary' } });
   }
   return tags;
 };

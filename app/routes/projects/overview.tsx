@@ -1,4 +1,5 @@
 import { BasicDialogContent, Button, Dialog, DialogContent, Flex, Spinner, useDialogHotkeys } from '@axonivy/ui-components';
+import type { BadgeVariants } from '@axonivy/ui-components/lib/components/common/badge/badge.css';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -99,7 +100,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   const navigate = useNavigate();
   const { removeDependency } = useRemoveDependency();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
-  const tags = useDepsTags(dependency);
+  const tags = getDepsTags(dependency, t);
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -122,11 +123,10 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   );
 };
 
-const useDepsTags = (dependency: ProjectIdentifier) => {
-  const { t } = useTranslation();
-  const tags = [];
+const getDepsTags = (dependency: ProjectIdentifier, t: (key: string) => string) => {
+  const tags: Array<{ label: string; badgeVariants: BadgeVariants }> = [];
   if (dependency.isIar) {
-    tags.push(t('common.label.readOnly'));
+    tags.push({ label: t('common.label.readOnly'), badgeVariants: { variant: 'secondary' } });
   }
   return tags;
 };
