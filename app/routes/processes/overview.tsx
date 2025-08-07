@@ -19,18 +19,23 @@ import { OverviewFilterTags } from '~/neo/overview/OverviewFilterTags';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
-// const allTags: Array<{ label: string; classname: string }> = [];
 
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useProcesses();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects) => {
-    return (projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv)) && proc.name.includes(search);
-  });
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects, tags) => {
+    const hasMatchingProject = projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv);
+    const hasMatchingTag =
+      tags.length === 0 ||
+      tags.some(tag => getTagName(proc, t).includes(tag)) ||
+      tags.some(tag => tag == 'Read only' && proc.processIdentifier.project.isIar);
+    const nameMatches = proc.name.includes(search);
 
-  // allTags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
-  // allTags.push({ label: t('label.webServiceProcess'), classname: 'tag-webService' });
-  // allTags.push({ label: t('label.callableSubProcess'), classname: 'tag-callableSub' });
+    return hasMatchingProject && hasMatchingTag && nameMatches;
+  });
+  const allTags = [...new Set(useProcesses().data?.map(p => getTagName(p, t)) ?? []), t('common.label.readOnly')]
+    .filter(tag => tag !== 'NORMAL' && tag !== '')
+    .sort((a, b) => a.localeCompare(b));
 
   return (
     <Overview>
@@ -44,6 +49,7 @@ export default function Index() {
           setProjects={overviewFilter.setProjects}
           tags={overviewFilter.tags}
           setTags={overviewFilter.setTags}
+          allTags={allTags}
         />
       </OverviewFilter>
       <OverviewFilterTags {...overviewFilter} />
@@ -88,6 +94,26 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
       />
     </ArtifactCard>
   );
+};
+
+export const getTagName = (process: ProcessBean, t: (key: string) => string) => {
+  if (process.kind === 'WEB_SERVICE') {
+    return t('label.webServiceProcess');
+  }
+  if (process.kind === 'CALLABLE_SUB') {
+    return t('label.callableSubProcess');
+  }
+  return '';
+};
+
+export const getTagClass = (process: ProcessBean) => {
+  if (process.kind === 'WEB_SERVICE') {
+    return 'tag-webService';
+  }
+  if (process.kind === 'CALLABLE_SUB') {
+    return 'tag-callableSub';
+  }
+  return '';
 };
 
 export const useProcessTags = (process: ProcessBean) => {

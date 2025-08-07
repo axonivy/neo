@@ -18,7 +18,9 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useProcesses } from '~/data/process-api';
 import { useSortedProjects } from '~/data/project-api';
+import { getTagName } from '~/routes/processes/overview';
 import { useSearch } from './useSearch';
 
 export type ViewTypes = 'tile' | 'graph';
@@ -91,21 +93,24 @@ export const OverviewFilter = (props: OverviewFilterProps) => {
 type OverviewProjectFilterProps = {
   projects: Array<string>;
   setProjects: (projects: Array<string>) => void;
+  allTags: Array<string>;
   tags: Array<string>;
   setTags: (tags: Array<string>) => void;
-  // setTags: (tags: Array<{ label: string; classname: string }>) => void;
-  // tags: Array<string>;
-  // setTags: (projects: Array<string>) => void;
 };
 
-export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags }: OverviewProjectFilterProps) => {
+export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags, allTags }: OverviewProjectFilterProps) => {
   const { t } = useTranslation();
+
   const allProjects = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
+  // const allTags = [...new Set(useProcesses().data?.map(p => getTagName(p, t)) ?? []), t('common.label.readOnly')]
+  //   .filter(tag => tag !== 'NORMAL' && tag !== '')
+  //   .sort((a, b) => a.localeCompare(b));
+
+  // const allTags = [...allTags, t('common.label.readOnly')];
   // const allTags = useSortedTags().data?.map(p => p.id.pmv) ?? [];
-  const allTags: Array<string> = [];
-  allTags.push(t('common.label.readOnly'));
-  allTags.push(t('label.webServiceProcess'));
-  allTags.push(t('label.callableSubProcess'));
+  // const allTags: Array<string> = [];
+  // allTags.push('WEB_SERVICE');
+  // allTags.push('CALLABLE_SUB');
 
   return (
     <DropdownMenu>
@@ -137,14 +142,14 @@ export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags }: 
           <IvyIcon icon={IvyIcons.Label} />
           {t('label.tags')}
         </DropdownMenuLabel>
-        {allTags.map(t => (
+        {allTags.map(tag => (
           <DropdownMenuCheckboxItem
-            key={t}
-            checked={tags.includes(t)}
-            onCheckedChange={(checked: boolean) => setTags(checked ? [...tags, t] : tags.filter(p => p !== t))}
+            key={tag}
+            checked={tags.includes(tag)}
+            onCheckedChange={(checked: boolean) => setTags(checked ? [...tags, tag] : tags.filter(t => t !== tag))}
             onSelect={e => e.preventDefault()}
           >
-            {t}
+            {tag}
           </DropdownMenuCheckboxItem>
         ))}
 
