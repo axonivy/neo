@@ -27,13 +27,23 @@ export default function Index() {
     const hasMatchingProject = projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv);
     const hasMatchingTag =
       tags.length === 0 ||
-      tags.some(tag => getTagName(proc, t).includes(tag)) ||
-      tags.some(tag => tag == 'Read only' && proc.processIdentifier.project.isIar);
+      tags.some(tag =>
+        getProcessTags(proc, t)
+          ?.map(t => t.label)
+          .includes(tag)
+      );
     const nameMatches = proc.name.includes(search);
 
     return hasMatchingProject && hasMatchingTag && nameMatches;
   });
-  const allTags = [...new Set(useProcesses().data?.map(p => getTagName(p, t)) ?? []), t('common.label.readOnly')]
+  const allTags = [
+    ...new Set(
+      useProcesses().data?.flatMap(p => {
+        const tags = getProcessTags(p, t);
+        return tags ? tags.map(t => t.label) : [];
+      }) ?? []
+    )
+  ]
     .filter(tag => tag !== 'NORMAL' && tag !== '')
     .sort((a, b) => a.localeCompare(b));
 
@@ -69,7 +79,7 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const { createProcessEditor } = useCreateEditor();
   const editor = createProcessEditor(process);
-  const tags = useProcessTags(process);
+  const tags = getProcessTags(process, t);
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -96,28 +106,7 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
   );
 };
 
-export const getTagName = (process: ProcessBean, t: (key: string) => string) => {
-  if (process.kind === 'WEB_SERVICE') {
-    return t('label.webServiceProcess');
-  }
-  if (process.kind === 'CALLABLE_SUB') {
-    return t('label.callableSubProcess');
-  }
-  return '';
-};
-
-export const getTagClass = (process: ProcessBean) => {
-  if (process.kind === 'WEB_SERVICE') {
-    return 'tag-webService';
-  }
-  if (process.kind === 'CALLABLE_SUB') {
-    return 'tag-callableSub';
-  }
-  return '';
-};
-
-export const useProcessTags = (process: ProcessBean) => {
-  const { t } = useTranslation();
+export const getProcessTags = (process: ProcessBean, t: (key: string) => string) => {
   const tags: Array<{ label: string; classname: string }> = [];
   if (process.processIdentifier.project.isIar) {
     tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });

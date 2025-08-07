@@ -19,17 +19,41 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Configurations')
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useConfigurations();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(
-    data ?? [],
-    (config, search, projects) =>
-      (projects.length === 0 || projects.includes(config.project.pmv)) && config.path.toLocaleLowerCase().includes(search)
-  );
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (config, search, projects, tags) => {
+    const hasMatchingProject = projects.length === 0 || projects.includes(config.project.pmv);
+    const hasMatchingTag =
+      tags.length === 0 ||
+      tags.some(tag =>
+        getConfigTags(config, t)
+          ?.map(t => t.label)
+          .includes(tag)
+      );
+    const nameMatches = config.path.toLocaleLowerCase().includes(search);
+
+    return hasMatchingProject && hasMatchingTag && nameMatches;
+  });
+
+  const allTags = [
+    ...new Set(
+      useConfigurations().data?.flatMap(d => {
+        const tags = getConfigTags(d, t);
+        return tags?.map(t => t.label) ?? [];
+      }) ?? []
+    )
+  ];
+
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.configs') }]} />
       <OverviewTitle title={t('neo.configs')} description={t('configurations.configDescription')} />
       <OverviewFilter {...overviewFilter}>
-        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+        <OverviewProjectFilter
+          projects={overviewFilter.projects}
+          setProjects={overviewFilter.setProjects}
+          allTags={allTags}
+          setTags={overviewFilter.setTags}
+          tags={overviewFilter.tags}
+        />
       </OverviewFilter>
       <OverviewFilterTags {...overviewFilter} />
       <OverviewContent isPending={isPending}>
@@ -42,10 +66,11 @@ export default function Index() {
 }
 
 const ConfigCard = ({ config }: { config: ConfigurationIdentifier }) => {
+  const { t } = useTranslation();
   const { openEditor } = useEditors();
   const { createConfigurationEditor } = useCreateEditor();
   const editor = createConfigurationEditor(config);
-  const tags = useConfigTags(config);
+  const tags = getConfigTags(config, t);
   return (
     <ArtifactCard
       key={editor.id}
@@ -59,11 +84,10 @@ const ConfigCard = ({ config }: { config: ConfigurationIdentifier }) => {
   );
 };
 
-const useConfigTags = (config: ConfigurationIdentifier) => {
-  const { t } = useTranslation();
-  const tags = [];
+const getConfigTags = (config: ConfigurationIdentifier, t: (key: string) => string) => {
+  const tags: Array<{ label: string; classname: string }> = [];
   if (config.project.isIar) {
-    tags.push(t('common.label.readOnly'));
+    tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });
   }
   return tags;
 };

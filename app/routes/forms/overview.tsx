@@ -19,15 +19,17 @@ import { OverviewFilterTags } from '~/neo/overview/OverviewFilterTags';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Forms');
-
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useForms();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(
-    data ?? [],
-    (form, search, projects) =>
-      (projects.length === 0 || projects.includes(form.identifier.project.pmv)) && form.name.toLocaleLowerCase().includes(search)
-  );
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (form, search, projects, tags) => {
+    const hasMatchingProject = projects.length === 0 || projects.includes(form.identifier.project.pmv);
+    const hasMatchingTag = tags.length === 0 || tags.some(tag => tag == 'Read only' && form.identifier.project.isIar);
+    const nameMatches = form.name.toLocaleLowerCase().includes(search);
+    return hasMatchingProject && hasMatchingTag && nameMatches;
+  });
+  const allTags = [t('common.label.readOnly')];
+
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.forms') }]} />
@@ -35,7 +37,13 @@ export default function Index() {
         <NewFormButton />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter}>
-        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+        <OverviewProjectFilter
+          projects={overviewFilter.projects}
+          setProjects={overviewFilter.setProjects}
+          allTags={allTags}
+          tags={overviewFilter.tags}
+          setTags={overviewFilter.setTags}
+        />
       </OverviewFilter>
       <OverviewFilterTags {...overviewFilter} />
       <OverviewContent isPending={isPending}>

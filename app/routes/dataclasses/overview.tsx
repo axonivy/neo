@@ -25,13 +25,32 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Data Classes');
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useDataClasses();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(
-    data ?? [],
-    (dc, search, projects) =>
-      (projects.length === 0 || projects.includes(dc.dataClassIdentifier.project.pmv)) && dc.simpleName.toLocaleLowerCase().includes(search)
-  );
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (dc, search, projects, tags) => {
+    const hasMatchingProject = projects.length === 0 || projects.includes(dc.dataClassIdentifier.project.pmv);
+    const hasMatchingTag =
+      tags.length === 0 ||
+      tags.some(tag =>
+        getDataClassTags(dc, t)
+          ?.map(t => t.label)
+          .includes(tag)
+      );
+    const nameMatches = dc.simpleName.toLocaleLowerCase().includes(search);
+    return hasMatchingProject && hasMatchingTag && nameMatches;
+  });
   const { ws } = useParams();
   const [selectedProject, setSelectedProject] = useState<string>(ws ?? 'all');
+
+  const allTags = [
+    ...new Set(
+      useDataClasses().data?.flatMap(d => {
+        const tags = getDataClassTags(d, t);
+        return tags?.map(t => t.label) ?? [];
+      }) ?? []
+    )
+  ]
+    .filter(tag => tag !== 'NORMAL' && tag !== '')
+    .sort((a, b) => a.localeCompare(b));
+
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.dataClasses') }]} />
@@ -42,7 +61,13 @@ export default function Index() {
         {...overviewFilter}
         viewTypes={{ graph: <DataClassGraphFilter selectedProject={selectedProject} setSelectedProject={setSelectedProject} /> }}
       >
-        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+        <OverviewProjectFilter
+          projects={overviewFilter.projects}
+          setProjects={overviewFilter.setProjects}
+          allTags={allTags}
+          tags={overviewFilter.tags}
+          setTags={overviewFilter.setTags}
+        />
       </OverviewFilter>
       <OverviewFilterTags {...overviewFilter} />
       <OverviewContent
@@ -68,7 +93,8 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const { createDataClassEditor } = useCreateEditor();
   const editor = createDataClassEditor(dataClass);
-  const tags = useDataClassTags(dataClass);
+  const tags = getDataClassTags(dataClass, t);
+
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -95,8 +121,7 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
   );
 };
 
-const useDataClassTags = (dataClass: DataClassBean) => {
-  const { t } = useTranslation();
+const getDataClassTags = (dataClass: DataClassBean, t: (key: string) => string) => {
   const tags: { label: string; classname: string }[] = [];
   if (dataClass.dataClassIdentifier.project.isIar) {
     tags.push({ label: t('common.label.readOnly'), classname: 'tag-readOnly' });

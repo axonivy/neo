@@ -18,9 +18,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useProcesses } from '~/data/process-api';
 import { useSortedProjects } from '~/data/project-api';
-import { getTagName } from '~/routes/processes/overview';
 import { useSearch } from './useSearch';
 
 export type ViewTypes = 'tile' | 'graph';
@@ -100,17 +98,7 @@ type OverviewProjectFilterProps = {
 
 export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags, allTags }: OverviewProjectFilterProps) => {
   const { t } = useTranslation();
-
   const allProjects = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
-  // const allTags = [...new Set(useProcesses().data?.map(p => getTagName(p, t)) ?? []), t('common.label.readOnly')]
-  //   .filter(tag => tag !== 'NORMAL' && tag !== '')
-  //   .sort((a, b) => a.localeCompare(b));
-
-  // const allTags = [...allTags, t('common.label.readOnly')];
-  // const allTags = useSortedTags().data?.map(p => p.id.pmv) ?? [];
-  // const allTags: Array<string> = [];
-  // allTags.push('WEB_SERVICE');
-  // allTags.push('CALLABLE_SUB');
 
   return (
     <DropdownMenu>
