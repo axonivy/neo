@@ -168,10 +168,13 @@ export class Overview {
     }
   }
 
-  async clickInfoCard(name: string) {
+  async clickInfoCard(name: string, filterTag?: string) {
     await this.infoCards.locator('span').getByText(name, { exact: true }).click();
     const overview = new Overview(this.page);
     await expect(overview.title).toHaveText(name);
+    if (filterTag) {
+      await expect(overview.filter.filterTag(filterTag)).toBeVisible();
+    }
     await this.page.goBack();
   }
 }
