@@ -49,7 +49,7 @@ test('search data classes', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
-test('filter processes', async ({ page }) => {
+test('filter data classes', async ({ page }) => {
   await Neo.openWorkspace(page, 'dataclasses?p=not-existing');
   const overview = new Overview(page);
   await expect(overview.filter.filterTag('not-existing')).toBeVisible();
