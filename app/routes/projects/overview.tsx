@@ -1,34 +1,24 @@
-import {
-  BasicDialogContent,
-  Button,
-  Dialog,
-  DialogContent,
-  Flex,
-  Separator,
-  Spinner,
-  useDialogHotkeys,
-  vars
-} from '@axonivy/ui-components';
+import { DropdownMenuItem, Flex, Separator, Spinner, vars } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useMemo, useState, type ReactNode } from 'react';
+import { useMemo, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import { useNavigate, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
-import { useAddDependencyReq, useDependencies, useRemoveDependency } from '~/data/dependency-api';
+import { useDependencies, useRemoveDependency } from '~/data/dependency-api';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
-import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
-import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
+import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewInfoCard } from '~/neo/overview/OverviewInfoCard';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
+import { AddDependencyDialog } from './DependencyDialog';
 
 export const meta: MetaFunction = ({ params }) => {
   return [
@@ -59,7 +49,7 @@ export default function Index() {
 
   return (
     <Overview>
-      <Breadcrumbs items={[{ name: t('neo.projects') }, { name: project.id.pmv }]} />
+      <Breadcrumbs items={[{ name: t('neo.projects') }, { name: project.id.pmv, menu: <BreadcrumbProjectSwitcher project={project} /> }]} />
       <OverviewTitle title={t('projects.details', { project: project.id.pmv })} />
       <Flex
         direction='row'
@@ -169,50 +159,16 @@ const useDepsTags = (dependency: ProjectIdentifier) => {
   return tags;
 };
 
-const AddDependencyDialog = ({ project }: { project: ProjectIdentifier }) => {
-  const { t } = useTranslation();
-  const { open, onOpenChange } = useDialogHotkeys(['addDependencyDialog']);
+const BreadcrumbProjectSwitcher = ({ project }: { project: ProjectBean }) => {
+  const projects = useSortedProjects().data?.filter(p => p.id !== project.id);
+  const nav = useNavigate();
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <CreateNewArtefactButton title={t('projects.addDependency')} onClick={() => onOpenChange(true)} />
-      <DialogContent>
-        <AddDependencyDialogContent project={project} />
-      </DialogContent>
-    </Dialog>
-  );
-};
-
-const AddDependencyDialogContent = ({ project }: { project: ProjectIdentifier }) => {
-  const { t } = useTranslation();
-  const [dependency, setDependency] = useState<ProjectBean>();
-  const { addDependency } = useAddDependencyReq();
-  return (
-    <BasicDialogContent
-      title={t('projects.addDependencyTo', { project: project.pmv })}
-      description={t('projects.addDependencyDescription')}
-      cancel={
-        <Button variant='outline' size='large'>
-          {t('common.label.cancel')}
-        </Button>
-      }
-      submit={
-        <Button
-          variant='primary'
-          size='large'
-          disabled={dependency === undefined}
-          onClick={() => addDependency(project, dependency?.id)}
-          icon={IvyIcons.Plus}
-        >
-          {t('common.label.add')}
-        </Button>
-      }
-    >
-      <ProjectSelect
-        setProject={setDependency}
-        setDefaultValue={true}
-        projectFilter={p => p.id.pmv !== project.pmv}
-        label={t('projects.selectDependency')}
-      />
-    </BasicDialogContent>
+    <>
+      {projects?.map(project => (
+        <DropdownMenuItem key={project.id.pmv} onClick={() => nav(`../${project.id.pmv}`, { relative: 'path' })}>
+          {project.id.pmv}
+        </DropdownMenuItem>
+      ))}
+    </>
   );
 };

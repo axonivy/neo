@@ -26,7 +26,7 @@ test('search configs', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
-test('filter processes', async ({ page }) => {
+test('filter configs', async ({ page }) => {
   await Neo.openWorkspace(page, 'configurations?p=not-existing');
   const overview = new Overview(page);
   await expect(overview.filter.filterTag('not-existing')).toBeVisible();
