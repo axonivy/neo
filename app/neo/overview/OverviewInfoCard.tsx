@@ -11,7 +11,7 @@ type OverviewInfoCardProps = {
 };
 
 export const OverviewInfoCard = ({ title, description, icon, link }: OverviewInfoCardProps) => (
-  <NavLink to={link} className='overview-info-card'>
+  <NavLink to={link} relative='route' className='overview-info-card'>
     <Flex alignItems='center' direction='column' gap={1}>
       <Flex className='overview-info-help-icon'>
         <TooltipProvider>

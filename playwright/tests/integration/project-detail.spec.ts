@@ -20,6 +20,10 @@ test('project detail', async ({ page }) => {
   await expect(detail.detailCard).toContainText(/Version:\d+.\d+.\d+-SNAPSHOT/);
   await expect(detail.detailCard).toContainText('Editing rights:Editable');
   await expect(detail.detailCard).toContainText('Deletable:Yes');
+  await overview.clickInfoCard('Processes');
+  await overview.clickInfoCard('Data Classes');
+  await overview.clickInfoCard('Forms');
+  await overview.clickInfoCard('Configurations');
 });
 
 test('add and remove dependency', async ({ page, browserName }, testInfo) => {

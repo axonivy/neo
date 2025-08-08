@@ -1,4 +1,14 @@
-import { BasicDialogContent, Button, Dialog, DialogContent, Flex, Spinner, useDialogHotkeys } from '@axonivy/ui-components';
+import {
+  BasicDialogContent,
+  Button,
+  Dialog,
+  DialogContent,
+  Flex,
+  Separator,
+  Spinner,
+  useDialogHotkeys,
+  vars
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -17,6 +27,7 @@ import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
+import { OverviewInfoCard } from '~/neo/overview/OverviewInfoCard';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = ({ params }) => {
@@ -54,7 +65,7 @@ export default function Index() {
         direction='row'
         gap={4}
         className='project-detail-card'
-        style={{ flexWrap: 'wrap', columnGap: '150px', background: 'var(--N50)', padding: 10, borderRadius: 5 }}
+        style={{ flexWrap: 'wrap', columnGap: 50, background: 'var(--N50)', padding: 10, borderRadius: 'var(--border-r2)' }}
       >
         <ProjectInfoContainer>
           <ProjectInfo title={t('neo.artifactId')} value={project.artifactId} />
@@ -68,7 +79,34 @@ export default function Index() {
           <ProjectInfo title={t('projects.deletable')} value={project.isDeletable ? t('common.label.yes') : t('common.label.no')} />
         </ProjectInfoContainer>
       </Flex>
-      <OverviewTitle title={t('projects.dependencyDetails', { project: project.id.pmv })} description={t('projects.dependecyInfo')}>
+      <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
+        <OverviewInfoCard
+          title={t('neo.processes')}
+          description={t('processes.processDescription')}
+          icon={IvyIcons.Process}
+          link={`../processes?p=${project.id.pmv}`}
+        />
+        <OverviewInfoCard
+          title={t('neo.dataClasses')}
+          description={t('dataclasses.dataclassDescription')}
+          icon={IvyIcons.Database}
+          link={`../dataClasses?p=${project.id.pmv}`}
+        />
+        <OverviewInfoCard
+          title={t('neo.forms')}
+          description={t('forms.formDescription')}
+          icon={IvyIcons.File}
+          link={`../forms?p=${project.id.pmv}`}
+        />
+        <OverviewInfoCard
+          title={t('neo.configs')}
+          description={t('configurations.configDescription')}
+          icon={IvyIcons.Tool}
+          link={`../configurations?p=${project.id.pmv}`}
+        />
+      </Flex>
+      <Separator style={{ marginBlock: vars.size.s2, flex: '0 0 1px' }} />
+      <OverviewTitle title={t('projects.dependency')} description={t('projects.dependencyInfo')}>
         <AddDependencyDialog project={project.id} />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter} />
@@ -82,7 +120,7 @@ export default function Index() {
 }
 
 const ProjectInfoContainer = ({ children }: { children: ReactNode }) => (
-  <Flex direction='column' gap={2} style={{ fontSize: 14 }}>
+  <Flex direction='column' gap={2} style={{ fontSize: 14, flex: 1 }}>
     {children}
   </Flex>
 );
