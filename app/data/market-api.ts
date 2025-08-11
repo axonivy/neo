@@ -101,7 +101,7 @@ export const useBestMatchingVersion = (id: string, engineVersion?: string) => {
       return findBestMatchProductDetailsByVersion(id, engineVersion, { headers }).then(res => {
         if (ok(res)) {
           const data = JSON.parse(res.data as string) as ProductDetailModel;
-          return data.productModuleContent?.version;
+          return data.productModuleContent?.version ?? '';
         }
         throw new Error(`Failed to load best matching market artifact version for ${id} with engine version ${engineVersion}`);
       });
