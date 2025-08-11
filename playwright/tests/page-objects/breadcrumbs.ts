@@ -13,14 +13,13 @@ export class Breadcrumbs {
   }
 
   item(name: string) {
-    return this.items.getByRole('link', { name });
+    return this.navigation.locator('.ui-breadcrumb-item', { hasText: name });
   }
 
   async expectItems(items: string[]) {
-    await expect(this.items).toHaveCount(items.length - 1);
-    for (let i = 0; i < items.length - 1; i++) {
+    await expect(this.items).toHaveCount(items.length);
+    for (let i = 0; i < items.length; i++) {
       await expect(this.items.nth(i)).toHaveText(items[i]);
     }
-    await expect(this.navigation.locator('.ui-breadcrumb-page')).toHaveText(items.at(-1)!);
   }
 }
