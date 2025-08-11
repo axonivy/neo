@@ -99,6 +99,7 @@ const FormCard = ({ form }: { form: HdBean }) => {
 };
 
 const useTags = () => {
+const useTags = () => {
   const { t } = useTranslation();
   const allTags: Array<string> = [t('common.label.readOnly')];
   const tagsFor = (form: HdBean) => {

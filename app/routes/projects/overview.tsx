@@ -131,6 +131,9 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   const { tagsFor } = useTags();
   const tags = tagsFor(dependency);
 
+  const { tagsFor } = useTags();
+  const tags = tagsFor(dependency);
+
   return (
     <ArtifactCard
       ref={artifactCardRef}
