@@ -1,5 +1,6 @@
-import { Button, Flex } from '@axonivy/ui-components';
+import { Badge, Button, Flex, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
+import type React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ViewTypes } from './OverviewFilter';
 
@@ -7,24 +8,45 @@ type OverviewFilterProps = {
   viewType: ViewTypes;
   projects: Array<string>;
   setProjects: (projects: Array<string>) => void;
+  tags: Array<string>;
+  setTags: (tags: Array<string>) => void;
 };
 
-export const OverviewFilterTags = ({ viewType, projects, setProjects }: OverviewFilterProps) => {
+export const OverviewFilterTags = ({ viewType, projects, setProjects, tags, setTags }: OverviewFilterProps) => {
   const { t } = useTranslation();
-  if (viewType !== 'tile' || projects.length === 0) {
+  if (viewType !== 'tile' || (projects.length === 0 && tags.length === 0)) {
     return null;
   }
   return (
     <Flex direction='row' alignItems='center' gap={2} className='overview-filter-tags' style={{ fontSize: 14, color: 'var(--N700)' }}>
       <span>{t('label.filterBy')}</span>
       {projects.map(project => (
-        <Tag key={project} project={project} remove={() => setProjects(projects.filter(p => p !== project))} />
+        <Tag
+          key={project}
+          name={
+            <Badge variant='outline'>
+              <IvyIcon icon={IvyIcons.Folders} /> {project}
+            </Badge>
+          }
+          remove={() => setProjects(projects.filter(p => p !== project))}
+        />
+      ))}
+      {tags.map(tag => (
+        <Tag
+          key={tag}
+          name={
+            <Badge variant='outline'>
+              <IvyIcon icon={IvyIcons.Label} /> {tag}
+            </Badge>
+          }
+          remove={() => setTags(tags.filter(t => t !== tag))}
+        />
       ))}
     </Flex>
   );
 };
 
-const Tag = ({ project, remove }: { project: string; remove: () => void }) => {
+const Tag = ({ name, remove }: { name: React.ReactNode; remove: () => void }) => {
   return (
     <Flex
       alignItems='center'
@@ -39,7 +61,7 @@ const Tag = ({ project, remove }: { project: string; remove: () => void }) => {
         border: '1px solid var(--N100)'
       }}
     >
-      <span>{project}</span>
+      {name}
       <Button icon={IvyIcons.Close} size='small' onClick={remove} style={{ height: 16 }} />
     </Flex>
   );

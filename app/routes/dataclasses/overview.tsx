@@ -11,6 +11,7 @@ import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
+import type { Tag } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
@@ -25,13 +26,22 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Data Classes');
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useDataClasses();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(
-    data ?? [],
-    (dc, search, projects) =>
-      (projects.length === 0 || projects.includes(dc.dataClassIdentifier.project.pmv)) && dc.simpleName.toLocaleLowerCase().includes(search)
-  );
+  const { allTags, tagsFor } = useTags();
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (dc, search, projects, tags) => {
+    const hasMatchingProject = projects.length === 0 || projects.includes(dc.dataClassIdentifier.project.pmv);
+    const hasMatchingTag =
+      tags.length === 0 ||
+      tags.some(tag =>
+        tagsFor(dc)
+          ?.map(t => t.label)
+          .includes(tag)
+      );
+    const nameMatches = dc.simpleName.toLocaleLowerCase().includes(search);
+    return hasMatchingProject && hasMatchingTag && nameMatches;
+  });
   const { ws } = useParams();
   const [selectedProject, setSelectedProject] = useState<string>(ws ?? 'all');
+
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.dataClasses') }]} />
@@ -42,7 +52,13 @@ export default function Index() {
         {...overviewFilter}
         viewTypes={{ graph: <DataClassGraphFilter selectedProject={selectedProject} setSelectedProject={setSelectedProject} /> }}
       >
-        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+        <OverviewProjectFilter
+          projects={overviewFilter.projects}
+          setProjects={overviewFilter.setProjects}
+          allTags={allTags}
+          tags={overviewFilter.tags}
+          setTags={overviewFilter.setTags}
+        />
       </OverviewFilter>
       <OverviewFilterTags {...overviewFilter} />
       <OverviewContent
@@ -68,7 +84,9 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const { createDataClassEditor } = useCreateEditor();
   const editor = createDataClassEditor(dataClass);
-  const tags = useDataClassTags(dataClass);
+  const { tagsFor } = useTags();
+  const tags = tagsFor(dataClass);
+
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -95,19 +113,23 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
   );
 };
 
-const useDataClassTags = (dataClass: DataClassBean) => {
+const useTags = () => {
   const { t } = useTranslation();
-  const tags = [];
-  if (dataClass.dataClassIdentifier.project.isIar) {
-    tags.push(t('common.label.readOnly'));
-  }
-  if (dataClass.isEntityClass) {
-    tags.push(t('label.entity'));
-  }
-  if (dataClass.isBusinessCaseData) {
-    tags.push(t('label.businessData'));
-  }
-  return tags;
+  const allTags: Array<string> = [t('common.label.readOnly'), t('label.businessData'), t('label.entity')];
+  const tagsFor = (dataClass: DataClassBean) => {
+    const tags: Array<Tag> = [];
+    if (dataClass.dataClassIdentifier.project.isIar) {
+      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+    }
+    if (dataClass.isBusinessCaseData) {
+      tags.push({ label: allTags[1], tagStyle: 'primary' });
+    }
+    if (dataClass.isEntityClass) {
+      tags.push({ label: allTags[2], tagStyle: 'destructive' });
+    }
+    return tags;
+  };
+  return { allTags, tagsFor };
 };
 
 const useDataClassExists = () => {
