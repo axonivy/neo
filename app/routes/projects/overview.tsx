@@ -12,6 +12,7 @@ import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
+import type { TagStyle } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
@@ -99,7 +100,9 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   const navigate = useNavigate();
   const { removeDependency } = useRemoveDependency();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
-  const tags = useDepsTags(dependency);
+  const { tagsFor } = useTags();
+  const tags = tagsFor(dependency);
+
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -122,13 +125,17 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   );
 };
 
-const useDepsTags = (dependency: ProjectIdentifier) => {
+const useTags = () => {
   const { t } = useTranslation();
-  const tags = [];
-  if (dependency.isIar) {
-    tags.push(t('common.label.readOnly'));
-  }
-  return tags;
+  const allTags: Array<string> = [t('common.label.readOnly')];
+  const tagsFor = (dependency: ProjectIdentifier) => {
+    const tags: Array<{ label: string; tagStyle: TagStyle }> = [];
+    if (dependency.isIar) {
+      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+    }
+    return tags;
+  };
+  return { allTags, tagsFor };
 };
 
 const AddDependencyDialog = ({ project }: { project: ProjectIdentifier }) => {

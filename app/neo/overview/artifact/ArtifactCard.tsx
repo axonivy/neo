@@ -2,7 +2,7 @@ import { Flex, IvyIcon, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type ReactNode } from 'react';
 import './ArtifactCard.css';
-import { ArtifactTag } from './ArtifactTag';
+import { ArtifactTag, type TagStyle } from './ArtifactTag';
 
 type Card = {
   name: string;
@@ -10,7 +10,7 @@ type Card = {
   preview: ReactNode;
   description?: string;
   tooltip?: string;
-  tags?: Array<string>;
+  tags?: Array<{ label: string; tagStyle: TagStyle }>;
 } & React.ComponentProps<'div'>;
 
 export const ArtifactCard = ({ name, description, preview, onClick, tooltip, tags, ref, children }: Card) => (

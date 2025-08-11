@@ -10,6 +10,7 @@ import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
+import type { TagStyle } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
@@ -23,9 +24,21 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useProcesses();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects) => {
-    return (projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv)) && proc.name.includes(search);
+  const { allTags, tagsFor } = useTags();
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects, tags) => {
+    const hasMatchingProject = projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv);
+    const hasMatchingTag =
+      tags.length === 0 ||
+      tags.some(tag =>
+        tagsFor(proc)
+          ?.map(t => t.label)
+          .includes(tag)
+      );
+    const nameMatches = proc.name.includes(search);
+
+    return hasMatchingProject && hasMatchingTag && nameMatches;
   });
+
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.processes') }]} />
@@ -33,7 +46,13 @@ export default function Index() {
         <NewProcessButton />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter}>
-        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+        <OverviewProjectFilter
+          projects={overviewFilter.projects}
+          setProjects={overviewFilter.setProjects}
+          tags={overviewFilter.tags}
+          setTags={overviewFilter.setTags}
+          allTags={allTags}
+        />
       </OverviewFilter>
       <OverviewFilterTags {...overviewFilter} />
       <OverviewContent isPending={isPending}>
@@ -52,7 +71,8 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const { createProcessEditor } = useCreateEditor();
   const editor = createProcessEditor(process);
-  const tags = useProcessTags(process);
+  const { tagsFor } = useTags();
+  const tags = tagsFor(process);
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -79,19 +99,23 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
   );
 };
 
-const useProcessTags = (process: ProcessBean) => {
+const useTags = () => {
   const { t } = useTranslation();
-  const tags = [];
-  if (process.processIdentifier.project.isIar) {
-    tags.push(t('common.label.readOnly'));
-  }
-  if (process.kind === 'WEB_SERVICE') {
-    tags.push(t('label.webServiceProcess'));
-  }
-  if (process.kind === 'CALLABLE_SUB') {
-    tags.push(t('label.callableSubProcess'));
-  }
-  return tags;
+  const allTags: Array<string> = [t('common.label.readOnly'), t('label.callableSubProcess'), t('label.webServiceProcess')];
+  const tagsFor = (process: ProcessBean) => {
+    const tags: Array<{ label: string; tagStyle: TagStyle }> = [];
+    if (process.processIdentifier.project.isIar) {
+      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+    }
+    if (process.kind === 'CALLABLE_SUB') {
+      tags.push({ label: allTags[1], tagStyle: 'primary' });
+    }
+    if (process.kind === 'WEB_SERVICE') {
+      tags.push({ label: allTags[2], tagStyle: 'destructive' });
+    }
+    return tags;
+  };
+  return { allTags, tagsFor };
 };
 
 export const useProcessExists = () => {

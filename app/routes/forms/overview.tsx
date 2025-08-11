@@ -10,6 +10,7 @@ import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
+import type { TagStyle } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
@@ -19,15 +20,23 @@ import { OverviewFilterTags } from '~/neo/overview/OverviewFilterTags';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Forms');
-
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useForms();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(
-    data ?? [],
-    (form, search, projects) =>
-      (projects.length === 0 || projects.includes(form.identifier.project.pmv)) && form.name.toLocaleLowerCase().includes(search)
-  );
+  const { allTags, tagsFor } = useTags();
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (form, search, projects, tags) => {
+    const hasMatchingProject = projects.length === 0 || projects.includes(form.identifier.project.pmv);
+    const hasMatchingTag =
+      tags.length === 0 ||
+      tags.some(tag =>
+        tagsFor(form)
+          ?.map(t => t.label)
+          .includes(tag)
+      );
+    const nameMatches = form.name.toLocaleLowerCase().includes(search);
+    return hasMatchingProject && hasMatchingTag && nameMatches;
+  });
+
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.forms') }]} />
@@ -35,7 +44,13 @@ export default function Index() {
         <NewFormButton />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter}>
-        <OverviewProjectFilter projects={overviewFilter.projects} setProjects={overviewFilter.setProjects} />
+        <OverviewProjectFilter
+          projects={overviewFilter.projects}
+          setProjects={overviewFilter.setProjects}
+          allTags={allTags}
+          tags={overviewFilter.tags}
+          setTags={overviewFilter.setTags}
+        />
       </OverviewFilter>
       <OverviewFilterTags {...overviewFilter} />
       <OverviewContent isPending={isPending}>
@@ -54,7 +69,9 @@ const FormCard = ({ form }: { form: HdBean }) => {
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const { createFormEditor } = useCreateEditor();
   const editor = createFormEditor(form);
-  const tags = useFormTags(form);
+  const { tagsFor } = useTags();
+  const tags = tagsFor(form);
+
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -81,13 +98,17 @@ const FormCard = ({ form }: { form: HdBean }) => {
   );
 };
 
-const useFormTags = (form: HdBean) => {
+const useTags = () => {
   const { t } = useTranslation();
-  const tags = [];
-  if (form.identifier.project.isIar) {
-    tags.push(t('common.label.readOnly'));
-  }
-  return tags;
+  const allTags: Array<string> = [t('common.label.readOnly')];
+  const tagsFor = (form: HdBean) => {
+    const tags: Array<{ label: string; tagStyle: TagStyle }> = [];
+    if (form.identifier.project.isIar) {
+      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+    }
+    return tags;
+  };
+  return { allTags, tagsFor };
 };
 
 export const useFormExists = () => {
