@@ -35,6 +35,7 @@ import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/Breadcrumb';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
+import type { Tag } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { Overview } from '~/neo/overview/Overview';
@@ -199,7 +200,8 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const ws = useWorkspace();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const defaultProject = project.id.pmv === ws?.name;
-  const tags = useProjectTags(project, defaultProject);
+  const { tagsFor } = useTags();
+  const tags = tagsFor(project, defaultProject);
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -221,14 +223,18 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   );
 };
 
-const useProjectTags = (project: ProjectBean, defaultProject: boolean) => {
+const useTags = () => {
   const { t } = useTranslation();
-  const tags = [];
-  if (project.id.isIar) {
-    tags.push(t('common.label.readOnly'));
-  }
-  if (defaultProject) {
-    tags.push(t('common.label.default'));
-  }
-  return tags;
+  const allTags: Array<string> = [t('common.label.readOnly'), t('common.label.default')];
+  const tagsFor = (project: ProjectBean, defaultProject: boolean) => {
+    const tags: Array<Tag> = [];
+    if (project.id.isIar) {
+      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+    }
+    if (defaultProject) {
+      tags.push({ label: allTags[1], tagStyle: 'primary' });
+    }
+    return tags;
+  };
+  return { allTags, tagsFor };
 };
