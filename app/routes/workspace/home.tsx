@@ -224,7 +224,6 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
 };
 
 const useTags = () => {
-const useTags = () => {
   const { t } = useTranslation();
   const allTags: Array<string> = [t('common.label.readOnly'), t('common.label.default')];
   const tagsFor = (project: ProjectBean, defaultProject: boolean) => {

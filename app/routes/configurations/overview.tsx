@@ -79,7 +79,6 @@ const ConfigCard = ({ config }: { config: ConfigurationIdentifier }) => {
 };
 
 const useTags = () => {
-const useTags = () => {
   const { t } = useTranslation();
   const allTags: Array<string> = [t('common.label.readOnly')];
   const tagsFor = (config: ConfigurationIdentifier) => {

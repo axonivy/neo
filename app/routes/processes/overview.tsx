@@ -37,19 +37,6 @@ export default function Index() {
     const nameMatches = proc.name.includes(search);
 
     return hasMatchingProject && hasMatchingTag && nameMatches;
-  const { allTags, tagsFor } = useTags();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects, tags) => {
-    const hasMatchingProject = projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv);
-    const hasMatchingTag =
-      tags.length === 0 ||
-      tags.some(tag =>
-        tagsFor(proc)
-          ?.map(t => t.label)
-          .includes(tag)
-      );
-    const nameMatches = proc.name.includes(search);
-
-    return hasMatchingProject && hasMatchingTag && nameMatches;
   });
 
   return (
