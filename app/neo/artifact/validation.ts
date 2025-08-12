@@ -37,16 +37,35 @@ export const useArtifactValidation = () => {
         return message;
       }
     }
-    const nsRegex = namespaceRegex(separator);
+    const nsRegex = regexWithSeparator(separator);
     if (!nsRegex.test(namespace)) {
       const index = findFirstNonMatchingIndex(namespace, nsRegex);
       return { message: t('message.invalidChar', { char: namespace[index], pos: index + 1, str: namespace }), variant: 'error' };
     }
   };
+
+  const validateProjectDetails = (item?: string, separator?: string): MessageData | undefined => {
+    if (!item) {
+      return { message: t('message.artifactNotEmpty'), variant: 'error' };
+    }
+    const message = reservedCheck(item);
+    if (message) {
+      return message;
+    }
+    const regex = regexWithSeparator(separator);
+    if (!regex.test(item)) {
+      const index = findFirstNonMatchingIndex(item, regex);
+      return { message: t('message.invalidChar', { char: item[index], pos: index + 1, str: item }), variant: 'error' };
+    }
+    if (!startsWithLowercase(item)) {
+      return { message: t('message.noneCapitalizeName'), variant: 'warning' };
+    }
+  };
   return {
     artifactAlreadyExists,
     validateArtifactName,
-    validateArtifactNamespace
+    validateArtifactNamespace,
+    validateProjectDetails
   };
 };
 
@@ -71,7 +90,7 @@ const findFirstNonMatchingIndex = (input: string, regex: RegExp) => {
 };
 
 const ARTIFACT_NAME_REGEX = /^[a-zA-Z][\w_]*$/;
-const namespaceRegex = (separator: string) => new RegExp(`^[a-zA-Z][\\w_]*(\\${separator}[a-zA-Z][\\w_]*)*$`);
+const regexWithSeparator = (separator?: string) => new RegExp(`^[a-zA-Z][\\w_]*(\\${separator}[a-zA-Z][\\w_]*)*$`);
 
 const JAVA_KEYWORDS = [
   'abstract',

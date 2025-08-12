@@ -1,11 +1,13 @@
 import { toast } from '@axonivy/ui-components';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { headers, ok } from './custom-fetch';
+import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
+  createPmvAndProjectFiles,
   deleteProject as deleteProjectReq,
   projects,
   stopBpmEngine as stopBpmEngineReq,
+  type NewProjectParams,
   type ProjectIdentifier as ProjectId
 } from './generated/ivy-client';
 import { projectSort } from './sort';
@@ -56,6 +58,32 @@ export const useDeleteProject = () => {
         success: t('toast.project.removed'),
         error: e => e.message
       })
+  };
+};
+
+export const useCreateProject = () => {
+  const { t } = useTranslation();
+  const { queryKey, base } = useProjectsApi();
+  const client = useQueryClient();
+  const createProject = async (newProjectParams: NewProjectParams) => {
+    const res = await createPmvAndProjectFiles(newProjectParams, { headers: headers(base) });
+    if (ok(res)) {
+      client.invalidateQueries({ queryKey });
+      return res.data;
+    }
+    throw new Error(resolveErrorMessage(res.data, t('toast.workspace.createFail')));
+  };
+
+  return {
+    createProject: (newProjectParams: NewProjectParams) => {
+      const newProject = createProject(newProjectParams);
+      toast.promise(() => newProject, {
+        loading: t('toast.project.creating'),
+        success: t('toast.project.created'),
+        error: e => e.message
+      });
+      return newProject;
+    }
   };
 };
 
