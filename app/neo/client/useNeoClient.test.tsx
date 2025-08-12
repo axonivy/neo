@@ -3,9 +3,9 @@ import { useLocation, useNavigate } from 'react-router';
 import type { Form } from '~/data/form-api';
 import { Callback, type NeoClient } from '~/data/neo-protocol';
 import type { Process } from '~/data/process-api';
-import { useCreateEditor } from '../editors/useCreateEditor';
-import { useEditors } from '../editors/useEditors';
-import { useSettings, type AnimationFollowMode } from '../settings/useSettings';
+import { useCreateEditor } from '~/neo/editors/useCreateEditor';
+import { useEditors } from '~/neo/editors/useEditors';
+import { useSettings, type AnimationFollowMode } from '~/neo/navigation/settings/useSettings';
 import { NeoClientProviderContext, useNeoClient } from './useNeoClient';
 
 vi.mock('react-router', async importOriginal => {

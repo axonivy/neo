@@ -2,8 +2,8 @@ import { App, ClientContextProvider } from '@axonivy/form-editor';
 import { ReadonlyProvider, ThemeProvider } from '@axonivy/ui-components';
 import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
-import { type Editor, FORM_EDITOR_SUFFIX } from '../editor';
-import { useWebSocket } from '../useWebSocket';
+import { type Editor, FORM_EDITOR_SUFFIX } from '~/neo/editors/editor';
+import { useWebSocket } from '~/neo/editors/useWebSocket';
 import { FormClientNeo } from './form-client';
 import { useActionHandler } from './useActionHandler';
 

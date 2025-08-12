@@ -2,7 +2,7 @@ import { HotkeysProvider } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router';
-import { Breadcrumbs } from '../Breadcrumb';
+import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
 import type { Editor, EditorType } from './editor';
 
 const HotkeysEditor = ({ id, type, name, children }: Editor & { children: React.ReactNode }) => {

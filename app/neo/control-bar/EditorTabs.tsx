@@ -15,10 +15,10 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useEffect, useRef, useState, type ComponentProps } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import type { Editor } from '~/neo/editors/editor';
+import { useEditors } from '~/neo/editors/useEditors';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { lastSegment } from '~/utils/path';
-import type { Editor } from '../editors/editor';
-import { useEditors } from '../editors/useEditors';
 import './EditorTabs.css';
 import { useGroupedEditors } from './useGroupedEditors';
 

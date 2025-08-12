@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useOpenUrl } from '../useOpenUrl';
+import { useOpenUrl } from '~/neo/browser/useOpenUrl';
 import type { CmsActionHandler } from './cms-client';
 
 export const useActionHandler = () => {

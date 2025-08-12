@@ -2,7 +2,7 @@ import { Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useUpdateTheme } from '~/theme/useUpdateTheme';
+import { useUpdateTheme } from '~/neo/theme/useUpdateTheme';
 import { useHotkeyDispatcher } from '~/utils/hotkeys';
 import { useWebBrowser } from './useWebBrowser';
 

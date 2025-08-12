@@ -1,10 +1,10 @@
 import type { DataActionArgs } from '@axonivy/dataclass-editor-protocol/lib/editor';
 import { useCallback } from 'react';
 import type { ProjectIdentifier } from '~/data/project-api';
-import { DIALOG_PROCESS_EDITOR_SUFFIX, FORM_EDITOR_SUFFIX } from '../editor';
-import { useCreateEditor } from '../useCreateEditor';
-import { useEditors } from '../useEditors';
-import { useOpenUrl } from '../useOpenUrl';
+import { useOpenUrl } from '~/neo/browser/useOpenUrl';
+import { DIALOG_PROCESS_EDITOR_SUFFIX, FORM_EDITOR_SUFFIX } from '~/neo/editors/editor';
+import { useCreateEditor } from '~/neo/editors/useCreateEditor';
+import { useEditors } from '~/neo/editors/useEditors';
 import type { DataClassActionHandler } from './data-class-client';
 
 const editorPath = (action: DataActionArgs, dataClassEditorPath: string) => {

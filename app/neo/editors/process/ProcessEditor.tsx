@@ -1,11 +1,12 @@
+import { useTheme } from '@axonivy/ui-components';
 import { type RefObject, useEffect, useRef } from 'react';
 import { useHref, useLocation } from 'react-router';
 import { useWorkspace } from '~/data/workspace-api';
 import { baseUrl } from '~/data/ws-base';
-import { useThemeMode, useUpdateTheme } from '~/theme/useUpdateTheme';
+import { type Editor, PROCESS_EDITOR_SUFFIX } from '~/neo/editors/editor';
+import { useUpdateTheme } from '~/neo/theme/useUpdateTheme';
 import { useUpdateLanguage } from '~/translation/useUpdateLanguage';
 import { useHotkeyDispatcher } from '~/utils/hotkeys';
-import { type Editor, PROCESS_EDITOR_SUFFIX } from '../editor';
 import { useFrameMessageHandler } from './message/useFrameMessageHandler';
 
 const updateFrameTheme = (frame: RefObject<HTMLIFrameElement | null>, theme: string) => {
@@ -26,7 +27,7 @@ const updateFrameTheme = (frame: RefObject<HTMLIFrameElement | null>, theme: str
 export const ProcessEditor = ({ id, project, path, name }: Editor) => {
   const frame = useRef<HTMLIFrameElement>(null);
   useHotkeyDispatcher(frame);
-  const theme = useThemeMode();
+  const { realTheme } = useTheme();
   const ws = useWorkspace();
   const editorUrl = useHref(
     `/process-editor/index.html?server=${`${baseUrl()}${ws?.baseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=/${path}${PROCESS_EDITOR_SUFFIX}&readonly=${project.isIar ?? false}`
@@ -47,7 +48,7 @@ export const ProcessEditor = ({ id, project, path, name }: Editor) => {
       title={name}
       src={editorUrl}
       style={{ width: '100%', height: 'calc(100% - 24px)', border: 'none' }}
-      onLoad={() => updateFrameTheme(frame, theme)}
+      onLoad={() => updateFrameTheme(frame, realTheme)}
     />
   );
 };

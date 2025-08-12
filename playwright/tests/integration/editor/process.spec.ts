@@ -1,8 +1,8 @@
 import { expect, type Page, test } from '@playwright/test';
-import { FormEditor } from '../page-objects/form-editor';
-import { Neo } from '../page-objects/neo';
-import { ProcessEditor, ProcessEditorElement } from '../page-objects/process-editor';
-import { APP, TEST_PROJECT } from './constants';
+import { FormEditor } from '../../page-objects/form-editor';
+import { Neo } from '../../page-objects/neo';
+import { ProcessEditor, ProcessEditorElement } from '../../page-objects/process-editor';
+import { APP, TEST_PROJECT } from '../constants';
 
 const openQuickStartProcess = async (page: Page) => {
   const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/quickstart`);

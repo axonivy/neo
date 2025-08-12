@@ -1,5 +1,5 @@
 import test, { expect } from '@playwright/test';
-import { Neo } from '../page-objects/neo';
+import { Neo } from '../../page-objects/neo';
 
 test('available lanugages', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);

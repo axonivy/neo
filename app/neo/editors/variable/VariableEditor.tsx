@@ -2,8 +2,8 @@ import { ReadonlyProvider, ThemeProvider } from '@axonivy/ui-components';
 import { VariableEditor as App, ClientContextProvider } from '@axonivy/variable-editor';
 import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
-import type { Editor } from '../editor';
-import { useWebSocket } from '../useWebSocket';
+import type { Editor } from '~/neo/editors/editor';
+import { useWebSocket } from '~/neo/editors/useWebSocket';
 import { useActionHandler } from './useActionHandler';
 import { VariableClientNeo } from './variable-client';
 

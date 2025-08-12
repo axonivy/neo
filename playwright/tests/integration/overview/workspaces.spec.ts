@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { Neo } from '../page-objects/neo';
-import { Overview } from '../page-objects/overview';
-import { rmWorkspaceExportDir, WORKSPACE, workspaceExportZip } from './constants';
+import { Neo } from '../../page-objects/neo';
+import { Overview } from '../../page-objects/overview';
+import { rmWorkspaceExportDir, WORKSPACE, workspaceExportZip } from '../constants';
 
 test('navigate to workspace', async ({ page }) => {
   await Neo.open(page);

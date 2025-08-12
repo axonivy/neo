@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
-import { FormEditor } from '../page-objects/form-editor';
-import { Neo } from '../page-objects/neo';
-import { Overview } from '../page-objects/overview';
-import { TEST_PROJECT } from './constants';
+import { FormEditor } from '../../page-objects/form-editor';
+import { Neo } from '../../page-objects/neo';
+import { Overview } from '../../page-objects/overview';
+import { TEST_PROJECT } from '../constants';
 
 test('navigate to forms', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);

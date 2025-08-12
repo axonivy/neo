@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { Neo } from '../page-objects/neo';
-import { ProcessEditor } from '../page-objects/process-editor';
-import { RuntimeLogView } from '../page-objects/runtimelog-view';
+import { Neo } from '../../page-objects/neo';
+import { ProcessEditor } from '../../page-objects/process-editor';
+import { RuntimeLogView } from '../../page-objects/runtimelog-view';
 
 test('logs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);

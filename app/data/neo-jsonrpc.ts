@@ -1,5 +1,5 @@
 import { BaseRpcClient, type Disposable, type MessageConnection, urlBuilder } from '@axonivy/jsonrpc';
-import type { AnimationFollowMode } from '~/neo/settings/useSettings';
+import type { AnimationFollowMode } from '~/neo/navigation/settings/useSettings';
 import type { Form } from './form-api';
 import { Callback, type NeoClient } from './neo-protocol';
 import type { Process } from './process-api';

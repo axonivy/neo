@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react';
 import type { Mock } from 'vitest';
-import type { Editor } from '../editors/editor';
-import { useEditors } from '../editors/useEditors';
+import type { Editor } from '~/neo/editors/editor';
+import { useEditors } from '~/neo/editors/useEditors';
 import { useGroupedEditors } from './useGroupedEditors';
 
-vi.mock('../editors/useEditors', async importOriginal => {
+vi.mock('~/neo/editors/useEditors', async importOriginal => {
   const editorsFn = vi.fn();
   return {
     ...(await importOriginal<typeof import('react-router')>()),

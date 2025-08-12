@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
-import { CmsEditor } from '../page-objects/cms-editor';
-import { Neo } from '../page-objects/neo';
-import { Overview } from '../page-objects/overview';
-import { VariableEditor } from '../page-objects/variables-editor';
-import { TEST_PROJECT } from './constants';
+import { CmsEditor } from '../../page-objects/cms-editor';
+import { Neo } from '../../page-objects/neo';
+import { Overview } from '../../page-objects/overview';
+import { VariableEditor } from '../../page-objects/variables-editor';
+import { TEST_PROJECT } from '../constants';
 
 test('navigate to configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);

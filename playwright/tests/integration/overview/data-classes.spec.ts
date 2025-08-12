@@ -1,9 +1,9 @@
 import { expect, type Page, test } from '@playwright/test';
 import { randomInt } from 'crypto';
-import { DataClassEditor } from '../page-objects/data-class-editor';
-import { Neo } from '../page-objects/neo';
-import { Overview } from '../page-objects/overview';
-import { TEST_PROJECT } from './constants';
+import { DataClassEditor } from '../../page-objects/data-class-editor';
+import { Neo } from '../../page-objects/neo';
+import { Overview } from '../../page-objects/overview';
+import { TEST_PROJECT } from '../constants';
 
 const openDataClasses = async (page: Page) => {
   const neo = await Neo.openWorkspace(page);

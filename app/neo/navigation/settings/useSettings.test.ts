@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import type { NeoClient } from '~/data/neo-protocol';
-import { useNeoClient } from '../client/useNeoClient';
+import { useNeoClient } from '~/neo/client/useNeoClient';
 import { useSettings, useSyncSettings } from './useSettings';
 
 vi.mock('~/neo/client/useNeoClient', () => {

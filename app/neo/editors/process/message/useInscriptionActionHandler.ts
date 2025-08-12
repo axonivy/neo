@@ -4,10 +4,10 @@ import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { useNewArtifact } from '~/neo/artifact/useNewArtifact';
+import { useCreateEditor } from '~/neo/editors/useCreateEditor';
+import { useEditors } from '~/neo/editors/useEditors';
 import { useFormExists } from '~/routes/forms/overview';
 import { useProcessExists } from '~/routes/processes/overview';
-import { useCreateEditor } from '../../useCreateEditor';
-import { useEditors } from '../../useEditors';
 
 const isActionWithId = (
   obj: unknown,

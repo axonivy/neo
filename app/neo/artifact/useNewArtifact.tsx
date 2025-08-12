@@ -17,7 +17,7 @@ import { useParams } from 'react-router';
 import { useDataClasses } from '~/data/data-class-api';
 import type { DataClassIdentifier, ProjectBean } from '~/data/generated/ivy-client';
 import { type ProjectIdentifier } from '~/data/project-api';
-import { InfoPopover } from '../overview/InfoPopover';
+import { InfoPopover } from '~/neo/overview/InfoPopover';
 import { ProjectSelect } from './ProjectSelect';
 import { useArtifactValidation } from './validation';
 

@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useWebBrowser } from '../browser/useWebBrowser';
+import { useWebBrowser } from './useWebBrowser';
 
 export const useOpenUrl = () => {
   const { browser } = useWebBrowser();

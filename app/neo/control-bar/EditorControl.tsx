@@ -2,8 +2,8 @@ import { Button, Flex, Popover, PopoverContent, PopoverTrigger, useHotkeys } fro
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useEditors } from '~/neo/editors/useEditors';
 import { useKnownHotkeys } from '~/utils/hotkeys';
-import { useEditors } from '../editors/useEditors';
 
 export const EditorsControl = () => {
   const [subMenu, setSubMenu] = useState(false);

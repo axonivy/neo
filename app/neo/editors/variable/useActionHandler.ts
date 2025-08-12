@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { useOpenUrl } from '../useOpenUrl';
+import { useOpenUrl } from '~/neo/browser/useOpenUrl';
 import type { VariableActionHandler } from './variable-client';
 
 export const useActionHandler = () => {
