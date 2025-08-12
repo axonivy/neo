@@ -1,4 +1,4 @@
-import { Flex, IvyIcon, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
+import { cn, Flex, IvyIcon, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type ReactNode } from 'react';
 import './ArtifactCard.css';
@@ -13,8 +13,8 @@ type Card = {
   tags?: Array<Tag>;
 } & React.ComponentProps<'div'>;
 
-export const ArtifactCard = ({ name, description, preview, onClick, tooltip, tags, ref, children }: Card) => (
-  <div className='artifact-card' ref={ref}>
+export const ArtifactCard = ({ name, description, preview, onClick, tooltip, tags, ref, className, children }: Card) => (
+  <div className={cn('artifact-card', className)} ref={ref}>
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>

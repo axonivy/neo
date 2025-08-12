@@ -13,52 +13,65 @@ import { useCreateEditor } from './useCreateEditor';
 import { VariableEditor } from './variable/VariableEditor';
 
 type EditorState = {
-  workspaces: Record<string, Array<Editor>>;
+  openEditors: Record<string, Array<Editor>>;
+  recentlyOpenedEditors: Record<string, Array<Editor>>;
   close: (ws: string, ids: Array<string>) => Editor | undefined;
   closeAll: (ws: string) => void;
   open: (ws: string, editor: Editor) => void;
+  cleanupRecentlyOpened: (ws: string) => void;
+  removeRecentlyOpened: (ws: string, id: string) => void;
 };
+
+const RECENTLY_OPENED_EDITORS_LIMIT = 10;
 
 export const useStore = create<EditorState>()(
   persist(
     set => ({
-      workspaces: {},
+      openEditors: {},
+      recentlyOpenedEditors: {},
       close: (ws, ids) => {
         let nextEditor: Editor | undefined;
         set(state => {
-          const workspaces = structuredClone(state.workspaces);
-          const editors = workspaces[ws] ?? [];
+          let openEditors = state.openEditors[ws] ?? [];
           let index = 0;
           ids.forEach(id => {
-            index = indexOf(editors, e => e.id === id);
-            editors.splice(index, 1);
+            index = indexOf(openEditors, e => e.id === id);
+            openEditors = openEditors.toSpliced(index, 1);
           });
-          nextEditor = editors[index - 1] ?? editors[index];
-          workspaces[ws] = editors;
-          return { workspaces };
+          nextEditor = openEditors[index - 1] ?? openEditors[index];
+          return { openEditors: { ...state.openEditors, [ws]: openEditors } };
         });
         return nextEditor;
       },
-      closeAll: ws =>
-        set(state => {
-          const workspaces = structuredClone(state.workspaces);
-          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-          delete workspaces[ws];
-          return { workspaces };
-        }),
+      closeAll: ws => set(state => ({ openEditors: { ...state.openEditors, [ws]: [] } })),
       open: (ws, editor) =>
         set(state => {
-          const workspaces = structuredClone(state.workspaces);
-          const editors = workspaces[ws] ?? [];
-          const index = indexOf(editors, e => e.id === editor.id);
-          if (index === -1) {
-            editors.push(editor);
+          let openEditors = state.openEditors[ws] ?? [];
+          let recentlyOpenedEditors = state.recentlyOpenedEditors[ws] ?? [];
+          if (indexOf(openEditors, e => e.id === editor.id) === -1) {
+            openEditors = [...openEditors, editor];
           }
-          workspaces[ws] = editors;
-          return { workspaces };
+          if (indexOf(recentlyOpenedEditors, e => e.id === editor.id) === -1) {
+            recentlyOpenedEditors = [editor, ...recentlyOpenedEditors];
+            recentlyOpenedEditors = recentlyOpenedEditors.slice(0, RECENTLY_OPENED_EDITORS_LIMIT);
+          }
+          return {
+            openEditors: { ...state.openEditors, [ws]: openEditors },
+            recentlyOpenedEditors: { ...state.recentlyOpenedEditors, [ws]: recentlyOpenedEditors }
+          };
+        }),
+      cleanupRecentlyOpened: ws => set(state => ({ recentlyOpenedEditors: { ...state.recentlyOpenedEditors, [ws]: [] } })),
+      removeRecentlyOpened: (ws, id) =>
+        set(state => {
+          let recentlyOpenedEditors = state.recentlyOpenedEditors[ws] ?? [];
+          const index = indexOf(recentlyOpenedEditors, e => e.id === id);
+          if (index !== -1) {
+            recentlyOpenedEditors = recentlyOpenedEditors.toSpliced(index, 1);
+          }
+          return { recentlyOpenedEditors: { ...state.recentlyOpenedEditors, [ws]: recentlyOpenedEditors } };
         })
     }),
-    { name: 'neo-open-editors', version: 2 }
+    { name: 'neo-open-editors', version: 3 }
   )
 );
 
@@ -66,7 +79,10 @@ export const useEditors = () => {
   const navigate = useNavigate();
   const ws = useParams().ws ?? '';
   const rootNav = `/${ws}`;
-  const { workspaces, open, close, closeAll } = useStore();
+  const openEditors = useStore(state => state.openEditors[ws]);
+  const close = useStore(state => state.close);
+  const closeAll = useStore(state => state.closeAll);
+  const open = useStore(state => state.open);
   const { createEditorFromPath } = useCreateEditor();
 
   const closeEditors = useCallback(
@@ -76,13 +92,13 @@ export const useEditors = () => {
       const navigationTarget = nextEditor ? nextEditor.id : rootNav + '/' + ids[0].match(regex)?.[0];
       navigate(navigationTarget, { replace: true });
     },
-    [close, navigate, rootNav, ws]
+    [close, ws, rootNav, navigate]
   );
 
   const closeAllEditors = useCallback(() => {
     closeAll(ws);
     navigate(rootNav, { replace: true });
-  }, [closeAll, navigate, rootNav, ws]);
+  }, [closeAll, ws, navigate, rootNav]);
 
   const openEditor = useCallback(
     (editor: Editor) => {
@@ -110,7 +126,26 @@ export const useEditors = () => {
     [open, ws]
   );
 
-  return { editors: workspaces[ws] ?? [], closeEditors, openEditor, removeEditor, addEditor, closeAllEditors };
+  return {
+    editors: openEditors ?? [],
+    closeEditors,
+    closeAllEditors,
+    openEditor,
+    removeEditor,
+    addEditor
+  };
+};
+
+export const useRecentlyOpenedEditors = () => {
+  const ws = useParams().ws ?? '';
+  const editors = useStore(state => state.recentlyOpenedEditors[ws]);
+  const removeRecentlyOpened = useStore(state => state.removeRecentlyOpened);
+  const cleanupRecentlyOpened = useStore(state => state.cleanupRecentlyOpened);
+  return {
+    editors: editors ?? [],
+    removeRecentlyOpened: (id: string) => removeRecentlyOpened(ws, id),
+    cleanupRecentlyOpened: () => cleanupRecentlyOpened(ws)
+  };
 };
 
 export const renderEditor = (editor: Editor) => {

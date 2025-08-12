@@ -87,7 +87,7 @@ export class Neo {
   private async navigate(path: OverviewTypes, title?: string) {
     await this.navigation.open(path);
     const overview = new Overview(this.page);
-    await expect(overview.title).toHaveText(title ?? path);
+    await expect(overview.title.last()).toHaveText(title ?? path);
     await overview.expectCardsCountGreaterThan(0);
     return overview;
   }

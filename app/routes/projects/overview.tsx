@@ -18,6 +18,7 @@ import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewInfoCard } from '~/neo/overview/OverviewInfoCard';
+import { OverviewRecentlyOpened } from '~/neo/overview/OverviewRecentlyOpened';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { AddDependencyDialog } from './DependencyDialog';
 
@@ -97,6 +98,7 @@ export default function Index() {
         />
       </Flex>
       <Separator style={{ marginBlock: vars.size.s2, flex: '0 0 1px' }} />
+      <OverviewRecentlyOpened filter={e => e.project.pmv === project.id.pmv} />
       <OverviewTitle title={t('projects.dependency')} description={t('projects.dependencyInfo')}>
         <AddDependencyDialog project={project.id} />
       </OverviewTitle>
