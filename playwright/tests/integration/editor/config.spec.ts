@@ -1,8 +1,8 @@
 import { test } from '@playwright/test';
 import { randomUUID } from 'crypto';
-import { MonacoEditor } from '../page-objects/monaco-editor';
-import { Neo } from '../page-objects/neo';
-import { APP, TEST_PROJECT } from './constants';
+import { MonacoEditor } from '../../page-objects/monaco-editor';
+import { Neo } from '../../page-objects/neo';
+import { APP, TEST_PROJECT } from '../constants';
 
 test('restore editor and insert value', async ({ page }) => {
   const neo = await Neo.openWorkspace(page, `configurations/${APP}/${TEST_PROJECT}/cms/cms_de-ch.yaml`);

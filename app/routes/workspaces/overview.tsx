@@ -19,9 +19,19 @@ import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import { useNavigate } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
-import { useCreateWorkspace, useDeleteWorkspace, useDeployWorkspace, useWorkspaces, type Workspace } from '~/data/workspace-api';
+import {
+  useCreateWorkspace,
+  useDeleteWorkspace,
+  useDeployWorkspace,
+  useDownloadWorkspace,
+  useWorkspaces,
+  type Workspace
+} from '~/data/workspace-api';
 import { useArtifactValidation } from '~/neo/artifact/validation';
 import { ControlBar } from '~/neo/control-bar/ControlBar';
+import { LanguageSettings } from '~/neo/navigation/settings/LanguageSettings';
+import { Settings } from '~/neo/navigation/settings/Settings';
+import { ThemeSettings } from '~/neo/navigation/settings/ThemeSettings';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
@@ -30,10 +40,6 @@ import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
-import { LanguageSettings } from '~/neo/settings/LanguageSettings';
-import { Settings } from '~/neo/settings/Settings';
-import { ThemeSettings } from '~/neo/settings/ThemeSettings';
-import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
 import { DeployDialog } from '~/routes/workspaces/DeployDialog';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { useMergeRefs } from '~/utils/merge-refs';

@@ -3,7 +3,6 @@ import { Button, Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Sep
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { Outlet, useParams, type LinksFunction } from 'react-router';
-import { Navigation } from '~/neo/Navigation';
 import { WebBrowser } from '~/neo/browser/WebBrowser';
 import { useWebBrowser } from '~/neo/browser/useWebBrowser';
 import { NeoClientProvider } from '~/neo/client/useNeoClient';
@@ -12,6 +11,7 @@ import { EditorsControl } from '~/neo/control-bar/EditorControl';
 import { EditorTabs } from '~/neo/control-bar/EditorTabs';
 import { MountedEditor } from '~/neo/editors/MountedEditor';
 import { renderEditor, useEditors } from '~/neo/editors/useEditors';
+import { Navigation } from '~/neo/navigation/Navigation';
 import { useViews, ViewContent, ViewTabs, type ViewIds } from '~/neo/views/Views';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 
@@ -70,7 +70,12 @@ export default function Index() {
         <ResizablePanel id='Neo'>
           <Flex direction='row' style={{ height: 'calc(100vh - 41px)', width: '100%' }}>
             <Navigation />
-            <Tabs variant='slim' value={views.view} onValueChange={value => views.setView(value as ViewIds)} style={{ flex: 1 }}>
+            <Tabs
+              variant='slim'
+              value={views.view}
+              onValueChange={value => views.setView(value as ViewIds)}
+              style={{ flex: 1, maxWidth: 'calc(100% - 50px)' }}
+            >
               <ResizablePanelGroup direction='vertical' autoSaveId={`neo-layout-${ws}-2`}>
                 <ResizablePanel id='Neo2'>
                   <div style={{ width: '100%', height: '100%' }}>

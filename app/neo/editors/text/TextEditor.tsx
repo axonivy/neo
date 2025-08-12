@@ -1,8 +1,8 @@
+import { useTheme } from '@axonivy/ui-components';
 import { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useReadConfiguration, useWriteConfiguration } from '~/data/config-api';
-import { useThemeMode } from '~/theme/useUpdateTheme';
-import type { Editor } from '../editor';
+import type { Editor } from '~/neo/editors/editor';
 
 function debouncedAction<T>(action: (input: T) => void, timeout: number) {
   let timer: NodeJS.Timeout;
@@ -19,7 +19,7 @@ export const TextEditor = ({ project, path }: Editor) => {
   const frameRef = useRef<HTMLIFrameElement>(null);
   const { data } = useReadConfiguration({ app: project.app, pmv: project.pmv, path });
   const { writeConfig } = useWriteConfiguration();
-  const theme = useThemeMode();
+  const { realTheme } = useTheme();
   if (!data) {
     return null;
   }
@@ -42,7 +42,7 @@ export const TextEditor = ({ project, path }: Editor) => {
       ref={frameRef}
       style={{ width: '100%', height: '100%', border: 0 }}
       title={t('neo.monaco')}
-      src={`/monaco-yaml-ivy/index.html?demo=off&theme=${theme}`}
+      src={`/monaco-yaml-ivy/index.html?demo=off&theme=${realTheme}`}
     ></iframe>
   );
 };

@@ -2,10 +2,10 @@ import type { FormActionArgs } from '@axonivy/form-editor-protocol';
 import { useCallback } from 'react';
 import { useComponentForm } from '~/data/form-api';
 import type { ProjectIdentifier } from '~/data/project-api';
-import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX } from '../editor';
-import { useCreateEditor } from '../useCreateEditor';
-import { useEditors } from '../useEditors';
-import { useOpenUrl } from '../useOpenUrl';
+import { useOpenUrl } from '~/neo/browser/useOpenUrl';
+import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX } from '~/neo/editors/editor';
+import { useCreateEditor } from '~/neo/editors/useCreateEditor';
+import { useEditors } from '~/neo/editors/useEditors';
 import type { FormActionHandler } from './form-client';
 
 const editorPath = (action: FormActionArgs, formEditorPath: string) => {

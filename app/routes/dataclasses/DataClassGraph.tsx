@@ -6,7 +6,7 @@ import type { DataClassBean, DataClassField } from '~/data/generated/ivy-client'
 import { useSortedProjects } from '~/data/project-api';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import { GraphControls } from '../workspace/ProjectGraph';
+import { GraphControls } from '~/routes/workspace/ProjectGraph';
 
 export const DataClassGraph = ({ selectedProject }: { selectedProject: string }) => {
   const { data } = useDataClassesWithFields();

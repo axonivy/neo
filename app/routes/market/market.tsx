@@ -21,9 +21,9 @@ import { MARKET_URL, useBestMatchingVersion, useProductJson, useProducts, usePro
 import type { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
-import { Breadcrumbs } from '~/neo/Breadcrumb';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
+import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { InfoPopover } from '~/neo/overview/InfoPopover';
 import { Overview } from '~/neo/overview/Overview';

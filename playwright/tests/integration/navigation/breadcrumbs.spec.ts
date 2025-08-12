@@ -1,8 +1,8 @@
 import test, { expect } from '@playwright/test';
-import { DataClassEditor } from '../page-objects/data-class-editor';
-import { Neo } from '../page-objects/neo';
-import { Overview } from '../page-objects/overview';
-import { APP, TEST_PROJECT, WORKSPACE } from './constants';
+import { DataClassEditor } from '../../page-objects/data-class-editor';
+import { Neo } from '../../page-objects/neo';
+import { Overview } from '../../page-objects/overview';
+import { APP, TEST_PROJECT, WORKSPACE } from '../constants';
 
 test('editor breadcrumbs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page, `dataclasses/${APP}/${TEST_PROJECT}/dataclasses/neo/test/project/QuickStartTutorial`);

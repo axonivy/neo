@@ -5,9 +5,9 @@ import { useCreateProcess, useDeleteProcess, useProcesses } from '~/data/process
 import type { ProjectIdentifier } from '~/data/project-api';
 import { overviewMetaFunctionProvider } from '~/metaFunctionProvider';
 import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNewArtifact';
-import { Breadcrumbs } from '~/neo/Breadcrumb';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
+import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
 import type { Tag } from '~/neo/overview/artifact/ArtifactTag';

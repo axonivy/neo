@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
-import { ImportDialog } from '../page-objects/import-dialog';
-import { Neo } from '../page-objects/neo';
-import { Overview } from '../page-objects/overview';
-import { rmWorkspaceExportDir, TEST_PROJECT, WORKSPACE, workspaceExportZip } from './constants';
+import { ImportDialog } from '../../page-objects/import-dialog';
+import { Neo } from '../../page-objects/neo';
+import { Overview } from '../../page-objects/overview';
+import { rmWorkspaceExportDir, TEST_PROJECT, WORKSPACE, workspaceExportZip } from '../constants';
 
 test.afterAll(() => {
   rmWorkspaceExportDir();

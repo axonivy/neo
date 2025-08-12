@@ -1,8 +1,8 @@
 import { expect, test } from '@playwright/test';
-import { Neo } from '../page-objects/neo';
-import { Overview } from '../page-objects/overview';
-import { ProcessEditor } from '../page-objects/process-editor';
-import { TEST_PROJECT } from './constants';
+import { Neo } from '../../page-objects/neo';
+import { Overview } from '../../page-objects/overview';
+import { ProcessEditor } from '../../page-objects/process-editor';
+import { TEST_PROJECT } from '../constants';
 
 test('navigate to process', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);

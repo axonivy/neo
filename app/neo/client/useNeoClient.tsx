@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
 import type { NeoClient } from '~/data/neo-protocol';
+import type { Editor } from '~/neo/editors/editor';
+import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import type { Editor } from '../editors/editor';
-import { useCreateEditor } from '../editors/useCreateEditor';
-import { useWebSocket } from '../editors/useWebSocket';
-import { useSettings, useSyncSettings } from '../settings/useSettings';
+import { useWebSocket } from '~/neo/editors/useWebSocket';
+import { useSettings, useSyncSettings } from '~/neo/navigation/settings/useSettings';
 
 type NeoClientProviderState = {
   client: NeoClient | undefined;

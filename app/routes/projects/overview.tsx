@@ -8,7 +8,7 @@ import { NEO_DESIGNER } from '~/constants';
 import { useDependencies, useRemoveDependency } from '~/data/dependency-api';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
-import { Breadcrumbs } from '~/neo/Breadcrumb';
+import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
 import type { Tag } from '~/neo/overview/artifact/ArtifactTag';

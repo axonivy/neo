@@ -1,7 +1,7 @@
 import { expect, type Page, test } from '@playwright/test';
-import { Neo } from '../page-objects/neo';
-import { VariableEditor } from '../page-objects/variables-editor';
-import { APP, TEST_PROJECT } from './constants';
+import { Neo } from '../../page-objects/neo';
+import { VariableEditor } from '../../page-objects/variables-editor';
+import { APP, TEST_PROJECT } from '../constants';
 
 const openVariables = async (page: Page) => {
   const neo = await Neo.openWorkspace(page, `configurations/${APP}/${TEST_PROJECT}/config/variables.yaml`);
