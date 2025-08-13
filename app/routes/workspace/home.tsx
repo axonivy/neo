@@ -30,25 +30,25 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import { Link, useNavigate, useParams } from 'react-router';
-import { NEO_DESIGNER } from '~/constants';
-import type { ProjectBean } from '~/data/generated/ivy-client';
-import { useCreateProject, useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/project-api';
-import { useImportProjectsIntoWs, useWorkspace, useWorkspaces } from '~/data/workspace-api';
-import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
-import { useArtifactValidation } from '~/neo/artifact/validation';
-import { Breadcrumbs } from '~/neo/Breadcrumb';
-import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
-import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
-import type { Tag } from '~/neo/overview/artifact/ArtifactTag';
-import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
-import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
-import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
-import { OverviewContent } from '~/neo/overview/OverviewContent';
-import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
-import { OverviewInfoCard } from '~/neo/overview/OverviewInfoCard';
-import { OverviewTitle } from '~/neo/overview/OverviewTitle';
-import { useDownloadWorkspace } from '~/neo/workspace/useDownloadWorkspace';
-import { useKnownHotkeys } from '~/utils/hotkeys';
+import { NEO_DESIGNER } from '../../constants';
+import type { ProjectBean } from '../../data/generated/ivy-client';
+import { useCreateProject, useDeleteProject, useDeployProject, useProjectsApi, useSortedProjects } from '../../data/project-api';
+import { useImportProjectsIntoWs, useWorkspace, useWorkspaces } from '../../data/workspace-api';
+import { ProjectSelect } from '../../neo/artifact/ProjectSelect';
+import { useArtifactValidation } from '../../neo/artifact/validation';
+import { Breadcrumbs } from '../../neo/Breadcrumb';
+import { ArtifactCard } from '../../neo/overview/artifact/ArtifactCard';
+import { ArtifactCardMenu } from '../../neo/overview/artifact/ArtifactCardMenu';
+import type { Tag } from '../../neo/overview/artifact/ArtifactTag';
+import { useDeleteConfirmDialog } from '../../neo/overview/artifact/DeleteConfirmDialog';
+import { PreviewSvg } from '../../neo/overview/artifact/PreviewSvg';
+import { CreateNewArtefactButton, Overview } from '../../neo/overview/Overview';
+import { OverviewContent } from '../../neo/overview/OverviewContent';
+import { OverviewFilter, useOverviewFilter } from '../../neo/overview/OverviewFilter';
+import { OverviewInfoCard } from '../../neo/overview/OverviewInfoCard';
+import { OverviewTitle } from '../../neo/overview/OverviewTitle';
+import { useDownloadWorkspace } from '../../neo/workspace/useDownloadWorkspace';
+import { useKnownHotkeys } from '../../utils/hotkeys';
 import { ProjectGraph } from './ProjectGraph';
 
 export const meta: MetaFunction = ({ params }) => {
@@ -223,8 +223,11 @@ const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) => {
   const workspaces = useWorkspaces();
   const { data } = useSortedProjects();
   const { createProject } = useCreateProject();
-  const create = () => createProject({ defaultNamespace: defaultNamespace, name: name, groupId: groupId, projectId: projectId });
-
+  const create = () =>
+    createProject({ defaultNamespace: defaultNamespace, name: name, groupId: groupId, projectId: projectId }).then(projectBean =>
+      deployedProject({ app: projectBean.id.app, pmv: projectBean.id.pmv })
+    );
+  const { deployedProject } = useDeployProject();
   const nameValidation = useMemo(
     () =>
       workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : validateArtifactName(name),
@@ -255,7 +258,6 @@ const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) => {
   const hasErros = useMemo(() => nameValidation?.variant === 'error', [nameValidation]);
 
   const createNewProject = () => {
-    console.log('createNewProject');
     if (!hasErros) {
       closeDialog();
       create();
