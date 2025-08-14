@@ -7,13 +7,13 @@ export class Overview {
   protected readonly page: Page;
   protected readonly overview: Locator;
   protected readonly titleSection: Locator;
-  readonly infoTitle: Locator;
   readonly title: Locator;
   readonly createButton: Locator;
   readonly search: Locator;
   readonly filter: OverviewFilter;
   readonly viewToggle: Locator;
   readonly cards: Locator;
+  readonly recentlyOpenedCards: Locator;
   readonly infoCards: Locator;
   readonly graph: Graph;
 
@@ -21,12 +21,12 @@ export class Overview {
     this.page = page;
     this.overview = page.locator('.overview');
     this.titleSection = this.overview.locator('.overview-title-section');
-    this.infoTitle = this.titleSection.locator('.overview-title').first();
-    this.title = this.titleSection.locator('.overview-title').last();
+    this.title = this.titleSection.locator('.overview-title');
     this.createButton = this.titleSection.getByRole('button').last();
     this.search = this.overview.locator('input');
     this.filter = new OverviewFilter(page, this.overview);
-    this.cards = this.overview.locator('.artifact-card');
+    this.cards = this.overview.locator('.artifact-card:not(.recently-opened-card)');
+    this.recentlyOpenedCards = this.overview.locator('.artifact-card.recently-opened-card');
     this.infoCards = this.overview.locator('.overview-info-card');
     this.viewToggle = this.overview.locator('.ui-toggle-group');
     this.graph = new Graph(page);
@@ -171,7 +171,7 @@ export class Overview {
   async clickInfoCard(name: string, filterTag?: string) {
     await this.infoCards.locator('span').getByText(name, { exact: true }).click();
     const overview = new Overview(this.page);
-    await expect(overview.title).toHaveText(name);
+    await expect(overview.title.first()).toHaveText(name);
     if (filterTag) {
       await expect(overview.filter.filterTag(filterTag)).toBeVisible();
     }

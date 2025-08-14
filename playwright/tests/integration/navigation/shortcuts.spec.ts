@@ -10,26 +10,26 @@ import { APP, TEST_PROJECT } from '../constants';
 test('navigate overviews and focus searchinput', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.home();
-  await expect(overview.title).toHaveText('Projects');
+  await expect(overview.title.last()).toHaveText('Projects');
 
   await page.keyboard.press('Alt+ControlOrMeta+P');
-  await expect(overview.title).toHaveText('Processes');
+  await expect(overview.title.last()).toHaveText('Processes');
   await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Alt+ControlOrMeta+D');
-  await expect(overview.title).toHaveText('Data Classes');
+  await expect(overview.title.last()).toHaveText('Data Classes');
   await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Alt+ControlOrMeta+F');
-  await expect(overview.title).toHaveText('Forms');
+  await expect(overview.title.last()).toHaveText('Forms');
   await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Alt+ControlOrMeta+C');
-  await expect(overview.title).toHaveText('Configurations');
+  await expect(overview.title.last()).toHaveText('Configurations');
   await expect(overview.search).toBeFocused();
 
   await page.keyboard.press('Alt+ControlOrMeta+W');
-  await expect(overview.title).toHaveText('Projects');
+  await expect(overview.title.last()).toHaveText('Projects');
   await expect(overview.search).toBeFocused();
 });
 
@@ -65,7 +65,7 @@ test('open add and delete dialog', async ({ page }) => {
   await expect(title).toBeVisible();
   await dialog.focus();
   await page.keyboard.press('Alt+ControlOrMeta+D');
-  await expect(overview.title).toHaveText('Forms');
+  await expect(overview.title.last()).toHaveText('Forms');
 
   await page.keyboard.press('Escape');
 
@@ -95,7 +95,7 @@ test('import project', async ({ page }) => {
   const overview = await neo.home();
 
   await page.keyboard.press('M');
-  await expect(overview.title).toHaveText('Axon Ivy Market');
+  await expect(overview.title.last()).toHaveText('Axon Ivy Market');
 
   await neo.home();
   await page.keyboard.press('Tab');

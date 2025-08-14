@@ -1,4 +1,5 @@
 import { useTheme } from '@axonivy/ui-components';
+import type { EditorType } from '~/neo/editors/editor';
 import configDarkSvg from '/assets/preview/configs-dark.svg?url';
 import configLightSvg from '/assets/preview/configs-light.svg?url';
 import dataClassDarkSvg from '/assets/preview/data-classes-dark.svg?url';
@@ -18,7 +19,24 @@ const previews = {
   workspace: { dark: workspaceDarkSvg, light: workspaceLightSvg }
 } as const;
 
-export const PreviewSvg = ({ type }: { type: keyof typeof previews }) => {
+type PreviewType = keyof typeof previews;
+
+export const editorTypeToPreview = (type: EditorType): PreviewType => {
+  switch (type) {
+    case 'dataclasses':
+      return 'dataClass';
+    case 'configurations':
+    case 'variables':
+    case 'cms':
+      return 'config';
+    case 'forms':
+      return 'form';
+    case 'processes':
+      return 'process';
+  }
+};
+
+export const PreviewSvg = ({ type }: { type: PreviewType }) => {
   const { realTheme } = useTheme();
   return <img src={previews[type][realTheme]} alt='Preview' />;
 };

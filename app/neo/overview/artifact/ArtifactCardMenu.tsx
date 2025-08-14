@@ -27,9 +27,9 @@ export const ArtifactCardMenu = ({ deleteAction, open, onOpenChange, children }:
         <DropdownMenuTrigger asChild>
           <Button icon={IvyIcons.Dots} className='card-menu-trigger' />
         </DropdownMenuTrigger>
-        <DropdownMenuContent side='bottom' align='start' className='card-menu'>
+        <DropdownMenuContent side='bottom' align='start'>
           <DropdownMenuGroup>
-            <DropdownMenuItem className='card-delete' onSelect={() => onOpenChange(true)} style={{ color: 'var(--error-color)' }}>
+            <DropdownMenuItem onSelect={() => onOpenChange(true)} style={{ color: 'var(--error-color)' }}>
               <IvyIcon icon={IvyIcons.Trash} />
               <span>{deleteAction.label ?? t('common.label.delete')}</span>
             </DropdownMenuItem>

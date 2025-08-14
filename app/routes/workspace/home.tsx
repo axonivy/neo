@@ -11,14 +11,11 @@ import {
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-  Flex,
   hotkeyText,
   Input,
   IvyIcon,
-  Separator,
   useDialogHotkeys,
   useHotkeys,
-  vars,
   type MessageData
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -41,7 +38,7 @@ import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
-import { OverviewInfoCard } from '~/neo/overview/OverviewInfoCard';
+import { OverviewRecentlyOpened } from '~/neo/overview/OverviewRecentlyOpened';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { ProjectGraph } from './ProjectGraph';
@@ -59,28 +56,7 @@ export default function Index() {
     <Overview>
       <Breadcrumbs />
       <OverviewTitle title={t('workspaces.wsTitle', { workspace: ws })} description={t('workspaces.description')} />
-      <Flex direction='row' gap={4} style={{ flexWrap: 'wrap' }}>
-        <OverviewInfoCard
-          title={t('neo.processes')}
-          description={t('processes.processDescription')}
-          icon={IvyIcons.Process}
-          link='processes'
-        />
-        <OverviewInfoCard
-          title={t('neo.dataClasses')}
-          description={t('dataclasses.dataclassDescription')}
-          icon={IvyIcons.Database}
-          link='dataClasses'
-        />
-        <OverviewInfoCard title={t('neo.forms')} description={t('forms.formDescription')} icon={IvyIcons.File} link='forms' />
-        <OverviewInfoCard
-          title={t('neo.configs')}
-          description={t('configurations.configDescription')}
-          icon={IvyIcons.Tool}
-          link='configurations'
-        />
-      </Flex>
-      <Separator style={{ marginBlock: vars.size.s2, flex: '0 0 1px' }} />
+      <OverviewRecentlyOpened />
       <OverviewTitle title={t('neo.projects')}>
         <ImportMenu />
       </OverviewTitle>

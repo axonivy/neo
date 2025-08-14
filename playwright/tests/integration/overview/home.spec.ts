@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { ImportDialog } from '../../page-objects/import-dialog';
 import { Neo } from '../../page-objects/neo';
 import { Overview } from '../../page-objects/overview';
-import { rmWorkspaceExportDir, TEST_PROJECT, WORKSPACE, workspaceExportZip } from '../constants';
+import { APP, rmWorkspaceExportDir, TEST_PROJECT, WORKSPACE, workspaceExportZip } from '../constants';
 
 test.afterAll(() => {
   rmWorkspaceExportDir();
@@ -12,12 +12,23 @@ test('navigate to home', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.home();
   await overview.expectCardsCountGreaterThan(0);
-  await expect(overview.infoTitle).toHaveText(`Welcome to your workspace: ${WORKSPACE}`);
-  await expect(overview.infoCards).toHaveCount(4);
-  await overview.clickInfoCard('Processes');
-  await overview.clickInfoCard('Data Classes');
-  await overview.clickInfoCard('Forms');
-  await overview.clickInfoCard('Configurations');
+  await expect(overview.title).toHaveCount(2);
+  await expect(overview.title.first()).toHaveText(`Welcome to your workspace: ${WORKSPACE}`);
+  await expect(overview.title.nth(1)).toHaveText(`Projects`);
+  await expect(overview.recentlyOpenedCards).toHaveCount(0);
+});
+
+test('recently opened projects', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/quickstart`);
+  await neo.controlBar.tab('quickstart').expectActive();
+  await Neo.openWorkspace(page, `processes/${APP}/unknown/processes/jump`);
+  await neo.controlBar.tab('jump').expectActive();
+  const overview = await neo.home();
+  await expect(overview.title).toHaveCount(3);
+  await expect(overview.title.first()).toHaveText(`Welcome to your workspace: ${WORKSPACE}`);
+  await expect(overview.title.nth(1)).toHaveText(`Recently Opened`);
+  await expect(overview.title.nth(2)).toHaveText(`Projects`);
+  await expect(overview.recentlyOpenedCards).toHaveCount(2);
 });
 
 test('search projects', async ({ page }) => {
@@ -65,5 +76,5 @@ test('project graph', async ({ page }) => {
   await expect(neoTestProjectNode.node).toContainText('neo-test-projectneo-test-project');
 
   await neoTestProjectNode.jumpInto.click();
-  await expect(overview.infoTitle).toHaveText(`Project details: ${TEST_PROJECT}`);
+  await expect(overview.title.first()).toHaveText(`Project details: ${TEST_PROJECT}`);
 });
