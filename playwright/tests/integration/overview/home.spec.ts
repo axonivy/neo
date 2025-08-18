@@ -32,26 +32,26 @@ test('recently opened projects', async ({ page }) => {
 });
 
 test('search projects', async ({ page }) => {
-  await Neo.openWorkspace(page);
+  await Neo.open(page);
   const overview = new Overview(page);
+  const wsName = 'searchProjects';
+  await overview.create(wsName);
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
   await overview.search.fill('test');
   await expect(overview.cards).toHaveCount(1);
 });
 
-test('create new Project', async ({ page, browserName }, testInfo) => {
-  const wsName = `${browserName}market_ws${testInfo.retry}`;
+test('create new Project', async ({ page }) => {
   const neo = await Neo.open(page);
   const overview = new Overview(page);
+  const wsName = 'newest';
   await overview.create(wsName);
   await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
-  await overview.clickCreateProject(TEST_PROJECT);
+  await overview.clickCreateProject('Other-Project');
   await neo.toast.expectSuccess('Project successfully created');
   await neo.toast.expectSuccess('Project successfully deployed');
-  await overview.deleteCard(TEST_PROJECT);
-  await page.goto('');
-  await overview.deleteCard(wsName, true);
+  await overview.deleteCard('Other-Project');
 });
 
 test('import and delete project', async ({ page, browserName }, testInfo) => {
