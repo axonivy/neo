@@ -40,6 +40,20 @@ test('search projects', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
+test('create new Project', async ({ page, browserName }, testInfo) => {
+  const wsName = `${browserName}market_ws${testInfo.retry}`;
+  const neo = await Neo.open(page);
+  const overview = new Overview(page);
+  await overview.create(wsName);
+  await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
+  await overview.clickCreateProject(TEST_PROJECT);
+  await neo.toast.expectSuccess('Project successfully created');
+  await neo.toast.expectSuccess('Project successfully deployed');
+  await overview.deleteCard(TEST_PROJECT);
+  await page.goto('');
+  await overview.deleteCard(wsName, true);
+});
+
 test('import and delete project', async ({ page, browserName }, testInfo) => {
   const zipFile = workspaceExportZip('importMe.zip');
   const { overview, neo } = await Neo.exportWorkspace(page, zipFile);

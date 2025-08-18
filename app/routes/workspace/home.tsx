@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
+  Flex,
   hotkeyText,
   Input,
   IvyIcon,
@@ -41,6 +42,7 @@ import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter
 import { OverviewRecentlyOpened } from '~/neo/overview/OverviewRecentlyOpened';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { useKnownHotkeys } from '~/utils/hotkeys';
+import { CreateNewProjectButton } from './ProjectCreator';
 import { ProjectGraph } from './ProjectGraph';
 
 export const meta: MetaFunction = ({ params }) => {
@@ -58,7 +60,10 @@ export default function Index() {
       <OverviewTitle title={t('workspaces.wsTitle', { workspace: ws })} description={t('workspaces.description')} />
       <OverviewRecentlyOpened />
       <OverviewTitle title={t('neo.projects')}>
-        <ImportMenu />
+        <Flex gap={2}>
+          <ImportMenu />
+          <CreateNewProjectButton />
+        </Flex>
       </OverviewTitle>
       <OverviewFilter {...overviewFilter} viewTypes={{ graph: true }} />
       <OverviewContent isPending={isPending} viewType={overviewFilter.viewType} viewTypes={{ graph: <ProjectGraph /> }}>

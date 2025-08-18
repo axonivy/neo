@@ -68,3 +68,33 @@ test('invalid slash separated namespaces', () => {
     expect(validateArtifactNamespace(namespace, 'Process')?.variant).toBe('error');
   }
 });
+
+test('valid projectnames', () => {
+  const { result } = renderHook(() => useArtifactValidation());
+  const { validateProjectDetails } = result.current;
+  const validNames = ['ValidName', 'Valid-Name2', 'M1', 'A-b'];
+  for (const name of validNames) {
+    expect(validateProjectDetails(name, '-', true)).toBeUndefined();
+  }
+});
+
+test('invalid project parameters', async () => {
+  const { result } = renderHook(() => useArtifactValidation());
+  const { validateProjectDetails } = result.current;
+  expect(validateProjectDetails('a-dash-is-allowed-but-no-dots.', '-')).toEqual({
+    message: `Invalid character '.' at position 30 in 'a-dash-is-allowed-but-no-dots.'.`,
+    variant: 'error'
+  });
+  expect(validateProjectDetails()).toEqual({ message: `Artifact name must not be empty.`, variant: 'error' });
+  expect(validateProjectDetails('')).toEqual({ message: `Artifact name must not be empty.`, variant: 'error' });
+  expect(validateProjectDetails('abstract')).toEqual({ message: `Input 'abstract' is a reserved keyword.`, variant: 'error' });
+  expect(validateProjectDetails('1First')).toEqual({ message: `Invalid character '1' at position 1 in '1First'.`, variant: 'error' });
+  expect(validateProjectDetails('Last-')).toEqual({ message: `Invalid character '-' at position 5 in 'Last-'.`, variant: 'error' });
+  expect(validateProjectDetails('em-bedded')).toEqual({ message: `Invalid character '-' at position 3 in 'em-bedded'.`, variant: 'error' });
+
+  const invalidNames = [' ', ' SpacePrefix', 'SpaceSuffix ', 'Space Infix', '1', '-', '_', '_a'];
+  for (const name of invalidNames) {
+    expect(validateProjectDetails(name)?.variant).toBe('error');
+    expect(validateProjectDetails(name)?.variant).toBe('error');
+  }
+});

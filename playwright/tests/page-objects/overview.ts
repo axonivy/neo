@@ -76,6 +76,15 @@ export class Overview {
     await this.page.getByRole('menuitem').getByText('Import from Market').click();
   }
 
+  async clickCreateProject(projectName: string) {
+    await this.titleSection.getByRole('button', { name: 'Create new Project' }).click();
+    await expect(this.page.locator('text=A Project is the basement for your Processes')).toBeVisible();
+
+    const valueInput = this.page.getByLabel('Name');
+    await valueInput.fill(projectName);
+    await this.page.getByRole('button', { name: 'Create' }).click();
+  }
+
   async checkCreateValidationMessage(options: {
     name?: string;
     namespace?: string;
