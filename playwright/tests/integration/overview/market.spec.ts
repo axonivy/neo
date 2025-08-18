@@ -28,5 +28,4 @@ test('install from market', async ({ page, browserName }, testInfo) => {
   await neo.navigation.open('Processes');
   await overview.hasCardWithTag('WriteExcel', 'Read only');
   await page.goto('');
-  await overview.deleteCard(wsName, true);
 });
