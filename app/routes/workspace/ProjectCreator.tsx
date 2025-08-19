@@ -33,7 +33,7 @@ export const CreateNewProjectButton = () => {
   );
 };
 
-export const NameChangeHandler = (newProjectName: string, itemName: string, separator: string) => {
+export const nameChangeHandler = (newProjectName: string, itemName: string, separator: string) => {
   if (!newProjectName) {
     return '';
   }
@@ -62,9 +62,9 @@ export const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) 
   const { createProject } = useCreateProject();
   const create = () =>
     createProject({ defaultNamespace: defaultNamespace, name: name, groupId: groupId, projectId: projectId }).then(projectBean =>
-      deployedProject({ app: projectBean.id.app, pmv: projectBean.id.pmv })
+      deployPmv({ app: projectBean.id.app, pmv: projectBean.id.pmv })
     );
-  const { deployedProject } = useDeployProject();
+  const { deployPmv } = useDeployProject();
   const nameValidation = useMemo(
     () =>
       workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase())
@@ -114,9 +114,9 @@ export const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) 
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
-    const updatedProjectId = NameChangeHandler(newName, projectId, '-');
-    const updatedGroupId = NameChangeHandler(newName, groupId, '.');
-    const updatedDefaultNamespace = NameChangeHandler(newName, defaultNamespace, '.');
+    const updatedProjectId = nameChangeHandler(newName, projectId, '-');
+    const updatedGroupId = nameChangeHandler(newName, groupId, '.');
+    const updatedDefaultNamespace = nameChangeHandler(newName, defaultNamespace, '.');
 
     setProjectId(updatedProjectId ?? projectId);
     setGroupId(updatedGroupId ?? groupId);
