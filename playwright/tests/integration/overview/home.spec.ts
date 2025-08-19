@@ -33,7 +33,7 @@ test('recently opened projects', async ({ page }) => {
   await expect(overview.recentlyOpenedCards).toHaveCount(2);
 });
 
-test('search projects', async ({ page, browserName }, testInfo) => {
+test('search projects', async ({ page }) => {
   await Neo.openWorkspace(page);
   const overview = new Overview(page);
   await overview.search.fill('bla');
@@ -42,7 +42,7 @@ test('search projects', async ({ page, browserName }, testInfo) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
-test('create new Project', async ({ page, browserName }, testInfo) => {
+test('create new Project', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = new Overview(page);
   const projectName = 'Other-Project';
@@ -58,9 +58,9 @@ test('create new Project', async ({ page, browserName }, testInfo) => {
   await overview.deleteCard(projectName);
 });
 
-test('validate Projectdetails', async ({ page, browserName }, testInfo) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = new Overview(page);
+test('validate Projectdetails', async ({ page }) => {
+  await Neo.openWorkspace(page);
+  new Overview(page);
   const projectName = 'Other-Project';
   await page.getByRole('button', { name: 'Create new Project' }).click();
   await expect(page.locator('text=A Project is the basement for your Processes')).toBeVisible();
