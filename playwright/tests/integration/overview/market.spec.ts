@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
-import { Neo } from '../../page-objects/neo';
-import { Overview } from '../../page-objects/overview';
-import { ProcessEditor } from '../../page-objects/process-editor';
+import { Neo } from '~/page-objects/neo';
+import { Overview } from '~/page-objects/overview';
+import { ProcessEditor } from '~/page-objects/process-editor';
 
 test('search market', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);

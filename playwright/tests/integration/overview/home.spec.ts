@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { ProjectDetail } from 'playwright/tests/page-objects/project-detail';
 import { ValidationMessage } from 'playwright/tests/page-objects/validation-message';
-import { ImportDialog } from '../../page-objects/import-dialog';
-import { Neo } from '../../page-objects/neo';
-import { Overview } from '../../page-objects/overview';
+import { ImportDialog } from '~/page-objects/import-dialog';
+import { Neo } from '~/page-objects/neo';
+import { Overview } from '~/page-objects/overview';
 import { APP, rmWorkspaceExportDir, TEST_PROJECT, WORKSPACE, workspaceExportZip } from '../constants';
 
 test.afterAll(() => {
