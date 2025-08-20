@@ -16,6 +16,7 @@ import { PreviewSvg } from '../../neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '../../neo/overview/Overview';
 import { OverviewContent } from '../../neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '../../neo/overview/OverviewFilter';
+import { OverviewFilterBadges } from '../../neo/overview/OverviewFilterBadges';
 import { OverviewTitle } from '../../neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Forms');
@@ -51,6 +52,7 @@ export default function Index() {
           setBadges={overviewFilter.setBadges}
         />
       </OverviewFilter>
+      <OverviewFilterBadges {...overviewFilter} />
       <OverviewContent isPending={isPending} hasData={filteredAritfacts.length > 0}>
         {filteredAritfacts.map(form => (
           <FormCard key={`${form.identifier.project.pmv}/${form.namespace}/${form.name}`} form={form} />
