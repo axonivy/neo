@@ -1,4 +1,4 @@
-import { Badge, Button, Flex, IvyIcon } from '@axonivy/ui-components';
+import { Button, Flex, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,9 +24,9 @@ export const OverviewFilterTags = ({ viewType, projects, setProjects, tags, setT
         <Tag
           key={project}
           name={
-            <Badge variant='outline'>
+            <>
               <IvyIcon icon={IvyIcons.Folders} /> {project}
-            </Badge>
+            </>
           }
           remove={() => setProjects(projects.filter(p => p !== project))}
         />
@@ -35,9 +35,9 @@ export const OverviewFilterTags = ({ viewType, projects, setProjects, tags, setT
         <Tag
           key={tag}
           name={
-            <Badge variant='outline'>
+            <>
               <IvyIcon icon={IvyIcons.Label} /> {tag}
-            </Badge>
+            </>
           }
           remove={() => setTags(tags.filter(t => t !== tag))}
         />
