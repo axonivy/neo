@@ -60,7 +60,6 @@ test('create new Project', async ({ page }) => {
 
 test('validate Projectdetails', async ({ page }) => {
   await Neo.openWorkspace(page);
-  new Overview(page);
   const projectName = 'Other-Project';
   await page.getByRole('button', { name: 'Create new Project' }).click();
   await expect(page.locator('text=A Project is the basement for your Processes')).toBeVisible();
