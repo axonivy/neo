@@ -25,15 +25,15 @@ export type ViewTypes = 'tile' | 'graph';
 
 export const useOverviewFilter = <T,>(
   artifacts: Array<T>,
-  filter: (t: T, search: string, projects: Array<string>, tags: Array<string>) => boolean
+  filter: (t: T, search: string, projects: Array<string>, badges: Array<string>) => boolean
 ) => {
-  const { search, setSearch, projects, setProjects, tags, setTags } = useSearch();
+  const { search, setSearch, projects, setProjects, badges, setBadges } = useSearch();
   const [viewType, setViewType] = useState<ViewTypes>('tile');
   const filteredAritfacts = useMemo(
-    () => artifacts.filter(artifact => filter(artifact, search.toLocaleLowerCase(), projects, tags)),
-    [artifacts, filter, projects, tags, search]
+    () => artifacts.filter(artifact => filter(artifact, search.toLocaleLowerCase(), projects, badges)),
+    [artifacts, filter, projects, badges, search]
   );
-  return { filteredAritfacts, search, setSearch, projects, setProjects, tags, setTags, viewType, setViewType };
+  return { filteredAritfacts, search, setSearch, projects, setProjects, badges, setBadges, viewType, setViewType };
 };
 
 type OverviewFilterProps = Omit<ReturnType<typeof useOverviewFilter>, 'filteredAritfacts'> & {
@@ -91,12 +91,12 @@ export const OverviewFilter = (props: OverviewFilterProps) => {
 type OverviewProjectFilterProps = {
   projects: Array<string>;
   setProjects: (projects: Array<string>) => void;
-  allTags: Array<string>;
-  tags: Array<string>;
-  setTags: (tags: Array<string>) => void;
+  allBadges: Array<string>;
+  badges: Array<string>;
+  setBadges: (badges: Array<string>) => void;
 };
 
-export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags, allTags }: OverviewProjectFilterProps) => {
+export const OverviewProjectFilter = ({ projects, setProjects, badges, setBadges, allBadges }: OverviewProjectFilterProps) => {
   const { t } = useTranslation();
   const allProjects = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
 
@@ -105,7 +105,7 @@ export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags, al
       <DropdownMenuTrigger asChild>
         <Flex alignItems='center' className='overview-filter-button' style={{ position: 'relative' }}>
           <Button size='large' icon={IvyIcons.Configuration} title={t('label.filterBy')} aria-label={t('label.filterBy')} />
-          <Badges count={projects.length + tags.length} />
+          <Badges count={projects.length + badges.length} />
         </Flex>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -128,16 +128,16 @@ export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags, al
         <DropdownMenuSeparator />
         <DropdownMenuLabel>
           <IvyIcon icon={IvyIcons.Label} />
-          {t('label.tags')}
+          {t('label.badges')}
         </DropdownMenuLabel>
-        {allTags.map(tag => (
+        {allBadges.map(badge => (
           <DropdownMenuCheckboxItem
-            key={tag}
-            checked={tags.includes(tag)}
-            onCheckedChange={(checked: boolean) => setTags(checked ? [...tags, tag] : tags.filter(t => t !== tag))}
+            key={badge}
+            checked={badges.includes(badge)}
+            onCheckedChange={(checked: boolean) => setBadges(checked ? [...badges, badge] : badges.filter(t => t !== badge))}
             onSelect={e => e.preventDefault()}
           >
-            {tag}
+            {badge}
           </DropdownMenuCheckboxItem>
         ))}
 
@@ -146,7 +146,7 @@ export const OverviewProjectFilter = ({ projects, setProjects, tags, setTags, al
           style={{ color: 'var(--error-color)' }}
           onSelect={() => {
             setProjects([]);
-            setTags([]);
+            setBadges([]);
           }}
         >
           <IvyIcon icon={IvyIcons.Reset} />

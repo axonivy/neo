@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router';
 
 const QUERY_KEY = 'q';
 const PROJECTS_KEY = 'p';
-const TAGS_KEY = 't';
+const BADGES_KEY = 'b';
 
 export const useSearch = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -22,10 +22,10 @@ export const useSearch = () => {
       projects.forEach(project => searchParams.append(PROJECTS_KEY, project));
       setSearchParams(searchParams, { replace: true });
     },
-    tags: searchParams.getAll(TAGS_KEY) ?? [],
-    setTags: (tags: Array<string>) => {
-      searchParams.delete(TAGS_KEY);
-      tags.forEach(tags => searchParams.append(TAGS_KEY, tags));
+    badges: searchParams.getAll(BADGES_KEY) ?? [],
+    setBadges: (badges: Array<string>) => {
+      searchParams.delete(BADGES_KEY);
+      badges.forEach(badges => searchParams.append(BADGES_KEY, badges));
       setSearchParams(searchParams, { replace: true });
     }
   };

@@ -123,6 +123,7 @@
     "workspaces": "Workspaces ({{hotkey}})"
   },
   "label": {
+    "badges": "Badges",
     "businessData": "Business Data",
     "callableSubProcess": "Callable Subprocess",
     "entity": "Entity",
@@ -132,7 +133,6 @@
     "removeDependency": "Remove Dependency",
     "resetAllFilters": "Reset all Filters",
     "runtimeLog": "Runtime Log",
-    "tags": "Tags",
     "tileView": "Tile View",
     "toggleView": "Toggle Views",
     "webServiceProcess": "Web Service"
@@ -155,6 +155,7 @@
     "invalidChar": "Invalid character '{{- char}}' at position {{pos}} in '{{- str}}'.",
     "invalidIar": "Select an .iar file or a .zip file that contains .iar files.",
     "loadEngineVersionFail": "Failed to load engine version",
+    "noArtifactsFound": "No artifacts were found.",
     "noneCapitalizeName": "It's recommended to write the first letter in lower case.",
     "processPackaged": "The process cannot be deleted as the project to which it belongs is packaged."
   },

@@ -8,15 +8,15 @@ import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNe
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
+import type { Badge } from '~/neo/overview/artifact/ArtifactBadge';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
-import type { Tag } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
-import { OverviewFilterTags } from '~/neo/overview/OverviewFilterTags';
+import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
@@ -24,19 +24,19 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useProcesses();
-  const { allTags, tagsFor } = useTags();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects, tags) => {
+  const { allBadges, badgesFor } = useBadges();
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (proc, search, projects, badges) => {
     const hasMatchingProject = projects.length === 0 || projects.includes(proc.processIdentifier.project.pmv);
-    const hasMatchingTag =
-      tags.length === 0 ||
-      tags.some(tag =>
-        tagsFor(proc)
-          ?.map(t => t.label)
-          .includes(tag)
+    const hasMatchingBade =
+      badges.length === 0 ||
+      badges.some(badge =>
+        badgesFor(proc)
+          ?.map(b => b.label)
+          .includes(badge)
       );
     const nameMatches = proc.name.includes(search);
 
-    return hasMatchingProject && hasMatchingTag && nameMatches;
+    return hasMatchingProject && hasMatchingBade && nameMatches;
   });
 
   return (
@@ -49,13 +49,13 @@ export default function Index() {
         <OverviewProjectFilter
           projects={overviewFilter.projects}
           setProjects={overviewFilter.setProjects}
-          tags={overviewFilter.tags}
-          setTags={overviewFilter.setTags}
-          allTags={allTags}
+          badges={overviewFilter.badges}
+          setBadges={overviewFilter.setBadges}
+          allBadges={allBadges}
         />
       </OverviewFilter>
-      <OverviewFilterTags {...overviewFilter} />
-      <OverviewContent isPending={isPending}>
+      <OverviewFilterBadges {...overviewFilter} />
+      <OverviewContent isPending={isPending} hasData={filteredAritfacts.length > 0}>
         {filteredAritfacts.map(process => (
           <ProcessCard key={`${process.processIdentifier.project.pmv}/${process.processIdentifier.pid}`} process={process} />
         ))}
@@ -71,8 +71,8 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const { createProcessEditor } = useCreateEditor();
   const editor = createProcessEditor(process);
-  const { tagsFor } = useTags();
-  const tags = tagsFor(process);
+  const { badgesFor } = useBadges();
+  const badges = badgesFor(process);
   return (
     <ArtifactCard
       ref={artifactCardRef}
@@ -81,7 +81,7 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
       preview={<PreviewSvg type='process' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
-      tags={tags}
+      badges={badges}
     >
       <ArtifactCardMenu
         deleteAction={{
@@ -99,23 +99,23 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
   );
 };
 
-const useTags = () => {
+const useBadges = () => {
   const { t } = useTranslation();
-  const allTags: Array<string> = [t('common.label.readOnly'), t('label.callableSubProcess'), t('label.webServiceProcess')];
-  const tagsFor = (process: ProcessBean) => {
-    const tags: Array<Tag> = [];
+  const allBadges: Array<string> = [t('common.label.readOnly'), t('label.callableSubProcess'), t('label.webServiceProcess')];
+  const badgesFor = (process: ProcessBean) => {
+    const badges: Array<Badge> = [];
     if (process.processIdentifier.project.isIar) {
-      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+      badges.push({ label: allBadges[0], badgeStyle: 'secondary' });
     }
     if (process.kind === 'CALLABLE_SUB') {
-      tags.push({ label: allTags[1], tagStyle: 'primary' });
+      badges.push({ label: allBadges[1], badgeStyle: 'primary' });
     }
     if (process.kind === 'WEB_SERVICE') {
-      tags.push({ label: allTags[2], tagStyle: 'destructive' });
+      badges.push({ label: allBadges[2], badgeStyle: 'destructive' });
     }
-    return tags;
+    return badges;
   };
-  return { allTags, tagsFor };
+  return { allBadges, badgesFor };
 };
 
 export const useProcessExists = () => {

@@ -1,8 +1,8 @@
 import { cn, Flex, IvyIcon, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { type ReactNode } from 'react';
+import { ArtifactBadge, type Badge } from './ArtifactBadge';
 import './ArtifactCard.css';
-import { ArtifactTag, type Tag } from './ArtifactTag';
 
 type Card = {
   name: string;
@@ -10,17 +10,17 @@ type Card = {
   preview: ReactNode;
   description?: string;
   tooltip?: string;
-  tags?: Array<Tag>;
+  badges?: Array<Badge>;
 } & React.ComponentProps<'div'>;
 
-export const ArtifactCard = ({ name, description, preview, onClick, tooltip, tags, ref, className, children }: Card) => (
+export const ArtifactCard = ({ name, description, preview, onClick, tooltip, badges, ref, className, children }: Card) => (
   <div className={cn('artifact-card', className)} ref={ref}>
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
           <Flex direction='column' gap={1} className='card-content'>
             <button className='card' onClick={onClick}>
-              {tags && <ArtifactTag tags={tags} />}
+              {badges && <ArtifactBadge badges={badges} />}
               {preview}
             </button>
             <Flex direction='row' gap={2} justifyContent='space-between'>

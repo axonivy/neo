@@ -9,15 +9,15 @@ import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNe
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
+import type { Badge } from '~/neo/overview/artifact/ArtifactBadge';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
-import type { Tag } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
-import { OverviewFilterTags } from '~/neo/overview/OverviewFilterTags';
+import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { DataClassGraph, DataClassGraphFilter } from './DataClassGraph';
 
@@ -26,18 +26,18 @@ export const meta: MetaFunction = overviewMetaFunctionProvider('Data Classes');
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useDataClasses();
-  const { allTags, tagsFor } = useTags();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (dc, search, projects, tags) => {
+  const { allBadges, badgesFor } = useBadges();
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (dc, search, projects, badges) => {
     const hasMatchingProject = projects.length === 0 || projects.includes(dc.dataClassIdentifier.project.pmv);
-    const hasMatchingTag =
-      tags.length === 0 ||
-      tags.some(tag =>
-        tagsFor(dc)
-          ?.map(t => t.label)
-          .includes(tag)
+    const hasMatchingBade =
+      badges.length === 0 ||
+      badges.some(badge =>
+        badgesFor(dc)
+          ?.map(b => b.label)
+          .includes(badge)
       );
     const nameMatches = dc.simpleName.toLocaleLowerCase().includes(search);
-    return hasMatchingProject && hasMatchingTag && nameMatches;
+    return hasMatchingProject && hasMatchingBade && nameMatches;
   });
   const { ws } = useParams();
   const [selectedProject, setSelectedProject] = useState<string>(ws ?? 'all');
@@ -55,14 +55,15 @@ export default function Index() {
         <OverviewProjectFilter
           projects={overviewFilter.projects}
           setProjects={overviewFilter.setProjects}
-          allTags={allTags}
-          tags={overviewFilter.tags}
-          setTags={overviewFilter.setTags}
+          allBadges={allBadges}
+          badges={overviewFilter.badges}
+          setBadges={overviewFilter.setBadges}
         />
       </OverviewFilter>
-      <OverviewFilterTags {...overviewFilter} />
+      <OverviewFilterBadges {...overviewFilter} />
       <OverviewContent
         isPending={isPending}
+        hasData={filteredAritfacts.length > 0}
         viewType={overviewFilter.viewType}
         viewTypes={{ graph: <DataClassGraph selectedProject={selectedProject} /> }}
       >
@@ -84,8 +85,8 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const { createDataClassEditor } = useCreateEditor();
   const editor = createDataClassEditor(dataClass);
-  const { tagsFor } = useTags();
-  const tags = tagsFor(dataClass);
+  const { badgesFor } = useBadges();
+  const badges = badgesFor(dataClass);
 
   return (
     <ArtifactCard
@@ -95,7 +96,7 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
       preview={<PreviewSvg type='dataClass' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
-      tags={tags}
+      badges={badges}
     >
       <ArtifactCardMenu
         deleteAction={{
@@ -113,23 +114,23 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
   );
 };
 
-const useTags = () => {
+const useBadges = () => {
   const { t } = useTranslation();
-  const allTags: Array<string> = [t('common.label.readOnly'), t('label.businessData'), t('label.entity')];
-  const tagsFor = (dataClass: DataClassBean) => {
-    const tags: Array<Tag> = [];
+  const allBadges: Array<string> = [t('common.label.readOnly'), t('label.businessData'), t('label.entity')];
+  const badgesFor = (dataClass: DataClassBean) => {
+    const badges: Array<Badge> = [];
     if (dataClass.dataClassIdentifier.project.isIar) {
-      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+      badges.push({ label: allBadges[0], badgeStyle: 'secondary' });
     }
     if (dataClass.isBusinessCaseData) {
-      tags.push({ label: allTags[1], tagStyle: 'primary' });
+      badges.push({ label: allBadges[1], badgeStyle: 'primary' });
     }
     if (dataClass.isEntityClass) {
-      tags.push({ label: allTags[2], tagStyle: 'destructive' });
+      badges.push({ label: allBadges[2], badgeStyle: 'destructive' });
     }
-    return tags;
+    return badges;
   };
-  return { allTags, tagsFor };
+  return { allBadges, badgesFor };
 };
 
 const useDataClassExists = () => {

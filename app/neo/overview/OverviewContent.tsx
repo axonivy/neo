@@ -1,17 +1,23 @@
-import { Flex, Spinner } from '@axonivy/ui-components';
+import { Flex, PanelMessage, Spinner } from '@axonivy/ui-components';
+import { IvyIcons } from '@axonivy/ui-icons';
+import { t } from 'i18next';
 import type { ReactNode } from 'react';
 import type { ViewTypes } from './OverviewFilter';
 
 type OverviewContentProps = {
   children: ReactNode;
   isPending: boolean;
+  hasData?: boolean;
   viewType?: ViewTypes;
   viewTypes?: Record<Exclude<ViewTypes, 'tile'>, ReactNode>;
 };
 
-export const OverviewContent = ({ children, isPending, viewType = 'tile', viewTypes }: OverviewContentProps) => {
+export const OverviewContent = ({ children, isPending, viewType = 'tile', viewTypes, hasData }: OverviewContentProps) => {
   if (isPending) {
     return <Spinner size='small' className='overview-loader' />;
+  }
+  if (hasData == false) {
+    return <PanelMessage icon={IvyIcons.Search} message={t('message.noArtifactsFound')} mode='column' />;
   }
   return (
     <>

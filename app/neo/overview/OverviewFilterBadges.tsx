@@ -8,20 +8,20 @@ type OverviewFilterProps = {
   viewType: ViewTypes;
   projects: Array<string>;
   setProjects: (projects: Array<string>) => void;
-  tags: Array<string>;
-  setTags: (tags: Array<string>) => void;
+  badges: Array<string>;
+  setBadges: (badges: Array<string>) => void;
 };
 
-export const OverviewFilterTags = ({ viewType, projects, setProjects, tags, setTags }: OverviewFilterProps) => {
+export const OverviewFilterBadges = ({ viewType, projects, setProjects, badges, setBadges }: OverviewFilterProps) => {
   const { t } = useTranslation();
-  if (viewType !== 'tile' || (projects.length === 0 && tags.length === 0)) {
+  if (viewType !== 'tile' || (projects.length === 0 && badges.length === 0)) {
     return null;
   }
   return (
     <Flex direction='row' alignItems='center' gap={2} className='overview-filter-tags' style={{ fontSize: 14, color: 'var(--N700)' }}>
       <span>{t('label.filterBy')}</span>
       {projects.map(project => (
-        <Tag
+        <Badge
           key={project}
           name={
             <>
@@ -31,22 +31,22 @@ export const OverviewFilterTags = ({ viewType, projects, setProjects, tags, setT
           remove={() => setProjects(projects.filter(p => p !== project))}
         />
       ))}
-      {tags.map(tag => (
-        <Tag
-          key={tag}
+      {badges.map(badge => (
+        <Badge
+          key={badge}
           name={
             <>
-              <IvyIcon icon={IvyIcons.Label} /> {tag}
+              <IvyIcon icon={IvyIcons.Label} /> {badge}
             </>
           }
-          remove={() => setTags(tags.filter(t => t !== tag))}
+          remove={() => setBadges(badges.filter(t => t !== badge))}
         />
       ))}
     </Flex>
   );
 };
 
-const Tag = ({ name, remove }: { name: React.ReactNode; remove: () => void }) => {
+const Badge = ({ name, remove }: { name: React.ReactNode; remove: () => void }) => {
   return (
     <Flex
       alignItems='center'

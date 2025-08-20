@@ -31,9 +31,9 @@ import { useDeleteProject, useProjectsApi, useSortedProjects } from '~/data/proj
 import { useDownloadWorkspace, useImportProjectsIntoWs, useWorkspace } from '~/data/workspace-api';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
+import type { Badge } from '~/neo/overview/artifact/ArtifactBadge';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
-import type { Tag } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { Overview } from '~/neo/overview/Overview';
@@ -180,15 +180,15 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const ws = useWorkspace();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const defaultProject = project.id.pmv === ws?.name;
-  const { tagsFor } = useTags();
-  const tags = tagsFor(project, defaultProject);
+  const { badgesFor: badgesFor } = useBadges();
+  const badges = badgesFor(project, defaultProject);
   return (
     <ArtifactCard
       ref={artifactCardRef}
       name={project.id.pmv}
       onClick={() => navigate(`projects/${project.id.app}/${project.id.pmv}`)}
       preview={<PreviewSvg type='workspace' />}
-      tags={tags}
+      badges={badges}
     >
       <ArtifactCardMenu
         deleteAction={{
@@ -203,18 +203,18 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   );
 };
 
-const useTags = () => {
+const useBadges = () => {
   const { t } = useTranslation();
-  const allTags: Array<string> = [t('common.label.readOnly'), t('common.label.default')];
-  const tagsFor = (project: ProjectBean, defaultProject: boolean) => {
-    const tags: Array<Tag> = [];
+  const allBadges: Array<string> = [t('common.label.readOnly'), t('common.label.default')];
+  const badgesFor = (project: ProjectBean, defaultProject: boolean) => {
+    const badges: Array<Badge> = [];
     if (project.id.isIar) {
-      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+      badges.push({ label: allBadges[0], badgeStyle: 'secondary' });
     }
     if (defaultProject) {
-      tags.push({ label: allTags[1], tagStyle: 'primary' });
+      badges.push({ label: allBadges[1], badgeStyle: 'primary' });
     }
-    return tags;
+    return badges;
   };
-  return { allTags, tagsFor };
+  return { allBadges: allBadges, badgesFor: badgesFor };
 };
