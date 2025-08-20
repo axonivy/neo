@@ -37,16 +37,37 @@ export const useArtifactValidation = () => {
         return message;
       }
     }
-    const nsRegex = namespaceRegex(separator);
+    const nsRegex = regexWithSeparator(separator);
     if (!nsRegex.test(namespace)) {
       const index = findFirstNonMatchingIndex(namespace, nsRegex);
       return { message: t('message.invalidChar', { char: namespace[index], pos: index + 1, str: namespace }), variant: 'error' };
     }
   };
+
+  const validateProjectDetails = (item?: string, separator?: string, startsCapital?: boolean): MessageData | undefined => {
+    if (!item) {
+      return { message: t('message.artifactNotEmpty'), variant: 'error' };
+    }
+    const message = reservedCheck(item);
+    if (message) {
+      return message;
+    }
+    const regex = regexWithSeparator(separator);
+    if (!regex.test(item)) {
+      const index = findFirstNonMatchingIndex(item, regex);
+      return { message: t('message.invalidChar', { char: item[index], pos: index + 1, str: item }), variant: 'error' };
+    }
+    if (startsCapital && startsWithLowercase(item)) {
+      return { message: t('message.capitalizeName'), variant: 'warning' };
+    } else if (!startsCapital && !startsWithLowercase(item)) {
+      return { message: t('message.noneCapitalizeName'), variant: 'warning' };
+    }
+  };
   return {
     artifactAlreadyExists,
     validateArtifactName,
-    validateArtifactNamespace
+    validateArtifactNamespace,
+    validateProjectDetails
   };
 };
 
@@ -63,7 +84,7 @@ const startsWithLowercase = (input: string): boolean => {
 const findFirstNonMatchingIndex = (input: string, regex: RegExp) => {
   for (let i = 0; i < input.length; i++) {
     const subsstr = input.substring(0, i + 1);
-    if (!regex.test(subsstr)) {
+    if (!regex.test(subsstr) && !regex.test(input.substring(0, i + 2))) {
       return i;
     }
   }
@@ -71,7 +92,7 @@ const findFirstNonMatchingIndex = (input: string, regex: RegExp) => {
 };
 
 const ARTIFACT_NAME_REGEX = /^[a-zA-Z][\w_]*$/;
-const namespaceRegex = (separator: string) => new RegExp(`^[a-zA-Z][\\w_]*(\\${separator}[a-zA-Z][\\w_]*)*$`);
+const regexWithSeparator = (separator?: string) => new RegExp(`^[a-zA-Z][\\w_]*(\\${separator}[a-zA-Z][\\w_]*)*$`);
 
 const JAVA_KEYWORDS = [
   'abstract',

@@ -155,6 +155,7 @@
     "invalidChar": "Invalid character '{{- char}}' at position {{pos}} in '{{- str}}'.",
     "invalidIar": "Select an .iar file or a .zip file that contains .iar files.",
     "loadEngineVersionFail": "Failed to load engine version",
+    "noneCapitalizeName": "It's recommended to write the first letter in lower case.",
     "processPackaged": "The process cannot be deleted as the project to which it belongs is packaged."
   },
   "neo": {
@@ -176,7 +177,11 @@
     "processDescription": "A process describes a sequence of automated steps that optimize workflows and enables efficient task management within an application."
   },
   "project": {
-    "editable": "Editable"
+    "defaultNamespace": "Default Namespace",
+    "editable": "Editable",
+    "groupId": "Group-Id",
+    "name": "Name",
+    "projectId": "Project-Id"
   },
   "projects": {
     "addDependency": "Add new Dependency",
@@ -265,6 +270,12 @@
       "bpmnEngineStopFail": "Failed to stop BPM Engine for project '{{pmv}}'",
       "bpmnEngineStopped": "BPM Engine stopped",
       "bpmnEngineStopping": "Stopping BPM Engine",
+      "created": "Project successfully created",
+      "createFail": "Failed to create project",
+      "creating": "Creating Project",
+      "deployed": "Project successfully deployed ",
+      "deployedFail": "Failed to deploy project",
+      "deploying": "project is being deployed",
       "missing": "Failed to load projects",
       "removed": "Project removed",
       "removeFail": "Failed to remove project '{{pmv}}'",
@@ -308,6 +319,8 @@
     "importWarningLink": "Consider exporting the Workspace beforehand.",
     "info": "A workspace is the development area where an application is built and tested. It's the space where your business processes are designed, previewed and simulated before they're deployed as a functioning application.",
     "manageWorkspaces": "Manage your workspaces",
+    "newProject": "Create new Project",
+    "newProjectDescription": "A Project is the basement for your Processes",
     "newWorkspace": "Create new Workspace",
     "newWorkspaceDescription": "The workspace is the development area for creating new applications and business processes",
     "title": "Welcome to {{neo}}",

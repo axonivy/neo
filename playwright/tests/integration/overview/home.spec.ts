@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test';
+import { ProjectDetail } from 'playwright/tests/page-objects/project-detail';
+import { ValidationMessage } from 'playwright/tests/page-objects/validation-message';
 import { ImportDialog } from '../../page-objects/import-dialog';
 import { Neo } from '../../page-objects/neo';
 import { Overview } from '../../page-objects/overview';
@@ -40,6 +42,41 @@ test('search projects', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
+test('create new Project', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = new Overview(page);
+  const projectName = 'Other-Project';
+  await overview.clickCreateProject(projectName);
+  await neo.toast.expectSuccess('Project successfully created');
+  await neo.toast.expectSuccess('Project successfully deployed');
+  await overview.card(projectName).click();
+  const detail = new ProjectDetail(page);
+  await expect(overview.title.first()).toHaveText(`Project details: ${projectName}`);
+  await expect(detail.detailCard).toContainText('ArtifactId:other-project');
+  await expect(detail.detailCard).toContainText('GroupId:modified.groupId');
+  await neo.home();
+  await overview.deleteCard(projectName);
+});
+
+test('validate Projectdetails', async ({ page }) => {
+  await Neo.openWorkspace(page);
+  const projectName = 'Other-Project';
+  await page.getByRole('button', { name: 'Create new Project' }).click();
+  await expect(page.locator('text=A Project is the basement for your Processes')).toBeVisible();
+  const createButton = page.getByRole('button', { name: 'Create' });
+  const nameInput = page.getByLabel('Name');
+  await nameInput.fill('asd?');
+  await new ValidationMessage(nameInput).expectError("Invalid character '?' at position 4 in 'asd?'.");
+  await expect(createButton).toBeDisabled();
+  await nameInput.fill('');
+  await nameInput.fill(projectName);
+  await expect(createButton).toBeEnabled();
+  await page.getByRole('button', { name: 'Optional' }).click();
+  const groupIdInput = page.getByLabel('Group-Id');
+  await groupIdInput.fill('NOTGOOD');
+  await new ValidationMessage(groupIdInput).expectWarning("It's recommended to write the first letter in lower case.");
+});
+
 test('import and delete project', async ({ page, browserName }, testInfo) => {
   const zipFile = workspaceExportZip('importMe.zip');
   const { overview, neo } = await Neo.exportWorkspace(page, zipFile);
@@ -55,7 +92,7 @@ test('import and delete project', async ({ page, browserName }, testInfo) => {
   await overview.deleteCard(TEST_PROJECT);
   await neo.toast.expectSuccess('Project removed');
   await page.goto('');
-  await overview.deleteCard(wsName, true);
+  await overview.deleteCard(wsName);
 });
 
 test('project graph', async ({ page }) => {

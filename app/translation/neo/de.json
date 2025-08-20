@@ -155,6 +155,7 @@
     "invalidChar": "Ungültiges Zeichen '{{- char}}' an Position {{pos}} in '{{- str}}'.",
     "invalidIar": "Wählen Sie eine .iar-Datei oder eine .zip-Datei, die .iar-Dateien enthält.",
     "loadEngineVersionFail": "Engine Version konnte nicht geladen werden",
+    "noneCapitalizeName": "Es wird empfohlen, den ersten Buchstaben kleinzuschreiben.",
     "processPackaged": "Der Prozess kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist."
   },
   "neo": {
@@ -176,7 +177,11 @@
     "processDescription": "Ein Prozess beschreibt eine Abfolge automatisierter Schritte, die Arbeitsabläufe optimieren und ein effizientes Aufgabenmanagement innerhalb einer Anwendung ermöglichen."
   },
   "project": {
-    "editable": "Bearbeitbar"
+    "defaultNamespace": "Standard Namespace",
+    "editable": "Bearbeitbar",
+    "groupId": "Gruppen-Id",
+    "name": "Name",
+    "projectId": "Projekt-Id"
   },
   "projects": {
     "addDependency": "Neue Abhängigkeit hinzufügen",
@@ -265,6 +270,12 @@
       "bpmnEngineStopFail": "BPM-Engine für Projekt '{{pmv}}' konnte nicht gestoppt werden",
       "bpmnEngineStopped": "BPM-Engine gestoppt",
       "bpmnEngineStopping": "BPM-Engine wird gestoppt",
+      "created": "Projekt wurde erfolgreich erstellt",
+      "createFail": "Projekte konnte nicht erstellt werden",
+      "creating": "Projekt wird erstellt",
+      "deployed": "Projekt wurde erfolgreich bereitgestellt",
+      "deployedFail": "Projekt konnte nicht bereitgestellt werden",
+      "deploying": "Projekt wird bereitgestellt",
       "missing": "Projekte konnten nicht geladen werden",
       "removed": "Projekt gelöscht",
       "removeFail": "Projekt '{{pmv}}' konnte nicht gelöscht werden",
@@ -308,6 +319,8 @@
     "importWarningLink": "Erwägen Sie, den Workspace vorher zu exportieren.",
     "info": "Ein Workspace ist der Entwicklungsbereich, in dem neue Anwendungen erstellt und getestet werden. Hier werden Geschäftsprozesse entworfen, automatisiert und simuliert, bevor sie als funktionierende Anwendung bereitgestellt werden.",
     "manageWorkspaces": "Verwalten Sie Ihre Workspaces",
+    "newProject": "Neues Projekt",
+    "newProjectDescription": "Ein Projekt bietet die Grundlage für die Prozesse, Datenklassen und Dialoge",
     "newWorkspace": "Neuen Workspace erstellen",
     "newWorkspaceDescription": "Der Workspace ist der Entwicklungsbereich für die Erstellung neuer Anwendungen und Geschäftsprozesse",
     "title": "Willkommen bei {{neo}}",
