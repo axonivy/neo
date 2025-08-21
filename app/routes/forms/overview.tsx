@@ -17,7 +17,7 @@ import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
-import { OverviewSortBy, useSortedProcesses } from '~/neo/overview/OverviewSortBy';
+import { OverviewSortBy, useSortedArtifacts } from '~/neo/overview/OverviewSortBy';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Forms');
@@ -37,7 +37,7 @@ export default function Index() {
     const nameMatches = form.name.toLocaleLowerCase().includes(search);
     return hasMatchingProject && hasMatchingBade && nameMatches;
   });
-  const { sortedArtifacts, setSortDirection } = useSortedProcesses([...new Set(filteredAritfacts.map(f => f.name))]);
+  const { sortedArtifacts, setSortDirection } = useSortedArtifacts(filteredAritfacts, form => form.name);
 
   return (
     <Overview>
@@ -57,10 +57,9 @@ export default function Index() {
       </OverviewFilter>
       <OverviewFilterBadges {...overviewFilter} />
       <OverviewContent isPending={isPending}>
-        {sortedArtifacts.map(name => {
-          const form = filteredAritfacts.find(form => form.name === name);
-          if (form) return <FormCard key={`${form.identifier.project.pmv}/${form.namespace}/${form.name}`} form={form} />;
-        })}
+        {sortedArtifacts.map(form => (
+          <FormCard key={`${form.identifier.project.pmv}/${form.namespace}/${form.name}`} form={form} />
+        ))}
       </OverviewContent>
     </Overview>
   );

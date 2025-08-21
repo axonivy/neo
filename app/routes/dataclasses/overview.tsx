@@ -18,7 +18,7 @@ import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
-import { OverviewSortBy, useSortedProcesses } from '~/neo/overview/OverviewSortBy';
+import { OverviewSortBy, useSortedArtifacts } from '~/neo/overview/OverviewSortBy';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { DataClassGraph, DataClassGraphFilter } from './DataClassGraph';
 
@@ -42,7 +42,7 @@ export default function Index() {
   });
   const { ws } = useParams();
   const [selectedProject, setSelectedProject] = useState<string>(ws ?? 'all');
-  const { sortedArtifacts, setSortDirection } = useSortedProcesses([...new Set(filteredAritfacts.map(dc => dc.simpleName))]);
+  const { sortedArtifacts, setSortDirection } = useSortedArtifacts(filteredAritfacts, dataClassBean => dataClassBean.simpleName);
 
   return (
     <Overview>
@@ -69,16 +69,12 @@ export default function Index() {
         viewType={overviewFilter.viewType}
         viewTypes={{ graph: <DataClassGraph selectedProject={selectedProject} /> }}
       >
-        {sortedArtifacts.map(name => {
-          const dataClass = filteredAritfacts.find(d => d.simpleName === name);
-          if (dataClass)
-            return (
-              <DataClassCard
-                key={`${dataClass.dataClassIdentifier.project.pmv}/${dataClass.path}/${dataClass.simpleName}`}
-                dataClass={dataClass}
-              />
-            );
-        })}
+        {sortedArtifacts.map(dataclass => (
+          <DataClassCard
+            key={`${dataclass.dataClassIdentifier.project.pmv}/${dataclass.path}/${dataclass.simpleName}`}
+            dataClass={dataclass}
+          />
+        ))}
       </OverviewContent>
     </Overview>
   );

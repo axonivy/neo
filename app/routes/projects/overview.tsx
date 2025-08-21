@@ -19,7 +19,7 @@ import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewInfoCard } from '~/neo/overview/OverviewInfoCard';
 import { OverviewRecentlyOpened } from '~/neo/overview/OverviewRecentlyOpened';
-import { OverviewSortBy, useSortedProcesses } from '~/neo/overview/OverviewSortBy';
+import { OverviewSortBy, useSortedArtifacts } from '~/neo/overview/OverviewSortBy';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { AddDependencyDialog } from './DependencyDialog';
 
@@ -37,7 +37,7 @@ export default function Index() {
   const project = useMemo(() => projects?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects]);
   const { data: depencencies, isPending: isDependenciesPending } = useDependencies(app, pmv);
   const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(depencencies ?? [], (dep, search) => dep.pmv.includes(search));
-  const { sortedArtifacts, setSortDirection } = useSortedProcesses([...new Set(filteredAritfacts.map(p => p.pmv))]);
+  const { sortedArtifacts, setSortDirection } = useSortedArtifacts(filteredAritfacts, projectBean => projectBean.pmv);
 
   if (isProjectsPending) {
     return (
@@ -107,10 +107,9 @@ export default function Index() {
         <OverviewSortBy setSortDirection={setSortDirection} />
       </OverviewFilter>
       <OverviewContent isPending={isDependenciesPending}>
-        {sortedArtifacts?.map(name => {
-          const p = filteredAritfacts.find(p => p.pmv === name);
-          if (p) return <DependencyCard key={p.pmv} dependency={p} project={project.id} />;
-        })}
+        {sortedArtifacts?.map(dep => (
+          <DependencyCard key={dep.pmv} dependency={dep} project={project.id} />
+        ))}
       </OverviewContent>
     </Overview>
   );

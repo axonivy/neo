@@ -11,9 +11,9 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { t } from 'i18next';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 
-export const OverviewSortBy = ({ setSortDirection }: { setSortDirection: (direction: 'asc' | 'desc') => void }) => {
+export const OverviewSortBy = ({ setSortDirection }: { setSortDirection: (direction: 'asc' | 'desc' | undefined) => void }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,31 +27,43 @@ export const OverviewSortBy = ({ setSortDirection }: { setSortDirection: (direct
           {t('label.sortBy')}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
+        <DropdownMenuItem aria-label={t('common.label.default')} onClick={() => setSortDirection(undefined)}>
+          <IvyIcon icon={IvyIcons.Chevron} rotate={90} /> {t('common.label.default')}
+        </DropdownMenuItem>
         <DropdownMenuItem aria-label={t('label.sortByA-z')} onClick={() => setSortDirection('asc')}>
-          {t('label.sortByA-z')}
+          <IvyIcon icon={IvyIcons.ArrowRight} rotate={90} /> {t('label.sortByA-z')}
         </DropdownMenuItem>
         <DropdownMenuItem aria-label={t('label.sortByZ-a')} onClick={() => setSortDirection('desc')}>
-          {t('label.sortByZ-a')}
+          <IvyIcon icon={IvyIcons.ArrowRight} rotate={270} /> {t('label.sortByZ-a')}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 };
 
-export const useSortedProcesses = (names: string[]) => {
-  const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>('asc');
-  const sortedArtifacts = React.useMemo(() => {
-    if (!names) return [];
-    const sorted = [...names].sort((a, b) => {
-      const nameA = a.toLowerCase();
-      const nameB = b.toLowerCase();
+export function useSortedArtifacts<T>(
+  artifacts: T[],
+  nameExtractor: (artifact: T) => string
+): { sortedArtifacts: T[]; setSortDirection: React.Dispatch<React.SetStateAction<'asc' | 'desc' | undefined>> } {
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | undefined>(undefined);
+
+  const sortedArtifacts = useMemo(() => {
+    if (!sortDirection) {
+      return artifacts;
+    }
+    const sorted = [...artifacts].sort((a, b) => {
+      const nameA = nameExtractor(a);
+      const nameB = nameExtractor(b);
+
       if (sortDirection === 'asc') {
         return nameA.localeCompare(nameB);
       } else {
         return nameB.localeCompare(nameA);
       }
     });
+
     return sorted;
-  }, [names, sortDirection]);
+  }, [artifacts, sortDirection, nameExtractor]);
+
   return { sortedArtifacts, setSortDirection };
-};
+}
