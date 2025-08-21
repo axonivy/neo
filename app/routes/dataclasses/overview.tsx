@@ -18,6 +18,7 @@ import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
+import { OverviewSortBy, useSortedProcesses } from '~/neo/overview/OverviewSortBy';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { DataClassGraph, DataClassGraphFilter } from './DataClassGraph';
 
@@ -41,6 +42,7 @@ export default function Index() {
   });
   const { ws } = useParams();
   const [selectedProject, setSelectedProject] = useState<string>(ws ?? 'all');
+  const { sortedArtifacts, setSortDirection } = useSortedProcesses([...new Set(filteredAritfacts.map(dc => dc.simpleName))]);
 
   return (
     <Overview>
@@ -52,6 +54,7 @@ export default function Index() {
         {...overviewFilter}
         viewTypes={{ graph: <DataClassGraphFilter selectedProject={selectedProject} setSelectedProject={setSelectedProject} /> }}
       >
+        <OverviewSortBy setSortDirection={setSortDirection} />
         <OverviewProjectFilter
           projects={overviewFilter.projects}
           setProjects={overviewFilter.setProjects}
@@ -66,12 +69,16 @@ export default function Index() {
         viewType={overviewFilter.viewType}
         viewTypes={{ graph: <DataClassGraph selectedProject={selectedProject} /> }}
       >
-        {filteredAritfacts.map(dataclass => (
-          <DataClassCard
-            key={`${dataclass.dataClassIdentifier.project.pmv}/${dataclass.path}/${dataclass.simpleName}`}
-            dataClass={dataclass}
-          />
-        ))}
+        {sortedArtifacts.map(name => {
+          const dataClass = filteredAritfacts.find(d => d.simpleName === name);
+          if (dataClass)
+            return (
+              <DataClassCard
+                key={`${dataClass.dataClassIdentifier.project.pmv}/${dataClass.path}/${dataClass.simpleName}`}
+                dataClass={dataClass}
+              />
+            );
+        })}
       </OverviewContent>
     </Overview>
   );
