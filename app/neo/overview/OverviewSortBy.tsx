@@ -6,7 +6,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  Flex,
   IvyIcon
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
@@ -17,9 +16,7 @@ export const OverviewSortBy = ({ setSortDirection }: { setSortDirection: (direct
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Flex alignItems='center' className='overview-filter-button' style={{ position: 'relative' }}>
-          <Button size='large' icon={IvyIcons.Selector} title={t('label.sortBy')} aria-label={t('label.sortBy')} />
-        </Flex>
+        <Button size='large' icon={IvyIcons.Selector} title={t('label.sortBy')} aria-label={t('label.sortBy')} />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>
