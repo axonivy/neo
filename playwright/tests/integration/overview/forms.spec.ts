@@ -45,6 +45,17 @@ test('search forms', async ({ page }) => {
   await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
 });
 
+test('sort forms', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.forms();
+  await expect(overview.cards.first()).toContainText('EnterProduct');
+  await overview.clickSortByAtoZ();
+  await expect(overview.cards.first()).toContainText('EmptyForm');
+  await overview.clickSortByZtoA();
+  await expect(overview.cards.first()).toContainText('EnterProduct');
+  console.log('asdasd');
+});
+
 test('filter forms', async ({ page }) => {
   await Neo.openWorkspace(page, 'forms?p=not-existing');
   const overview = new Overview(page);

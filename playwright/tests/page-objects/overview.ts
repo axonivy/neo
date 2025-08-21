@@ -11,6 +11,7 @@ export class Overview {
   readonly createButton: Locator;
   readonly search: Locator;
   readonly filter: OverviewFilter;
+  readonly sorting: Locator;
   readonly viewToggle: Locator;
   readonly cards: Locator;
   readonly recentlyOpenedCards: Locator;
@@ -23,7 +24,8 @@ export class Overview {
     this.titleSection = this.overview.locator('.overview-title-section');
     this.title = this.titleSection.locator('.overview-title');
     this.createButton = this.titleSection.getByRole('button').last();
-    this.search = this.overview.locator('input');
+    this.sorting = this.overview.locator('input');
+    this.search = this.overview.locator('Sort By');
     this.filter = new OverviewFilter(page, this.overview);
     this.cards = this.overview.locator('.artifact-card:not(.recently-opened-card)');
     this.recentlyOpenedCards = this.overview.locator('.artifact-card.recently-opened-card');
@@ -85,6 +87,16 @@ export class Overview {
     const groupIdInput = this.page.getByLabel('Group-Id');
     await groupIdInput.fill('modified.groupId');
     await this.page.getByRole('button', { name: 'Create' }).click();
+  }
+
+  async clickSortByAtoZ() {
+    await this.page.getByRole('button', { name: 'Sort By' }).click();
+    await this.page.getByRole('menuitem').getByText('A to Z').click();
+  }
+
+  async clickSortByZtoA() {
+    await this.page.getByRole('button', { name: 'Sort By' }).click();
+    await this.page.getByRole('menuitem').getByText('Z to A').click();
   }
 
   async checkCreateValidationMessage(options: {
@@ -189,7 +201,6 @@ export class Overview {
     await this.page.goBack();
   }
 }
-
 class OverviewFilter {
   readonly button: Locator;
   readonly badge: Locator;

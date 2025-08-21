@@ -27,6 +27,17 @@ test('search configs', async ({ page }) => {
   await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
 });
 
+test('sort configs', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.configs();
+  await expect(overview.cards.first()).toContainText('cms');
+  await overview.clickSortByAtoZ();
+  await expect(overview.cards.first()).toContainText('cms');
+  await overview.clickSortByZtoA();
+  await expect(overview.cards.first()).toContainText('variables');
+  console.log('asdasd');
+});
+
 test('filter configs', async ({ page }) => {
   await Neo.openWorkspace(page, 'configurations?p=not-existing');
   const overview = new Overview(page);

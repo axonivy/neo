@@ -49,6 +49,17 @@ test('search processes', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
+test('sort processes', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.processes();
+  await expect(overview.cards.first()).toContainText('wsprocess');
+  await overview.clickSortByAtoZ();
+  await expect(overview.cards.first()).toContainText('jump');
+  await overview.clickSortByZtoA();
+  await expect(overview.cards.first()).toContainText('wsprocess');
+  console.log('asdasd');
+});
+
 test('filter processes', async ({ page }) => {
   await Neo.openWorkspace(page, 'processes?p=not-existing');
   const overview = new Overview(page);

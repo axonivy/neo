@@ -10,7 +10,7 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { t } from 'i18next';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export const OverviewSortBy = ({ setSortDirection }: { setSortDirection: (direction: 'asc' | 'desc' | undefined) => void }) => {
   return (
@@ -38,11 +38,8 @@ export const OverviewSortBy = ({ setSortDirection }: { setSortDirection: (direct
   );
 };
 
-export function useSortedArtifacts<T>(
-  artifacts: T[],
-  nameExtractor: (artifact: T) => string
-): { sortedArtifacts: T[]; setSortDirection: React.Dispatch<React.SetStateAction<'asc' | 'desc' | undefined>> } {
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | undefined>(undefined);
+export function useSortedArtifacts<T>(artifacts: T[], nameExtractor: (artifact: T) => string) {
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc' | undefined>();
 
   const sortedArtifacts = useMemo(() => {
     if (!sortDirection) {
