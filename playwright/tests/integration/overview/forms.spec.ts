@@ -48,10 +48,14 @@ test('search forms', async ({ page }) => {
 test('sort forms', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
+  await overview.create('AAA', 'test', { hasDataClassSelect: true });
+  await new FormEditor(neo, 'AAA').expectOpen();
+  await page.goBack();
   await overview.clickSortByAtoZ();
-  await expect(overview.cards.first()).toContainText('EmptyForm');
+  await expect(overview.cards.first()).toContainText('AAA');
   await overview.clickSortByZtoA();
   await expect(overview.cards.first()).toContainText('EnterProduct');
+  await overview.deleteCard('AAA');
 });
 
 test('filter forms', async ({ page }) => {
