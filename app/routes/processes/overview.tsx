@@ -17,6 +17,7 @@ import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
+import { OverviewSortBy, useSortedArtifacts } from '~/neo/overview/OverviewSortBy';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
@@ -38,6 +39,7 @@ export default function Index() {
 
     return hasMatchingProject && hasMatchingBade && nameMatches;
   });
+  const { sortedArtifacts, setSortDirection } = useSortedArtifacts(filteredAritfacts, processBean => processBean.name);
 
   return (
     <Overview>
@@ -46,6 +48,7 @@ export default function Index() {
         <NewProcessButton />
       </OverviewTitle>
       <OverviewFilter {...overviewFilter}>
+        <OverviewSortBy setSortDirection={setSortDirection} />
         <OverviewProjectFilter
           projects={overviewFilter.projects}
           setProjects={overviewFilter.setProjects}
@@ -56,7 +59,7 @@ export default function Index() {
       </OverviewFilter>
       <OverviewFilterBadges {...overviewFilter} />
       <OverviewContent isPending={isPending}>
-        {filteredAritfacts.map(process => (
+        {sortedArtifacts.map(process => (
           <ProcessCard key={`${process.processIdentifier.project.pmv}/${process.processIdentifier.pid}`} process={process} />
         ))}
       </OverviewContent>

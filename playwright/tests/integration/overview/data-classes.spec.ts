@@ -49,6 +49,15 @@ test('search data classes', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
+test('sort data classes', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.dataClasses();
+  await overview.clickSortByAtoZ();
+  await expect(overview.cards.first()).toContainText('Address');
+  await overview.clickSortByZtoA();
+  await expect(overview.cards.first()).toContainText('wsprocessData');
+});
+
 test('filter data classes', async ({ page }) => {
   await Neo.openWorkspace(page, 'dataclasses?p=not-existing');
   const overview = new Overview(page);

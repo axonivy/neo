@@ -13,6 +13,7 @@ import { Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
+import { OverviewSortBy, useSortedArtifacts } from '~/neo/overview/OverviewSortBy';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Configurations');
@@ -35,12 +36,14 @@ export default function Index() {
 
     return hasMatchingProject && hasMatchingBadge && nameMatches;
   });
+  const { sortedArtifacts, setSortDirection } = useSortedArtifacts(filteredAritfacts, config => config.path);
 
   return (
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.configs') }]} />
       <OverviewTitle title={t('neo.configs')} description={t('configurations.configDescription')} />
       <OverviewFilter {...overviewFilter}>
+        <OverviewSortBy setSortDirection={setSortDirection} />
         <OverviewProjectFilter
           projects={overviewFilter.projects}
           setProjects={overviewFilter.setProjects}
@@ -51,7 +54,7 @@ export default function Index() {
       </OverviewFilter>
       <OverviewFilterBadges {...overviewFilter} />
       <OverviewContent isPending={isPending}>
-        {filteredAritfacts.map(config => (
+        {sortedArtifacts.map(config => (
           <ConfigCard key={`${config.project.pmv}/${config.path}`} config={config} />
         ))}
       </OverviewContent>

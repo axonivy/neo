@@ -87,6 +87,16 @@ export class Overview {
     await this.page.getByRole('button', { name: 'Create' }).click();
   }
 
+  async clickSortByAtoZ() {
+    await this.page.getByRole('button', { name: 'Sort By' }).click();
+    await this.page.getByRole('menuitem').getByText('A to Z').click();
+  }
+
+  async clickSortByZtoA() {
+    await this.page.getByRole('button', { name: 'Sort By' }).click();
+    await this.page.getByRole('menuitem').getByText('Z to A').click();
+  }
+
   async checkCreateValidationMessage(options: {
     name?: string;
     namespace?: string;
@@ -189,7 +199,6 @@ export class Overview {
     await this.page.goBack();
   }
 }
-
 class OverviewFilter {
   readonly button: Locator;
   readonly badge: Locator;
