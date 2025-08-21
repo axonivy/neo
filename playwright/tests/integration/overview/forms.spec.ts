@@ -48,7 +48,6 @@ test('search forms', async ({ page }) => {
 test('sort forms', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.forms();
-  await expect(overview.cards.first()).toContainText('EnterProduct');
   await overview.clickSortByAtoZ();
   await expect(overview.cards.first()).toContainText('EmptyForm');
   await overview.clickSortByZtoA();

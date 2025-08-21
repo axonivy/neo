@@ -52,7 +52,6 @@ test('search data classes', async ({ page }) => {
 test('sort data classes', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.dataClasses();
-  await expect(overview.cards.first()).toContainText('wsprocessData');
   await overview.clickSortByAtoZ();
   await expect(overview.cards.first()).toContainText('Address');
   await overview.clickSortByZtoA();

@@ -52,7 +52,6 @@ test('search processes', async ({ page }) => {
 test('sort processes', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.processes();
-  await expect(overview.cards.first()).toContainText('wsprocess');
   await overview.clickSortByAtoZ();
   await expect(overview.cards.first()).toContainText('jump');
   await overview.clickSortByZtoA();

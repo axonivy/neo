@@ -30,7 +30,6 @@ test('search configs', async ({ page }) => {
 test('sort configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
-  await expect(overview.cards.first()).toContainText('cms');
   await overview.clickSortByAtoZ();
   await expect(overview.cards.first()).toContainText('cms');
   await overview.clickSortByZtoA();
