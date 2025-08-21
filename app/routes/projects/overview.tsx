@@ -109,7 +109,7 @@ export default function Index() {
       <OverviewContent isPending={isDependenciesPending}>
         {sortedArtifacts?.map(name => {
           const p = filteredAritfacts.find(p => p.pmv === name);
-          if (p) <DependencyCard key={p.pmv} dependency={p} project={project.id} />;
+          if (p) return <DependencyCard key={p.pmv} dependency={p} project={project.id} />;
         })}
       </OverviewContent>
     </Overview>
