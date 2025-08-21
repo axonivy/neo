@@ -11,7 +11,6 @@ export class Overview {
   readonly createButton: Locator;
   readonly search: Locator;
   readonly filter: OverviewFilter;
-  readonly sorting: Locator;
   readonly viewToggle: Locator;
   readonly cards: Locator;
   readonly recentlyOpenedCards: Locator;
@@ -24,8 +23,7 @@ export class Overview {
     this.titleSection = this.overview.locator('.overview-title-section');
     this.title = this.titleSection.locator('.overview-title');
     this.createButton = this.titleSection.getByRole('button').last();
-    this.sorting = this.overview.locator('input');
-    this.search = this.overview.locator('Sort By');
+    this.search = this.overview.locator('input');
     this.filter = new OverviewFilter(page, this.overview);
     this.cards = this.overview.locator('.artifact-card:not(.recently-opened-card)');
     this.recentlyOpenedCards = this.overview.locator('.artifact-card.recently-opened-card');
