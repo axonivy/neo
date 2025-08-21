@@ -55,7 +55,7 @@ export default function Index() {
         />
       </OverviewFilter>
       <OverviewFilterBadges {...overviewFilter} />
-      <OverviewContent isPending={isPending} hasData={filteredAritfacts.length > 0}>
+      <OverviewContent isPending={isPending}>
         {filteredAritfacts.map(process => (
           <ProcessCard key={`${process.processIdentifier.project.pmv}/${process.processIdentifier.pid}`} process={process} />
         ))}

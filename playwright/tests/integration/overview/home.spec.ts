@@ -42,6 +42,16 @@ test('search projects', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
+test('search home with no Result', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.home();
+  await overview.clickMarketImport();
+  await overview.search.fill('noFinding');
+  await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
+  await overview.search.fill('noFinding');
+  await expect(overview.cards).toHaveCount(0);
+});
+
 test('create new Project', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = new Overview(page);

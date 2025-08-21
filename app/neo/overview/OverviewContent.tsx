@@ -7,16 +7,15 @@ import type { ViewTypes } from './OverviewFilter';
 type OverviewContentProps = {
   children: ReactNode;
   isPending: boolean;
-  hasData?: boolean;
   viewType?: ViewTypes;
   viewTypes?: Record<Exclude<ViewTypes, 'tile'>, ReactNode>;
 };
 
-export const OverviewContent = ({ children, isPending, viewType = 'tile', viewTypes, hasData }: OverviewContentProps) => {
+export const OverviewContent = ({ children, isPending, viewType = 'tile', viewTypes }: OverviewContentProps) => {
   if (isPending) {
     return <Spinner size='small' className='overview-loader' />;
   }
-  if (hasData == false) {
+  if (Array.isArray(children) && children.length === 0) {
     return <PanelMessage icon={IvyIcons.Search} message={t('message.noArtifactsFound')} mode='column' />;
   }
   return (

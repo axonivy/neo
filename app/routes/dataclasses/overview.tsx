@@ -63,7 +63,6 @@ export default function Index() {
       <OverviewFilterBadges {...overviewFilter} />
       <OverviewContent
         isPending={isPending}
-        hasData={filteredAritfacts.length > 0}
         viewType={overviewFilter.viewType}
         viewTypes={{ graph: <DataClassGraph selectedProject={selectedProject} /> }}
       >

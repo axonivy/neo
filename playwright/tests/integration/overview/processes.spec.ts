@@ -47,6 +47,15 @@ test('search processes', async ({ page }) => {
   await expect(overview.cards).toHaveCount(1);
 });
 
+test('search processes with no result', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.processes();
+  await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
+  await overview.search.fill('noFinding');
+  await expect(overview.cards).toHaveCount(0);
+  await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
+});
+
 test('filter processes', async ({ page }) => {
   await Neo.openWorkspace(page, 'processes?p=not-existing');
   const overview = new Overview(page);

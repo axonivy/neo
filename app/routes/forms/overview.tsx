@@ -53,7 +53,7 @@ export default function Index() {
         />
       </OverviewFilter>
       <OverviewFilterBadges {...overviewFilter} />
-      <OverviewContent isPending={isPending} hasData={filteredAritfacts.length > 0}>
+      <OverviewContent isPending={isPending}>
         {filteredAritfacts.map(form => (
           <FormCard key={`${form.identifier.project.pmv}/${form.namespace}/${form.name}`} form={form} />
         ))}
