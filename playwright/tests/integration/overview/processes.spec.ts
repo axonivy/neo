@@ -57,7 +57,6 @@ test('sort processes', async ({ page }) => {
   await expect(overview.cards.first()).toContainText('jump');
   await overview.clickSortByZtoA();
   await expect(overview.cards.first()).toContainText('wsprocess');
-  console.log('asdasd');
 });
 
 test('filter processes', async ({ page }) => {

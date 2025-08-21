@@ -35,7 +35,6 @@ test('sort configs', async ({ page }) => {
   await expect(overview.cards.first()).toContainText('cms');
   await overview.clickSortByZtoA();
   await expect(overview.cards.first()).toContainText('variables');
-  console.log('asdasd');
 });
 
 test('filter configs', async ({ page }) => {

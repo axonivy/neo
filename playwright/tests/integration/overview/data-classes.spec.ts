@@ -57,7 +57,6 @@ test('sort data classes', async ({ page }) => {
   await expect(overview.cards.first()).toContainText('Address');
   await overview.clickSortByZtoA();
   await expect(overview.cards.first()).toContainText('wsprocessData');
-  console.log('asdasd');
 });
 
 test('filter data classes', async ({ page }) => {

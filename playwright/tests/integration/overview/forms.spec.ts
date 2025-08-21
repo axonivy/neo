@@ -53,7 +53,6 @@ test('sort forms', async ({ page }) => {
   await expect(overview.cards.first()).toContainText('EmptyForm');
   await overview.clickSortByZtoA();
   await expect(overview.cards.first()).toContainText('EnterProduct');
-  console.log('asdasd');
 });
 
 test('filter forms', async ({ page }) => {
