@@ -123,6 +123,7 @@
     "workspaces": "Workspaces ({{hotkey}})"
   },
   "label": {
+    "badges": "Abzeichen",
     "businessData": "Business Daten",
     "callableSubProcess": "Aufrufbarer Sub Prozess",
     "entity": "Entität",
@@ -132,7 +133,6 @@
     "removeDependency": "Abhängigkeit entfernen",
     "resetAllFilters": "Alle Filter zurücksetzen",
     "runtimeLog": "Laufzeitprotokoll",
-    "tags": "Kennzeichnungen",
     "tileView": "Kachelansicht",
     "toggleView": "Ansicht umschalten",
     "webServiceProcess": "Web Service"
@@ -145,8 +145,8 @@
     "title": "Axon Ivy Market"
   },
   "message": {
-    "artifactNotEmpty": "Der Artifact-Name darf nicht leer sein.",
-    "artifctExisting": "Ein Artifact mit dem Namen {{name}} existiert bereits.",
+    "artifactNotEmpty": "Der Artifakt-Name darf nicht leer sein.",
+    "artifctExisting": "Ein Artifakt mit dem Namen {{name}} existiert bereits.",
     "artifiactNamespaceNotEmpty": "Der Namespace des Artifacts darf nicht leer sein.",
     "capitalizeName": "Es wird empfohlen, den ersten Buchstaben grosszuschreiben.",
     "dataclassPackaged": "Die Datenklasse kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
@@ -155,6 +155,7 @@
     "invalidChar": "Ungültiges Zeichen '{{- char}}' an Position {{pos}} in '{{- str}}'.",
     "invalidIar": "Wählen Sie eine .iar-Datei oder eine .zip-Datei, die .iar-Dateien enthält.",
     "loadEngineVersionFail": "Engine Version konnte nicht geladen werden",
+    "noArtifactsFound": "Es wurden keine Artifakte gefunden",
     "noneCapitalizeName": "Es wird empfohlen, den ersten Buchstaben kleinzuschreiben.",
     "processPackaged": "Der Prozess kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist."
   },

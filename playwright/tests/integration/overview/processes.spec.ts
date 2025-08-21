@@ -40,8 +40,10 @@ test('search processes', async ({ page }) => {
   const overview = await neo.processes();
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
+  await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
   await overview.search.fill('quick');
   await expect(overview.cards).toHaveCount(1);
+  await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
   await page.reload();
   expect(page.url()).toContain('?q=quick');
   await expect(overview.cards).toHaveCount(1);

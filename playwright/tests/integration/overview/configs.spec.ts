@@ -21,9 +21,10 @@ test('search configs', async ({ page }) => {
   await expect(overview.cards).toHaveCount(2);
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
-
+  await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
   await overview.search.fill('cms');
   await expect(overview.cards).toHaveCount(1);
+  await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
 });
 
 test('filter configs', async ({ page }) => {

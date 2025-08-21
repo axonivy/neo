@@ -62,7 +62,6 @@ export default function Index() {
       </OverviewTitle>
       <OverviewFilter {...overviewFilter} />
       <OverviewContent isPending={isPending}>
-        <InstallDialog product={product} dialogState={open} setDialogState={onOpenChange} />
         {filteredAritfacts.map(product => (
           <ProductCard
             key={product.id}
@@ -74,6 +73,7 @@ export default function Index() {
           />
         ))}
       </OverviewContent>
+      <InstallDialog product={product} dialogState={open} setDialogState={onOpenChange} />
     </Overview>
   );
 }

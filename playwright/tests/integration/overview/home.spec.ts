@@ -38,8 +38,10 @@ test('search projects', async ({ page }) => {
   const overview = new Overview(page);
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
+  await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
   await overview.search.fill('test');
   await expect(overview.cards).toHaveCount(1);
+  await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
 });
 
 test('create new Project', async ({ page }) => {

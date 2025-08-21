@@ -71,7 +71,7 @@ const RecentlyOpenedCard = ({ editor }: { editor: Editor }) => {
       preview={<PreviewSvg type={editorTypeToPreview(editor.type)} />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
-      tags={[]}
+      badges={[]}
     >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

@@ -9,8 +9,10 @@ test('search market', async ({ page }) => {
   await overview.clickMarketImport();
   await overview.search.fill('blahahahah');
   await expect(overview.cards).toHaveCount(0);
+  await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
   await overview.search.fill('swiss phone di');
   await expect(overview.cards).toHaveCount(1);
+  await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
 });
 
 test('install from market', async ({ page, browserName }, testInfo) => {

@@ -8,33 +8,33 @@ import { useNewArtifact, type NewArtifactIdentifier } from '~/neo/artifact/useNe
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
+import type { Badge } from '~/neo/overview/artifact/ArtifactBadge';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
-import type { Tag } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { CreateNewArtefactButton, Overview } from '~/neo/overview/Overview';
 import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
-import { OverviewFilterTags } from '~/neo/overview/OverviewFilterTags';
+import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Forms');
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useForms();
-  const { allTags, tagsFor } = useTags();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (form, search, projects, tags) => {
+  const { allBadges, badgesFor } = useBadges();
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (form, search, projects, badges) => {
     const hasMatchingProject = projects.length === 0 || projects.includes(form.identifier.project.pmv);
-    const hasMatchingTag =
-      tags.length === 0 ||
-      tags.some(tag =>
-        tagsFor(form)
-          ?.map(t => t.label)
-          .includes(tag)
+    const hasMatchingBade =
+      badges.length === 0 ||
+      badges.some(badge =>
+        badgesFor(form)
+          ?.map(b => b.label)
+          .includes(badge)
       );
     const nameMatches = form.name.toLocaleLowerCase().includes(search);
-    return hasMatchingProject && hasMatchingTag && nameMatches;
+    return hasMatchingProject && hasMatchingBade && nameMatches;
   });
 
   return (
@@ -47,12 +47,12 @@ export default function Index() {
         <OverviewProjectFilter
           projects={overviewFilter.projects}
           setProjects={overviewFilter.setProjects}
-          allTags={allTags}
-          tags={overviewFilter.tags}
-          setTags={overviewFilter.setTags}
+          allBadges={allBadges}
+          badges={overviewFilter.badges}
+          setBadges={overviewFilter.setBadges}
         />
       </OverviewFilter>
-      <OverviewFilterTags {...overviewFilter} />
+      <OverviewFilterBadges {...overviewFilter} />
       <OverviewContent isPending={isPending}>
         {filteredAritfacts.map(form => (
           <FormCard key={`${form.identifier.project.pmv}/${form.namespace}/${form.name}`} form={form} />
@@ -69,8 +69,8 @@ const FormCard = ({ form }: { form: HdBean }) => {
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const { createFormEditor } = useCreateEditor();
   const editor = createFormEditor(form);
-  const { tagsFor } = useTags();
-  const tags = tagsFor(form);
+  const { badgesFor } = useBadges();
+  const badges = badgesFor(form);
 
   return (
     <ArtifactCard
@@ -80,7 +80,7 @@ const FormCard = ({ form }: { form: HdBean }) => {
       preview={<PreviewSvg type='form' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
-      tags={tags}
+      badges={badges}
     >
       <ArtifactCardMenu
         deleteAction={{
@@ -98,17 +98,17 @@ const FormCard = ({ form }: { form: HdBean }) => {
   );
 };
 
-const useTags = () => {
+const useBadges = () => {
   const { t } = useTranslation();
-  const allTags: Array<string> = [t('common.label.readOnly')];
-  const tagsFor = (form: HdBean) => {
-    const tags: Array<Tag> = [];
+  const allBadges: Array<string> = [t('common.label.readOnly')];
+  const badgesFor = (form: HdBean) => {
+    const badges: Array<Badge> = [];
     if (form.identifier.project.isIar) {
-      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+      badges.push({ label: allBadges[0], badgeStyle: 'secondary' });
     }
-    return tags;
+    return badges;
   };
-  return { allTags, tagsFor };
+  return { allBadges, badgesFor };
 };
 
 export const useFormExists = () => {

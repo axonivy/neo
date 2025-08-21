@@ -9,9 +9,9 @@ import { useDependencies, useRemoveDependency } from '~/data/dependency-api';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
 import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
+import type { Badge } from '~/neo/overview/artifact/ArtifactBadge';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
-import type { Tag } from '~/neo/overview/artifact/ArtifactTag';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
 import { PreviewSvg } from '~/neo/overview/artifact/PreviewSvg';
 import { Overview } from '~/neo/overview/Overview';
@@ -130,8 +130,8 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   const navigate = useNavigate();
   const { removeDependency } = useRemoveDependency();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
-  const { tagsFor } = useTags();
-  const tags = tagsFor(dependency);
+  const { badgesFor } = useBadges();
+  const badges = badgesFor(dependency);
 
   return (
     <ArtifactCard
@@ -139,7 +139,7 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
       name={dependency.pmv}
       onClick={() => navigate(`../projects/${dependency.app}/${dependency.pmv}`)}
       preview={<PreviewSvg type='workspace' />}
-      tags={tags}
+      badges={badges}
     >
       <ArtifactCardMenu
         deleteAction={{
@@ -155,17 +155,17 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   );
 };
 
-const useTags = () => {
+const useBadges = () => {
   const { t } = useTranslation();
-  const allTags: Array<string> = [t('common.label.readOnly')];
-  const tagsFor = (dependency: ProjectIdentifier) => {
-    const tags: Array<Tag> = [];
+  const allBadges: Array<string> = [t('common.label.readOnly')];
+  const badgesFor = (dependency: ProjectIdentifier) => {
+    const badges: Array<Badge> = [];
     if (dependency.isIar) {
-      tags.push({ label: allTags[0], tagStyle: 'secondary' });
+      badges.push({ label: allBadges[0], badgeStyle: 'secondary' });
     }
-    return tags;
+    return badges;
   };
-  return { allTags, tagsFor };
+  return { allBadges, badgesFor };
 };
 
 const BreadcrumbProjectSwitcher = ({ project }: { project: ProjectBean }) => {
