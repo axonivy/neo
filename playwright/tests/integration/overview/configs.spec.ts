@@ -21,18 +21,10 @@ test('search configs', async ({ page }) => {
   await expect(overview.cards).toHaveCount(2);
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
-
+  await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
   await overview.search.fill('cms');
   await expect(overview.cards).toHaveCount(1);
-});
-
-test('search configs with no Result', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = await neo.configs();
   await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
-  await overview.search.fill('noFinding');
-  await expect(overview.cards).toHaveCount(0);
-  await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
 });
 
 test('filter configs', async ({ page }) => {

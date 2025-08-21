@@ -39,17 +39,10 @@ test('search forms', async ({ page }) => {
   const overview = await neo.forms();
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
+  await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
   await overview.search.fill('Enter');
   await expect(overview.cards).toHaveCount(1);
-});
-
-test('search forms with no Result', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = await neo.forms();
   await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
-  await overview.search.fill('noFinding');
-  await expect(overview.cards).toHaveCount(0);
-  await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
 });
 
 test('filter forms', async ({ page }) => {
