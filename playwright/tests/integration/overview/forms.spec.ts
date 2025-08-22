@@ -54,7 +54,7 @@ test('sort forms', async ({ page }) => {
   await overview.clickSortByAtoZ();
   await expect(overview.cards.first()).toContainText('AAA');
   await overview.clickSortByZtoA();
-  await expect(overview.cards.first()).toContainText('EnterProduct');
+  await expect(overview.cards.last()).toContainText('AAA');
   await overview.deleteCard('AAA');
 });
 
