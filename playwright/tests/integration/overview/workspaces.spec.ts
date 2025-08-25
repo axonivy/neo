@@ -59,7 +59,7 @@ test('deploy workspaces', async ({ page }) => {
   await overview.clickCardAction(card, 'Deploy');
   const dialog = page.getByRole('dialog');
   await dialog.getByRole('button', { name: 'Deploy' }).click();
-  await expect(dialog.locator('code')).toContainText("Info: Project(s) of file 'export.zip' successful deployed to application 'myApp'");
+  await expect(dialog.locator('code').first()).toContainText("Info: Project(s) of file 'export.zip' successful deployed to application 'myApp'");
   await dialog.getByRole('button', { name: 'Close' }).click();
 });
 
