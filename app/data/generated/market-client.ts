@@ -231,53 +231,6 @@ export interface DesignerInstallation {
   numberOfDownloads?: number;
 }
 
-/**
- * Test Status
- */
-export type TestStepsModelStatus = (typeof TestStepsModelStatus)[keyof typeof TestStepsModelStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TestStepsModelStatus = {
-  PASSED: 'PASSED',
-  FAILED: 'FAILED',
-  SKIPPED: 'SKIPPED'
-} as const;
-
-/**
- * Workflow type
- */
-export type TestStepsModelType = (typeof TestStepsModelType)[keyof typeof TestStepsModelType];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TestStepsModelType = {
-  CI: 'CI',
-  DEV: 'DEV'
-} as const;
-
-/**
- * Type of test
- */
-export type TestStepsModelTestType = (typeof TestStepsModelTestType)[keyof typeof TestStepsModelTestType];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TestStepsModelTestType = {
-  OTHER: 'OTHER',
-  MOCK: 'MOCK',
-  REAL: 'REAL'
-} as const;
-
-export interface TestStepsModel {
-  /** Test Name */
-  name?: string;
-  /** Test Status */
-  status?: TestStepsModelStatus;
-  /** Workflow type */
-  type?: TestStepsModelType;
-  /** Type of test */
-  testType?: TestStepsModelTestType;
-  _links?: Links;
-}
-
 export interface GithubReposModel {
   /** Repository name */
   name?: string;
@@ -287,13 +240,10 @@ export interface GithubReposModel {
   language?: string;
   /** Last updated date of the repository */
   lastUpdated?: string;
-  /** CI workflow badge URL */
-  ciBadgeUrl?: string;
-  /** DEV workflow badge URL */
-  devBadgeUrl?: string;
+  /** Indicates if the repository is a focused repository */
+  focused?: boolean;
   /** Test results summary by workflow type and test environment */
   testResults?: TestResults[];
-  _links?: Links;
 }
 
 export type TestResultsWorkflow = (typeof TestResultsWorkflow)[keyof typeof TestResultsWorkflow];
@@ -301,26 +251,20 @@ export type TestResultsWorkflow = (typeof TestResultsWorkflow)[keyof typeof Test
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const TestResultsWorkflow = {
   CI: 'CI',
-  DEV: 'DEV'
+  DEV: 'DEV',
+  E2E: 'E2E'
 } as const;
 
-export type TestResultsStatus = (typeof TestResultsStatus)[keyof typeof TestResultsStatus];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const TestResultsStatus = {
-  PASSED: 'PASSED',
-  FAILED: 'FAILED',
-  SKIPPED: 'SKIPPED'
-} as const;
+export type TestResultsResults = { [key: string]: number };
 
 /**
  * Test results summary by workflow type and test environment
  */
 export interface TestResults {
   workflow?: TestResultsWorkflow;
-  environment?: string;
-  status?: TestResultsStatus;
-  count?: number;
+  /** CI workflow badge URL */
+  badgeUrl?: string;
+  results?: TestResultsResults;
 }
 
 export interface Image {
@@ -565,6 +509,28 @@ export type FindFeedbacksParams = {
   sort: string[];
 };
 
+export type findInstallationCountResponse200 = {
+  data: number;
+  status: 200;
+};
+
+export type findInstallationCountResponseComposite = findInstallationCountResponse200;
+
+export type findInstallationCountResponse = findInstallationCountResponseComposite & {
+  headers: Headers;
+};
+
+export const getFindInstallationCountUrl = (id: string) => {
+  return `/api/product-marketplace-data/installation-count/${id}`;
+};
+
+export const findInstallationCount = async (id: string, options?: RequestInit): Promise<findInstallationCountResponse> => {
+  return customFetch<findInstallationCountResponse>(getFindInstallationCountUrl(id), {
+    ...options,
+    method: 'PUT'
+  });
+};
+
 /**
  * Load and store test reports from GitHub repositories
  * @summary Sync GitHub monitor
@@ -704,28 +670,6 @@ export const getFindProductsUrl = (params: FindProductsParams) => {
 
 export const findProducts = async (params: FindProductsParams, options?: RequestInit): Promise<findProductsResponse> => {
   return customFetch<findProductsResponse>(getFindProductsUrl(params), {
-    ...options,
-    method: 'GET'
-  });
-};
-
-export type findInstallationCountResponse200 = {
-  data: number;
-  status: 200;
-};
-
-export type findInstallationCountResponseComposite = findInstallationCountResponse200;
-
-export type findInstallationCountResponse = findInstallationCountResponseComposite & {
-  headers: Headers;
-};
-
-export const getFindInstallationCountUrl = (id: string) => {
-  return `/api/product-marketplace-data/installation-count/${id}`;
-};
-
-export const findInstallationCount = async (id: string, options?: RequestInit): Promise<findInstallationCountResponse> => {
-  return customFetch<findInstallationCountResponse>(getFindInstallationCountUrl(id), {
     ...options,
     method: 'GET'
   });
@@ -1149,32 +1093,6 @@ export const getProductDesignerInstallationByProductId = async (
   options?: RequestInit
 ): Promise<getProductDesignerInstallationByProductIdResponse> => {
   return customFetch<getProductDesignerInstallationByProductIdResponse>(getGetProductDesignerInstallationByProductIdUrl(id), {
-    ...options,
-    method: 'GET'
-  });
-};
-
-/**
- * Fetch test report details for a specific repository and workflow
- * @summary Get test report by repository and workflow
- */
-export type getTestReportResponse200 = {
-  data: TestStepsModel[];
-  status: 200;
-};
-
-export type getTestReportResponseComposite = getTestReportResponse200;
-
-export type getTestReportResponse = getTestReportResponseComposite & {
-  headers: Headers;
-};
-
-export const getGetTestReportUrl = (repo: string, workflow: 'CI' | 'DEV') => {
-  return `/api/monitor-dashboard/${repo}/${workflow}`;
-};
-
-export const getTestReport = async (repo: string, workflow: 'CI' | 'DEV', options?: RequestInit): Promise<getTestReportResponse> => {
-  return customFetch<getTestReportResponse>(getGetTestReportUrl(repo, workflow), {
     ...options,
     method: 'GET'
   });

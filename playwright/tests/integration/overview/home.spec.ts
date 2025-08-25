@@ -50,7 +50,6 @@ test('create new Project', async ({ page }) => {
   const projectName = 'Other-Project';
   await overview.clickCreateProject(projectName);
   await neo.toast.expectSuccess('Project successfully created');
-  await neo.toast.expectSuccess('Project successfully deployed');
   await overview.card(projectName).click();
   const detail = new ProjectDetail(page);
   await expect(overview.title.first()).toHaveText(`Project details: ${projectName}`);

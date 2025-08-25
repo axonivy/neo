@@ -15,7 +15,7 @@ import {
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCreateProject, useDeployProject, useSortedProjects } from '~/data/project-api';
+import { useCreateProject, useSortedProjects } from '~/data/project-api';
 import { useWorkspaces } from '~/data/workspace-api';
 import { useArtifactValidation } from '~/neo/artifact/validation';
 import { CreateNewArtefactButton } from '~/neo/overview/Overview';
@@ -60,11 +60,7 @@ export const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) 
   const workspaces = useWorkspaces();
   const { data } = useSortedProjects();
   const { createProject } = useCreateProject();
-  const create = () =>
-    createProject({ defaultNamespace: defaultNamespace, name: name, groupId: groupId, projectId: projectId }).then(projectBean =>
-      deployPmv({ app: projectBean.id.app, pmv: projectBean.id.pmv })
-    );
-  const { deployPmv } = useDeployProject();
+  const create = () => createProject({ defaultNamespace: defaultNamespace, name: name, groupId: groupId, projectId: projectId });
   const nameValidation = useMemo(
     () =>
       workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase())
