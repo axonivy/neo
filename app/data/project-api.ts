@@ -5,10 +5,8 @@ import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
   createPmvAndProjectFiles,
   deleteProject as deleteProjectReq,
-  deployProject,
   projects,
   stopBpmEngine as stopBpmEngineReq,
-  type DeployProjectParams,
   type NewProjectParams,
   type ProjectIdentifier as ProjectId
 } from './generated/ivy-client';
@@ -85,30 +83,6 @@ export const useCreateProject = () => {
         error: e => e.message
       });
       return newProject;
-    }
-  };
-};
-
-export const useDeployProject = () => {
-  const { t } = useTranslation();
-  const { queryKey, base } = useProjectsApi();
-  const client = useQueryClient();
-  const deployPmv = async (params: DeployProjectParams) => {
-    const res = await deployProject(params, { headers: headers(base) });
-    if (ok(res)) {
-      client.invalidateQueries({ queryKey });
-      return res.data;
-    }
-    throw new Error(resolveErrorMessage(res.data, t('toast.project.deployedFail')));
-  };
-
-  return {
-    deployPmv: (params: DeployProjectParams) => {
-      toast.promise(() => deployPmv(params), {
-        loading: t('toast.project.deploying'),
-        success: t('toast.project.deployed'),
-        error: e => e.message
-      });
     }
   };
 };
