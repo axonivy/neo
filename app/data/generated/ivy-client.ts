@@ -349,12 +349,6 @@ export type DeleteProjectParams = {
   pmv?: string;
 };
 
-export type DeployProjectParams = {
-  projectDir?: string;
-  app?: string;
-  pmv?: string;
-};
-
 export type StopBpmEngineParams = {
   app?: string;
   pmv?: string;
@@ -1421,38 +1415,6 @@ export const deleteProject = async (params?: DeleteProjectParams, options?: Requ
   return customFetch<deleteProjectResponse>(getDeleteProjectUrl(params), {
     ...options,
     method: 'DELETE'
-  });
-};
-
-export type deployProjectResponseDefault = {
-  data: unknown;
-  status: number;
-};
-
-export type deployProjectResponseComposite = deployProjectResponseDefault;
-
-export type deployProjectResponse = deployProjectResponseComposite & {
-  headers: Headers;
-};
-
-export const getDeployProjectUrl = (params?: DeployProjectParams) => {
-  const normalizedParams = new URLSearchParams();
-
-  Object.entries(params || {}).forEach(([key, value]) => {
-    if (value !== undefined) {
-      normalizedParams.append(key, value === null ? 'null' : value.toString());
-    }
-  });
-
-  const stringifiedParams = normalizedParams.toString();
-
-  return stringifiedParams.length > 0 ? `/web-ide/project/deploy?${stringifiedParams}` : `/web-ide/project/deploy`;
-};
-
-export const deployProject = async (params?: DeployProjectParams, options?: RequestInit): Promise<deployProjectResponse> => {
-  return customFetch<deployProjectResponse>(getDeployProjectUrl(params), {
-    ...options,
-    method: 'POST'
   });
 };
 
