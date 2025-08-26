@@ -37,7 +37,10 @@ export const OverviewRecentlyOpened = ({ filter }: OverviewRecentlyOpenedProps) 
             <Button icon={IvyIcons.Dots} size='large' />
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
-            <DropdownMenuItem onSelect={cleanupRecentlyOpened}>{t('common.label.removeAll')}</DropdownMenuItem>
+            <DropdownMenuItem onSelect={cleanupRecentlyOpened}>
+              <IvyIcon icon={IvyIcons.Trash} />
+              {t('common.label.clearList')}
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </OverviewTitle>
@@ -78,9 +81,9 @@ const RecentlyOpenedCard = ({ editor }: { editor: Editor }) => {
           <Button icon={IvyIcons.Dots} className='card-menu-trigger' />
         </DropdownMenuTrigger>
         <DropdownMenuContent side='bottom' align='start'>
-          <DropdownMenuItem onSelect={() => removeRecentlyOpened(editor.id)} style={{ color: 'var(--error-color)' }}>
+          <DropdownMenuItem onSelect={() => removeRecentlyOpened(editor.id)}>
             <IvyIcon icon={IvyIcons.Trash} />
-            <span>{t('common.label.remove')}</span>
+            <span>{t('common.label.removeFromList')}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
