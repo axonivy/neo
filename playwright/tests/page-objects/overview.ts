@@ -9,6 +9,7 @@ export class Overview {
   protected readonly titleSection: Locator;
   readonly title: Locator;
   readonly createButton: Locator;
+  readonly importButton: Locator;
   readonly search: Locator;
   readonly filter: OverviewFilter;
   readonly viewToggle: Locator;
@@ -23,6 +24,7 @@ export class Overview {
     this.titleSection = this.overview.locator('.overview-title-section');
     this.title = this.titleSection.locator('.overview-title');
     this.createButton = this.titleSection.getByRole('button').last();
+    this.importButton = this.titleSection.getByRole('button', { name: 'Import from Database' });
     this.search = this.overview.locator('input');
     this.filter = new OverviewFilter(page, this.overview);
     this.cards = this.overview.locator('.artifact-card:not(.recently-opened-card)');

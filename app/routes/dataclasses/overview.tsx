@@ -1,6 +1,8 @@
+import databaseImportStylesHref from '@axonivy/database-editor/lib/editor.css?url';
+import { Flex } from '@axonivy/ui-components';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams, type MetaFunction } from 'react-router';
+import { useParams, type LinksFunction, type MetaFunction } from 'react-router';
 import { useCreateDataClass, useDataClasses, useDeleteDataClass } from '~/data/data-class-api';
 import type { DataClassBean } from '~/data/generated/ivy-client';
 import type { ProjectIdentifier } from '~/data/project-api';
@@ -20,9 +22,12 @@ import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/
 import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
 import { OverviewSortBy, useSortedArtifacts } from '~/neo/overview/OverviewSortBy';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
+import { DatabaseImportWizard } from '../../neo/editors/database/DatabaseImportWizard';
 import { DataClassGraph, DataClassGraphFilter } from './DataClassGraph';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Data Classes');
+
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: databaseImportStylesHref }];
 
 export default function Index() {
   const { t } = useTranslation();
@@ -48,7 +53,10 @@ export default function Index() {
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.dataClasses') }]} />
       <OverviewTitle title={t('neo.dataClasses')} description={t('dataclasses.dataclassDescription')}>
-        <NewDataClassButton />
+        <Flex gap={2}>
+          <DatabaseImportWizard />
+          <NewDataClassButton />
+        </Flex>
       </OverviewTitle>
       <OverviewFilter
         {...overviewFilter}

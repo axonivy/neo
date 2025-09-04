@@ -12,7 +12,7 @@ import {
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
-const useDataClassesApi = () => {
+export const useDataClassesApi = () => {
   const ws = useWorkspace();
   return { queryKey: ['neo', ws?.id, 'dataclasses'], base: ws?.baseUrl, ws };
 };
