@@ -133,10 +133,10 @@ const useBadges = () => {
       badges.push({ label: allBadges[0], badgeStyle: 'secondary' });
     }
     if (dataClass.isBusinessCaseData) {
-      badges.push({ label: allBadges[1], badgeStyle: 'primary' });
+      badges.push({ label: allBadges[1], badgeStyle: 'orange' });
     }
     if (dataClass.isEntityClass) {
-      badges.push({ label: allBadges[2], badgeStyle: 'destructive' });
+      badges.push({ label: allBadges[2], badgeStyle: 'green' });
     }
     return badges;
   };
