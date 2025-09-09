@@ -102,3 +102,12 @@ test('data classes graph', async ({ page }) => {
   await quickStartNode.jumpInto.click();
   await new DataClassEditor(neo, 'Person').expectOpen('age');
 });
+
+test('database import wizard', async ({ page }) => {
+  const { neo, overview } = await openDataClasses(page);
+  const importButton = overview.importButton;
+  await expect(importButton).toBeVisible();
+  await importButton.click();
+  const importDialog = neo.page.locator('.import-dialog');
+  await expect(importDialog).toBeVisible();
+});

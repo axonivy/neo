@@ -6,6 +6,7 @@ import resourcesToBackend from 'i18next-resources-to-backend';
 import { initReactI18next } from 'react-i18next';
 
 import { enTranslation as translationCms } from '@axonivy/cms-editor';
+import { enTranslation as translationDatabaseEditor } from '@axonivy/database-editor';
 import { enTranslation as translationDataClass } from '@axonivy/dataclass-editor';
 import { enMessages as translationForm } from '@axonivy/form-editor';
 import { enMessages as translationlog } from '@axonivy/log-view';
@@ -15,6 +16,7 @@ import enTranslationNeo from './neo/en.json';
 const localTranslations: Resource = {
   neo: { en: enTranslationNeo },
   'dataclass-editor': { en: translationDataClass },
+  'database-editor': { en: translationDatabaseEditor },
   'cms-editor': { en: translationCms },
   'variable-editor': { en: translationVariable },
   'form-editor': { en: translationForm },
