@@ -1,9 +1,10 @@
 import { Badge, Flex } from '@axonivy/ui-components';
+import type { ComponentProps } from 'react';
 
 export type Badge = { label: string; badgeStyle?: BadgeStyle };
-type BadgeStyle = 'default' | 'primary' | 'secondary' | 'destructive' | 'outline';
+type BadgeStyle = ComponentProps<typeof Badge>['variant'];
 
-export const ArtifactBadge = ({ badges: badges }: { badges: Array<Badge> }) => {
+export const ArtifactBadge = ({ badges }: { badges: Array<Badge> }) => {
   return (
     <Flex
       direction='row'

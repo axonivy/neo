@@ -111,10 +111,10 @@ const useBadges = () => {
       badges.push({ label: allBadges[0], badgeStyle: 'secondary' });
     }
     if (process.kind === 'CALLABLE_SUB') {
-      badges.push({ label: allBadges[1], badgeStyle: 'primary' });
+      badges.push({ label: allBadges[1], badgeStyle: 'orange' });
     }
     if (process.kind === 'WEB_SERVICE') {
-      badges.push({ label: allBadges[2], badgeStyle: 'destructive' });
+      badges.push({ label: allBadges[2], badgeStyle: 'green' });
     }
     return badges;
   };
