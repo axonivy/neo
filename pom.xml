@@ -9,6 +9,11 @@
   <version>12.0.10-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <properties>
+    <!-- Will be raise by the raise-deps.sh script -->
+    <openapi.version>12.0.10-SNAPSHOT</openapi.version>
+  </properties>
+
   <distributionManagement>
     <snapshotRepository>
       <id>nexus.ivyteam.io</id>
@@ -30,7 +35,7 @@
     <dependency>
       <groupId>ch.ivyteam.openapi</groupId>
       <artifactId>openapi</artifactId>
-      <version>${project.version}</version>
+      <version>${openapi.version}</version>
       <type>json</type>
     </dependency>
   </dependencies>
