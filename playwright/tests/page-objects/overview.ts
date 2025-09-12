@@ -76,6 +76,7 @@ export class Overview {
   async clickMarketImport() {
     await this.titleSection.getByRole('button', { name: 'Import Projects' }).click();
     await this.page.getByRole('menuitem').getByText('Import from Market').click();
+    await expect(this.title.first()).toHaveText('Axon Ivy Market');
   }
 
   async clickCreateProject(projectName: string) {
