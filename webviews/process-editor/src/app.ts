@@ -1,7 +1,7 @@
-import { MessageConnection } from '@axonivy/jsonrpc';
+import type { MessageConnection } from '@axonivy/jsonrpc';
 import { IvyBaseJsonrpcGLSPClient, NotificationToasterId } from '@axonivy/process-editor';
 import { MonacoEditorUtil } from '@axonivy/process-editor-inscription-view';
-import { ThemeMode } from '@axonivy/process-editor-protocol';
+import type { ThemeMode } from '@axonivy/process-editor-protocol';
 import {
   DiagramLoader,
   EditMode,

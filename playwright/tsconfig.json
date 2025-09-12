@@ -1,12 +1,10 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "@axonivy/ts-config/integration",
   "compilerOptions": {
     "rootDir": ".",
     "rootDirs": ["tests"],
     "outDir": "lib",
-    "noImplicitAny": false,
     "types": ["node"]
   },
-  "exclude": [],
-  "include": ["tests", "custom-reporter.ts"]
+  "include": ["tests"]
 }

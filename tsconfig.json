@@ -1,26 +1,18 @@
 {
-  "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
-  "exclude": ["webviews/**", "playwright/**"],
+  "extends": "@axonivy/ts-config/integration",
   "compilerOptions": {
-    "lib": ["DOM", "DOM.Iterable", "ES2023"],
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "target": "ES2023",
-    "strict": true,
-    "allowJs": true,
-    "skipLibCheck": true,
+    "rootDir": ".",
+    "outDir": "lib",
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"]
     },
-    "noEmit": true,
-    "verbatimModuleSyntax": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2023"],
+    "target": "ES2023",
+    "jsx": "react-jsx",
     "types": ["@react-router/node", "vite/client", "vitest/globals"],
     "rootDirs": [".", "./.react-router/types"]
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx", ".react-router/types/**/*"],
+  "exclude": ["webviews/**", "playwright/**"]
 }

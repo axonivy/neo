@@ -103,7 +103,7 @@ const FormCard = ({ form }: { form: HdBean }) => {
 
 const useBadges = () => {
   const { t } = useTranslation();
-  const allBadges: Array<string> = [t('common.label.readOnly')];
+  const allBadges = [t('common.label.readOnly')] as const;
   const badgesFor = (form: HdBean) => {
     const badges: Array<Badge> = [];
     if (form.identifier.project.isIar) {

@@ -18,7 +18,7 @@ test('maps projects correctly', () => {
     content: 'my-artifact - 1.0.0',
     target: [{ id: 'project2' }]
   });
-  expect(result[0].options?.expandContent).toBe(true);
+  expect(result[0]?.options?.expandContent).toBe(true);
 });
 
 test('returns empty array when input is undefined', () => {

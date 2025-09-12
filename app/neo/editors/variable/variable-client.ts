@@ -12,7 +12,7 @@ export class VariableClientNeo extends ClientJsonRpc {
     this.actionHandler = actionHandler;
   }
 
-  action(action: VariablesActionArgs) {
+  override action(action: VariablesActionArgs) {
     this.actionHandler(action);
   }
 

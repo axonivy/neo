@@ -1,5 +1,5 @@
 import { StartProcessAction } from '@axonivy/process-editor-protocol';
-import { Action, IActionHandler, NavigateToExternalTargetAction } from '@eclipse-glsp/client';
+import { Action, type IActionHandler, NavigateToExternalTargetAction } from '@eclipse-glsp/client';
 import { injectable } from 'inversify';
 
 @injectable()

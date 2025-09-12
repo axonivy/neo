@@ -38,11 +38,11 @@ export const useCreateEditor = () => {
   };
 
   const removeExtension = (path: string) => {
-    return path.split(PROCESS_EDITOR_SUFFIX)[0].split(FORM_EDITOR_SUFFIX)[0].split(DATACLASS_EDITOR_SUFFIX)[0];
+    return path.split(PROCESS_EDITOR_SUFFIX)[0]?.split(FORM_EDITOR_SUFFIX)[0]?.split(DATACLASS_EDITOR_SUFFIX)[0] ?? '';
   };
 
   const editorName = (name: string) => {
-    return removeExtension(name).split(CONFIG_EDITOR_YAML_SUFFIX)[0].split(CONFIG_EDITOR_XML_SUFFIX)[0];
+    return removeExtension(name).split(CONFIG_EDITOR_YAML_SUFFIX)[0]?.split(CONFIG_EDITOR_XML_SUFFIX)[0] ?? '';
   };
 
   const typeFromPath = (path: string): EditorType => {

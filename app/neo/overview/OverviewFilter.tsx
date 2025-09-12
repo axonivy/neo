@@ -91,7 +91,7 @@ export const OverviewFilter = (props: OverviewFilterProps) => {
 type OverviewProjectFilterProps = {
   projects: Array<string>;
   setProjects: (projects: Array<string>) => void;
-  allBadges: Array<string>;
+  allBadges: ReadonlyArray<string>;
   badges: Array<string>;
   setBadges: (badges: Array<string>) => void;
 };
