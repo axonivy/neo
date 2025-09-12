@@ -43,8 +43,8 @@ pipeline {
         script {
           catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
             docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
-              sh 'npm run download:openapi'
-              sh 'npm run codegen:openapi'
+              sh 'npm run openapi:download'
+              sh 'npm run openapi:codegen'
               sh 'npm run type'
               sh 'npm run lint:ci'
             }
