@@ -205,7 +205,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
 
 const useBadges = () => {
   const { t } = useTranslation();
-  const allBadges: Array<string> = [t('common.label.readOnly'), t('common.label.default')];
+  const allBadges = [t('common.label.readOnly'), t('common.label.default')] as const;
   const badgesFor = (project: ProjectBean, defaultProject: boolean) => {
     const badges: Array<Badge> = [];
     if (project.id.isIar) {

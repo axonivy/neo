@@ -53,11 +53,11 @@ export const initTranslation = (debug = false) => {
       load: 'languageOnly',
       partialBundledLanguages: true,
       backend: {
-        backends: [HttpBackend, resourcesToBackend((lng: string, ns: string) => localTranslations[ns][lng])],
+        backends: [HttpBackend, resourcesToBackend((lng: string, ns: string) => localTranslations[ns]?.[lng])],
         backendOptions: [
           {
             loadPath: (lngs: Array<string>, nss: Array<string>) => {
-              if (knownLanguages.includes(lngs[0])) {
+              if (knownLanguages.includes(lngs[0] ?? '')) {
                 return `${LOCALES_PATH}/${lngs[0]}/${nss[0]}.json`;
               }
               return;

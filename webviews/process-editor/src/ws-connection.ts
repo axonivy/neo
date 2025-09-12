@@ -38,7 +38,7 @@ class IvyWebSocketMessageWriter extends WebSocketMessageWriter {
 }
 
 class IvyWebSocketMessageReader extends WebSocketMessageReader {
-  handleMessage(message: unknown): void {
+  override handleMessage(message: unknown): void {
     super.handleMessage(message);
   }
 }

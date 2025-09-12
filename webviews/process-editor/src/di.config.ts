@@ -6,8 +6,8 @@ import {
   ivyStandaloneCopyPasteModule
 } from '@axonivy/process-editor';
 import { ivyInscriptionModule } from '@axonivy/process-editor-inscription';
-import { InscriptionContext } from '@axonivy/process-editor-inscription-protocol';
-import { createDiagramOptionsModule, IDiagramOptions, standaloneSelectModule, undoRedoModule } from '@eclipse-glsp/client';
+import type { InscriptionContext } from '@axonivy/process-editor-inscription-protocol';
+import { createDiagramOptionsModule, type IDiagramOptions, standaloneSelectModule, undoRedoModule } from '@eclipse-glsp/client';
 import { Container } from 'inversify';
 import ivyAutoSaveModule from './auto-save/di.config';
 import ivyNeoModule from './neo/di.config';

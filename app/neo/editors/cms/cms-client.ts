@@ -12,7 +12,7 @@ export class CmsClientNeo extends ClientJsonRpc {
     this.actionHandler = actionHandler;
   }
 
-  action(action: CmsActionArgs) {
+  override action(action: CmsActionArgs) {
     this.actionHandler(action);
     return Promise.resolve();
   }

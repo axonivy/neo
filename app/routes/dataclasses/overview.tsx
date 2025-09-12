@@ -126,7 +126,7 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
 
 const useBadges = () => {
   const { t } = useTranslation();
-  const allBadges: Array<string> = [t('common.label.readOnly'), t('label.businessData'), t('label.entity')];
+  const allBadges = [t('common.label.readOnly'), t('label.businessData'), t('label.entity')] as const;
   const badgesFor = (dataClass: DataClassBean) => {
     const badges: Array<Badge> = [];
     if (dataClass.dataClassIdentifier.project.isIar) {

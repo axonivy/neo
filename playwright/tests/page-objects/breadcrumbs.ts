@@ -19,7 +19,7 @@ export class Breadcrumbs {
   async expectItems(items: string[]) {
     await expect(this.items).toHaveCount(items.length);
     for (let i = 0; i < items.length; i++) {
-      await expect(this.items.nth(i)).toHaveText(items[i]);
+      await expect(this.items.nth(i)).toHaveText(items[i]!);
     }
   }
 }

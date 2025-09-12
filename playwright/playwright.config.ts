@@ -5,7 +5,7 @@ export default defineConfig({
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  reporter: process.env.CI ? [['./custom-reporter.ts'], ['junit', { outputFile: 'report.xml' }], ['list']] : 'html',
+  reporter: process.env.CI ? [['./tests/custom-reporter.ts'], ['junit', { outputFile: 'report.xml' }], ['list']] : 'html',
   workers: process.env.CI ? 1 : undefined,
   use: {
     actionTimeout: 0,
@@ -18,7 +18,7 @@ export default defineConfig({
     url: process.env.CI ? 'http://localhost:4173/neo/' : 'http://localhost:5173/neo/',
     reuseExistingServer: !process.env.CI
   },
-  globalTeardown: './global.teardown',
+  globalTeardown: './tests/global.teardown',
   projects: [
     { name: 'integration-chrome', use: { ...devices['Desktop Chrome'] }, testDir: './tests/integration' },
     { name: 'integration-firefox', use: { ...devices['Desktop Firefox'] }, testDir: './tests/integration' },

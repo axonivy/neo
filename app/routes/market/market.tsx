@@ -41,8 +41,8 @@ export default function Index() {
   const { open, onOpenChange } = useDialogHotkeys(['installDialog']);
   const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data?.pages.flatMap(page => page) ?? [], (product, search) => {
     return (
-      (product.names?.en.toLocaleLowerCase().includes(search) ||
-        product.shortDescriptions?.en.includes(search) ||
+      (product.names?.en?.toLocaleLowerCase().includes(search) ||
+        product.shortDescriptions?.en?.includes(search) ||
         product.type?.includes(search)) ??
       false
     );
