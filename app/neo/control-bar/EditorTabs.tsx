@@ -78,7 +78,7 @@ const EditorsTab = ({
     { scopes: ['neo'] }
   );
 
-  if (editors.length === 0) {
+  if (!editors[0]) {
     return null;
   }
   const name = editors.length > 1 ? lastSegment(group) : editors[0].name;

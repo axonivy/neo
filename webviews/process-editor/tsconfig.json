@@ -1,27 +1,11 @@
 {
+  "extends": "@axonivy/ts-config/integration",
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    "types": ["node", "reflect-metadata", "vite/client"],
-    "skipLibCheck": true,
-    "noImplicitAny": true,
-    "noEmit": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
-    "noImplicitReturns": true,
-    "strict": true,
-    "strictPropertyInitialization": false,
-    "strictNullChecks": true,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "downlevelIteration": true,
-    "allowSyntheticDefaultImports": true,
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "target": "ES2022",
-    "jsx": "react",
-    "jsxFactory": "JSX.createElement",
-    "lib": ["DOM", "DOM.Iterable", "ES2022"],
-    "sourceMap": true
+    "types": ["vite/client"]
   },
   "include": ["src"]
 }

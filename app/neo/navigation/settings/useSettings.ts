@@ -17,7 +17,7 @@ export const speedModes = [
   { value: 50, label: 'normal' },
   { value: 75, label: 'slow' },
   { value: 100, label: 'slowest' }
-];
+] as const;
 
 type SettingsState = {
   animation: AnimationSettings;
@@ -53,15 +53,14 @@ export const useCycleAnimationSettings = () => {
 
   const cycleAnimationMode = () => {
     const currentIndex = animationFollowModes.indexOf(animation.mode);
-    const nextMode = animationFollowModes[(currentIndex + 1) % animationFollowModes.length];
+    const nextMode = animationFollowModes[(currentIndex + 1) % animationFollowModes.length] ?? animationFollowModes[0];
     animationMode(nextMode);
     toast.info(t('toast.animation.mode', { mode: nextMode }));
   };
 
   const cycleAnimationSpeed = () => {
     const currentIndex = speedModes.findIndex(s => s.value === animation.speed);
-    const nextIndex = (currentIndex + 1) % speedModes.length;
-    const nextSpeed = speedModes[nextIndex];
+    const nextSpeed = speedModes[(currentIndex + 1) % speedModes.length] ?? speedModes[0];
 
     animationSpeed(nextSpeed.value.toString());
     toast.info(t('toast.animation.speed', { speed: nextSpeed.label }));

@@ -12,7 +12,7 @@ export class DataClassClientNeo extends ClientJsonRpc {
     this.actionHandler = actionHandler;
   }
 
-  action(action: DataActionArgs) {
+  override action(action: DataActionArgs) {
     this.actionHandler(action);
   }
 

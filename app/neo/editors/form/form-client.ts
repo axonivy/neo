@@ -12,7 +12,7 @@ export class FormClientNeo extends FormClientJsonRpc {
     this.actionHandler = actionHandler;
   }
 
-  action(action: FormActionArgs) {
+  override action(action: FormActionArgs) {
     this.actionHandler(action);
   }
 

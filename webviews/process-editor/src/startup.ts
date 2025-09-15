@@ -11,7 +11,7 @@ import {
   TYPES
 } from '@eclipse-glsp/client';
 import { ContainerModule, inject, injectable } from 'inversify';
-import { IvyDiagramOptions } from './di.config';
+import type { IvyDiagramOptions } from './di.config';
 
 import { NotificationToasterId } from '@axonivy/process-editor';
 import './index.css';
@@ -19,11 +19,8 @@ import { createWebSocketConnection } from './ws-connection';
 
 @injectable()
 export class StandaloneDiagramStartup implements IDiagramStartup {
-  @inject(GLSPActionDispatcher)
-  protected actionDispatcher: GLSPActionDispatcher;
-
-  @inject(TYPES.IDiagramOptions)
-  protected options: IvyDiagramOptions;
+  @inject(GLSPActionDispatcher) protected actionDispatcher!: GLSPActionDispatcher;
+  @inject(TYPES.IDiagramOptions) protected options!: IvyDiagramOptions;
 
   async preRequestModel(): Promise<void> {
     this.actionDispatcher.dispatch(EnableToolPaletteAction.create());

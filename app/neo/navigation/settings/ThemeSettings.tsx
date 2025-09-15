@@ -22,7 +22,7 @@ export const useCycleTheme = () => {
   const { t } = useTranslation();
   const cycleTheme = () => {
     const currentIndex = themes.indexOf(theme);
-    const nextTheme = themes[(currentIndex + 1) % themes.length];
+    const nextTheme = themes[(currentIndex + 1) % themes.length] ?? themes[0];
     setTheme(nextTheme);
     toast.info(`${t('settings.theme')}: ${nextTheme}`);
   };

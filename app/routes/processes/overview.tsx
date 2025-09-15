@@ -104,7 +104,7 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
 
 const useBadges = () => {
   const { t } = useTranslation();
-  const allBadges: Array<string> = [t('common.label.readOnly'), t('label.callableSubProcess'), t('label.webServiceProcess')];
+  const allBadges = [t('common.label.readOnly'), t('label.callableSubProcess'), t('label.webServiceProcess')] as const;
   const badgesFor = (process: ProcessBean) => {
     const badges: Array<Badge> = [];
     if (process.processIdentifier.project.isIar) {
