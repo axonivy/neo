@@ -13,7 +13,7 @@ export class Breadcrumbs {
   }
 
   item(name: string) {
-    return this.navigation.locator('.ui-breadcrumb-item', { hasText: name });
+    return this.navigation.locator('.ui-breadcrumb-item', { hasText: name }).filter({ visible: true });
   }
 
   async expectItems(items: string[]) {
