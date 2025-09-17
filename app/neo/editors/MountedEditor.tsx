@@ -1,4 +1,4 @@
-import { HotkeysProvider } from '@axonivy/ui-components';
+import { HotkeysProvider, useHotkeysContext } from '@axonivy/ui-components';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router';
@@ -9,11 +9,15 @@ const HotkeysEditor = ({ id, type, name, children }: Editor & { children: React.
   const { pathname } = useLocation();
   const [mounted, setMounted] = useState(false);
   const overviewBreadcrumbItem = useOverviewBreadcrumbItem(type);
+  const { enableScope, disableScope } = useHotkeysContext();
   useEffect(() => {
     if (pathname === id) {
       setMounted(true);
+      enableScope('global');
+    } else {
+      disableScope('global');
     }
-  }, [pathname, id]);
+  }, [pathname, id, enableScope, disableScope]);
   if (!mounted) {
     return null;
   }
@@ -33,19 +37,11 @@ const HotkeysEditor = ({ id, type, name, children }: Editor & { children: React.
   );
 };
 
-export const MountedEditor = (props: Editor & { children: React.ReactNode }) => {
-  const { pathname } = useLocation();
-
-  if (pathname !== props.id) {
-    return (
-      <HotkeysProvider initiallyActiveScopes={['none']}>
-        <HotkeysEditor {...props} />
-      </HotkeysProvider>
-    );
-  }
-
-  return <HotkeysEditor {...props} />;
-};
+export const MountedEditor = (props: Editor & { children: React.ReactNode }) => (
+  <HotkeysProvider initiallyActiveScopes={['none']}>
+    <HotkeysEditor {...props} />
+  </HotkeysProvider>
+);
 
 const useOverviewBreadcrumbItem = (type: EditorType) => {
   const { ws, pmv } = useParams();
