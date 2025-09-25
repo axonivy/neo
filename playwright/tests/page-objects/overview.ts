@@ -77,6 +77,7 @@ export class Overview {
     await this.titleSection.getByRole('button', { name: 'Import Projects' }).click();
     await this.page.getByRole('menuitem').getByText('Import from Market').click();
     await expect(this.title.first()).toHaveText('Axon Ivy Market');
+    await this.waitForHiddenSpinner(10000);
   }
 
   async clickCreateProject(projectName: string) {
@@ -174,8 +175,8 @@ export class Overview {
     await expect.poll(async () => this.cards.count()).toBeGreaterThan(count);
   }
 
-  private async waitForHiddenSpinner() {
-    await expect(this.overview.locator('.overview-loader')).toBeHidden();
+  private async waitForHiddenSpinner(timeout = 5000) {
+    await expect(this.overview.locator('.overview-loader')).toBeHidden({ timeout });
   }
 
   async hoverCard(name: string | RegExp, content: string) {
