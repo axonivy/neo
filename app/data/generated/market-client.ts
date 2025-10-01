@@ -233,13 +233,12 @@ export interface DesignerInstallation {
 
 export interface GithubReposModel {
   /** Repository name */
-  name?: string;
+  repoName?: string;
+  /** Product id */
+  productId?: string;
   /** Repository HTML URL */
   htmlUrl?: string;
-  /** Main programming language used */
-  language?: string;
-  /** Last updated date of the repository */
-  lastUpdated?: string;
+  workflowInformation?: WorkflowInformation[];
   /** Indicates if the repository is a focused repository */
   focused?: boolean;
   /** Test results summary by workflow type and test environment */
@@ -262,9 +261,29 @@ export type TestResultsResults = { [key: string]: number };
  */
 export interface TestResults {
   workflow?: TestResultsWorkflow;
-  /** CI workflow badge URL */
+  /**
+   * CI workflow badge URL
+   * @deprecated
+   */
   badgeUrl?: string;
   results?: TestResultsResults;
+}
+
+export type WorkflowInformationWorkflowType = (typeof WorkflowInformationWorkflowType)[keyof typeof WorkflowInformationWorkflowType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const WorkflowInformationWorkflowType = {
+  CI: 'CI',
+  DEV: 'DEV',
+  E2E: 'E2E'
+} as const;
+
+export interface WorkflowInformation {
+  id?: string;
+  workflowType?: WorkflowInformationWorkflowType;
+  lastBuilt?: string;
+  conclusion?: string;
+  lastBuiltRunUrl?: string;
 }
 
 export interface Image {
@@ -507,6 +526,10 @@ export type FindFeedbacksParams = {
    * Sorting criteria in the format: Sorting criteria(popularity|alphabetically|recent), Sorting order(asc|desc)
    */
   sort: string[];
+};
+
+export type RedirectToBestVersionParams = {
+  path?: string;
 };
 
 export type findInstallationCountResponse200 = {
@@ -1272,6 +1295,41 @@ export const getFindExternalDocumentUrl = (id: string, version: string) => {
 
 export const findExternalDocument = async (id: string, version: string, options?: RequestInit): Promise<findExternalDocumentResponse> => {
   return customFetch<findExternalDocumentResponse>(getFindExternalDocumentUrl(id, version), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+export type redirectToBestVersionResponse200 = {
+  data: null;
+  status: 200;
+};
+
+export type redirectToBestVersionResponseComposite = redirectToBestVersionResponse200;
+
+export type redirectToBestVersionResponse = redirectToBestVersionResponseComposite & {
+  headers: Headers;
+};
+
+export const getRedirectToBestVersionUrl = (params?: RedirectToBestVersionParams) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString());
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/api/externaldocument/best-match?${stringifiedParams}` : `/api/externaldocument/best-match`;
+};
+
+export const redirectToBestVersion = async (
+  params?: RedirectToBestVersionParams,
+  options?: RequestInit
+): Promise<redirectToBestVersionResponse> => {
+  return customFetch<redirectToBestVersionResponse>(getRedirectToBestVersionUrl(params), {
     ...options,
     method: 'GET'
   });

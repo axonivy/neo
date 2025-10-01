@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuShortcut,
   Flex,
   hotkeyText,
@@ -32,6 +33,7 @@ import { ControlBar } from '~/neo/control-bar/ControlBar';
 import { LanguageSettings } from '~/neo/navigation/settings/LanguageSettings';
 import { Settings } from '~/neo/navigation/settings/Settings';
 import { ThemeSettings } from '~/neo/navigation/settings/ThemeSettings';
+import { UserSettings } from '~/neo/navigation/settings/UserSettings';
 import { ArtifactCard } from '~/neo/overview/artifact/ArtifactCard';
 import { ArtifactCardMenu } from '~/neo/overview/artifact/ArtifactCardMenu';
 import { useDeleteConfirmDialog } from '~/neo/overview/artifact/DeleteConfirmDialog';
@@ -58,6 +60,8 @@ export default function Index() {
       <ControlBar>
         <Flex alignItems='center' gap={1} style={{ paddingInline: 'var(--size-2)', marginInlineStart: 'auto', flex: '0 0 auto' }}>
           <Settings side='bottom'>
+            <UserSettings />
+            <DropdownMenuSeparator />
             <LanguageSettings />
             <ThemeSettings />
           </Settings>
