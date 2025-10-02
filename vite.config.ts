@@ -26,6 +26,8 @@ export default defineConfig({
         auth: 'Developer:Developer',
         ws: true
       },
+      '/go': DEV_PROXY,
+      '/demo-portal': DEV_PROXY,
       '/monaco-yaml-ivy': DEV_PROXY,
       '/dev-workflow-ui': DEV_PROXY,
       '/system': DEV_PROXY,

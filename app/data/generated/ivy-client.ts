@@ -1529,6 +1529,56 @@ export const removeDependency = async (
   });
 };
 
+/**
+ * Returns the current user.
+ */
+export type me1ResponseDefault = {
+  data: UserBean;
+  status: number;
+};
+
+export type me1ResponseComposite = me1ResponseDefault;
+
+export type me1Response = me1ResponseComposite & {
+  headers: Headers;
+};
+
+export const getMe1Url = () => {
+  return `/web-ide/me`;
+};
+
+export const me1 = async (options?: RequestInit): Promise<me1Response> => {
+  return customFetch<me1Response>(getMe1Url(), {
+    ...options,
+    method: 'GET'
+  });
+};
+
+/**
+ * Logs out the current user.
+ */
+export type logoutMeResponseDefault = {
+  data: unknown;
+  status: number;
+};
+
+export type logoutMeResponseComposite = logoutMeResponseDefault;
+
+export type logoutMeResponse = logoutMeResponseComposite & {
+  headers: Headers;
+};
+
+export const getLogoutMeUrl = () => {
+  return `/web-ide/me`;
+};
+
+export const logoutMe = async (options?: RequestInit): Promise<logoutMeResponse> => {
+  return customFetch<logoutMeResponse>(getLogoutMeUrl(), {
+    ...options,
+    method: 'POST'
+  });
+};
+
 export type workspacesResponseDefault = {
   data: WorkspaceBean[];
   status: number;
