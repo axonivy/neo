@@ -8,7 +8,7 @@ import { useKnownHotkeys } from '~/utils/hotkeys';
 import { AnimationSettings } from './settings/AnimationSettings';
 import { Settings } from './settings/Settings';
 import { ThemeSettings } from './settings/ThemeSettings';
-import { UserSettings } from './settings/UserSettings';
+import { UserSettingsNavigation } from './settings/UserSettings';
 import { useCycleAnimationSettings } from './settings/useSettings';
 
 export const Navigation = () => {
@@ -91,7 +91,7 @@ export const Navigation = () => {
         </NavLink>
       </Flex>
       <Settings side='right'>
-        <UserSettings />
+        <UserSettingsNavigation />
         <DropdownMenuSeparator />
         <AnimationSettings />
         <LanguageSettings />
