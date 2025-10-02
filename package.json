@@ -26,16 +26,16 @@
     "sbom": "npx --yes @cyclonedx/cyclonedx-npm --output-format JSON --output-file bom.json"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~12.0.10-next.548",
-    "@axonivy/dataclass-editor-protocol": "~12.0.10-next.548",
-    "@axonivy/form-editor": "~12.0.10-next.836",
-    "@axonivy/form-editor-core": "~12.0.10-next.836",
-    "@axonivy/form-editor-protocol": "~12.0.10-next.836",
-    "@axonivy/jsonrpc": "~12.0.10-next.645.c46f5e5",
-    "@axonivy/ui-components": "~12.0.10-next.645.c46f5e5",
-    "@axonivy/ui-icons": "~12.0.10-next.645.c46f5e5",
-    "@axonivy/variable-editor": "~12.0.10-next.713",
-    "@axonivy/variable-editor-protocol": "~12.0.10-next.713",
+    "@axonivy/dataclass-editor": "~12.0.10-next.554",
+    "@axonivy/dataclass-editor-protocol": "~12.0.10-next.554",
+    "@axonivy/form-editor": "~12.0.10-next.842",
+    "@axonivy/form-editor-core": "~12.0.10-next.842",
+    "@axonivy/form-editor-protocol": "~12.0.10-next.842",
+    "@axonivy/jsonrpc": "~12.0.10-next.651.21f511f",
+    "@axonivy/ui-components": "~12.0.10-next.651.21f511f",
+    "@axonivy/ui-icons": "~12.0.10-next.651.21f511f",
+    "@axonivy/variable-editor": "~12.0.10-next.719",
+    "@axonivy/variable-editor-protocol": "~12.0.10-next.719",
     "@react-router/node": "^7.6.3",
     "@tanstack/react-query": "^5.81.0",
     "@tanstack/react-query-devtools": "^5.81.0",
@@ -46,7 +46,7 @@
     "zustand": "^5.0.2"
   },
   "devDependencies": {
-    "@axonivy/eslint-config": "~12.0.10-next.645.c46f5e5",
+    "@axonivy/eslint-config": "~12.0.10-next.651.21f511f",
     "@react-router/dev": "^7.6.3",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
@@ -70,9 +70,9 @@
     "react-resizable-panels": "^2.1.7"
   },
   "overrides": {
-    "@axonivy/jsonrpc": "~12.0.10-next.645.c46f5e5",
-    "@axonivy/ui-components": "~12.0.10-next.645.c46f5e5",
-    "@axonivy/ui-icons": "~12.0.10-next.645.c46f5e5"
+    "@axonivy/jsonrpc": "~12.0.10-next.651.21f511f",
+    "@axonivy/ui-components": "~12.0.10-next.651.21f511f",
+    "@axonivy/ui-icons": "~12.0.10-next.651.21f511f"
   },
   "engines": {
     "node": ">=20.19.0"
