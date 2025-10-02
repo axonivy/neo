@@ -14,8 +14,10 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { ok } from '~/data/custom-fetch';
-import { logoutMe, me1, reload } from '~/data/generated/ivy-client';
+import { logoutMe, me1 } from '~/data/generated/ivy-client';
 import { useWorkspace } from '~/data/workspace-api';
+import { LanguageSettings } from './LanguageSettings';
+import { ThemeSettings } from './ThemeSettings';
 
 export const useUserSettings = () => {
   const ws = useWorkspace();
@@ -28,13 +30,13 @@ export const useUserSettings = () => {
   });
 };
 
-const UserMenuContent = () => {
+const UserLogout = () => {
   const { t } = useTranslation();
 
   const logout = () =>
     logoutMe().then(() => {
       window.location.href = '/neo/';
-      reload();
+      window.location.reload();
     });
 
   return (
@@ -57,7 +59,9 @@ export const UserSettingsOverview = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side='bottom'>
-        <UserMenuContent />
+        <LanguageSettings />
+        <ThemeSettings />
+        <UserLogout />
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -74,7 +78,7 @@ export const UserSettingsNavigation = () => {
       </DropdownMenuSubTrigger>
       <DropdownMenuPortal>
         <DropdownMenuSubContent>
-          <UserMenuContent />
+          <UserLogout />
         </DropdownMenuSubContent>
       </DropdownMenuPortal>
     </DropdownMenuSub>
