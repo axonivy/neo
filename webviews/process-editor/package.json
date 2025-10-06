@@ -9,12 +9,12 @@
     "url": "https://github.com/axonivy/neo"
   },
   "dependencies": {
-    "@axonivy/process-editor": "~13.2.0-next.1773.f6868a1d",
-    "@axonivy/process-editor-inscription": "~13.2.0-next.1773.f6868a1d",
-    "@axonivy/process-editor-inscription-core": "~13.2.0-next.1773.f6868a1d",
-    "@axonivy/process-editor-inscription-protocol": "~13.2.0-next.1773.f6868a1d",
-    "@axonivy/process-editor-inscription-view": "~13.2.0-next.1773.f6868a1d",
-    "@axonivy/process-editor-protocol": "~13.2.0-next.1773.f6868a1d",
+    "@axonivy/process-editor": "~13.2.0-next.1797.ac12f1d3",
+    "@axonivy/process-editor-inscription": "~13.2.0-next.1797.ac12f1d3",
+    "@axonivy/process-editor-inscription-core": "~13.2.0-next.1797.ac12f1d3",
+    "@axonivy/process-editor-inscription-protocol": "~13.2.0-next.1797.ac12f1d3",
+    "@axonivy/process-editor-inscription-view": "~13.2.0-next.1797.ac12f1d3",
+    "@axonivy/process-editor-protocol": "~13.2.0-next.1797.ac12f1d3",
     "@codingame/monaco-vscode-editor-service-override": "1.83.3",
     "@codingame/monaco-vscode-languages-service-override": "1.83.3",
     "@codingame/monaco-vscode-model-service-override": "1.83.3",
@@ -26,7 +26,7 @@
     "i18next-http-backend": "^3.0.2",
     "i18next-resources-to-backend": "^1.2.1",
     "inversify": "6.2.2",
-    "react-i18next": "^15.4.1"
+    "react-i18next": "^16.0.0"
   },
   "devDependencies": {
     "reflect-metadata": "^0.2.2"
