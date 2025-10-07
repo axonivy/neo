@@ -50,7 +50,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useWorkspaces();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (ws, search) => ws.name.includes(search));
+  const { filteredAritfacts: workspaces, ...overviewFilter } = useOverviewFilter(data ?? [], (ws, search) => ws.name.includes(search));
   return (
     <>
       <ControlBar>
@@ -59,20 +59,20 @@ export default function Index() {
         </Flex>
       </ControlBar>
       <div style={{ height: 'calc(100vh - 41px)' }}>
-        <div style={{ height: '100%', overflowY: 'auto' }}>
-          <Flex direction='column'>
-            <WelcomeHeader />
-            <Overview>
-              <OverviewTitle title={t('workspaces.manageWorkspaces')} description={t('workspaces.info')}>
-                <NewWorkspaceButton />
-              </OverviewTitle>
-              <OverviewFilter {...overviewFilter} />
-              <OverviewContent isPending={isPending}>
-                <WorkspacesOverview workspaces={filteredAritfacts} />
-              </OverviewContent>
-            </Overview>
-          </Flex>
-        </div>
+        <Flex direction='column' style={{ height: '100%', overflowY: 'auto' }}>
+          <WelcomeHeader />
+          <Overview>
+            <OverviewTitle title={t('workspaces.manageWorkspaces')} description={t('workspaces.info')}>
+              <NewWorkspaceButton />
+            </OverviewTitle>
+            <OverviewFilter {...overviewFilter} />
+            <OverviewContent isPending={isPending}>
+              {workspaces.map(workspace => (
+                <WorkspaceCard key={workspace.name} {...workspace} />
+              ))}
+            </OverviewContent>
+          </Overview>
+        </Flex>
       </div>
     </>
   );
@@ -100,44 +100,11 @@ const WelcomeHeader = () => {
   );
 };
 
-const WorkspacesOverview = ({ workspaces }: { workspaces: Workspace[] }) => {
-  const [workspaceId, setWorkspaceId] = useState<string>();
-  const { open, onOpenChange } = useDialogHotkeys(['deployDialog']);
-  const { deployWorkspace } = useDeployWorkspace();
-  return (
-    <>
-      {workspaces.map(workspace => (
-        <WorkspaceCard
-          key={workspace.name}
-          {...workspace}
-          deployWorkspace={() => {
-            setWorkspaceId(workspace.id);
-            onOpenChange(true);
-          }}
-        />
-      ))}
-      <DeployDialog
-        open={open}
-        onOpenChange={onOpenChange}
-        deployAction={params => {
-          if (workspaceId) {
-            return deployWorkspace({ workspaceId, ...params });
-          }
-          return Promise.reject(new Error('No workspace selected'));
-        }}
-      />
-    </>
-  );
-};
-
-const WorkspaceCard = ({
-  id,
-  name,
-  deployWorkspace
-}: Pick<Workspace, 'id' | 'name'> & { deployWorkspace: (workspaceId: string) => void }) => {
+const WorkspaceCard = ({ id, name }: Pick<Workspace, 'id' | 'name'>) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
+  const { deployWorkspace } = useDeployWorkspace();
   const downloadWorkspace = useDownloadWorkspace(id);
   const hotkeys = useKnownHotkeys();
   const cardRef = useHotkeys(
@@ -145,7 +112,7 @@ const WorkspaceCard = ({
     (_, { hotkey }) => {
       switch (hotkey) {
         case hotkeys.deployWorkspace.hotkey:
-          deployWorkspace(id);
+          onOpenChange(true);
           break;
         case hotkeys.exportWorkspace.hotkey:
           downloadWorkspace();
@@ -154,27 +121,40 @@ const WorkspaceCard = ({
     },
     { keydown: false, keyup: true }
   );
+  const { open, onOpenChange } = useDialogHotkeys(['deployDialog']);
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
   const ref = useMergeRefs<HTMLDivElement>([cardRef, artifactCardRef]);
 
   return (
-    <ArtifactCard name={name} onClick={() => navigate(id)} preview={<PreviewSvg type='workspace' />} ref={ref}>
-      <ArtifactCardMenu
-        deleteAction={{ run: () => deleteWorkspace(id), isDeletable: true, artifact: t('artifact.type.workspace') }}
-        {...dialogState}
-      >
-        <DropdownMenuItem onSelect={downloadWorkspace} aria-label={hotkeys.exportWorkspace.label}>
-          <IvyIcon icon={IvyIcons.Upload} />
-          <span>{t('common.label.export')}</span>
-          <DropdownMenuShortcut>{hotkeyText(hotkeys.exportWorkspace.hotkey)}</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => deployWorkspace(id)} aria-label={hotkeys.deployWorkspace.label}>
-          <IvyIcon icon={IvyIcons.Bpmn} />
-          <span>{t('common.label.deploy')}</span>
-          <DropdownMenuShortcut>{hotkeyText(hotkeys.deployWorkspace.hotkey)}</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </ArtifactCardMenu>
-    </ArtifactCard>
+    <>
+      <ArtifactCard name={name} onClick={() => navigate(id)} preview={<PreviewSvg type='workspace' />} ref={ref}>
+        <ArtifactCardMenu
+          deleteAction={{ run: () => deleteWorkspace(id), isDeletable: true, artifact: t('artifact.type.workspace') }}
+          {...dialogState}
+        >
+          <DropdownMenuItem onSelect={downloadWorkspace} aria-label={hotkeys.exportWorkspace.label}>
+            <IvyIcon icon={IvyIcons.Upload} />
+            <span>{t('common.label.export')}</span>
+            <DropdownMenuShortcut>{hotkeyText(hotkeys.exportWorkspace.hotkey)}</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => onOpenChange(true)} aria-label={hotkeys.deployWorkspace.label}>
+            <IvyIcon icon={IvyIcons.Bpmn} />
+            <span>{t('common.label.deploy')}</span>
+            <DropdownMenuShortcut>{hotkeyText(hotkeys.deployWorkspace.hotkey)}</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </ArtifactCardMenu>
+      </ArtifactCard>
+      <DeployDialog
+        open={open}
+        onOpenChange={onOpenChange}
+        deployAction={params => {
+          if (id) {
+            return deployWorkspace({ workspaceId: id, ...params });
+          }
+          return Promise.reject(new Error('No workspace selected'));
+        }}
+      />
+    </>
   );
 };
 
