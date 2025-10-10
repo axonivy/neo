@@ -16,6 +16,8 @@ export default tseslint.config(
       }
     }
   },
+  // Latest react-hook rules
+  ...config.reactHooksLatest,
 
   // JSX a11y configs
   a11y.flatConfigs.recommended,
