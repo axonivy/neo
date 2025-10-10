@@ -13,7 +13,7 @@ import {
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useEffect, useRef, useState, type ComponentProps } from 'react';
+import { useRef, useState, type ComponentProps } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import type { Editor } from '~/neo/editors/editor';
 import { useEditors } from '~/neo/editors/useEditors';
@@ -27,12 +27,13 @@ export const EditorTabs = () => {
   const firstTabRef = useRef<HTMLButtonElement>(null);
   const [tab, setTab] = useState('');
   const { pathname } = useLocation();
-
-  useEffect(() => setTab(pathname), [pathname]);
   const groupedEditors = useGroupedEditors();
   const navigate = useNavigate();
   const { focusTabs } = useKnownHotkeys();
   useHotkeys(focusTabs.hotkey, () => firstTabRef.current?.focus(), { enableOnFormTags: true, scopes: ['neo'] });
+  if (pathname !== tab) {
+    setTab(pathname);
+  }
 
   return (
     <Tabs

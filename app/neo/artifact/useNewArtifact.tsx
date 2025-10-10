@@ -11,9 +11,8 @@ import {
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router';
 import { useDataClasses } from '~/data/data-class-api';
 import type { DataClassIdentifier, ProjectBean } from '~/data/generated/ivy-client';
 import { type ProjectIdentifier } from '~/data/project-api';
@@ -28,6 +27,7 @@ export type NewArtifactIdentifier = {
   namespace: string;
   project?: ProjectIdentifier;
 };
+
 export type NewArtifact = {
   type: NewArtifactType;
   namespaceRequired: boolean;
@@ -48,119 +48,104 @@ type NewArtifactDialogState = {
 const NewArtifactDialogContext = createContext<NewArtifactDialogState | undefined>(undefined);
 
 export const NewArtifactDialogProvider = ({ children }: { children: React.ReactNode }) => {
-  const { t } = useTranslation();
-  const { ws } = useParams();
   const { open: dialogState, onOpenChange: onDialogOpenChange } = useDialogHotkeys(['newArtifactDialog']);
 
   const [newArtifact, setNewArtifact] = useState<NewArtifact>();
-
-  const { artifactAlreadyExists, validateArtifactName, validateArtifactNamespace } = useArtifactValidation();
-
-  const [name, setName] = useState('');
-  const [namespace, setNamespace] = useState('');
-  const [project, setProject] = useState<ProjectBean>();
-  const [dataClass, setDataClass] = useState<DataClassIdentifier | undefined>();
-
-  useEffect(() => {
-    setProject(newArtifact?.project);
-    setName('');
-    setDataClass(undefined);
-  }, [newArtifact, ws]);
-
-  useEffect(() => {
-    setNamespace(newArtifact?.namespaceRequired && project ? project.defaultNamespace : '');
-  }, [newArtifact?.namespaceRequired, project]);
 
   const open = (context: NewArtifact) => {
     onDialogOpenChange(true);
     setNewArtifact(context);
   };
   const close = () => onDialogOpenChange(false);
-  const nameValidation = useMemo(
-    () => (newArtifact?.exists({ name, namespace, project: project?.id }) ? artifactAlreadyExists(name) : validateArtifactName(name)),
-    [artifactAlreadyExists, name, namespace, newArtifact, project?.id, validateArtifactName]
-  );
-  const namespaceValidation = useMemo(
-    () => validateArtifactNamespace(namespace, newArtifact?.type),
-    [namespace, newArtifact?.type, validateArtifactNamespace]
-  );
-  const hasErros = useMemo(
-    () => nameValidation?.variant === 'error' || namespaceValidation?.variant === 'error',
-    [nameValidation, namespaceValidation]
-  );
-
-  function getDescription(type: NewArtifactType) {
-    switch (type) {
-      case 'Data Class':
-        return t('artifact.newDataClass');
-      case 'Form':
-        return t('artifact.newForm');
-      case 'Process':
-        return t('artifact.newProcess');
-      default:
-        return '';
-    }
-  }
-
-  const createNewArtifact = () => {
-    if (newArtifact && !hasErros) {
-      onDialogOpenChange(false);
-      newArtifact.create(name, namespace, project?.id, newArtifact.pid, dataClass);
-    }
-  };
-  const enter = useHotkeys('Enter', createNewArtifact, { scopes: ['newArtifactDialog'], enabled: dialogState, enableOnFormTags: true });
 
   return (
     <NewArtifactDialogContext.Provider value={{ open, close, dialogState, newArtifact }}>
       {children}
-      {newArtifact && name !== undefined && (
-        <Dialog open={dialogState} onOpenChange={onDialogOpenChange}>
-          <DialogContent>
-            <BasicDialogContent
-              title={t('artifact.newTitle', { type: newArtifact.type })}
-              description={getDescription(newArtifact.type)}
-              cancel={
-                <Button size='large' variant='outline'>
-                  {t('common.label.cancel')}
-                </Button>
-              }
-              submit={
-                <Button icon={IvyIcons.Plus} disabled={hasErros} variant='primary' size='large' onClick={createNewArtifact}>
-                  {t('common.label.create')}
-                </Button>
-              }
-              ref={enter}
-              tabIndex={-1}
-            >
-              <BasicField label={t('common.label.name')} message={nameValidation}>
-                <Input value={name} onChange={e => setName(e.target.value)} />
-              </BasicField>
-              {newArtifact.project === undefined && (
-                <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('label.project')} projectFilter={p => !p.id.isIar} />
-              )}
-              <BasicField
-                label={`${t('artifact.namespace')} ${newArtifact.namespaceRequired ? '' : t('artifact.optional')}`}
-                message={namespaceValidation}
-                control={
-                  <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
-                }
-              >
-                <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
-              </BasicField>
-              {newArtifact.selectDataClass && project && <DataClassSelect project={project.id} setDataClass={setDataClass} />}
-            </BasicDialogContent>
-          </DialogContent>
-        </Dialog>
-      )}
+      <Dialog open={dialogState} onOpenChange={onDialogOpenChange}>
+        <DialogContent>{newArtifact && <NewArtifactDialogContent newArtifact={newArtifact} close={close} />}</DialogContent>
+      </Dialog>
     </NewArtifactDialogContext.Provider>
   );
 };
 
-const DataClassSelect = ({ project, setDataClass }: { project: ProjectIdentifier; setDataClass: (d?: DataClassIdentifier) => void }) => {
+const NewArtifactDialogContent = ({ newArtifact, close }: { newArtifact: NewArtifact; close: () => void }) => {
   const { t } = useTranslation();
+  const description = useDescription(newArtifact.type);
+  const [name, setName] = useState('');
+  const [project, setProject] = useState<ProjectBean | undefined>(newArtifact.project);
+  const [namespace, setNamespace] = useState<string | undefined>(
+    newArtifact.namespaceRequired && project ? project.defaultNamespace : undefined
+  );
+  const [dataClass, setDataClass] = useState<DataClassIdentifier>();
+  if (newArtifact.namespaceRequired && namespace === undefined && project?.defaultNamespace) {
+    setNamespace(project.defaultNamespace);
+  }
+
+  const { artifactAlreadyExists, validateArtifactName, validateArtifactNamespace } = useArtifactValidation();
+  const nameValidation = newArtifact.exists({ name, namespace: namespace ?? '', project: project?.id })
+    ? artifactAlreadyExists(name)
+    : validateArtifactName(name);
+  const namespaceValidation = validateArtifactNamespace(namespace, newArtifact.type);
+  const hasErros = nameValidation?.variant === 'error' || namespaceValidation?.variant === 'error';
+  const createNewArtifact = () => {
+    if (newArtifact && !hasErros) {
+      close();
+      newArtifact.create(name, namespace ?? '', project?.id, newArtifact.pid, dataClass);
+    }
+  };
+  const enter = useHotkeys('Enter', createNewArtifact, { scopes: ['newArtifactDialog'], enableOnFormTags: true });
+  return (
+    <BasicDialogContent
+      title={t('artifact.newTitle', { type: newArtifact.type })}
+      description={description}
+      cancel={
+        <Button size='large' variant='outline'>
+          {t('common.label.cancel')}
+        </Button>
+      }
+      submit={
+        <Button icon={IvyIcons.Plus} disabled={hasErros} variant='primary' size='large' onClick={createNewArtifact}>
+          {t('common.label.create')}
+        </Button>
+      }
+      ref={enter}
+      tabIndex={-1}
+    >
+      <BasicField label={t('common.label.name')} message={nameValidation}>
+        <Input value={name} onChange={e => setName(e.target.value)} />
+      </BasicField>
+      {newArtifact.project === undefined && (
+        <ProjectSelect onProjectChange={setProject} setDefaultValue={true} label={t('label.project')} projectFilter={p => !p.id.isIar} />
+      )}
+      <BasicField
+        label={`${t('artifact.namespace')} ${newArtifact.namespaceRequired ? '' : t('artifact.optional')}`}
+        message={namespaceValidation}
+        control={
+          <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
+        }
+      >
+        <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
+      </BasicField>
+      {newArtifact.selectDataClass && project && <DataClassSelect project={project.id} onDataClassChange={setDataClass} />}
+    </BasicDialogContent>
+  );
+};
+
+const DataClassSelect = ({
+  project,
+  onDataClassChange
+}: {
+  project: ProjectIdentifier;
+  onDataClassChange: (d?: DataClassIdentifier) => void;
+}) => {
+  const { t } = useTranslation();
+  const [dataClass, setDataClass] = useState<DataClassIdentifier>();
   const { data, isPending } = useDataClasses();
   const dataClasses = useMemo(() => data?.filter(dc => dc.dataClassIdentifier.project.pmv === project.pmv) ?? [], [data, project.pmv]);
-  useEffect(() => setDataClass(undefined), [setDataClass]);
+  const changeDataClass = (dataClass?: DataClassIdentifier) => {
+    setDataClass(dataClass);
+    onDataClassChange(dataClass);
+  };
   return (
     <BasicField label={t('artifact.callerData')}>
       {isPending ? (
@@ -172,7 +157,8 @@ const DataClassSelect = ({ project, setDataClass }: { project: ProjectIdentifier
             value: JSON.stringify(d.dataClassIdentifier),
             label: d.simpleName
           }))}
-          onValueChange={value => setDataClass(JSON.parse(value))}
+          value={JSON.stringify(dataClass)}
+          onValueChange={value => changeDataClass(JSON.parse(value))}
         />
       )}
     </BasicField>
@@ -183,4 +169,18 @@ export const useNewArtifact = () => {
   const context = useContext(NewArtifactDialogContext);
   if (context === undefined) throw new Error('useNewArtifactDialog must be used within a NewArtifactDialogProvider');
   return context.open;
+};
+
+const useDescription = (type: NewArtifactType) => {
+  const { t } = useTranslation();
+  switch (type) {
+    case 'Data Class':
+      return t('artifact.newDataClass');
+    case 'Form':
+      return t('artifact.newForm');
+    case 'Process':
+      return t('artifact.newProcess');
+    default:
+      return '';
+  }
 };

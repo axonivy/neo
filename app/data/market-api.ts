@@ -94,11 +94,11 @@ export const useBestMatchingVersion = (id?: string, engineVersion?: string) => {
   return useQuery({
     queryKey: [...queryKey, 'bestMatchingVersion', id, engineVersion],
     queryFn: () => {
-      if (!engineVersion || !id) return '';
+      if (!engineVersion || !id) return null;
       return findBestMatchProductDetailsByVersion(id, engineVersion, { headers }).then(res => {
         if (ok(res)) {
           const data = JSON.parse(res.data as string) as ProductDetailModel;
-          return data.productModuleContent?.version ?? '';
+          return data.productModuleContent?.version ?? null;
         }
         throw new Error(t('toast.market.loadBestMatchingFail', { id: id, engineVersion: engineVersion }));
       });

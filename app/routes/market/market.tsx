@@ -9,7 +9,7 @@ import {
   useDialogHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import { Link, useParams } from 'react-router';
@@ -110,7 +110,7 @@ const InstallDialog = ({ product, dialogState, setDialogState }: InstallDialogPr
 
 const InstallDialogContent = ({ product }: { product: ProductModel }) => {
   const { t } = useTranslation();
-  const { version, setVersion, versions, isPending } = useInstallVersion(product.id);
+  const { version, select } = useInstallVersion(product.id);
   const [project, setProject] = useState<ProjectBean>();
   const { needDependency, isInstallDisabled, install } = useInstallButton(product.id, version, project?.id);
   if (product?.id === undefined) {
@@ -139,21 +139,15 @@ const InstallDialogContent = ({ product }: { product: ProductModel }) => {
       }
     >
       <BasicField label={t('common.label.version')} control={<InfoPopover info={t('market.selectVersion')} />}>
-        {isPending ? (
-          <Spinner size='small' />
-        ) : (
-          <BasicSelect
-            items={versions.map(v => ({
-              value: v.version ?? '',
-              label: v.version ?? ''
-            }))}
-            value={version}
-            onValueChange={value => setVersion(value)}
-          />
-        )}
+        {select}
       </BasicField>
       {needDependency && (
-        <ProjectSelect setProject={setProject} setDefaultValue={true} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
+        <ProjectSelect
+          onProjectChange={setProject}
+          setDefaultValue={true}
+          label={t('neo.addDependency')}
+          projectFilter={p => !p.id.isIar}
+        />
       )}
     </BasicDialogContent>
   );
@@ -161,26 +155,39 @@ const InstallDialogContent = ({ product }: { product: ProductModel }) => {
 
 const useInstallVersion = (id?: string) => {
   const [version, setVersion] = useState<string>();
-  const { data: versions, isPending, isError } = useProductVersions(id);
+  const productVersion = useProductVersions(id);
   const engineVersion = useEngineVersion();
   const bestMatchingVersion = useBestMatchingVersion(id, engineVersion.data);
-  useEffect(() => {
+
+  if (bestMatchingVersion.data && version === undefined) {
     setVersion(bestMatchingVersion.data);
-  }, [bestMatchingVersion.data, setVersion]);
-  if (isError) {
-    return { version, setVersion, versions: [], isPending: false };
   }
-  if (isPending) {
-    return { version, setVersion, versions: [], isPending: true };
+
+  if (productVersion.isPending || engineVersion.isPending || bestMatchingVersion.isPending) {
+    return { version, select: <Spinner size='small' /> };
   }
-  return { version, setVersion, versions, isPending: false };
+
+  const select = (
+    <BasicSelect
+      items={
+        productVersion.data?.map(v => ({
+          value: v.version ?? '',
+          label: v.version ?? ''
+        })) ?? []
+      }
+      value={version}
+      onValueChange={value => setVersion(value)}
+    />
+  );
+  if (productVersion.isError || engineVersion.isError || bestMatchingVersion.isError) {
+    return { version, select };
+  }
+  return { version, select };
 };
 
 type ProductJson = { installers?: { id?: string }[] };
 
 const useInstallButton = (id?: string, version?: string, project?: ProjectIdentifier) => {
-  const [needDependency, setNeedDependency] = useState(false);
-  const [isInstallDisabled, setInstallDisabled] = useState(true);
   const { installProduct } = useInstallProduct();
   const ws = useParams().ws ?? 'designer';
   const { data } = useProductJson(id, version);
@@ -189,23 +196,16 @@ const useInstallButton = (id?: string, version?: string, project?: ProjectIdenti
   const openDemos = (result: MarketInstallResult) => {
     result.demoProcesses.forEach(process => openEditor(createProcessEditor(process)));
   };
-  useEffect(() => {
-    setInstallDisabled(true);
-    if (!data) {
-      return;
-    }
-    const needDependency = (data as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false;
-    setNeedDependency(needDependency);
-    setInstallDisabled(isDisabled(needDependency, version, project, data));
-  }, [data, project, setNeedDependency, version]);
+  const needDependency = useMemo(() => (data as ProductJson)?.installers?.some(i => i.id === 'maven-dependency') ?? false, [data]);
+  const isInstallDisabled = useMemo(() => isDisabled(needDependency, version, project, data), [needDependency, version, project, data]);
   return { needDependency, isInstallDisabled, install: () => installProduct(ws, JSON.stringify(data), project).then(openDemos) };
 };
 
-const isDisabled = (needDependency: boolean, version?: string, project?: ProjectIdentifier, data?: FindProductJsonContent200) => {
+const isDisabled = (needDependency: boolean, version?: string, project?: ProjectIdentifier, data?: FindProductJsonContent200 | null) => {
   if (version === undefined) {
     return true;
   }
-  if (data === undefined) {
+  if (data === undefined || data === null) {
     return true;
   }
   if (!needDependency) {

@@ -1,24 +1,31 @@
 import { BasicField, BasicSelect, Spinner } from '@axonivy/ui-components';
-import { useEffect, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { ProjectBean } from '~/data/generated/ivy-client';
 import { type ProjectIdentifier, useSortedProjects } from '~/data/project-api';
 
 type ProjectSelectProps = {
   project?: ProjectIdentifier;
-  setProject: (project?: ProjectBean) => void;
+  onProjectChange: (project?: ProjectBean) => void;
   setDefaultValue: boolean;
   label: string;
   projectFilter: (project: ProjectBean) => boolean;
 };
 
-export const ProjectSelect = ({ setProject, setDefaultValue, label, projectFilter }: ProjectSelectProps) => {
+export const ProjectSelect = ({ onProjectChange, setDefaultValue, label, projectFilter }: ProjectSelectProps) => {
+  const [project, setProject] = useState<ProjectBean>();
   const { data, isPending } = useSortedProjects();
   const projects = useMemo(() => data?.filter(p => projectFilter(p)) ?? [], [data, projectFilter]);
   const defaultValue = useMemo(
     () => (setDefaultValue ? (projects.length > 0 ? projects[0] : undefined) : undefined),
     [projects, setDefaultValue]
   );
-  useEffect(() => setProject(defaultValue), [defaultValue, setProject]);
+  const changeProject = (project?: ProjectBean) => {
+    setProject(project);
+    onProjectChange(project);
+  };
+  if (defaultValue !== project) {
+    changeProject(defaultValue);
+  }
   return (
     <BasicField label={label}>
       {isPending ? (
@@ -31,7 +38,8 @@ export const ProjectSelect = ({ setProject, setDefaultValue, label, projectFilte
             label: p.id.pmv
           }))}
           defaultValue={setDefaultValue ? JSON.stringify(projects[0]) : undefined}
-          onValueChange={value => setProject(JSON.parse(value))}
+          value={JSON.stringify(project)}
+          onValueChange={value => changeProject(JSON.parse(value))}
         />
       )}
     </BasicField>

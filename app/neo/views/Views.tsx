@@ -40,7 +40,7 @@ export const useViews = () => {
   return { viewsRef, view, setView, viewsCollapsed, setViewsCollapsed, toggleView };
 };
 
-export const ViewTabs = ({ viewsRef, toggleView }: ReturnType<typeof useViews>) => {
+export const ViewTabs = ({ viewsRef, toggleView, viewsCollapsed }: ReturnType<typeof useViews>) => {
   const { t } = useTranslation();
   const viewLabels: Record<ViewIds, string> = {
     Log: t('label.runtimeLog')
@@ -62,12 +62,7 @@ export const ViewTabs = ({ viewsRef, toggleView }: ReturnType<typeof useViews>) 
           </TabsTrigger>
         ))}
       </TabsList>
-      <Button
-        aria-label={t('label.toggleView')}
-        onClick={toggleView}
-        icon={IvyIcons.Chevron}
-        rotate={viewsRef.current?.isCollapsed() ? 270 : 90}
-      />
+      <Button aria-label={t('label.toggleView')} onClick={toggleView} icon={IvyIcons.Chevron} rotate={viewsCollapsed ? 270 : 90} />
     </Flex>
   );
 };
