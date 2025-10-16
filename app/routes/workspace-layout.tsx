@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/refs */
 import runtimeLogStylesHref from '@axonivy/log-view/lib/view.css?url';
 import { Button, Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Tabs, useHotkeys } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';

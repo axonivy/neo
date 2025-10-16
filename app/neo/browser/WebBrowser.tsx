@@ -1,18 +1,15 @@
+/* eslint-disable react-hooks/refs */
 import { Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import type { RefObject } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useUpdateTheme } from '~/neo/theme/useUpdateTheme';
 import { useHotkeyDispatcher } from '~/utils/hotkeys';
 import { useWebBrowser } from './useWebBrowser';
 
-const updateFrameTheme = (frame: RefObject<HTMLIFrameElement | null>, theme: string) => {
+const updateFrameTheme = (frame: HTMLIFrameElement | null, theme: string) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const setTheme = frame.current?.contentWindow?.setTheme;
-  if (setTheme) {
-    setTheme(theme);
-  }
+  frame?.contentWindow?.setTheme?.(theme);
 };
 
 export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?: React.Ref<HTMLButtonElement> }) => {

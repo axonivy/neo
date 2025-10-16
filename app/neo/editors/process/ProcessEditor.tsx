@@ -1,5 +1,5 @@
 import { useTheme } from '@axonivy/ui-components';
-import { type RefObject, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useHref, useLocation } from 'react-router';
 import { useWorkspace } from '~/data/workspace-api';
 import { baseUrl } from '~/data/ws-base';
@@ -9,15 +9,15 @@ import { useUpdateLanguage } from '~/translation/useUpdateLanguage';
 import { useHotkeyDispatcher } from '~/utils/hotkeys';
 import { useFrameMessageHandler } from './message/useFrameMessageHandler';
 
-const updateFrameTheme = (frame: RefObject<HTMLIFrameElement | null>, theme: string) => {
-  const frameRoot = frame.current?.contentWindow?.document.documentElement;
+const updateFrameTheme = (frame: HTMLIFrameElement | null, theme: string) => {
+  const frameRoot = frame?.contentWindow?.document.documentElement;
   if (frameRoot) {
     frameRoot.classList.remove('light', 'dark');
     frameRoot.classList.add(theme);
     frameRoot.dataset.theme = theme;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const monaco = frame.current?.contentWindow?.setMonacoTheme;
+    const monaco = frame?.contentWindow?.setMonacoTheme;
     if (monaco) {
       monaco(theme);
     }
@@ -48,7 +48,7 @@ export const ProcessEditor = ({ id, project, path, name }: Editor) => {
       title={name}
       src={editorUrl}
       style={{ width: '100%', height: 'calc(100% - 24px)', border: 'none' }}
-      onLoad={() => updateFrameTheme(frame, realTheme)}
+      onLoad={() => updateFrameTheme(frame.current, realTheme)}
     />
   );
 };

@@ -1,5 +1,5 @@
 import { HotkeysProvider, useHotkeysContext } from '@axonivy/ui-components';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router';
 import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
@@ -8,16 +8,21 @@ import type { Editor, EditorType } from './editor';
 const HotkeysEditor = ({ id, type, name, children }: Editor & { children: React.ReactNode }) => {
   const { pathname } = useLocation();
   const [mounted, setMounted] = useState(false);
+  const [active, setActive] = useState(false);
   const overviewBreadcrumbItem = useOverviewBreadcrumbItem(type);
   const { enableScope, disableScope } = useHotkeysContext();
-  useEffect(() => {
-    if (pathname === id) {
-      setMounted(true);
-      enableScope('global');
-    } else {
-      disableScope('global');
-    }
-  }, [pathname, id, enableScope, disableScope]);
+  if (!mounted && pathname === id) {
+    setMounted(true);
+  }
+  if (active && pathname !== id) {
+    setActive(false);
+    disableScope('global');
+  }
+  if (!active && pathname === id) {
+    setActive(true);
+    enableScope('global');
+  }
+
   if (!mounted) {
     return null;
   }

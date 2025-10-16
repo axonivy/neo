@@ -47,7 +47,7 @@ const AddDependencyDialogContent = ({ project }: { project: ProjectIdentifier })
       }
     >
       <ProjectSelect
-        setProject={setDependency}
+        onProjectChange={setDependency}
         setDefaultValue={true}
         projectFilter={p => p.id.pmv !== project.pmv}
         label={t('projects.selectDependency')}

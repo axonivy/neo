@@ -168,7 +168,7 @@ const ImportDialogContent = () => {
           }}
         />
       </BasicField>
-      <ProjectSelect setProject={setProject} setDefaultValue={false} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
+      <ProjectSelect onProjectChange={setProject} setDefaultValue={false} label={t('neo.addDependency')} projectFilter={p => !p.id.isIar} />
     </BasicDialogContent>
   );
 };
