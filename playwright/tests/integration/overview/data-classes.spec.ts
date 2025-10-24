@@ -108,6 +108,6 @@ test('database import wizard', async ({ page }) => {
   const importButton = overview.importButton;
   await expect(importButton).toBeVisible();
   await importButton.click();
-  const importDialog = neo.page.locator('.import-dialog');
+  const importDialog = neo.page.locator('.database-editor-import-dialog');
   await expect(importDialog).toBeVisible();
 });
