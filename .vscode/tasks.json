@@ -6,7 +6,7 @@
     {
       "label": "Start Dev Server",
       "type": "shell",
-      "command": "npm run dev",
+      "command": "pnpm run dev",
       "problemMatcher": [
         {
           "owner": "typescript",

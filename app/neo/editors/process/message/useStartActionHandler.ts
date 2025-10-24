@@ -1,6 +1,6 @@
+import { Action } from '@eclipse-glsp/protocol';
 import { useCallback } from 'react';
 import { useWebBrowser } from '~/neo/browser/useWebBrowser';
-import { Action } from '@eclipse-glsp/protocol/lib/action-protocol/base-protocol';
 
 interface StartProcessAction extends Action {
   kind: 'startProcess';
