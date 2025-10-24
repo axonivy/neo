@@ -134,7 +134,7 @@ const ImportDialogContent = () => {
       title={t('workspaces.importInto', { workspace: ws })}
       description={
         <>
-          <div>{t('workspaces.importWarning')}</div>
+          <span style={{ display: 'block' }}>{t('workspaces.importWarning')}</span>
           <Link onClick={downloadWorkspace} to={{}}>
             {t('workspaces.importWarningLink')}
           </Link>

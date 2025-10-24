@@ -118,11 +118,9 @@ const NewArtifactDialogContent = ({ newArtifact, close }: { newArtifact: NewArti
         <ProjectSelect onProjectChange={setProject} setDefaultValue={true} label={t('label.project')} projectFilter={p => !p.id.isIar} />
       )}
       <BasicField
-        label={`${t('artifact.namespace')} ${newArtifact.namespaceRequired ? '' : t('artifact.optional')}`}
+        label={`${t('common.label.namespace')} ${newArtifact.namespaceRequired ? '' : t('artifact.optional')}`}
         message={namespaceValidation}
-        control={
-          <InfoPopover info='Namespace organizes and groups elements to prevent naming conflicts, ensuring clarity and efficient project management.' />
-        }
+        control={<InfoPopover info={t('artifact.namespaceInfo')} />}
       >
         <Input value={namespace} onChange={e => setNamespace(e.target.value)} />
       </BasicField>

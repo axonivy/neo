@@ -1,16 +1,4 @@
-import {
-  BasicDialogContent,
-  BasicDialogFooter,
-  BasicDialogHeader,
-  BasicField,
-  Button,
-  Dialog,
-  DialogContent,
-  Flex,
-  Input,
-  PasswordInput,
-  toast
-} from '@axonivy/ui-components';
+import { BasicDialogContent, BasicField, Button, Dialog, DialogContent, Input, PasswordInput, toast } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -41,9 +29,7 @@ export const DeployDialog = ({ open, onOpenChange, deployAction }: DeployDialogP
         setLog(undefined);
       }}
     >
-      <DialogContent style={{ overflow: 'hidden' }}>
-        {log ? <DeployLogContent log={log} /> : <DeployDialogContent deploying={deploying} deploy={deploy} />}
-      </DialogContent>
+      <DialogContent>{log ? <DeployLogContent log={log} /> : <DeployDialogContent deploying={deploying} deploy={deploy} />}</DialogContent>
     </Dialog>
   );
 };
@@ -98,33 +84,31 @@ const DeployDialogContent = ({ deploying, deploy }: { deploying: boolean; deploy
 const DeployLogContent = ({ log }: { log: string }) => {
   const { t } = useTranslation();
   return (
-    <Flex direction='column' gap={4} style={{ overflow: 'hidden', maxHeight: '80vh' }}>
-      <BasicDialogHeader title={t('deploy.log')} description={t('deploy.logDescription')} />
-      <Flex direction='column' gap={2} style={{ overflow: 'hidden' }}>
-        <pre style={{ overflow: 'auto' }}>
-          <code>{log}</code>
-        </pre>
-      </Flex>
-      <BasicDialogFooter
-        submit={
-          <Button variant='primary' size='large' icon={IvyIcons.Close}>
-            {t('common.label.close')}
-          </Button>
-        }
-        cancel={
-          <Button
-            variant='outline'
-            size='large'
-            icon={IvyIcons.Note}
-            onClick={e => {
-              e.preventDefault();
-              navigator.clipboard.writeText(log).then(() => toast.success(t('deploys.copiedLog')));
-            }}
-          >
-            {t('deploys.closeLog')}
-          </Button>
-        }
-      />
-    </Flex>
+    <BasicDialogContent
+      title={t('deploy.log')}
+      description={t('deploy.logDescription')}
+      cancel={
+        <Button
+          variant='outline'
+          size='large'
+          icon={IvyIcons.Note}
+          onClick={e => {
+            e.preventDefault();
+            navigator.clipboard.writeText(log).then(() => toast.success(t('deploys.copiedLog')));
+          }}
+        >
+          {t('deploys.closeLog')}
+        </Button>
+      }
+      submit={
+        <Button variant='primary' size='large' icon={IvyIcons.Close}>
+          {t('common.label.close')}
+        </Button>
+      }
+    >
+      <pre>
+        <code>{log}</code>
+      </pre>
+    </BasicDialogContent>
   );
 };
