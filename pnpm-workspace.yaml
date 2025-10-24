@@ -1,0 +1,11 @@
+packages:
+  - webviews/process-editor
+  - playwright
+
+onlyBuiltDependencies:
+  - monaco-languageclient
+
+preferWorkspacePackages: true
+
+publicHoistPattern:
+  - eslint

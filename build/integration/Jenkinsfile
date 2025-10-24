@@ -20,8 +20,8 @@ pipeline {
       steps {
         script {
           docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
-            sh 'npm run update:axonivy:next'
-            sh 'npm run ci:prepare'
+            sh 'pnpm run update:axonivy:next'
+            sh 'pnpm run ci:prepare'
             dir ('playwright/neo-test-project') {
               maven cmd: "-ntp verify -Dengine.page.url=${params.engineSource} -Dwebtest.cmd=webtest:${browser()}"
             }
@@ -43,10 +43,10 @@ pipeline {
         script {
           catchError(buildResult: 'UNSTABLE', stageResult: 'UNSTABLE') {
             docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
-              sh 'npm run openapi:download'
-              sh 'npm run openapi:codegen'
-              sh 'npm run type'
-              sh 'npm run lint:ci'
+              sh 'pnpm run openapi:download'
+              sh 'pnpm run openapi:codegen'
+              sh 'pnpm run type'
+              sh 'pnpm run lint:ci'
             }
           }
           withChecks('Integration Protocol ESLint') {
