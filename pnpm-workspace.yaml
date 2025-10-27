@@ -2,6 +2,9 @@ packages:
   - webviews/process-editor
   - playwright
 
+ignoredBuiltDependencies:
+  - esbuild
+
 onlyBuiltDependencies:
   - monaco-languageclient
 
@@ -9,3 +12,5 @@ preferWorkspacePackages: true
 
 publicHoistPattern:
   - eslint
+
+sideEffectsCache: false
