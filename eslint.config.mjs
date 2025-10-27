@@ -1,10 +1,9 @@
 import config from '@axonivy/eslint-config';
 import i18next from 'eslint-plugin-i18next';
 import a11y from 'eslint-plugin-jsx-a11y';
-import tseslint from 'typescript-eslint';
 import customRules from './eslint-plugin-custom-rules.js';
 
-export default tseslint.config(
+export default config.defineConfig(
   ...config.base,
   // TypeScript configs
   {

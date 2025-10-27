@@ -8,8 +8,8 @@ It uses Remix in SPA mode for the UI.
 ## Setup
 
 ```shellscript
-npm i
-npm run i18n:collect
+pnpm i
+pnpm run i18n:collect
 ```
 
 ## Development
@@ -17,7 +17,7 @@ npm run i18n:collect
 Start an Axon Ivy Engine (on port 8080, you could use the provided Docker compose service) and hit F5 to launch or run:
 
 ```shellscript
-npm run dev
+pnpm run dev
 ```
 
 ### Playwright Tests
@@ -29,7 +29,7 @@ The easiest way to get started is to run the Docker compose ivy service, which p
 Build the remix spa application for production:
 
 ```shellscript
-npm run build
+pnpm run build
 ```
 
 ### Preview
@@ -37,5 +37,5 @@ npm run build
 You can preview the build locally with:
 
 ```shellscript
-npm run serve
+pnpm run serve
 ```
