@@ -8,8 +8,9 @@ import { useEditors } from '~/neo/editors/useEditors';
 import { useSettings, type AnimationFollowMode } from '~/neo/navigation/settings/useSettings';
 import { NeoClientProviderContext, useNeoClient } from './useNeoClient';
 
+const navigateFn = vi.fn();
+
 vi.mock('react-router', async importOriginal => {
-  const navigateFn = vi.fn();
   return {
     ...(await importOriginal<typeof import('react-router')>()),
     useLocation: vi.fn<typeof useLocation>(),
@@ -22,7 +23,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  vi.restoreAllMocks();
+  navigateFn.mockReset();
 });
 
 const renderNeoClientHook = () => {
