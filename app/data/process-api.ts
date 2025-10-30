@@ -6,9 +6,11 @@ import {
   createProcess as createProcessReq,
   deleteProcess as deleteProcessReq,
   getProcesses,
+  importProcess,
   type ProcessBean,
   type ProcessIdentifier as ProcessIdentifierBean,
-  type ProcessInit
+  type ProcessInit,
+  type ProjectIdentifier
 } from './generated/ivy-client';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
@@ -56,6 +58,31 @@ export const useCreateProcess = () => {
       const newProcess = createProcess(process);
       toast.promise(() => newProcess, { loading: t('toast.process.creating'), success: t('toast.process.created'), error: e => e.message });
       return newProcess;
+    }
+  };
+};
+
+export const useImportBpmnFile = () => {
+  const { t } = useTranslation();
+  const { queryKey, base } = useProcessesApi();
+  const client = useQueryClient();
+  const importBpmnFile = async (project: ProjectIdentifier, file: Blob) => {
+    const res = await importProcess({ ...project, file }, { headers: headers(base) });
+    if (ok(res)) {
+      client.invalidateQueries({ queryKey });
+      return;
+    }
+    throw new Error(resolveErrorMessage(res.data, t('toast.process.bpmn.importFail')));
+  };
+  return {
+    importBpmnFile: (project: ProjectIdentifier, file: Blob) => {
+      const importPromise = importBpmnFile(project, file);
+      toast.promise(() => importPromise, {
+        loading: t('toast.process.bpmn.importing'),
+        success: t('toast.process.bpmn.imported'),
+        error: e => e.message
+      });
+      return importPromise;
     }
   };
 };

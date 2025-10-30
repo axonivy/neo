@@ -1,3 +1,4 @@
+import { Flex } from '@axonivy/ui-components';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import type { ProcessBean } from '~/data/generated/ivy-client';
@@ -19,6 +20,7 @@ import { OverviewFilter, OverviewProjectFilter, useOverviewFilter } from '~/neo/
 import { OverviewFilterBadges } from '~/neo/overview/OverviewFilterBadges';
 import { OverviewSortBy, useSortedArtifacts } from '~/neo/overview/OverviewSortBy';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
+import { ImportBpmnDialog } from './ImportBpmnDialog';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Processes');
 
@@ -45,7 +47,10 @@ export default function Index() {
     <Overview>
       <Breadcrumbs items={[{ name: t('neo.processes') }]} />
       <OverviewTitle title={t('neo.processes')} description={t('processes.processDescription')}>
-        <NewProcessButton />
+        <Flex gap={2}>
+          <ImportBpmnDialog />
+          <NewProcessButton />
+        </Flex>
       </OverviewTitle>
       <OverviewFilter {...overviewFilter}>
         <OverviewSortBy setSortDirection={setSortDirection} />

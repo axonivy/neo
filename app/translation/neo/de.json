@@ -159,6 +159,7 @@
     "dataclassPackaged": "Die Datenklasse kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
     "dependencyPackaged": "Die Abhängigkeit kann nicht gelöscht werden, da das aktuelle Projekt gepackt ist.",
     "formPackaged": "Das Formular kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
+    "invalidBpmn": "Wählen Sie eine gültige BPMN-Datei (.bpmn oder .xml).",
     "invalidChar": "Ungültiges Zeichen '{{- char}}' an Position {{pos}} in '{{- str}}'.",
     "invalidIar": "Wählen Sie eine .iar-Datei oder eine .zip-Datei, die .iar-Dateien enthält.",
     "loadEngineVersionFail": "Engine Version konnte nicht geladen werden",
@@ -181,6 +182,10 @@
     "workspaces": "Workspaces"
   },
   "processes": {
+    "bpmn": {
+      "import": "BPMN-Datei importieren",
+      "importDescription": "Importieren Sie eine BPMN 2.0-Datei, um einen neuen Prozess in einem Projekt zu erstellen."
+    },
     "newProcess": "Neuen Prozess erstellen",
     "processDescription": "Ein Prozess beschreibt eine Abfolge automatisierter Schritte, die Arbeitsabläufe optimieren und ein effizientes Aufgabenmanagement innerhalb einer Anwendung ermöglichen."
   },
@@ -267,6 +272,11 @@
       "missing": "Marktprodukte konnten nicht geladen werden"
     },
     "process": {
+      "bpmn": {
+        "imported": "BPMN-Datei importiert",
+        "importFail": "BPMN-Datei konnte nicht importiert werden",
+        "importing": "BPMN-Datei wird importiert"
+      },
       "created": "Prozess erstellt",
       "createFail": "Prozess konnte nicht erstellt werden",
       "creating": "Prozess wird erstellt",
