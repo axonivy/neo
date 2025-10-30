@@ -159,6 +159,7 @@
     "dataclassPackaged": "The dataclass cannot be deleted as the project to which it belongs is packaged.",
     "dependencyPackaged": "The dependency cannot be deleted as the project at hand is packaged.",
     "formPackaged": "The form cannot be deleted as the project to which it belongs is packaged.",
+    "invalidBpmn": "Select an .bpmn or a .xml file.",
     "invalidChar": "Invalid character '{{- char}}' at position {{pos}} in '{{- str}}'.",
     "invalidIar": "Select an .iar file or a .zip file that contains .iar files.",
     "loadEngineVersionFail": "Failed to load engine version",
@@ -181,6 +182,10 @@
     "workspaces": "Workspaces"
   },
   "processes": {
+    "bpmn": {
+      "import": "Import BPMN File",
+      "importDescription": "Import a BPMN 2.0 file to create a new process in a project."
+    },
     "newProcess": "Create new Process",
     "processDescription": "A process describes a sequence of automated steps that optimize workflows and enables efficient task management within an application."
   },
@@ -267,6 +272,11 @@
       "missing": "Failed to load market products"
     },
     "process": {
+      "bpmn": {
+        "imported": "BPMN file imported",
+        "importFail": "Failed to import BPMN file",
+        "importing": "Importing BPMN file"
+      },
       "created": "Process created",
       "createFail": "Failed to create process",
       "creating": "Creating process",
