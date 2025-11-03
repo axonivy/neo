@@ -1,15 +1,16 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "local>axonivy/renovate-config:npm",
-    "group:allNonMajor",
-    "npm:unpublishSafe"
-  ],
+  "extends": ["local>axonivy/renovate-config:npm", "group:allNonMajor", "npm:unpublishSafe"],
   "rebaseWhen": "conflicted",
   "packageRules": [
     {
       "description": "Disable Renovate for @codingame/* packages",
       "matchDepNames": ["@codingame/*"],
+      "enabled": false
+    },
+    {
+      "description": "Disable vscode-jsonrpc, glsp needs 8.2.0",
+      "matchDepNames": ["vscode-jsonrpc"],
       "enabled": false
     }
   ]
