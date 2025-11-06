@@ -15,12 +15,14 @@ export const CmsEditor = ({ project }: Editor) => {
   if (!client) {
     return null;
   }
+  const context = { app: project.app, pmv: project.pmv, file: 'cms' };
+  const initializePromise = client.initialize(context);
   return (
     <ClientContextProvider client={client}>
       <ThemeProvider disabled>
         <ReadonlyProvider readonly={project.isIar ?? false}>
           <I18nextProvider i18n={i18next} defaultNS={'cms-editor'}>
-            <App context={{ app: project.app, pmv: project.pmv, file: 'cms' }} />
+            <App context={context} initializePromise={initializePromise} />
           </I18nextProvider>
         </ReadonlyProvider>
       </ThemeProvider>
