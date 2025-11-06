@@ -20,13 +20,7 @@ export default config.defineConfig(
   // Project specific configs
   {
     name: 'ignore-files',
-    ignores: [
-      '**/generated/*-client.ts',
-      '.react-router/**',
-      'playwright/global.teardown.ts',
-      'eslint-plugin-custom-rules.js',
-      'i18next-parser.config.js'
-    ]
+    ignores: ['**/generated/*-client.ts', '.react-router/**', 'playwright/global.teardown.ts', 'eslint-plugin-custom-rules.js']
   },
   {
     name: 'neo/rules',
