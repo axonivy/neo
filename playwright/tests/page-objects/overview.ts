@@ -24,7 +24,7 @@ export class Overview {
     this.titleSection = this.overview.locator('.overview-title-section');
     this.title = this.titleSection.locator('.overview-title');
     this.createButton = this.titleSection.getByRole('button').last();
-    this.importButton = this.titleSection.getByRole('button', { name: 'Import from Database' });
+    this.importButton = this.titleSection.getByRole('button', { name: 'Generate' });
     this.search = this.overview.locator('input');
     this.filter = new OverviewFilter(page, this.overview);
     this.cards = this.overview.locator('.artifact-card:not(.recently-opened-card)');
@@ -209,10 +209,7 @@ class OverviewFilter {
   readonly menu: Locator;
   readonly tags: Locator;
 
-  constructor(
-    readonly page: Page,
-    readonly parent: Locator
-  ) {
+  constructor(readonly page: Page, readonly parent: Locator) {
     this.button = parent.getByRole('button', { name: 'Filter by' });
     this.badge = parent.locator('.overview-filter-badge');
     this.menu = this.page.getByRole('menu', { name: 'Filter by' });

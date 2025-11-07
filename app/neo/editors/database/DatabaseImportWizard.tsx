@@ -32,14 +32,14 @@ export const DatabaseImportWizard = () => {
             callback={() => queryClient.invalidateQueries({ queryKey })}
           >
             <Button
-              title={t('dataClass.importWizard')}
-              icon={IvyIcons.Download}
+              title={t('dataClass.generate')}
+              icon={IvyIcons.SettingsCog}
               size='xl'
               variant='primary-outline'
-              aria-label={t('dataClass.importWizard')}
+              aria-label={t('dataClass.generate')}
               style={{ whiteSpace: 'nowrap' }}
             >
-              {t('dataClass.importWizard')}
+              {t('dataClass.generate')}
             </Button>
           </ImportWizard>
         </I18nextProvider>
