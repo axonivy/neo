@@ -22,16 +22,15 @@ export const useConfigurations = () => {
   const { t } = useTranslation();
   return useQuery({
     queryKey,
-    queryFn: () => {
-      if (base === undefined) return [];
-      return configurations({ headers: headers(base) }).then(res => {
+    queryFn: () =>
+      configurations({ headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data.sort((a, b) => projectSort(a.project.pmv, b.project.pmv, ws));
         }
         toast.error(t('toast.config.missing'), { description: t('toast.serverStatus') });
         return [];
-      });
-    }
+      }),
+    enabled: !!base
   });
 };
 
@@ -40,17 +39,14 @@ export const useReadConfiguration = ({ app, pmv, path }: ReadConfigParams) => {
   const { base, queryKey } = useConfigurationsApi();
   return useQuery({
     queryKey: [...queryKey, app, pmv, path],
-    queryFn: () => {
-      if (base === undefined || app === undefined || pmv === undefined || path === undefined) {
-        return null;
-      }
-      return readConfig({ app, pmv, path }, { headers: headers(base) }).then(res => {
+    queryFn: () =>
+      readConfig({ app, pmv, path }, { headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data;
         }
         throw new Error(t('toast.config.readFail', { app: app, pmv: pmv, path: path }));
-      });
-    }
+      }),
+    enabled: !!base && !!app && !!pmv && !!path
   });
 };
 

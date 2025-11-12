@@ -1,6 +1,3 @@
-import { toast } from '@axonivy/ui-components';
-import i18next from 'i18next';
-
 const getUrl = (contextUrl: string, headers?: Record<string, string>): string => {
   const base = headers && headers['base'] ? headers['base'] : '';
   const apiPrefix = '/api';
@@ -39,19 +36,7 @@ export const customFetch = async <T>(url: string, options: RequestInit): Promise
   const request = new Request(requestUrl, requestInit);
   const response = await fetch(request);
   const data = await getBody<T>(response);
-  handleUnauthorized(response);
   return { status: response.status, data } as T;
-};
-
-const handleUnauthorized = (response: Response) => {
-  if (response.status !== 401) {
-    return;
-  }
-  toast.error(i18next.t('toast.unauthorized'), {
-    duration: Infinity,
-    action: { label: i18next.t('common.label.reload'), onClick: () => window.location.reload() }
-  });
-  throw new Error(response.statusText);
 };
 
 export const headers = (base?: string) => {

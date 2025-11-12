@@ -12,7 +12,7 @@ import {
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
-export const useDependenciesApi = () => {
+const useDependenciesApi = () => {
   const ws = useWorkspace();
   const { app, pmv } = useParams();
   return { queryKey: ['neo', ws?.id, app, pmv, 'dependencies'], base: ws?.baseUrl, ws };
@@ -32,7 +32,8 @@ export const useDependencies = (app?: string, pmv?: string) => {
         toast.error(t('toast.dependency.missing'), { description: t('toast.serverStatus') });
         return [];
       });
-    }
+    },
+    enabled: !!base && !!app && !!pmv
   });
 };
 

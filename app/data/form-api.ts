@@ -18,7 +18,7 @@ import { useWorkspace } from './workspace-api';
 export type Form = HdBean;
 export type FormIdentifier = FormIdentifierBean;
 
-export const useFormsApi = () => {
+const useFormsApi = () => {
   const ws = useWorkspace();
   return { queryKey: ['neo', ws?.id, 'forms'], base: ws?.baseUrl, ws };
 };
@@ -28,16 +28,15 @@ export const useForms = () => {
   const { queryKey, base, ws } = useFormsApi();
   return useQuery({
     queryKey,
-    queryFn: () => {
-      if (base === undefined) return [];
-      return forms({ headers: headers(base) }).then(res => {
+    queryFn: () =>
+      forms({ headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data.sort((a, b) => projectSort(a.identifier.project.pmv, b.identifier.project.pmv, ws));
         }
         toast.error(t('toast.form.missing'), { description: t('toast.serverStatus') });
         return [];
-      });
-    }
+      }),
+    enabled: !!base
   });
 };
 

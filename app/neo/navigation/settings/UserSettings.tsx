@@ -11,24 +11,11 @@ import {
   IvyIcon
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { ok } from '~/data/custom-fetch';
-import { logoutMe, me1 } from '~/data/generated/ivy-client';
-import { useWorkspace } from '~/data/workspace-api';
+import { logoutMe } from '~/data/generated/ivy-client';
+import { useUser } from '~/data/user-api';
 import { LanguageSettings } from './LanguageSettings';
 import { ThemeSettings } from './ThemeSettings';
-
-export const useUserSettings = () => {
-  const ws = useWorkspace();
-  return useQuery({
-    queryKey: ['neo', ws?.id, 'me'],
-    queryFn: async () => {
-      const res = await me1();
-      return ok(res) ? res.data : null;
-    }
-  });
-};
 
 const UserLogout = () => {
   const { t } = useTranslation();
@@ -48,8 +35,7 @@ const UserLogout = () => {
 };
 
 export const UserSettingsOverview = () => {
-  const user = useUserSettings();
-
+  const user = useUser();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -68,8 +54,7 @@ export const UserSettingsOverview = () => {
 };
 
 export const UserSettingsNavigation = () => {
-  const user = useUserSettings();
-
+  const user = useUser();
   return (
     <DropdownMenuSub>
       <DropdownMenuSubTrigger>
