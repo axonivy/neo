@@ -67,7 +67,8 @@ export const useProductVersions = (id?: string) => {
         toast.error(t('toast.market.loadFail', { id: id }), { description: t('toast.market.inaccsessible') });
         return [];
       });
-    }
+    },
+    enabled: !!id
   });
 };
 
@@ -84,7 +85,8 @@ export const useProductJson = (id?: string, version?: string) => {
         }
         throw new Error(t('toast.market.loadJsonFail', { id: id, version: version }));
       });
-    }
+    },
+    enabled: !!id && !!version
   });
 };
 
@@ -102,6 +104,7 @@ export const useBestMatchingVersion = (id?: string, engineVersion?: string) => {
         }
         throw new Error(t('toast.market.loadBestMatchingFail', { id: id, engineVersion: engineVersion }));
       });
-    }
+    },
+    enabled: !!id && !!engineVersion
   });
 };

@@ -17,23 +17,25 @@ export const useDataClassesApi = () => {
   return { queryKey: ['neo', ws?.id, 'dataclasses'], base: ws?.baseUrl, ws };
 };
 
-export const useDataClassesWithFields = () => {
+const useDataClassesWithFieldsApi = () => {
   const ws = useWorkspace();
-  const conf = { queryKey: ['neo', ws?.id, 'with-fields'], base: ws?.baseUrl, ws };
+  return { queryKey: ['neo', ws?.id, 'dataclasses', 'with-fields'], base: ws?.baseUrl, ws };
+};
 
+export const useDataClassesWithFields = () => {
+  const { queryKey, base } = useDataClassesWithFieldsApi();
   const { t } = useTranslation();
   return useQuery({
-    queryKey: conf.queryKey,
-    queryFn: () => {
-      if (conf.base === undefined) return [];
-      return dataClasses({ withFields: true }, { headers: headers(conf.base) }).then(res => {
+    queryKey,
+    queryFn: () =>
+      dataClasses({ withFields: true }, { headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data;
         }
         toast.error(t('toast.dataClass.missing'), { description: t('toast.serverStatus') });
         return [];
-      });
-    }
+      }),
+    enabled: !!base
   });
 };
 
@@ -42,16 +44,15 @@ export const useDataClasses = () => {
   const { t } = useTranslation();
   return useQuery({
     queryKey,
-    queryFn: () => {
-      if (base === undefined) return [];
-      return dataClasses(undefined, { headers: headers(base) }).then(res => {
+    queryFn: () =>
+      dataClasses(undefined, { headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data.sort((a, b) => projectSort(a.dataClassIdentifier.project.pmv, b.dataClassIdentifier.project.pmv, ws));
         }
         toast.error(t('toast.dataClass.missing'), { description: t('toast.serverStatus') });
         return [];
-      });
-    }
+      }),
+    enabled: !!base
   });
 };
 

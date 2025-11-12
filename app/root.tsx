@@ -12,7 +12,7 @@ import { NewArtifactDialogProvider } from './neo/artifact/useNewArtifact';
 import { WebBrowserProvider } from './neo/browser/useWebBrowser';
 import { initTranslation } from './translation/translation';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
 
 export const links: LinksFunction = () => [
   { rel: 'preload stylesheet', href: iconStylesHref, as: 'style' },
@@ -51,6 +51,7 @@ export default function App() {
               <div className='neo-layout'>
                 <Outlet />
                 <Toaster closeButton={true} />
+                <Toaster id='endless' />
               </div>
             </NewArtifactDialogProvider>
           </HotkeysProvider>

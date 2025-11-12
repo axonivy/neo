@@ -18,7 +18,7 @@ import { useWorkspace } from './workspace-api';
 export type Process = ProcessBean;
 export type ProcessIdentifier = ProcessIdentifierBean;
 
-export const useProcessesApi = () => {
+const useProcessesApi = () => {
   const ws = useWorkspace();
   return { queryKey: ['neo', ws?.id, 'processes'], base: ws?.baseUrl, ws };
 };
@@ -28,16 +28,15 @@ export const useProcesses = () => {
   const { queryKey, base, ws } = useProcessesApi();
   return useQuery({
     queryKey,
-    queryFn: () => {
-      if (base === undefined) return [];
-      return getProcesses({ headers: headers(base) }).then(res => {
+    queryFn: () =>
+      getProcesses({ headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data.sort((a, b) => projectSort(a.processIdentifier.project.pmv, b.processIdentifier.project.pmv, ws));
         }
         toast.error(t('toast.process.missing'), { description: t('toast.serverStatus') });
         return [];
-      });
-    }
+      }),
+    enabled: !!base
   });
 };
 

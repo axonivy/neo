@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ok } from './custom-fetch';
 import { getInfo } from './generated/ivy-client';
 
-export const useEngineInfoApi = () => {
+const useEngineInfoApi = () => {
   return { queryKey: ['neo', 'engine-info'] };
 };
 

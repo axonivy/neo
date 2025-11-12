@@ -16,6 +16,7 @@ import {
   workspaces
 } from './generated/ivy-client';
 import type { ProjectIdentifier } from './project-api';
+import { useUser } from './user-api';
 
 export type Workspace = WorkspaceBean;
 
@@ -25,6 +26,7 @@ const queryKey = ['neo', 'workspaces'];
 
 export const useWorkspaces = () => {
   const { t } = useTranslation();
+  const user = useUser();
   return useQuery({
     queryKey,
     queryFn: () =>
@@ -34,16 +36,14 @@ export const useWorkspaces = () => {
         }
         toast.error(t('toast.workspace.missing'), { description: t('toast.serverStatus') });
         return [];
-      })
+      }),
+    enabled: !!user?.data?.name
   });
 };
 
 export const useWorkspace = () => {
   const { ws } = useParams();
   const workspaces = useWorkspaces();
-  if (!ws) {
-    return;
-  }
   return workspaces.data?.find(w => w.id === ws);
 };
 

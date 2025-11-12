@@ -25,16 +25,15 @@ export const useSortedProjects = (withDependencies?: boolean) => {
   const { queryKey, base, ws } = useProjectsApi();
   return useQuery({
     queryKey,
-    queryFn: () => {
-      if (base === undefined) return [];
-      return projects({ withDependencies }, { headers: headers(base) }).then(res => {
+    queryFn: () =>
+      projects({ withDependencies }, { headers: headers(base) }).then(res => {
         if (ok(res)) {
           return res.data.sort((a, b) => projectSort(a.id.pmv, b.id.pmv, ws));
         }
         toast.error(t('toast.project.missing'), { description: t('toast.serverStatus') });
         return [];
-      });
-    }
+      }),
+    enabled: !!base
   });
 };
 
