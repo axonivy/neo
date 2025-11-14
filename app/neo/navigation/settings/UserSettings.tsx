@@ -12,19 +12,12 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
-import { logoutMe } from '~/data/generated/ivy-client';
-import { useUser } from '~/data/user-api';
+import { logout, useUser } from '~/data/user-api';
 import { LanguageSettings } from './LanguageSettings';
 import { ThemeSettings } from './ThemeSettings';
 
 const UserLogout = () => {
   const { t } = useTranslation();
-
-  const logout = () =>
-    logoutMe().then(() => {
-      window.location.href = '/neo/';
-      window.location.reload();
-    });
 
   return (
     <DropdownMenuItem onClick={logout}>
