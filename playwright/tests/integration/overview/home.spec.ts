@@ -85,10 +85,15 @@ test('import and delete project', async ({ page, browserName }, testInfo) => {
   await overview.create(wsName);
   await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
   await overview.clickFileImport();
-  await new ImportDialog(page).import(zipFile);
+  await new ImportDialog(page).import(zipFile, wsName);
   await page.keyboard.press('Escape');
   await neo.navigation.open('Processes');
   await expect(overview.card('quickstart')).toBeVisible();
+  await neo.home();
+  await overview.card(wsName).click();
+  await expect(overview.cards).toHaveCount(1);
+  await overview.deleteCard(TEST_PROJECT, false, 'Remove Dependency');
+  await neo.toast.expectSuccess('Dependency removed');
   await neo.home();
   await overview.deleteCard(TEST_PROJECT);
   await neo.toast.expectSuccess('Project removed');
