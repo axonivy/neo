@@ -23,7 +23,7 @@ export const ProjectSelect = ({ onProjectChange, setDefaultValue, label, project
     setProject(project);
     onProjectChange(project);
   };
-  if (defaultValue !== project) {
+  if (defaultValue !== undefined && project === undefined) {
     changeProject(defaultValue);
   }
   return (

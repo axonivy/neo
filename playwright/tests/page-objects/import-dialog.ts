@@ -1,4 +1,4 @@
-import { type Locator, type Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 import { Toaster } from './toaster';
 
 export class ImportDialog {
@@ -12,8 +12,13 @@ export class ImportDialog {
     this.title = this.dialog.locator('h2');
   }
 
-  async import(file: string) {
+  async import(file: string, dependentProject?: string) {
     await ImportDialog.selectFileImport(this.dialog, this.page, file);
+    if (dependentProject) {
+      await this.dialog.getByRole('combobox').click();
+      await this.page.getByRole('option', { name: dependentProject }).click();
+      await expect(this.dialog.getByRole('combobox')).toHaveText(dependentProject);
+    }
     await this.dialog.getByRole('button', { name: 'Import' }).click();
     await new Toaster(this.page).expectSuccess('Projects imported into workspace');
   }
