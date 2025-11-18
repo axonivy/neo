@@ -62,7 +62,8 @@
       "process": "プロセス",
       "project": "プロジェクト",
       "workspace": "ワークスペース"
-    }
+    },
+    "namespaceInfo": "名前空間は、要素を整理してグループ化することで命名の競合を防ぎ、明確で効率的なプロジェクト管理を保証します。"
   },
   "browser": {
     "devBrowser": "開発者向けブラウザ",
@@ -89,7 +90,8 @@
     "artifiactNamespaceNotEmpty": "アーティファクト名前空間は空にはできません。",
     "capitalizeName": "最初の文字を大文字にすることを推奨します。",
     "dataclassPackaged": "所属するプロジェクトがパッケージ化されているため、データクラスを削除できません。",
-    "dependencyPackaged": "現在のプロジェクトがパッケージ化されているため、依存関係を削除できません。"
+    "dependencyPackaged": "現在のプロジェクトがパッケージ化されているため、依存関係を削除できません。",
+    "invalidBpmn": ".bpmn または .xml ファイルを選択してください。"
   },
   "neo": {
     "addDependency": "依存関係としてプロジェクトに追加する",
@@ -107,7 +109,11 @@
   },
   "processes": {
     "newProcess": "プロセスを新規作成",
-    "processDescription": "プロセスは、ワークフローを最適化し、アプリケーション内での効率的なタスク管理を可能にする、一連の自動化されたステップです。"
+    "processDescription": "プロセスは、ワークフローを最適化し、アプリケーション内での効率的なタスク管理を可能にする、一連の自動化されたステップです。",
+    "bpmn": {
+      "import": "BPMN ファイルをインポート",
+      "importDescription": "BPMN 2.0 ファイルをインポートして、プロジェクトで新しいプロセスを作成します。"
+    }
   },
   "project": {
     "defaultNamespace": "デフォルトの名前空間",
@@ -133,7 +139,8 @@
     "languageSwitch": "言語切り替え",
     "light": "ライト",
     "system": "システム",
-    "theme": "テーマ"
+    "theme": "テーマ",
+    "logout": "ログアウト"
   },
   "toast": {
     "animation": {
@@ -197,7 +204,12 @@
       "missing": "プロセスを読み込めませんでした",
       "removed": "プロセスを削除しました",
       "removeFail": "プロセス '{{pid}}' を削除できませんでした",
-      "removing": "プロセスの削除"
+      "removing": "プロセスの削除",
+      "bpmn": {
+        "imported": "BPMN ファイルをインポートしました",
+        "importFail": "BPMNファイルのインポートに失敗しました",
+        "importing": "BPMN ファイルのインポート"
+      }
     },
     "project": {
       "bpmnEngineStopFail": "プロジェクト '{{pmv}}' の BPM エンジンを停止できませんでした",
@@ -326,6 +338,7 @@
     "wsTitle": "ワークスペースへようこそ: {{workspace}}"
   },
   "dataClass": {
-    "importWizard": "データベースからのインポート"
+    "importWizard": "データベースからのインポート",
+    "generate": "生成"
   }
 }
