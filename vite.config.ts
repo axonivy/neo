@@ -9,7 +9,8 @@ const WEBSOCKET_PROXY: ProxyOptions = {
 };
 const DEV_PROXY: ProxyOptions = {
   target: ENGINE_URL,
-  followRedirects: true
+  followRedirects: true,
+  changeOrigin: true
 };
 
 export default defineConfig({

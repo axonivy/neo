@@ -1,35 +1,36 @@
-import { toast } from '@axonivy/ui-components';
 import { useQuery } from '@tanstack/react-query';
-import i18next from 'i18next';
+import { useHref } from 'react-router';
 import { ok } from './custom-fetch';
 import { logoutMe, me1 } from './generated/ivy-client';
 
-export const useUser = () =>
-  useQuery({
+export const useUser = () => {
+  const redirectToLogin = useRedirectToLogin();
+  return useQuery({
     queryKey: ['neo', 'me'],
     queryFn: async () => {
       const res = await me1();
       if (ok(res) && res.data?.name) {
         return res.data;
       }
-      toast.error(i18next.t('toast.unauthorized'), {
-        duration: Infinity,
-        toasterId: 'endless',
-        action: { label: i18next.t('common.label.reload'), onClick: () => redirectToLogin() }
-      });
+      redirectToLogin();
       return null;
     },
     refetchInterval: 3 * 60 * 1000,
     refetchOnWindowFocus: true
   });
-
-export const logout = () => {
-  logoutMe().then(() => {
-    redirectToLogin();
-  });
 };
 
-const redirectToLogin = () => {
-  window.location.href = '/go/login?originalUrl=/neo/';
-  window.location.reload();
+export const useLogout = () => {
+  const redirectToLogin = useRedirectToLogin();
+  return () =>
+    logoutMe().then(() => {
+      redirectToLogin();
+    });
+};
+
+const useRedirectToLogin = () => {
+  const currentUrl = useHref('');
+  return () => {
+    window.location.href = `/go/login?originalUrl=${encodeURIComponent(currentUrl)}`;
+  };
 };

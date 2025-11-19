@@ -1,16 +1,21 @@
 #!/bin/bash
+TEST_PROJECT_NAME="neo-test-project"
 
-# other core dir: ./playwrightInit.sh /path/to/custom/core
-CORE_DIR="${1:-/Users/lli/GitWorkspace/core}"
-TARGET_DIR="$CORE_DIR/workspace/ch.ivyteam.ivy.server.file.feature/target/server-root/data/workspaces/Developer/neo-test-project"
+if [ -z "$1" ]; then
+  echo "Error: Please provide the path to the core repository as an argument. E.g.: './scripts/playwrightInit.sh /home/ivy/dev/core'"
+  exit 1
+fi
+TEST_PROJECT_DIR="$(pwd)/playwright/$TEST_PROJECT_NAME"
+if [ ! -d "$TEST_PROJECT_DIR" ]; then
+  echo "Error: $TEST_PROJECT_NAME was not found at '$TEST_PROJECT_DIR'. Execute the script from the repository root."
+  exit 1
+fi
 
-# Create the target directory if it doesn't exist
+TARGET_DIR="$1/workspace/ch.ivyteam.ivy.server.file.feature/target/server-root/data/workspaces/Developer/$TEST_PROJECT_NAME"
 mkdir -p "$TARGET_DIR"
-
-# Remove any existing symbolic link in the target directory
-if [ -L "$TARGET_DIR/neo-test-project" ]; then
-  rm "$TARGET_DIR/neo-test-project"
+if [ -L "$TARGET_DIR/$TEST_PROJECT_NAME" ]; then
+  rm "$TARGET_DIR/$TEST_PROJECT_NAME"
 fi
 
 # Create the symbolic link in the target directory
-ln -s "$(pwd)/playwright/neo-test-project" "$TARGET_DIR/neo-test-project"
+ln -s "$(pwd)/playwright/$TEST_PROJECT_NAME" "$TARGET_DIR/$TEST_PROJECT_NAME"
