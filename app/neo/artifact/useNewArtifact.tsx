@@ -88,6 +88,9 @@ const NewArtifactDialogContent = ({ newArtifact, close }: { newArtifact: NewArti
   const namespaceValidation = validateArtifactNamespace(namespace, newArtifact.type);
   const hasErros = nameValidation?.variant === 'error' || namespaceValidation?.variant === 'error';
   const createNewArtifact = () => {
+    if (document.activeElement?.getAttribute('role') === 'combobox') {
+      return;
+    }
     if (newArtifact && !hasErros) {
       close();
       newArtifact.create(name, namespace ?? '', project?.id, newArtifact.pid, dataClass);
