@@ -1,5 +1,5 @@
 import { ClientContextProvider, ImportWizard } from '@axonivy/database-editor';
-import { Button, ThemeProvider } from '@axonivy/ui-components';
+import { Button, ThemeProvider, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useQueryClient } from '@tanstack/react-query';
 import i18next from 'i18next';
@@ -27,21 +27,28 @@ export const DatabaseImportWizard = () => {
     <ClientContextProvider client={client}>
       <ThemeProvider disabled>
         <I18nextProvider i18n={i18next} defaultNS={'database-editor'}>
-          <ImportWizard
-            context={{ app: app, file: 'config/databases.yaml', projects: allProjects }}
-            callback={() => queryClient.invalidateQueries({ queryKey })}
-          >
-            <Button
-              title={t('dataClass.generate')}
-              icon={IvyIcons.SettingsCog}
-              size='xl'
-              variant='primary-outline'
-              aria-label={t('dataClass.generate')}
-              style={{ whiteSpace: 'nowrap' }}
-            >
-              {t('dataClass.generate')}
-            </Button>
-          </ImportWizard>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipContent>{t('dataClass.generateTooltip')}</TooltipContent>
+              <ImportWizard
+                context={{ app: app, file: 'config/databases.yaml', projects: allProjects }}
+                callback={() => queryClient.invalidateQueries({ queryKey })}
+              >
+                <TooltipTrigger asChild>
+                  <Button
+                    title={t('dataClass.generate')}
+                    icon={IvyIcons.SettingsCog}
+                    size='xl'
+                    variant='primary-outline'
+                    aria-label={t('dataClass.generate')}
+                    style={{ whiteSpace: 'nowrap' }}
+                  >
+                    {t('dataClass.generate')}
+                  </Button>
+                </TooltipTrigger>
+              </ImportWizard>
+            </Tooltip>
+          </TooltipProvider>
         </I18nextProvider>
       </ThemeProvider>
     </ClientContextProvider>
