@@ -12,12 +12,13 @@ import {
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
-import { logout, useUser } from '~/data/user-api';
+import { useLogout, useUser } from '~/data/user-api';
 import { LanguageSettings } from './LanguageSettings';
 import { ThemeSettings } from './ThemeSettings';
 
 const UserLogout = () => {
   const { t } = useTranslation();
+  const logout = useLogout();
 
   return (
     <DropdownMenuItem onClick={logout}>

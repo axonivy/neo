@@ -51,7 +51,6 @@ export default function App() {
               <div className='neo-layout'>
                 <Outlet />
                 <Toaster closeButton={true} />
-                <Toaster id='endless' />
               </div>
             </NewArtifactDialogProvider>
           </HotkeysProvider>
