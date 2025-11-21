@@ -13,7 +13,10 @@ import { useWebSocket } from '~/neo/editors/useWebSocket';
 export const DatabaseImportWizard = () => {
   const ws = useWorkspace();
   const app = ws?.baseUrl.substring(2) ?? 'invalid';
-  const allProjects = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
+  const allProjects =
+    useSortedProjects()
+      .data?.filter(p => !p.id.isIar)
+      .map(p => p.id.pmv) ?? [];
   const { t } = useTranslation();
   const client = useWebSocket<DatabaseClientNeo>(DatabaseClientNeo.webSocketUrl, connection =>
     DatabaseClientNeo.startNeoMessageClient(connection)
