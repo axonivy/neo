@@ -1,11 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { useHref } from 'react-router';
 import { ok } from './custom-fetch';
 import { logoutMe, me1 } from './generated/ivy-client';
 
-export const useUser = () => {
-  const redirectToLogin = useRedirectToLogin();
-  return useQuery({
+export const useUser = () =>
+  useQuery({
     queryKey: ['neo', 'me'],
     queryFn: async () => {
       const res = await me1();
@@ -18,19 +16,14 @@ export const useUser = () => {
     refetchInterval: 3 * 60 * 1000,
     refetchOnWindowFocus: true
   });
-};
 
 export const useLogout = () => {
-  const redirectToLogin = useRedirectToLogin();
   return () =>
     logoutMe().then(() => {
       redirectToLogin();
     });
 };
 
-const useRedirectToLogin = () => {
-  const currentUrl = useHref('');
-  return () => {
-    window.location.href = `/go/login?originalUrl=${encodeURIComponent(currentUrl)}`;
-  };
+const redirectToLogin = () => {
+  window.location.href = `/go/login?originalUrl=${encodeURIComponent(window.location.pathname)}`;
 };
