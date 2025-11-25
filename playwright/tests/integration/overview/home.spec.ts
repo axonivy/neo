@@ -91,7 +91,7 @@ test('import and delete project', async ({ page, browserName }, testInfo) => {
   await expect(overview.card('quickstart')).toBeVisible();
   await neo.home();
   await overview.card(wsName).click();
-  await expect(overview.cards).toHaveCount(1);
+  await expect.poll(async () => await overview.cards.count()).toBe(1);
   await overview.deleteCard(TEST_PROJECT, false, 'Remove Dependency');
   await neo.toast.expectSuccess('Dependency removed');
   await neo.home();
