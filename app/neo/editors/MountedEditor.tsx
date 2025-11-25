@@ -1,4 +1,4 @@
-import { HotkeysProvider, useHotkeysContext } from '@axonivy/ui-components';
+import { Flex, HotkeysProvider, useHotkeysContext } from '@axonivy/ui-components';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router';
@@ -27,10 +27,11 @@ const HotkeysEditor = ({ id, type, name, children }: Editor & { children: React.
     return null;
   }
   return (
-    <div
+    <Flex
       data-editor-name={name}
       data-editor-type={type}
       className='editor'
+      direction='column'
       style={{ height: '100%', display: pathname !== id ? 'none' : undefined }}
     >
       <Breadcrumbs
@@ -38,7 +39,7 @@ const HotkeysEditor = ({ id, type, name, children }: Editor & { children: React.
         style={{ borderBottom: 'var(--basic-border)', padding: '4px var(--size-3)' }}
       />
       {children}
-    </div>
+    </Flex>
   );
 };
 
