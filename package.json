@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "ci": "npm run ci:prepare && npm run type && (npm run lint:ci || true) && npm run test:ci",
-    "ci:prepare": "npm install && npm run build:editor && npm run build",
+    "ci:prepare": "npm install && npm run monaco-postinstall && npm run build:editor && npm run build",
+    "monaco-postinstall": "npm explore monaco-languageclient -- npm run postinstall",
     "build": "react-router build",
     "dev": "react-router dev",
     "dev:debug": "export DEBUG=vite:* && remix vite:dev",
