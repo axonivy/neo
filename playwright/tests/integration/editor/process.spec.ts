@@ -1,4 +1,4 @@
-import { expect, type Page, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { FormEditor } from '../../page-objects/form-editor';
 import { Neo } from '../../page-objects/neo';
 import { ProcessEditor, ProcessEditorElement } from '../../page-objects/process-editor';
@@ -198,11 +198,11 @@ test.describe('inscription', () => {
     await clearAll(page);
     await inscription.triggerMonacoContentAssist();
     await expect(monacoEditor).toHaveText('');
-    await inscription.triggerMonacoCompletion('ivy');
+    await inscription.triggerMonacoCompletion('ivy, Variable');
     await page.keyboard.type('.l');
-    await inscription.triggerMonacoCompletion('log');
+    await inscription.triggerMonacoCompletion('log, Variable');
     await page.keyboard.type('.de');
-    await inscription.triggerMonacoCompletion('debug(Object message)');
+    await inscription.triggerMonacoCompletion('debug(Object message), Method');
     await expect(monacoEditor).toHaveText('ivy.log.debug(message)');
     await clearAll(page);
     await expect(monacoEditor).toHaveText('');
