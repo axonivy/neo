@@ -44,7 +44,7 @@ export class Inscription {
   async triggerMonacoCompletion(expectedCompletion: string) {
     const contentAssist = this.monacoContentAssist();
     await expect(contentAssist).toBeVisible();
-    await contentAssist.getByRole('option', { name: expectedCompletion, exact: true }).click();
+    await contentAssist.getByRole('listitem', { name: expectedCompletion, exact: true }).click();
     await expect(contentAssist).toBeHidden();
   }
 

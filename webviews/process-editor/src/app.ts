@@ -1,6 +1,6 @@
 import type { MessageConnection } from '@axonivy/jsonrpc';
 import { IvyBaseJsonrpcGLSPClient, NotificationToasterId } from '@axonivy/process-editor';
-import { MonacoEditorUtil } from '@axonivy/process-editor-inscription-view';
+import { LogLevel, MonacoEditorUtil } from '@axonivy/process-editor-inscription-view';
 import type { ThemeMode } from '@axonivy/process-editor-protocol';
 import {
   DiagramLoader,
@@ -80,9 +80,9 @@ async function initialize(connectionProvider: MessageConnection, isReconnecting 
     actionDispatcher.dispatchAll([StatusAction.create(message, { severity, timeout }), MessageAction.create(message, { severity })]);
   }
 
-  window.themeChanged = () => {
-    actionDispatcher.dispatch(SetUIExtensionVisibilityAction.create({ extensionId: NotificationToasterId, visible: true }));
-  };
+  MonacoEditorUtil.onDidSetTheme(() =>
+    actionDispatcher.dispatch(SetUIExtensionVisibilityAction.create({ extensionId: NotificationToasterId, visible: true }))
+  );
 }
 
 async function reconnect(connectionProvider: MessageConnection): Promise<void> {
@@ -91,20 +91,13 @@ async function reconnect(connectionProvider: MessageConnection): Promise<void> {
 }
 
 async function initMonaco(): Promise<void> {
-  // packaging with vite has it's own handling of workers so it can be properly accessed
-  // we therefore import the worker here and use that instead of the default mechanism
-  const worker = await import('monaco-editor/esm/vs/editor/editor.worker?worker');
-  MonacoEditorUtil.configureInstance({ theme: 'light', debug, worker: { workerConstructor: worker.default } });
+  MonacoEditorUtil.configureMonaco({ theme: 'light', logLevel: debug ? LogLevel.Debug : undefined });
 }
-
-window.setMonacoTheme = (theme: ThemeMode) => {
-  MonacoEditorUtil.setTheme(theme);
-  window.themeChanged?.();
-};
 
 declare global {
   interface Window {
     setMonacoTheme: (theme: ThemeMode) => void;
-    themeChanged?: () => void;
   }
 }
+
+window.setMonacoTheme = MonacoEditorUtil.setTheme;
