@@ -44,26 +44,26 @@ test('search projects', async ({ page }) => {
   await expect(page.locator(`text=No artifacts were found.`)).toBeHidden();
 });
 
-test('create new Project', async ({ page }) => {
+test('create new project', async ({ page, browserName }, testInfo) => {
   const neo = await Neo.openWorkspace(page);
   const overview = new Overview(page);
-  const projectName = 'Other-Project';
+  const projectName = `${browserName}-project${testInfo.retry}`;
   await overview.clickCreateProject(projectName);
   await neo.toast.expectSuccess('Project successfully created');
   await overview.card(projectName).click();
   const detail = new ProjectDetail(page);
   await expect(overview.title.first()).toHaveText(`Project details: ${projectName}`);
-  await expect(detail.detailCard).toContainText('ArtifactId:other-project');
+  await expect(detail.detailCard).toContainText(`ArtifactId:${projectName}`);
   await expect(detail.detailCard).toContainText('GroupId:modified.groupId');
   await neo.home();
   await overview.deleteCard(projectName);
 });
 
-test('validate Projectdetails', async ({ page }) => {
+test('validate create project dialog', async ({ page }) => {
   await Neo.openWorkspace(page);
   const projectName = 'Other-Project';
   await page.getByRole('button', { name: 'Create new Project' }).click();
-  await expect(page.locator('text=A Project is the basement for your Processes')).toBeVisible();
+  await expect(page.getByText('A Project is the basement for your Processes')).toBeVisible();
   const createButton = page.getByRole('button', { name: 'Create' });
   const nameInput = page.getByLabel('Name');
   await nameInput.fill('asd?');
@@ -83,10 +83,9 @@ test('import and delete project', async ({ page, browserName }, testInfo) => {
   const { overview, neo } = await Neo.exportWorkspace(page, zipFile);
   const wsName = `${browserName}_idp_${testInfo.retry}`;
   await overview.create(wsName);
-  await expect(page.locator(`text=Welcome to your workspace: ${wsName}`)).toBeVisible();
+  await expect(page.getByText(`Welcome to your workspace: ${wsName}`)).toBeVisible();
   await overview.clickFileImport();
   await new ImportDialog(page).import(zipFile, wsName);
-  await page.keyboard.press('Escape');
   await neo.navigation.open('Processes');
   await expect(overview.card('quickstart')).toBeVisible();
   await neo.home();

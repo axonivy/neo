@@ -55,6 +55,10 @@ export class Neo {
     return new Toaster(this.page);
   }
 
+  get overview() {
+    return new Overview(this.page);
+  }
+
   async home() {
     return await this.navigate('Workspace', 'Projects');
   }
