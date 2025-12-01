@@ -125,7 +125,7 @@ importers:
         version: 13.2.0-next.944.096d8bb
       '@react-router/dev':
         specifier: ^7.6.3
-        version: 7.9.6(@types/node@24.10.1)(jiti@2.6.1)(react-router@7.9.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(typescript@5.9.3)(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))(yaml@2.8.1)
+        version: 7.9.6(@types/node@24.10.1)(jiti@2.6.1)(react-router@7.9.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(typescript@5.9.3)(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2))(yaml@2.8.2)
       '@testing-library/jest-dom':
         specifier: ^6.6.3
         version: 6.9.1
@@ -146,7 +146,7 @@ importers:
         version: 0.5.7(@vanilla-extract/css@1.17.5)
       '@vitejs/plugin-react':
         specifier: ^5.0.0
-        version: 5.1.1(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))
+        version: 5.1.1(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2))
       eslint-plugin-i18next:
         specifier: ^6.1.1
         version: 6.1.3
@@ -158,31 +158,31 @@ importers:
         version: 16.5.0
       happy-dom:
         specifier: ^20.0.0
-        version: 20.0.10
+        version: 20.0.11
       i18next-cli:
         specifier: ^1.21.1
-        version: 1.27.0(@swc/helpers@0.5.17)(@types/node@24.10.1)
+        version: 1.27.1(@swc/helpers@0.5.17)(@types/node@24.10.1)
       orval:
-        specifier: 7.16.0
-        version: 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+        specifier: 7.17.0
+        version: 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
       vite:
         specifier: ^7.0.0
-        version: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+        version: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
       vite-tsconfig-paths:
         specifier: ^5.1.4
-        version: 5.1.4(typescript@5.9.3)(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))
+        version: 5.1.4(typescript@5.9.3)(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2))
       vitest:
         specifier: ^4.0.0
-        version: 4.0.14(@types/node@24.10.1)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1)
+        version: 4.0.14(@types/node@24.10.1)(happy-dom@20.0.11)(jiti@2.6.1)(yaml@2.8.2)
 
   playwright:
     devDependencies:
       '@playwright/test':
-        specifier: 1.56.1
-        version: 1.56.1
+        specifier: 1.57.0
+        version: 1.57.0
 
   webviews/process-editor:
     dependencies:
@@ -243,7 +243,7 @@ importers:
     devDependencies:
       '@axonivy/monaco-vite-plugin':
         specifier: 13.2.0-next.1899.1a3079bf
-        version: 13.2.0-next.1899.1a3079bf(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))
+        version: 13.2.0-next.1899.1a3079bf(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2))
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
@@ -1509,42 +1509,42 @@ packages:
     resolution: {integrity: sha512-gGq0NJkIGSwdbUt4yhdF8ZrmkGKVz9vAdVzpOfnom+V8PLSmSOVhZwbNvZZS1EYcJN5hzzKBxmmVVAInM6HQLg==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  '@orval/angular@7.16.0':
-    resolution: {integrity: sha512-WTNPtN5YHDHl6GV5gW37PonvC2QGzxVZpjjhqEKvghZcSHfEVCYHV9VJJv1LkMoLr4LtryDMYOIdREAvYq5zKg==}
+  '@orval/angular@7.17.0':
+    resolution: {integrity: sha512-3DnUU/2vUhKC33bmM2xMGRbbJRs8Qvubvjg+0QGh3AxedOYWRcLTxsuZNyr6n4y2TomrsbB1rFMTveTotE2VuA==}
 
-  '@orval/axios@7.16.0':
-    resolution: {integrity: sha512-Zkgw51tIDvJSkPrji8cZxiq/lLW9LXYccrTZit1tiEP7au8wYQbbW7EAnssdxPuj42MA7bTLEg8SaWO2BbUHJQ==}
+  '@orval/axios@7.17.0':
+    resolution: {integrity: sha512-qbTOOOGjtfFDgpY1pHJNEO71CybSQiPJxuspVJDnWeoR7cwxOuZuWLWX3QE0bZ/2NHUg11rcuHwzzvPHGYmb0w==}
 
-  '@orval/core@7.16.0':
-    resolution: {integrity: sha512-f30Dc6BQDc58/PTo3DF7VkT/szu9YL04STiG6IQa3f7DDLY6c1jALgMIB1+EDyT+SWLPSP3U3yDB6lHi0gZ4sQ==}
+  '@orval/core@7.17.0':
+    resolution: {integrity: sha512-oLHJitYNUbPYCijKt77az9Q7PnQE8ga79hVUt46c5cL4dXjjbRMLXSCIxB4M5lbu4D9q4G6ZgjCAxv+Fr7wGRA==}
 
-  '@orval/fetch@7.16.0':
-    resolution: {integrity: sha512-tIYH0eH9Wzf/g+Z9gJ4jw7Ti4WLa428Q4Sjc6sS22BAL9A8XsAiyP2AlmTvotwfFPPBqpqhEUOy0CuzKpn4wGg==}
+  '@orval/fetch@7.17.0':
+    resolution: {integrity: sha512-VZuSKa2tMhHyL4BKiPyXmNj0Z5jF92lisTgWdm24WdmFfrzeGCHDyBbim6ivOMnrcvf0v7o16EeaTdMeNiaGdQ==}
 
-  '@orval/hono@7.16.0':
-    resolution: {integrity: sha512-ToONyxV6tcH1SnnxTGGXjf+iO8gUp3r2U03QoH1fLy0UuHXvQ37Q1BjgjnHM8k2QQVz1F5YZhg9DZUg+qNCKWg==}
+  '@orval/hono@7.17.0':
+    resolution: {integrity: sha512-/78Gb346+I0jPLML/s/QK7O8sJoiCIQxKT0sJ3YVXPLSKQ4aBEYGcXthAW/LwJTZWz8Rm0vGGnz4svra3gafwg==}
 
-  '@orval/mcp@7.16.0':
-    resolution: {integrity: sha512-4V8buKib5SwKTmtpjaCREkMQGL/NUDycUyW4HqeBdOWy+fTdYtcxQy983spzjMH323qRStUmMoIaoRwTPY8OhA==}
+  '@orval/mcp@7.17.0':
+    resolution: {integrity: sha512-izVIA3XgBpdQ6u2VLD7lxXbksq2K0wf8ypmQAufd5SewSoyEPcu8jIlLovGLTI5WiBr0pJnHLoltJ4Pl/zkZ0A==}
 
-  '@orval/mock@7.16.0':
-    resolution: {integrity: sha512-USAFjRAgyeT/cXZYUuCuUhAOkEJYCByVmpE568jeGATdMpCNLgKg3Lm/m+fptomcgYkCLZxeOTgyYtSwSnTQDg==}
+  '@orval/mock@7.17.0':
+    resolution: {integrity: sha512-A/A/50XXBgidhTlQDyPQp6nIUfrP27GagyEQ70ztXS5Z9y1WJe7K5ZjjCnISOc7cFTZJmsYKvuCUo4ptfTm1bA==}
 
-  '@orval/query@7.16.0':
-    resolution: {integrity: sha512-8knD8275SB21jnZDtW+Yc7hwd/HOk9S0jFPbaSnptG/RZbtPahabUC8d8uJvyCUZU9Af3zwJvoJizCgqvHDlyg==}
+  '@orval/query@7.17.0':
+    resolution: {integrity: sha512-h/XZRpOLOewIPa/3uSk68M6CSgylrGSUxHux9uEH3P2nYWjwYV+GxuOUptzuONA37LGd76mgytW6tK27VmYeCA==}
 
-  '@orval/swr@7.16.0':
-    resolution: {integrity: sha512-BB0UoujDDkLxfAX8qyqS0vU2QGFYQ1uE6RM3lCWeOIb8FfAPIIfRf0Qu78yQcuIBQ0Tq2N2KQt/bw0roNiLPNw==}
+  '@orval/swr@7.17.0':
+    resolution: {integrity: sha512-ZC5ZjzILWt8WE3V4gWRIg9XWHjQBubUJzin67aKERlybPN+sqMdgMEl9/XL+emUItkAIdex9cCaDHZwqjrmbKg==}
 
-  '@orval/zod@7.16.0':
-    resolution: {integrity: sha512-dwN5SepJusXJj/YLZkIUvvkpysJfxt7tR9LOlWknvQgSsfLKbDAePqJPOrxyL32MfQ7He9Y2Bz1AytM6x1XIOA==}
+  '@orval/zod@7.17.0':
+    resolution: {integrity: sha512-ldwGUR4K0YIay+4UGR7ykTYD99Cs+CHIAOAVVny8/h9dU0CD/6sxomHuCzrC0Z2QxVZ4rL7k8g10Kffmp+dHBw==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@playwright/test@1.56.1':
-    resolution: {integrity: sha512-vSMYtL/zOcFpvJCW71Q/OEGQb7KYBPAdKh35WNSkaZA75JlAO8ED8UN6GUNTm3drWomcbcqRPFqQbLae8yBTdg==}
+  '@playwright/test@1.57.0':
+    resolution: {integrity: sha512-6TyEnHgd6SArQO8UO2OMTxshln3QMWBtPGrOCgs3wVEmQmwyuNtB10IZMfmYDE0riwNR1cu4q+pPcxMVtaG3TA==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -3979,8 +3979,8 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
-  happy-dom@20.0.10:
-    resolution: {integrity: sha512-6umCCHcjQrhP5oXhrHQQvLB0bwb1UzHAHdsXy+FjtKoYjUhmNZsQL8NivwM1vDvNEChJabVrUYxUnp/ZdYmy2g==}
+  happy-dom@20.0.11:
+    resolution: {integrity: sha512-QsCdAUHAmiDeKeaNojb1OHOPF7NjcWPBR7obdu3NwH2a/oyQaLg5d0aaCy/9My6CdPChYF07dvz5chaXBGaD4g==}
     engines: {node: '>=20.0.0'}
 
   has-bigints@1.1.0:
@@ -4040,8 +4040,8 @@ packages:
   i18next-chained-backend@4.6.2:
     resolution: {integrity: sha512-2P092fR+nAPQlGzPUoIIxbwo7PTBqQYgLxwv1XhSTQUAUoelLo5LkX+FqRxxSDg9WEAsrc8+2WL6mJtMGIa6WQ==}
 
-  i18next-cli@1.27.0:
-    resolution: {integrity: sha512-TKsF6Tf2NxhJ4eYQcbbdnlagNzbO68UJnk6Uz2TPAcfyS9hCWsOrTp+Bo9jFQDunq7gRv6lCnSnDuWwaC4YDNA==}
+  i18next-cli@1.27.1:
+    resolution: {integrity: sha512-Vyf1O2RSiwZpettNi7qEFYWAKuWtRBH2d9eLxvxDhGacJ0s+IcKEH1HJruVF5FkeOqCVpGxHv3gKMl3dq/B84w==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -4269,10 +4269,6 @@ packages:
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
 
-  js-yaml@4.1.0:
-    resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
-    hasBin: true
-
   js-yaml@4.1.1:
     resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
@@ -4403,8 +4399,8 @@ packages:
   lru-cache@10.4.3:
     resolution: {integrity: sha512-JNAzZcXrCt42VGLuYz0zfAzDfAvJWW6AfYlDBQyDV5DClI2m5sAmK+OIO7s59XfsRsWHp02jAJrRadPRGTt6SQ==}
 
-  lru-cache@11.2.2:
-    resolution: {integrity: sha512-F9ODfyqML2coTIsQpSkRHnLSZMtkU8Q+mSfcaIyKwy58u+8k5nvAYeiNhsyMARvzNcXJ9QfWVrcPsC9e9rAxtg==}
+  lru-cache@11.2.4:
+    resolution: {integrity: sha512-B5Y16Jr9LB9dHVkh6ZevG+vAbOsNOYCX+sXvFWFu7B3Iz5mijW3zdbMyhsh8ANd2mSWBYdJgnqi+mL7/LrOPYg==}
     engines: {node: 20 || >=22}
 
   lru-cache@5.1.1:
@@ -4636,8 +4632,8 @@ packages:
     resolution: {integrity: sha512-m0pg2zscbYgWbqRR6ABga5c3sZdEon7bSgjnlXC64kxtxLOyjRcbbUkLj7HFyy/FTD+P2xdBWu8snGhYI0jc4A==}
     engines: {node: '>=20'}
 
-  orval@7.16.0:
-    resolution: {integrity: sha512-i63Ini66krmi5jaMGX6q2e5EePfKA/4wiyXVelPUSenRcf5rs8D7GCN5zNRLIuWamcPrJ7dEb3Afrvn90oPzJA==}
+  orval@7.17.0:
+    resolution: {integrity: sha512-iBqZC7HpSSL1CJ9jRCD+5vCYpedd03Udh+izcyFnWyVUN0ywuzGonizJgl5iGTgoe+VXsMM7ndV5h+DkghreMg==}
     engines: {node: '>=22.18.0'}
     hasBin: true
 
@@ -4712,13 +4708,13 @@ packages:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
     engines: {node: '>=12'}
 
-  playwright-core@1.56.1:
-    resolution: {integrity: sha512-hutraynyn31F+Bifme+Ps9Vq59hKuUCz7H1kDOcBs+2oGguKkWTU50bBWrtz34OUWmIwpBTWDxaRPXrIXkgvmQ==}
+  playwright-core@1.57.0:
+    resolution: {integrity: sha512-agTcKlMw/mjBWOnD6kFZttAAGHgi/Nw0CZ2o6JqWSbMlI219lAFLZZCyqByTsvVAJq5XA5H8cA6PrvBRpBWEuQ==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.56.1:
-    resolution: {integrity: sha512-aFi5B0WovBHTEvpM3DzXTUaeN6eN0qWnTkKx4NQaH4Wvcmc153PdaY2UBdSYKaGYw+UyWXSVyxDUg5DoPEttjw==}
+  playwright@1.57.0:
+    resolution: {integrity: sha512-ilYQj1s8sr2ppEJ2YVadYBN0Mb3mdo9J0wQ+UuDhzYqURwSoW4n1Xs5vs7ORwgDGmyEh33tRMeS8KhdkMoLXQw==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -5573,8 +5569,8 @@ packages:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
 
-  yaml@2.8.1:
-    resolution: {integrity: sha512-lcYcMxX2PO9XMGvAJkJ3OsNMw+/7FKes7/hgerGUYWIoWu5j/+YQqcZr5JnPZWzOsEBgMbSbiSTn/dv/69Mkpw==}
+  yaml@2.8.2:
+    resolution: {integrity: sha512-mplynKqc1C2hTVYxd0PU2xQAc22TI1vShAYGksCCfxbn/dFwnHTNi1bvYsBTkhdUNtGIf5xNOg938rrSSYvS9A==}
     engines: {node: '>= 14.6'}
     hasBin: true
 
@@ -5647,7 +5643,7 @@ snapshots:
   '@apidevtools/json-schema-ref-parser@14.0.1':
     dependencies:
       '@types/json-schema': 7.0.15
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
 
   '@apidevtools/openapi-schemas@2.1.0': {}
 
@@ -5698,7 +5694,7 @@ snapshots:
       i18next: 25.6.3(typescript@5.9.3)
       react: 19.2.0
       react-i18next: 16.3.5(i18next@25.6.3(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
-      yaml: 2.8.1
+      yaml: 2.8.2
     transitivePeerDependencies:
       - react-dom
 
@@ -5782,9 +5778,9 @@ snapshots:
       react-error-boundary: 6.0.0(react@19.2.0)
       react-i18next: 16.3.5(i18next@25.6.3(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
 
-  '@axonivy/monaco-vite-plugin@13.2.0-next.1899.1a3079bf(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))':
+  '@axonivy/monaco-vite-plugin@13.2.0-next.1899.1a3079bf(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2))':
     dependencies:
-      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   '@axonivy/prettier-config@13.2.0-next.944.096d8bb':
     dependencies:
@@ -5929,7 +5925,7 @@ snapshots:
       i18next: 25.6.3(typescript@5.9.3)
       react: 19.2.0
       react-i18next: 16.3.5(i18next@25.6.3(typescript@5.9.3))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(typescript@5.9.3)
-      yaml: 2.8.1
+      yaml: 2.8.2
     transitivePeerDependencies:
       - react-dom
 
@@ -7463,25 +7459,25 @@ snapshots:
     dependencies:
       which: 3.0.1
 
-  '@orval/angular@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/angular@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
       - typescript
 
-  '@orval/axios@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/axios@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
       - typescript
 
-  '@orval/core@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/core@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
       '@apidevtools/swagger-parser': 12.1.0(openapi-types@12.1.3)
       '@ibm-cloud/openapi-ruleset': 1.33.3
@@ -7508,9 +7504,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/fetch@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/fetch@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
       openapi3-ts: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -7518,10 +7514,10 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/hono@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/hono@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/zod': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/zod': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
       fs-extra: 11.3.2
       lodash.uniq: 4.5.0
       openapi3-ts: 4.5.0
@@ -7531,11 +7527,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/mcp@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/mcp@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/fetch': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/zod': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/fetch': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/zod': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
       openapi3-ts: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -7543,9 +7539,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/mock@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/mock@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
       openapi3-ts: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -7553,10 +7549,10 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/query@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/query@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/fetch': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/fetch': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
       chalk: 4.1.2
       lodash.omitby: 4.6.0
     transitivePeerDependencies:
@@ -7565,19 +7561,19 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/swr@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/swr@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/fetch': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/fetch': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
       - typescript
 
-  '@orval/zod@7.16.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/zod@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
       lodash.uniq: 4.5.0
       openapi3-ts: 4.5.0
     transitivePeerDependencies:
@@ -7589,9 +7585,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@playwright/test@1.56.1':
+  '@playwright/test@1.57.0':
     dependencies:
-      playwright: 1.56.1
+      playwright: 1.57.0
 
   '@radix-ui/number@1.1.1': {}
 
@@ -8693,7 +8689,7 @@ snapshots:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
 
-  '@react-router/dev@7.9.6(@types/node@24.10.1)(jiti@2.6.1)(react-router@7.9.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(typescript@5.9.3)(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))(yaml@2.8.1)':
+  '@react-router/dev@7.9.6(@types/node@24.10.1)(jiti@2.6.1)(react-router@7.9.6(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(typescript@5.9.3)(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2))(yaml@2.8.2)':
     dependencies:
       '@babel/core': 7.28.5
       '@babel/generator': 7.28.5
@@ -8723,8 +8719,8 @@ snapshots:
       semver: 7.7.3
       tinyglobby: 0.2.15
       valibot: 1.2.0(typescript@5.9.3)
-      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
-      vite-node: 3.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
+      vite-node: 3.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -9229,7 +9225,7 @@ snapshots:
     dependencies:
       '@stoplight/json': 3.21.7
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       '@types/urijs': 1.19.26
       dependency-graph: 0.11.0
       fast-memoize: 2.5.2
@@ -9242,7 +9238,7 @@ snapshots:
     dependencies:
       '@stoplight/ordered-object-literal': 1.0.5
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       jsonc-parser: 2.2.1
       lodash: 4.17.21
       safe-stable-stringify: 1.1.1
@@ -9343,7 +9339,7 @@ snapshots:
     dependencies:
       '@stoplight/json': 3.21.7
       '@stoplight/path': 1.3.2
-      '@stoplight/types': 13.6.0
+      '@stoplight/types': 13.20.0
       abort-controller: 3.0.0
       lodash: 4.17.21
       node-fetch: 2.7.0
@@ -9627,8 +9623,8 @@ snapshots:
 
   '@typescript-eslint/project-service@8.47.0(typescript@5.9.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.47.0(typescript@5.9.3)
-      '@typescript-eslint/types': 8.47.0
+      '@typescript-eslint/tsconfig-utils': 8.48.0(typescript@5.9.3)
+      '@typescript-eslint/types': 8.48.0
       debug: 4.4.3
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -9763,7 +9759,7 @@ snapshots:
     dependencies:
       '@vanilla-extract/css': 1.17.5
 
-  '@vitejs/plugin-react@5.1.1(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))':
+  '@vitejs/plugin-react@5.1.1(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2))':
     dependencies:
       '@babel/core': 7.28.5
       '@babel/plugin-transform-react-jsx-self': 7.27.1(@babel/core@7.28.5)
@@ -9771,7 +9767,7 @@ snapshots:
       '@rolldown/pluginutils': 1.0.0-beta.47
       '@types/babel__core': 7.20.5
       react-refresh: 0.18.0
-      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -9784,13 +9780,13 @@ snapshots:
       chai: 6.2.1
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.14(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))':
+  '@vitest/mocker@4.0.14(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2))':
     dependencies:
       '@vitest/spy': 4.0.14
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
 
   '@vitest/pretty-format@4.0.14':
     dependencies:
@@ -10758,7 +10754,7 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  happy-dom@20.0.10:
+  happy-dom@20.0.11:
     dependencies:
       '@types/node': 20.19.25
       '@types/whatwg-mimetype': 3.0.2
@@ -10814,7 +10810,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.28.4
 
-  i18next-cli@1.27.0(@swc/helpers@0.5.17)(@types/node@24.10.1):
+  i18next-cli@1.27.1(@swc/helpers@0.5.17)(@types/node@24.10.1):
     dependencies:
       '@croct/json5-parser': 0.2.1
       '@swc/core': 1.15.2(@swc/helpers@0.5.17)
@@ -10844,7 +10840,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.28.4
       chokidar: 4.0.3
-      yaml: 2.8.1
+      yaml: 2.8.2
 
   i18next-resources-to-backend@1.2.1:
     dependencies:
@@ -11059,10 +11055,6 @@ snapshots:
 
   js-tokens@4.0.0: {}
 
-  js-yaml@4.1.0:
-    dependencies:
-      argparse: 2.0.1
-
   js-yaml@4.1.1:
     dependencies:
       argparse: 2.0.1
@@ -11168,7 +11160,7 @@ snapshots:
 
   lru-cache@10.4.3: {}
 
-  lru-cache@11.2.2: {}
+  lru-cache@11.2.4: {}
 
   lru-cache@5.1.1:
     dependencies:
@@ -11430,7 +11422,7 @@ snapshots:
 
   openapi3-ts@4.5.0:
     dependencies:
-      yaml: 2.8.1
+      yaml: 2.8.2
 
   optionator@0.9.4:
     dependencies:
@@ -11453,20 +11445,20 @@ snapshots:
       string-width: 8.1.0
       strip-ansi: 7.1.2
 
-  orval@7.16.0(openapi-types@12.1.3)(typescript@5.9.3):
+  orval@7.17.0(openapi-types@12.1.3)(typescript@5.9.3):
     dependencies:
       '@apidevtools/swagger-parser': 12.1.0(openapi-types@12.1.3)
       '@commander-js/extra-typings': 14.0.0(commander@14.0.2)
-      '@orval/angular': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/axios': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/core': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/fetch': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/hono': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/mcp': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/mock': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/query': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/swr': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/zod': 7.16.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/angular': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/axios': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/fetch': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/hono': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/mcp': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/mock': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/query': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/swr': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/zod': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
       chalk: 4.1.2
       chokidar: 4.0.3
       commander: 14.0.2
@@ -11475,7 +11467,7 @@ snapshots:
       find-up: 5.0.0
       fs-extra: 11.3.2
       jiti: 2.6.1
-      js-yaml: 4.1.0
+      js-yaml: 4.1.1
       lodash.uniq: 4.5.0
       openapi3-ts: 4.5.0
       string-argv: 0.3.2
@@ -11528,7 +11520,7 @@ snapshots:
 
   path-scurry@2.0.1:
     dependencies:
-      lru-cache: 11.2.2
+      lru-cache: 11.2.4
       minipass: 7.1.2
 
   path-type@4.0.0: {}
@@ -11543,11 +11535,11 @@ snapshots:
 
   picomatch@4.0.3: {}
 
-  playwright-core@1.56.1: {}
+  playwright-core@1.57.0: {}
 
-  playwright@1.56.1:
+  playwright@1.57.0:
     dependencies:
-      playwright-core: 1.56.1
+      playwright-core: 1.57.0
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -12187,7 +12179,7 @@ snapshots:
       markdown-it: 14.1.0
       minimatch: 9.0.5
       typescript: 5.9.3
-      yaml: 2.8.1
+      yaml: 2.8.2
 
   typescript-eslint@8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
@@ -12269,13 +12261,13 @@ snapshots:
 
   validator@13.15.23: {}
 
-  vite-node@3.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1):
+  vite-node@3.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2):
     dependencies:
       cac: 6.7.14
       debug: 4.4.3
       es-module-lexer: 1.7.0
       pathe: 2.0.3
-      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -12290,18 +12282,18 @@ snapshots:
       - tsx
       - yaml
 
-  vite-tsconfig-paths@5.1.4(typescript@5.9.3)(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)):
+  vite-tsconfig-paths@5.1.4(typescript@5.9.3)(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)):
     dependencies:
       debug: 4.4.3
       globrex: 0.1.2
       tsconfck: 3.1.6(typescript@5.9.3)
     optionalDependencies:
-      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
     transitivePeerDependencies:
       - supports-color
       - typescript
 
-  vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1):
+  vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.3)
@@ -12313,12 +12305,12 @@ snapshots:
       '@types/node': 24.10.1
       fsevents: 2.3.3
       jiti: 2.6.1
-      yaml: 2.8.1
+      yaml: 2.8.2
 
-  vitest@4.0.14(@types/node@24.10.1)(happy-dom@20.0.10)(jiti@2.6.1)(yaml@2.8.1):
+  vitest@4.0.14(@types/node@24.10.1)(happy-dom@20.0.11)(jiti@2.6.1)(yaml@2.8.2):
     dependencies:
       '@vitest/expect': 4.0.14
-      '@vitest/mocker': 4.0.14(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1))
+      '@vitest/mocker': 4.0.14(vite@7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2))
       '@vitest/pretty-format': 4.0.14
       '@vitest/runner': 4.0.14
       '@vitest/snapshot': 4.0.14
@@ -12335,11 +12327,11 @@ snapshots:
       tinyexec: 0.3.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.1)
+      vite: 7.2.4(@types/node@24.10.1)(jiti@2.6.1)(yaml@2.8.2)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.10.1
-      happy-dom: 20.0.10
+      happy-dom: 20.0.11
     transitivePeerDependencies:
       - jiti
       - less
@@ -12469,7 +12461,7 @@ snapshots:
 
   yaml@1.10.2: {}
 
-  yaml@2.8.1: {}
+  yaml@2.8.2: {}
 
   yargs-parser@21.1.1: {}
 
