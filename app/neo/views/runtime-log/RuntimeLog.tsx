@@ -4,6 +4,7 @@ import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
 import { useWebSocket } from '~/neo/editors/useWebSocket';
 import { RuntimeLogClientNeo } from './runtime-log-client';
+import './RuntimeLog.css';
 
 export const RuntimeLog = () => {
   const client = useWebSocket<RuntimeLogClientNeo>(RuntimeLogClientNeo.webSocketUrl, connection =>
