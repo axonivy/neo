@@ -71,7 +71,7 @@ export const ViewContent = () => {
   return (
     <>
       {views.map(({ id, content }) => (
-        <TabsContent key={id} value={id} style={{ padding: 'var(--size-2)' }}>
+        <TabsContent key={id} value={id} style={{ padding: 'var(--size-2)', height: 'calc(100% - 2 * var(--size-2))' }}>
           {content}
         </TabsContent>
       ))}
