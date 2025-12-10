@@ -91,7 +91,10 @@ async function reconnect(connectionProvider: MessageConnection): Promise<void> {
 }
 
 async function initMonaco(): Promise<void> {
-  MonacoEditorUtil.configureMonaco({ theme: 'light', logLevel: debug ? LogLevel.Debug : undefined });
+  await MonacoEditorUtil.configureMonaco({ theme: 'light', logLevel: debug ? LogLevel.Debug : undefined });
+  if (document.documentElement.classList.contains('dark')) {
+    MonacoEditorUtil.setTheme('dark');
+  }
 }
 
 declare global {
