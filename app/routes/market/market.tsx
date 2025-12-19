@@ -42,8 +42,8 @@ export default function Index() {
   const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data?.pages.flatMap(page => page) ?? [], (product, search) => {
     return (
       (product.names?.en?.toLocaleLowerCase().includes(search) ||
-        product.shortDescriptions?.en?.includes(search) ||
-        product.type?.includes(search)) ??
+        product.shortDescriptions?.en?.toLocaleLowerCase().includes(search) ||
+        product.type?.toLocaleLowerCase().includes(search)) ??
       false
     );
   });
