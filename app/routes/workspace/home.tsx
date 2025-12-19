@@ -53,7 +53,9 @@ export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useSortedProjects();
   const { ws } = useParams();
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (project, search) => project.id.pmv.includes(search));
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (project, search) =>
+    project.id.pmv.toLocaleLowerCase().includes(search)
+  );
   return (
     <Overview>
       <Breadcrumbs />

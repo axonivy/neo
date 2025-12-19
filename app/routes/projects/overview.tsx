@@ -36,7 +36,9 @@ export default function Index() {
   const { data: projects, isPending: isProjectsPending } = useSortedProjects();
   const project = useMemo(() => projects?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects]);
   const { data: depencencies, isPending: isDependenciesPending } = useDependencies(app, pmv);
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(depencencies ?? [], (dep, search) => dep.pmv.includes(search));
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(depencencies ?? [], (dep, search) =>
+    dep.pmv.toLocaleLowerCase().includes(search)
+  );
   const { sortedArtifacts, setSortDirection } = useSortedArtifacts(filteredAritfacts, projectBean => projectBean.pmv);
 
   if (isProjectsPending) {
