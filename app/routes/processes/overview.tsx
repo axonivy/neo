@@ -37,8 +37,8 @@ export default function Index() {
           ?.map(b => b.label)
           .includes(badge)
       );
-    const nameMatches = proc.name.includes(search);
-
+    const nameMatches = proc.name.toLocaleLowerCase().includes(search);
+    console.log(`Filtering ${proc.name}: ${hasMatchingProject}, ${hasMatchingBade}, ${nameMatches}`);
     return hasMatchingProject && hasMatchingBade && nameMatches;
   });
   const { sortedArtifacts, setSortDirection } = useSortedArtifacts(filteredAritfacts, processBean => processBean.name);
