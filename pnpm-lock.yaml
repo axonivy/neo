@@ -108,7 +108,7 @@ importers:
         version: 2.5.0(inversify@6.2.2(reflect-metadata@0.2.2))
       '@react-router/node':
         specifier: ^7.10.1
-        version: 7.10.1(react-router@7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)
+        version: 7.11.0(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)
       '@tanstack/react-query':
         specifier: ^5.81.0
         version: 5.90.12(react@19.2.3)
@@ -144,7 +144,7 @@ importers:
         version: 16.5.0(i18next@25.7.3(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
       react-router:
         specifier: ^7.10.1
-        version: 7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        version: 7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       vscode-jsonrpc:
         specifier: 8.2.0
         version: 8.2.0
@@ -163,7 +163,7 @@ importers:
         version: 14.0.0-next.957.4046f5f
       '@react-router/dev':
         specifier: ^7.10.1
-        version: 7.10.1(@types/node@24.10.4)(jiti@2.6.1)(react-router@7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(yaml@2.8.2))(yaml@2.8.2)
+        version: 7.11.0(@types/node@24.10.4)(jiti@2.6.1)(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(yaml@2.8.2))(yaml@2.8.2)
       '@testing-library/jest-dom':
         specifier: ^6.6.3
         version: 6.9.1
@@ -199,10 +199,10 @@ importers:
         version: 20.0.11
       i18next-cli:
         specifier: ^1.21.1
-        version: 1.33.3(@swc/helpers@0.5.17)(@types/node@24.10.4)
+        version: 1.33.5(@swc/helpers@0.5.17)(@types/node@24.10.4)
       orval:
-        specifier: 7.17.0
-        version: 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+        specifier: 7.17.2
+        version: 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
       typescript:
         specifier: ^5.8.3
         version: 5.9.3
@@ -1703,35 +1703,35 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@orval/angular@7.17.0':
-    resolution: {integrity: sha512-3DnUU/2vUhKC33bmM2xMGRbbJRs8Qvubvjg+0QGh3AxedOYWRcLTxsuZNyr6n4y2TomrsbB1rFMTveTotE2VuA==}
+  '@orval/angular@7.17.2':
+    resolution: {integrity: sha512-+WBILd8KJD/I8eyX2eyTmzhyY+oTvbCTV25YoF2/UzWaBIq0reIhe5i2J2vUBXFnhZDLfwJYn70v341y7NSPlQ==}
 
-  '@orval/axios@7.17.0':
-    resolution: {integrity: sha512-qbTOOOGjtfFDgpY1pHJNEO71CybSQiPJxuspVJDnWeoR7cwxOuZuWLWX3QE0bZ/2NHUg11rcuHwzzvPHGYmb0w==}
+  '@orval/axios@7.17.2':
+    resolution: {integrity: sha512-9wNxnEtNSI4S22V5ta4f5jaFAfrJ5PEcQwALP6ogsBxT0lUhzHWhRGWaopA2SJLW8eCGfPVo4fF/x/2i9ecG8w==}
 
-  '@orval/core@7.17.0':
-    resolution: {integrity: sha512-oLHJitYNUbPYCijKt77az9Q7PnQE8ga79hVUt46c5cL4dXjjbRMLXSCIxB4M5lbu4D9q4G6ZgjCAxv+Fr7wGRA==}
+  '@orval/core@7.17.2':
+    resolution: {integrity: sha512-7kv7JgC6Va9hE/OiYTaJEU52Uy52y8Ill26QZufgP9yeMT60h3yiycF//LSQp83P+fGzcS9PLuCS4uRPmrMtgA==}
 
-  '@orval/fetch@7.17.0':
-    resolution: {integrity: sha512-VZuSKa2tMhHyL4BKiPyXmNj0Z5jF92lisTgWdm24WdmFfrzeGCHDyBbim6ivOMnrcvf0v7o16EeaTdMeNiaGdQ==}
+  '@orval/fetch@7.17.2':
+    resolution: {integrity: sha512-gBgk4POAacKs4c7VKCQPTkdLWvxF2s1p/EBKT1N6h2QKUxZcO7MbV141FQXFghFGFYgpuNiUTlox4BbSeCVrXw==}
 
-  '@orval/hono@7.17.0':
-    resolution: {integrity: sha512-/78Gb346+I0jPLML/s/QK7O8sJoiCIQxKT0sJ3YVXPLSKQ4aBEYGcXthAW/LwJTZWz8Rm0vGGnz4svra3gafwg==}
+  '@orval/hono@7.17.2':
+    resolution: {integrity: sha512-YSTDYPysnD5LyugRKGSU4kZEMgK0HeLeZ7r1X/4u6U5FrRdhmjf+gjnCseBR61yKwS/8BLMogIe7qw8uOs83Hg==}
 
-  '@orval/mcp@7.17.0':
-    resolution: {integrity: sha512-izVIA3XgBpdQ6u2VLD7lxXbksq2K0wf8ypmQAufd5SewSoyEPcu8jIlLovGLTI5WiBr0pJnHLoltJ4Pl/zkZ0A==}
+  '@orval/mcp@7.17.2':
+    resolution: {integrity: sha512-7aJcZMSh2ZPHdcgz0JdilVTLcaMbPeEHJgpJTvSUZembgQvBwJYfalaaROfBmRH9nSfHP11DYmsuG5kTIfd3JA==}
 
-  '@orval/mock@7.17.0':
-    resolution: {integrity: sha512-A/A/50XXBgidhTlQDyPQp6nIUfrP27GagyEQ70ztXS5Z9y1WJe7K5ZjjCnISOc7cFTZJmsYKvuCUo4ptfTm1bA==}
+  '@orval/mock@7.17.2':
+    resolution: {integrity: sha512-otVzA/yR2lKQJRSIeVyuh+tl/uE/EJQ82oJg9Zu11S70QzxMTCg/IEe8fbTeE3APtoujhACB6aZ/qqbmK29ugw==}
 
-  '@orval/query@7.17.0':
-    resolution: {integrity: sha512-h/XZRpOLOewIPa/3uSk68M6CSgylrGSUxHux9uEH3P2nYWjwYV+GxuOUptzuONA37LGd76mgytW6tK27VmYeCA==}
+  '@orval/query@7.17.2':
+    resolution: {integrity: sha512-dbD3U6CuRBYszMQOlitO4MryLnrlZIHwjNGsree0l5WO25e9QrfEMPxFU9wVaLnP/w10ODMBsBIBNUmy5ifXxQ==}
 
-  '@orval/swr@7.17.0':
-    resolution: {integrity: sha512-ZC5ZjzILWt8WE3V4gWRIg9XWHjQBubUJzin67aKERlybPN+sqMdgMEl9/XL+emUItkAIdex9cCaDHZwqjrmbKg==}
+  '@orval/swr@7.17.2':
+    resolution: {integrity: sha512-BWN7E41JEfr2qVFi+sNwPH3jXJgL4BiIAJTqZraZW0S89EmI4kU2yh3YveNmeopXai7mssaiiAlE8qe4wFcWnw==}
 
-  '@orval/zod@7.17.0':
-    resolution: {integrity: sha512-ldwGUR4K0YIay+4UGR7ykTYD99Cs+CHIAOAVVny8/h9dU0CD/6sxomHuCzrC0Z2QxVZ4rL7k8g10Kffmp+dHBw==}
+  '@orval/zod@7.17.2':
+    resolution: {integrity: sha512-Zf2sAQAGZ99VzummF4/Tq5pbXe6qR+w37XmLX5bMokshT8lEuV9goT4gftW4AWGY3Azrp/Syj3fdbSBthN/KPw==}
 
   '@playwright/test@1.57.0':
     resolution: {integrity: sha512-6TyEnHgd6SArQO8UO2OMTxshln3QMWBtPGrOCgs3wVEmQmwyuNtB10IZMfmYDE0riwNR1cu4q+pPcxMVtaG3TA==}
@@ -2506,14 +2506,15 @@ packages:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
       react-dom: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
-  '@react-router/dev@7.10.1':
-    resolution: {integrity: sha512-kap9O8rTN6b3vxjd+0SGjhm5vqiAZHMmOX1Hc7Y4KXRVVdusn+0+hxs44cDSfbW6Z6fCLw6GXXe0Kr+DJIRezw==}
+  '@react-router/dev@7.11.0':
+    resolution: {integrity: sha512-g1ou5Zw3r4mCU0L+EXH4vRtAiyt8qz1JOvL1k+PW4rZ4+71h5nBy/fLgD7cg5BnzQZmjRO1PzCgpF5BIrlKYxQ==}
     engines: {node: '>=20.0.0'}
     hasBin: true
     peerDependencies:
-      '@react-router/serve': ^7.10.1
-      '@vitejs/plugin-rsc': '*'
-      react-router: ^7.10.1
+      '@react-router/serve': ^7.11.0
+      '@vitejs/plugin-rsc': ~0.5.7
+      react-router: ^7.11.0
+      react-server-dom-webpack: ^19.2.3
       typescript: ^5.1.0
       vite: ^5.1.0 || ^6.0.0 || ^7.0.0
       wrangler: ^3.28.2 || ^4.0.0
@@ -2522,16 +2523,18 @@ packages:
         optional: true
       '@vitejs/plugin-rsc':
         optional: true
+      react-server-dom-webpack:
+        optional: true
       typescript:
         optional: true
       wrangler:
         optional: true
 
-  '@react-router/node@7.10.1':
-    resolution: {integrity: sha512-RLmjlR1zQu+ve8ibI0lu91pJrXGcmfkvsrQl7z/eTc5V5FZgl0OvQVWL5JDWBlBZyzdLMQQekUOX5WcPhCP1FQ==}
+  '@react-router/node@7.11.0':
+    resolution: {integrity: sha512-11ha8EW+F7wTMmPz2pdi11LJxz2irtuksiCpunpZjtpPmYU37S+GGihG8vFeTa2xFPNunEaHNlfzKyzeYm570Q==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
-      react-router: 7.10.1
+      react-router: 7.11.0
       typescript: ^5.1.0
     peerDependenciesMeta:
       typescript:
@@ -4201,8 +4204,8 @@ packages:
   i18next-chained-backend@4.6.2:
     resolution: {integrity: sha512-2P092fR+nAPQlGzPUoIIxbwo7PTBqQYgLxwv1XhSTQUAUoelLo5LkX+FqRxxSDg9WEAsrc8+2WL6mJtMGIa6WQ==}
 
-  i18next-cli@1.33.3:
-    resolution: {integrity: sha512-zuV54Ie+UFPfaFrrFVlLxUxwZxU+sd+ypdwC1Jac3ukXR0RLOe20S3kGEM1+23TQRKuuTO0gP0p0Li0o8zBS6Q==}
+  i18next-cli@1.33.5:
+    resolution: {integrity: sha512-4ldFXp3mozfRjHf0pOUpujq3oLj2hyQ6Rmow5WdYywnyRlDFY3uSawrQIIuYV7uYBXlbTm0gQ7rnZndSssHVng==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -4758,8 +4761,8 @@ packages:
     resolution: {integrity: sha512-m0pg2zscbYgWbqRR6ABga5c3sZdEon7bSgjnlXC64kxtxLOyjRcbbUkLj7HFyy/FTD+P2xdBWu8snGhYI0jc4A==}
     engines: {node: '>=20'}
 
-  orval@7.17.0:
-    resolution: {integrity: sha512-iBqZC7HpSSL1CJ9jRCD+5vCYpedd03Udh+izcyFnWyVUN0ywuzGonizJgl5iGTgoe+VXsMM7ndV5h+DkghreMg==}
+  orval@7.17.2:
+    resolution: {integrity: sha512-6+drCVVWNukdX+ytFPOC2UJ51gv0kGAPch7cTQYxO7VsGwdZ1DiZhYozdGehwu6QeVvAszPhPlh4uLq53k0x+w==}
     engines: {node: '>=22.18.0'}
     hasBin: true
 
@@ -4964,8 +4967,8 @@ packages:
       react: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
       react-dom: ^16.14.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
-  react-router@7.10.1:
-    resolution: {integrity: sha512-gHL89dRa3kwlUYtRQ+m8NmxGI6CgqN+k4XyGjwcFoQwwCWF6xXpOCUlDovkXClS0d0XJN/5q7kc5W3kiFEd0Yw==}
+  react-router@7.11.0:
+    resolution: {integrity: sha512-uI4JkMmjbWCZc01WVP2cH7ZfSzH91JAZUDd7/nIprDgWxBV1TkkmLToFh7EbMTcMak8URFRa2YoBL/W8GWnCTQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       react: '>=18'
@@ -7584,25 +7587,25 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.19.1
 
-  '@orval/angular@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/angular@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
       - typescript
 
-  '@orval/axios@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/axios@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
       - typescript
 
-  '@orval/core@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/core@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
       '@apidevtools/swagger-parser': 12.1.0(openapi-types@12.1.3)
       '@ibm-cloud/openapi-ruleset': 1.33.3
@@ -7629,9 +7632,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/fetch@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/fetch@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
       openapi3-ts: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -7639,10 +7642,10 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/hono@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/hono@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/zod': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/zod': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
       fs-extra: 11.3.2
       lodash.uniq: 4.5.0
       openapi3-ts: 4.5.0
@@ -7652,11 +7655,11 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/mcp@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/mcp@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/fetch': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/zod': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/fetch': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/zod': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
       openapi3-ts: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -7664,9 +7667,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/mock@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/mock@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
       openapi3-ts: 4.5.0
     transitivePeerDependencies:
       - encoding
@@ -7674,10 +7677,10 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/query@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/query@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/fetch': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/fetch': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
       chalk: 4.1.2
       lodash.omitby: 4.6.0
     transitivePeerDependencies:
@@ -7686,19 +7689,19 @@ snapshots:
       - supports-color
       - typescript
 
-  '@orval/swr@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/swr@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/fetch': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/fetch': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
     transitivePeerDependencies:
       - encoding
       - openapi-types
       - supports-color
       - typescript
 
-  '@orval/zod@7.17.0(openapi-types@12.1.3)(typescript@5.9.3)':
+  '@orval/zod@7.17.2(openapi-types@12.1.3)(typescript@5.9.3)':
     dependencies:
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
       lodash.uniq: 4.5.0
       openapi3-ts: 4.5.0
     transitivePeerDependencies:
@@ -8811,7 +8814,7 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
-  '@react-router/dev@7.10.1(@types/node@24.10.4)(jiti@2.6.1)(react-router@7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(yaml@2.8.2))(yaml@2.8.2)':
+  '@react-router/dev@7.11.0(@types/node@24.10.4)(jiti@2.6.1)(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)(vite@7.3.0(@types/node@24.10.4)(jiti@2.6.1)(yaml@2.8.2))(yaml@2.8.2)':
     dependencies:
       '@babel/core': 7.28.5
       '@babel/generator': 7.28.5
@@ -8820,7 +8823,7 @@ snapshots:
       '@babel/preset-typescript': 7.28.5(@babel/core@7.28.5)
       '@babel/traverse': 7.28.5
       '@babel/types': 7.28.5
-      '@react-router/node': 7.10.1(react-router@7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)
+      '@react-router/node': 7.11.0(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)
       '@remix-run/node-fetch-server': 0.9.0
       arg: 5.0.2
       babel-dead-code-elimination: 1.0.11
@@ -8837,7 +8840,7 @@ snapshots:
       pkg-types: 2.3.0
       prettier: 3.7.4
       react-refresh: 0.14.2
-      react-router: 7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react-router: 7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       semver: 7.7.3
       tinyglobby: 0.2.15
       valibot: 1.2.0(typescript@5.9.3)
@@ -8860,10 +8863,10 @@ snapshots:
       - tsx
       - yaml
 
-  '@react-router/node@7.10.1(react-router@7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)':
+  '@react-router/node@7.11.0(react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(typescript@5.9.3)':
     dependencies:
       '@mjackson/node-fetch-server': 0.2.0
-      react-router: 7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      react-router: 7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
     optionalDependencies:
       typescript: 5.9.3
 
@@ -10900,7 +10903,7 @@ snapshots:
     dependencies:
       '@babel/runtime': 7.28.4
 
-  i18next-cli@1.33.3(@swc/helpers@0.5.17)(@types/node@24.10.4):
+  i18next-cli@1.33.5(@swc/helpers@0.5.17)(@types/node@24.10.4):
     dependencies:
       '@croct/json5-parser': 0.2.2
       '@swc/core': 1.15.4(@swc/helpers@0.5.17)
@@ -11497,20 +11500,20 @@ snapshots:
       string-width: 8.1.0
       strip-ansi: 7.1.2
 
-  orval@7.17.0(openapi-types@12.1.3)(typescript@5.9.3):
+  orval@7.17.2(openapi-types@12.1.3)(typescript@5.9.3):
     dependencies:
       '@apidevtools/swagger-parser': 12.1.0(openapi-types@12.1.3)
       '@commander-js/extra-typings': 14.0.0(commander@14.0.2)
-      '@orval/angular': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/axios': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/core': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/fetch': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/hono': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/mcp': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/mock': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/query': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/swr': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
-      '@orval/zod': 7.17.0(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/angular': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/axios': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/core': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/fetch': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/hono': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/mcp': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/mock': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/query': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/swr': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
+      '@orval/zod': 7.17.2(openapi-types@12.1.3)(typescript@5.9.3)
       chalk: 4.1.2
       chokidar: 4.0.3
       commander: 14.0.2
@@ -11737,7 +11740,7 @@ snapshots:
       react: 19.2.3
       react-dom: 19.2.3(react@19.2.3)
 
-  react-router@7.10.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
+  react-router@7.11.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3):
     dependencies:
       cookie: 1.1.1
       react: 19.2.3
