@@ -1,8 +1,11 @@
 import { reactRouter } from '@react-router/dev/vite';
+import crypto from 'crypto';
 import { type ProxyOptions, defineConfig } from 'vite';
 import { compression } from 'vite-plugin-compression2';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import packageJson from './package.json';
 
+const buildHash = `${packageJson.version}-${crypto.randomBytes(4).toString('hex')}`;
 const ENGINE_URL = process.env.BASE_URL ?? 'http://localhost:8080/';
 const WEBSOCKET_PROXY: ProxyOptions = {
   target: ENGINE_URL,
@@ -22,6 +25,9 @@ export default defineConfig({
     reactRouter(),
     tsconfigPaths({ projects: ['tsconfig.json'] })
   ],
+  define: {
+    __VERSION__: JSON.stringify(buildHash)
+  },
   base: '/neo/',
   server: {
     proxy: {
