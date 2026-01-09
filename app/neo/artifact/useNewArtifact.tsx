@@ -74,11 +74,11 @@ const NewArtifactDialogContent = ({ newArtifact, close }: { newArtifact: NewArti
   const [name, setName] = useState('');
   const [project, setProject] = useState<ProjectBean | undefined>(newArtifact.project);
   const [namespace, setNamespace] = useState<string | undefined>(
-    newArtifact.namespaceRequired && project ? project.defaultNamespace : undefined
+    newArtifact.namespaceRequired && project ? toValidNamespace(project.defaultNamespace) : undefined
   );
   const [dataClass, setDataClass] = useState<DataClassIdentifier>();
   if (newArtifact.namespaceRequired && namespace === undefined && project?.defaultNamespace) {
-    setNamespace(project.defaultNamespace);
+    setNamespace(toValidNamespace(project.defaultNamespace));
   }
 
   const { artifactAlreadyExists, validateArtifactName, validateArtifactNamespace } = useArtifactValidation();
@@ -185,3 +185,5 @@ const useDescription = (type: NewArtifactType) => {
       return '';
   }
 };
+
+const toValidNamespace = (namespace: string) => namespace.replaceAll('-', '.');
