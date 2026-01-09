@@ -161,6 +161,20 @@ describe('createConfigurationEditor', () => {
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
+  test('roles', () => {
+    const result: Editor = {
+      id: '/test-ws/configurations/designer/workflow-demos/config/roles.yaml',
+      type: 'roles',
+      icon: IvyIcons.Tool,
+      name: 'roles',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'config/roles.yaml'
+    };
+    const view = renderHook(() => useCreateEditor());
+    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/roles.yaml' };
+    expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
+  });
+
   test('pom', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/pom.xml',
@@ -238,6 +252,21 @@ describe('createEditorFromPath', () => {
     const view = renderHook(() => useCreateEditor());
     expect(
       view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'variables', 'configurations')
+    ).to.be.deep.equals(result);
+  });
+
+  test('roles', () => {
+    const result: Editor = {
+      id: '/test-ws/configurations/designer/workflow-demos/roles',
+      type: 'configurations',
+      icon: IvyIcons.Tool,
+      name: 'roles',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'roles'
+    };
+    const view = renderHook(() => useCreateEditor());
+    expect(
+      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'roles', 'configurations')
     ).to.be.deep.equals(result);
   });
 

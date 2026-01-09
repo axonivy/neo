@@ -8,6 +8,7 @@ import { DataClassEditor } from './dataclass/DataClassEditor';
 import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, type Editor } from './editor';
 import { FormEditor } from './form/FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
+import { RoleEditor } from './role/RoleEditor';
 import { TextEditor } from './text/TextEditor';
 import { useCreateEditor } from './useCreateEditor';
 import { VariableEditor } from './variable/VariableEditor';
@@ -156,6 +157,8 @@ export const renderEditor = (editor: Editor) => {
       return <FormEditor {...editor} />;
     case 'variables':
       return <VariableEditor {...editor} />;
+    case 'roles':
+      return <RoleEditor {...editor} />;
     case 'cms':
       return <CmsEditor {...editor} />;
     case 'configurations':
