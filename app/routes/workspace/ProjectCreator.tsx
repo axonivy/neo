@@ -53,27 +53,19 @@ export const nameChangeHandler = (newProjectName: string, itemName: string, sepa
 export const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) => {
   const { t } = useTranslation();
   const [name, setName] = useState('');
-  const [defaultNamespace, setDefaultNamespace] = useState('');
   const [groupId, setGroupId] = useState('');
   const [projectId, setProjectId] = useState('');
-  const { artifactAlreadyExists, validateArtifactNamespace, validateProjectDetails } = useArtifactValidation();
+  const { artifactAlreadyExists, validateProjectDetails } = useArtifactValidation();
   const workspaces = useWorkspaces();
   const { data } = useSortedProjects();
   const { createProject } = useCreateProject();
-  const create = () => createProject({ defaultNamespace: defaultNamespace, name: name, groupId: groupId, projectId: projectId });
+  const create = () => createProject({ name: name, groupId: groupId, projectId: projectId });
   const nameValidation = useMemo(
     () =>
       workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase())
         ? artifactAlreadyExists(name)
         : validateProjectDetails(name, '-', true),
     [artifactAlreadyExists, name, validateProjectDetails, workspaces.data]
-  );
-  const defaultNamespaceValidation = useMemo(
-    () =>
-      data?.find(p => p.defaultNamespace.toLowerCase() === defaultNamespace.toLowerCase())
-        ? artifactAlreadyExists(defaultNamespace)
-        : validateArtifactNamespace(defaultNamespace),
-    [artifactAlreadyExists, data, defaultNamespace, validateArtifactNamespace]
   );
   const projectIdValidation = useMemo(
     () =>
@@ -91,12 +83,8 @@ export const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) 
   );
 
   const hasErros = useMemo(
-    () =>
-      nameValidation?.variant === 'error' ||
-      defaultNamespaceValidation?.variant === 'error' ||
-      projectIdValidation?.variant === 'error' ||
-      groupIdValidation?.variant === 'error',
-    [nameValidation, defaultNamespaceValidation, projectIdValidation, groupIdValidation]
+    () => nameValidation?.variant === 'error' || projectIdValidation?.variant === 'error' || groupIdValidation?.variant === 'error',
+    [nameValidation, projectIdValidation, groupIdValidation]
   );
 
   const createNewProject = () => {
@@ -112,11 +100,9 @@ export const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) 
     const newName = e.target.value;
     const updatedProjectId = nameChangeHandler(newName, projectId, '-');
     const updatedGroupId = nameChangeHandler(newName, groupId, '.');
-    const updatedDefaultNamespace = nameChangeHandler(newName, defaultNamespace, '.');
 
     setProjectId(updatedProjectId ?? projectId);
     setGroupId(updatedGroupId ?? groupId);
-    setDefaultNamespace(updatedDefaultNamespace ?? defaultNamespace);
     setName(newName);
   };
 
@@ -158,14 +144,6 @@ export const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) 
                 value={projectId}
                 onChange={e => setProjectId(e.target.value)}
                 style={projectId === name ? { color: 'grey' } : {}}
-              />
-            </BasicField>
-            <BasicField label={t('project.defaultNamespace')} message={defaultNamespaceValidation}>
-              <Input
-                value={defaultNamespace}
-                aria-label={t('project.defaultNamespace')}
-                onChange={e => setDefaultNamespace(e.target.value)}
-                style={defaultNamespace === name ? { color: 'grey' } : {}}
               />
             </BasicField>
           </Flex>
