@@ -16,6 +16,7 @@ import {
   type EditorType,
   FORM_EDITOR_SUFFIX,
   PROCESS_EDITOR_SUFFIX,
+  ROLES_EDITOR_SUFFIX,
   VARIABLES_EDITOR_SUFFIX
 } from './editor';
 
@@ -24,7 +25,7 @@ export const useCreateEditor = () => {
   const { t } = useTranslation();
 
   const createEditor = (ws: string, editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {
-    const routeEditorType = editorType === 'variables' || editorType === 'cms' ? 'configurations' : editorType;
+    const routeEditorType = editorRouteType(editorType);
     const encodedPath = encodeURI(path);
     const id = `/${ws}/${routeEditorType}/${project.app}/${project.pmv}/${encodedPath}`;
     return {
@@ -58,6 +59,9 @@ export const useCreateEditor = () => {
     if (path.endsWith(VARIABLES_EDITOR_SUFFIX)) {
       return 'variables';
     }
+    if (path.endsWith(ROLES_EDITOR_SUFFIX)) {
+      return 'roles';
+    }
     if (path.endsWith(CMS_EDITOR_SUFFIX)) {
       return 'cms';
     }
@@ -66,21 +70,6 @@ export const useCreateEditor = () => {
     }
     toast.error(t('toast.editor.unknownType'), { description: t('toast.editor.fileTypeIncompatible', { type: lastSegment(path) }) });
     throw new Error(t('toast.editor.unknownTypeForPath', { path: path }));
-  };
-
-  const editorIcon = (editorType: EditorType) => {
-    switch (editorType) {
-      case 'forms':
-        return IvyIcons.File;
-      case 'variables':
-      case 'configurations':
-        return IvyIcons.Tool;
-      case 'cms':
-        return IvyIcons.Cms;
-      case 'dataclasses':
-        return IvyIcons.Database;
-    }
-    return IvyIcons.Process;
   };
 
   return {
@@ -100,4 +89,27 @@ export const useCreateEditor = () => {
     createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
       createEditor(ws, editorType ?? typeFromPath(path), project, path, lastSegment(path) ?? path)
   };
+};
+
+const editorIcon = (editorType: EditorType) => {
+  switch (editorType) {
+    case 'forms':
+      return IvyIcons.File;
+    case 'variables':
+    case 'roles':
+    case 'configurations':
+      return IvyIcons.Tool;
+    case 'cms':
+      return IvyIcons.Cms;
+    case 'dataclasses':
+      return IvyIcons.Database;
+  }
+  return IvyIcons.Process;
+};
+
+const editorRouteType = (editorType: EditorType) => {
+  if (editorType === 'variables' || editorType === 'cms' || editorType === 'roles') {
+    return 'configurations';
+  }
+  return editorType;
 };
