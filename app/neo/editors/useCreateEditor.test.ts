@@ -165,7 +165,7 @@ describe('createConfigurationEditor', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/config/roles.yaml',
       type: 'roles',
-      icon: IvyIcons.Tool,
+      icon: IvyIcons.Users,
       name: 'roles',
       project: { app: 'designer', pmv: 'workflow-demos' },
       path: 'config/roles.yaml'

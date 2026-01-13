@@ -96,9 +96,10 @@ const editorIcon = (editorType: EditorType) => {
     case 'forms':
       return IvyIcons.File;
     case 'variables':
-    case 'roles':
     case 'configurations':
       return IvyIcons.Tool;
+    case 'roles':
+      return IvyIcons.Users;
     case 'cms':
       return IvyIcons.Cms;
     case 'dataclasses':
