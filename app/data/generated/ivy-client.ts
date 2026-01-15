@@ -183,6 +183,7 @@ export interface WorkspaceBean {
 export interface WorkspaceInit {
   name: string;
   path?: string;
+  neo?: boolean;
 }
 
 export interface MarketInstallResult {
