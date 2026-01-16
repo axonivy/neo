@@ -142,13 +142,13 @@ test('simulation shortcuts', async ({ page }) => {
   await browser.expectClosed();
 
   await page.keyboard.press('Shift+R');
-  await browser.expectOpenWidth('25.0');
+  await browser.expectOpenWidth('25');
   await page.keyboard.press('Shift+R');
-  await browser.expectOpenWidth('40.0');
+  await browser.expectOpenWidth('40');
   await page.keyboard.press('Shift+R');
-  await browser.expectOpenWidth('55.0');
+  await browser.expectOpenWidth('55');
   await page.keyboard.press('Shift+R');
-  await browser.expectOpenWidth('70.0');
+  await browser.expectOpenWidth('70');
   await page.keyboard.press('Shift+R');
   await browser.expectClosed();
 });

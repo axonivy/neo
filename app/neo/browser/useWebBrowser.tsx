@@ -1,9 +1,9 @@
-import type { ImperativePanelHandle } from '@axonivy/ui-components';
+import { usePanelRef } from '@axonivy/ui-components';
 import { createContext, useContext, useMemo, useRef, useState } from 'react';
 import { useWorkspace } from '~/data/workspace-api';
 
 type WebBrowserProviderState = {
-  panelRef: React.RefObject<ImperativePanelHandle | null>;
+  panelRef: ReturnType<typeof usePanelRef>;
   frameRef: React.RefObject<HTMLIFrameElement | null>;
   openState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
   openUrl: (url?: string) => void;
@@ -14,7 +14,7 @@ const browserSizes = [25, 40, 55, 70] as const;
 const WebBrowserProviderContext = createContext<WebBrowserProviderState | undefined>(undefined);
 
 export const WebBrowserProvider = ({ children }: { children: React.ReactNode }) => {
-  const panelRef = useRef<ImperativePanelHandle>(null);
+  const panelRef = usePanelRef();
   const frameRef = useRef<HTMLIFrameElement>(null);
   const openState = useState(false);
   const openUrl = (url?: string) => {
@@ -32,33 +32,33 @@ export const useWebBrowser = () => {
   const ws = useWorkspace();
   const homeUrl = useMemo(() => (ws ? `${ws?.baseUrl}/dev-workflow-ui/faces/home.xhtml` : undefined), [ws]);
   if (context === undefined) throw new Error('useWebBrowser must be used within a WebBrowserProvider');
-  const { panelRef, frameRef, openUrl } = context;
-  const [open, setOpen] = context.openState;
+  const { panelRef, frameRef, openUrl, openState } = context;
+  const [isOpen, setOpenState] = openState;
   const browser = {
-    openState: open,
-    setOpenState: setOpen,
     panelRef,
+    setOpenState,
+    isOpen: () => isOpen,
     toggle: () => {
       if (panelRef.current?.isCollapsed()) {
-        panelRef.current?.expand(40);
+        panelRef.current?.resize('40%');
       } else {
         panelRef.current?.collapse();
       }
     },
     open: (url?: string) => {
-      panelRef.current?.expand(40);
+      panelRef.current?.resize('40%');
       if (url) {
         openUrl(url);
       }
     },
     cycleSize: () => {
       if (panelRef.current) {
-        const currentSize = panelRef.current.getSize();
+        const currentSize = panelRef.current.getSize().asPercentage;
         const nextBrowserSize = browserSizes.find(size => size > currentSize);
         if (nextBrowserSize === undefined) {
           panelRef.current.collapse();
-        } else if (nextBrowserSize) {
-          panelRef.current.resize(nextBrowserSize);
+        } else {
+          panelRef.current.resize(`${nextBrowserSize}%`);
         }
       }
     }
