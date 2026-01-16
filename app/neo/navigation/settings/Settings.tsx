@@ -2,14 +2,14 @@ import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, useHotk
 import { IvyIcons } from '@axonivy/ui-icons';
 import type { ComponentProps } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useKnownHotkeys } from '~/utils/hotkeys';
+import { HOTKEY_ENABLE_ON_FORM_ITEMS, useKnownHotkeys } from '~/utils/hotkeys';
 import { useCycleTheme } from './ThemeSettings';
 
 export const Settings = (props: ComponentProps<typeof DropdownMenuContent>) => {
   const { t } = useTranslation();
   const cycleTheme = useCycleTheme();
   const { changeTheme } = useKnownHotkeys();
-  useHotkeys(changeTheme.hotkey, cycleTheme, { scopes: ['neo'] });
+  useHotkeys(changeTheme.hotkey, cycleTheme, { scopes: ['neo'], enableOnFormTags: HOTKEY_ENABLE_ON_FORM_ITEMS });
 
   return (
     <DropdownMenu>

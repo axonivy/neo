@@ -109,7 +109,7 @@ const WorkspaceCard = ({ id, name }: Pick<Workspace, 'id' | 'name'>) => {
   const { deployWorkspace } = useDeployWorkspace();
   const downloadWorkspace = useDownloadWorkspace(id);
   const hotkeys = useKnownHotkeys();
-  const cardRef = useHotkeys(
+  const cardRef = useHotkeys<HTMLDivElement>(
     [hotkeys.exportWorkspace.hotkey, hotkeys.deployWorkspace.hotkey],
     (_, { hotkey }) => {
       switch (hotkey) {
@@ -193,7 +193,7 @@ const NewWorkspaceDialogContent = ({ closeDialog }: { closeDialog: () => void })
       create(name);
     }
   };
-  const enter = useHotkeys('Enter', createNewWorkspace, { scopes: ['newWorkspaceDialog'], enableOnFormTags: true });
+  const enter = useHotkeys<HTMLDivElement>('Enter', createNewWorkspace, { scopes: ['newWorkspaceDialog'], enableOnFormTags: true });
   return (
     <BasicDialogContent
       title={t('workspaces.newWorkspace')}

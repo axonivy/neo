@@ -96,7 +96,7 @@ const NewArtifactDialogContent = ({ newArtifact, close }: { newArtifact: NewArti
       newArtifact.create(name, namespace ?? '', project?.id, newArtifact.pid, dataClass);
     }
   };
-  const enter = useHotkeys('Enter', createNewArtifact, { scopes: ['newArtifactDialog'], enableOnFormTags: true });
+  const enter = useHotkeys<HTMLDivElement>('Enter', createNewArtifact, { scopes: ['newArtifactDialog'], enableOnFormTags: true });
   return (
     <BasicDialogContent
       title={t('artifact.newTitle', { type: newArtifact.type })}

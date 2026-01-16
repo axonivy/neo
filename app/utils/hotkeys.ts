@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 type KnownHotkey = { hotkey: string; label: string; keyCode?: string };
 
+export const HOTKEY_ENABLE_ON_FORM_ITEMS = ['menuitem', 'menuitemcheckbox', 'menuitemradio', 'radio'] as const;
+
 export const useKnownHotkeys = (overviewAddTitle?: string) => {
   const { t } = useTranslation();
   const openHome = useMemo<KnownHotkey>(() => {

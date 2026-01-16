@@ -8,7 +8,10 @@ export type DeleteAction = { run: () => void; artifact: string; isDeletable: boo
 export const useDeleteConfirmDialog = () => {
   const hotkeys = useKnownHotkeys();
   const { open, onOpenChange } = useDialogHotkeys(['artifactCardActionDialog']);
-  const artifactCardRef = useHotkeys([hotkeys.deleteElement.hotkey], () => onOpenChange(true), { keydown: false, keyup: true });
+  const artifactCardRef = useHotkeys<HTMLDivElement>([hotkeys.deleteElement.hotkey], () => onOpenChange(true), {
+    keydown: false,
+    keyup: true
+  });
   return { open, onOpenChange, artifactCardRef };
 };
 

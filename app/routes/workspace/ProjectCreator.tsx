@@ -94,7 +94,7 @@ export const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) 
     }
   };
 
-  const enter = useHotkeys('Enter', createNewProject, { scopes: ['newProjectDialog'], enableOnFormTags: true });
+  const enter = useHotkeys<HTMLDivElement>('Enter', createNewProject, { scopes: ['newProjectDialog'], enableOnFormTags: true });
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newName = e.target.value;
