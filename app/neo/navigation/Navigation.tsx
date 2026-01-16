@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { NavLink, useNavigate } from 'react-router';
 import { useNeoClient } from '~/neo/client/useNeoClient';
 import { LanguageSettings } from '~/neo/navigation/settings/LanguageSettings';
-import { useKnownHotkeys } from '~/utils/hotkeys';
+import { HOTKEY_ENABLE_ON_FORM_ITEMS, useKnownHotkeys } from '~/utils/hotkeys';
 import { AnimationSettings } from './settings/AnimationSettings';
 import { Settings } from './settings/Settings';
 import { ThemeSettings } from './settings/ThemeSettings';
@@ -23,10 +23,10 @@ export const Navigation = () => {
   useHotkeys(hotkeys.openForms.hotkey, () => navigate('forms'), { enableOnFormTags: true, scopes: ['neo'] });
   useHotkeys(hotkeys.openDataClasses.hotkey, () => navigate('dataclasses'), { enableOnFormTags: true, scopes: ['neo'] });
   useHotkeys(hotkeys.openConfigs.hotkey, () => navigate('configurations'), { enableOnFormTags: true, scopes: ['neo'] });
-  useHotkeys(hotkeys.toggleAnimation.hotkey, toggleAnimation, { scopes: ['neo'] });
-  useHotkeys(hotkeys.animationSpeed.hotkey, cycleAnimationSpeed, { scopes: ['neo'] });
-  useHotkeys(hotkeys.animationMode.hotkey, cycleAnimationMode, { scopes: ['neo'] });
-  useHotkeys(hotkeys.resetEngine.hotkey, resetEngine, { scopes: ['neo'] });
+  useHotkeys(hotkeys.toggleAnimation.hotkey, toggleAnimation, { scopes: ['neo'], enableOnFormTags: HOTKEY_ENABLE_ON_FORM_ITEMS });
+  useHotkeys(hotkeys.animationSpeed.hotkey, cycleAnimationSpeed, { scopes: ['neo'], enableOnFormTags: HOTKEY_ENABLE_ON_FORM_ITEMS });
+  useHotkeys(hotkeys.animationMode.hotkey, cycleAnimationMode, { scopes: ['neo'], enableOnFormTags: HOTKEY_ENABLE_ON_FORM_ITEMS });
+  useHotkeys(hotkeys.resetEngine.hotkey, resetEngine, { scopes: ['neo'], enableOnFormTags: HOTKEY_ENABLE_ON_FORM_ITEMS });
 
   return (
     <Flex

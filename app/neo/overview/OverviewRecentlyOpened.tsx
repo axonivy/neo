@@ -61,7 +61,7 @@ const RecentlyOpenedCard = ({ editor }: { editor: Editor }) => {
   const { openEditor } = useEditors();
   const { removeRecentlyOpened } = useRecentlyOpenedEditors();
   const hotkeys = useKnownHotkeys();
-  const artifactCardRef = useHotkeys([hotkeys.deleteElement.hotkey], () => removeRecentlyOpened(editor.id), {
+  const artifactCardRef = useHotkeys<HTMLDivElement>([hotkeys.deleteElement.hotkey], () => removeRecentlyOpened(editor.id), {
     keydown: false,
     keyup: true
   });

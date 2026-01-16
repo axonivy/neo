@@ -41,7 +41,7 @@ import { OverviewContent } from '~/neo/overview/OverviewContent';
 import { OverviewFilter, useOverviewFilter } from '~/neo/overview/OverviewFilter';
 import { OverviewRecentlyOpened } from '~/neo/overview/OverviewRecentlyOpened';
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
-import { useKnownHotkeys } from '~/utils/hotkeys';
+import { HOTKEY_ENABLE_ON_FORM_ITEMS, useKnownHotkeys } from '~/utils/hotkeys';
 import { CreateNewProjectButton } from './ProjectCreator';
 import { ProjectGraph } from './ProjectGraph';
 
@@ -82,8 +82,8 @@ const ImportMenu = () => {
   const navigate = useNavigate();
   const hotkeys = useKnownHotkeys();
   const { open, onOpenChange } = useDialogHotkeys(['importDialog']);
-  useHotkeys(hotkeys.importFromMarket.hotkey, () => navigate('market'), { scopes: ['neo'] });
-  useHotkeys(hotkeys.importFromFile.hotkey, () => onOpenChange(true), { scopes: ['neo'] });
+  useHotkeys(hotkeys.importFromMarket.hotkey, () => navigate('market'), { scopes: ['neo'], enableOnFormTags: HOTKEY_ENABLE_ON_FORM_ITEMS });
+  useHotkeys(hotkeys.importFromFile.hotkey, () => onOpenChange(true), { scopes: ['neo'], enableOnFormTags: HOTKEY_ENABLE_ON_FORM_ITEMS });
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DropdownMenu>
