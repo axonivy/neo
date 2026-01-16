@@ -22,7 +22,7 @@ export class Browser {
 
   async expectOpenWidth(openTo: string) {
     await this.expectOpen();
-    await expect(this.browser).toHaveAttribute('data-panel-size', openTo);
+    await expect(this.browser).toHaveCSS('flex-grow', openTo);
   }
 
   async expectClosed() {

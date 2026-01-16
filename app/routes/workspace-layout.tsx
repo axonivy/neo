@@ -1,6 +1,15 @@
-/* eslint-disable react-hooks/refs */
 import runtimeLogStylesHref from '@axonivy/log-view/lib/view.css?url';
-import { Button, Flex, ResizableHandle, ResizablePanel, ResizablePanelGroup, Separator, Tabs, useHotkeys } from '@axonivy/ui-components';
+import {
+  Button,
+  Flex,
+  ResizableGroup,
+  ResizableHandle,
+  ResizablePanel,
+  Separator,
+  Tabs,
+  useDefaultLayout,
+  useHotkeys
+} from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useRef } from 'react';
 import { Outlet, useParams, type LinksFunction } from 'react-router';
@@ -29,7 +38,7 @@ export default function Index() {
     openSimulation.hotkey,
     () => {
       browser.toggle();
-      if (!browser.openState) {
+      if (!browser.isOpen()) {
         setTimeout(() => {
           firstWebbrowserElement.current?.focus();
         }, 0);
@@ -41,6 +50,15 @@ export default function Index() {
   const views = useViews();
   const { openPanel } = useKnownHotkeys();
   useHotkeys(openPanel.hotkey, () => views.toggleView(), { scopes: ['neo'] });
+
+  const { defaultLayout: outerLayout, onLayoutChanged: onOuterLayoutChanged } = useDefaultLayout({
+    groupId: `neo-layout-${ws}`,
+    storage: localStorage
+  });
+  const { defaultLayout: innerLayout, onLayoutChanged: onInnerLayoutChanged } = useDefaultLayout({
+    groupId: `neo-layout-${ws}-2`,
+    storage: localStorage
+  });
 
   return (
     <NeoClientProvider>
@@ -67,7 +85,12 @@ export default function Index() {
           </Flex>
         </>
       </ControlBar>
-      <ResizablePanelGroup direction='horizontal' style={{ height: '100vh' }} autoSaveId={`neo-layout-${ws}`}>
+      <ResizableGroup
+        orientation='horizontal'
+        style={{ height: '100vh' }}
+        defaultLayout={outerLayout}
+        onLayoutChanged={onOuterLayoutChanged}
+      >
         <ResizablePanel id='Neo'>
           <Flex direction='row' style={{ height: 'calc(100vh - 41px)', width: '100%' }}>
             <Navigation />
@@ -77,7 +100,7 @@ export default function Index() {
               onValueChange={value => views.setView(value as ViewIds)}
               style={{ flex: 1, maxWidth: 'calc(100% - 50px)' }}
             >
-              <ResizablePanelGroup direction='vertical' autoSaveId={`neo-layout-${ws}-2`}>
+              <ResizableGroup orientation='vertical' defaultLayout={innerLayout} onLayoutChanged={onInnerLayoutChanged}>
                 <ResizablePanel id='Neo2'>
                   <div style={{ width: '100%', height: '100%' }}>
                     <Outlet />
@@ -92,37 +115,35 @@ export default function Index() {
                   <ViewTabs {...views} />
                 </ResizableHandle>
                 <ResizablePanel
-                  ref={views.viewsRef}
-                  onCollapse={() => views.setViewsCollapsed(false)}
-                  onExpand={() => views.setViewsCollapsed(true)}
+                  panelRef={views.viewsRef}
                   id='Views'
                   collapsible
-                  defaultSize={0}
-                  maxSize={50}
-                  minSize={10}
+                  defaultSize='0%'
+                  maxSize='50%'
+                  minSize='10%'
                   style={{ overflow: 'auto' }}
+                  onResize={panelSize => views.setViewsExpanded(panelSize.asPercentage > 0)}
                 >
-                  {views.viewsCollapsed && <ViewContent />}
+                  {views.isViewsExpanded() && <ViewContent />}
                 </ResizablePanel>
-              </ResizablePanelGroup>
+              </ResizableGroup>
             </Tabs>
           </Flex>
         </ResizablePanel>
 
         <ResizableHandle className='browser-resize-handle' style={{ width: 3, height: 'calc(100% - 42px)' }} />
         <ResizablePanel
-          ref={browser.panelRef}
-          onCollapse={() => browser.setOpenState(false)}
-          onExpand={() => browser.setOpenState(true)}
+          panelRef={browser.panelRef}
           id='Browser'
           collapsible
-          defaultSize={0}
-          maxSize={70}
-          minSize={10}
+          defaultSize='0%'
+          maxSize='70%'
+          minSize='10%'
+          onResize={panelSize => browser.setOpenState(panelSize.asPercentage > 0)}
         >
           <WebBrowser firstWebbrowserElement={firstWebbrowserElement} />
         </ResizablePanel>
-      </ResizablePanelGroup>
+      </ResizableGroup>
     </NeoClientProvider>
   );
 }

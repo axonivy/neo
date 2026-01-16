@@ -1,6 +1,6 @@
-import { Button, Flex, IvyIcon, TabsContent, TabsList, TabsTrigger, type ImperativePanelHandle } from '@axonivy/ui-components';
+import { Button, Flex, IvyIcon, TabsContent, TabsList, TabsTrigger, usePanelRef } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RuntimeLog } from './runtime-log/RuntimeLog';
 
@@ -22,8 +22,10 @@ export type ViewIds = (typeof views)[number]['id'];
 
 export const useViews = () => {
   const [view, setView] = useState<ViewIds | ''>(views[0].id);
-  const [viewsCollapsed, setViewsCollapsed] = useState(true);
-  const viewsRef = useRef<ImperativePanelHandle>(null);
+  const [viewsExpanded, setViewsExpanded] = useState(false);
+  const viewsRef = usePanelRef();
+
+  const isViewsExpanded = () => viewsExpanded;
 
   const toggleView = () => {
     if (viewsRef.current?.isCollapsed()) {
@@ -37,10 +39,10 @@ export const useViews = () => {
     }
   };
 
-  return { viewsRef, view, setView, viewsCollapsed, setViewsCollapsed, toggleView };
+  return { viewsRef, view, setView, viewsExpanded, setViewsExpanded, isViewsExpanded, toggleView };
 };
 
-export const ViewTabs = ({ viewsRef, toggleView, viewsCollapsed }: ReturnType<typeof useViews>) => {
+export const ViewTabs = ({ viewsRef, toggleView, isViewsExpanded }: ReturnType<typeof useViews>) => {
   const { t } = useTranslation();
   const viewLabels: Record<ViewIds, string> = {
     Log: t('label.runtimeLog')
@@ -56,13 +58,13 @@ export const ViewTabs = ({ viewsRef, toggleView, viewsCollapsed }: ReturnType<ty
     >
       <TabsList>
         {views.map(({ id, icon }) => (
-          <TabsTrigger key={id} value={id} style={{ whiteSpace: 'nowrap' }} onClick={() => viewsRef.current?.expand(30)}>
+          <TabsTrigger key={id} value={id} style={{ whiteSpace: 'nowrap' }} onClick={() => viewsRef.current?.resize('30%')}>
             <IvyIcon icon={icon} />
             {viewLabels[id]}
           </TabsTrigger>
         ))}
       </TabsList>
-      <Button aria-label={t('label.toggleView')} onClick={toggleView} icon={IvyIcons.Chevron} rotate={viewsCollapsed ? 270 : 90} />
+      <Button aria-label={t('label.toggleView')} onClick={toggleView} icon={IvyIcons.Chevron} rotate={isViewsExpanded() ? 90 : 270} />
     </Flex>
   );
 };

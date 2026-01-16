@@ -18,7 +18,7 @@ export const WebBrowser = ({ firstWebbrowserElement }: { firstWebbrowserElement?
   useUpdateTheme(nav.frameRef, updateFrameTheme);
   useHotkeyDispatcher(nav.frameRef);
   return (
-    <Flex direction='column' gap={1} style={{ height: '100%', display: browser.openState ? undefined : 'none' }}>
+    <Flex direction='column' gap={1} style={{ height: '100%', display: browser.isOpen() ? undefined : 'none' }}>
       <Flex
         direction='row'
         alignItems='center'
