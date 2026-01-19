@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { CmsEditor } from './cms/CmsEditor';
+import { DatabaseEditor } from './database/DatabaseEditor';
 import { DataClassEditor } from './dataclass/DataClassEditor';
 import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, type Editor } from './editor';
 import { FormEditor } from './form/FormEditor';
@@ -161,6 +162,8 @@ export const renderEditor = (editor: Editor) => {
       return <RoleEditor {...editor} />;
     case 'cms':
       return <CmsEditor {...editor} />;
+    case 'databases':
+      return <DatabaseEditor {...editor} />;
     case 'configurations':
       return <TextEditor {...editor} />;
     case 'dataclasses':

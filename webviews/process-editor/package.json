@@ -9,12 +9,12 @@
     "url": "https://github.com/axonivy/neo"
   },
   "dependencies": {
-    "@axonivy/process-editor": "~14.0.0-next.1994.247156cb",
-    "@axonivy/process-editor-inscription": "~14.0.0-next.1994.247156cb",
-    "@axonivy/process-editor-inscription-core": "~14.0.0-next.1994.247156cb",
-    "@axonivy/process-editor-inscription-protocol": "~14.0.0-next.1994.247156cb",
-    "@axonivy/process-editor-inscription-view": "~14.0.0-next.1994.247156cb",
-    "@axonivy/process-editor-protocol": "~14.0.0-next.1994.247156cb",
+    "@axonivy/process-editor": "~14.0.0-next.2002.2a5dbe76",
+    "@axonivy/process-editor-inscription": "~14.0.0-next.2002.2a5dbe76",
+    "@axonivy/process-editor-inscription-core": "~14.0.0-next.2002.2a5dbe76",
+    "@axonivy/process-editor-inscription-protocol": "~14.0.0-next.2002.2a5dbe76",
+    "@axonivy/process-editor-inscription-view": "~14.0.0-next.2002.2a5dbe76",
+    "@axonivy/process-editor-protocol": "~14.0.0-next.2002.2a5dbe76",
     "@codingame/monaco-vscode-extension-api": "25.0.0",
     "vscode": "npm:@codingame/monaco-vscode-extension-api",
     "monaco-editor": "npm:@codingame/monaco-vscode-editor-api",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "reflect-metadata": "^0.2.2",
-    "@axonivy/monaco-vite-plugin": "~14.0.0-next.1994.247156cb"
+    "@axonivy/monaco-vite-plugin": "~14.0.0-next.2002.2a5dbe76"
   },
   "type": "module",
   "scripts": {
