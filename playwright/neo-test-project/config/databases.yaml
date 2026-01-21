@@ -10,3 +10,8 @@ Databases:
     Driver: com.mysql.cj.jdbc.Driver
     UserName: test
     Password: ${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}
+  IvySystemDatabase:
+    Url: jdbc:mysql://localhost:3307/TestDatabase002
+    Driver: com.mysql.cj.jdbc.Driver
+    UserName: test
+    Password: ${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}

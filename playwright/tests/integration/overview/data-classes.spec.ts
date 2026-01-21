@@ -103,11 +103,31 @@ test('data classes graph', async ({ page }) => {
   await new DataClassEditor(neo, 'Person').expectOpen('age');
 });
 
-test('database import wizard', async ({ page }) => {
-  const { neo, overview } = await openDataClasses(page);
-  const importButton = overview.importButton;
-  await expect(importButton).toBeVisible();
-  await importButton.click();
-  const importDialog = neo.page.locator('.database-editor-import-dialog');
+test('import wizard - generate entity class', async ({ page }) => {
+  const { overview } = await openDataClasses(page);
+  await expect(overview.importButton).toBeVisible();
+  await overview.importButton.click();
+  const importDialog = page.locator('.database-editor-import-dialog');
   await expect(importDialog).toBeVisible();
+
+  const dbSelection = importDialog.getByRole('combobox');
+  await dbSelection.click();
+  await page.getByText('IvySystemDatabase').click();
+  await expect(dbSelection).toHaveText('IvySystemDatabase');
+  await importDialog.getByText('Next').click();
+
+  await importDialog.getByText('IWA_BLOB').click();
+  await importDialog.getByText('Next').click();
+
+  await importDialog.getByRole('checkbox').first().click();
+  await importDialog.getByRole('button', { name: 'Generate' }).click();
+
+  const message = importDialog.getByText('Creation of entities was successful');
+  await expect(message).toBeVisible();
+  await importDialog.getByText('Finish').click();
+
+  const entityClass = overview.cards.getByText('IWA_BLOB');
+  await expect(entityClass).toBeVisible();
+
+  await overview.deleteCard('IWA_BLOB');
 });
