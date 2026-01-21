@@ -1,1 +1,12 @@
+# yaml-language-server: $schema=https://json-schema.axonivy.com/app/14.0.0/databases.json
 Databases:
+  TestDatabaseConnection-001:
+    Url: jdbc:mysql://localhost:3306/TestDatabase001
+    Driver: com.mysql.cj.jdbc.Driver
+    UserName: test
+    Password: ${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}
+  TestDatabaseConnection-002:
+    Url: jdbc:mysql://localhost:3307/TestDatabase002
+    Driver: com.mysql.cj.jdbc.Driver
+    UserName: test
+    Password: ${decrypt:IVYB1lRC/+7X7J5Is6mFhA==}

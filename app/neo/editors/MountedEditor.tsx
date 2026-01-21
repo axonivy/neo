@@ -67,6 +67,7 @@ const useTypeName = (type: EditorType) => {
     case 'cms':
     case 'variables':
     case 'roles':
+    case 'databases':
     case 'configurations':
       return t('neo.configs');
     case 'dataclasses':

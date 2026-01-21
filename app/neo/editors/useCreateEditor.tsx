@@ -11,6 +11,7 @@ import {
   CMS_EDITOR_SUFFIX,
   CONFIG_EDITOR_XML_SUFFIX,
   CONFIG_EDITOR_YAML_SUFFIX,
+  DATABASES_EDITOR_SUFFIX,
   DATACLASS_EDITOR_SUFFIX,
   type Editor,
   type EditorType,
@@ -65,6 +66,9 @@ export const useCreateEditor = () => {
     if (path.endsWith(CMS_EDITOR_SUFFIX)) {
       return 'cms';
     }
+    if (path.endsWith(DATABASES_EDITOR_SUFFIX)) {
+      return 'databases';
+    }
     if (path.endsWith(CONFIG_EDITOR_YAML_SUFFIX) || path.endsWith(CONFIG_EDITOR_XML_SUFFIX)) {
       return 'configurations';
     }
@@ -104,12 +108,14 @@ const editorIcon = (editorType: EditorType) => {
       return IvyIcons.Cms;
     case 'dataclasses':
       return IvyIcons.Database;
+    case 'databases':
+      return IvyIcons.Database;
   }
   return IvyIcons.Process;
 };
 
 const editorRouteType = (editorType: EditorType) => {
-  if (editorType === 'variables' || editorType === 'cms' || editorType === 'roles') {
+  if (editorType === 'variables' || editorType === 'cms' || editorType === 'roles' || editorType === 'databases') {
     return 'configurations';
   }
   return editorType;
