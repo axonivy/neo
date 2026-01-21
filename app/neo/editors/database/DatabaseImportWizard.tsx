@@ -34,9 +34,6 @@ export const DatabaseImportWizard = () => {
             <Tooltip>
               <TooltipContent>{t('dataClass.generateTooltip')}</TooltipContent>
               <ImportWizard
-                // Fixme: broken by db-editor
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
                 context={{ app: app, file: 'config/databases.yaml', projects: allProjects }}
                 callback={() => queryClient.invalidateQueries({ queryKey })}
               >
