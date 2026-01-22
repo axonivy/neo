@@ -2,6 +2,8 @@ import { expect, test } from '@playwright/test';
 import { CmsEditor } from '../../page-objects/cms-editor';
 import { Neo } from '../../page-objects/neo';
 import { Overview } from '../../page-objects/overview';
+import { RoleEditor } from '../../page-objects/roles-editor';
+import { UserEditor } from '../../page-objects/user-editor';
 import { VariableEditor } from '../../page-objects/variables-editor';
 import { TEST_PROJECT } from '../constants';
 
@@ -13,12 +15,18 @@ test('navigate to configs', async ({ page }) => {
   await neo.configs();
   await overview.card('cms').click();
   await new CmsEditor(neo, 'cms').expectOpen('/Labels/ReleaseDate');
+  await neo.configs();
+  await overview.card('roles').click();
+  await new RoleEditor(neo, 'roles').expectOpen('Employee');
+  await neo.configs();
+  await overview.card('users').click();
+  await new UserEditor(neo, 'users').expectOpen('wt');
 });
 
 test('search configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
-  await expect(overview.cards).toHaveCount(4);
+  await expect(overview.cards).toHaveCount(5);
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
   await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();

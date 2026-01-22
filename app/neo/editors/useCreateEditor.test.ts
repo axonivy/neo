@@ -175,6 +175,20 @@ describe('createConfigurationEditor', () => {
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
+  test('users', () => {
+    const result: Editor = {
+      id: '/test-ws/configurations/designer/workflow-demos/config/users.yaml',
+      type: 'users',
+      icon: IvyIcons.User,
+      name: 'users',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'config/users.yaml'
+    };
+    const view = renderHook(() => useCreateEditor());
+    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/users.yaml' };
+    expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
+  });
+
   test('databases', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/config/databases.yaml',
@@ -281,6 +295,21 @@ describe('createEditorFromPath', () => {
     const view = renderHook(() => useCreateEditor());
     expect(
       view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'roles', 'configurations')
+    ).to.be.deep.equals(result);
+  });
+
+  test('users', () => {
+    const result: Editor = {
+      id: '/test-ws/configurations/designer/workflow-demos/users',
+      type: 'configurations',
+      icon: IvyIcons.Tool,
+      name: 'users',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'users'
+    };
+    const view = renderHook(() => useCreateEditor());
+    expect(
+      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'users', 'configurations')
     ).to.be.deep.equals(result);
   });
 
