@@ -180,7 +180,7 @@ const NewWorkspaceDialogContent = ({ closeDialog }: { closeDialog: () => void })
   const workspaces = useWorkspaces();
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
-  const create = (name: string) => createWorkspace({ name, neo: true }).then(ws => navigate(ws.id));
+  const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.id));
   const nameValidation = useMemo(
     () =>
       workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : validateArtifactName(name),
