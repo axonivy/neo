@@ -24,7 +24,7 @@ test('install from market', async ({ page, browserName }, testInfo) => {
   await overview.clickMarketImport();
   await overview.card('Microsoft Excel').click();
   await page.getByRole('dialog').getByRole('button').getByText('Install').click();
-  await neo.toast.expectSuccess('Imported projects: excel-connector-demo, excel-connector');
+  await neo.toast.expectSuccess('Imported projects: excel-connector-demo, excel-connector-13-1-2');
   const editor = new ProcessEditor(neo, 'ExcelConnectorDemo');
   await editor.expectOpen();
   await neo.navigation.open('Processes');
