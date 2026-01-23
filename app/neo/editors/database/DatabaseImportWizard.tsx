@@ -9,6 +9,7 @@ import { useSortedProjects } from '~/data/project-api';
 import { useWorkspace } from '~/data/workspace-api';
 import { DatabaseClientNeo } from '~/neo/editors/database/database-client';
 import { useWebSocket } from '~/neo/editors/useWebSocket';
+import { useActionHandler } from './useActionHandler';
 
 export const DatabaseImportWizard = () => {
   const ws = useWorkspace();
@@ -18,8 +19,9 @@ export const DatabaseImportWizard = () => {
       .data?.filter(p => !p.id.isIar)
       .map(p => p.id.pmv) ?? [];
   const { t } = useTranslation();
+  const actionHandler = useActionHandler();
   const client = useWebSocket<DatabaseClientNeo>(DatabaseClientNeo.webSocketUrl, connection =>
-    DatabaseClientNeo.startNeoMessageClient(connection)
+    DatabaseClientNeo.startNeoMessageClient(connection, actionHandler)
   );
   const { queryKey } = useDataClassesApi();
   const queryClient = useQueryClient();

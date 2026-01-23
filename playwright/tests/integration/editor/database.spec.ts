@@ -28,3 +28,25 @@ test('change value', async ({ page }) => {
   await host.fill('localhost');
   await expect(url).toHaveText('localhost:3306');
 });
+
+test.describe('open help', () => {
+  test('button', async ({ page, context }) => {
+    const { editor } = await openDatabases(page);
+    const connection = editor.rowByName('TestDatabaseConnection-001');
+    const inscription = await connection.openInscription();
+    const pagePromise = context.waitForEvent('page');
+    await inscription.inscription.getByRole('button', { name: /Help/ }).click();
+    const newPage = await pagePromise;
+    await expect(newPage).toHaveURL(/developer.axonivy.com/);
+    await expect(newPage).toHaveURL(/databases.html/);
+  });
+
+  test('shortcut', async ({ page, context }) => {
+    await openDatabases(page);
+    const pagePromise = context.waitForEvent('page');
+    await page.keyboard.press('F1');
+    const newPage = await pagePromise;
+    await expect(newPage).toHaveURL(/developer.axonivy.com/);
+    await expect(newPage).toHaveURL(/databases.html/);
+  });
+});
