@@ -1,6 +1,7 @@
 import cmsEditorStylesHref from '@axonivy/cms-editor/lib/editor.css?url';
 import databaseEditorStylesHref from '@axonivy/database-editor/lib/editor.css?url';
 import roleEditorStylesHref from '@axonivy/role-editor/lib/editor.css?url';
+import userEditorStylesHref from '@axonivy/user-editor/lib/editor.css?url';
 import variableEditorStylesHref from '@axonivy/variable-editor/lib/editor.css?url';
 import { type LinksFunction, type MetaFunction } from 'react-router';
 import { editorMetaFunctionProvider } from '~/metaFunctionProvider';
@@ -10,6 +11,7 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: cmsEditorStylesHref },
   { rel: 'stylesheet', href: variableEditorStylesHref },
   { rel: 'stylesheet', href: roleEditorStylesHref },
+  { rel: 'stylesheet', href: userEditorStylesHref },
   { rel: 'stylesheet', href: databaseEditorStylesHref }
 ];
 

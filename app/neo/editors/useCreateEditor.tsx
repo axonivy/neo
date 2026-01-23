@@ -18,6 +18,7 @@ import {
   FORM_EDITOR_SUFFIX,
   PROCESS_EDITOR_SUFFIX,
   ROLES_EDITOR_SUFFIX,
+  USERS_EDITOR_SUFFIX,
   VARIABLES_EDITOR_SUFFIX
 } from './editor';
 
@@ -63,6 +64,9 @@ export const useCreateEditor = () => {
     if (path.endsWith(ROLES_EDITOR_SUFFIX)) {
       return 'roles';
     }
+    if (path.endsWith(USERS_EDITOR_SUFFIX)) {
+      return 'users';
+    }
     if (path.endsWith(CMS_EDITOR_SUFFIX)) {
       return 'cms';
     }
@@ -104,6 +108,8 @@ const editorIcon = (editorType: EditorType) => {
       return IvyIcons.Tool;
     case 'roles':
       return IvyIcons.Users;
+    case 'users':
+      return IvyIcons.User;
     case 'cms':
       return IvyIcons.Cms;
     case 'dataclasses':
@@ -115,7 +121,13 @@ const editorIcon = (editorType: EditorType) => {
 };
 
 const editorRouteType = (editorType: EditorType) => {
-  if (editorType === 'variables' || editorType === 'cms' || editorType === 'roles' || editorType === 'databases') {
+  if (
+    editorType === 'variables' ||
+    editorType === 'cms' ||
+    editorType === 'roles' ||
+    editorType === 'users' ||
+    editorType === 'databases'
+  ) {
     return 'configurations';
   }
   return editorType;

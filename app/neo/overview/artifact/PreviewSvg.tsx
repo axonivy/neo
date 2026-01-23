@@ -28,6 +28,7 @@ export const editorTypeToPreview = (type: EditorType): PreviewType => {
     case 'configurations':
     case 'variables':
     case 'roles':
+    case 'users':
     case 'databases':
     case 'cms':
       return 'config';

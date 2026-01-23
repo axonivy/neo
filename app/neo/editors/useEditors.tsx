@@ -12,6 +12,7 @@ import { ProcessEditor } from './process/ProcessEditor';
 import { RoleEditor } from './role/RoleEditor';
 import { TextEditor } from './text/TextEditor';
 import { useCreateEditor } from './useCreateEditor';
+import { UserEditor } from './user/UserEditor';
 import { VariableEditor } from './variable/VariableEditor';
 
 type EditorState = {
@@ -160,6 +161,8 @@ export const renderEditor = (editor: Editor) => {
       return <VariableEditor {...editor} />;
     case 'roles':
       return <RoleEditor {...editor} />;
+    case 'users':
+      return <UserEditor {...editor} />;
     case 'cms':
       return <CmsEditor {...editor} />;
     case 'databases':
