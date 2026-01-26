@@ -1,5 +1,5 @@
 import { ClientJsonRpc } from '@axonivy/dataclass-editor';
-import type { DataActionArgs } from '@axonivy/dataclass-editor-protocol/lib/editor';
+import type { DataActionArgs } from '@axonivy/dataclass-editor-protocol';
 import type { MessageConnection } from '@axonivy/jsonrpc';
 
 export type DataClassActionHandler = (action: DataActionArgs) => void;

@@ -74,10 +74,11 @@ test('start from browser and reset - with animation', async ({ page, browserName
   const neo = await Neo.openWorkspace(page);
   await expect(neo.controlBar.tabs()).toHaveCount(0);
   await neo.navigation.enableAnimation();
+  await neo.navigation.changeAnimationMode('No dialog processes');
   await neo.navigation.changeAnimationSpeed('Fastest');
   const browser = await neo.browser();
   await browser.startProcess('jump/start.ivp');
-  await expect(neo.controlBar.tabs()).toHaveCount(3, { timeout: 10000 });
+  await expect(neo.controlBar.tabs()).toHaveCount(2, { timeout: 10000 });
   const editor = new ProcessEditor(neo, 'jump');
   await editor.expectOpen();
   const start = editor.elementByPid('1907DD66AA11FCD9-f0');

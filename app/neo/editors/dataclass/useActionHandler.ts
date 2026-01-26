@@ -1,10 +1,11 @@
-import type { DataActionArgs } from '@axonivy/dataclass-editor-protocol/lib/editor';
+import type { DataActionArgs } from '@axonivy/dataclass-editor-protocol';
 import { useCallback } from 'react';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { useOpenUrl } from '~/neo/browser/useOpenUrl';
 import { DIALOG_PROCESS_EDITOR_SUFFIX, FORM_EDITOR_SUFFIX } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
+import { noUnknownAction } from '~/utils/no-unknown-action';
 import type { DataClassActionHandler } from './data-class-client';
 
 const editorPath = (action: DataActionArgs, dataClassEditorPath: string) => {
@@ -24,11 +25,17 @@ export const useActionHandler = (project: ProjectIdentifier, dataClassEditorPath
   const openUrl = useOpenUrl();
   return useCallback<DataClassActionHandler>(
     action => {
-      if (action.actionId === 'openUrl') {
-        openUrl(action.payload);
-        return;
+      switch (action.actionId) {
+        case 'openUrl':
+          openUrl(action.payload);
+          return;
+        case 'openForm':
+        case 'openProcess':
+          openEditor(createEditorFromPath(project, editorPath(action, dataClassEditorPath)));
+          break;
+        default:
+          noUnknownAction(action.actionId);
       }
-      openEditor(createEditorFromPath(project, editorPath(action, dataClassEditorPath)));
     },
     [createEditorFromPath, dataClassEditorPath, openEditor, openUrl, project]
   );

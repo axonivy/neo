@@ -69,8 +69,7 @@ export class Navigation {
 
   async changeAnimationSpeed(speed: 'Fastest') {
     const menu = await this.openAnimationSettings();
-    const speedTrigger = menu.getByRole('menuitem', { name: 'Speed' });
-    await speedTrigger.click();
+    await menu.getByRole('menuitem', { name: 'Speed' }).click();
     await this.page.getByRole('menu').last().getByRole('menuitemradio', { name: speed, exact: true }).click();
   }
 
@@ -78,6 +77,12 @@ export class Navigation {
     const menu = await this.openAnimationSettings();
     await menu.getByRole('menuitem', { name: 'Reset' }).click();
     await new Toaster(this.page).expectSuccess('BPM Engine stopped');
+  }
+
+  async changeAnimationMode(mode: 'No dialog processes') {
+    const menu = await this.openAnimationSettings();
+    await menu.getByRole('menuitem', { name: 'Mode' }).click();
+    await this.page.getByRole('menu').last().getByRole('menuitemradio', { name: mode, exact: true }).click();
   }
 
   async openAnimationSettings() {

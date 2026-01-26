@@ -1,4 +1,4 @@
-import { NavigateToExternalTargetAction } from '@eclipse-glsp/protocol/lib/action-protocol/element-navigation';
+import { NavigateToExternalTargetAction } from '@eclipse-glsp/protocol';
 import { useCallback } from 'react';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
