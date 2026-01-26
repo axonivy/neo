@@ -33,6 +33,6 @@ test.describe('inscription', () => {
     await inscription.inscription.getByRole('button', { name: /Help/ }).click();
     const newPage = await pagePromise;
     await expect(newPage).toHaveURL(/developer.axonivy.com/);
-    await expect(newPage).toHaveURL(/users.html/);
+    await expect(newPage).toHaveURL(/roles-users.html/);
   });
 });
