@@ -5,10 +5,12 @@ import { I18nextProvider } from 'react-i18next';
 import { DatabaseClientNeo } from '~/neo/editors/database/database-client';
 import { useWebSocket } from '~/neo/editors/useWebSocket';
 import type { Editor } from '../editor';
+import { useActionHandler } from './useActionHandler';
 
 export const DatabaseEditor = ({ project }: Editor) => {
+  const actionHandler = useActionHandler();
   const client = useWebSocket<DatabaseClientNeo>(DatabaseClientNeo.webSocketUrl, connection =>
-    DatabaseClientNeo.startNeoMessageClient(connection)
+    DatabaseClientNeo.startNeoMessageClient(connection, actionHandler)
   );
   if (!client) {
     return null;
