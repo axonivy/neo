@@ -31,8 +31,8 @@
     "sbom": "pnpm dlx @cyclonedx/cdxgen -t pnpm"
   },
   "dependencies": {
-    "@axonivy/cms-editor": "~14.0.0-next.638.a930bff",
-    "@axonivy/cms-editor-protocol": "~14.0.0-next.638.a930bff",
+    "@axonivy/cms-editor": "~14.0.0-next.640.9b9242d",
+    "@axonivy/cms-editor-protocol": "~14.0.0-next.640.9b9242d",
     "@axonivy/database-editor": "~14.0.0-next.234.b27dd4d",
     "@axonivy/database-editor-protocol": "~14.0.0-next.234.b27dd4d",
     "@axonivy/dataclass-editor": "~14.0.0-next.800.1cd7da4",

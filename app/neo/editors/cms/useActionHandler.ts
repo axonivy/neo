@@ -7,16 +7,14 @@ export const useActionHandler = () => {
   const openUrl = useOpenUrl();
   return useCallback<CmsActionHandler>(
     action => {
-      switch (action.actionId) {
+      const actionId = action.actionId;
+      switch (actionId) {
         case 'openUrl':
-          openUrl(action.payload);
-          return;
+        case 'openFile':
+          openUrl(action.url);
+          break;
         default:
-          noUnknownAction(action.actionId);
-      }
-      if (action.actionId === 'openUrl') {
-        openUrl(action.payload);
-        return;
+          noUnknownAction(actionId);
       }
     },
     [openUrl]
