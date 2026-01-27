@@ -1,0 +1,10 @@
+{
+  "$schema" : "https://json-schema.axonivy.com/data-class/13.2.0/data-class.json",
+  "simpleName" : "FormCompositeData",
+  "namespace" : "neo.test.project.FormComposite",
+  "fields" : [ {
+    "name" : "data",
+    "type" : "neo.test.project.QuickStartTutorial",
+    "modifiers" : [ ]
+  } ]
+}

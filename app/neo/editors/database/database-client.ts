@@ -1,5 +1,5 @@
 import { ClientJsonRpc } from '@axonivy/database-editor';
-import type { DatabaseActionArgs } from '@axonivy/database-editor-protocol/lib/editor';
+import type { DatabaseActionArgs } from '@axonivy/database-editor-protocol';
 import type { MessageConnection } from '@axonivy/jsonrpc';
 
 export type DatabaseActionHandler = (action: DatabaseActionArgs) => void;

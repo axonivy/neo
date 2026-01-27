@@ -25,6 +25,16 @@
       "value" : "#{data.data.price}"
     }
   }, {
+    "cid" : "composite6",
+    "type" : "Composite",
+    "config" : {
+      "name" : "neo.test.project.FormComposite",
+      "startMethod" : "start",
+      "parameters" : {
+        "data" : "#{data.data}"
+      }
+    }
+  }, {
     "cid" : "layout4",
     "type" : "Layout",
     "config" : {

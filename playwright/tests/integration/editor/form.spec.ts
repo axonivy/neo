@@ -26,6 +26,13 @@ test.describe('jump to editor', () => {
     await editor.toolbar.getByRole('button', { name: 'Open Process' }).click();
     await neo.controlBar.tab('EnterProductProcess').expectActive();
   });
+
+  test('jump to component', async ({ page }) => {
+    const { neo, editor } = await openForm(page);
+    await editor.blockByName('neo.test.project.FormComposite').block.click();
+    await page.keyboard.press('j');
+    await neo.controlBar.tab('FormComposite').expectActive();
+  });
 });
 
 test.describe('inscription', () => {
