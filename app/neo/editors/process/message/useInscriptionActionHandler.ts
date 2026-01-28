@@ -1,4 +1,5 @@
 import type { InscriptionActionArgs, InscriptionNotificationTypes } from '@axonivy/process-editor-inscription-protocol';
+import { toast } from '@axonivy/ui-components';
 import { useCallback } from 'react';
 import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
@@ -8,21 +9,49 @@ import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { useFormExists } from '~/routes/forms/overview';
 import { useProcessExists } from '~/routes/processes/overview';
+import { noUnknownAction } from '~/utils/no-unknown-action';
 
-const isActionWithId = (
-  obj: unknown,
-  actionId: InscriptionActionArgs['actionId']
-): obj is { method: string; params: InscriptionActionArgs } => {
-  return (
-    typeof obj === 'object' &&
-    obj !== null &&
-    'method' in obj &&
-    obj.method === 'action' &&
-    'params' in obj &&
-    typeof obj.params === 'object' &&
-    obj.params !== null &&
-    'actionId' in obj.params &&
-    obj.params.actionId === actionId
+export const useActionHandler = () => {
+  const newProcessHandler = useNewProcessActionHandler();
+  const newFormHandler = useNewFormActionHandler();
+  const openPageHandler = useOpenPageActionHandler();
+  return useCallback(
+    (data: unknown, window: WindowProxy | null) => {
+      if (!isAction(data)) {
+        return;
+      }
+      const actionId = data.params.actionId;
+      switch (actionId) {
+        case 'newProcess':
+          newProcessHandler(data.params, window);
+          break;
+        case 'newHtmlDialog':
+          newFormHandler(data.params, window);
+          break;
+        case 'openPage':
+          openPageHandler(data.params);
+          break;
+        case 'openOrCreateCmsCategory':
+          //TODO: open cms editor
+          break;
+        case 'newRestClient':
+        case 'openRestConfig':
+        case 'newWebServiceClient':
+        case 'openWsConfig':
+        case 'newDatabaseConfig':
+        case 'openDatabaseConfig':
+        case 'openCustomField':
+        case 'openEndPage':
+        case 'openProgram':
+        case 'newProgram':
+          toast.warning(`The action '${actionId}' is not supported.`);
+          break;
+        default:
+          noUnknownAction(actionId);
+          break;
+      }
+    },
+    [newProcessHandler, newFormHandler, openPageHandler]
   );
 };
 
@@ -34,12 +63,9 @@ export const useNewProcessActionHandler = () => {
   const projects = useSortedProjects();
   const exists = useProcessExists();
   return useCallback(
-    (data: unknown, window: WindowProxy | null) => {
-      if (!isActionWithId(data, 'newProcess')) {
-        return;
-      }
-      const project = projects.data?.find(p => p.id.pmv === data.params.context.pmv && p.id.app === data.params.context.app);
-      const pid = data.params.context.pid;
+    (args: InscriptionActionArgs, window: WindowProxy | null) => {
+      const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
+      const pid = args.context.pid;
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
         createProcess({ name, namespace, kind: '', project, pid }).then(process => {
           refreshInscriptionView(window);
@@ -66,12 +92,9 @@ export const useNewFormActionHandler = () => {
   const projects = useSortedProjects();
   const exists = useFormExists();
   return useCallback(
-    (data: unknown, window: WindowProxy | null) => {
-      if (!isActionWithId(data, 'newHtmlDialog')) {
-        return;
-      }
-      const project = projects.data?.find(p => p.id.pmv === data.params.context.pmv && p.id.app === data.params.context.app);
-      const pid = data.params.context.pid;
+    (args: InscriptionActionArgs, window: WindowProxy | null) => {
+      const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
+      const pid = args.context.pid;
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
         createForm({ name, namespace, project, pid }).then(form => {
           refreshInscriptionView(window);
@@ -84,12 +107,7 @@ export const useNewFormActionHandler = () => {
 };
 
 export const useOpenPageActionHandler = () => {
-  return useCallback((data: unknown) => {
-    if (!isActionWithId(data, 'openPage')) {
-      return;
-    }
-    window.open(data.params.payload as string);
-  }, []);
+  return useCallback((args: InscriptionActionArgs) => window.open(args.payload as string), []);
 };
 
 const refreshInscriptionView = (window: WindowProxy | null) => {
@@ -100,3 +118,13 @@ const refreshInscriptionView = (window: WindowProxy | null) => {
 const sendInscriptionNotification = (window: WindowProxy | null, type: keyof InscriptionNotificationTypes) => {
   window?.postMessage({ method: type });
 };
+
+const isAction = (obj: unknown): obj is { method: string; params: InscriptionActionArgs } =>
+  typeof obj === 'object' &&
+  obj !== null &&
+  'method' in obj &&
+  obj.method === 'action' &&
+  'params' in obj &&
+  typeof obj.params === 'object' &&
+  obj.params !== null &&
+  'actionId' in obj.params;

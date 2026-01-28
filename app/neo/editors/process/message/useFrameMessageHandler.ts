@@ -1,14 +1,12 @@
 import { type RefObject, useEffect } from 'react';
-import { useNewFormActionHandler, useNewProcessActionHandler, useOpenPageActionHandler } from './useInscriptionActionHandler';
+import { useActionHandler } from './useInscriptionActionHandler';
 import { useNavigateActionHandler } from './useNavigationActionHandler';
 import { useStartActionHandler } from './useStartActionHandler';
 
 export const useFrameMessageHandler = (frame: RefObject<HTMLIFrameElement | null>, app: string) => {
   const navigationHandler = useNavigateActionHandler(app);
   const startHandler = useStartActionHandler();
-  const newProcessHandler = useNewProcessActionHandler();
-  const newFormHandler = useNewFormActionHandler();
-  const openPageHandler = useOpenPageActionHandler();
+  const actionHandler = useActionHandler();
   useEffect(() => {
     const handler = (event: MessageEvent) => {
       const contentWindow = frame.current?.contentWindow;
@@ -18,11 +16,9 @@ export const useFrameMessageHandler = (frame: RefObject<HTMLIFrameElement | null
       const data = JSON.parse(event.data);
       navigationHandler(data);
       startHandler(data);
-      newProcessHandler(data, contentWindow);
-      newFormHandler(data, contentWindow);
-      openPageHandler(data);
+      actionHandler(data, contentWindow);
     };
     window.addEventListener('message', handler);
     return () => window.removeEventListener('message', handler);
-  }, [frame, navigationHandler, startHandler, newProcessHandler, newFormHandler, openPageHandler]);
+  }, [frame, navigationHandler, startHandler, actionHandler]);
 };
