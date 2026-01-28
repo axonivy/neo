@@ -9,11 +9,12 @@ test('logs', async ({ page }) => {
   await neo.views.openView('Runtime Log');
   const logView = new RuntimeLogView(neo);
   await logView.expectOpen();
-  await expect(logView.logs()).toHaveCount(0);
+  await logView.clear();
 
   await startLogProcess(neo);
-  await expect(logView.logs()).toHaveCount(3);
+  await expect(logView.logs).toHaveCount(3);
   await logView.clear();
+  await neo.views.close();
 });
 
 const startLogProcess = async (neo: Neo) => {
