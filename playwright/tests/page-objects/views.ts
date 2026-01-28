@@ -19,7 +19,7 @@ export class Views {
 
   async open() {
     await expect(this.panel).toBeVisible();
-    if ((await this.panel.getAttribute('data-panel-size')) === '0.0') {
+    if ((await this.panel.boundingBox())?.height === 0) {
       await this.tabs.getByRole('button', { name: 'Toggle Views' }).click();
     }
     await this.expectOpen();
@@ -27,17 +27,17 @@ export class Views {
 
   async close() {
     await expect(this.panel).toBeVisible();
-    if ((await this.panel.getAttribute('data-panel-size')) !== '0.0') {
+    if ((await this.panel.boundingBox())?.height !== 0) {
       await this.tabs.getByRole('button', { name: 'Toggle Views' }).click();
     }
     await this.expectClosed();
   }
 
   async expectOpen() {
-    await expect(this.panel).not.toHaveAttribute('data-panel-size', '0.0');
+    await expect(this.panel).not.toHaveCSS('flex-grow', '0');
   }
 
   async expectClosed() {
-    await expect(this.panel).toHaveAttribute('data-panel-size', '0.0');
+    await expect(this.panel).toHaveCSS('flex-grow', '0');
   }
 }

@@ -15,10 +15,10 @@ export class RuntimeLogView {
   async clear() {
     await this.view.getByRole('button', { name: 'Menu' }).click();
     await this.neo.page.getByRole('menu').getByRole('menuitem', { name: 'Delete All' }).click();
-    await expect(this.logs()).toHaveCount(0);
+    await expect(this.logs).toHaveCount(0);
   }
 
-  logs() {
+  get logs() {
     return this.view.locator('table tbody tr');
   }
 }
