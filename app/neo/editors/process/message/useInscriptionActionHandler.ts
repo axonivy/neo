@@ -15,6 +15,7 @@ export const useActionHandler = () => {
   const newProcessHandler = useNewProcessActionHandler();
   const newFormHandler = useNewFormActionHandler();
   const openPageHandler = useOpenPageActionHandler();
+  const openCmsHandler = useOpenCmsActionHandler();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isAction(data)) {
@@ -32,7 +33,7 @@ export const useActionHandler = () => {
           openPageHandler(data.params);
           break;
         case 'openOrCreateCmsCategory':
-          //TODO: open cms editor
+          openCmsHandler(data.params);
           break;
         case 'newRestClient':
         case 'openRestConfig':
@@ -51,7 +52,7 @@ export const useActionHandler = () => {
           break;
       }
     },
-    [newProcessHandler, newFormHandler, openPageHandler]
+    [newProcessHandler, newFormHandler, openPageHandler, openCmsHandler]
   );
 };
 
@@ -108,6 +109,21 @@ export const useNewFormActionHandler = () => {
 
 export const useOpenPageActionHandler = () => {
   return useCallback((args: InscriptionActionArgs) => window.open(args.payload as string), []);
+};
+
+export const useOpenCmsActionHandler = () => {
+  const { openEditor } = useEditors();
+  const { createCmsEditor } = useCreateEditor();
+  const projects = useSortedProjects();
+  return useCallback(
+    (args: InscriptionActionArgs) => {
+      const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
+      if (project) {
+        openEditor(createCmsEditor(project));
+      }
+    },
+    [createCmsEditor, openEditor, projects.data]
+  );
 };
 
 const refreshInscriptionView = (window: WindowProxy | null) => {
