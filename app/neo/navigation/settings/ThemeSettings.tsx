@@ -40,16 +40,16 @@ export const ThemeSettings = () => {
         <IvyIcon icon={IvyIcons.DarkMode} />
         <span>{t('settings.theme')}</span>
         <DropdownMenuShortcut>{hotkeyText(changeTheme.hotkey)}</DropdownMenuShortcut>
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={theme} onValueChange={mode => setTheme(mode as Theme)}>
-              <DropdownMenuRadioItem value='light'>{t('settings.light')}</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='dark'>{t('settings.dark')}</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value='system'>{t('settings.system')}</DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
       </DropdownMenuSubTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuSubContent>
+          <DropdownMenuRadioGroup value={theme} onValueChange={mode => setTheme(mode as Theme)}>
+            <DropdownMenuRadioItem value='light'> {t('settings.light')}</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value='dark'>{t('settings.dark')}</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value='system'>{t('settings.system')}</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuSubContent>
+      </DropdownMenuPortal>
     </DropdownMenuSub>
   );
 };

@@ -25,22 +25,26 @@ const localTranslations: Resource = {
 
 const LOCALES_PATH = `${import.meta.env.BASE_URL ?? '/'}assets/locales`;
 
-let knownLanguages: string[] = [];
+let knownLanguages: string[] = ['en', 'de', 'ja'];
 
-const getKnownLanguages: Promise<Array<string>> = fetch(`${LOCALES_PATH}/meta.json`)
-  .then(async response => {
+export const getKnownLanguages = () => knownLanguages;
+
+const fetchKnownLanguages = async (): Promise<Array<string>> => {
+  try {
+    const response = await fetch(`${LOCALES_PATH}/meta.json`);
     if (response.ok) {
       knownLanguages = await response.json();
       return knownLanguages;
     }
-    return [];
-  })
-  .catch(() => {
-    return [];
-  });
+  } catch {
+    // ignore fetch errors
+  }
+  return [];
+};
 
-export const initTranslation = (debug = false) => {
+export const initTranslation = async (debug = false) => {
   if (i18n.isInitializing || i18n.isInitialized) return;
+  fetchKnownLanguages();
   i18n
     .use(ChainedBackend)
     .use(initReactI18next)
@@ -58,7 +62,7 @@ export const initTranslation = (debug = false) => {
           {
             loadPath: (lngs: Array<string>, nss: Array<string>) => {
               if (knownLanguages.includes(lngs[0] ?? '')) {
-                return `${LOCALES_PATH}/${lngs[0]}/${nss[0]}.json`;
+                return `${LOCALES_PATH}/${lngs[0]}/${nss[0]}.json?v=${__VERSION__}`;
               }
               return;
             }
@@ -66,5 +70,4 @@ export const initTranslation = (debug = false) => {
         ]
       }
     });
-  getKnownLanguages.then(i18n.loadLanguages);
 };

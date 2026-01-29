@@ -4,6 +4,9 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react(), tsconfigPaths({ projects: ['tsconfig.json'] })],
+  define: {
+    __VERSION__: JSON.stringify('test')
+  },
   test: {
     include: ['**/*.test.ts?(x)'],
     globals: true,

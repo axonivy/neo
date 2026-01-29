@@ -44,6 +44,7 @@ const updateKnownLanguages = () => {
   const knownLanguages = readdirSync(localesDir).filter(file => file !== metaFile);
   const knownLanguagesFile = path.resolve(localesDir, metaFile);
   writeFileSync(knownLanguagesFile, JSON.stringify(knownLanguages));
+  console.log(`Updated known languages: ${knownLanguages.join(', ')}`);
 };
 
 collectTranslations();
