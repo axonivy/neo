@@ -118,9 +118,11 @@ export const useOpenCmsActionHandler = () => {
   return useCallback(
     (args: InscriptionActionArgs) => {
       const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
-      if (project) {
-        openEditor(createCmsEditor(project));
+      if (!project) {
+        toast.warning('Could not open CMS editor', { description: 'Project not found' });
+        return;
       }
+      openEditor(createCmsEditor(project));
     },
     [createCmsEditor, openEditor, projects.data]
   );
