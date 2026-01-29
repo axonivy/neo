@@ -1,6 +1,7 @@
 import type { InscriptionActionArgs, InscriptionNotificationTypes } from '@axonivy/process-editor-inscription-protocol';
 import { toast } from '@axonivy/ui-components';
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
@@ -12,6 +13,7 @@ import { useProcessExists } from '~/routes/processes/overview';
 import { noUnknownAction } from '~/utils/no-unknown-action';
 
 export const useActionHandler = () => {
+  const { t } = useTranslation();
   const newProcessHandler = useNewProcessActionHandler();
   const newFormHandler = useNewFormActionHandler();
   const openPageHandler = useOpenPageActionHandler();
@@ -45,14 +47,14 @@ export const useActionHandler = () => {
         case 'openEndPage':
         case 'openProgram':
         case 'newProgram':
-          toast.warning(`The action '${actionId}' is not supported.`);
+          toast.warning(t('message.unsupportedAction', { action: actionId }));
           break;
         default:
           noUnknownAction(actionId);
           break;
       }
     },
-    [newProcessHandler, newFormHandler, openPageHandler, openCmsHandler]
+    [newProcessHandler, newFormHandler, openPageHandler, openCmsHandler, t]
   );
 };
 
@@ -115,16 +117,17 @@ export const useOpenCmsActionHandler = () => {
   const { openEditor } = useEditors();
   const { createCmsEditor } = useCreateEditor();
   const projects = useSortedProjects();
+  const { t } = useTranslation();
   return useCallback(
     (args: InscriptionActionArgs) => {
       const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
       if (!project) {
-        toast.warning('Could not open CMS editor', { description: 'Project not found' });
+        toast.warning(t('message.couldNotOpenCmsEditor'));
         return;
       }
-      openEditor(createCmsEditor(project));
+      openEditor(createCmsEditor(project.id));
     },
-    [createCmsEditor, openEditor, projects.data]
+    [createCmsEditor, openEditor, projects.data, t]
   );
 };
 
