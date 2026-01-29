@@ -1,6 +1,7 @@
 import type { InscriptionActionArgs, InscriptionNotificationTypes } from '@axonivy/process-editor-inscription-protocol';
 import { toast } from '@axonivy/ui-components';
 import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
 import { useSortedProjects, type ProjectIdentifier } from '~/data/project-api';
@@ -12,9 +13,11 @@ import { useProcessExists } from '~/routes/processes/overview';
 import { noUnknownAction } from '~/utils/no-unknown-action';
 
 export const useActionHandler = () => {
+  const { t } = useTranslation();
   const newProcessHandler = useNewProcessActionHandler();
   const newFormHandler = useNewFormActionHandler();
   const openPageHandler = useOpenPageActionHandler();
+  const openCmsHandler = useOpenCmsActionHandler();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isAction(data)) {
@@ -32,7 +35,7 @@ export const useActionHandler = () => {
           openPageHandler(data.params);
           break;
         case 'openOrCreateCmsCategory':
-          //TODO: open cms editor
+          openCmsHandler(data.params);
           break;
         case 'newRestClient':
         case 'openRestConfig':
@@ -44,14 +47,14 @@ export const useActionHandler = () => {
         case 'openEndPage':
         case 'openProgram':
         case 'newProgram':
-          toast.warning(`The action '${actionId}' is not supported.`);
+          toast.warning(t('message.unsupportedAction', { action: actionId }));
           break;
         default:
           noUnknownAction(actionId);
           break;
       }
     },
-    [newProcessHandler, newFormHandler, openPageHandler]
+    [newProcessHandler, newFormHandler, openPageHandler, openCmsHandler, t]
   );
 };
 
@@ -108,6 +111,24 @@ export const useNewFormActionHandler = () => {
 
 export const useOpenPageActionHandler = () => {
   return useCallback((args: InscriptionActionArgs) => window.open(args.payload as string), []);
+};
+
+export const useOpenCmsActionHandler = () => {
+  const { openEditor } = useEditors();
+  const { createCmsEditor } = useCreateEditor();
+  const projects = useSortedProjects();
+  const { t } = useTranslation();
+  return useCallback(
+    (args: InscriptionActionArgs) => {
+      const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
+      if (!project) {
+        toast.warning(t('message.couldNotOpenCmsEditor'));
+        return;
+      }
+      openEditor(createCmsEditor(project.id));
+    },
+    [createCmsEditor, openEditor, projects.data, t]
+  );
 };
 
 const refreshInscriptionView = (window: WindowProxy | null) => {

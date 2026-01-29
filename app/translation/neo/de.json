@@ -156,6 +156,7 @@
     "artifctExisting": "Ein Artifakt mit dem Namen {{name}} existiert bereits.",
     "artifiactNamespaceNotEmpty": "Der Namespace des Artifacts darf nicht leer sein.",
     "capitalizeName": "Es wird empfohlen, den ersten Buchstaben grosszuschreiben.",
+    "couldNotOpenCmsEditor": "CMS Editor konnte nicht geöffnet werden",
     "dataclassPackaged": "Die Datenklasse kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
     "dependencyPackaged": "Die Abhängigkeit kann nicht gelöscht werden, da das aktuelle Projekt gepackt ist.",
     "formPackaged": "Das Formular kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
@@ -165,7 +166,8 @@
     "loadEngineVersionFail": "Engine Version konnte nicht geladen werden",
     "noArtifactsFound": "Es wurden keine Artifakte gefunden",
     "noneCapitalizeName": "Es wird empfohlen, den ersten Buchstaben kleinzuschreiben.",
-    "processPackaged": "Der Prozess kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist."
+    "processPackaged": "Der Prozess kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
+    "unsupportedAction": "Die Aktion '{{action}}' wird nicht unterstützt."
   },
   "neo": {
     "addDependency": "Als Abhängigkeit zum Projekt hinzufügen",
