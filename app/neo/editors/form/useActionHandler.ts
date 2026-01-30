@@ -28,6 +28,7 @@ export const useActionHandler = (project: ProjectIdentifier, formEditorPath: str
     action => {
       switch (action.actionId) {
         case 'openUrl':
+        case 'openPreview':
           openUrl(action.payload);
           return;
         case 'openComponent':
