@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router';
 import { Breadcrumbs } from '~/neo/navigation/Breadcrumb';
+import { noUnknownType } from '~/utils/no-unknown';
 import type { Editor, EditorType } from './editor';
 
 const HotkeysEditor = ({ id, type, name, children }: Editor & { children: React.ReactNode }) => {
@@ -68,11 +69,15 @@ const useTypeName = (type: EditorType) => {
     case 'variables':
     case 'roles':
     case 'users':
+    case 'restclients':
     case 'databases':
     case 'configurations':
       return t('neo.configs');
     case 'dataclasses':
       return t('neo.dataClasses');
+    default:
+      noUnknownType(type);
+      return '';
   }
 };
 

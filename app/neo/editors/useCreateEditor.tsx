@@ -6,6 +6,7 @@ import type { Form } from '~/data/form-api';
 import type { ConfigurationIdentifier, DataClassBean } from '~/data/generated/ivy-client';
 import type { Process } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
+import { noUnknownType } from '~/utils/no-unknown';
 import { lastSegment } from '~/utils/path';
 import {
   CMS_EDITOR_SUFFIX,
@@ -17,6 +18,7 @@ import {
   type EditorType,
   FORM_EDITOR_SUFFIX,
   PROCESS_EDITOR_SUFFIX,
+  RESTCLIENTS_EDITOR_SUFFIX,
   ROLES_EDITOR_SUFFIX,
   USERS_EDITOR_SUFFIX,
   VARIABLES_EDITOR_SUFFIX
@@ -67,6 +69,9 @@ export const useCreateEditor = () => {
     if (path.endsWith(USERS_EDITOR_SUFFIX)) {
       return 'users';
     }
+    if (path.endsWith(RESTCLIENTS_EDITOR_SUFFIX)) {
+      return 'restclients';
+    }
     if (path.endsWith(CMS_EDITOR_SUFFIX)) {
       return 'cms';
     }
@@ -101,6 +106,8 @@ export const useCreateEditor = () => {
 
 const editorIcon = (editorType: EditorType) => {
   switch (editorType) {
+    case 'processes':
+      return IvyIcons.Process;
     case 'forms':
       return IvyIcons.File;
     case 'variables':
@@ -110,14 +117,18 @@ const editorIcon = (editorType: EditorType) => {
       return IvyIcons.Users;
     case 'users':
       return IvyIcons.User;
+    case 'restclients':
+      return IvyIcons.RestClient;
     case 'cms':
       return IvyIcons.Cms;
     case 'dataclasses':
       return IvyIcons.Database;
     case 'databases':
       return IvyIcons.Database;
+    default:
+      noUnknownType(editorType);
+      return IvyIcons.File;
   }
-  return IvyIcons.Process;
 };
 
 const editorRouteType = (editorType: EditorType) => {
@@ -126,6 +137,7 @@ const editorRouteType = (editorType: EditorType) => {
     editorType === 'cms' ||
     editorType === 'roles' ||
     editorType === 'users' ||
+    editorType === 'restclients' ||
     editorType === 'databases'
   ) {
     return 'configurations';

@@ -5,7 +5,7 @@ import { useOpenUrl } from '~/neo/browser/useOpenUrl';
 import { DIALOG_PROCESS_EDITOR_SUFFIX, FORM_EDITOR_SUFFIX } from '~/neo/editors/editor';
 import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
-import { noUnknownAction } from '~/utils/no-unknown-action';
+import { noUnknownAction } from '~/utils/no-unknown';
 import type { DataClassActionHandler } from './data-class-client';
 
 const editorPath = (action: DataActionArgs, dataClassEditorPath: string) => {
