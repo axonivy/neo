@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useOpenUrl } from '~/neo/browser/useOpenUrl';
 import { noUnknownAction } from '~/utils/no-unknown';
-import type { DatabaseActionHandler } from './database-client';
+import type { RestClientActionHandler } from './restclient-client';
 
 export const useActionHandler = () => {
   const openUrl = useOpenUrl();
-  return useCallback<DatabaseActionHandler>(
+  return useCallback<RestClientActionHandler>(
     action => {
       switch (action.actionId) {
         case 'openUrl':

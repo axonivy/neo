@@ -1,5 +1,6 @@
 import { useTheme } from '@axonivy/ui-components';
 import type { EditorType } from '~/neo/editors/editor';
+import { noUnknownType } from '~/utils/no-unknown';
 import configDarkSvg from '/assets/preview/configs-dark.svg?url';
 import configLightSvg from '/assets/preview/configs-light.svg?url';
 import dataClassDarkSvg from '/assets/preview/data-classes-dark.svg?url';
@@ -29,6 +30,7 @@ export const editorTypeToPreview = (type: EditorType): PreviewType => {
     case 'variables':
     case 'roles':
     case 'users':
+    case 'restclients':
     case 'databases':
     case 'cms':
       return 'config';
@@ -36,6 +38,9 @@ export const editorTypeToPreview = (type: EditorType): PreviewType => {
       return 'form';
     case 'processes':
       return 'process';
+    default:
+      noUnknownType(type);
+      return 'workspace';
   }
 };
 

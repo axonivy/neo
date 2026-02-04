@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useOpenUrl } from '~/neo/browser/useOpenUrl';
-import { noUnknownAction } from '~/utils/no-unknown-action';
+import { noUnknownAction } from '~/utils/no-unknown';
 import type { VariableActionHandler } from './variable-client';
 
 export const useActionHandler = () => {

@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { CmsEditor } from '../../page-objects/cms-editor';
+import { DatabaseEditor } from '../../page-objects/database-editor';
 import { Neo } from '../../page-objects/neo';
 import { Overview } from '../../page-objects/overview';
+import { RestClientEditor } from '../../page-objects/restclient-editor';
 import { RoleEditor } from '../../page-objects/roles-editor';
 import { UserEditor } from '../../page-objects/user-editor';
 import { VariableEditor } from '../../page-objects/variables-editor';
@@ -21,12 +23,18 @@ test('navigate to configs', async ({ page }) => {
   await neo.configs();
   await overview.card('users').click();
   await new UserEditor(neo, 'users').expectOpen('wt');
+  await neo.configs();
+  await overview.card('rest-clients').click();
+  await new RestClientEditor(neo, 'rest-clients').expectOpen('personService');
+  await neo.configs();
+  await overview.card('databases').click();
+  await new DatabaseEditor(neo, 'databases').expectOpen('TestDatabaseConnection-001');
 });
 
 test('search configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
-  await expect(overview.cards).toHaveCount(5);
+  await expect(overview.cards).toHaveCount(6);
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
   await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();

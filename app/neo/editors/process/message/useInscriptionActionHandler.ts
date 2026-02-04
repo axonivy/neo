@@ -10,7 +10,7 @@ import { useCreateEditor } from '~/neo/editors/useCreateEditor';
 import { useEditors } from '~/neo/editors/useEditors';
 import { useFormExists } from '~/routes/forms/overview';
 import { useProcessExists } from '~/routes/processes/overview';
-import { noUnknownAction } from '~/utils/no-unknown-action';
+import { noUnknownAction } from '~/utils/no-unknown';
 
 export const useActionHandler = () => {
   const { t } = useTranslation();

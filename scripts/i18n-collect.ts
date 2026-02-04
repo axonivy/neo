@@ -8,6 +8,7 @@ const translations = {
   'variable-editor': path.resolve('./node_modules/@axonivy/variable-editor/src/translation/variable-editor'),
   'role-editor': path.resolve('./node_modules/@axonivy/role-editor/src/translation/role-editor'),
   'user-editor': path.resolve('./node_modules/@axonivy/user-editor/src/translation/user-editor'),
+  'restclient-editor': path.resolve('./node_modules/@axonivy/restclient-editor/src/translation/restclient-editor'),
   'form-editor': path.resolve('./node_modules/@axonivy/form-editor/src/translation/form-editor'),
   'process-editor': path.resolve('./node_modules/@axonivy/process-editor/src/translation/process-editor'),
   'log-view': path.resolve('./node_modules/@axonivy/log-view/src/translation/log-view'),

@@ -3,12 +3,14 @@ import { useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { noUnknownType } from '~/utils/no-unknown';
 import { CmsEditor } from './cms/CmsEditor';
 import { DatabaseEditor } from './database/DatabaseEditor';
 import { DataClassEditor } from './dataclass/DataClassEditor';
 import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, type Editor } from './editor';
 import { FormEditor } from './form/FormEditor';
 import { ProcessEditor } from './process/ProcessEditor';
+import { RestClientEditor } from './restclient/RestClientEditor';
 import { RoleEditor } from './role/RoleEditor';
 import { TextEditor } from './text/TextEditor';
 import { useCreateEditor } from './useCreateEditor';
@@ -163,6 +165,8 @@ export const renderEditor = (editor: Editor) => {
       return <RoleEditor {...editor} />;
     case 'users':
       return <UserEditor {...editor} />;
+    case 'restclients':
+      return <RestClientEditor {...editor} />;
     case 'cms':
       return <CmsEditor {...editor} />;
     case 'databases':
@@ -171,5 +175,8 @@ export const renderEditor = (editor: Editor) => {
       return <TextEditor {...editor} />;
     case 'dataclasses':
       return <DataClassEditor {...editor} />;
+    default:
+      noUnknownType(editor.type);
+      return null;
   }
 };
