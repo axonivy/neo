@@ -18,6 +18,7 @@ export const useActionHandler = () => {
   const newFormHandler = useNewFormActionHandler();
   const openPageHandler = useOpenPageActionHandler();
   const openCmsHandler = useOpenCmsActionHandler();
+  const openConfigEditorHandler = useOpenConfigEditorHandler();
   return useCallback(
     (data: unknown, window: WindowProxy | null) => {
       if (!isAction(data)) {
@@ -39,10 +40,14 @@ export const useActionHandler = () => {
           break;
         case 'newRestClient':
         case 'openRestConfig':
-        case 'newWebServiceClient':
-        case 'openWsConfig':
+          openConfigEditorHandler(data.params, 'rest-clients');
+          break;
         case 'newDatabaseConfig':
         case 'openDatabaseConfig':
+          openConfigEditorHandler(data.params, 'databases');
+          break;
+        case 'newWebServiceClient':
+        case 'openWsConfig':
         case 'openCustomField':
         case 'openEndPage':
         case 'openProgram':
@@ -54,11 +59,11 @@ export const useActionHandler = () => {
           break;
       }
     },
-    [newProcessHandler, newFormHandler, openPageHandler, openCmsHandler, t]
+    [newProcessHandler, newFormHandler, openPageHandler, openCmsHandler, openConfigEditorHandler, t]
   );
 };
 
-export const useNewProcessActionHandler = () => {
+const useNewProcessActionHandler = () => {
   const { createProcess } = useCreateProcess();
   const { openEditor } = useEditors();
   const open = useNewArtifact();
@@ -87,7 +92,7 @@ export const useNewProcessActionHandler = () => {
   );
 };
 
-export const useNewFormActionHandler = () => {
+const useNewFormActionHandler = () => {
   const { createForm } = useCreateForm();
   const { openEditor } = useEditors();
   const open = useNewArtifact();
@@ -109,11 +114,9 @@ export const useNewFormActionHandler = () => {
   );
 };
 
-export const useOpenPageActionHandler = () => {
-  return useCallback((args: InscriptionActionArgs) => window.open(args.payload as string), []);
-};
+const useOpenPageActionHandler = () => useCallback((args: InscriptionActionArgs) => window.open(args.payload as string), []);
 
-export const useOpenCmsActionHandler = () => {
+const useOpenCmsActionHandler = () => {
   const { openEditor } = useEditors();
   const { createCmsEditor } = useCreateEditor();
   const projects = useSortedProjects();
@@ -128,6 +131,25 @@ export const useOpenCmsActionHandler = () => {
       openEditor(createCmsEditor(project.id));
     },
     [createCmsEditor, openEditor, projects.data, t]
+  );
+};
+
+const useOpenConfigEditorHandler = () => {
+  const { openEditor } = useEditors();
+  const { createConfigurationEditor } = useCreateEditor();
+  const projects = useSortedProjects();
+  const { t } = useTranslation();
+  return useCallback(
+    (args: InscriptionActionArgs, file: 'rest-clients' | 'databases') => {
+      const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
+      if (!project) {
+        toast.warning(t('message.couldNotOpenConfigEditor', { config: file }));
+        return;
+      }
+      const config = { project: project.id, path: `config/${file}.yaml` };
+      openEditor(createConfigurationEditor(config));
+    },
+    [createConfigurationEditor, openEditor, projects.data, t]
   );
 };
 
