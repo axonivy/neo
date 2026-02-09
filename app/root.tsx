@@ -1,6 +1,6 @@
 import { Flex, HotkeysProvider, Spinner, ThemeProvider } from '@axonivy/ui-components';
 import componentsStylesHref from '@axonivy/ui-components/lib/components.css?url';
-import iconStylesHref from '@axonivy/ui-icons/lib/ivy-icons.css?url';
+import iconStylesHref from '@axonivy/ui-icons/src-gen/ivy-icons.css?url';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import type { LinksFunction } from 'react-router';
