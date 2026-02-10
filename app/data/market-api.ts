@@ -5,9 +5,11 @@ import { headers, ok } from './custom-fetch';
 import {
   findBestMatchProductDetailsByVersion,
   findProductJsonContent,
+  type FindProductJsonContent200,
   findProducts,
   type FindProductsParams,
   findProductVersionsById,
+  type MavenArtifactVersionModel,
   type PagedModelProductModel,
   type ProductDetailModel
 } from './generated/market-client';
@@ -26,7 +28,7 @@ export const useProducts = () => {
     const params: FindProductsParams = { isRESTClient: false, page: pageParam, sort: [], language: 'en', type: 'all' };
     return findProducts(params, { headers }).then(res => {
       if (ok(res)) {
-        const data = JSON.parse(res.data as string) as PagedModelProductModel;
+        const data = JSON.parse(res.data as unknown as string) as PagedModelProductModel;
         return data._embedded?.products ?? [];
       }
       toast.error(t('toast.market.missing'), { description: t('toast.serverStatus') });
@@ -62,7 +64,7 @@ export const useProductVersions = (id?: string) => {
       if (id === undefined) return [];
       return findProductVersionsById(id, { isShowDevVersion: true }, { headers }).then(res => {
         if (ok(res)) {
-          return res.data;
+          return res.data as unknown as MavenArtifactVersionModel[];
         }
         toast.error(t('toast.market.loadFail', { id: id }), { description: t('toast.market.inaccsessible') });
         return [];
@@ -81,7 +83,7 @@ export const useProductJson = (id?: string, version?: string) => {
       if (id === undefined || version === undefined) return null;
       return findProductJsonContent(id, version, {}, { headers }).then(res => {
         if (ok(res)) {
-          return res.data;
+          return res.data as unknown as FindProductJsonContent200;
         }
         throw new Error(t('toast.market.loadJsonFail', { id: id, version: version }));
       });
@@ -99,7 +101,7 @@ export const useBestMatchingVersion = (id?: string, engineVersion?: string) => {
       if (!engineVersion || !id) return null;
       return findBestMatchProductDetailsByVersion(id, engineVersion, { headers }).then(res => {
         if (ok(res)) {
-          const data = JSON.parse(res.data as string) as ProductDetailModel;
+          const data = JSON.parse(res.data as unknown as string) as ProductDetailModel;
           return data.productModuleContent?.version ?? null;
         }
         throw new Error(t('toast.market.loadBestMatchingFail', { id: id, engineVersion: engineVersion }));
