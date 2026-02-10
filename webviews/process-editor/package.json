@@ -9,12 +9,12 @@
     "url": "https://github.com/axonivy/neo"
   },
   "dependencies": {
-    "@axonivy/process-editor": "~14.0.0-next.2038.130863d5",
-    "@axonivy/process-editor-inscription": "~14.0.0-next.2038.130863d5",
-    "@axonivy/process-editor-inscription-core": "~14.0.0-next.2038.130863d5",
-    "@axonivy/process-editor-inscription-protocol": "~14.0.0-next.2038.130863d5",
-    "@axonivy/process-editor-inscription-view": "~14.0.0-next.2038.130863d5",
-    "@axonivy/process-editor-protocol": "~14.0.0-next.2038.130863d5",
+    "@axonivy/process-editor": "~14.0.0-next.2044.0edf7ab9",
+    "@axonivy/process-editor-inscription": "~14.0.0-next.2044.0edf7ab9",
+    "@axonivy/process-editor-inscription-core": "~14.0.0-next.2044.0edf7ab9",
+    "@axonivy/process-editor-inscription-protocol": "~14.0.0-next.2044.0edf7ab9",
+    "@axonivy/process-editor-inscription-view": "~14.0.0-next.2044.0edf7ab9",
+    "@axonivy/process-editor-protocol": "~14.0.0-next.2044.0edf7ab9",
     "@eclipse-glsp/client": "2.5.0",
     "@eclipse-glsp/protocol": "2.5.0",
     "i18next": "^25.0.0",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "reflect-metadata": "^0.2.2",
-    "@axonivy/monaco-vite-plugin": "~14.0.0-next.2038.130863d5"
+    "@axonivy/monaco-vite-plugin": "~14.0.0-next.2044.0edf7ab9"
   },
   "type": "module",
   "scripts": {
