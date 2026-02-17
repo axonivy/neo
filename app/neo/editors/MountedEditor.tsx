@@ -69,6 +69,7 @@ const useTypeName = (type: EditorType) => {
     case 'variables':
     case 'roles':
     case 'users':
+    case 'persistence':
     case 'restclients':
     case 'databases':
     case 'configurations':

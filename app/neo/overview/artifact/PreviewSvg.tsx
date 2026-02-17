@@ -30,6 +30,7 @@ export const editorTypeToPreview = (type: EditorType): PreviewType => {
     case 'variables':
     case 'roles':
     case 'users':
+    case 'persistence':
     case 'restclients':
     case 'databases':
     case 'cms':

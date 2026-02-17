@@ -1,5 +1,6 @@
 import cmsEditorStylesHref from '@axonivy/cms-editor/lib/editor.css?url';
 import databaseEditorStylesHref from '@axonivy/database-editor/lib/editor.css?url';
+import persistenceEditorStylesHref from '@axonivy/persistence-editor/lib/editor.css?url';
 import restClientEditorStylesHref from '@axonivy/restclient-editor/lib/editor.css?url';
 import roleEditorStylesHref from '@axonivy/role-editor/lib/editor.css?url';
 import userEditorStylesHref from '@axonivy/user-editor/lib/editor.css?url';
@@ -12,6 +13,7 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: cmsEditorStylesHref },
   { rel: 'stylesheet', href: variableEditorStylesHref },
   { rel: 'stylesheet', href: roleEditorStylesHref },
+  { rel: 'stylesheet', href: persistenceEditorStylesHref },
   { rel: 'stylesheet', href: userEditorStylesHref },
   { rel: 'stylesheet', href: restClientEditorStylesHref },
   { rel: 'stylesheet', href: databaseEditorStylesHref }
