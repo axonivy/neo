@@ -1,18 +1,10 @@
 {
-  "$schema": "https://json-schema.axonivy.com/data-class/13.1.0/data-class.json",
-  "simpleName": "Address",
-  "namespace": "neo.test.project",
-  "isBusinessCaseData": false,
-  "fields": [
-    {
-      "name": "country",
-      "type": "String",
-      "modifiers": ["PERSISTENT"]
-    },
-    {
-      "name": "street",
-      "type": "String",
-      "modifiers": ["PERSISTENT"]
-    }
-  ]
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "Address",
+  "namespace" : "neo.test.project",
+  "fields" : [ {
+    "name" : "country"
+  }, {
+    "name" : "street"
+  } ]
 }
