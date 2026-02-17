@@ -1,13 +1,9 @@
 {
-  "$schema": "https://json-schema.axonivy.com/data-class/13.1.0/data-class.json",
-  "simpleName": "Data",
-  "namespace": "neo.test.project",
-  "isBusinessCaseData": false,
-  "fields": [
-    {
-      "name": "person",
-      "type": "neo.test.project.Person",
-      "modifiers": ["PERSISTENT"]
-    }
-  ]
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
+  "simpleName" : "Data",
+  "namespace" : "neo.test.project",
+  "fields" : [ {
+    "name" : "person",
+    "type" : "neo.test.project.Person"
+  } ]
 }

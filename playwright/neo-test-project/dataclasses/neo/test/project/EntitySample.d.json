@@ -1,17 +1,12 @@
 {
-  "$schema" : "https://json-schema.axonivy.com/data-class/13.1.0/data-class.json",
+  "$schema" : "https://json-schema.axonivy.com/14.0-dev/project/data-class.json",
   "simpleName" : "EntitySample",
   "namespace" : "neo.test.project",
-  "isBusinessCaseData" : false,
   "entity" : { },
   "fields" : [ {
     "name" : "id",
     "type" : "Integer",
     "comment" : "Identifier",
-    "modifiers" : [ "PERSISTENT", "ID", "GENERATED" ],
-    "entity" : {
-      "cascadeTypes" : [ "PERSIST", "MERGE" ],
-      "orphanRemoval" : false
-    }
+    "modifiers" : [ "PERSISTENT", "ID", "GENERATED" ]
   } ]
 }
