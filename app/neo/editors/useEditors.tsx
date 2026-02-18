@@ -9,6 +9,7 @@ import { DatabaseEditor } from './database/DatabaseEditor';
 import { DataClassEditor } from './dataclass/DataClassEditor';
 import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, type Editor } from './editor';
 import { FormEditor } from './form/FormEditor';
+import { PersistenceEditor } from './persistence/PersistenceEditor';
 import { ProcessEditor } from './process/ProcessEditor';
 import { RestClientEditor } from './restclient/RestClientEditor';
 import { RoleEditor } from './role/RoleEditor';
@@ -165,6 +166,8 @@ export const renderEditor = (editor: Editor) => {
       return <RoleEditor {...editor} />;
     case 'users':
       return <UserEditor {...editor} />;
+    case 'persistence':
+      return <PersistenceEditor {...editor} />;
     case 'restclients':
       return <RestClientEditor {...editor} />;
     case 'cms':

@@ -6,6 +6,7 @@ export type EditorType =
   | 'forms'
   | 'configurations'
   | 'dataclasses'
+  | 'persistence'
   | 'variables'
   | 'roles'
   | 'users'
@@ -24,6 +25,7 @@ export const CONFIG_EDITOR_XML_SUFFIX = '.xml';
 export const VARIABLES_EDITOR_SUFFIX = 'variables.yaml';
 export const ROLES_EDITOR_SUFFIX = 'roles.yaml';
 export const USERS_EDITOR_SUFFIX = 'users.yaml';
+export const PERSISTENCE_EDITOR_SUFFIX = 'persistence.xml';
 export const RESTCLIENTS_EDITOR_SUFFIX = 'rest-clients.yaml';
 export const CMS_EDITOR_SUFFIX = 'cms';
 export const DATABASES_EDITOR_SUFFIX = 'databases.yaml';
