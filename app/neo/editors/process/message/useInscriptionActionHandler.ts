@@ -48,6 +48,8 @@ export const useActionHandler = () => {
           break;
         case 'newWebServiceClient':
         case 'openWsConfig':
+          openConfigEditorHandler(data.params, 'webservice-clients');
+          break;
         case 'openCustomField':
         case 'openEndPage':
         case 'openProgram':
@@ -140,7 +142,7 @@ const useOpenConfigEditorHandler = () => {
   const projects = useSortedProjects();
   const { t } = useTranslation();
   return useCallback(
-    (args: InscriptionActionArgs, file: 'rest-clients' | 'databases') => {
+    (args: InscriptionActionArgs, file: 'rest-clients' | 'databases' | 'webservice-clients') => {
       const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
       if (!project) {
         toast.warning(t('message.couldNotOpenConfigEditor', { config: file }));

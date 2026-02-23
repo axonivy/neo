@@ -11,6 +11,7 @@ export type EditorType =
   | 'roles'
   | 'users'
   | 'restclients'
+  | 'webservices'
   | 'cms'
   | 'databases';
 
@@ -27,6 +28,7 @@ export const ROLES_EDITOR_SUFFIX = 'roles.yaml';
 export const USERS_EDITOR_SUFFIX = 'users.yaml';
 export const PERSISTENCE_EDITOR_SUFFIX = 'persistence.xml';
 export const RESTCLIENTS_EDITOR_SUFFIX = 'rest-clients.yaml';
+export const WEBSERVICES_EDITOR_SUFFIX = 'webservice-clients.yaml';
 export const CMS_EDITOR_SUFFIX = 'cms';
 export const DATABASES_EDITOR_SUFFIX = 'databases.yaml';
 

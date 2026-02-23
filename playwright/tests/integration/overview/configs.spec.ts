@@ -3,10 +3,12 @@ import { CmsEditor } from '../../page-objects/cms-editor';
 import { DatabaseEditor } from '../../page-objects/database-editor';
 import { Neo } from '../../page-objects/neo';
 import { Overview } from '../../page-objects/overview';
+import { PersistenceEditor } from '../../page-objects/persistence-editor';
 import { RestClientEditor } from '../../page-objects/restclient-editor';
 import { RoleEditor } from '../../page-objects/roles-editor';
 import { UserEditor } from '../../page-objects/user-editor';
 import { VariableEditor } from '../../page-objects/variables-editor';
+import { WebserviceEditor } from '../../page-objects/webservice-editor';
 import { TEST_PROJECT } from '../constants';
 
 test('navigate to configs', async ({ page }) => {
@@ -27,14 +29,20 @@ test('navigate to configs', async ({ page }) => {
   await overview.card('rest-clients').click();
   await new RestClientEditor(neo, 'rest-clients').expectOpen('personService');
   await neo.configs();
+  await overview.card('webservice-clients').click();
+  await new WebserviceEditor(neo, 'webservice-clients').expectOpen('interceptedService');
+  await neo.configs();
   await overview.card('databases').click();
   await new DatabaseEditor(neo, 'databases').expectOpen('TestDatabaseConnection-001');
+  await neo.configs();
+  await overview.card('persistence').click();
+  await new PersistenceEditor(neo, 'persistence').expectOpen('TestPU');
 });
 
 test('search configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
-  await expect(overview.cards).toHaveCount(7);
+  await expect(overview.cards).toHaveCount(8);
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
   await expect(page.locator(`text=No artifacts were found.`)).toBeVisible();
@@ -49,7 +57,7 @@ test('sort configs', async ({ page }) => {
   await overview.clickSortByAtoZ();
   await expect(overview.cards.first()).toContainText('cms');
   await overview.clickSortByZtoA();
-  await expect(overview.cards.first()).toContainText('variables');
+  await expect(overview.cards.first()).toContainText('webservice-clients');
 });
 
 test('filter configs', async ({ page }) => {
