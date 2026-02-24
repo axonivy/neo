@@ -21,7 +21,11 @@ export class WebserviceEditor {
   }
 
   rowByName(name: string) {
-    return new WebserviceEditorRow(this, name);
+    return new WebserviceEditorRow(this, { name });
+  }
+
+  rowByIndex(index: number) {
+    return new WebserviceEditorRow(this, { index });
   }
 }
 
@@ -30,9 +34,16 @@ export class WebserviceEditorRow {
 
   constructor(
     readonly editor: WebserviceEditor,
-    readonly name: string
+    option: { name?: string; index?: number }
   ) {
-    this.row = editor.editor.locator(`.ui-table-row:not(.ui-message-row):has-text("${name}")`).first();
+    const rowLocator = '.webservice-editor-main-content tbody .ui-table-row:not(.ui-message-row)';
+    if (option.name) {
+      this.row = editor.editor.locator(`${rowLocator}:has-text("${option.name}")`).first();
+    } else if (option.index !== undefined) {
+      this.row = editor.editor.locator(rowLocator).nth(option.index);
+    } else {
+      throw new Error('Either name or index must be provided');
+    }
   }
 
   async openInscription() {

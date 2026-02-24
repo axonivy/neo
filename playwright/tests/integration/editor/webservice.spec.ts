@@ -17,15 +17,15 @@ test('restore editor', async ({ page }) => {
 test.describe('inscription', () => {
   test('change value', async ({ page }) => {
     const { editor } = await openWebserviceClients(page);
-    const client = editor.rowByName('interceptedService');
-    await expect(client.row).toContainText('{ivy.app.baseurl}/ws/connectivity-demos/16D29AE50A7A6E34');
+    const client = editor.rowByIndex(3);
+    await expect(client.row).toContainText('interceptedService');
     const inscription = await client.openInscription();
-    const fullName = inscription.inscription.getByLabel('URI', { exact: true });
+    const fullName = inscription.inscription.getByLabel('Name', { exact: true });
     await fullName.fill('changed');
     await expect(client.row).toContainText('changed');
-    await fullName.fill('{ivy.app.baseurl}/ws/connectivity-demos/16D29AE50A7A6E34');
+    await fullName.fill('interceptedService');
     await expect(client.row).not.toContainText('changed');
-    await expect(client.row).toContainText('{ivy.app.baseurl}/ws/connectivity-demos/16D29AE50A7A6E34');
+    await expect(client.row).toContainText('interceptedService');
   });
 
   test('open help', async ({ page, context }) => {
