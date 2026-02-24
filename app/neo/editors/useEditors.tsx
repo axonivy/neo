@@ -17,6 +17,7 @@ import { TextEditor } from './text/TextEditor';
 import { useCreateEditor } from './useCreateEditor';
 import { UserEditor } from './user/UserEditor';
 import { VariableEditor } from './variable/VariableEditor';
+import { WebserviceEditor } from './webservice/WebserviceEditor';
 
 type EditorState = {
   openEditors: Record<string, Array<Editor>>;
@@ -77,7 +78,7 @@ export const useStore = create<EditorState>()(
           return { recentlyOpenedEditors: { ...state.recentlyOpenedEditors, [ws]: recentlyOpenedEditors } };
         })
     }),
-    { name: 'neo-open-editors', version: 3 }
+    { name: 'neo-open-editors', version: 4 }
   )
 );
 
@@ -170,6 +171,8 @@ export const renderEditor = (editor: Editor) => {
       return <PersistenceEditor {...editor} />;
     case 'restclients':
       return <RestClientEditor {...editor} />;
+    case 'webservices':
+      return <WebserviceEditor {...editor} />;
     case 'cms':
       return <CmsEditor {...editor} />;
     case 'databases':

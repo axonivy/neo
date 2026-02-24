@@ -22,7 +22,8 @@ import {
   RESTCLIENTS_EDITOR_SUFFIX,
   ROLES_EDITOR_SUFFIX,
   USERS_EDITOR_SUFFIX,
-  VARIABLES_EDITOR_SUFFIX
+  VARIABLES_EDITOR_SUFFIX,
+  WEBSERVICES_EDITOR_SUFFIX
 } from './editor';
 
 export const useCreateEditor = () => {
@@ -76,6 +77,9 @@ export const useCreateEditor = () => {
     if (path.endsWith(RESTCLIENTS_EDITOR_SUFFIX)) {
       return 'restclients';
     }
+    if (path.endsWith(WEBSERVICES_EDITOR_SUFFIX)) {
+      return 'webservices';
+    }
     if (path.endsWith(CMS_EDITOR_SUFFIX)) {
       return 'cms';
     }
@@ -125,6 +129,8 @@ const editorIcon = (editorType: EditorType) => {
       return IvyIcons.Database;
     case 'restclients':
       return IvyIcons.RestClient;
+    case 'webservices':
+      return IvyIcons.WsStart;
     case 'cms':
       return IvyIcons.Cms;
     case 'dataclasses':
@@ -145,6 +151,7 @@ const editorRouteType = (editorType: EditorType) => {
     editorType === 'users' ||
     editorType === 'persistence' ||
     editorType === 'restclients' ||
+    editorType === 'webservices' ||
     editorType === 'databases'
   ) {
     return 'configurations';

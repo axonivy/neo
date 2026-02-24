@@ -2,34 +2,34 @@ import { expect, type Locator } from '@playwright/test';
 import { Inscription } from './inscription';
 import { Neo } from './neo';
 
-export class RestClientEditor {
+export class WebserviceEditor {
   readonly editor: Locator;
 
   constructor(
     readonly neo: Neo,
     readonly name: string
   ) {
-    this.editor = neo.page.locator(`.editor[data-editor-type="restclients"][data-editor-name="${name}"]`);
+    this.editor = neo.page.locator(`.editor[data-editor-type="webservices"][data-editor-name="${name}"]`);
   }
 
-  async expectOpen(client?: string) {
+  async expectOpen(service?: string) {
     await this.neo.controlBar.tab(this.name).expectActive();
     await expect(this.editor).toBeVisible();
-    if (client) {
-      await expect(this.rowByName(client).row).toBeVisible();
+    if (service) {
+      await expect(this.rowByName(service).row).toBeVisible();
     }
   }
 
   rowByName(name: string) {
-    return new RestClientEditorRow(this, name);
+    return new WebserviceEditorRow(this, name);
   }
 }
 
-export class RestClientEditorRow {
+export class WebserviceEditorRow {
   readonly row: Locator;
 
   constructor(
-    readonly editor: RestClientEditor,
+    readonly editor: WebserviceEditor,
     readonly name: string
   ) {
     this.row = editor.editor.locator(`.ui-table-row:not(.ui-message-row):has-text("${name}")`).first();
@@ -37,7 +37,7 @@ export class RestClientEditorRow {
 
   async openInscription() {
     await this.row.click();
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.restclient-editor-detail-panel'));
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.webservice-editor-detail-panel'));
   }
 
   async expectSelected() {

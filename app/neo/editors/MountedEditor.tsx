@@ -71,6 +71,7 @@ const useTypeName = (type: EditorType) => {
     case 'users':
     case 'persistence':
     case 'restclients':
+    case 'webservices':
     case 'databases':
     case 'configurations':
       return t('neo.configs');

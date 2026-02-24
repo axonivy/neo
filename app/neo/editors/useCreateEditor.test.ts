@@ -217,6 +217,20 @@ describe('createConfigurationEditor', () => {
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
+  test('webservices', () => {
+    const result: Editor = {
+      id: '/test-ws/configurations/designer/workflow-demos/config/webservice-clients.yaml',
+      type: 'webservices',
+      icon: IvyIcons.WsStart,
+      name: 'webservice-clients',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'config/webservice-clients.yaml'
+    };
+    const view = renderHook(() => useCreateEditor());
+    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/webservice-clients.yaml' };
+    expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
+  });
+
   test('databases', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/config/databases.yaml',
@@ -353,6 +367,21 @@ describe('createEditorFromPath', () => {
     const view = renderHook(() => useCreateEditor());
     expect(
       view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'config/rest-clients.yaml')
+    ).to.be.deep.equals(result);
+  });
+
+  test('webservices', () => {
+    const result: Editor = {
+      id: '/test-ws/configurations/designer/workflow-demos/config/webservice-clients.yaml',
+      type: 'webservices',
+      icon: IvyIcons.WsStart,
+      name: 'webservice-clients',
+      project: { app: 'designer', pmv: 'workflow-demos' },
+      path: 'config/webservice-clients.yaml'
+    };
+    const view = renderHook(() => useCreateEditor());
+    expect(
+      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'config/webservice-clients.yaml')
     ).to.be.deep.equals(result);
   });
 
