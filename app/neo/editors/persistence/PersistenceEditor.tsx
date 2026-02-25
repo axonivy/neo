@@ -20,7 +20,7 @@ export const PersistenceEditor = ({ project }: Editor) => {
       <ThemeProvider disabled>
         <ReadonlyProvider readonly={project.isIar ?? false}>
           <I18nextProvider i18n={i18next} defaultNS={'persistence-editor'}>
-            <App context={{ app: project.app, pmv: project.pmv, file: 'config/persistence.xml' }} directSave={true} />
+            <App context={{ app: project.app, pmv: project.pmv, file: 'config/persistence.yaml' }} directSave={true} />
           </I18nextProvider>
         </ReadonlyProvider>
       </ThemeProvider>
