@@ -4,7 +4,7 @@ import { PersistenceEditor } from '../../page-objects/persistence-editor';
 import { APP, TEST_PROJECT } from '../constants';
 
 const openPersistence = async (page: Page) => {
-  const neo = await Neo.openWorkspace(page, `configurations/${APP}/${TEST_PROJECT}/config/persistence.xml`);
+  const neo = await Neo.openWorkspace(page, `configurations/${APP}/${TEST_PROJECT}/config/persistence.yaml`);
   const editor = new PersistenceEditor(neo, 'persistence');
   await editor.expectOpen('TestPU');
   return { neo, editor };

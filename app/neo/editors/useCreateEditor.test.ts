@@ -191,15 +191,15 @@ describe('createConfigurationEditor', () => {
 
   test('persistence', () => {
     const result: Editor = {
-      id: '/test-ws/configurations/designer/workflow-demos/config/persistence.xml',
+      id: '/test-ws/configurations/designer/workflow-demos/config/persistence.yaml',
       type: 'persistence',
       icon: IvyIcons.Database,
       name: 'persistence',
       project: { app: 'designer', pmv: 'workflow-demos' },
-      path: 'config/persistence.xml'
+      path: 'config/persistence.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/persistence.xml' };
+    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/persistence.yaml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
