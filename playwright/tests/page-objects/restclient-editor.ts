@@ -37,7 +37,7 @@ export class RestClientEditorRow {
 
   async openInscription() {
     await this.row.click();
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.restclient-editor-detail-panel'));
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('#restclient-editor-detail'));
   }
 
   async expectSelected() {

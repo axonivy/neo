@@ -36,7 +36,7 @@ export class WebserviceEditorRow {
     readonly editor: WebserviceEditor,
     option: { name?: string; index?: number }
   ) {
-    const rowLocator = '.webservice-editor-main-content tbody .ui-table-row:not(.ui-message-row)';
+    const rowLocator = '#webservice-editor-main tbody .ui-table-row:not(.ui-message-row)';
     if (option.name) {
       this.row = editor.editor.locator(`${rowLocator}:has-text("${option.name}")`).first();
     } else if (option.index !== undefined) {
@@ -48,7 +48,7 @@ export class WebserviceEditorRow {
 
   async openInscription() {
     await this.row.click();
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.webservice-editor-detail-panel'));
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('#webservice-editor-detail'));
   }
 
   async expectSelected() {
