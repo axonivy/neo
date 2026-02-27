@@ -5,7 +5,10 @@ import { Neo } from './neo';
 export class RoleEditor {
   readonly editor: Locator;
 
-  constructor(readonly neo: Neo, readonly name: string) {
+  constructor(
+    readonly neo: Neo,
+    readonly name: string
+  ) {
     this.editor = neo.page.locator(`.editor[data-editor-type="roles"][data-editor-name="${name}"]`);
   }
 
@@ -25,13 +28,16 @@ export class RoleEditor {
 export class RoleEditorRow {
   readonly row: Locator;
 
-  constructor(readonly editor: RoleEditor, readonly name: string) {
+  constructor(
+    readonly editor: RoleEditor,
+    readonly name: string
+  ) {
     this.row = editor.editor.locator(`.ui-table-row:not(.ui-message-row):has-text("${name}")`).first();
   }
 
   async openInscription() {
     await this.row.click();
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.role-editor-detail-panel'));
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('#role-editor-detail'));
   }
 
   async expectSelected() {

@@ -37,7 +37,7 @@ export class UserEditorRow {
 
   async openInscription() {
     await this.row.click();
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.user-editor-detail-panel'));
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('#user-editor-detail'));
   }
 
   async expectSelected() {
