@@ -5,7 +5,7 @@ export class RuntimeLogView {
   readonly view: Locator;
 
   constructor(readonly neo: Neo) {
-    this.view = neo.page.locator('.runtime-log');
+    this.view = neo.page.locator('#log-view-main');
   }
 
   async expectOpen() {

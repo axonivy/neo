@@ -37,7 +37,7 @@ export class PersistenceEditorRow {
 
   async openInscription() {
     await this.row.click();
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.persistence-editor-detail-panel'));
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('#persistence-editor-detail'));
   }
 
   async expectSelected() {
