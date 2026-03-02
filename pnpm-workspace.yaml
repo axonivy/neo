@@ -5,17 +5,12 @@ packages:
 ignoredBuiltDependencies:
   - esbuild
 
-onlyBuiltDependencies:
-  - monaco-languageclient
+patchedDependencies:
+  monaco-editor: patches/monaco-editor.patch
 
 preferWorkspacePackages: true
 
 publicHoistPattern:
   - eslint
-  - '@codingame/monaco-vscode-*'
-
-overrides:
-  'vscode': 'npm:@codingame/monaco-vscode-extension-api@25.1.2'
-  'monaco-editor': 'npm:@codingame/monaco-vscode-editor-api@25.1.2'
 
 sideEffectsCache: false
