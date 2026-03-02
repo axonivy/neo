@@ -9,12 +9,12 @@
     "url": "https://github.com/axonivy/neo"
   },
   "dependencies": {
-    "@axonivy/process-editor": "~14.0.0-next.2058.d21dd250",
-    "@axonivy/process-editor-inscription": "~14.0.0-next.2058.d21dd250",
-    "@axonivy/process-editor-inscription-core": "~14.0.0-next.2058.d21dd250",
-    "@axonivy/process-editor-inscription-protocol": "~14.0.0-next.2058.d21dd250",
-    "@axonivy/process-editor-inscription-view": "~14.0.0-next.2058.d21dd250",
-    "@axonivy/process-editor-protocol": "~14.0.0-next.2058.d21dd250",
+    "@axonivy/process-editor": "~14.0.0-next.2061.5b53109b",
+    "@axonivy/process-editor-inscription": "~14.0.0-next.2061.5b53109b",
+    "@axonivy/process-editor-inscription-core": "~14.0.0-next.2061.5b53109b",
+    "@axonivy/process-editor-inscription-protocol": "~14.0.0-next.2061.5b53109b",
+    "@axonivy/process-editor-inscription-view": "~14.0.0-next.2061.5b53109b",
+    "@axonivy/process-editor-protocol": "~14.0.0-next.2061.5b53109b",
     "@eclipse-glsp/client": "2.5.0",
     "@eclipse-glsp/protocol": "2.5.0",
     "i18next": "^25.0.0",
@@ -25,9 +25,13 @@
     "inversify": "6.2.2",
     "react-i18next": "^16.0.0"
   },
+  "peerDependencies": {
+    "@monaco-editor/react": "^4.7",
+    "@hediet/json-rpc": "^0.5"
+  },
   "devDependencies": {
     "reflect-metadata": "^0.2.2",
-    "@axonivy/monaco-vite-plugin": "~14.0.0-next.2058.d21dd250"
+    "@axonivy/monaco-vite-plugin": "~14.0.0-next.2061.5b53109b"
   },
   "type": "module",
   "scripts": {
