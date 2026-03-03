@@ -87,7 +87,7 @@ test('open dialog inside editor deactivates shortcuts', async ({ page }) => {
   await expect(title).toBeVisible();
   await dialog.focus();
   await page.keyboard.press('Alt+ControlOrMeta+D');
-  await expect(editor.editor.locator('.dataclass-editor-main-toolbar', { hasText: 'Data Class - EnterProductData' })).toBeVisible();
+  await expect(editor.editor.locator('.ui-toolbar')).toContainText('Data Class - EnterProductData');
 });
 
 test('import project', async ({ page }) => {
