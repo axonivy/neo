@@ -46,7 +46,7 @@ export class CmsEditorRow {
   async openInscription() {
     await this.row.click();
     await this.expectSelected();
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.cms-editor-detail-panel'));
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('#cms-editor-detail'));
   }
 
   async expectSelected() {
