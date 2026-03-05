@@ -203,7 +203,7 @@ test.describe('inscription', () => {
     await page.keyboard.type('.l');
     await inscription.triggerMonacoCompletion('log, Variable');
     await page.keyboard.type('.de');
-    await inscription.triggerMonacoCompletion('debug(Object message), Methode');
+    await inscription.triggerMonacoCompletion('debug(Object message), Method');
     await expect(monacoEditor).toHaveText('ivy.log.debug(message)');
     await clearAll(page);
     await expect(monacoEditor).toHaveText('');

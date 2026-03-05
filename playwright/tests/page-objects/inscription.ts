@@ -1,7 +1,10 @@
 import { type Locator, type Page, expect } from '@playwright/test';
 
 export class Inscription {
-  constructor(readonly page: Page, readonly inscription: Locator) {}
+  constructor(
+    readonly page: Page,
+    readonly inscription: Locator
+  ) {}
 
   async openInscriptionTab(name: string) {
     const inscriptionTabHeader = this.inscription.getByRole('tab', { name: name });
@@ -42,9 +45,9 @@ export class Inscription {
     const contentAssist = this.monacoContentAssist();
     await expect(contentAssist).toBeVisible();
     if (this.page.context().browser()?.browserType().name() === 'webkit') {
-      await contentAssist.getByRole('option', { name: expectedCompletion, exact: true }).click();
+      await contentAssist.getByRole('option', { name: expectedCompletion }).click();
     } else {
-      await contentAssist.getByRole('listitem', { name: expectedCompletion, exact: true }).click();
+      await contentAssist.getByRole('listitem', { name: expectedCompletion }).click();
     }
     await expect(contentAssist).toBeHidden();
   }
@@ -57,7 +60,11 @@ export class Inscription {
 export class BadgedInput {
   readonly input: Locator;
 
-  constructor(readonly page: Page, readonly parent: Locator, label: string) {
+  constructor(
+    readonly page: Page,
+    readonly parent: Locator,
+    label: string
+  ) {
     this.input = parent.getByLabel(label);
   }
 
