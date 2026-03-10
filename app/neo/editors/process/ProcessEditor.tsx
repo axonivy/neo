@@ -1,7 +1,7 @@
 import { useTheme } from '@axonivy/ui-components';
 import { useEffect, useRef } from 'react';
 import { useHref, useLocation } from 'react-router';
-import { useWorkspace } from '~/data/workspace-api';
+import { appToBaseUrl } from '~/data/workspace-api';
 import { baseUrl } from '~/data/ws-base';
 import { type Editor, PROCESS_EDITOR_SUFFIX } from '~/neo/editors/editor';
 import { useUpdateTheme } from '~/neo/theme/useUpdateTheme';
@@ -28,9 +28,10 @@ export const ProcessEditor = ({ id, project, path, name }: Editor) => {
   const frame = useRef<HTMLIFrameElement>(null);
   useHotkeyDispatcher(frame);
   const { realTheme } = useTheme();
-  const ws = useWorkspace();
+  // Derive baseUrl from project.app (already available as prop) to avoid waiting for the workspaces API
+  const wsBaseUrl = appToBaseUrl(project.app);
   const editorUrl = useHref(
-    `/process-editor/index.html?server=${`${baseUrl()}${ws?.baseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=${path}${PROCESS_EDITOR_SUFFIX}&readonly=${project.isIar ?? false}`
+    `/process-editor/index.html?server=${`${baseUrl()}${wsBaseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=${path}${PROCESS_EDITOR_SUFFIX}&readonly=${project.isIar ?? false}`
   );
   const { pathname } = useLocation();
   useFrameMessageHandler(frame, project.app);
@@ -42,6 +43,10 @@ export const ProcessEditor = ({ id, project, path, name }: Editor) => {
       frame.current?.contentWindow?.dispatchEvent(new CustomEvent('resize'));
     }
   }, [pathname, id]);
+  // Skipping useWorkspace() guard here as it would block iframe rendering until the API responds, negating the baseUrl optimization.
+  // If the workspace is invalid, the iframe will fail to connect as before.
+  // const ws = useWorkspace();
+  // if (!ws) { return null; }
   return (
     <iframe
       ref={frame}

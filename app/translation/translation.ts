@@ -57,8 +57,10 @@ export const initTranslation = async (debug = false) => {
       load: 'languageOnly',
       partialBundledLanguages: true,
       backend: {
-        backends: [HttpBackend, resourcesToBackend((lng: string, ns: string) => localTranslations[ns]?.[lng])],
+        // Bundled translations first to avoid network round trip for already available languages
+        backends: [resourcesToBackend((lng: string, ns: string) => localTranslations[ns]?.[lng]), HttpBackend],
         backendOptions: [
+          {},
           {
             loadPath: (lngs: Array<string>, nss: Array<string>) => {
               if (knownLanguages.includes(lngs[0] ?? '')) {
