@@ -21,6 +21,7 @@ import { OverviewSortBy, useSortedArtifacts } from '~/neo/overview/OverviewSortB
 import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 
 export const meta: MetaFunction = overviewMetaFunctionProvider('Forms');
+
 export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useForms();
