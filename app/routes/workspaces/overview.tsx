@@ -102,7 +102,7 @@ const WelcomeHeader = () => {
   );
 };
 
-const WorkspaceCard = ({ id, name }: Pick<Workspace, 'id' | 'name'>) => {
+const WorkspaceCard = ({ id }: Pick<Workspace, 'id'>) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
@@ -129,7 +129,7 @@ const WorkspaceCard = ({ id, name }: Pick<Workspace, 'id' | 'name'>) => {
 
   return (
     <>
-      <ArtifactCard name={name} onClick={() => navigate(id)} preview={<PreviewSvg type='workspace' />} ref={ref}>
+      <ArtifactCard name={id} onClick={() => navigate(id)} preview={<PreviewSvg type='workspace' />} ref={ref}>
         <ArtifactCardMenu
           deleteAction={{ run: () => deleteWorkspace(id), isDeletable: true, artifact: t('artifact.type.workspace') }}
           {...dialogState}
