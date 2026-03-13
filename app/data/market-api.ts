@@ -4,9 +4,11 @@ import { headers, ok } from './custom-fetch';
 import {
   findBestMatchProductDetailsByVersion,
   findProductJsonContent,
+  type FindProductJsonContent200,
   findProducts,
   type FindProductsParams,
   findProductVersionsById,
+  type MavenArtifactVersionModel,
   type PagedModelProductModel,
   type ProductDetailModel
 } from './generated/market-client';
@@ -30,7 +32,7 @@ const products = async (pageParam: number, headers: HeadersInit) => {
   };
   return findProducts(params, { headers }).then(res => {
     if (ok(res)) {
-      const data = JSON.parse(res.data as string) as PagedModelProductModel;
+      const data = JSON.parse(res.data as unknown as string) as PagedModelProductModel;
       return data._embedded?.products ?? [];
     }
     toast.error('Failed to load market products', { description: 'Maybe the market is currently not accessible' });
@@ -66,7 +68,7 @@ export const useProductVersions = (id: string) => {
     queryFn: () =>
       findProductVersionsById(id, { isShowDevVersion: true }, { headers }).then(res => {
         if (ok(res)) {
-          return res.data;
+          return res.data as unknown as MavenArtifactVersionModel[];
         }
         toast.error(`Failed to load market product versions for ${id}`, { description: 'Maybe the market is currently not accessible' });
         return [];
@@ -84,7 +86,7 @@ export const useProductJson = (id: string, version?: string) => {
       }
       return findProductJsonContent(id, version, {}, { headers }).then(res => {
         if (ok(res)) {
-          return res.data;
+          return res.data as unknown as FindProductJsonContent200;
         }
         throw new Error('Failed to load product json  for ' + id + ' with version ' + version);
       });
@@ -100,7 +102,7 @@ export const useBestMatchingVersion = (id: string, engineVersion?: string) => {
       if (!engineVersion) return '';
       return findBestMatchProductDetailsByVersion(id, engineVersion, { headers }).then(res => {
         if (ok(res)) {
-          const data = JSON.parse(res.data as string) as ProductDetailModel;
+          const data = JSON.parse(res.data as unknown as string) as ProductDetailModel;
           return data.productModuleContent?.version ?? '';
         }
         throw new Error(`Failed to load best matching market artifact version for ${id} with engine version ${engineVersion}`);
