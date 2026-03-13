@@ -51,7 +51,7 @@ export default function Index() {
   const { t } = useTranslation();
   const { data, isPending } = useWorkspaces();
   const { filteredAritfacts: workspaces, ...overviewFilter } = useOverviewFilter(data ?? [], (ws, search) =>
-    ws.name.toLocaleLowerCase().includes(search)
+    ws.id.toLocaleLowerCase().includes(search)
   );
   return (
     <>
@@ -70,7 +70,7 @@ export default function Index() {
             <OverviewFilter {...overviewFilter} />
             <OverviewContent isPending={isPending}>
               {workspaces.map(workspace => (
-                <WorkspaceCard key={workspace.name} {...workspace} />
+                <WorkspaceCard key={workspace.id} {...workspace} />
               ))}
             </OverviewContent>
           </Overview>
@@ -102,7 +102,7 @@ const WelcomeHeader = () => {
   );
 };
 
-const WorkspaceCard = ({ id, name }: Pick<Workspace, 'id' | 'name'>) => {
+const WorkspaceCard = ({ id }: Pick<Workspace, 'id'>) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { deleteWorkspace } = useDeleteWorkspace();
@@ -129,7 +129,7 @@ const WorkspaceCard = ({ id, name }: Pick<Workspace, 'id' | 'name'>) => {
 
   return (
     <>
-      <ArtifactCard name={name} onClick={() => navigate(id)} preview={<PreviewSvg type='workspace' />} ref={ref}>
+      <ArtifactCard name={id} onClick={() => navigate(id)} preview={<PreviewSvg type='workspace' />} ref={ref}>
         <ArtifactCardMenu
           deleteAction={{ run: () => deleteWorkspace(id), isDeletable: true, artifact: t('artifact.type.workspace') }}
           {...dialogState}
@@ -183,7 +183,7 @@ const NewWorkspaceDialogContent = ({ closeDialog }: { closeDialog: () => void })
   const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.id));
   const nameValidation = useMemo(
     () =>
-      workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : validateArtifactName(name),
+      workspaces.data?.find(w => w.id.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : validateArtifactName(name),
     [artifactAlreadyExists, name, validateArtifactName, workspaces.data]
   );
   const hasErros = useMemo(() => nameValidation?.variant === 'error', [nameValidation]);

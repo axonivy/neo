@@ -62,7 +62,7 @@ export const NewProjectContent = ({ closeDialog }: { closeDialog: () => void }) 
   const create = () => createProject({ name: name, groupId: groupId, projectId: projectId });
   const nameValidation = useMemo(
     () =>
-      workspaces.data?.find(w => w.name.toLowerCase() === name.toLowerCase())
+      workspaces.data?.find(w => w.id.toLowerCase() === name.toLowerCase())
         ? artifactAlreadyExists(name)
         : validateProjectDetails(name, '-', true),
     [artifactAlreadyExists, name, validateProjectDetails, workspaces.data]
