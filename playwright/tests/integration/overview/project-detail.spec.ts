@@ -41,7 +41,7 @@ test('recently opened', async ({ page }) => {
 test('add and remove dependency', async ({ page, browserName }, testInfo) => {
   const neo = await Neo.open(page);
   const overview = neo.overview;
-  const wsName = `${browserName}dependency_ws${testInfo.retry}`;
+  const wsName = `${browserName}dependency-ws${testInfo.retry}`;
   await overview.create(wsName);
   await expect(page.getByText(`Welcome to your workspace: ${wsName}`)).toBeVisible();
   await overview.clickCreateProject('dependency-project');
