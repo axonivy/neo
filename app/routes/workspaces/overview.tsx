@@ -176,14 +176,17 @@ const NewWorkspaceButton = () => {
 const NewWorkspaceDialogContent = ({ closeDialog }: { closeDialog: () => void }) => {
   const { t } = useTranslation();
   const [name, setName] = useState('');
-  const { artifactAlreadyExists } = useArtifactValidation();
+  const { artifactAlreadyExists, validateArtifactName } = useArtifactValidation();
   const workspaces = useWorkspaces();
   const navigate = useNavigate();
   const { createWorkspace } = useCreateWorkspace();
   const create = (name: string) => createWorkspace({ name }).then(ws => navigate(ws.id));
   const nameValidation = useMemo(
-    () => (workspaces.data?.find(w => w.id.toLowerCase() === name.toLowerCase()) ? artifactAlreadyExists(name) : {}),
-    [artifactAlreadyExists, name, workspaces.data]
+    () =>
+      workspaces.data?.find(w => w.id.toLowerCase() === name.toLowerCase())
+        ? artifactAlreadyExists(name)
+        : validateArtifactName(name, /.*/),
+    [artifactAlreadyExists, name, validateArtifactName, workspaces.data]
   );
   const hasErros = useMemo(() => nameValidation?.variant === 'error', [nameValidation]);
   const createNewWorkspace = () => {
