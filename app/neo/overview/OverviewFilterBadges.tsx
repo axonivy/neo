@@ -2,6 +2,7 @@ import { Button, Flex, IvyIcon } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import type React from 'react';
 import { useTranslation } from 'react-i18next';
+import { CONFIG_TYPE_ICONS } from '~/routes/configurations/overview';
 import type { ViewTypes } from './OverviewFilter';
 
 type OverviewFilterProps = {
@@ -10,11 +11,13 @@ type OverviewFilterProps = {
   setProjects: (projects: Array<string>) => void;
   badges: Array<string>;
   setBadges: (badges: Array<string>) => void;
+  types: Array<string>;
+  setTypes: (types: Array<string>) => void;
 };
 
-export const OverviewFilterBadges = ({ viewType, projects, setProjects, badges, setBadges }: OverviewFilterProps) => {
+export const OverviewFilterBadges = ({ viewType, projects, setProjects, badges, setBadges, types, setTypes }: OverviewFilterProps) => {
   const { t } = useTranslation();
-  if (viewType !== 'tile' || (projects.length === 0 && badges.length === 0)) {
+  if (viewType !== 'tile' || (projects.length === 0 && badges.length === 0 && types.length === 0)) {
     return null;
   }
   return (
@@ -42,6 +45,20 @@ export const OverviewFilterBadges = ({ viewType, projects, setProjects, badges, 
           remove={() => setBadges(badges.filter(t => t !== badge))}
         />
       ))}
+      {types.map(type => {
+        const icon = CONFIG_TYPE_ICONS[type] ?? IvyIcons.Cms;
+        return (
+          <Badge
+            key={type}
+            name={
+              <>
+                <IvyIcon icon={icon} /> {type}
+              </>
+            }
+            remove={() => setTypes(types.filter(t => t !== type))}
+          />
+        );
+      })}
     </Flex>
   );
 };

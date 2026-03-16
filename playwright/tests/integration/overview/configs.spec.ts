@@ -81,3 +81,25 @@ test('filter configs', async ({ page }) => {
   await overview.filter.resetFilter();
   await expect(overview.cards).not.toHaveCount(0);
 });
+
+test('filter configs by type', async ({ page }) => {
+  await Neo.openWorkspace(page, `configurations?p=${TEST_PROJECT}`);
+  const overview = new Overview(page);
+
+  await expect(overview.cards).toHaveCount(8);
+  await overview.filter.filterProject('cms');
+  await expect(overview.filter.badge).toHaveText('2');
+  await expect(overview.cards).toHaveCount(1);
+
+  await overview.filter.filterProject('databases');
+  await expect(overview.filter.badge).toHaveText('3');
+  await expect(overview.cards).toHaveCount(2);
+
+  await overview.filter.filterProject('rest-clients');
+  await expect(overview.filter.badge).toHaveText('4');
+  await expect(overview.cards).toHaveCount(3);
+
+  await page.reload();
+  expect(page.url()).toContain('t=cms&t=databases&t=rest-clients');
+  await overview.filter.resetFilter();
+});

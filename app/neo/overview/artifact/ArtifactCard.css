@@ -4,6 +4,7 @@
   white-space: nowrap;
   font-size: 14px;
   .card {
+    position: relative;
     padding: 0;
     cursor: pointer;
     background: var(--N50);
@@ -11,12 +12,19 @@
     border-radius: 6px;
     width: 210px;
     height: 110px;
-    svg,
+    svg:not(.preview-icon),
     img {
       padding: 5px;
       height: 100px;
       width: 200px;
       object-fit: contain;
+    }
+    .preview-icon {
+      position: absolute;
+      font-size: 30px;
+      left: 6px;
+      bottom: 6px;
+      color: var(--P75);
     }
     &:hover {
       border: var(--activ-border);

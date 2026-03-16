@@ -209,7 +209,10 @@ class OverviewFilter {
   readonly menu: Locator;
   readonly tags: Locator;
 
-  constructor(readonly page: Page, readonly parent: Locator) {
+  constructor(
+    readonly page: Page,
+    readonly parent: Locator
+  ) {
     this.button = parent.getByRole('button', { name: 'Filter by' });
     this.badge = parent.locator('.overview-filter-badge');
     this.menu = this.page.getByRole('menu', { name: 'Filter by' });
