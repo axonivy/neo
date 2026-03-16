@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import { DataClassEditor } from '../page-objects/data-class-editor';
 import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
+import { Overview } from '../page-objects/overview';
 import { ProcessEditor } from '../page-objects/process-editor';
 import { VariableEditor } from '../page-objects/variables-editor';
 import { screenshot } from './screenshot-util';
@@ -46,8 +47,8 @@ test('data class editor', async ({ page }) => {
 });
 
 test('variable editor', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page);
-  const overview = await neo.configs();
+  const neo = await Neo.openWorkspace(page, 'configurations');
+  const overview = new Overview(page);
   await overview.card('variables').click();
   await new VariableEditor(neo, 'variables').expectOpen('MyVar');
   await screenshot(page, 'editor-variable');

@@ -186,6 +186,7 @@ test('editor hotkeys', async ({ page }) => {
   await assertDialog(page, 'Create Attribute');
 
   const variables = await neo.configs();
+  await variables.filter.resetFilter();
   await variables.card('variables').click();
   await new VariableEditor(neo, 'variables').expectOpen('MyVar');
   await assertDialog(page, 'Create Variable');
