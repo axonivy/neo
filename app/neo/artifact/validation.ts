@@ -9,7 +9,8 @@ export const useArtifactValidation = () => {
     variant: 'error'
   });
 
-  const validateArtifactName = (name?: string): MessageData | undefined => {
+  const validateArtifactName = (name?: string, customRegex?: RegExp): MessageData | undefined => {
+    const artifactNameRegex = customRegex || ARTIFACT_NAME_REGEX;
     if (!name) {
       return { message: t('message.artifactNotEmpty'), variant: 'error' };
     }
@@ -17,8 +18,8 @@ export const useArtifactValidation = () => {
     if (message) {
       return message;
     }
-    if (!ARTIFACT_NAME_REGEX.test(name)) {
-      const index = findFirstNonMatchingIndex(name, ARTIFACT_NAME_REGEX);
+    if (!artifactNameRegex.test(name)) {
+      const index = findFirstNonMatchingIndex(name, artifactNameRegex);
       return { message: t('message.invalidChar', { char: name[index], pos: index + 1, str: name }), variant: 'error' };
     }
     if (startsWithLowercase(name)) {

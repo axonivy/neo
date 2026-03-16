@@ -181,7 +181,7 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const { deleteProject } = useDeleteProject();
   const ws = useWorkspace();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
-  const defaultProject = project.id.pmv === ws?.name;
+  const defaultProject = project.id.pmv === ws?.id;
   const { badgesFor: badgesFor } = useBadges();
   const badges = badgesFor(project, defaultProject);
   return (
