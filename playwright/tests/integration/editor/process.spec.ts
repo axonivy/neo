@@ -67,6 +67,11 @@ test('start from process - without animation', async ({ page, browserName }) => 
   const browser = await neo.browser();
   await browser.expectOpen();
   await expect(browser.dialogTitle).toHaveText('Enter Product Task');
+
+  const executionBadge = element.element.locator('.execution');
+  await expect(executionBadge).toBeVisible();
+  await executionBadge.click();
+  await expect(editor.frame.locator('.history-ui-container .ui-popover-content')).toContainText(`History of '1907DDB3CA766818-f0'`);
 });
 
 test('start from browser and reset - with animation', async ({ page, browserName }) => {
