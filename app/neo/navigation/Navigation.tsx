@@ -80,7 +80,7 @@ export const Navigation = () => {
           {({ isActive }) => <Button icon={IvyIcons.File} size='large' toggle={isActive} />}
         </NavLink>
         <NavLink
-          to='configurations'
+          to='configurations?t=cms'
           prefetch='intent'
           style={{ all: 'unset' }}
           aria-label={hotkeys.openConfigs.label}

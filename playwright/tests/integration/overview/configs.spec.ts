@@ -14,27 +14,31 @@ import { TEST_PROJECT } from '../constants';
 test('navigate to configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
+  await expect(overview.cards).toHaveCount(1);
+  await overview.filter.resetFilter();
+  await expect(overview.cards).toHaveCount(8);
   await overview.card('variables').click();
   await new VariableEditor(neo, 'variables').expectOpen('MyVar');
   await neo.configs();
   await overview.card('cms').click();
   await new CmsEditor(neo, 'cms').expectOpen('/Labels/ReleaseDate');
   await neo.configs();
+  await overview.filter.resetFilter();
   await overview.card('roles').click();
   await new RoleEditor(neo, 'roles').expectOpen('Employee');
-  await neo.configs();
+  await neo.page.goBack();
   await overview.card('users').click();
   await new UserEditor(neo, 'users').expectOpen('wt');
-  await neo.configs();
+  await neo.page.goBack();
   await overview.card('rest-clients').click();
   await new RestClientEditor(neo, 'rest-clients').expectOpen('personService');
-  await neo.configs();
+  await neo.page.goBack();
   await overview.card('webservice-clients').click();
   await new WebserviceEditor(neo, 'webservice-clients').expectOpen('interceptedService');
-  await neo.configs();
+  await neo.page.goBack();
   await overview.card('databases').click();
   await new DatabaseEditor(neo, 'databases').expectOpen('TestDatabaseConnection-001');
-  await neo.configs();
+  await neo.page.goBack();
   await overview.card('persistence').click();
   await new PersistenceEditor(neo, 'persistence').expectOpen('TestPU');
 });
@@ -42,6 +46,8 @@ test('navigate to configs', async ({ page }) => {
 test('search configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
+  await expect(overview.cards).toHaveCount(1);
+  await overview.filter.resetFilter();
   await expect(overview.cards).toHaveCount(8);
   await overview.search.fill('bla');
   await expect(overview.cards).toHaveCount(0);
@@ -54,6 +60,7 @@ test('search configs', async ({ page }) => {
 test('sort configs', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.configs();
+  await overview.filter.resetFilter();
   await overview.clickSortByAtoZ();
   await expect(overview.cards.first()).toContainText('cms');
   await overview.clickSortByZtoA();
