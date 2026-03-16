@@ -1,6 +1,7 @@
 import {
   createIvyDiagramContainer,
   IVY_ACCESSIBILITY_MODULES,
+  ivyHistoryModule,
   ivyOpenDataClassModule,
   ivyOpenFormModule,
   ivyStandaloneCopyPasteModule
@@ -29,6 +30,7 @@ export default function createContainer(options: IvyDiagramOptions): Container {
 
     // ivyNavigationModule is a replacement for navigationModule but it is already removed in the default IvyDiagramContainer
     ivyInscriptionModule,
+    ivyHistoryModule,
     ivyStartupDiagramModule,
     ivyAutoSaveModule,
     ivyNeoModule,

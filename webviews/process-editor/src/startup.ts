@@ -1,5 +1,5 @@
 import { EnableInscriptionAction } from '@axonivy/process-editor-inscription';
-import { EnableViewportAction, UpdatePaletteItems } from '@axonivy/process-editor-protocol';
+import { EnableHistoryAction, EnableViewportAction, UpdatePaletteItems } from '@axonivy/process-editor-protocol';
 import {
   EnableToolPaletteAction,
   GLSPActionDispatcher,
@@ -31,6 +31,7 @@ export class StandaloneDiagramStartup implements IDiagramStartup {
   async postRequestModel(): Promise<void> {
     this.actionDispatcher.dispatch(ShowGridAction.create({ show: true }));
     this.actionDispatcher.dispatch(UpdatePaletteItems.create());
+    this.actionDispatcher.dispatch(EnableHistoryAction.create());
   }
 
   async postModelInitialization(): Promise<void> {
