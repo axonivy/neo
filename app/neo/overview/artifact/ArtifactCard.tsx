@@ -8,12 +8,13 @@ type Card = {
   name: string;
   onClick: () => void;
   preview: ReactNode;
+  icon?: IvyIcons;
   description?: string;
   tooltip?: string;
   badges?: Array<Badge>;
 } & React.ComponentProps<'div'>;
 
-export const ArtifactCard = ({ name, description, preview, onClick, tooltip, badges, ref, className, children }: Card) => (
+export const ArtifactCard = ({ name, description, preview, icon, onClick, tooltip, badges, ref, className, children }: Card) => (
   <div className={cn('artifact-card', className)} ref={ref}>
     <TooltipProvider>
       <Tooltip>
@@ -21,6 +22,7 @@ export const ArtifactCard = ({ name, description, preview, onClick, tooltip, bad
           <Flex direction='column' gap={1} className='card-content'>
             <button className='card' onClick={onClick}>
               {badges && <ArtifactBadge badges={badges} />}
+              {icon && <IvyIcon icon={icon} className='preview-icon' />}
               {preview}
             </button>
             <Flex direction='row' gap={2} justifyContent='space-between'>
