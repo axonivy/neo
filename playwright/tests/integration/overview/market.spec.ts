@@ -24,11 +24,11 @@ test('install from market', async ({ page, browserName }, testInfo) => {
   await overview.clickMarketImport();
   await overview.card('Microsoft Excel').click();
   await page.getByRole('dialog').getByRole('button').getByText('Install').click();
-  await neo.toast.expectSuccess('Imported projects: excel-connector-demo, excel-connector-13-1-2');
+  await neo.toast.expectSuccess('Imported projects: excel-connector-demo, excel-connector');
   const editor = new ProcessEditor(neo, 'ExcelConnectorDemo');
   await editor.expectOpen();
   await neo.navigation.open('Processes');
-  await overview.hasCardWithTag('WriteExcel', 'Read only');
+  await overview.hasCardWithTag('WriteExcel', 'Callable Subprocess');
   await page.goto('');
   await overview.deleteCard(wsName, true);
 });
