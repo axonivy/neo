@@ -14,7 +14,7 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
 import { useLogout, useUser } from '~/data/user-api';
 import { LanguageSettings } from './LanguageSettings';
-import { ThemeSettings } from './ThemeSettings';
+import { ThemeSettings, useCycleThemeHotkey } from './ThemeSettings';
 
 const UserLogout = () => {
   const { t } = useTranslation();
@@ -30,6 +30,7 @@ const UserLogout = () => {
 
 export const UserSettingsOverview = () => {
   const user = useUser();
+  useCycleThemeHotkey();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
