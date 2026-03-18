@@ -9,15 +9,16 @@ import {
   hotkeyText,
   IvyIcon,
   toast,
+  useHotkeys,
   useTheme,
   type Theme
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
-import { useKnownHotkeys } from '~/utils/hotkeys';
+import { HOTKEY_ENABLE_ON_FORM_ITEMS, useKnownHotkeys } from '~/utils/hotkeys';
 const themes = ['light', 'dark', 'system'] as const;
 
-export const useCycleTheme = () => {
+export const useCycleThemeHotkey = () => {
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation();
   const cycleTheme = () => {
@@ -26,14 +27,14 @@ export const useCycleTheme = () => {
     setTheme(nextTheme);
     toast.info(`${t('settings.theme')}: ${nextTheme}`);
   };
-  return cycleTheme;
+  const { changeTheme } = useKnownHotkeys();
+  useHotkeys(changeTheme.hotkey, cycleTheme, { scopes: ['neo'], enableOnFormTags: HOTKEY_ENABLE_ON_FORM_ITEMS });
 };
 
 export const ThemeSettings = () => {
   const { theme, setTheme } = useTheme();
   const { changeTheme } = useKnownHotkeys();
   const { t } = useTranslation();
-
   return (
     <DropdownMenuSub>
       <DropdownMenuSubTrigger aria-label={changeTheme.label} title={changeTheme.label} data-theme={theme}>

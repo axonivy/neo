@@ -128,6 +128,12 @@ test('settings shortcuts', async ({ page }) => {
   await expect(themeMenu.getByRole('menuitemradio', { name: 'System' })).toBeChecked();
   await page.keyboard.press('Shift+T');
   await expect(themeMenu.getByRole('menuitemradio', { name: 'Light' })).toBeChecked();
+
+  await page.keyboard.press('Escape');
+  await neo.home();
+  await expect(page.locator('html')).toHaveClass(/light/);
+  await page.keyboard.press('Shift+T');
+  await expect(page.locator('html')).toHaveClass(/dark/);
 });
 
 test('simulation shortcuts', async ({ page }) => {
