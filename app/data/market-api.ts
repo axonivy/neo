@@ -10,14 +10,13 @@ import {
   type FindProductsParams,
   findProductVersionsById,
   type MavenArtifactVersionModel,
-  type PagedModelProductModel,
   type ProductDetailModel
 } from './generated/market-client';
 
-export const MARKET_URL = 'https://market.axonivy.com';
+export const MARKET_URL = 'http://localhost:8081';
 
 const useMarketApi = () => {
-  return { queryKey: ['market'], headers: { 'X-Requested-By': 'ivy', ...headers(`${MARKET_URL}/marketplace-service`) } };
+  return { queryKey: ['market'], headers: { 'X-Requested-By': 'ivy', ...headers(`${MARKET_URL}/stable`) } };
 };
 
 export const useProducts = () => {
@@ -25,11 +24,11 @@ export const useProducts = () => {
   const { t } = useTranslation();
 
   const products = async (pageParam: number, headers: HeadersInit) => {
-    const params: FindProductsParams = { isRESTClient: false, page: pageParam, sort: [], language: 'en', type: 'all' };
+    const params: FindProductsParams = { language: 'en', type: 'all' };
     return findProducts(params, { headers }).then(res => {
       if (ok(res)) {
-        const data = JSON.parse(res.data as unknown as string) as PagedModelProductModel;
-        return data._embedded?.products ?? [];
+        const data = JSON.parse(res.data as unknown as string) as ProductDetailModel[];
+        return data;
       }
       toast.error(t('toast.market.missing'), { description: t('toast.serverStatus') });
       return [];
