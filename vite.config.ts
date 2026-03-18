@@ -40,8 +40,10 @@ export default defineConfig({
         auth: 'Developer:Developer',
         ws: true
       },
-      'stable-market': {
-        target: 'http://localhost:8081'
+      '/stable-market': {
+        target: 'http://localhost:8081',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/stable-market/, '')
       },
       '/go': DEV_PROXY,
       '/demo-portal': DEV_PROXY,

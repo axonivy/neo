@@ -10,7 +10,7 @@ import {
   findProductVersionsById
 } from './generated/market-client';
 
-export const MARKET_URL = 'http://localhost:8081';
+export const MARKET_URL = 'http://localhost:5173/stable-market';
 
 const useMarketApi = () => {
   return { queryKey: ['market'], headers: { 'X-Requested-By': 'ivy', ...headers(`${MARKET_URL}/stable`) } };
