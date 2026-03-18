@@ -43,8 +43,8 @@ test('group hd editors', () => {
   expect(view.result.current['designer/neo-test-project/src_hd/form/test/project/test/test']).toEqual([form2Proc, form2Data]);
 });
 
-const config: Partial<Editor> = { type: 'configurations', id: `${projectId}variables` };
-const config2: Partial<Editor> = { type: 'configurations', id: `${otherProjectId}variables` };
+const config: Partial<Editor> = { type: 'variables', id: `${projectId}variables` };
+const config2: Partial<Editor> = { type: 'variables', id: `${otherProjectId}variables` };
 
 test('do not group config editors', () => {
   editorsFn.mockImplementation(() => ({ editors: [config, config2] }) as unknown as ReturnType<typeof useEditors>);

@@ -14,7 +14,6 @@ import { PersistenceEditor } from './persistence/PersistenceEditor';
 import { ProcessEditor } from './process/ProcessEditor';
 import { RestClientEditor } from './restclient/RestClientEditor';
 import { RoleEditor } from './role/RoleEditor';
-import { TextEditor } from './text/TextEditor';
 import { useCreateEditor } from './useCreateEditor';
 import { UserEditor } from './user/UserEditor';
 import { VariableEditor } from './variable/VariableEditor';
@@ -180,8 +179,6 @@ export const renderEditor = (editor: Editor) => {
       return <CmsEditor {...editor} />;
     case 'databases':
       return <DatabaseEditor {...editor} />;
-    case 'configurations':
-      return <TextEditor {...editor} />;
     case 'dataclasses':
       return <DataClassEditor {...editor} />;
     default:

@@ -151,7 +151,7 @@ describe('createConfigurationEditor', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/config/variables.yaml',
       type: 'variables',
-      icon: IvyIcons.Variables,
+      icon: IvyIcons.Tool,
       name: 'variables',
       project: { app: 'designer', pmv: 'workflow-demos' },
       path: 'config/variables.yaml'
@@ -244,20 +244,6 @@ describe('createConfigurationEditor', () => {
     const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/databases.yaml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
-
-  test('pom', () => {
-    const result: Editor = {
-      id: '/test-ws/configurations/designer/workflow-demos/pom.xml',
-      type: 'configurations',
-      icon: IvyIcons.Tool,
-      name: 'pom',
-      project: { app: 'designer', pmv: 'workflow-demos' },
-      path: 'pom.xml'
-    };
-    const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'pom.xml' };
-    expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
-  });
 });
 
 describe('createEditorFromPath', () => {
@@ -314,7 +300,7 @@ describe('createEditorFromPath', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/config/variables.yaml',
       type: 'variables',
-      icon: IvyIcons.Variables,
+      icon: IvyIcons.Tool,
       name: 'variables',
       project: { app: 'designer', pmv: 'workflow-demos' },
       path: 'config/variables.yaml'
