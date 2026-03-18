@@ -40,6 +40,9 @@ export default defineConfig({
         auth: 'Developer:Developer',
         ws: true
       },
+      'stable-market': {
+        target: 'http://localhost:8081'
+      },
       '/go': DEV_PROXY,
       '/demo-portal': DEV_PROXY,
       '/monaco-yaml-ivy': DEV_PROXY,
