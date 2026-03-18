@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { CaseMapEditor } from '../page-objects/case-map-editor';
 import { DataClassEditor } from '../page-objects/data-class-editor';
 import { FormEditor } from '../page-objects/form-editor';
 import { Neo } from '../page-objects/neo';
@@ -13,6 +14,14 @@ test('process editor', async ({ page }) => {
   await overview.card('quickstart').click();
   await new ProcessEditor(neo, 'quickstart').expectOpen('1907DDB3CA766818-f0');
   await screenshot(page, 'editor-process');
+});
+
+test('case map editor', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page);
+  const overview = await neo.processes();
+  await overview.card('Lending (Case Map)').click();
+  await new CaseMapEditor(neo, 'Lending (Case Map)').expectOpen();
+  await screenshot(page, 'editor-case-map');
 });
 
 test('form editor', async ({ page }) => {

@@ -27,6 +27,7 @@
     "newTitle": "Neu {{type}}",
     "optional": "Optional",
     "type": {
+      "casemap": "Case Map",
       "dataclass": "Datenklasse",
       "dependency": "Abhängigkeit",
       "form": "Formular",
@@ -130,6 +131,7 @@
     "badges": "Abzeichen",
     "businessData": "Business Daten",
     "callableSubProcess": "Aufrufbarer Sub Prozess",
+    "caseMap": "Case Map",
     "entity": "Entität",
     "filterBy": "Filter nach",
     "graphView": "Diagrammansicht",
@@ -157,6 +159,7 @@
     "artifctExisting": "Ein Artifakt mit dem Namen {{name}} existiert bereits.",
     "artifiactNamespaceNotEmpty": "Der Namespace des Artifacts darf nicht leer sein.",
     "capitalizeName": "Es wird empfohlen, den ersten Buchstaben grosszuschreiben.",
+    "caseMapPackaged": "Die Case Map kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
     "couldNotOpenCmsEditor": "CMS Editor konnte nicht geöffnet werden",
     "couldNotOpenConfigEditor": "Konfigurationseditor für {{config}} konnte nicht geöffnet werden",
     "dataclassPackaged": "Die Datenklasse kann nicht gelöscht werden, da das zugehörige Projekt gepackt ist.",
@@ -190,6 +193,7 @@
       "import": "BPMN-Datei importieren",
       "importDescription": "Importieren Sie eine BPMN 2.0-Datei, um einen neuen Prozess in einem Projekt zu erstellen."
     },
+    "newCaseMap": "Neue Case Map erstellen",
     "newProcess": "Neuen Prozess erstellen",
     "processDescription": "Ein Prozess beschreibt eine Abfolge automatisierter Schritte, die Arbeitsabläufe optimieren und ein effizientes Aufgabenmanagement innerhalb einer Anwendung ermöglichen."
   },
@@ -225,6 +229,15 @@
       "enabled": "Animation aktiviert",
       "mode": "Animationsmodus: {{mode}}",
       "speed": "Animationsgeschwindigkeit: {{speed}}"
+    },
+    "casemap": {
+      "created": "Case Map erstellt",
+      "createFail": "Case Map konnte nicht erstellt werden",
+      "creating": "Case Map wird erstellt",
+      "missing": "Case Maps konnten nicht geladen werden",
+      "removed": "Case Map gelöscht",
+      "removeFail": "Case Map '{{pid}}' konnte nicht gelöscht werden",
+      "removing": "Case Map wird gelöscht"
     },
     "config": {
       "missing": "Konfigurationen konnten nicht geladen werden",

@@ -1,0 +1,16 @@
+.additional-actions-trigger {
+  white-space: nowrap;
+  border-radius: 0 var(--border-r2) var(--border-r2) 0;
+}
+.additional-actions-trigger i {
+  transition: transform 0.2s ease;
+}
+
+.additional-actions-trigger[data-state='open'] i {
+  transform: rotate(90deg);
+}
+
+.new-process-button {
+  border-right: none;
+  border-radius: var(--border-r2) 0 0 var(--border-r2);
+}

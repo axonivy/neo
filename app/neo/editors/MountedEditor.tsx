@@ -62,6 +62,7 @@ const useTypeName = (type: EditorType) => {
   const { t } = useTranslation();
   switch (type) {
     case 'processes':
+    case 'casemaps':
       return t('neo.processes');
     case 'forms':
       return t('neo.forms');
@@ -86,6 +87,9 @@ const useTypeName = (type: EditorType) => {
 const typeToPath = (type: EditorType) => {
   if (type === 'cms' || type === 'variables') {
     return 'configurations';
+  }
+  if (type === 'casemaps') {
+    return 'processes';
   }
   return type;
 };

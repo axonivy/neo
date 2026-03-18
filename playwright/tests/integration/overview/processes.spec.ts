@@ -15,21 +15,21 @@ test('navigate to process', async ({ page }) => {
 test('create process validations', async ({ page }) => {
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.processes();
-  await overview.checkCreateValidationMessage({ name: 'my process', nameError: "Invalid character ' ' at position 3 in 'my process'." });
-  await overview.checkCreateValidationMessage({ name: 'switch', nameError: "Input 'switch' is a reserved keyword." });
-  await overview.checkCreateValidationMessage({ name: 'JUMP', nameError: 'Artifact JUMP already exists.' });
-  await overview.checkCreateValidationMessage({ name: 'JUMP', namespace: 'makeItValid' });
-  await overview.checkCreateValidationMessage({ name: '', nameError: 'Artifact name must not be empty.' });
-  await overview.checkCreateValidationMessage({ name: 'lowercase', nameWarning: "It's recommended to capitalize the first letter." });
-  await overview.checkCreateValidationMessage({ name: 'EmptyNamespaceCheck', namespace: '' });
-  await overview.checkCreateValidationMessage({ namespace: 'wrong.one', namespaceError: "Invalid character '.' at position 6 in 'wrong.one'." });
+  await overview.checkCreateValidationMessage({ name: 'my process', nameError: "Invalid character ' ' at position 3 in 'my process'.", type: 'Processes' });
+  await overview.checkCreateValidationMessage({ name: 'switch', nameError: "Input 'switch' is a reserved keyword.", type: 'Processes' });
+  await overview.checkCreateValidationMessage({ name: 'JUMP', nameError: 'Artifact JUMP already exists.', type: 'Processes' });
+  await overview.checkCreateValidationMessage({ name: 'JUMP', namespace: 'makeItValid', type: 'Processes' });
+  await overview.checkCreateValidationMessage({ name: '', nameError: 'Artifact name must not be empty.', type: 'Processes' });
+  await overview.checkCreateValidationMessage({ name: 'lowercase', nameWarning: "It's recommended to capitalize the first letter.", type: 'Processes' });
+  await overview.checkCreateValidationMessage({ name: 'EmptyNamespaceCheck', namespace: '', type: 'Processes' });
+  await overview.checkCreateValidationMessage({ namespace: 'wrong.one', namespaceError: "Invalid character '.' at position 6 in 'wrong.one'.", type: 'Processes' });
 });
 
 test('create and delete process', async ({ page, browserName }, testInfo) => {
   const processName = `${browserName}ws${testInfo.retry}`;
   const neo = await Neo.openWorkspace(page);
   const overview = await neo.processes();
-  await overview.create(processName);
+  await overview.create(processName, undefined, { type: 'Processes' });
   await new ProcessEditor(neo, processName).expectOpen();
   await page.goBack();
   await overview.deleteCard(processName);

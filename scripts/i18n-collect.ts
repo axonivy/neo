@@ -4,6 +4,7 @@ import path from 'path';
 const translations = {
   'cms-editor': path.resolve('./node_modules/@axonivy/cms-editor/src/translation/cms-editor'),
   'dataclass-editor': path.resolve('./node_modules/@axonivy/dataclass-editor/src/translation/dataclass-editor'),
+  'casemap-editor': path.resolve('./node_modules/@axonivy/case-map-editor/src/translation/case-map-editor'),
   'database-editor': path.resolve('./node_modules/@axonivy/database-editor/src/translation/database-editor'),
   'variable-editor': path.resolve('./node_modules/@axonivy/variable-editor/src/translation/variable-editor'),
   'role-editor': path.resolve('./node_modules/@axonivy/role-editor/src/translation/role-editor'),

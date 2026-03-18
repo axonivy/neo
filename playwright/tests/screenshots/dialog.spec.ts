@@ -52,8 +52,16 @@ test.describe('new aritfact', () => {
   test('process', async ({ page }) => {
     const neo = await Neo.openWorkspace(page);
     const processes = await neo.processes();
-    await processes.createButton.click();
+    await processes.createProcessButton.click();
     await screenshotDialog(page, 'dialog-new-process');
+  });
+
+  test('casemap', async ({ page }) => {
+    const neo = await Neo.openWorkspace(page);
+    const processes = await neo.processes();
+    await processes.additionalActionsTrigger.click();
+    await page.getByRole('menuitem', { name: 'Create new Case Map' }).click();
+    await screenshotDialog(page, 'dialog-new-casemap');
   });
 
   test('form', async ({ page }) => {

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { noUnknownType } from '~/utils/no-unknown';
+import { CaseMapEditor } from './casemap/CaseMapEditor';
 import { CmsEditor } from './cms/CmsEditor';
 import { DatabaseEditor } from './database/DatabaseEditor';
 import { DataClassEditor } from './dataclass/DataClassEditor';
@@ -161,6 +162,8 @@ export const renderEditor = (editor: Editor) => {
       return <ProcessEditor {...editor} />;
     case 'forms':
       return <FormEditor {...editor} />;
+    case 'casemaps':
+      return <CaseMapEditor {...editor} />;
     case 'variables':
       return <VariableEditor {...editor} />;
     case 'roles':

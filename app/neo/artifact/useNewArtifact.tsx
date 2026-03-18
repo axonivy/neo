@@ -20,7 +20,7 @@ import { InfoPopover } from '~/neo/overview/InfoPopover';
 import { ProjectSelect } from './ProjectSelect';
 import { useArtifactValidation } from './validation';
 
-export type NewArtifactType = 'Process' | 'Form' | 'Data Class';
+export type NewArtifactType = 'Process' | 'Form' | 'Data Class' | 'Case Map';
 
 export type NewArtifactIdentifier = {
   name: string;

@@ -1,4 +1,5 @@
 import test, { expect } from '@playwright/test';
+import { CaseMapEditor } from '../../page-objects/case-map-editor';
 import { DataClassEditor } from '../../page-objects/data-class-editor';
 import { Neo } from '../../page-objects/neo';
 import { Overview } from '../../page-objects/overview';
@@ -21,6 +22,32 @@ test('editor breadcrumbs', async ({ page }) => {
   await expect(overview.title.last()).toHaveText('Data Classes');
   await expect(overview.filter.filterTag(TEST_PROJECT)).toBeHidden();
   await neo.breadcrumbs.expectItems(['Workspaces', WORKSPACE, 'Data Classes']);
+
+  await neo.breadcrumbs.item(WORKSPACE).click();
+  await expect(overview.title.last()).toHaveText('Projects');
+
+  await neo.breadcrumbs.item('Workspaces').click();
+  await expect(overview.title.last()).toHaveText('Manage your workspaces');
+  await expect(neo.breadcrumbs.navigation).toBeHidden();
+});
+
+test('casemap breadcrumbs', async ({ page }) => {
+  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/Lending.icm`);
+  const editor = new CaseMapEditor(neo, 'Lending.icm');
+  await editor.expectOpen('Identification');
+  await neo.breadcrumbs.expectItems(['Workspaces', WORKSPACE, 'Processes', TEST_PROJECT, 'Lending.icm']);
+
+  await neo.breadcrumbs.item(TEST_PROJECT).last().click();
+  const overview = new Overview(page);
+  await expect(overview.title.last()).toHaveText('Processes');
+  await expect(overview.filter.filterTag(TEST_PROJECT)).toBeVisible();
+  await neo.breadcrumbs.expectItems(['Workspaces', WORKSPACE, 'Processes']);
+  await page.goBack();
+
+  await neo.breadcrumbs.item('Processes').click();
+  await expect(overview.title.last()).toHaveText('Processes');
+  await expect(overview.filter.filterTag(TEST_PROJECT)).toBeHidden();
+  await neo.breadcrumbs.expectItems(['Workspaces', WORKSPACE, 'Processes']);
 
   await neo.breadcrumbs.item(WORKSPACE).click();
   await expect(overview.title.last()).toHaveText('Projects');
