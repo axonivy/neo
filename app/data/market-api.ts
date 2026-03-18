@@ -1,5 +1,5 @@
 import { toast } from '@axonivy/ui-components';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { headers, ok } from './custom-fetch';
 import {
@@ -20,7 +20,7 @@ export const useProducts = () => {
   const { queryKey, headers } = useMarketApi();
   const { t } = useTranslation();
 
-  const products = async (pageParam: number, headers: HeadersInit) => {
+  const products = async (headers: HeadersInit) => {
     const params: FindProductsParams = { language: 'en', type: 'all' };
     return findProducts(params, { headers }).then(res => {
       if (ok(res)) {
@@ -31,22 +31,9 @@ export const useProducts = () => {
     });
   };
 
-  return useInfiniteQuery({
+  return useQuery({
     queryKey,
-    queryFn: ({ pageParam }) => products(pageParam, headers),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      if (lastPage?.length === 0) {
-        return;
-      }
-      return lastPageParam + 1;
-    },
-    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
-      if (firstPageParam <= 1) {
-        return;
-      }
-      return firstPageParam - 1;
-    }
+    queryFn: () => products(headers)
   });
 };
 
