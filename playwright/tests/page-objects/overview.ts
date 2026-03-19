@@ -1,6 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { Graph } from './graph';
 import { ImportDialog } from './import-dialog';
+import type { OverviewTypes } from './neo';
 import { ValidationMessage } from './validation-message';
 
 export class Overview {
@@ -9,6 +10,8 @@ export class Overview {
   protected readonly titleSection: Locator;
   readonly title: Locator;
   readonly createButton: Locator;
+  readonly createProcessButton: Locator;
+  readonly additionalActionsTrigger: Locator;
   readonly importButton: Locator;
   readonly search: Locator;
   readonly filter: OverviewFilter;
@@ -24,6 +27,8 @@ export class Overview {
     this.titleSection = this.overview.locator('.overview-title-section');
     this.title = this.titleSection.locator('.overview-title');
     this.createButton = this.titleSection.getByRole('button').last();
+    this.createProcessButton = this.titleSection.getByRole('button', { name: 'Create new Process' });
+    this.additionalActionsTrigger = this.titleSection.locator('.additional-actions-trigger');
     this.importButton = this.titleSection.getByRole('button', { name: 'Generate' });
     this.search = this.overview.locator('input');
     this.filter = new OverviewFilter(page, this.overview);
@@ -107,11 +112,19 @@ export class Overview {
     nameWarning?: string;
     nameError?: string;
     namespaceError?: string;
+    type?: OverviewTypes | 'Case Maps';
   }) {
     await this.waitForHiddenSpinner();
     const dialog = this.page.getByRole('dialog');
     if (await dialog.isHidden()) {
-      await this.createButton.click();
+      if (options.type && options.type === 'Processes') {
+        await this.createProcessButton.click();
+      } else if (options.type && options.type === 'Case Maps') {
+        await this.additionalActionsTrigger.click();
+        await this.page.getByRole('menuitem', { name: 'Create new Case Map' }).click();
+      } else {
+        await this.createButton.click();
+      }
     }
     const nameInput = dialog.getByLabel('Name').first();
     const namespaceInput = dialog.getByLabel('Namespace').first();
@@ -141,11 +154,24 @@ export class Overview {
   async create(
     name: string,
     namespace?: string,
-    options?: { file?: string; project?: string; hasDataClassSelect?: boolean; useKeyToCreate?: boolean }
+    options?: {
+      file?: string;
+      project?: string;
+      hasDataClassSelect?: boolean;
+      useKeyToCreate?: boolean;
+      type?: OverviewTypes | 'Case Maps';
+    }
   ) {
     await this.waitForHiddenSpinner();
     await expect(this.createButton).toBeVisible();
-    await this.createButton.click();
+    if (options?.type && options.type === 'Processes') {
+      await this.createProcessButton.click();
+    } else if (options?.type && options.type === 'Case Maps') {
+      await this.additionalActionsTrigger.click();
+      await this.page.getByRole('menuitem', { name: 'Create new Case Map' }).click();
+    } else {
+      await this.createButton.click();
+    }
     const dialog = this.page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     await dialog.getByLabel('Name').first().fill(name);

@@ -34,6 +34,8 @@ export const editorTypeToPreview = (type: EditorType): PreviewType => {
     case 'restclients':
     case 'webservices':
     case 'databases':
+    case 'casemaps':
+      return 'process';
     case 'cms':
       return 'config';
     case 'forms':

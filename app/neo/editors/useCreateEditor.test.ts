@@ -151,7 +151,7 @@ describe('createConfigurationEditor', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/config/variables.yaml',
       type: 'variables',
-      icon: IvyIcons.Tool,
+      icon: IvyIcons.Variables,
       name: 'variables',
       project: { app: 'designer', pmv: 'workflow-demos' },
       path: 'config/variables.yaml'
@@ -314,7 +314,7 @@ describe('createEditorFromPath', () => {
     const result: Editor = {
       id: '/test-ws/configurations/designer/workflow-demos/config/variables.yaml',
       type: 'variables',
-      icon: IvyIcons.Tool,
+      icon: IvyIcons.Variables,
       name: 'variables',
       project: { app: 'designer', pmv: 'workflow-demos' },
       path: 'config/variables.yaml'

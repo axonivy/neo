@@ -3,12 +3,13 @@ import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router';
 import type { Form } from '~/data/form-api';
-import type { ConfigurationIdentifier, DataClassBean } from '~/data/generated/ivy-client';
+import type { CaseMapBean, ConfigurationIdentifier, DataClassBean } from '~/data/generated/ivy-client';
 import type { Process } from '~/data/process-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { noUnknownType } from '~/utils/no-unknown';
 import { lastSegment } from '~/utils/path';
 import {
+  CASEMAP_EDITOR_SUFFIX,
   CMS_EDITOR_SUFFIX,
   CONFIG_EDITOR_XML_SUFFIX,
   CONFIG_EDITOR_YAML_SUFFIX,
@@ -62,6 +63,9 @@ export const useCreateEditor = () => {
     if (path.endsWith(DATACLASS_EDITOR_SUFFIX)) {
       return 'dataclasses';
     }
+    if (path.endsWith(CASEMAP_EDITOR_SUFFIX)) {
+      return 'casemaps';
+    }
     if (path.endsWith(VARIABLES_EDITOR_SUFFIX)) {
       return 'variables';
     }
@@ -107,8 +111,15 @@ export const useCreateEditor = () => {
     createCmsEditor: (project: ProjectIdentifier): Editor => createEditor(ws, 'cms', project, 'cms', CMS_EDITOR_SUFFIX),
     createDataClassEditor: ({ simpleName, path, dataClassIdentifier: { project } }: DataClassBean): Editor =>
       createEditor(ws, 'dataclasses', project, path, simpleName),
-    createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor =>
-      createEditor(ws, editorType ?? typeFromPath(path), project, path, lastSegment(path) ?? path)
+    createCaseMapEditor: ({ name, path, caseMapIdentifier: { project } }: CaseMapBean): Editor =>
+      createEditor(ws, 'casemaps', project, path, name),
+    createEditorFromPath: (project: ProjectIdentifier, path: string, editorType?: EditorType): Editor => {
+      let actualEditorType = editorType;
+      if (path.endsWith(CASEMAP_EDITOR_SUFFIX)) {
+        actualEditorType = 'casemaps';
+      }
+      return createEditor(ws, actualEditorType ?? typeFromPath(path), project, path, lastSegment(path) ?? path);
+    }
   };
 };
 
@@ -118,7 +129,10 @@ const editorIcon = (editorType: EditorType) => {
       return IvyIcons.Process;
     case 'forms':
       return IvyIcons.File;
+    case 'casemaps':
+      return IvyIcons.Trigger;
     case 'variables':
+      return IvyIcons.Variables;
     case 'configurations':
       return IvyIcons.Tool;
     case 'roles':
@@ -155,6 +169,9 @@ const editorRouteType = (editorType: EditorType) => {
     editorType === 'databases'
   ) {
     return 'configurations';
+  }
+  if (editorType === 'casemaps') {
+    return 'processes';
   }
   return editorType;
 };

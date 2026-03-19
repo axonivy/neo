@@ -17,16 +17,11 @@ import type { ProjectBean } from '~/data/generated/ivy-client';
 import { useImportBpmnFile } from '~/data/process-api';
 import { ProjectSelect } from '~/neo/artifact/ProjectSelect';
 
-export const ImportBpmnDialog = () => {
-  const { t } = useTranslation();
+export const ImportBpmnDialog = ({ children }: { children: React.ReactNode }) => {
   const { open, onOpenChange } = useDialogHotkeys(['importBpmnDialog']);
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        <Button icon={IvyIcons.Download} onClick={() => onOpenChange(true)} size='xl' variant='primary-outline'>
-          {t('processes.bpmn.import')}
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <ImportBpmnDialogContent />
       </DialogContent>
