@@ -20,6 +20,7 @@ export const initTranslation = async () => {
     .use(LngDetector)
     .init({
       debug: false,
+      showSupportNotice: false,
       fallbackLng: 'en',
       ns: ['process-editor'],
       defaultNS: 'process-editor',
