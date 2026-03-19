@@ -1,6 +1,8 @@
 import { useTheme } from '@axonivy/ui-components';
 import type { EditorType } from '~/neo/editors/editor';
 import { noUnknownType } from '~/utils/no-unknown';
+import casemapDarkSvg from '/assets/preview/casemap-dark.svg?url';
+import casemapLightSvg from '/assets/preview/casemap-light.svg?url';
 import configDarkSvg from '/assets/preview/configs-dark.svg?url';
 import configLightSvg from '/assets/preview/configs-light.svg?url';
 import dataClassDarkSvg from '/assets/preview/data-classes-dark.svg?url';
@@ -17,6 +19,7 @@ const previews = {
   config: { dark: configDarkSvg, light: configLightSvg },
   form: { dark: formDarkSvg, light: formLightSvg },
   process: { dark: processDarkSvg, light: processLightSvg },
+  casemap: { dark: casemapDarkSvg, light: casemapLightSvg },
   workspace: { dark: workspaceDarkSvg, light: workspaceLightSvg }
 } as const;
 
@@ -34,10 +37,10 @@ export const editorTypeToPreview = (type: EditorType): PreviewType => {
     case 'restclients':
     case 'webservices':
     case 'databases':
-    case 'casemaps':
-      return 'process';
     case 'cms':
       return 'config';
+    case 'casemaps':
+      return 'casemap';
     case 'forms':
       return 'form';
     case 'processes':
