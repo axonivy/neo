@@ -130,7 +130,7 @@ const CaseMapCard = ({ caseMap }: { caseMap: CaseMapBean }) => {
       ref={artifactCardRef}
       name={editor.name}
       description={editor.project.pmv}
-      preview={<PreviewSvg type='process' />}
+      preview={<PreviewSvg type='casemap' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
       badges={badges}
