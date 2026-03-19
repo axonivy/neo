@@ -1,13 +1,17 @@
 import monacoConfigPlugin from '@axonivy/monaco-vite-plugin';
 import { defineConfig } from 'vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(() => ({
-  plugins: [tsconfigPaths({ projects: ['tsconfig.json'] }), monacoConfigPlugin()],
+  plugins: [monacoConfigPlugin()],
   build: {
     manifest: 'build.manifest.json',
     outDir: '../../public/process-editor',
     chunkSizeWarningLimit: 5000
+  },
+  css: {
+    lightningcss: {
+      errorRecovery: true
+    }
   },
   base: './'
 }));

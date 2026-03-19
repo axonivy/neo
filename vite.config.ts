@@ -2,7 +2,6 @@ import { reactRouter } from '@react-router/dev/vite';
 import crypto from 'crypto';
 import { type ProxyOptions, defineConfig } from 'vite';
 import { compression } from 'vite-plugin-compression2';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import packageJson from './package.json';
 
 const buildHash = `${packageJson.version}-${crypto.randomBytes(4).toString('hex')}`;
@@ -22,8 +21,7 @@ export default defineConfig({
     compression({
       algorithms: ['brotli']
     }),
-    reactRouter(),
-    tsconfigPaths({ projects: ['tsconfig.json'] })
+    reactRouter()
   ],
   define: {
     __VERSION__: JSON.stringify(buildHash)
