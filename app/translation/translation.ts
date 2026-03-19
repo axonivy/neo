@@ -51,6 +51,7 @@ export const initTranslation = async (debug = false) => {
     .use(LngDetector)
     .init({
       debug,
+      showSupportNotice: false,
       fallbackLng: 'en',
       ns: Object.keys(localTranslations),
       defaultNS: 'neo',
