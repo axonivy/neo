@@ -55,6 +55,11 @@ export default defineConfig({
       '/ivy-data-class-lsp': WEBSOCKET_PROXY
     }
   },
+  preview: {
+    headers: {
+      'Cache-Control': 'public, max-age=600'
+    }
+  },
   build: {
     target: 'es2022'
   }
