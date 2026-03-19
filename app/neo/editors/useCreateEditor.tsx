@@ -127,7 +127,7 @@ const editorIcon = (editorType: EditorType) => {
     case 'forms':
       return IvyIcons.File;
     case 'casemaps':
-      return IvyIcons.Trigger;
+      return IvyIcons.CaseMap;
     case 'variables':
       return IvyIcons.Tool;
     case 'roles':
