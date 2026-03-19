@@ -1,10 +1,56 @@
 {
+  "animation": {
+    "allOpen": "開いているすべてのプロセス",
+    "allProcesses": "すべてのプロセス",
+    "animation": "アニメーション",
+    "enabled": "有効",
+    "fast": "高速",
+    "fastest": "最速",
+    "mode": "モード",
+    "noDialog": "ダイアログプロセスなし",
+    "noEmbedded": "埋め込みプロセスなし",
+    "normal": "ノーマル",
+    "onlyCurrenltyOpen": "現在開いているプロセスのみ",
+    "reset": "リセット",
+    "slow": "低速",
+    "slowest": "最遅",
+    "speed": "スピード"
+  },
+  "artifact": {
+    "callerData": "呼び出し元データ",
+    "deleteConfirmMsg": "この {{artifact}} を削除してもよろしいですか？",
+    "deleteConfirmTitle": "削除を確認する",
+    "namespaceInfo": "名前空間は、要素を整理してグループ化することで命名の競合を防ぎ、明確で効率的なプロジェクト管理を保証します。",
+    "newDataClass": "プロセスデータを管理するための新しいデータクラスを作成します。",
+    "newForm": "情報やユーザーの入力を収集するための新しいフォームを作成します。",
+    "newProcess": "ワークフローを定義するための新しいプロセスを作成します。",
+    "newTitle": "新しい {{type}}",
+    "optional": "オプション",
+    "type": {
+      "casemap": "__MISSING_TRANSLATION__",
+      "dataclass": "データクラス",
+      "dependency": "依存関係",
+      "form": "フォーム",
+      "process": "プロセス",
+      "project": "プロジェクト",
+      "workspace": "ワークスペース"
+    }
+  },
+  "browser": {
+    "devBrowser": "開発者向けブラウザ",
+    "goBack": "戻る",
+    "goForward": "進む",
+    "goHome": "ホームへ戻る",
+    "openNewTab": "新しいタブで開く",
+    "reloadPage": "ページの再読込み",
+    "simulate": "プロセスシミュレーション"
+  },
   "common": {
     "label": {
-      "cancel": "キャンセル",
-      "close": "閉じる",
       "add": "追加",
+      "cancel": "キャンセル",
       "clearList": "リストをクリア",
+      "close": "閉じる",
       "closeAll": "すべてのタブを閉じる",
       "create": "作成",
       "default": "デフォルト",
@@ -29,216 +75,12 @@
       "yes": "はい"
     }
   },
-  "animation": {
-    "allOpen": "開いているすべてのプロセス",
-    "allProcesses": "すべてのプロセス",
-    "animation": "アニメーション",
-    "enabled": "有効",
-    "fast": "高速",
-    "fastest": "最速",
-    "mode": "モード",
-    "noDialog": "ダイアログプロセスなし",
-    "noEmbedded": "埋め込みプロセスなし",
-    "normal": "ノーマル",
-    "onlyCurrenltyOpen": "現在開いているプロセスのみ",
-    "reset": "リセット",
-    "slow": "低速",
-    "slowest": "最遅",
-    "speed": "スピード"
-  },
-  "artifact": {
-    "callerData": "呼び出し元データ",
-    "deleteConfirmMsg": "この {{artifact}} を削除してもよろしいですか？",
-    "deleteConfirmTitle": "削除を確認する",
-    "newDataClass": "プロセスデータを管理するための新しいデータクラスを作成します。",
-    "newForm": "情報やユーザーの入力を収集するための新しいフォームを作成します。",
-    "newProcess": "ワークフローを定義するための新しいプロセスを作成します。",
-    "newTitle": "新しい {{type}}",
-    "optional": "オプション",
-    "type": {
-      "dataclass": "データクラス",
-      "dependency": "依存関係",
-      "form": "フォーム",
-      "process": "プロセス",
-      "project": "プロジェクト",
-      "workspace": "ワークスペース"
-    },
-    "namespaceInfo": "名前空間は、要素を整理してグループ化することで命名の競合を防ぎ、明確で効率的なプロジェクト管理を保証します。"
-  },
-  "browser": {
-    "devBrowser": "開発者向けブラウザ",
-    "goBack": "戻る",
-    "goForward": "進む",
-    "goHome": "ホームへ戻る",
-    "openNewTab": "新しいタブで開く",
-    "reloadPage": "ページの再読込み",
-    "simulate": "プロセスシミュレーション"
-  },
   "configurations": {
     "configDescription": "構成とは、アプリケーションがどのように動作して他のシステムと相互運用するかを定義する設定とパラメーターです。"
   },
-  "message": {
-    "formPackaged": "所属するプロジェクトがパッケージ化されているため、フォームを削除できません。",
-    "invalidChar": "'{{- str}}' の位置 {{pos}} で文字 '{{- char}}' が無効です。",
-    "invalidIar": ".iar ファイルまたは .iar ファイルを含む .zip ファイルを選択してください。",
-    "loadEngineVersionFail": "エンジンバージョンの読み込みに失敗しました",
-    "noArtifactsFound": "アーティファクトが見つかりませんでした。",
-    "noneCapitalizeName": "最初の文字を小文字で書くことを推奨します。",
-    "processPackaged": "所属するプロジェクトがパッケージ化されているため、プロセスを削除できません。",
-    "artifactNotEmpty": "アーティファクト名は空にはできません。",
-    "artifctExisting": "アーティファクト {{name}} は既に存在します。",
-    "artifiactNamespaceNotEmpty": "アーティファクト名前空間は空にはできません。",
-    "capitalizeName": "最初の文字を大文字にすることを推奨します。",
-    "dataclassPackaged": "所属するプロジェクトがパッケージ化されているため、データクラスを削除できません。",
-    "dependencyPackaged": "現在のプロジェクトがパッケージ化されているため、依存関係を削除できません。",
-    "invalidBpmn": ".bpmn または .xml ファイルを選択してください。"
-  },
-  "neo": {
-    "addDependency": "依存関係としてプロジェクトに追加する",
-    "artifactId": "ArtifactId",
-    "configs": "構成",
-    "dataClasses": "データクラス",
-    "forms": "フォーム",
-    "groupId": "GroupId",
-    "home": "NEO ホーム",
-    "processes": "プロセス",
-    "projects": "プロジェクト",
-    "recentlyOpened": "最近開いた",
-    "workspaces": "ワークスペース"
-  },
-  "processes": {
-    "newProcess": "プロセスを新規作成",
-    "processDescription": "プロセスは、ワークフローを最適化し、アプリケーション内での効率的なタスク管理を可能にする、一連の自動化されたステップです。",
-    "bpmn": {
-      "import": "BPMN ファイルをインポート",
-      "importDescription": "BPMN 2.0 ファイルをインポートして、プロジェクトで新しいプロセスを作成します。"
-    }
-  },
-  "project": {
-    "editable": "編集可能",
-    "groupId": "グループ ID",
-    "name": "名前",
-    "projectId": "プロジェクト ID"
-  },
-  "projects": {
-    "addDependency": "新しい依存関係を追加する",
-    "addDependencyDescription": "プロジェクトの機能を使用するには依存関係を作成してください。",
-    "addDependencyTo": "依存関係を {{project}} に追加する",
-    "deletable": "削除可能",
-    "dependency": "依存関係",
-    "dependencyInfo": "依存関係は、1 つのプロジェクトが別のプロジェクトの機能またはアーティファクトにアクセスし、作業の重複を回避することを可能にするプロジェクト間のリンクです。",
-    "details": "プロジェクトの詳細: {{project}}",
-    "editRights": "編集権限",
-    "selectDependency": "依存関係を選択する"
-  },
-  "settings": {
-    "dark": "ダーク",
-    "language": "言語",
-    "languageSwitch": "言語切り替え",
-    "light": "ライト",
-    "system": "システム",
-    "theme": "テーマ",
-    "logout": "ログアウト"
-  },
-  "toast": {
-    "animation": {
-      "disabled": "アニメーション無効",
-      "enabled": "アニメーション有効",
-      "mode": "アニメーションモード: {{mode}}",
-      "speed": "アニメーション速度: {{speed}}"
-    },
-    "config": {
-      "missing": "設定を読み込めませんでした"
-    },
-    "dataClass": {
-      "create": "データクラスの作成",
-      "created": "データクラスを作成しました",
-      "creationFail": "データクラスを作成できませんでした",
-      "missing": "データクラスを読み込めませんでした",
-      "removed": "データクラスを削除しました",
-      "removeFail": "データクラス '{{name}}' を削除できませんでした",
-      "removing": "データクラスの削除"
-    },
-    "dependency": {
-      "added": "依存関係を追加しました",
-      "addFail": "依存関係を追加できませんでした",
-      "adding": "依存関係の追加",
-      "missing": "プロジェクトを読み込めませんでした",
-      "remove": "依存関係を削除する",
-      "removed": "依存関係を削除しました",
-      "removeFail": "依存関係 '{{pmv}}' を削除できませんでした"
-    },
-    "editor": {
-      "fileTypeIncompatible": "NEO ではこのファイルタイプ '{{type}}' を編集できません。",
-      "unknownType": "エディタタイプが不明です",
-      "unknownTypeForPath": "パス '{{path}}' のエディタタイプが不明です",
-      "unknownTypeForType": "エディタタイプ '{{type}}' が不明です"
-    },
-    "form": {
-      "created": "フォームを作成しました",
-      "createFail": "フォームを作成できませんでした",
-      "creating": "フォームの作成",
-      "jumpIntoFailed": "コンポーネント '{{id}} にジャンプできませんでした",
-      "missing": "フォームを読み込めませんでした",
-      "removed": "フォームを削除しました",
-      "removeFail": "'{{id}}' から削除できませんでした",
-      "removing": "フォームの削除"
-    },
-    "market": {
-      "inaccsessible": "マーケットには現在アクセスできない可能性があります",
-      "loadBestMatchingFail": "エンジンバージョン {{engineVersion}} で {{id}} に最適なマーケットアーティファクトバージョンを読み込めませんでした",
-      "loadFail": "{{id}} のマーケット製品バージョンを読み込めませんでした",
-      "loadJsonFail": "バージョン {{version}} で {{id}} の製品 JSON を読み込めませんでした",
-      "missing": "マーケット製品を読み込めませんでした"
-    },
-    "process": {
-      "created": "プロセスを作成しました",
-      "createFail": "プロセスを作成できませんでした",
-      "creating": "プロセスの作成",
-      "missing": "プロセスを読み込めませんでした",
-      "removed": "プロセスを削除しました",
-      "removeFail": "プロセス '{{pid}}' を削除できませんでした",
-      "removing": "プロセスの削除",
-      "bpmn": {
-        "imported": "BPMN ファイルをインポートしました",
-        "importFail": "BPMNファイルのインポートに失敗しました",
-        "importing": "BPMN ファイルのインポート"
-      }
-    },
-    "project": {
-      "bpmnEngineStopFail": "プロジェクト '{{pmv}}' の BPM エンジンを停止できませんでした",
-      "bpmnEngineStopped": "BPM エンジンが停止しました",
-      "bpmnEngineStopping": "BPM エンジンの停止",
-      "created": "プロジェクトは正常に作成されました",
-      "createFail": "プロジェクトを作成できませんでした",
-      "creating": "プロジェクトの作成",
-      "missing": "プロジェクトを読み込めませんでした",
-      "removed": "プロジェクトを削除しました",
-      "removeFail": "プロジェクト '{{pmv}}' を削除できませんでした",
-      "removing": "プロジェクトの削除"
-    },
-    "serverStatus": "サーバーが正しく起動していない可能性があります",
-    "workspace": {
-      "created": "ワークスペースを作成しました",
-      "createFail": "ワークスペースを作成できませんでした",
-      "creating": "ワークスペースの作成",
-      "deployed": "ワークスペースを展開しました",
-      "deployFail": "ワークスペース '{{id}}' を展開できませんでした",
-      "deploying": "ワークスペースの展開",
-      "exported": "ワークスペースをエクスポートしました",
-      "exportFail": "ワークスペース '{{id}}' をエクスポートできませんでした",
-      "exporting": "ワークスペースのエクスポート",
-      "imported": "プロジェクトをワークスペースにインポートしました",
-      "importFail": "プロジェクトをワークスペース '{{id}}' にインポートできませんでした",
-      "importing": "プロジェクトのインポート",
-      "marketInstallFail": "マーケット製品をインストールできませんでした",
-      "marketProductInstalled": "プロジェクト {{projects}} をインポートしました",
-      "marketProductInstalling": "マーケット製品のインストール",
-      "missing": "ワークスペースを読み込めませんでした",
-      "removed": "ワークスペースを削除しました",
-      "removeFail": "ワークスペース '{{id}}' を削除できませんでした",
-      "removing": "ワークスペースの削除"
-    }
+  "dataClass": {
+    "generate": "生成",
+    "generateTooltip": "データベースからデータクラス、フォーム、プロセスを生成する"
   },
   "dataclasses": {
     "dataclassDescription": "データクラスは、プロセスアプリケーション内のデータを定義し、構造化するために使用されます。 プロセスやフォーム間でデータを一貫して管理するために使用されます。",
@@ -289,6 +131,7 @@
     "badges": "バッジ",
     "businessData": "ビジネスデータ",
     "callableSubProcess": "呼び出し可能なサブプロセス",
+    "caseMap": "__MISSING_TRANSLATION__",
     "entity": "エンティティ",
     "filterBy": "フィルター条件",
     "graphView": "グラフ表示",
@@ -301,6 +144,7 @@
     "sortByZ-a": "降順",
     "tileView": "タイル表示",
     "toggleView": "表示を切り替え",
+    "type": "__MISSING_TRANSLATION__",
     "webServiceProcess": "Web サービス"
   },
   "market": {
@@ -309,6 +153,183 @@
     "selectVersion": "インストールするバージョンを選択してください",
     "showDetails": "詳細を見る",
     "title": "Axon Ivy Market"
+  },
+  "message": {
+    "artifactNotEmpty": "アーティファクト名は空にはできません。",
+    "artifctExisting": "アーティファクト {{name}} は既に存在します。",
+    "artifiactNamespaceNotEmpty": "アーティファクト名前空間は空にはできません。",
+    "capitalizeName": "最初の文字を大文字にすることを推奨します。",
+    "caseMapPackaged": "__MISSING_TRANSLATION__",
+    "couldNotOpenCmsEditor": "__MISSING_TRANSLATION__",
+    "couldNotOpenConfigEditor": "__MISSING_TRANSLATION__",
+    "dataclassPackaged": "所属するプロジェクトがパッケージ化されているため、データクラスを削除できません。",
+    "dependencyPackaged": "現在のプロジェクトがパッケージ化されているため、依存関係を削除できません。",
+    "formPackaged": "所属するプロジェクトがパッケージ化されているため、フォームを削除できません。",
+    "invalidBpmn": ".bpmn または .xml ファイルを選択してください。",
+    "invalidChar": "'{{- str}}' の位置 {{pos}} で文字 '{{- char}}' が無効です。",
+    "invalidIar": ".iar ファイルまたは .iar ファイルを含む .zip ファイルを選択してください。",
+    "loadEngineVersionFail": "エンジンバージョンの読み込みに失敗しました",
+    "noArtifactsFound": "アーティファクトが見つかりませんでした。",
+    "noneCapitalizeName": "最初の文字を小文字で書くことを推奨します。",
+    "processPackaged": "所属するプロジェクトがパッケージ化されているため、プロセスを削除できません。",
+    "unsupportedAction": "__MISSING_TRANSLATION__"
+  },
+  "neo": {
+    "addDependency": "依存関係としてプロジェクトに追加する",
+    "artifactId": "ArtifactId",
+    "configs": "構成",
+    "dataClasses": "データクラス",
+    "forms": "フォーム",
+    "groupId": "GroupId",
+    "home": "NEO ホーム",
+    "processes": "プロセス",
+    "projects": "プロジェクト",
+    "recentlyOpened": "最近開いた",
+    "workspaces": "ワークスペース"
+  },
+  "processes": {
+    "bpmn": {
+      "import": "BPMN ファイルをインポート",
+      "importDescription": "BPMN 2.0 ファイルをインポートして、プロジェクトで新しいプロセスを作成します。"
+    },
+    "newCaseMap": "__MISSING_TRANSLATION__",
+    "newProcess": "プロセスを新規作成",
+    "processDescription": "プロセスは、ワークフローを最適化し、アプリケーション内での効率的なタスク管理を可能にする、一連の自動化されたステップです。"
+  },
+  "project": {
+    "editable": "編集可能",
+    "groupId": "グループ ID",
+    "name": "名前",
+    "projectId": "プロジェクト ID"
+  },
+  "projects": {
+    "addDependency": "新しい依存関係を追加する",
+    "addDependencyDescription": "プロジェクトの機能を使用するには依存関係を作成してください。",
+    "addDependencyTo": "依存関係を {{project}} に追加する",
+    "deletable": "削除可能",
+    "dependency": "依存関係",
+    "dependencyInfo": "依存関係は、1 つのプロジェクトが別のプロジェクトの機能またはアーティファクトにアクセスし、作業の重複を回避することを可能にするプロジェクト間のリンクです。",
+    "details": "プロジェクトの詳細: {{project}}",
+    "editRights": "編集権限",
+    "selectDependency": "依存関係を選択する"
+  },
+  "settings": {
+    "dark": "ダーク",
+    "language": "言語",
+    "languageSwitch": "言語切り替え",
+    "light": "ライト",
+    "logout": "ログアウト",
+    "system": "システム",
+    "theme": "テーマ"
+  },
+  "toast": {
+    "animation": {
+      "disabled": "アニメーション無効",
+      "enabled": "アニメーション有効",
+      "mode": "アニメーションモード: {{mode}}",
+      "speed": "アニメーション速度: {{speed}}"
+    },
+    "casemap": {
+      "created": "__MISSING_TRANSLATION__",
+      "createFail": "__MISSING_TRANSLATION__",
+      "creating": "__MISSING_TRANSLATION__",
+      "missing": "__MISSING_TRANSLATION__",
+      "removed": "__MISSING_TRANSLATION__",
+      "removeFail": "__MISSING_TRANSLATION__",
+      "removing": "__MISSING_TRANSLATION__"
+    },
+    "config": {
+      "missing": "設定を読み込めませんでした"
+    },
+    "dataClass": {
+      "create": "データクラスの作成",
+      "created": "データクラスを作成しました",
+      "creationFail": "データクラスを作成できませんでした",
+      "missing": "データクラスを読み込めませんでした",
+      "removed": "データクラスを削除しました",
+      "removeFail": "データクラス '{{name}}' を削除できませんでした",
+      "removing": "データクラスの削除"
+    },
+    "dependency": {
+      "added": "依存関係を追加しました",
+      "addFail": "依存関係を追加できませんでした",
+      "adding": "依存関係の追加",
+      "missing": "プロジェクトを読み込めませんでした",
+      "remove": "依存関係を削除する",
+      "removed": "依存関係を削除しました",
+      "removeFail": "依存関係 '{{pmv}}' を削除できませんでした"
+    },
+    "editor": {
+      "fileTypeIncompatible": "NEO ではこのファイルタイプ '{{type}}' を編集できません。",
+      "unknownType": "エディタタイプが不明です",
+      "unknownTypeForPath": "パス '{{path}}' のエディタタイプが不明です",
+      "unknownTypeForType": "エディタタイプ '{{type}}' が不明です"
+    },
+    "form": {
+      "created": "フォームを作成しました",
+      "createFail": "フォームを作成できませんでした",
+      "creating": "フォームの作成",
+      "jumpIntoFailed": "コンポーネント '{{id}} にジャンプできませんでした",
+      "missing": "フォームを読み込めませんでした",
+      "removed": "フォームを削除しました",
+      "removeFail": "'{{id}}' から削除できませんでした",
+      "removing": "フォームの削除"
+    },
+    "market": {
+      "inaccsessible": "マーケットには現在アクセスできない可能性があります",
+      "loadBestMatchingFail": "エンジンバージョン {{engineVersion}} で {{id}} に最適なマーケットアーティファクトバージョンを読み込めませんでした",
+      "loadFail": "{{id}} のマーケット製品バージョンを読み込めませんでした",
+      "loadJsonFail": "バージョン {{version}} で {{id}} の製品 JSON を読み込めませんでした",
+      "missing": "マーケット製品を読み込めませんでした"
+    },
+    "process": {
+      "bpmn": {
+        "imported": "BPMN ファイルをインポートしました",
+        "importFail": "BPMNファイルのインポートに失敗しました",
+        "importing": "BPMN ファイルのインポート"
+      },
+      "created": "プロセスを作成しました",
+      "createFail": "プロセスを作成できませんでした",
+      "creating": "プロセスの作成",
+      "missing": "プロセスを読み込めませんでした",
+      "removed": "プロセスを削除しました",
+      "removeFail": "プロセス '{{pid}}' を削除できませんでした",
+      "removing": "プロセスの削除"
+    },
+    "project": {
+      "bpmnEngineStopFail": "プロジェクト '{{pmv}}' の BPM エンジンを停止できませんでした",
+      "bpmnEngineStopped": "BPM エンジンが停止しました",
+      "bpmnEngineStopping": "BPM エンジンの停止",
+      "created": "プロジェクトは正常に作成されました",
+      "createFail": "プロジェクトを作成できませんでした",
+      "creating": "プロジェクトの作成",
+      "missing": "プロジェクトを読み込めませんでした",
+      "removed": "プロジェクトを削除しました",
+      "removeFail": "プロジェクト '{{pmv}}' を削除できませんでした",
+      "removing": "プロジェクトの削除"
+    },
+    "serverStatus": "サーバーが正しく起動していない可能性があります",
+    "workspace": {
+      "created": "ワークスペースを作成しました",
+      "createFail": "ワークスペースを作成できませんでした",
+      "creating": "ワークスペースの作成",
+      "deployed": "ワークスペースを展開しました",
+      "deployFail": "ワークスペース '{{id}}' を展開できませんでした",
+      "deploying": "ワークスペースの展開",
+      "exported": "ワークスペースをエクスポートしました",
+      "exportFail": "ワークスペース '{{id}}' をエクスポートできませんでした",
+      "exporting": "ワークスペースのエクスポート",
+      "imported": "プロジェクトをワークスペースにインポートしました",
+      "importFail": "プロジェクトをワークスペース '{{id}}' にインポートできませんでした",
+      "importing": "プロジェクトのインポート",
+      "marketInstallFail": "マーケット製品をインストールできませんでした",
+      "marketProductInstalled": "プロジェクト {{projects}} をインポートしました",
+      "marketProductInstalling": "マーケット製品のインストール",
+      "missing": "ワークスペースを読み込めませんでした",
+      "removed": "ワークスペースを削除しました",
+      "removeFail": "ワークスペース '{{id}}' を削除できませんでした",
+      "removing": "ワークスペースの削除"
+    }
   },
   "workspaces": {
     "deleteWarning": {
@@ -330,10 +351,5 @@
     "newWorkspaceDescription": "ワークスペースは、新しいアプリケーションとビジネスプロセスを作成するための開発領域です",
     "title": "{{neo}} へようこそ",
     "wsTitle": "ワークスペースへようこそ: {{workspace}}"
-  },
-  "dataClass": {
-    "importWizard": "データベースからのインポート",
-    "generate": "生成",
-    "generateTooltip": "データベースからデータクラス、フォーム、プロセスを生成する"
   }
 }
