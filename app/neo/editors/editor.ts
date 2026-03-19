@@ -4,7 +4,6 @@ import type { ProjectIdentifier } from '~/data/project-api';
 export type EditorType =
   | 'processes'
   | 'forms'
-  | 'configurations'
   | 'dataclasses'
   | 'persistence'
   | 'casemaps'

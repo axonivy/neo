@@ -101,7 +101,6 @@
     "forms": "フォーム",
     "groupId": "GroupId",
     "home": "NEO ホーム",
-    "monaco": "Monaco Editor",
     "processes": "プロセス",
     "projects": "プロジェクト",
     "recentlyOpened": "最近開いた",
@@ -149,11 +148,7 @@
       "speed": "アニメーション速度: {{speed}}"
     },
     "config": {
-      "missing": "設定を読み込めませんでした",
-      "readFail": "パラメータ付きの構成を読み取れませんでした: {{app}} {{pmv}} {{path}}",
-      "saved": "構成の保存を完了しました",
-      "writeFail": "{{app}} {{pmv}} {{path}} の構成を書き込めませんでした",
-      "writing": "構成の書き込み"
+      "missing": "設定を読み込めませんでした"
     },
     "dataClass": {
       "create": "データクラスの作成",

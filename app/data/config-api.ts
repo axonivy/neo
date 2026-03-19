@@ -1,14 +1,8 @@
 import { toast } from '@axonivy/ui-components';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { headers, ok } from './custom-fetch';
-import {
-  type ConfigurationBean,
-  configurations,
-  readConfig,
-  type ReadConfigParams,
-  writeConfig as writeConfigReq
-} from './generated/ivy-client';
+import { configurations } from './generated/ivy-client';
 import { projectSort } from './sort';
 import { useWorkspace } from './workspace-api';
 
@@ -32,41 +26,4 @@ export const useConfigurations = () => {
       }),
     enabled: !!base
   });
-};
-
-export const useReadConfiguration = ({ app, pmv, path }: ReadConfigParams) => {
-  const { t } = useTranslation();
-  const { base, queryKey } = useConfigurationsApi();
-  return useQuery({
-    queryKey: [...queryKey, app, pmv, path],
-    queryFn: () =>
-      readConfig({ app, pmv, path }, { headers: headers(base) }).then(res => {
-        if (ok(res)) {
-          return res.data;
-        }
-        throw new Error(t('toast.config.readFail', { app: app, pmv: pmv, path: path }));
-      }),
-    enabled: !!base && !!app && !!pmv && !!path
-  });
-};
-
-export const useWriteConfiguration = () => {
-  const { t } = useTranslation();
-  const client = useQueryClient();
-  const { queryKey, base } = useConfigurationsApi();
-  const writeConfig = async (bean: ConfigurationBean) => {
-    const res = await writeConfigReq(bean, { headers: headers(base) });
-    if (ok(res)) {
-      client.invalidateQueries({ queryKey: [...queryKey, bean.id.project.app, bean.id.project.pmv, bean.id.path] });
-      return res.data;
-    }
-    throw new Error(t('toast.config.writeFail', { app: bean.id.project.app, pmv: bean.id.project.pmv, path: bean.id.path }));
-  };
-  return {
-    writeConfig: (bean: ConfigurationBean) => {
-      const newBean = writeConfig(bean);
-      toast.promise(() => newBean, { loading: t('toast.config.writing'), success: t('toast.config.saved'), error: e => e.message });
-      return newBean;
-    }
-  };
 };

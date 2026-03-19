@@ -90,9 +90,6 @@ export const useCreateEditor = () => {
     if (path.endsWith(DATABASES_EDITOR_SUFFIX)) {
       return 'databases';
     }
-    if (path.endsWith(CONFIG_EDITOR_YAML_SUFFIX) || path.endsWith(CONFIG_EDITOR_XML_SUFFIX)) {
-      return 'configurations';
-    }
     toast.error(t('toast.editor.unknownType'), { description: t('toast.editor.fileTypeIncompatible', { type: lastSegment(path) }) });
     throw new Error(t('toast.editor.unknownTypeForPath', { path: path }));
   };
@@ -132,8 +129,6 @@ const editorIcon = (editorType: EditorType) => {
     case 'casemaps':
       return IvyIcons.Trigger;
     case 'variables':
-      return IvyIcons.Variables;
-    case 'configurations':
       return IvyIcons.Tool;
     case 'roles':
       return IvyIcons.Users;

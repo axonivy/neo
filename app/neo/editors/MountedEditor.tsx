@@ -74,8 +74,6 @@ const useTypeName = (type: EditorType) => {
     case 'restclients':
     case 'webservices':
     case 'databases':
-    case 'configurations':
-      return t('neo.configs');
     case 'dataclasses':
       return t('neo.dataClasses');
     default:
