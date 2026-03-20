@@ -1,23 +1,24 @@
-import { indexOf } from '@axonivy/ui-components';
-import { useCallback } from 'react';
+import { Flex, indexOf, Spinner } from '@axonivy/ui-components';
+import { lazy, Suspense, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { noUnknownType } from '~/utils/no-unknown';
-import { CaseMapEditor } from './casemap/CaseMapEditor';
-import { CmsEditor } from './cms/CmsEditor';
-import { DatabaseEditor } from './database/DatabaseEditor';
-import { DataClassEditor } from './dataclass/DataClassEditor';
 import { DIALOG_DATA_EDITOR_SUFFIX, DIALOG_PROCESS_EDITOR_SUFFIX, type Editor } from './editor';
-import { FormEditor } from './form/FormEditor';
-import { PersistenceEditor } from './persistence/PersistenceEditor';
-import { ProcessEditor } from './process/ProcessEditor';
-import { RestClientEditor } from './restclient/RestClientEditor';
-import { RoleEditor } from './role/RoleEditor';
 import { useCreateEditor } from './useCreateEditor';
-import { UserEditor } from './user/UserEditor';
-import { VariableEditor } from './variable/VariableEditor';
-import { WebserviceEditor } from './webservice/WebserviceEditor';
+
+const ProcessEditor = lazy(() => import('./process/ProcessEditor').then(module => ({ default: module.ProcessEditor })));
+const FormEditor = lazy(() => import('./form/FormEditor').then(module => ({ default: module.FormEditor })));
+const CaseMapEditor = lazy(() => import('./casemap/CaseMapEditor').then(module => ({ default: module.CaseMapEditor })));
+const VariableEditor = lazy(() => import('./variable/VariableEditor').then(module => ({ default: module.VariableEditor })));
+const RoleEditor = lazy(() => import('./role/RoleEditor').then(module => ({ default: module.RoleEditor })));
+const UserEditor = lazy(() => import('./user/UserEditor').then(module => ({ default: module.UserEditor })));
+const PersistenceEditor = lazy(() => import('./persistence/PersistenceEditor').then(module => ({ default: module.PersistenceEditor })));
+const RestClientEditor = lazy(() => import('./restclient/RestClientEditor').then(module => ({ default: module.RestClientEditor })));
+const WebserviceEditor = lazy(() => import('./webservice/WebserviceEditor').then(module => ({ default: module.WebserviceEditor })));
+const CmsEditor = lazy(() => import('./cms/CmsEditor').then(module => ({ default: module.CmsEditor })));
+const DatabaseEditor = lazy(() => import('./database/DatabaseEditor').then(module => ({ default: module.DatabaseEditor })));
+const DataClassEditor = lazy(() => import('./dataclass/DataClassEditor').then(module => ({ default: module.DataClassEditor })));
 
 type EditorState = {
   openEditors: Record<string, Array<Editor>>;
@@ -156,33 +157,45 @@ export const useRecentlyOpenedEditors = () => {
 };
 
 export const renderEditor = (editor: Editor) => {
-  switch (editor.type) {
-    case 'processes':
-      return <ProcessEditor {...editor} />;
-    case 'forms':
-      return <FormEditor {...editor} />;
-    case 'casemaps':
-      return <CaseMapEditor {...editor} />;
-    case 'variables':
-      return <VariableEditor {...editor} />;
-    case 'roles':
-      return <RoleEditor {...editor} />;
-    case 'users':
-      return <UserEditor {...editor} />;
-    case 'persistence':
-      return <PersistenceEditor {...editor} />;
-    case 'restclients':
-      return <RestClientEditor {...editor} />;
-    case 'webservices':
-      return <WebserviceEditor {...editor} />;
-    case 'cms':
-      return <CmsEditor {...editor} />;
-    case 'databases':
-      return <DatabaseEditor {...editor} />;
-    case 'dataclasses':
-      return <DataClassEditor {...editor} />;
-    default:
-      noUnknownType(editor.type);
-      return null;
-  }
+  return (
+    <Suspense
+      fallback={
+        <Flex alignItems='center' justifyContent='center' style={{ width: '100%', height: '100%' }}>
+          <Spinner />
+        </Flex>
+      }
+    >
+      {(() => {
+        switch (editor.type) {
+          case 'processes':
+            return <ProcessEditor {...editor} />;
+          case 'forms':
+            return <FormEditor {...editor} />;
+          case 'casemaps':
+            return <CaseMapEditor {...editor} />;
+          case 'variables':
+            return <VariableEditor {...editor} />;
+          case 'roles':
+            return <RoleEditor {...editor} />;
+          case 'users':
+            return <UserEditor {...editor} />;
+          case 'persistence':
+            return <PersistenceEditor {...editor} />;
+          case 'restclients':
+            return <RestClientEditor {...editor} />;
+          case 'webservices':
+            return <WebserviceEditor {...editor} />;
+          case 'cms':
+            return <CmsEditor {...editor} />;
+          case 'databases':
+            return <DatabaseEditor {...editor} />;
+          case 'dataclasses':
+            return <DataClassEditor {...editor} />;
+          default:
+            noUnknownType(editor.type);
+            return null;
+        }
+      })()}
+    </Suspense>
+  );
 };
