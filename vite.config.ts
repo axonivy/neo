@@ -26,6 +26,9 @@ export default defineConfig({
   define: {
     __VERSION__: JSON.stringify(buildHash)
   },
+  resolve: {
+    tsconfigPaths: true
+  },
   base: '/neo/',
   server: {
     proxy: {
