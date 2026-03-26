@@ -32,10 +32,10 @@ test('editor breadcrumbs', async ({ page }) => {
 });
 
 test('casemap breadcrumbs', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/Lending.icm`);
-  const editor = new CaseMapEditor(neo, 'Lending.icm');
+  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/Lending.m.json`);
+  const editor = new CaseMapEditor(neo, 'Lending.m.json');
   await editor.expectOpen('Identification');
-  await neo.breadcrumbs.expectItems(['Workspaces', WORKSPACE, 'Processes', TEST_PROJECT, 'Lending.icm']);
+  await neo.breadcrumbs.expectItems(['Workspaces', WORKSPACE, 'Processes', TEST_PROJECT, 'Lending.m.json']);
 
   await neo.breadcrumbs.item(TEST_PROJECT).last().click();
   const overview = new Overview(page);

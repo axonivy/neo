@@ -5,8 +5,8 @@ import { Neo } from '../../page-objects/neo';
 import { APP, TEST_PROJECT } from '../constants';
 
 const openCaseMap = async (page: Page) => {
-  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/Lending.icm`);
-  const editor = new CaseMapEditor(neo, 'Lending.icm');
+  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/Lending.m.json`);
+  const editor = new CaseMapEditor(neo, 'Lending.m.json');
   await editor.expectOpen('Identification');
   return { neo, editor };
 };
