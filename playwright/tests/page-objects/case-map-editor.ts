@@ -4,7 +4,6 @@ import { Neo } from './neo';
 
 export class CaseMapEditor {
   readonly editor: Locator;
-  readonly toolbar: Locator;
   readonly flow: Locator;
 
   constructor(
@@ -12,8 +11,7 @@ export class CaseMapEditor {
     readonly name: string
   ) {
     this.editor = neo.page.locator(`.editor[data-editor-type="casemaps"][data-editor-name="${name}"]`);
-    this.toolbar = this.editor.locator('.toolbar');
-    this.flow = this.editor.locator('.case-map-editor-panel-content');
+    this.flow = this.editor.locator('#case-map-editor-main');
   }
 
   async expectOpen(stage?: string) {
@@ -37,19 +35,11 @@ export class CaseMapEditorStage {
     readonly editor: CaseMapEditor,
     readonly name: string
   ) {
-    this.stage = editor.flow.locator('.stage-tile', { hasText: name });
+    this.stage = editor.flow.locator('[data-element-type="stage"]', { hasText: name });
   }
 
   async openInscription() {
     await this.stage.dblclick({ position: { x: 10, y: 10 } });
-    return new Inscription(this.editor.neo.page, this.editor.editor.locator('.case-map-editor-detail-panel'));
-  }
-
-  async expectSelected() {
-    await expect(this.stage).toHaveClass(/selected/);
-  }
-
-  async expectInputValue(value: string) {
-    await expect(this.stage.locator('.stage-input__input')).toHaveText(value);
+    return new Inscription(this.editor.neo.page, this.editor.editor.locator('#case-map-editor-detail'));
   }
 }
