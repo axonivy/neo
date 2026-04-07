@@ -1,26 +1,19 @@
 import { useTheme } from '@axonivy/ui-components';
 import type { EditorType } from '~/neo/editors/editor';
 import { noUnknownType } from '~/utils/no-unknown';
-import casemapDarkSvg from '/assets/preview/casemap-dark.svg?url';
-import casemapLightSvg from '/assets/preview/casemap-light.svg?url';
-import configDarkSvg from '/assets/preview/configs-dark.svg?url';
-import configLightSvg from '/assets/preview/configs-light.svg?url';
-import dataClassDarkSvg from '/assets/preview/data-classes-dark.svg?url';
-import dataClassLightSvg from '/assets/preview/data-classes-light.svg?url';
-import formDarkSvg from '/assets/preview/forms-dark.svg?url';
-import formLightSvg from '/assets/preview/forms-light.svg?url';
-import processDarkSvg from '/assets/preview/processes-dark.svg?url';
-import processLightSvg from '/assets/preview/processes-light.svg?url';
-import workspaceDarkSvg from '/assets/preview/workspace-dark.svg?url';
-import workspaceLightSvg from '/assets/preview/workspace-light.svg?url';
+
+const previewAssetUrl = (fileName: string) => `${import.meta.env.BASE_URL}assets/preview/${fileName}`;
 
 const previews = {
-  dataClass: { dark: dataClassDarkSvg, light: dataClassLightSvg },
-  config: { dark: configDarkSvg, light: configLightSvg },
-  form: { dark: formDarkSvg, light: formLightSvg },
-  process: { dark: processDarkSvg, light: processLightSvg },
-  casemap: { dark: casemapDarkSvg, light: casemapLightSvg },
-  workspace: { dark: workspaceDarkSvg, light: workspaceLightSvg }
+  dataClass: {
+    dark: previewAssetUrl('data-classes-dark.svg'),
+    light: previewAssetUrl('data-classes-light.svg')
+  },
+  config: { dark: previewAssetUrl('configs-dark.svg'), light: previewAssetUrl('configs-light.svg') },
+  form: { dark: previewAssetUrl('forms-dark.svg'), light: previewAssetUrl('forms-light.svg') },
+  process: { dark: previewAssetUrl('processes-dark.svg'), light: previewAssetUrl('processes-light.svg') },
+  casemap: { dark: previewAssetUrl('casemap-dark.svg'), light: previewAssetUrl('casemap-light.svg') },
+  workspace: { dark: previewAssetUrl('workspace-dark.svg'), light: previewAssetUrl('workspace-light.svg') }
 } as const;
 
 type PreviewType = keyof typeof previews;
