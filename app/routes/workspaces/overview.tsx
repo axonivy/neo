@@ -41,7 +41,8 @@ import { OverviewTitle } from '~/neo/overview/OverviewTitle';
 import { DeployDialog } from '~/routes/workspaces/DeployDialog';
 import { useKnownHotkeys } from '~/utils/hotkeys';
 import { useMergeRefs } from '~/utils/merge-refs';
-import welcomeSvgUrl from '/assets/welcome.svg?url';
+
+const welcomeSvgUrl = `${import.meta.env.BASE_URL}assets/welcome.svg`;
 
 export const meta: MetaFunction = () => {
   return [{ title: `Welcome - ${NEO_DESIGNER}` }, { name: 'description', content: `Welcome page of ${NEO_DESIGNER}` }];
