@@ -28,7 +28,7 @@
     "test:ci": "vitest run",
     "playwright": "pnpm run --filter playwright --",
     "type": "react-router typegen && tsc && pnpm run --filter @axonivy/neo-webview-process-editor type && pnpm run --filter @axonivy/neo-playwright type",
-    "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -ws --root -t semver -u",
+    "update:axonivy:next": "npx --yes npm-check-updates @axonivy* -w -c 0 --root -t semver -u",
     "sbom": "pnpm dlx @cyclonedx/cdxgen -t pnpm"
   },
   "dependencies": {
