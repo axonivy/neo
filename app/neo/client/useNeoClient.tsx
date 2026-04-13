@@ -1,5 +1,5 @@
 import { toast } from '@axonivy/ui-components';
-import { createContext, useContext } from 'react';
+import { createContext, use } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router';
 import { NeoClientJsonRpc } from '~/data/neo-jsonrpc';
@@ -23,13 +23,13 @@ export const NeoClientProvider = ({ children }: { children: React.ReactNode }) =
     warn: toast.warning,
     error: toast.error
   });
-  return <NeoClientProviderContext.Provider value={{ client }}>{children}</NeoClientProviderContext.Provider>;
+  return <NeoClientProviderContext value={{ client }}>{children}</NeoClientProviderContext>;
 };
 
 export const useNeoClient = () => {
   const { t } = useTranslation();
   const { animation } = useSettings();
-  const context = useContext(NeoClientProviderContext);
+  const context = use(NeoClientProviderContext);
   const { editors, openEditor } = useEditors();
   const { pathname } = useLocation();
   const navigate = useNavigate();

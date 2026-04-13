@@ -17,7 +17,7 @@ export const useUser = () =>
     refetchOnWindowFocus: true
   });
 
-export const useLogout = () => {
+export const logout = () => {
   return () =>
     logoutMe().then(() => {
       redirectToLogin();

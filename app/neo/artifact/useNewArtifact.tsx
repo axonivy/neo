@@ -11,7 +11,7 @@ import {
   useHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, use, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDataClasses } from '~/data/data-class-api';
 import type { DataClassIdentifier, ProjectBean } from '~/data/generated/ivy-client';
@@ -59,12 +59,12 @@ export const NewArtifactDialogProvider = ({ children }: { children: React.ReactN
   const close = () => onDialogOpenChange(false);
 
   return (
-    <NewArtifactDialogContext.Provider value={{ open, close, dialogState, newArtifact }}>
+    <NewArtifactDialogContext value={{ open, close, dialogState, newArtifact }}>
       {children}
       <Dialog open={dialogState} onOpenChange={onDialogOpenChange}>
         <DialogContent>{newArtifact && <NewArtifactDialogContent newArtifact={newArtifact} close={close} />}</DialogContent>
       </Dialog>
-    </NewArtifactDialogContext.Provider>
+    </NewArtifactDialogContext>
   );
 };
 
@@ -167,7 +167,7 @@ const DataClassSelect = ({
 };
 
 export const useNewArtifact = () => {
-  const context = useContext(NewArtifactDialogContext);
+  const context = use(NewArtifactDialogContext);
   if (context === undefined) throw new Error('useNewArtifactDialog must be used within a NewArtifactDialogProvider');
   return context.open;
 };

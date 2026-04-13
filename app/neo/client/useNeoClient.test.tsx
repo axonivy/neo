@@ -35,7 +35,7 @@ const renderNeoClientHook = () => {
   };
 
   return renderHook(() => useNeoClient(), {
-    wrapper: props => <NeoClientProviderContext.Provider value={{ client: mockClient }} {...props} />
+    wrapper: props => <NeoClientProviderContext value={{ client: mockClient }} {...props} />
   });
 };
 

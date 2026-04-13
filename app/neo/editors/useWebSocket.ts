@@ -11,11 +11,11 @@ export const useWebSocket = <TClient extends RpcClient>(
 ) => {
   const [client, setClient] = useState<TClient>();
   const abortController = useMemo(() => new AbortController(), []);
-  const initialized = useRef<boolean>(false);
+  const initializedRef = useRef<boolean>(false);
   const ws = useWorkspace();
   useEffect(() => {
-    if (ws?.baseUrl === undefined || initialized.current) return;
-    initialized.current = true;
+    if (ws?.baseUrl === undefined || initializedRef.current) return;
+    initializedRef.current = true;
     const webSocketUrl = urlBuilder(`${wsBaseUrl()}${ws.baseUrl}`);
     const initClient = async (connection: Connection) => {
       const rpcClient = await startClient(createMessageConnection(connection.reader, connection.writer));

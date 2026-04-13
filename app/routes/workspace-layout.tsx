@@ -31,7 +31,7 @@ export default function Index() {
   const { editors } = useEditors();
   const { browser } = useWebBrowser();
   const { ws } = useParams();
-  const firstWebbrowserElement = useRef<HTMLButtonElement>(null);
+  const firstWebbrowserElementRef = useRef<HTMLButtonElement>(null);
   const { openSimulation, resizeSimulation } = useKnownHotkeys();
 
   useHotkeys(
@@ -40,7 +40,7 @@ export default function Index() {
       browser.toggle();
       if (!browser.isOpen()) {
         setTimeout(() => {
-          firstWebbrowserElement.current?.focus();
+          firstWebbrowserElementRef.current?.focus();
         }, 0);
       }
     },
@@ -139,9 +139,9 @@ export default function Index() {
           defaultSize='0%'
           maxSize='70%'
           minSize='10%'
-          onResize={panelSize => browser.setOpenState(panelSize.asPercentage > 0)}
+          onResize={panelSize => browser.setIsOpen(panelSize.asPercentage > 0)}
         >
-          <WebBrowser firstWebbrowserElement={firstWebbrowserElement} />
+          <WebBrowser firstWebbrowserElement={firstWebbrowserElementRef} />
         </ResizablePanel>
       </ResizableGroup>
     </NeoClientProvider>
