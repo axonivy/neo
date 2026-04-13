@@ -17,7 +17,7 @@ export default defineConfig({
     output: {
       target: './app/data/generated/ivy-client.ts',
       client,
-      prettier: true,
+      formatter: 'prettier',
       override
     }
   },
@@ -28,7 +28,7 @@ export default defineConfig({
     output: {
       target: './app/data/generated/market-client.ts',
       client,
-      prettier: true,
+      formatter: 'prettier',
       override
     }
   }
