@@ -1,10 +1,10 @@
 import config from '@axonivy/eslint-config';
-import i18next from 'eslint-plugin-i18next';
 import a11y from 'eslint-plugin-jsx-a11y';
 import customRules from './eslint-plugin-custom-rules.js';
 
 export default config.defineConfig(
   ...config.base,
+  ...config.i18n,
   // TypeScript configs
   {
     name: 'typescript-eslint',
@@ -25,22 +25,21 @@ export default config.defineConfig(
   {
     name: 'neo/rules',
     plugins: {
-      i18next,
       custom: customRules
     },
     rules: {
       '@tanstack/query/exhaustive-deps': 'off',
-      'custom/no-hardcoded-jsx-strings': 'warn',
-      'i18next/no-literal-string': [
-        'warn',
-        {
-          markupOnly: false,
-          framework: 'react',
-          mode: 'jsx-only',
-          'should-validate-template': true,
-          'jsx-attributes': { include: ['title', 'aria-label', 'label', 'tag-label', 'info', 'description'] }
-        }
-      ]
+      'custom/no-hardcoded-jsx-strings': 'warn'
+      // 'i18next/no-literal-string': [
+      //   'warn',
+      //   {
+      //     markupOnly: false,
+      //     framework: 'react',
+      //     mode: 'jsx-only',
+      //     'should-validate-template': true,
+      //     'jsx-attributes': { include: ['title', 'aria-label', 'label', 'tag-label', 'info', 'description'] }
+      //   }
+      // ]
     }
   }
 );

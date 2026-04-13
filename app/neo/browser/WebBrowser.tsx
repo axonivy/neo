@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/refs */
 import { Button, Flex } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
 import { useTranslation } from 'react-i18next';

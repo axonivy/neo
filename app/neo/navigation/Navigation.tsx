@@ -16,8 +16,8 @@ export const Navigation = () => {
   const { cycleAnimationMode, cycleAnimationSpeed, toggleAnimation, resetEngine } = useCycleAnimationSettings();
   const navigate = useNavigate();
   const hotkeys = useKnownHotkeys();
-  const workspacesElement = useRef<HTMLButtonElement>(null);
-  useHotkeys(hotkeys.focusNav.hotkey, () => workspacesElement.current?.focus(), { enableOnFormTags: true, scopes: ['neo'] });
+  const workspacesElementRef = useRef<HTMLButtonElement>(null);
+  useHotkeys(hotkeys.focusNav.hotkey, () => workspacesElementRef.current?.focus(), { enableOnFormTags: true, scopes: ['neo'] });
   useHotkeys(hotkeys.openWorkspaces.hotkey, () => navigate(''), { enableOnFormTags: true, scopes: ['neo'] });
   useHotkeys(hotkeys.openProcesses.hotkey, () => navigate('processes'), { enableOnFormTags: true, scopes: ['neo'] });
   useHotkeys(hotkeys.openForms.hotkey, () => navigate('forms'), { enableOnFormTags: true, scopes: ['neo'] });
@@ -47,7 +47,7 @@ export const Navigation = () => {
           tabIndex={-1}
           end
         >
-          {({ isActive }) => <Button icon={IvyIcons.Home} size='large' toggle={isActive} ref={workspacesElement} />}
+          {({ isActive }) => <Button icon={IvyIcons.Home} size='large' toggle={isActive} ref={workspacesElementRef} />}
         </NavLink>
         <NavLink
           to='processes'

@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { ok } from './custom-fetch';
 import { getInfo } from './generated/ivy-client';
 
-const useEngineInfoApi = () => {
+const engineInfoApi = () => {
   return { queryKey: ['neo', 'engine-info'] };
 };
 
 export const useEngineVersion = () => {
-  const { queryKey } = useEngineInfoApi();
+  const { queryKey } = engineInfoApi();
   const { t } = useTranslation();
   return useQuery({
     queryKey,

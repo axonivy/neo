@@ -1,11 +1,12 @@
 import { usePanelRef } from '@axonivy/ui-components';
-import { createContext, useContext, useMemo, useRef, useState } from 'react';
+import { createContext, use, useMemo, useRef, useState } from 'react';
 import { useWorkspace } from '~/data/workspace-api';
 
 type WebBrowserProviderState = {
   panelRef: ReturnType<typeof usePanelRef>;
   frameRef: React.RefObject<HTMLIFrameElement | null>;
-  openState: [boolean, React.Dispatch<React.SetStateAction<boolean>>];
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   openUrl: (url?: string) => void;
 };
 
@@ -16,27 +17,24 @@ const WebBrowserProviderContext = createContext<WebBrowserProviderState | undefi
 export const WebBrowserProvider = ({ children }: { children: React.ReactNode }) => {
   const panelRef = usePanelRef();
   const frameRef = useRef<HTMLIFrameElement>(null);
-  const openState = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const openUrl = (url?: string) => {
     if (frameRef.current?.contentWindow && url) {
       frameRef.current.contentWindow.location = url;
     }
   };
-  return (
-    <WebBrowserProviderContext.Provider value={{ panelRef, frameRef, openState, openUrl }}>{children}</WebBrowserProviderContext.Provider>
-  );
+  return <WebBrowserProviderContext value={{ panelRef, frameRef, isOpen, setIsOpen, openUrl }}>{children}</WebBrowserProviderContext>;
 };
 
 export const useWebBrowser = () => {
-  const context = useContext(WebBrowserProviderContext);
+  const context = use(WebBrowserProviderContext);
   const ws = useWorkspace();
   const homeUrl = useMemo(() => (ws ? `${ws?.baseUrl}/dev-workflow-ui/faces/home.xhtml` : undefined), [ws]);
   if (context === undefined) throw new Error('useWebBrowser must be used within a WebBrowserProvider');
-  const { panelRef, frameRef, openUrl, openState } = context;
-  const [isOpen, setOpenState] = openState;
+  const { panelRef, frameRef, openUrl, isOpen, setIsOpen } = context;
   const browser = {
     panelRef,
-    setOpenState,
+    setIsOpen,
     isOpen: () => isOpen,
     toggle: () => {
       if (panelRef.current?.isCollapsed()) {

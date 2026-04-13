@@ -25,30 +25,30 @@ const updateFrameTheme = (frame: HTMLIFrameElement | null, theme: string) => {
 };
 
 export const ProcessEditor = ({ id, project, path, name }: Editor) => {
-  const frame = useRef<HTMLIFrameElement>(null);
-  useHotkeyDispatcher(frame);
+  const frameRef = useRef<HTMLIFrameElement>(null);
+  useHotkeyDispatcher(frameRef);
   const { realTheme } = useTheme();
   const ws = useWorkspace();
   const editorUrl = useHref(
     `/process-editor/index.html?server=${`${baseUrl()}${ws?.baseUrl}`}&app=${project.app}&pmv=${project.pmv}&file=${path}${PROCESS_EDITOR_SUFFIX}&readonly=${project.isIar ?? false}`
   );
   const { pathname } = useLocation();
-  useFrameMessageHandler(frame, project.app);
-  useUpdateTheme(frame, updateFrameTheme);
-  useUpdateLanguage(frame, frame => frame.current?.contentWindow?.location.reload());
+  useFrameMessageHandler(frameRef, project.app);
+  useUpdateTheme(frameRef, updateFrameTheme);
+  useUpdateLanguage(frameRef, frame => frame.current?.contentWindow?.location.reload());
   useEffect(() => {
     if (pathname === id) {
       // trigger rerender of process to fix invisible connectors
-      frame.current?.contentWindow?.dispatchEvent(new CustomEvent('resize'));
+      frameRef.current?.contentWindow?.dispatchEvent(new CustomEvent('resize'));
     }
   }, [pathname, id]);
   return (
     <iframe
-      ref={frame}
+      ref={frameRef}
       title={name}
       src={editorUrl}
       style={{ width: '100%', height: 'calc(100% - 24px)', border: 'none' }}
-      onLoad={() => updateFrameTheme(frame.current, realTheme)}
+      onLoad={() => updateFrameTheme(frameRef.current, realTheme)}
     />
   );
 };

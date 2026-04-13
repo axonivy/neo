@@ -16,12 +16,12 @@ import {
 
 export const MARKET_URL = 'https://market.axonivy.com';
 
-const useMarketApi = () => {
+const marketApi = () => {
   return { queryKey: ['market'], headers: { 'X-Requested-By': 'ivy', ...headers(`${MARKET_URL}/marketplace-service`) } };
 };
 
 export const useProducts = () => {
-  const { queryKey, headers } = useMarketApi();
+  const { queryKey, headers } = marketApi();
   const { t } = useTranslation();
 
   const products = async (pageParam: number, headers: HeadersInit) => {
@@ -57,7 +57,7 @@ export const useProducts = () => {
 
 export const useProductVersions = (id?: string) => {
   const { t } = useTranslation();
-  const { headers, queryKey } = useMarketApi();
+  const { headers, queryKey } = marketApi();
   return useQuery({
     queryKey: [...queryKey, 'versions', id],
     queryFn: () => {
@@ -76,7 +76,7 @@ export const useProductVersions = (id?: string) => {
 
 export const useProductJson = (id?: string, version?: string) => {
   const { t } = useTranslation();
-  const { headers, queryKey } = useMarketApi();
+  const { headers, queryKey } = marketApi();
   return useQuery({
     queryKey: [...queryKey, 'productJson', id, version],
     queryFn: () => {
@@ -94,7 +94,7 @@ export const useProductJson = (id?: string, version?: string) => {
 
 export const useBestMatchingVersion = (id?: string, engineVersion?: string) => {
   const { t } = useTranslation();
-  const { headers, queryKey } = useMarketApi();
+  const { headers, queryKey } = marketApi();
   return useQuery({
     queryKey: [...queryKey, 'bestMatchingVersion', id, engineVersion],
     queryFn: () => {

@@ -23,7 +23,7 @@ import './EditorTabs.css';
 import { useGroupedEditors } from './useGroupedEditors';
 
 export const EditorTabs = () => {
-  const scroller = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
   const firstTabRef = useRef<HTMLButtonElement>(null);
   const [tab, setTab] = useState('');
   const { pathname } = useLocation();
@@ -37,13 +37,13 @@ export const EditorTabs = () => {
 
   return (
     <Tabs
-      ref={scroller}
+      ref={scrollerRef}
       value={tab}
       onValueChange={value => navigate(value)}
       className='editor-tabs'
       onWheel={event => {
-        if (scroller.current) {
-          scroller.current.scrollLeft += event.deltaY + event.deltaX;
+        if (scrollerRef.current) {
+          scrollerRef.current.scrollLeft += event.deltaY + event.deltaX;
         }
       }}
     >
