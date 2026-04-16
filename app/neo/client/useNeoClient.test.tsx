@@ -30,6 +30,7 @@ const renderNeoClientHook = () => {
   const mockClient: NeoClient = {
     onOpenProcessEditor: new Callback<Process, boolean>(),
     onOpenFormEditor: new Callback<Form, boolean>(),
+    onOpenXhtmlEditor: new Callback<unknown, boolean>(),
     animationSettings: vi.fn(),
     stop: vi.fn()
   };

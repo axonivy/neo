@@ -73,7 +73,7 @@ test.describe('preview', () => {
   test('navigate jsf', async ({ page, browserName }) => {
     test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException');
     const neo = await navigate(page, 'userdialog/jsf.ivp', 'JSF Dialog');
-    await neo.toast.expectError('Unknown editor type');
+    await neo.toast.expectError('XHTML files cannot be opened.');
   });
 
   test('navigate form', async ({ page, browserName }) => {
