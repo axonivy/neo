@@ -7,6 +7,7 @@ import type { Process } from './process-api';
 export interface NeoOnRequestTypes {
   openProcessEditor: [Process, Promise<boolean>];
   openFormEditor: [Form, Promise<boolean>];
+  openXhtmlEditor: [unknown, Promise<boolean>];
 }
 
 export type AnimationSettings = {
@@ -22,12 +23,15 @@ export interface NeoNotificationTypes {
 export class NeoClientJsonRpc extends BaseRpcClient implements NeoClient {
   onOpenProcessEditor = new Callback<Process, boolean>();
   onOpenFormEditor = new Callback<Form, boolean>();
+  onOpenXhtmlEditor = new Callback<unknown, boolean>();
   protected override setupConnection(): void {
     super.setupConnection();
     this.toDispose.push(this.onOpenProcessEditor);
     this.toDispose.push(this.onOpenFormEditor);
+    this.toDispose.push(this.onOpenXhtmlEditor);
     this.onRequest('openProcessEditor', data => this.onOpenProcessEditor.call(data) ?? new Promise(() => false));
     this.onRequest('openFormEditor', data => this.onOpenFormEditor.call(data) ?? new Promise(() => false));
+    this.onRequest('openXhtmlEditor', data => this.onOpenXhtmlEditor.call(data) ?? new Promise(() => false));
   }
 
   animationSettings(settings: AnimationSettings) {

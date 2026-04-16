@@ -75,6 +75,10 @@ export const useNeoClient = () => {
     openEditor(editor);
     return true;
   });
+  client?.onOpenXhtmlEditor.set(async () => {
+    toast.error(t('toast.editor.unknownType'), { description: t('toast.editor.noSupportForXhtml') });
+    return false;
+  });
   return client;
 };
 

@@ -22,6 +22,7 @@ export class Callback<T, R = void> implements Disposable {
 export interface NeoClient {
   onOpenProcessEditor: Callback<Process, boolean>;
   onOpenFormEditor: Callback<Form, boolean>;
+  onOpenXhtmlEditor: Callback<unknown, boolean>;
   animationSettings(settings: AnimationSettings): void;
 
   stop(): void;
