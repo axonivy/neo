@@ -1,57 +1,40 @@
 import { toast } from '@axonivy/ui-components';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { headers, ok } from './custom-fetch';
 import {
   findBestMatchProductDetailsByVersion,
   findProductJsonContent,
-  type FindProductJsonContent200,
   findProducts,
   type FindProductsParams,
   findProductVersionsById,
-  type MavenArtifactVersionModel,
-  type PagedModelProductModel,
-  type ProductDetailModel
+  type MavenArtifactVersionModel
 } from './generated/market-client';
 
 export const MARKET_URL = 'https://market.axonivy.com';
 
 const marketApi = () => {
-  return { queryKey: ['market'], headers: { 'X-Requested-By': 'ivy', ...headers(`${MARKET_URL}/marketplace-service`) } };
+  return { queryKey: ['market'], headers: { 'X-Requested-By': 'ivy', ...headers(`${MARKET_URL}/stable`) } };
 };
 
 export const useProducts = () => {
-  const { queryKey, headers } = marketApi();
   const { t } = useTranslation();
+  const { headers, queryKey } = marketApi();
 
-  const products = async (pageParam: number, headers: HeadersInit) => {
-    const params: FindProductsParams = { isRESTClient: false, page: pageParam, sort: [], language: 'en', type: 'all' };
+  const products = async (headers: HeadersInit) => {
+    const params: FindProductsParams = { language: 'en', type: 'all' };
     return findProducts(params, { headers }).then(res => {
       if (ok(res)) {
-        const data = JSON.parse(res.data as unknown as string) as PagedModelProductModel;
-        return data._embedded?.products ?? [];
+        return res.data;
       }
       toast.error(t('toast.market.missing'), { description: t('toast.serverStatus') });
       return [];
     });
   };
-
-  return useInfiniteQuery({
-    queryKey,
-    queryFn: ({ pageParam }) => products(pageParam, headers),
-    initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam) => {
-      if (lastPage?.length === 0) {
-        return;
-      }
-      return lastPageParam + 1;
-    },
-    getPreviousPageParam: (firstPage, allPages, firstPageParam) => {
-      if (firstPageParam <= 1) {
-        return;
-      }
-      return firstPageParam - 1;
-    }
+  return useQuery({
+    queryKey: [...queryKey, 'products'],
+    queryFn: () => products(headers),
+    initialData: []
   });
 };
 
@@ -81,9 +64,9 @@ export const useProductJson = (id?: string, version?: string) => {
     queryKey: [...queryKey, 'productJson', id, version],
     queryFn: () => {
       if (id === undefined || version === undefined) return null;
-      return findProductJsonContent(id, version, {}, { headers }).then(res => {
+      return findProductJsonContent(id, { productVersion: version }, { headers }).then(res => {
         if (ok(res)) {
-          return res.data as unknown as FindProductJsonContent200;
+          return res.data as unknown;
         }
         throw new Error(t('toast.market.loadJsonFail', { id: id, version: version }));
       });
@@ -96,13 +79,13 @@ export const useBestMatchingVersion = (id?: string, engineVersion?: string) => {
   const { t } = useTranslation();
   const { headers, queryKey } = marketApi();
   return useQuery({
+    retry: false,
     queryKey: [...queryKey, 'bestMatchingVersion', id, engineVersion],
     queryFn: () => {
       if (!engineVersion || !id) return null;
-      return findBestMatchProductDetailsByVersion(id, engineVersion, { headers }).then(res => {
+      return findBestMatchProductDetailsByVersion(id, engineVersion, { isShowDevVersion: true }, { headers }).then(res => {
         if (ok(res)) {
-          const data = JSON.parse(res.data as unknown as string) as ProductDetailModel;
-          return data.productModuleContent?.version ?? null;
+          return res.data.version;
         }
         throw new Error(t('toast.market.loadBestMatchingFail', { id: id, engineVersion: engineVersion }));
       });

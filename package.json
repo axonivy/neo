@@ -15,7 +15,7 @@
     "serve": "vite preview",
     "openapi": "pnpm run openapi:download && pnpm run openapi:codegen",
     "openapi:codegen": "orval",
-    "openapi:download": "mvn clean validate && curl -o target/market/openapi.json https://market.axonivy.com/marketplace-service/api-docs/api --create-dirs",
+    "openapi:download": "mvn clean validate && curl -o target/market/openapi.json https://market.axonivy.com/stable/api-docs --create-dirs",
     "lint": "eslint",
     "lint:ci": "eslint -o eslint.xml -f checkstyle",
     "lint:fix": "eslint --fix",
