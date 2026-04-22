@@ -9,14 +9,14 @@ import {
   useDialogHotkeys
 } from '@axonivy/ui-components';
 import { IvyIcons } from '@axonivy/ui-icons';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { MetaFunction } from 'react-router';
 import { Link, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import { useEngineVersion } from '~/data/engine-info-api';
 import type { MarketInstallResult, ProjectBean } from '~/data/generated/ivy-client';
-import type { FindProductJsonContent200, ProductModel } from '~/data/generated/market-client';
+import type { ProductModel } from '~/data/generated/market-client';
 import { MARKET_URL, useBestMatchingVersion, useProductJson, useProducts, useProductVersions } from '~/data/market-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
@@ -37,20 +37,15 @@ export const meta: MetaFunction = ({ params }) => {
 
 export default function Index() {
   const { t } = useTranslation();
-  const { data, isPending, isFetchingNextPage, fetchNextPage, hasNextPage } = useProducts();
+  const { data, isPending } = useProducts();
   const { open, onOpenChange } = useDialogHotkeys(['installDialog']);
-  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data?.pages.flatMap(page => page) ?? [], (product, search) => {
+  const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data, (product, search) => {
     return (
       (product.names?.en?.toLocaleLowerCase().includes(search) ||
         product.shortDescriptions?.en?.toLocaleLowerCase().includes(search) ||
         product.type?.toLocaleLowerCase().includes(search)) ??
       false
     );
-  });
-  useEffect(() => {
-    if (!isFetchingNextPage && hasNextPage) {
-      fetchNextPage();
-    }
   });
   const [product, setProduct] = useState<ProductModel>();
 
@@ -201,7 +196,7 @@ const useInstallButton = (id?: string, version?: string, project?: ProjectIdenti
   return { needDependency, isInstallDisabled, install: () => installProduct(ws, JSON.stringify(data), project).then(openDemos) };
 };
 
-const isDisabled = (needDependency: boolean, version?: string, project?: ProjectIdentifier, data?: FindProductJsonContent200 | null) => {
+const isDisabled = (needDependency: boolean, version?: string, project?: ProjectIdentifier, data?: unknown | null) => {
   if (version === undefined) {
     return true;
   }
