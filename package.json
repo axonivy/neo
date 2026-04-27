@@ -14,7 +14,7 @@
     "serve": "vite preview",
     "openapi": "npm run openapi:download && npm run openapi:codegen",
     "openapi:codegen": "orval",
-    "openapi:download": "mvn clean validate && curl -o target/market/openapi.json https://market.axonivy.com/marketplace-service/api-docs/api --create-dirs",
+    "openapi:download": "mvn clean validate && curl -o target/market/openapi.json https://market.axonivy.com/stable/api-docs --create-dirs",
     "build:editor": "npm run -w @axonivy/neo-webview-process-editor build",
     "lint": "eslint",
     "lint:ci": "eslint -o eslint.xml -f checkstyle",
@@ -28,16 +28,16 @@
     "sbom": "npx --yes @cyclonedx/cyclonedx-npm --ignore-npm-errors --output-format JSON --output-file bom.json"
   },
   "dependencies": {
-    "@axonivy/dataclass-editor": "~12.0.15-next.645.8e881b7",
-    "@axonivy/dataclass-editor-protocol": "~12.0.15-next.645.8e881b7",
-    "@axonivy/form-editor": "~12.0.15-next.943.45bca94",
-    "@axonivy/form-editor-core": "~12.0.15-next.943.45bca94",
-    "@axonivy/form-editor-protocol": "~12.0.15-next.943.45bca94",
-    "@axonivy/jsonrpc": "~12.0.15-next.736.41cf02f",
-    "@axonivy/ui-components": "~12.0.15-next.736.41cf02f",
-    "@axonivy/ui-icons": "~12.0.15-next.736.41cf02f",
-    "@axonivy/variable-editor": "~12.0.15-next.812.b3a2962",
-    "@axonivy/variable-editor-protocol": "~12.0.15-next.812.b3a2962",
+    "@axonivy/dataclass-editor": "~12.0.15-next.651.927ee04",
+    "@axonivy/dataclass-editor-protocol": "~12.0.15-next.651.927ee04",
+    "@axonivy/form-editor": "~12.0.15-next.949.3529d3a",
+    "@axonivy/form-editor-core": "~12.0.15-next.949.3529d3a",
+    "@axonivy/form-editor-protocol": "~12.0.15-next.949.3529d3a",
+    "@axonivy/jsonrpc": "~12.0.15-next.746.6c7431c",
+    "@axonivy/ui-components": "~12.0.15-next.746.6c7431c",
+    "@axonivy/ui-icons": "~12.0.15-next.746.6c7431c",
+    "@axonivy/variable-editor": "~12.0.15-next.818.9438a2d",
+    "@axonivy/variable-editor-protocol": "~12.0.15-next.818.9438a2d",
     "@react-router/node": "^7.10.1",
     "@tanstack/react-query": "^5.81.0",
     "@tanstack/react-query-devtools": "^5.81.0",
@@ -48,7 +48,7 @@
     "zustand": "^5.0.2"
   },
   "devDependencies": {
-    "@axonivy/eslint-config": "~12.0.15-next.736.41cf02f",
+    "@axonivy/eslint-config": "~12.0.15-next.746.6c7431c",
     "@react-router/dev": "^7.10.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
@@ -72,9 +72,9 @@
     "react-resizable-panels": "^2.1.7"
   },
   "overrides": {
-    "@axonivy/jsonrpc": "~12.0.15-next.736.41cf02f",
-    "@axonivy/ui-components": "~12.0.15-next.736.41cf02f",
-    "@axonivy/ui-icons": "~12.0.15-next.736.41cf02f",
+    "@axonivy/jsonrpc": "~12.0.15-next.746.6c7431c",
+    "@axonivy/ui-components": "~12.0.15-next.746.6c7431c",
+    "@axonivy/ui-icons": "~12.0.15-next.746.6c7431c",
     "@eclipse-glsp/client": {
       "lodash": "4.18.1"
     }
