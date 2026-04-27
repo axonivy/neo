@@ -20,7 +20,7 @@ import { Link, useParams } from 'react-router';
 import { NEO_DESIGNER } from '~/constants';
 import { useEngineVersion } from '~/data/engine-info-api';
 import type { MarketInstallResult, ProjectBean } from '~/data/generated/ivy-client';
-import type { FindProductJsonContent200, ProductModel } from '~/data/generated/market-client';
+import type { ProductModel } from '~/data/generated/market-client';
 import { MARKET_URL, useBestMatchingVersion, useProductJson, useProducts, useProductVersions } from '~/data/market-api';
 import type { ProjectIdentifier } from '~/data/project-api';
 import { useInstallProduct } from '~/data/workspace-api';
@@ -39,24 +39,17 @@ export const meta: MetaFunction = ({ params }) => {
 
 export default function Index() {
   const { search, setSearch } = useSearch();
-  const { data, isPending, isFetchingNextPage, fetchNextPage, hasNextPage } = useProducts();
+  const { data, isPending } = useProducts();
   const { activateLocalScopes, restoreLocalScopes } = useHotkeyLocalScopes(['installDialog']);
   const products =
-    data?.pages
-      .flatMap(page => page)
-      ?.filter(product => {
-        const lowerCaseSearch = search.toLocaleLowerCase();
-        return (
-          product.names?.en.toLocaleLowerCase().includes(lowerCaseSearch) ||
-          product.shortDescriptions?.en.includes(lowerCaseSearch) ||
-          product.type?.includes(lowerCaseSearch)
-        );
-      }) ?? [];
-  useEffect(() => {
-    if (!isFetchingNextPage && hasNextPage) {
-      fetchNextPage();
-    }
-  });
+    data?.filter(product => {
+      const lowerCaseSearch = search.toLocaleLowerCase();
+      return (
+        product.names?.en.toLocaleLowerCase().includes(lowerCaseSearch) ||
+        product.shortDescriptions?.en.includes(lowerCaseSearch) ||
+        product.type?.includes(lowerCaseSearch)
+      );
+    }) ?? [];
   const [product, setProduct] = useState<ProductModel>();
   const [dialogState, setDialogState] = useState(false);
   const onDialogOpenChange = (open: boolean) => {
@@ -167,9 +160,9 @@ const VersionSelect = ({ id, setVersion, version }: { id: string; setVersion: (v
   const versions = useMemo(() => data ?? [], [data]);
   const engineVersion = useEngineVersion();
   const bestMatchingVersion = useBestMatchingVersion(id, engineVersion.data);
-  useEffect(() => {
+  if (bestMatchingVersion.data && version === undefined) {
     setVersion(bestMatchingVersion.data);
-  }, [bestMatchingVersion.data, setVersion]);
+  }
   return (
     <BasicField label='Version'>
       {isPending ? (
@@ -196,7 +189,7 @@ type InstallButtonProps = {
   project?: ProjectIdentifier;
 };
 
-const isDisabled = (needDependency: boolean, version?: string, project?: ProjectIdentifier, data?: FindProductJsonContent200) => {
+const isDisabled = (needDependency: boolean, version?: string, project?: ProjectIdentifier, data?: unknown) => {
   if (version === undefined) {
     return true;
   }
