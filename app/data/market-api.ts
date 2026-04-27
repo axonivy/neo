@@ -82,12 +82,12 @@ export const useBestMatchingVersion = (id?: string, engineVersion?: string) => {
     retry: false,
     queryKey: [...queryKey, 'bestMatchingVersion', id, engineVersion],
     queryFn: () => {
-      if (!engineVersion || !id) return null;
+      if (engineVersion === undefined || id === undefined) return null;
       return findBestMatchProductDetailsByVersion(id, engineVersion, { isShowDevVersion: true }, { headers }).then(res => {
         if (ok(res)) {
-          return res.data.version;
+          return res.data.version ?? '';
         }
-        throw new Error(t('toast.market.loadBestMatchingFail', { id: id, engineVersion: engineVersion }));
+        throw new Error(t('toast.market.loadBestMatchingFail', { id, engineVersion }));
       });
     },
     enabled: !!id && !!engineVersion
