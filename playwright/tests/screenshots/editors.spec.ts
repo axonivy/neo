@@ -38,7 +38,7 @@ test('form editor preview', async ({ page }) => {
   await overview.card('EnterProduct').click();
   const editor = new FormEditor(neo, 'EnterProduct');
   await editor.expectOpen('Product');
-  await editor.toolbar.getByRole('button', { name: 'Open Preview' }).click();
+  await editor.toolbar.getByRole('button', { name: 'Open Dialog Preview' }).click();
   const browser = await neo.browser();
   await page.locator('.browser-resize-handle').focus();
   await page.keyboard.press('ArrowLeft');

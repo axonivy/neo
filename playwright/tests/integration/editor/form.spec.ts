@@ -65,7 +65,7 @@ test.describe('preview', () => {
   test('open preview', async ({ page, browserName }) => {
     test.skip(browserName === 'webkit', 'webkit shows a ViewExpiredException');
     const { neo, editor } = await openForm(page);
-    await editor.toolbar.getByRole('button', { name: 'Open Preview' }).click();
+    await editor.toolbar.getByRole('button', { name: 'Open Dialog Preview' }).click();
     const browser = await neo.browser();
     await expect(browser.dialogTitle).toHaveText('Preview');
   });
@@ -93,7 +93,7 @@ test.describe('preview', () => {
     const editor = new FormEditor(neo, fromName);
     await editor.expectOpen();
 
-    await editor.toolbar.getByRole('button', { name: 'Open Preview' }).click();
+    await editor.toolbar.getByRole('button', { name: 'Open Dialog Preview' }).click();
     const browser = await neo.browser();
     await expect(browser.dialogTitle).toHaveText('Preview');
     await expect(browser.dialogFrame.getByRole('button', { name: 'Proceed' })).toBeHidden();
