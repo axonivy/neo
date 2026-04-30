@@ -17,10 +17,10 @@ pipeline {
             docker.build('node', '-f build/Dockerfile.node .').inside {
               sh 'pnpm run update:axonivy:next'
               sh 'pnpm install --no-frozen-lockfile'
-              sh 'pnpm run sbom -o bom.full.json'
+              sh 'pnpm run sbom:dev'
               def version = sh (script: "node -p \"require('./package.json').version\"", returnStdout: true)
-              uploadBOM(projectName: 'neo', projectVersion: version, bomFile: 'bom.full.json')
-              sh 'pnpm run sbom --required-only -o bom.json'
+              uploadBOM(projectName: 'neo', projectVersion: version, bomFile: 'bom-dev.json')
+              sh 'pnpm run sbom'
             }
             docker.build('maven-build', '-f build/Dockerfile.maven .').inside {
               maven cmd: '-f build/sbom/pom.xml clean deploy'
