@@ -21,7 +21,8 @@ pipeline {
         script {
           docker.build('node-webtest', '-f build/Dockerfile.playwright .').inside {
             sh 'pnpm run update:axonivy:next'
-            sh 'pnpm run ci:prepare'
+            sh 'pnpm install --no-frozen-lockfile'
+            sh 'pnpm run build:ci'
             dir ('playwright/neo-test-project') {
               maven cmd: "-ntp verify -Dengine.page.url=${params.engineSource} -Dwebtest.cmd=webtest:${browser()}"
             }

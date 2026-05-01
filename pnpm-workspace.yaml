@@ -1,17 +1,13 @@
 packages:
   - webviews/process-editor
   - playwright
+allowBuilds:
+  '@swc/core': false
+  esbuild: false
 
 allowUnusedPatches: true
-blockExoticSubdeps: true
-
-ignoredBuiltDependencies:
-  - esbuild
-minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - '@axonivy/*'
-  # Renovate security update: i18next-http-backend@3.0.5
-  - i18next-http-backend@3.0.5
 
 overrides:
   dompurify@<=3.3.3: '>=3.4.0'
@@ -26,6 +22,5 @@ preferWorkspacePackages: true
 publicHoistPattern:
   - eslint
 
-sideEffectsCache: false
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 43200 # minutes (30 days)
