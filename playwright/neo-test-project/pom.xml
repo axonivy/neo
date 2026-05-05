@@ -68,7 +68,7 @@
             </goals>
             <configuration>
               <outputDirectory>
-                ${engine.dir}/data/workspaces/Developer/${engine.test.ws}/neo-test-project</outputDirectory>
+                ${engine.dir}/data/default/workspaces/Developer/${engine.test.ws}/neo-test-project</outputDirectory>
               <resources>
                 <resource>
                   <directory>.</directory>
