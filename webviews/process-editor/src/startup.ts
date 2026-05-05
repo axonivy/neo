@@ -1,5 +1,9 @@
+import { NotificationToasterId } from '@axonivy/process-editor';
 import { EnableInscriptionAction } from '@axonivy/process-editor-inscription';
+import '@axonivy/process-editor-inscription-view/lib/inscription-view.css';
+import '@axonivy/process-editor-inscription/lib/process-inscription.css';
 import { EnableHistoryAction, EnableViewportAction, UpdatePaletteItems } from '@axonivy/process-editor-protocol';
+import '@axonivy/process-editor/lib/process-editor.css';
 import {
   EnableToolPaletteAction,
   GLSPActionDispatcher,
@@ -12,8 +16,6 @@ import {
 } from '@eclipse-glsp/client';
 import { ContainerModule, inject, injectable } from 'inversify';
 import type { IvyDiagramOptions } from './di.config';
-
-import { NotificationToasterId } from '@axonivy/process-editor';
 import './index.css';
 import { createWebSocketConnection } from './ws-connection';
 
