@@ -5,7 +5,7 @@ import { Neo } from '../../page-objects/neo';
 import { Overview } from '../../page-objects/overview';
 import { PersistenceEditor } from '../../page-objects/persistence-editor';
 import { RestClientEditor } from '../../page-objects/restclient-editor';
-import { RoleEditor } from '../../page-objects/roles-editor';
+import { RoleEditor } from '../../page-objects/role-editor';
 import { UserEditor } from '../../page-objects/user-editor';
 import { VariableEditor } from '../../page-objects/variables-editor';
 import { WebserviceEditor } from '../../page-objects/webservice-editor';

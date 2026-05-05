@@ -107,8 +107,9 @@ test('import wizard - generate entity class', async ({ page }) => {
   const { overview } = await openDataClasses(page);
   await expect(overview.importButton).toBeVisible();
   await overview.importButton.click();
-  const importDialog = page.locator('.database-editor-import-dialog');
+  const importDialog = page.getByRole('dialog');
   await expect(importDialog).toBeVisible();
+  await expect(importDialog.getByRole('heading')).toHaveText('Generate');
 
   const dbSelection = importDialog.getByRole('combobox');
   await dbSelection.click();
