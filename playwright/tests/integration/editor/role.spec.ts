@@ -1,6 +1,6 @@
 import { expect, type Page, test } from '@playwright/test';
 import { Neo } from '../../page-objects/neo';
-import { RoleEditor } from '../../page-objects/roles-editor';
+import { RoleEditor } from '../../page-objects/role-editor';
 import { APP, TEST_PROJECT } from '../constants';
 
 const openRoles = async (page: Page) => {
