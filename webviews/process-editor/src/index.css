@@ -2,6 +2,10 @@
 
 @import '@axonivy/ui-icons/src-gen/ivy-icons.css' layer(icons);
 @import '@axonivy/ui-components/lib/components.css';
+@import '@eclipse-glsp/css/glsp.css';
+@import '@axonivy/process-editor-inscription-view/lib/inscription-view.css';
+@import '@axonivy/process-editor-inscription/lib/process-inscription.css';
+@import '@axonivy/process-editor/lib/process-editor.css';
 
 html,
 body {
