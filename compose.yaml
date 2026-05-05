@@ -4,5 +4,5 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./playwright/neo-test-project:/ivy/data/workspaces/Developer/neo-test-project/neo-test-project/
+      - ./playwright/neo-test-project:/ivy/data/default/workspaces/Developer/neo-test-project/neo-test-project/
     user: root
