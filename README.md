@@ -6,7 +6,7 @@ It uses Remix in SPA mode for the UI.
 ## Setup
 
 ```shellscript
-npm i
+pnpm i
 ```
 
 ## Development
@@ -14,7 +14,7 @@ npm i
 Start an Axon Ivy Designer (on port 8081) and run:
 
 ```shellscript
-npm run dev
+pnpm run dev
 ```
 
 ## Production
@@ -22,7 +22,7 @@ npm run dev
 Build the remix spa application for production:
 
 ```shellscript
-npm run build
+pnpm run build
 ```
 
 ### Preview
@@ -30,5 +30,5 @@ npm run build
 You can preview the build locally with:
 
 ```shellscript
-npm run serve
+pnpm run serve
 ```
