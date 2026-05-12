@@ -1,9 +1,8 @@
 import config from '@axonivy/eslint-config';
 import a11y from 'eslint-plugin-jsx-a11y';
-import playwright from 'eslint-plugin-playwright';
-import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
-export default tseslint.config(
+export default defineConfig(
   ...config.base,
   // TypeScript configs
   {
@@ -24,15 +23,8 @@ export default tseslint.config(
   },
   {
     name: 'neo/rules',
-    plugins: playwright.configs['flat/recommended'].plugins,
     rules: {
-      '@tanstack/query/exhaustive-deps': 'off',
-      'playwright/no-skipped-test': [
-        'warn',
-        {
-          allowConditional: true
-        }
-      ]
+      '@tanstack/query/exhaustive-deps': 'off'
     }
   }
 );
