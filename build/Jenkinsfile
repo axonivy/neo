@@ -15,8 +15,10 @@ pipeline {
         script {
           catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
             docker.build('node', '-f build/Dockerfile.node .').inside {
-              sh 'npm run update:axonivy:next'
-              sh 'npm run ci'
+              sh 'pnpm run update:axonivy:next'
+              sh 'pnpm install --no-frozen-lockfile'
+              sh 'pnpm run build:ci'
+              sh 'pnpm run check'
               archiveArtifacts 'dist/**'
             }
           }

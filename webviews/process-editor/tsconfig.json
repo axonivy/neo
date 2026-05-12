@@ -2,7 +2,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "lib",
-    "types": ["node", "reflect-metadata", "vite/client"],
+    "types": ["reflect-metadata", "vite/client"],
     "skipLibCheck": true,
     "noImplicitAny": true,
     "noEmit": true,

@@ -1,5 +1,4 @@
-import { matchesKeystroke } from 'sprotty/lib/utils/keyboard';
-import { InvokeCopyPasteAction, Action, KeyListener, GModelElement } from '@eclipse-glsp/client';
+import { Action, GModelElement, InvokeCopyPasteAction, KeyListener, matchesKeystroke } from '@eclipse-glsp/client';
 
 export class CopyPasteKeyListener extends KeyListener {
   keyDown(element: GModelElement, event: KeyboardEvent): Action[] {
