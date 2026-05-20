@@ -165,7 +165,7 @@ export const useDeployWorkspace = () => {
     const baseUrl = new URL('system', params.engineUrl).toString();
     const basicAuth = 'Basic ' + btoa(params.user + ':' + params.password);
     const reqHeaders = { Authorization: basicAuth, ...headers(baseUrl) };
-    const res = await deploy(params.applicationName, { fileToDeploy }, { headers: reqHeaders });
+    const res = await deploy('default', params.applicationName, { fileToDeploy }, { headers: reqHeaders });
     if (ok(res)) {
       return res.data as unknown as string;
     }
