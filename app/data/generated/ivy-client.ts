@@ -773,8 +773,8 @@ export type deployResponseError = (deployResponse401 | deployResponse500 | deplo
 
 export type deployResponse = deployResponseSuccess | deployResponseError;
 
-export const getDeployUrl = (securityContextName: string, applicationName: string) => {
-  return `/apps/${securityContextName}/${applicationName}`;
+export const getDeployUrl = (securityContextName: string, applicationName: string, applicationVersion: string) => {
+  return `/apps/${securityContextName}/${applicationName}/deploy/${applicationVersion}`;
 };
 
 /**
@@ -783,6 +783,7 @@ export const getDeployUrl = (securityContextName: string, applicationName: strin
 export const deploy = async (
   securityContextName: string,
   applicationName: string,
+  applicationVersion: string,
   deployBody?: DeployBody,
   options?: RequestInit
 ): Promise<deployResponse> => {
@@ -794,7 +795,7 @@ export const deploy = async (
     formData.append(`deployTestUsers`, deployBody.deployTestUsers);
   }
 
-  return customFetch<deployResponse>(getDeployUrl(securityContextName, applicationName), {
+  return customFetch<deployResponse>(getDeployUrl(securityContextName, applicationName, applicationVersion), {
     ...options,
     method: 'POST',
     body: formData
