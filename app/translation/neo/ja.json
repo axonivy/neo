@@ -92,7 +92,11 @@
     "capitalizeName": "最初の文字を大文字にすることを推奨します。",
     "dataclassPackaged": "所属するプロジェクトがパッケージ化されているため、データクラスを削除できません。",
     "dependencyPackaged": "現在のプロジェクトがパッケージ化されているため、依存関係を削除できません。",
-    "invalidBpmn": ".bpmn または .xml ファイルを選択してください。"
+    "invalidBpmn": ".bpmn または .xml ファイルを選択してください。",
+    "couldNotOpenCmsEditor": "CMSエディタを開くことができません",
+    "unsupportedAction": "'{{action}}' はサポートされていません.",
+    "couldNotOpenConfigEditor": "{{config}} の設定エディタを開くことができません",
+    "caseMapPackaged": "ケースマップは、所属するプロジェクトがパッケージ化されていないため削除できません."
   },
   "neo": {
     "addDependency": "依存関係としてプロジェクトに追加する",
@@ -113,7 +117,8 @@
     "bpmn": {
       "import": "BPMN ファイルをインポート",
       "importDescription": "BPMN 2.0 ファイルをインポートして、プロジェクトで新しいプロセスを作成します。"
-    }
+    },
+    "newCaseMap": "新しいケースマップを作成する"
   },
   "project": {
     "editable": "編集可能",
@@ -173,7 +178,8 @@
       "fileTypeIncompatible": "NEO ではこのファイルタイプ '{{type}}' を編集できません。",
       "unknownType": "エディタタイプが不明です",
       "unknownTypeForPath": "パス '{{path}}' のエディタタイプが不明です",
-      "unknownTypeForType": "エディタタイプ '{{type}}' が不明です"
+      "unknownTypeForType": "エディタタイプ '{{type}}' が不明です",
+      "noSupportForXhtml": "XHTMLファイルが開くことができません."
     },
     "form": {
       "created": "フォームを作成しました",
@@ -239,6 +245,15 @@
       "removed": "ワークスペースを削除しました",
       "removeFail": "ワークスペース '{{id}}' を削除できませんでした",
       "removing": "ワークスペースの削除"
+    },
+    "casemap": {
+      "created": "ケースマップ作成",
+      "createFail": "ケースマップを作成する失敗",
+      "creating": "ケースマップの作成",
+      "missing": "ケースマップをロードできなかった",
+      "removed": "ケースマップ削除",
+      "removeFail": "ケースマップを削除する失敗 '{{pid}} お問い合わせ",
+      "removing": "ケースマップの削除"
     }
   },
   "dataclasses": {
