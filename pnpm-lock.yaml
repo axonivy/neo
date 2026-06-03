@@ -14,37 +14,37 @@ importers:
   .:
     dependencies:
       '@axonivy/dataclass-editor':
-        specifier: ~12.0.16-next.661.7933380
+        specifier: 12.0.16-next.664.8821dea
         version: 12.0.16-next.664.8821dea(@axonivy/jsonrpc@12.0.16-next.764.12fb0d3)(@axonivy/ui-components@12.0.16-next.764.12fb0d3(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(@types/react-dom@18.3.7(@types/react@18.3.29))(@types/react@18.3.29)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(@tanstack/react-query-devtools@5.100.14(@tanstack/react-query@5.100.14(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.100.14(react@18.3.1))(react@18.3.1)
       '@axonivy/dataclass-editor-protocol':
-        specifier: ~12.0.16-next.661.7933380
+        specifier: 12.0.16-next.664.8821dea
         version: 12.0.16-next.664.8821dea
       '@axonivy/form-editor':
-        specifier: ~12.0.16-next.959.34aa4ef
+        specifier: 12.0.16-next.963.e45f1ac
         version: 12.0.16-next.963.e45f1ac(@axonivy/ui-components@12.0.16-next.764.12fb0d3(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(@types/react-dom@18.3.7(@types/react@18.3.29))(@types/react@18.3.29)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(@tanstack/react-query-devtools@5.100.14(@tanstack/react-query@5.100.14(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.100.14(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
       '@axonivy/form-editor-core':
-        specifier: ~12.0.16-next.959.34aa4ef
+        specifier: 12.0.16-next.963.e45f1ac
         version: 12.0.16-next.963.e45f1ac(@axonivy/jsonrpc@12.0.16-next.764.12fb0d3)
       '@axonivy/form-editor-protocol':
-        specifier: ~12.0.16-next.959.34aa4ef
+        specifier: 12.0.16-next.963.e45f1ac
         version: 12.0.16-next.963.e45f1ac
       '@axonivy/jsonrpc':
-        specifier: ~12.0.16-next.762.6b30854
+        specifier: 12.0.16-next.764.12fb0d3
         version: 12.0.16-next.764.12fb0d3
       '@axonivy/process-editor-inscription-protocol':
         specifier: ~12.0.16-next
         version: 12.0.16-next.1717.ac7be563
       '@axonivy/ui-components':
-        specifier: ~12.0.16-next.762.6b30854
+        specifier: 12.0.16-next.764.12fb0d3
         version: 12.0.16-next.764.12fb0d3(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(@types/react-dom@18.3.7(@types/react@18.3.29))(@types/react@18.3.29)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@axonivy/ui-icons':
-        specifier: ~12.0.16-next.762.6b30854
+        specifier: 12.0.16-next.764.12fb0d3
         version: 12.0.16-next.764.12fb0d3
       '@axonivy/variable-editor':
-        specifier: ~12.0.16-next.830.b3f4328
+        specifier: 12.0.16-next.833.de289a4
         version: 12.0.16-next.833.de289a4(@axonivy/jsonrpc@12.0.16-next.764.12fb0d3)(@axonivy/ui-components@12.0.16-next.764.12fb0d3(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(@types/react-dom@18.3.7(@types/react@18.3.29))(@types/react@18.3.29)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(@tanstack/react-query-devtools@5.100.14(@tanstack/react-query@5.100.14(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.100.14(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@axonivy/variable-editor-protocol':
-        specifier: ~12.0.16-next.830.b3f4328
+        specifier: 12.0.16-next.833.de289a4
         version: 12.0.16-next.833.de289a4
       '@eclipse-glsp/protocol':
         specifier: 2.3.0
@@ -135,7 +135,7 @@ importers:
         specifier: ^5.1.4
         version: 5.1.4(typescript@5.9.3)(vite@7.3.3(@types/node@24.12.4)(jiti@2.6.1)(yaml@2.8.3))
       vitest:
-        specifier: ^4.1.0
+        specifier: ^4.1.8
         version: 4.1.8(@types/node@24.12.4)(happy-dom@20.9.0)(vite@7.3.3(@types/node@24.12.4)(jiti@2.6.1)(yaml@2.8.3))
 
   playwright:
@@ -147,22 +147,22 @@ importers:
   webviews/process-editor:
     dependencies:
       '@axonivy/process-editor':
-        specifier: ~12.0.16-next.1715.5d4b97cd
+        specifier: 12.0.16-next.1717.ac7be563
         version: 12.0.16-next.1717.ac7be563(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(inversify@6.2.2(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)(snabbdom@3.5.1)(sprotty@1.4.0(reflect-metadata@0.2.2))
       '@axonivy/process-editor-inscription':
-        specifier: ~12.0.16-next.1715.5d4b97cd
+        specifier: 12.0.16-next.1717.ac7be563
         version: 12.0.16-next.1717.ac7be563(d328ea32eb988a8f09c63d44c3b341f9)
       '@axonivy/process-editor-inscription-core':
-        specifier: ~12.0.16-next.1715.5d4b97cd
+        specifier: 12.0.16-next.1717.ac7be563
         version: 12.0.16-next.1717.ac7be563(@axonivy/jsonrpc@12.0.16-next.764.12fb0d3)
       '@axonivy/process-editor-inscription-protocol':
-        specifier: ~12.0.16-next.1715.5d4b97cd
+        specifier: 12.0.16-next.1717.ac7be563
         version: 12.0.16-next.1717.ac7be563
       '@axonivy/process-editor-inscription-view':
-        specifier: ~12.0.16-next.1715.5d4b97cd
+        specifier: 12.0.16-next.1717.ac7be563
         version: 12.0.16-next.1717.ac7be563(@axonivy/jsonrpc@12.0.16-next.764.12fb0d3)(@axonivy/ui-components@12.0.16-next.764.12fb0d3(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(@types/react-dom@18.3.7(@types/react@18.3.29))(@types/react@18.3.29)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.16-next.764.12fb0d3)(@radix-ui/react-dialog@1.1.15(@types/react-dom@18.3.7(@types/react@18.3.29))(@types/react@18.3.29)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@radix-ui/react-tabs@1.1.13(@types/react-dom@18.3.7(@types/react@18.3.29))(@types/react@18.3.29)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query-devtools@5.100.14(@tanstack/react-query@5.100.14(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.100.14(react@18.3.1))(@tanstack/react-table@8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(downshift@9.0.13(react@18.3.1))(monaco-editor@0.44.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@axonivy/process-editor-protocol':
-        specifier: ~12.0.16-next.1715.5d4b97cd
+        specifier: 12.0.16-next.1717.ac7be563
         version: 12.0.16-next.1717.ac7be563(inversify@6.2.2(reflect-metadata@0.2.2))
       '@codingame/monaco-vscode-editor-service-override':
         specifier: 1.83.3
