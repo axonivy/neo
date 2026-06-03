@@ -5,22 +5,6 @@ import type { Mock } from 'vitest';
 import type { Editor } from './editor';
 import { useEditors } from './useEditors';
 
-vi.mock('react-router', async importOriginal => {
-  const navigateFn = vi.fn();
-  const paramsFn = vi.fn();
-  return { ...(await importOriginal<typeof import('react-router')>()), useParams: paramsFn, useNavigate: () => navigateFn };
-});
-
-const paramsFn = useParams as unknown as Mock;
-
-beforeEach(() => {
-  paramsFn.mockImplementation(() => ({ ws: 'test-ws' }));
-});
-
-afterEach(() => {
-  vi.restoreAllMocks();
-});
-
 const formEditor: Editor = {
   id: '1',
   type: 'forms',
@@ -38,6 +22,22 @@ const processEditor: Editor = {
   project: { app: 'designer', pmv: 'workflow-demos' },
   path: 'workflow/demo/form/formProcess'
 };
+
+vi.mock('react-router', async importOriginal => {
+  const navigateFn = vi.fn();
+  const paramsFn = vi.fn();
+  return { ...(await importOriginal<typeof import('react-router')>()), useParams: paramsFn, useNavigate: () => navigateFn };
+});
+
+const paramsFn = useParams as unknown as Mock;
+
+beforeEach(() => {
+  paramsFn.mockImplementation(() => ({ ws: 'test-ws' }));
+});
+
+afterEach(() => {
+  (useNavigate() as unknown as Mock).mockReset();
+});
 
 test('add editors', () => {
   const { result } = renderHook(() => useEditors());
