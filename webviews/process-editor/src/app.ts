@@ -1,9 +1,8 @@
-import { MessageConnection } from '@axonivy/jsonrpc';
 import { IvyBaseJsonrpcGLSPClient } from '@axonivy/process-editor';
 import { MonacoEditorUtil } from '@axonivy/process-editor-inscription-view';
 import { ThemeMode } from '@axonivy/process-editor-protocol';
 import { DiagramLoader, EditMode, GLSPActionDispatcher, GLSPWebSocketProvider, MessageAction, StatusAction } from '@eclipse-glsp/client';
-import { ApplicationIdProvider, GLSPClient } from '@eclipse-glsp/protocol';
+import { ApplicationIdProvider, GLSPClient, type JsonrpcGLSPClient } from '@eclipse-glsp/protocol';
 import { Container } from 'inversify';
 import createContainer from './di.config';
 import './index.css';
@@ -34,6 +33,8 @@ let container: Container;
 const wsProvider = new GLSPWebSocketProvider(webSocketUrl);
 wsProvider.listen({ onConnection: initialize, onReconnect: reconnect, logger: console });
 initMonaco();
+
+type MessageConnection = JsonrpcGLSPClient.Options['connectionProvider'];
 
 async function initialize(connectionProvider: MessageConnection, isReconnecting = false): Promise<void> {
   glspClient = new IvyBaseJsonrpcGLSPClient({ id, connectionProvider });
