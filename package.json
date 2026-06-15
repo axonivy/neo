@@ -106,9 +106,6 @@
   "engines": {
     "node": ">=20.19.0"
   },
-  "volta": {
-    "node": "24.14.1"
-  },
   "workspaces": [
     "webviews/process-editor",
     "playwright"
