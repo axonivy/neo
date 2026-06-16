@@ -1,11 +1,18 @@
 #!/bin/bash
 set -e
 
-pnpm install
-pnpm version -r --allow-same-version --no-git-tag-version ${1/SNAPSHOT/next}
-pnpm install --no-frozen-lockfile
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/version-helper.sh"
 
-mvn --batch-mode -f pom.xml versions:set versions:commit -DnewVersion=${1}
-mvn --batch-mode -f build/sbom/pom.xml versions:set versions:commit -DnewVersion=${1}
-mvn --batch-mode -f playwright/neo-test-project/pom.xml versions:set versions:commit -DnewVersion=${1}
-mvn --batch-mode -f playwright/tests/screenshots/pom.xml versions:set versions:commit -DnewVersion=${1}
+VERSION="$1"
+NEXT_VERSION="$(to_next_version "$VERSION")"
+NEXT_TAG="$(to_next_tag "$VERSION")"
+
+pnpm install
+pnpm version -r --allow-same-version --no-git-tag-version "$NEXT_VERSION"
+sed -i -E "s/--pre-dist-tag next-[0-9]+\.[0-9]+\.[0-9]+/--pre-dist-tag $NEXT_TAG/" package.json
+
+mvn --batch-mode -f pom.xml versions:set versions:commit -DnewVersion="$VERSION"
+mvn --batch-mode -f build/sbom/pom.xml versions:set versions:commit -DnewVersion="$VERSION"
+mvn --batch-mode -f playwright/neo-test-project/pom.xml versions:set versions:commit -DnewVersion="$VERSION"
+mvn --batch-mode -f playwright/tests/screenshots/pom.xml versions:set versions:commit -DnewVersion="$VERSION"

@@ -5,22 +5,19 @@ allowBuilds:
   '@swc/core': false
   esbuild: false
   monaco-languageclient: true
-
 allowUnusedPatches: true
 minimumReleaseAgeExclude:
   - '@axonivy/*'
-
+registries:
+  '@axonivy': 'https://npmjs-registry.ivyteam.ch/'
 overrides:
   dompurify@<=3.3.3: '>=3.4.0'
   lodash@<=4.17.23: '>=4.18.0'
   uuid@<14.0.0: '>=14.0.0'
-
 preferWorkspacePackages: true
-
 publicHoistPattern:
   - eslint
   - monaco-editor
-
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 43200 # minutes (30 days)
 verifyDepsBeforeRun: warn
