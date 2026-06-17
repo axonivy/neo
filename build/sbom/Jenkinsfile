@@ -15,8 +15,7 @@ pipeline {
         script {
           if (isReleasingBranch()) {
             docker.build('node', '-f build/Dockerfile.node .').inside {
-              sh 'pnpm run update:axonivy:next'
-              sh 'pnpm install --no-frozen-lockfile'
+              sh 'pnpm install && pnpm run update:axonivy:next'
               sh 'pnpm run sbom:dev'
               def version = sh (script: "node -p \"require('./package.json').version\"", returnStdout: true)
               uploadBOM(projectName: 'neo', projectVersion: version, bomFile: 'bom-dev.json')
