@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import { useStore } from '~/neo/editors/useEditors';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
+  workspaces as allWorkspaces,
   createWorkspace as createWorkspaceReq,
   deleteWorkspace as deleteWorkspaceReq,
   deploy,
@@ -12,11 +13,9 @@ import {
   importProjects as importProjectsReq,
   installMarketProduct,
   type WorkspaceBean,
-  type WorkspaceInit,
-  workspaces
+  type WorkspaceInit
 } from './generated/ivy-client';
 import type { ProjectIdentifier } from './project-api';
-import { useUser } from './user-api';
 
 export type Workspace = WorkspaceBean;
 
@@ -26,18 +25,20 @@ const queryKey = ['neo', 'workspaces'];
 
 export const useWorkspaces = () => {
   const { t } = useTranslation();
-  const user = useUser();
   return useQuery({
     queryKey,
-    queryFn: () =>
-      workspaces().then(res => {
-        if (ok(res)) {
-          return res.data;
-        }
+    queryFn: async () => {
+      const workspaces = await allWorkspaces();
+      if (ok(workspaces)) {
+        return workspaces.data;
+      }
+      // 401 is handled by useUser() in user-api.ts which redirects to login.
+      // Alternatively, use enabled: !!useUser()?.data?.name to prevent fetching before auth.
+      if (workspaces.status !== 401) {
         toast.error(t('toast.workspace.missing'), { description: t('toast.serverStatus') });
-        return [];
-      }),
-    enabled: !!user?.data?.name
+      }
+      return [];
+    }
   });
 };
 
@@ -46,6 +47,14 @@ export const useWorkspace = () => {
   const workspaces = useWorkspaces();
   return workspaces.data?.find(w => w.id === ws);
 };
+
+/**
+ * Assumes baseUrl is always `/~{app}`. If the server changes this format, update both functions.
+ * This way we can skip the workspaces API when the app is already available, e.g., from the persisted editor state.
+ */
+const BASE_URL_PREFIX = '/~';
+export const appToBaseUrl = (app: string) => `${BASE_URL_PREFIX}${app}`;
+export const baseUrlToApp = (baseUrl: string) => baseUrl.substring(BASE_URL_PREFIX.length);
 
 export const useDeleteWorkspace = () => {
   const { t } = useTranslation();

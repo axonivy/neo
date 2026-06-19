@@ -6,14 +6,14 @@ import i18next from 'i18next';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import { useDataClassesApi } from '~/data/data-class-api';
 import { useSortedProjects } from '~/data/project-api';
-import { useWorkspace } from '~/data/workspace-api';
+import { baseUrlToApp, useWorkspace } from '~/data/workspace-api';
 import { DatabaseClientNeo } from '~/neo/editors/database/database-client';
 import { useWebSocket } from '~/neo/editors/useWebSocket';
 import { useActionHandler } from './useActionHandler';
 
 export const DatabaseImportWizard = () => {
   const ws = useWorkspace();
-  const app = ws?.baseUrl.substring(2) ?? 'invalid';
+  const app = ws ? baseUrlToApp(ws.baseUrl) : 'invalid';
   const allProjects =
     useSortedProjects()
       .data?.filter(p => !p.id.isIar)
