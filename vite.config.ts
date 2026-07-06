@@ -57,6 +57,7 @@ export default defineConfig({
     }
   },
   preview: {
+    host: '127.0.0.1',
     headers: {
       'Cache-Control': 'public, max-age=600'
     }
