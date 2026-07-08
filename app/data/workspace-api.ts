@@ -183,7 +183,7 @@ export const useDeployWorkspace = () => {
 export const useInstallProduct = () => {
   const { t } = useTranslation();
   const installProduct = async (id: string, productJson: string, dependentProject?: ProjectIdentifier) => {
-    const res = await installMarketProduct(id, { "productJson": productJson, "doCompile": true, "dependentProject": dependentProject });
+    const res = await installMarketProduct(id, { productJson, "doCompile": true, dependentProject });
     if (ok(res)) {
       return res.data;
     }
