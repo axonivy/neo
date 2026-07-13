@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "check": "pnpm run type && (pnpm run lint:ci || true) && pnpm run test:ci",
+    "check": "pnpm run type && pnpm run lint:ci && pnpm run test:ci",
     "build:ci": "pnpm run build:editor && pnpm run build",
     "build": "react-router build",
     "build:editor": "pnpm run --filter @axonivy/neo-webview-process-editor build",
