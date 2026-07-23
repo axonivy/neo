@@ -24,3 +24,8 @@ for pkg in webviews/*/package.json package.json; do
   update_version "$pkg"
 done
 mvn --batch-mode versions:set-property versions:commit -Dproperty=openapi.version -DnewVersion="$VERSION" -DallowSnapshots=true
+
+# Skip install, because transient dependencies are not available yet
+if [ "$DRY_RUN" = false ]; then
+  pnpm install --no-frozen-lockfile
+fi
