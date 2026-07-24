@@ -47,7 +47,7 @@ describe('process animation', () => {
     namespace: '',
     path: 'info',
     processGroup: 'Main Processes',
-    processIdentifier: { project: { app: 'designer', pmv: 'glsp-test-project' }, pid: '1842D6FBB6A107AB' },
+    processIdentifier: { project: { app: 'designer', project: 'glsp-test-project' }, pid: '1842D6FBB6A107AB' },
     requestPath: 'info.p',
     type: 'glsp.test.project.Data',
     pathname: '/designer/processes/designer/glsp-test-project/processes/info'
@@ -59,7 +59,7 @@ describe('process animation', () => {
     processIdentifier: {
       project: {
         app: 'designer',
-        pmv: 'glsp-test-project'
+        project: 'glsp-test-project'
       },
       pid: '183E4A455276AFC5'
     },
@@ -141,7 +141,7 @@ describe('form', () => {
     identifier: {
       project: {
         app: 'Developer-neo-test-project',
-        pmv: 'neo-test-project',
+        project: 'neo-test-project',
         isIar: false
       },
       id: 'neo.test.project.EnterProductJsf'
@@ -163,7 +163,7 @@ describe('form', () => {
     identifier: {
       project: {
         app: 'Developer-neo-test-project',
-        pmv: 'neo-test-project',
+        project: 'neo-test-project',
         isIar: false
       },
       id: 'neo.test.project.EnterProduct'

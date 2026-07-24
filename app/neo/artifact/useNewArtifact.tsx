@@ -142,7 +142,10 @@ const DataClassSelect = ({
   const { t } = useTranslation();
   const [dataClass, setDataClass] = useState<DataClassIdentifier>();
   const { data, isPending } = useDataClasses();
-  const dataClasses = useMemo(() => data?.filter(dc => dc.dataClassIdentifier.project.pmv === project.pmv) ?? [], [data, project.pmv]);
+  const dataClasses = useMemo(
+    () => data?.filter(dc => dc.dataClassIdentifier.project.project === project.project) ?? [],
+    [data, project.project]
+  );
   const changeDataClass = (dataClass?: DataClassIdentifier) => {
     setDataClass(dataClass);
     onDataClassChange(dataClass);

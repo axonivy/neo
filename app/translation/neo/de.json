@@ -257,7 +257,7 @@
       "missing": "Projekte konnten nicht geladen werden",
       "remove": "Abhängigkeit entfernen",
       "removed": "Abhängigkeit entfernt",
-      "removeFail": "Abhängigkeit '{{pmv}}' konnte nicht entfernt werden"
+      "removeFail": "Abhängigkeit '{{project}}' konnte nicht entfernt werden"
     },
     "editor": {
       "fileTypeIncompatible": "Dieser Dateityp '{{type}}' kann in NEO nicht bearbeitet werden.",
@@ -298,7 +298,7 @@
       "removing": "Prozess wird gelöscht"
     },
     "project": {
-      "bpmnEngineStopFail": "BPM-Engine für Projekt '{{pmv}}' konnte nicht gestoppt werden",
+      "bpmnEngineStopFail": "BPM-Engine für Projekt '{{project}}' konnte nicht gestoppt werden",
       "bpmnEngineStopped": "BPM-Engine gestoppt",
       "bpmnEngineStopping": "BPM-Engine wird gestoppt",
       "created": "Projekt wurde erfolgreich erstellt",
@@ -306,7 +306,7 @@
       "creating": "Projekt wird erstellt",
       "missing": "Projekte konnten nicht geladen werden",
       "removed": "Projekt gelöscht",
-      "removeFail": "Projekt '{{pmv}}' konnte nicht gelöscht werden",
+      "removeFail": "Projekt '{{project}}' konnte nicht gelöscht werden",
       "removing": "Projekt wird gelöscht"
     },
     "serverStatus": "Der Server wurde möglicherweise nicht korrekt gestartet",

@@ -10,7 +10,7 @@ const formEditor: Editor = {
   type: 'forms',
   icon: IvyIcons.File,
   name: 'form',
-  project: { app: 'designer', pmv: 'workflow-demos' },
+  project: { app: 'designer', project: 'workflow-demos' },
   path: 'workflow/demo/form/form'
 };
 
@@ -19,7 +19,7 @@ const processEditor: Editor = {
   type: 'processes',
   icon: IvyIcons.Process,
   name: 'formProcess',
-  project: { app: 'designer', pmv: 'workflow-demos' },
+  project: { app: 'designer', project: 'workflow-demos' },
   path: 'workflow/demo/form/formProcess'
 };
 
@@ -86,7 +86,7 @@ describe('openEditors', () => {
       id: '/test-ws/processes/designer/workflow-demos/workflow/demo/form/formProcess',
       name: 'formProcess',
       path: 'workflow/demo/form/formProcess',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       type: 'processes'
     };
     act(() => result.current.openEditor(editor));
@@ -130,7 +130,7 @@ describe('openEditors', () => {
       id: '/test-ws/processes/designer/workflow-demos/workflow/demo/form/formProcess',
       name: 'formProcess',
       path: 'workflow/demo/form/formProcess',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       type: 'processes'
     });
     expect(result.current.editors[2]).toEqual({
@@ -138,7 +138,7 @@ describe('openEditors', () => {
       id: '/test-ws/dataclasses/designer/workflow-demos/workflow/demo/form/formData',
       name: 'formData',
       path: 'workflow/demo/form/formData',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       type: 'dataclasses'
     });
   });

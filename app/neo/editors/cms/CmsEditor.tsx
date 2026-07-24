@@ -15,7 +15,7 @@ export const CmsEditor = ({ project }: Editor) => {
   if (!client) {
     return null;
   }
-  const context = { app: project.app, pmv: project.pmv, file: 'cms' };
+  const context = { app: project.app, project: project.project, file: 'cms' };
   const initializePromise = client.initialize(context);
   return (
     <ClientContextProvider client={client}>

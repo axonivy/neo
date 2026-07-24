@@ -13,7 +13,7 @@ export interface EngineInfo {
 
 export interface ProjectIdentifier {
   app: string;
-  pmv: string;
+  project: string;
   isIar?: boolean;
 }
 
@@ -219,12 +219,12 @@ export type DataClassesParams = {
 export type ComponentFormParams = {
   componentId?: string;
   app?: string;
-  pmv?: string;
+  project?: string;
 };
 
 export type ImportProcessBody = {
   app?: string;
-  pmv?: string;
+  project?: string;
   projectDir?: string;
   file?: Blob;
 };
@@ -236,24 +236,24 @@ export type ProjectsParams = {
 export type ConvertProjectParams = {
   projectDir?: string;
   app?: string;
-  pmv?: string;
+  project?: string;
 };
 
 export type DeleteProjectParams = {
   projectDir?: string;
   app?: string;
-  pmv?: string;
+  project?: string;
 };
 
 export type InvalidateClassLoaderParams = {
   app?: string;
-  pmv?: string;
+  project?: string;
   projectDir?: string;
 };
 
 export type StopBpmEngineParams = {
   app?: string;
-  pmv?: string;
+  project?: string;
   projectDir?: string;
 };
 
@@ -1196,8 +1196,8 @@ export const importProcess = async (importProcessBody?: ImportProcessBody, optio
   if (importProcessBody?.app !== undefined) {
     formData.append(`app`, importProcessBody.app);
   }
-  if (importProcessBody?.pmv !== undefined) {
-    formData.append(`pmv`, importProcessBody.pmv);
+  if (importProcessBody?.project !== undefined) {
+    formData.append(`project`, importProcessBody.project);
   }
   if (importProcessBody?.projectDir !== undefined) {
     formData.append(`projectDir`, importProcessBody.projectDir);
@@ -1393,26 +1393,26 @@ export const convertProject = async (params?: ConvertProjectParams, options?: Re
   });
 };
 
-export type createPmvAndProjectFilesResponseDefault = {
+export type createProjectAndProjectFilesResponseDefault = {
   data: ProjectBean;
   status: number;
 };
 
-export type createPmvAndProjectFilesResponseError = createPmvAndProjectFilesResponseDefault & {
+export type createProjectAndProjectFilesResponseError = createProjectAndProjectFilesResponseDefault & {
   headers: Headers;
 };
 
-export type createPmvAndProjectFilesResponse = createPmvAndProjectFilesResponseError;
+export type createProjectAndProjectFilesResponse = createProjectAndProjectFilesResponseError;
 
-export const getCreatePmvAndProjectFilesUrl = () => {
+export const getCreateProjectAndProjectFilesUrl = () => {
   return `/web-ide/project/new`;
 };
 
-export const createPmvAndProjectFiles = async (
+export const createProjectAndProjectFiles = async (
   newProjectParams?: NewProjectParams,
   options?: RequestInit
-): Promise<createPmvAndProjectFilesResponse> => {
-  return customFetch<createPmvAndProjectFilesResponse>(getCreatePmvAndProjectFilesUrl(), {
+): Promise<createProjectAndProjectFilesResponse> => {
+  return customFetch<createProjectAndProjectFilesResponse>(getCreateProjectAndProjectFilesUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
@@ -1420,23 +1420,23 @@ export const createPmvAndProjectFiles = async (
   });
 };
 
-export type findOrCreatePmvResponseDefault = {
+export type findOrCreateProjectResponseDefault = {
   data: unknown;
   status: number;
 };
 
-export type findOrCreatePmvResponseError = findOrCreatePmvResponseDefault & {
+export type findOrCreateProjectResponseError = findOrCreateProjectResponseDefault & {
   headers: Headers;
 };
 
-export type findOrCreatePmvResponse = findOrCreatePmvResponseError;
+export type findOrCreateProjectResponse = findOrCreateProjectResponseError;
 
-export const getFindOrCreatePmvUrl = () => {
+export const getFindOrCreateProjectUrl = () => {
   return `/web-ide/project`;
 };
 
-export const findOrCreatePmv = async (projectParams?: ProjectParams, options?: RequestInit): Promise<findOrCreatePmvResponse> => {
-  return customFetch<findOrCreatePmvResponse>(getFindOrCreatePmvUrl(), {
+export const findOrCreateProject = async (projectParams?: ProjectParams, options?: RequestInit): Promise<findOrCreateProjectResponse> => {
+  return customFetch<findOrCreateProjectResponse>(getFindOrCreateProjectUrl(), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
@@ -1556,12 +1556,12 @@ export type dependenciesResponseError = dependenciesResponseDefault & {
 
 export type dependenciesResponse = dependenciesResponseError;
 
-export const getDependenciesUrl = (app: string, pmv: string) => {
-  return `/web-ide/project/${app}/${pmv}/dependencies`;
+export const getDependenciesUrl = (app: string, project: string) => {
+  return `/web-ide/project/${app}/${project}/dependencies`;
 };
 
-export const dependencies = async (app: string, pmv: string, options?: RequestInit): Promise<dependenciesResponse> => {
-  return customFetch<dependenciesResponse>(getDependenciesUrl(app, pmv), {
+export const dependencies = async (app: string, project: string, options?: RequestInit): Promise<dependenciesResponse> => {
+  return customFetch<dependenciesResponse>(getDependenciesUrl(app, project), {
     ...options,
     method: 'GET'
   });
@@ -1578,17 +1578,17 @@ export type addDependencyResponseError = addDependencyResponseDefault & {
 
 export type addDependencyResponse = addDependencyResponseError;
 
-export const getAddDependencyUrl = (app: string, pmv: string) => {
-  return `/web-ide/project/${app}/${pmv}/dependency`;
+export const getAddDependencyUrl = (app: string, project: string) => {
+  return `/web-ide/project/${app}/${project}/dependency`;
 };
 
 export const addDependency = async (
   app: string,
-  pmv: string,
+  project: string,
   projectIdentifier?: ProjectIdentifier,
   options?: RequestInit
 ): Promise<addDependencyResponse> => {
-  return customFetch<addDependencyResponse>(getAddDependencyUrl(app, pmv), {
+  return customFetch<addDependencyResponse>(getAddDependencyUrl(app, project), {
     ...options,
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...options?.headers },
@@ -1607,18 +1607,18 @@ export type removeDependencyResponseError = removeDependencyResponseDefault & {
 
 export type removeDependencyResponse = removeDependencyResponseError;
 
-export const getRemoveDependencyUrl = (app: string, pmv: string, dependencyApp: string, dependencyPmv: string) => {
-  return `/web-ide/project/${app}/${pmv}/dependency/${dependencyApp}/${dependencyPmv}`;
+export const getRemoveDependencyUrl = (app: string, project: string, dependencyApp: string, dependencyProject: string) => {
+  return `/web-ide/project/${app}/${project}/dependency/${dependencyApp}/${dependencyProject}`;
 };
 
 export const removeDependency = async (
   app: string,
-  pmv: string,
+  project: string,
   dependencyApp: string,
-  dependencyPmv: string,
+  dependencyProject: string,
   options?: RequestInit
 ): Promise<removeDependencyResponse> => {
-  return customFetch<removeDependencyResponse>(getRemoveDependencyUrl(app, pmv, dependencyApp, dependencyPmv), {
+  return customFetch<removeDependencyResponse>(getRemoveDependencyUrl(app, project, dependencyApp, dependencyProject), {
     ...options,
     method: 'DELETE'
   });

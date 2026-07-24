@@ -17,13 +17,13 @@ export const useNavigateActionHandler = (app: string) => {
         return;
       }
       const { uri, args } = data.target;
-      const pmv = asString(args?.pmv)?.split('$')[0];
-      if (!pmv || !uri) {
+      const project = asString(args?.project)?.split('$')[0];
+      if (!project || !uri) {
         return;
       }
       const path = removeFirstSegmet(uri);
       const isIar = asString(args?.isIar) === 'true';
-      openEditor(createEditorFromPath({ app, pmv, isIar }, path));
+      openEditor(createEditorFromPath({ app, project, isIar }, path));
     },
     [openEditor, createEditorFromPath, app]
   );

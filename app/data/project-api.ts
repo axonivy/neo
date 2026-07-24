@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { headers, ok, resolveErrorMessage } from './custom-fetch';
 import {
-  createPmvAndProjectFiles,
+  createProjectAndProjectFiles,
   deleteProject as deleteProjectReq,
   projects,
   stopBpmEngine as stopBpmEngineReq,
@@ -28,7 +28,7 @@ export const useSortedProjects = (withDependencies?: boolean) => {
     queryFn: () =>
       projects({ withDependencies }, { headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data.sort((a, b) => projectSort(a.id.pmv, b.id.pmv, ws));
+          return res.data.sort((a, b) => projectSort(a.id.project, b.id.project, ws));
         }
         toast.error(t('toast.project.missing'), { description: t('toast.serverStatus') });
         return [];
@@ -47,7 +47,7 @@ export const useDeleteProject = () => {
         client.invalidateQueries({ queryKey });
         return;
       }
-      throw new Error(t('toast.project.removeFail', { pmv: identifier.pmv }));
+      throw new Error(t('toast.project.removeFail', { project: identifier.project }));
     });
   };
   return {
@@ -65,7 +65,7 @@ export const useCreateProject = () => {
   const { queryKey, base } = useProjectsApi();
   const client = useQueryClient();
   const createProject = async (newProjectParams: NewProjectParams) => {
-    const res = await createPmvAndProjectFiles(newProjectParams, { headers: headers(base) });
+    const res = await createProjectAndProjectFiles(newProjectParams, { headers: headers(base) });
     if (ok(res)) {
       client.invalidateQueries({ queryKey });
       return res.data;
@@ -94,7 +94,7 @@ export const useStopBpmEngine = () => {
       if (ok(res)) {
         return;
       }
-      throw new Error(t('toast.project.bpmnEngineStopFail', { pmv: identifier.pmv }));
+      throw new Error(t('toast.project.bpmnEngineStopFail', { project: identifier.project }));
     });
   };
   return {

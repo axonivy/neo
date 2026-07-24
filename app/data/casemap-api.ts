@@ -28,7 +28,7 @@ export const useCaseMaps = () => {
     queryFn: () =>
       getCaseMaps({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data.sort((a, b) => projectSort(a.caseMapIdentifier.project.pmv, b.caseMapIdentifier.project.pmv, ws));
+          return res.data.sort((a, b) => projectSort(a.caseMapIdentifier.project.project, b.caseMapIdentifier.project.project, ws));
         }
         toast.error(t('toast.casemap.missing'), { description: t('toast.serverStatus') });
         return [];

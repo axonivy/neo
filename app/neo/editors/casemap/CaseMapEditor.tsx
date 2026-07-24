@@ -23,7 +23,7 @@ export const CaseMapEditor = ({ project, path }: Editor) => {
             <App
               context={{
                 app: project.app,
-                pmv: project.pmv,
+                project: project.project,
                 file: path.endsWith(CASEMAP_EDITOR_SUFFIX) ? path : `${path}${CASEMAP_EDITOR_SUFFIX}`
               }}
               directSave={true}

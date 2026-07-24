@@ -17,7 +17,7 @@ export const DatabaseImportWizard = () => {
   const allProjects =
     useSortedProjects()
       .data?.filter(p => !p.id.isIar)
-      .map(p => p.id.pmv) ?? [];
+      .map(p => p.id.project) ?? [];
   const { t } = useTranslation();
   const actionHandler = useActionHandler();
   const client = useWebSocket<DatabaseClientNeo>(DatabaseClientNeo.webSocketUrl, connection =>

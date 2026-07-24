@@ -34,7 +34,7 @@ export default function Index() {
   const { data, isPending } = useDataClasses();
   const { allBadges, badgesFor } = useBadges();
   const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (dc, search, projects, badges) => {
-    const hasMatchingProject = projects.length === 0 || projects.includes(dc.dataClassIdentifier.project.pmv);
+    const hasMatchingProject = projects.length === 0 || projects.includes(dc.dataClassIdentifier.project.project);
     const hasMatchingBade =
       badges.length === 0 ||
       badges.some(badge =>
@@ -79,7 +79,7 @@ export default function Index() {
       >
         {sortedArtifacts.map(dataclass => (
           <DataClassCard
-            key={`${dataclass.dataClassIdentifier.project.pmv}/${dataclass.path}/${dataclass.simpleName}`}
+            key={`${dataclass.dataClassIdentifier.project.project}/${dataclass.path}/${dataclass.simpleName}`}
             dataClass={dataclass}
           />
         ))}
@@ -102,7 +102,7 @@ const DataClassCard = ({ dataClass }: { dataClass: DataClassBean }) => {
     <ArtifactCard
       ref={artifactCardRef}
       name={editor.name}
-      description={editor.project.pmv}
+      description={editor.project.project}
       preview={<PreviewSvg type='dataClass' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
@@ -147,7 +147,7 @@ const useDataClassExists = () => {
   const { data } = useDataClasses();
   return ({ name, namespace, project }: NewArtifactIdentifier) =>
     data
-      ?.filter(dc => dc.dataClassIdentifier.project.pmv === project?.pmv)
+      ?.filter(dc => dc.dataClassIdentifier.project.project === project?.project)
       ?.some(dc => dc.name.toLowerCase() === `${namespace.toLowerCase()}.${name.toLowerCase()}`) ?? false;
 };
 

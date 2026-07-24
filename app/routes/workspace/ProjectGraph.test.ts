@@ -4,9 +4,9 @@ test('maps projects correctly', () => {
   const projects: ProjectGraphBean[] = [
     {
       artifactId: 'my-artifact',
-      id: { app: 'app1', pmv: 'project1' },
+      id: { app: 'app1', project: 'project1' },
       version: '1.0.0',
-      dependencies: [{ app: 'app2', pmv: 'project2' }]
+      dependencies: [{ app: 'app2', project: 'project2' }]
     }
   ];
 

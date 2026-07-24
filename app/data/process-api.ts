@@ -31,7 +31,7 @@ export const useProcesses = () => {
     queryFn: () =>
       getProcesses({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data.sort((a, b) => projectSort(a.processIdentifier.project.pmv, b.processIdentifier.project.pmv, ws));
+          return res.data.sort((a, b) => projectSort(a.processIdentifier.project.project, b.processIdentifier.project.project, ws));
         }
         toast.error(t('toast.process.missing'), { description: t('toast.serverStatus') });
         return [];

@@ -103,7 +103,7 @@ type OverviewProjectFilterProps = {
 
 export const OverviewProjectFilter = ({ projects, setProjects, badges, setBadges, allBadges, typeFilter }: OverviewProjectFilterProps) => {
   const { t } = useTranslation();
-  const allProjects = useSortedProjects().data?.map(p => p.id.pmv) ?? [];
+  const allProjects = useSortedProjects().data?.map(p => p.id.project) ?? [];
 
   return (
     <DropdownMenu>

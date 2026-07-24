@@ -20,7 +20,7 @@ export const WebserviceEditor = ({ project }: Editor) => {
       <ThemeProvider disabled>
         <ReadonlyProvider readonly={project.isIar ?? false}>
           <I18nextProvider i18n={i18next} defaultNS={'webservice-editor'}>
-            <App context={{ app: project.app, pmv: project.pmv, file: 'config/webservice-clients.yaml' }} directSave={true} />
+            <App context={{ app: project.app, project: project.project, file: 'config/webservice-clients.yaml' }} directSave={true} />
           </I18nextProvider>
         </ReadonlyProvider>
       </ThemeProvider>

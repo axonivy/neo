@@ -20,7 +20,7 @@ export const RestClientEditor = ({ project }: Editor) => {
       <ThemeProvider disabled>
         <ReadonlyProvider readonly={project.isIar ?? false}>
           <I18nextProvider i18n={i18next} defaultNS={'restclient-editor'}>
-            <App context={{ app: project.app, pmv: project.pmv, file: 'config/rest-clients.yaml' }} directSave={true} />
+            <App context={{ app: project.app, project: project.project, file: 'config/rest-clients.yaml' }} directSave={true} />
           </I18nextProvider>
         </ReadonlyProvider>
       </ThemeProvider>

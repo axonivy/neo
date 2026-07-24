@@ -35,7 +35,7 @@ export const ProjectSelect = ({ onProjectChange, setDefaultValue, label, project
           placeholder={isPending && <Spinner size='small' />}
           items={projects.map(p => ({
             value: JSON.stringify(p),
-            label: p.id.pmv
+            label: p.id.project
           }))}
           defaultValue={setDefaultValue ? JSON.stringify(projects[0]) : undefined}
           value={JSON.stringify(project)}

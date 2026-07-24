@@ -48,7 +48,7 @@ export const useSyncSettings = (client?: NeoClient) => {
 export const useCycleAnimationSettings = () => {
   const { t } = useTranslation();
   const { animation, enableAnimation, animationMode, animationSpeed } = useSettings();
-  const { app, pmv } = useParams();
+  const { app, project } = useParams();
   const { stopBpmEngine } = useStopBpmEngine();
 
   const cycleAnimationMode = () => {
@@ -70,7 +70,7 @@ export const useCycleAnimationSettings = () => {
     toast.info(animation.animate ? t('toast.animation.disabled') : t('toast.animation.enabled'));
   };
   const resetEngine = () => {
-    if (app && pmv) stopBpmEngine({ app, pmv });
+    if (app && project) stopBpmEngine({ app, project });
   };
   return { cycleAnimationMode, cycleAnimationSpeed, toggleAnimation, resetEngine };
 };

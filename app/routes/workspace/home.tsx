@@ -54,7 +54,7 @@ export default function Index() {
   const { data, isPending } = useSortedProjects();
   const { ws } = useParams();
   const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (project, search) =>
-    project.id.pmv.toLocaleLowerCase().includes(search)
+    project.id.project.toLocaleLowerCase().includes(search)
   );
   return (
     <Overview>
@@ -70,7 +70,7 @@ export default function Index() {
       <OverviewFilter {...overviewFilter} viewTypes={{ graph: true }} />
       <OverviewContent isPending={isPending} viewType={overviewFilter.viewType} viewTypes={{ graph: <ProjectGraph /> }}>
         {filteredAritfacts.map(p => (
-          <ProjectCard key={p.id.pmv} project={p} />
+          <ProjectCard key={p.id.project} project={p} />
         ))}
       </OverviewContent>
     </Overview>
@@ -181,14 +181,14 @@ const ProjectCard = ({ project }: { project: ProjectBean }) => {
   const { deleteProject } = useDeleteProject();
   const ws = useWorkspace();
   const { artifactCardRef, ...dialogState } = useDeleteConfirmDialog();
-  const defaultProject = project.id.pmv === ws?.id;
+  const defaultProject = project.id.project === ws?.id;
   const { badgesFor: badgesFor } = useBadges();
   const badges = badgesFor(project, defaultProject);
   return (
     <ArtifactCard
       ref={artifactCardRef}
-      name={project.id.pmv}
-      onClick={() => navigate(`projects/${project.id.app}/${project.id.pmv}`)}
+      name={project.id.project}
+      onClick={() => navigate(`projects/${project.id.app}/${project.id.project}`)}
       preview={<PreviewSvg type='workspace' />}
       badges={badges}
     >

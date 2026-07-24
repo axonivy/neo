@@ -15,7 +15,11 @@ export const FormEditor = ({ project, path }: Editor) => {
   if (!client) {
     return null;
   }
-  const context = { app: project.app, pmv: project.pmv, file: path.endsWith(FORM_EDITOR_SUFFIX) ? path : `${path}${FORM_EDITOR_SUFFIX}` };
+  const context = {
+    app: project.app,
+    project: project.project,
+    file: path.endsWith(FORM_EDITOR_SUFFIX) ? path : `${path}${FORM_EDITOR_SUFFIX}`
+  };
   client.initialize(context);
   return (
     <ClientContextProvider client={client}>

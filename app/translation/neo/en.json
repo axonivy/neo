@@ -257,7 +257,7 @@
       "missing": "Failed to load projects",
       "remove": "Remove dependency",
       "removed": "Dependency removed",
-      "removeFail": "Failed to remove dependency '{{pmv}}'"
+      "removeFail": "Failed to remove dependency '{{project}}'"
     },
     "editor": {
       "fileTypeIncompatible": "This file type '{{type}}' can not be edited in NEO.",
@@ -298,7 +298,7 @@
       "removing": "Removing process"
     },
     "project": {
-      "bpmnEngineStopFail": "Failed to stop BPM Engine for project '{{pmv}}'",
+      "bpmnEngineStopFail": "Failed to stop BPM Engine for project '{{project}}'",
       "bpmnEngineStopped": "BPM Engine stopped",
       "bpmnEngineStopping": "Stopping BPM Engine",
       "created": "Project successfully created",
@@ -306,7 +306,7 @@
       "creating": "Creating Project",
       "missing": "Failed to load projects",
       "removed": "Project removed",
-      "removeFail": "Failed to remove project '{{pmv}}'",
+      "removeFail": "Failed to remove project '{{project}}'",
       "removing": "Removing project"
     },
     "serverStatus": "Maybe the server is not correclty started",

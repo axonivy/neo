@@ -27,7 +27,7 @@ const AddDependencyDialogContent = ({ project }: { project: ProjectIdentifier })
   const { addDependency } = useAddDependencyReq();
   return (
     <BasicDialogContent
-      title={t('projects.addDependencyTo', { project: project.pmv })}
+      title={t('projects.addDependencyTo', { project: project.project })}
       description={t('projects.addDependencyDescription')}
       cancel={
         <Button variant='outline' size='large'>
@@ -49,7 +49,7 @@ const AddDependencyDialogContent = ({ project }: { project: ProjectIdentifier })
       <ProjectSelect
         onProjectChange={setDependency}
         setDefaultValue={true}
-        projectFilter={p => p.id.pmv !== project.pmv}
+        projectFilter={p => p.id.project !== project.project}
         label={t('projects.selectDependency')}
       />
     </BasicDialogContent>

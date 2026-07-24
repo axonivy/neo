@@ -47,7 +47,7 @@ export const useDataClasses = () => {
     queryFn: () =>
       dataClasses(undefined, { headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data.sort((a, b) => projectSort(a.dataClassIdentifier.project.pmv, b.dataClassIdentifier.project.pmv, ws));
+          return res.data.sort((a, b) => projectSort(a.dataClassIdentifier.project.project, b.dataClassIdentifier.project.project, ws));
         }
         toast.error(t('toast.dataClass.missing'), { description: t('toast.serverStatus') });
         return [];

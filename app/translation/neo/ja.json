@@ -172,7 +172,7 @@
       "missing": "プロジェクトを読み込めませんでした",
       "remove": "依存関係を削除する",
       "removed": "依存関係を削除しました",
-      "removeFail": "依存関係 '{{pmv}}' を削除できませんでした"
+      "removeFail": "依存関係 '{{project}}' を削除できませんでした"
     },
     "editor": {
       "fileTypeIncompatible": "NEO ではこのファイルタイプ '{{type}}' を編集できません。",
@@ -213,7 +213,7 @@
       }
     },
     "project": {
-      "bpmnEngineStopFail": "プロジェクト '{{pmv}}' の BPM エンジンを停止できませんでした",
+      "bpmnEngineStopFail": "プロジェクト '{{project}}' の BPM エンジンを停止できませんでした",
       "bpmnEngineStopped": "BPM エンジンが停止しました",
       "bpmnEngineStopping": "BPM エンジンの停止",
       "created": "プロジェクトは正常に作成されました",
@@ -221,7 +221,7 @@
       "creating": "プロジェクトの作成",
       "missing": "プロジェクトを読み込めませんでした",
       "removed": "プロジェクトを削除しました",
-      "removeFail": "プロジェクト '{{pmv}}' を削除できませんでした",
+      "removeFail": "プロジェクト '{{project}}' を削除できませんでした",
       "removing": "プロジェクトの削除"
     },
     "serverStatus": "サーバーが正しく起動していない可能性があります",

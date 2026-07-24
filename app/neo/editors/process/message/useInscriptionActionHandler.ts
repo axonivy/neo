@@ -74,7 +74,7 @@ const useNewProcessActionHandler = () => {
   const exists = useProcessExists();
   return useCallback(
     (args: InscriptionActionArgs, window: WindowProxy | null) => {
-      const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
+      const project = projects.data?.find(p => p.id.project === args.context.project && p.id.app === args.context.app);
       const pid = args.context.pid;
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
         createProcess({ name, namespace, kind: '', project, pid }).then(process => {
@@ -103,7 +103,7 @@ const useNewFormActionHandler = () => {
   const exists = useFormExists();
   return useCallback(
     (args: InscriptionActionArgs, window: WindowProxy | null) => {
-      const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
+      const project = projects.data?.find(p => p.id.project === args.context.project && p.id.app === args.context.app);
       const pid = args.context.pid;
       const create = (name: string, namespace: string, project?: ProjectIdentifier, pid?: string) =>
         createForm({ name, namespace, project, pid }).then(form => {
@@ -125,7 +125,7 @@ const useOpenCmsActionHandler = () => {
   const { t } = useTranslation();
   return useCallback(
     (args: InscriptionActionArgs) => {
-      const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
+      const project = projects.data?.find(p => p.id.project === args.context.project && p.id.app === args.context.app);
       if (!project) {
         toast.warning(t('message.couldNotOpenCmsEditor'));
         return;
@@ -143,7 +143,7 @@ const useOpenConfigEditorHandler = () => {
   const { t } = useTranslation();
   return useCallback(
     (args: InscriptionActionArgs, file: 'rest-clients' | 'databases' | 'webservice-clients') => {
-      const project = projects.data?.find(p => p.id.pmv === args.context.pmv && p.id.app === args.context.app);
+      const project = projects.data?.find(p => p.id.project === args.context.project && p.id.app === args.context.app);
       if (!project) {
         toast.warning(t('message.couldNotOpenConfigEditor', { config: file }));
         return;

@@ -34,7 +34,7 @@ export const useCreateEditor = () => {
   const createEditor = (ws: string, editorType: EditorType, project: ProjectIdentifier, path: string, name: string): Editor => {
     const routeEditorType = editorRouteType(editorType);
     const encodedPath = encodeURI(path);
-    const id = `/${ws}/${routeEditorType}/${project.app}/${project.pmv}/${encodedPath}`;
+    const id = `/${ws}/${routeEditorType}/${project.app}/${project.project}/${encodedPath}`;
     return {
       id: removeExtension(id),
       type: editorType,
