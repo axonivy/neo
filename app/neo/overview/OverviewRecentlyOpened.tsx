@@ -70,7 +70,7 @@ const RecentlyOpenedCard = ({ editor }: { editor: Editor }) => {
       ref={artifactCardRef}
       className='recently-opened-card'
       name={editor.name}
-      description={editor.project.pmv}
+      description={editor.project.project}
       preview={<PreviewSvg type={editorTypeToPreview(editor.type)} />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}

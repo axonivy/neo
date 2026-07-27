@@ -89,7 +89,7 @@ const EditorsTab = ({
       <EditorTrigger {...editors[0]} ref={firstTabRef}>
         <IvyIcon className='editor-tab-icon' icon={editors[0].icon} />
         <span>{name}</span>
-        <span className='editor-tab-hint'>{`- ${editors[0].project.pmv}`}</span>
+        <span className='editor-tab-hint'>{`- ${editors[0].project.project}`}</span>
       </EditorTrigger>
       {editors.slice(1).map(editor => (
         <EditorSubTab key={editor.id} {...editor} />
@@ -118,7 +118,7 @@ const EditorTrigger = ({ id, path, name, project, className, children, ref }: Ed
         </Flex>
       </TooltipTrigger>
       <TooltipContent align='start'>
-        <div>{project.pmv}</div>
+        <div>{project.project}</div>
         <div>{path}</div>
       </TooltipContent>
     </Tooltip>

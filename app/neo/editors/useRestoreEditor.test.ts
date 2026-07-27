@@ -54,7 +54,7 @@ test('navigation type pop', () => {
 
 test('corret params', () => {
   navigationTypeFn.mockImplementation(() => NavigationType.Pop);
-  paramsFn.mockImplementation(() => ({ ws: 'test-ws', app: 'test', pmv: 'workflow', '*': 'path/test/proc.p.json' }));
+  paramsFn.mockImplementation(() => ({ ws: 'test-ws', app: 'test', project: 'workflow', '*': 'path/test/proc.p.json' }));
   renderHook(() => useRestoreEditor('processes'));
   const { result } = renderHook(() => useEditors());
   expect(result.current.editors).to.be.deep.equals([
@@ -63,7 +63,7 @@ test('corret params', () => {
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'proc',
-      project: { app: 'test', pmv: 'workflow' },
+      project: { app: 'test', project: 'workflow' },
       path: 'path/test/proc'
     }
   ]);

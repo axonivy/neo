@@ -6,7 +6,7 @@ const dataclasses: Partial<DataClassBean>[] = [
     name: 'neo.test.project.Data',
     simpleName: 'Data',
     dataClassIdentifier: {
-      project: { app: 'Developer-neo-test-project', pmv: 'neo-test-project', isIar: false },
+      project: { app: 'Developer-neo-test-project', project: 'neo-test-project', isIar: false },
       name: 'neo.test.project.Data'
     },
     fields: [{ name: 'person', type: 'neo.test.project.Person' }]
@@ -15,7 +15,7 @@ const dataclasses: Partial<DataClassBean>[] = [
     name: 'neo.test.project.Person',
     simpleName: 'Person',
     dataClassIdentifier: {
-      project: { app: 'Developer-neo-test-project', pmv: 'neo-test-project', isIar: false },
+      project: { app: 'Developer-neo-test-project', project: 'neo-test-project', isIar: false },
       name: 'neo.test.project.Person'
     },
     fields: [
@@ -27,7 +27,7 @@ const dataclasses: Partial<DataClassBean>[] = [
     name: 'neo.test.project.ExtendedData',
     simpleName: 'ExtendedData',
     dataClassIdentifier: {
-      project: { app: 'Developer-neo-test-project', pmv: 'neo-test-project', isIar: false },
+      project: { app: 'Developer-neo-test-project', project: 'neo-test-project', isIar: false },
       name: 'neo.test.project.ExtendedData'
     },
     fields: [{ name: 'external', type: 'neo.test.external.ExternalType' }]
@@ -36,7 +36,7 @@ const dataclasses: Partial<DataClassBean>[] = [
     name: 'neo.test.anotherProject.Address',
     simpleName: 'Address',
     dataClassIdentifier: {
-      project: { app: 'Developer-neo-test-project', pmv: 'neo-test-anotherProject', isIar: false },
+      project: { app: 'Developer-neo-test-project', project: 'neo-test-anotherProject', isIar: false },
       name: 'neo.test.anotherProject.Address'
     },
     fields: [
@@ -48,7 +48,7 @@ const dataclasses: Partial<DataClassBean>[] = [
     name: 'neo.test.external.ExternalType',
     simpleName: 'ExternalType',
     dataClassIdentifier: {
-      project: { app: 'Developer-neo-test-external', pmv: 'neo-test-external', isIar: false },
+      project: { app: 'Developer-neo-test-external', project: 'neo-test-external', isIar: false },
       name: 'neo.test.external.ExternalType'
     },
     fields: []
@@ -57,7 +57,7 @@ const dataclasses: Partial<DataClassBean>[] = [
     name: 'neo.test.wrapper.Wrapper',
     simpleName: 'Wrapper',
     dataClassIdentifier: {
-      project: { app: 'Developer-neo-test-wrapper', pmv: 'neo-test-unrelated', isIar: false },
+      project: { app: 'Developer-neo-test-wrapper', project: 'neo-test-unrelated', isIar: false },
       name: 'neo.test.wrapper.Wrapper'
     },
     fields: [{ name: 'wrappedData', type: 'neo.test.project.Data' }]
@@ -66,7 +66,7 @@ const dataclasses: Partial<DataClassBean>[] = [
     name: 'neo.test.unused.Orphan',
     simpleName: 'Orphan',
     dataClassIdentifier: {
-      project: { app: 'Developer-neo-test-unused', pmv: 'neo-test-unused', isIar: false },
+      project: { app: 'Developer-neo-test-unused', project: 'neo-test-unused', isIar: false },
       name: 'neo.test.unused.Orphan'
     },
     fields: [{ name: 'field', type: 'String' }]

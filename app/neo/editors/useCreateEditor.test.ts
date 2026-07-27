@@ -33,7 +33,7 @@ describe('createProcessEditor', () => {
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'info',
-      project: { app: 'designer', pmv: 'glsp-test-project' },
+      project: { app: 'designer', project: 'glsp-test-project' },
       path: 'processes/info'
     };
     const process: Process = {
@@ -42,7 +42,7 @@ describe('createProcessEditor', () => {
       namespace: '',
       path: 'info',
       processGroup: 'Main Processes',
-      processIdentifier: { project: { app: 'designer', pmv: 'glsp-test-project' }, pid: '1842D6FBB6A107AB' },
+      processIdentifier: { project: { app: 'designer', project: 'glsp-test-project' }, pid: '1842D6FBB6A107AB' },
       requestPath: 'info.p',
       type: 'glsp.test.project.Data'
     };
@@ -56,13 +56,13 @@ describe('createProcessEditor', () => {
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'subproc',
-      project: { app: 'designer', pmv: 'glsp-test-project' },
+      project: { app: 'designer', project: 'glsp-test-project' },
       path: 'processes/subproc'
     };
     const process: Process = {
       name: 'subproc',
       namespace: '',
-      processIdentifier: { project: { app: 'designer', pmv: 'glsp-test-project' }, pid: '183E4A4179C3C69B' },
+      processIdentifier: { project: { app: 'designer', project: 'glsp-test-project' }, pid: '183E4A4179C3C69B' },
       path: 'subproc',
       requestPath: 'subproc.p',
       processGroup: 'Main Processes',
@@ -79,7 +79,7 @@ describe('createProcessEditor', () => {
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'hdProcess',
-      project: { app: 'designer', pmv: 'glsp-test-project' },
+      project: { app: 'designer', project: 'glsp-test-project' },
       path: 'src_hd/glsp/test/project/hd/hdProcess'
     };
     const process: Process = {
@@ -88,7 +88,7 @@ describe('createProcessEditor', () => {
       processIdentifier: {
         project: {
           app: 'designer',
-          pmv: 'glsp-test-project'
+          project: 'glsp-test-project'
         },
         pid: '183E4A455276AFC5'
       },
@@ -109,11 +109,11 @@ describe('createFormEditor', () => {
       type: 'forms',
       icon: IvyIcons.File,
       name: 'form',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'src_hd/workflow/demo/form/form'
     };
     const form: Form = {
-      identifier: { project: { app: 'designer', pmv: 'workflow-demos' }, id: 'workflow.demo.form' },
+      identifier: { project: { app: 'designer', project: 'workflow-demos' }, id: 'workflow.demo.form' },
       name: 'form',
       path: 'workflow/demo/form/form.f.json'
     };
@@ -129,11 +129,11 @@ describe('createDataClassEditor', () => {
       type: 'dataclasses',
       icon: IvyIcons.Database,
       name: 'data',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'workflow/demo/data/data'
     };
     const dataClass: DataClassBean = {
-      dataClassIdentifier: { project: { app: 'designer', pmv: 'workflow-demos' }, name: 'workflow.demo.data' },
+      dataClassIdentifier: { project: { app: 'designer', project: 'workflow-demos' }, name: 'workflow.demo.data' },
       name: 'data.d.json',
       simpleName: 'data',
       path: 'workflow/demo/data/data.d.json',
@@ -153,11 +153,11 @@ describe('createConfigurationEditor', () => {
       type: 'variables',
       icon: IvyIcons.Tool,
       name: 'variables',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/variables.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/variables.yaml' };
+    const config = { project: { app: 'designer', project: 'workflow-demos' }, path: 'config/variables.yaml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
@@ -167,11 +167,11 @@ describe('createConfigurationEditor', () => {
       type: 'roles',
       icon: IvyIcons.Users,
       name: 'roles',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/roles.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/roles.yaml' };
+    const config = { project: { app: 'designer', project: 'workflow-demos' }, path: 'config/roles.yaml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
@@ -181,11 +181,11 @@ describe('createConfigurationEditor', () => {
       type: 'users',
       icon: IvyIcons.User,
       name: 'users',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/users.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/users.yaml' };
+    const config = { project: { app: 'designer', project: 'workflow-demos' }, path: 'config/users.yaml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
@@ -195,11 +195,11 @@ describe('createConfigurationEditor', () => {
       type: 'persistence',
       icon: IvyIcons.Database,
       name: 'persistence',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/persistence.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/persistence.yaml' };
+    const config = { project: { app: 'designer', project: 'workflow-demos' }, path: 'config/persistence.yaml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
@@ -209,11 +209,11 @@ describe('createConfigurationEditor', () => {
       type: 'restclients',
       icon: IvyIcons.RestClient,
       name: 'rest-clients',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/rest-clients.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/rest-clients.yaml' };
+    const config = { project: { app: 'designer', project: 'workflow-demos' }, path: 'config/rest-clients.yaml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
@@ -223,11 +223,11 @@ describe('createConfigurationEditor', () => {
       type: 'webservices',
       icon: IvyIcons.WsStart,
       name: 'webservice-clients',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/webservice-clients.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/webservice-clients.yaml' };
+    const config = { project: { app: 'designer', project: 'workflow-demos' }, path: 'config/webservice-clients.yaml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 
@@ -237,11 +237,11 @@ describe('createConfigurationEditor', () => {
       type: 'databases',
       icon: IvyIcons.Database,
       name: 'databases',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/databases.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    const config = { project: { app: 'designer', pmv: 'workflow-demos' }, path: 'config/databases.yaml' };
+    const config = { project: { app: 'designer', project: 'workflow-demos' }, path: 'config/databases.yaml' };
     expect(view.result.current.createConfigurationEditor(config)).to.be.deep.equals(result);
   });
 });
@@ -253,12 +253,16 @@ describe('createEditorFromPath', () => {
       type: 'forms',
       icon: IvyIcons.File,
       name: 'form',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'src_hd/workflow/demo/form/form'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'src_hd/workflow/demo/form/form.f.json', 'forms')
+      view.result.current.createEditorFromPath(
+        { app: 'designer', project: 'workflow-demos' },
+        'src_hd/workflow/demo/form/form.f.json',
+        'forms'
+      )
     ).to.be.deep.equals(result);
   });
 
@@ -268,12 +272,16 @@ describe('createEditorFromPath', () => {
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'proc',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'processes/path/test/proc'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'processes/path/test/proc.p.json', 'processes')
+      view.result.current.createEditorFromPath(
+        { app: 'designer', project: 'workflow-demos' },
+        'processes/path/test/proc.p.json',
+        'processes'
+      )
     ).to.be.deep.equals(result);
   });
 
@@ -283,13 +291,13 @@ describe('createEditorFromPath', () => {
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'form',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'src_hd/workflow/demo/form/form'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
       view.result.current.createEditorFromPath(
-        { app: 'designer', pmv: 'workflow-demos' },
+        { app: 'designer', project: 'workflow-demos' },
         'src_hd/workflow/demo/form/form.p.json',
         'processes'
       )
@@ -302,13 +310,13 @@ describe('createEditorFromPath', () => {
       type: 'variables',
       icon: IvyIcons.Tool,
       name: 'variables',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/variables.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    expect(view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'config/variables.yaml')).to.be.deep.equals(
-      result
-    );
+    expect(
+      view.result.current.createEditorFromPath({ app: 'designer', project: 'workflow-demos' }, 'config/variables.yaml')
+    ).to.be.deep.equals(result);
   });
 
   test('roles', () => {
@@ -317,11 +325,11 @@ describe('createEditorFromPath', () => {
       type: 'roles',
       icon: IvyIcons.Users,
       name: 'roles',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/roles.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    expect(view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'config/roles.yaml')).to.be.deep.equals(
+    expect(view.result.current.createEditorFromPath({ app: 'designer', project: 'workflow-demos' }, 'config/roles.yaml')).to.be.deep.equals(
       result
     );
   });
@@ -332,11 +340,11 @@ describe('createEditorFromPath', () => {
       type: 'users',
       icon: IvyIcons.User,
       name: 'users',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/users.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    expect(view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'config/users.yaml')).to.be.deep.equals(
+    expect(view.result.current.createEditorFromPath({ app: 'designer', project: 'workflow-demos' }, 'config/users.yaml')).to.be.deep.equals(
       result
     );
   });
@@ -347,12 +355,12 @@ describe('createEditorFromPath', () => {
       type: 'restclients',
       icon: IvyIcons.RestClient,
       name: 'rest-clients',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/rest-clients.yaml'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'config/rest-clients.yaml')
+      view.result.current.createEditorFromPath({ app: 'designer', project: 'workflow-demos' }, 'config/rest-clients.yaml')
     ).to.be.deep.equals(result);
   });
 
@@ -362,12 +370,12 @@ describe('createEditorFromPath', () => {
       type: 'webservices',
       icon: IvyIcons.WsStart,
       name: 'webservice-clients',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/webservice-clients.yaml'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'config/webservice-clients.yaml')
+      view.result.current.createEditorFromPath({ app: 'designer', project: 'workflow-demos' }, 'config/webservice-clients.yaml')
     ).to.be.deep.equals(result);
   });
 
@@ -377,13 +385,13 @@ describe('createEditorFromPath', () => {
       type: 'databases',
       icon: IvyIcons.Database,
       name: 'databases',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'config/databases.yaml'
     };
     const view = renderHook(() => useCreateEditor());
-    expect(view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'config/databases.yaml')).to.be.deep.equals(
-      result
-    );
+    expect(
+      view.result.current.createEditorFromPath({ app: 'designer', project: 'workflow-demos' }, 'config/databases.yaml')
+    ).to.be.deep.equals(result);
   });
 
   test('data class', () => {
@@ -392,12 +400,16 @@ describe('createEditorFromPath', () => {
       type: 'dataclasses',
       icon: IvyIcons.Database,
       name: 'Data',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'dataclasses/form/Data'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
-      view.result.current.createEditorFromPath({ app: 'designer', pmv: 'workflow-demos' }, 'dataclasses/form/Data.d.json', 'dataclasses')
+      view.result.current.createEditorFromPath(
+        { app: 'designer', project: 'workflow-demos' },
+        'dataclasses/form/Data.d.json',
+        'dataclasses'
+      )
     ).to.be.deep.equals(result);
   });
 
@@ -407,10 +419,10 @@ describe('createEditorFromPath', () => {
       type: 'cms',
       icon: IvyIcons.Cms,
       name: 'cms',
-      project: { app: 'designer', pmv: 'workflow-demos' },
+      project: { app: 'designer', project: 'workflow-demos' },
       path: 'cms'
     };
     const view = renderHook(() => useCreateEditor());
-    expect(view.result.current.createCmsEditor({ app: 'designer', pmv: 'workflow-demos' })).to.be.deep.equals(result);
+    expect(view.result.current.createCmsEditor({ app: 'designer', project: 'workflow-demos' })).to.be.deep.equals(result);
   });
 });

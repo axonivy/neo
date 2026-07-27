@@ -30,20 +30,20 @@ export const mapProjectsToGraphNodes = (projects?: Array<ProjectGraphBean>) => {
   }
 
   return projects.map<NodeData>(project => ({
-    id: project.id.pmv,
-    label: project.id.pmv,
+    id: project.id.project,
+    label: project.id.project,
     content: `${project.artifactId} - ${project.version}`,
     options: {
       expandContent: true,
       controls: <ProjectGraphControls project={project} />
     },
-    target: project.dependencies?.map(dep => ({ id: dep.pmv })) ?? []
+    target: project.dependencies?.map(dep => ({ id: dep.project })) ?? []
   }));
 };
 
 const ProjectGraphControls = ({ project }: { project: ProjectGraphBean }) => {
   const navigate = useNavigate();
-  const projectUrl = `${project.id.app}/${project.id.pmv}`;
+  const projectUrl = `${project.id.app}/${project.id.project}`;
   return <GraphControls openAction={() => navigate(`projects/${projectUrl}`)} />;
 };
 

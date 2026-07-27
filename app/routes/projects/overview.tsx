@@ -25,21 +25,21 @@ import { AddDependencyDialog } from './DependencyDialog';
 
 export const meta: MetaFunction = ({ params }) => {
   return [
-    { title: `Project details - ${params.pmv} - ${params.ws} - ${NEO_DESIGNER}` },
+    { title: `Project details - ${params.project} - ${params.ws} - ${NEO_DESIGNER}` },
     { name: 'description', content: 'Axon Ivy Project details' }
   ];
 };
 
 export default function Index() {
   const { t } = useTranslation();
-  const { app, pmv } = useParams();
+  const { app, project: projectParam } = useParams();
   const { data: projects, isPending: isProjectsPending } = useSortedProjects();
-  const project = useMemo(() => projects?.find(({ id }) => id.app === app && id.pmv === pmv), [app, pmv, projects]);
-  const { data: depencencies, isPending: isDependenciesPending } = useDependencies(app, pmv);
+  const project = useMemo(() => projects?.find(({ id }) => id.app === app && id.project === projectParam), [app, projectParam, projects]);
+  const { data: depencencies, isPending: isDependenciesPending } = useDependencies(app, projectParam);
   const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(depencencies ?? [], (dep, search) =>
-    dep.pmv.toLocaleLowerCase().includes(search)
+    dep.project.toLocaleLowerCase().includes(search)
   );
-  const { sortedArtifacts, setSortDirection } = useSortedArtifacts(filteredAritfacts, projectBean => projectBean.pmv);
+  const { sortedArtifacts, setSortDirection } = useSortedArtifacts(filteredAritfacts, projectBean => projectBean.project);
 
   if (isProjectsPending) {
     return (
@@ -54,8 +54,10 @@ export default function Index() {
 
   return (
     <Overview>
-      <Breadcrumbs items={[{ name: t('neo.projects') }, { name: project.id.pmv, menu: <BreadcrumbProjectSwitcher project={project} /> }]} />
-      <OverviewTitle title={t('projects.details', { project: project.id.pmv })} />
+      <Breadcrumbs
+        items={[{ name: t('neo.projects') }, { name: project.id.project, menu: <BreadcrumbProjectSwitcher project={project} /> }]}
+      />
+      <OverviewTitle title={t('projects.details', { project: project.id.project })} />
       <Flex
         direction='row'
         gap={4}
@@ -79,29 +81,29 @@ export default function Index() {
           title={t('neo.processes')}
           description={t('processes.processDescription')}
           icon={IvyIcons.Process}
-          link={`../processes?p=${project.id.pmv}`}
+          link={`../processes?p=${project.id.project}`}
         />
         <OverviewInfoCard
           title={t('neo.dataClasses')}
           description={t('dataclasses.dataclassDescription')}
           icon={IvyIcons.Database}
-          link={`../dataClasses?p=${project.id.pmv}`}
+          link={`../dataClasses?p=${project.id.project}`}
         />
         <OverviewInfoCard
           title={t('neo.forms')}
           description={t('forms.formDescription')}
           icon={IvyIcons.File}
-          link={`../forms?p=${project.id.pmv}`}
+          link={`../forms?p=${project.id.project}`}
         />
         <OverviewInfoCard
           title={t('neo.configs')}
           description={t('configurations.configDescription')}
           icon={IvyIcons.Tool}
-          link={`../configurations?p=${project.id.pmv}`}
+          link={`../configurations?p=${project.id.project}`}
         />
       </Flex>
       <Separator style={{ marginBlock: vars.size.s2, flex: '0 0 1px' }} />
-      <OverviewRecentlyOpened filter={e => e.project.pmv === project.id.pmv} />
+      <OverviewRecentlyOpened filter={e => e.project.project === project.id.project} />
       <OverviewTitle title={t('projects.dependency')} description={t('projects.dependencyInfo')}>
         <AddDependencyDialog project={project.id} />
       </OverviewTitle>
@@ -110,7 +112,7 @@ export default function Index() {
       </OverviewFilter>
       <OverviewContent isPending={isDependenciesPending}>
         {sortedArtifacts?.map(dep => (
-          <DependencyCard key={dep.pmv} dependency={dep} project={project.id} />
+          <DependencyCard key={dep.project} dependency={dep} project={project.id} />
         ))}
       </OverviewContent>
     </Overview>
@@ -141,8 +143,8 @@ const DependencyCard = ({ project, dependency }: { project: ProjectIdentifier; d
   return (
     <ArtifactCard
       ref={artifactCardRef}
-      name={dependency.pmv}
-      onClick={() => navigate(`../projects/${dependency.app}/${dependency.pmv}`)}
+      name={dependency.project}
+      onClick={() => navigate(`../projects/${dependency.app}/${dependency.project}`)}
       preview={<PreviewSvg type='workspace' />}
       badges={badges}
     >
@@ -179,8 +181,8 @@ const BreadcrumbProjectSwitcher = ({ project }: { project: ProjectBean }) => {
   return (
     <>
       {projects?.map(project => (
-        <DropdownMenuItem key={project.id.pmv} onClick={() => nav(`../${project.id.pmv}`, { relative: 'path' })}>
-          {project.id.pmv}
+        <DropdownMenuItem key={project.id.project} onClick={() => nav(`../${project.id.project}`, { relative: 'path' })}>
+          {project.id.project}
         </DropdownMenuItem>
       ))}
     </>

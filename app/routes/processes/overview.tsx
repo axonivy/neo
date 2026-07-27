@@ -33,10 +33,10 @@ export default function Index() {
       let hasMatchingProject = projects.length === 0;
 
       if (isProcessBean(proc)) {
-        hasMatchingProject = hasMatchingProject || projects.includes(proc.processIdentifier.project.pmv);
+        hasMatchingProject = hasMatchingProject || projects.includes(proc.processIdentifier.project.project);
       }
       if (isCaseMapBean(proc)) {
-        hasMatchingProject = hasMatchingProject || projects.includes(proc.caseMapIdentifier.project.pmv);
+        hasMatchingProject = hasMatchingProject || projects.includes(proc.caseMapIdentifier.project.project);
       }
       const hasMatchingBade =
         badges.length === 0 ||
@@ -71,9 +71,9 @@ export default function Index() {
       <OverviewContent isPending={isPending || isCaseMapsPending}>
         {sortedArtifacts.map(artefact =>
           isProcessBean(artefact) ? (
-            <ProcessCard key={`${artefact.processIdentifier.project.pmv}/${artefact.processIdentifier.pid}`} process={artefact} />
+            <ProcessCard key={`${artefact.processIdentifier.project.project}/${artefact.processIdentifier.pid}`} process={artefact} />
           ) : (
-            <CaseMapCard key={`${artefact.caseMapIdentifier.project.pmv}/${artefact.caseMapIdentifier.name}`} caseMap={artefact} />
+            <CaseMapCard key={`${artefact.caseMapIdentifier.project.project}/${artefact.caseMapIdentifier.name}`} caseMap={artefact} />
           )
         )}
       </OverviewContent>
@@ -94,7 +94,7 @@ const ProcessCard = ({ process }: { process: ProcessBean }) => {
     <ArtifactCard
       ref={artifactCardRef}
       name={editor.name}
-      description={editor.project.pmv}
+      description={editor.project.project}
       preview={<PreviewSvg type='process' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
@@ -129,7 +129,7 @@ const CaseMapCard = ({ caseMap }: { caseMap: CaseMapBean }) => {
     <ArtifactCard
       ref={artifactCardRef}
       name={editor.name}
-      description={editor.project.pmv}
+      description={editor.project.project}
       preview={<PreviewSvg type='casemap' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}

@@ -14,26 +14,26 @@ import { useWorkspace } from './workspace-api';
 
 const useDependenciesApi = () => {
   const ws = useWorkspace();
-  const { app, pmv } = useParams();
-  return { queryKey: ['neo', ws?.id, app, pmv, 'dependencies'], base: ws?.baseUrl, ws };
+  const { app, project } = useParams();
+  return { queryKey: ['neo', ws?.id, app, project, 'dependencies'], base: ws?.baseUrl, ws };
 };
 
-export const useDependencies = (app?: string, pmv?: string) => {
+export const useDependencies = (app?: string, project?: string) => {
   const { t } = useTranslation();
   const { queryKey, base, ws } = useDependenciesApi();
   return useQuery({
     queryKey,
     queryFn: () => {
-      if (base === undefined || app === undefined || pmv === undefined) return [];
-      return dependencies(app, pmv, { headers: headers(base) }).then(res => {
+      if (base === undefined || app === undefined || project === undefined) return [];
+      return dependencies(app, project, { headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data.sort((a, b) => projectSort(a.pmv, b.pmv, ws));
+          return res.data.sort((a, b) => projectSort(a.project, b.project, ws));
         }
         toast.error(t('toast.dependency.missing'), { description: t('toast.serverStatus') });
         return [];
       });
     },
-    enabled: !!base && !!app && !!pmv
+    enabled: !!base && !!app && !!project
   });
 };
 
@@ -41,13 +41,13 @@ export const useRemoveDependency = () => {
   const { t } = useTranslation();
   const { queryKey, base } = useDependenciesApi();
   const client = useQueryClient();
-  const removeDependency = async ({ app, pmv }: ProjectIdentifier, dependency: ProjectIdentifier) => {
-    await removeDependencyReq(app, pmv, dependency.app, dependency.pmv, { headers: headers(base) }).then(res => {
+  const removeDependency = async ({ app, project }: ProjectIdentifier, dependency: ProjectIdentifier) => {
+    await removeDependencyReq(app, project, dependency.app, dependency.project, { headers: headers(base) }).then(res => {
       if (ok(res)) {
         client.invalidateQueries({ queryKey });
         return;
       }
-      throw new Error(t('toast.dependency.removeFail', { pmv: dependency.pmv }));
+      throw new Error(t('toast.dependency.removeFail', { project: dependency.project }));
     });
   };
   return {
@@ -64,9 +64,9 @@ export const useAddDependencyReq = () => {
   const { t } = useTranslation();
   const { queryKey, base } = useDependenciesApi();
   const client = useQueryClient();
-  const addDependency = async ({ app, pmv }: ProjectIdentifier, dependency?: ProjectIdentifier) => {
+  const addDependency = async ({ app, project }: ProjectIdentifier, dependency?: ProjectIdentifier) => {
     if (dependency === undefined) return;
-    const res = await addDependencyReq(app, pmv, dependency, { headers: headers(base) });
+    const res = await addDependencyReq(app, project, dependency, { headers: headers(base) });
     if (ok(res)) {
       client.invalidateQueries({ queryKey });
       return res.data;

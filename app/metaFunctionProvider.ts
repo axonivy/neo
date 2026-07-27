@@ -4,7 +4,7 @@ import { NEO_DESIGNER } from './constants';
 export const editorMetaFunctionProvider = (content: string) => {
   const meta: MetaFunction = ({ location, params }) => {
     const fileName = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-    return [{ title: `${fileName} - ${params.pmv} - ${params.ws} - ${NEO_DESIGNER}` }, { name: 'description', content }];
+    return [{ title: `${fileName} - ${params.project} - ${params.ws} - ${NEO_DESIGNER}` }, { name: 'description', content }];
   };
   return meta;
 };

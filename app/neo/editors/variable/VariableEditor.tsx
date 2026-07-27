@@ -20,7 +20,7 @@ export const VariableEditor = ({ project }: Editor) => {
       <ThemeProvider disabled>
         <ReadonlyProvider readonly={project.isIar ?? false}>
           <I18nextProvider i18n={i18next} defaultNS={'variable-editor'}>
-            <App context={{ app: project.app, pmv: project.pmv, file: 'config/variables.yaml' }} directSave={true} />
+            <App context={{ app: project.app, project: project.project, file: 'config/variables.yaml' }} directSave={true} />
           </I18nextProvider>
         </ReadonlyProvider>
       </ThemeProvider>

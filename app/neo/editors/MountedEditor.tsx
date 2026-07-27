@@ -51,11 +51,11 @@ export const MountedEditor = (props: Editor & { children: React.ReactNode }) => 
 );
 
 const useOverviewBreadcrumbItem = (type: EditorType) => {
-  const { ws, pmv } = useParams();
+  const { ws, project } = useParams();
   const name = useTypeName(type);
   const href = `${ws}/${typeToPath(type)}`;
-  const pmvItem = pmv ? { name: pmv, href: `${href}?p=${pmv}` } : { name: '' };
-  return [{ name, href }, pmvItem];
+  const projectItem = project ? { name: project, href: `${href}?p=${project}` } : { name: '' };
+  return [{ name, href }, projectItem];
 };
 
 const useTypeName = (type: EditorType) => {

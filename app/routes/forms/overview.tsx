@@ -27,7 +27,7 @@ export default function Index() {
   const { data, isPending } = useForms();
   const { allBadges, badgesFor } = useBadges();
   const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (form, search, projects, badges) => {
-    const hasMatchingProject = projects.length === 0 || projects.includes(form.identifier.project.pmv);
+    const hasMatchingProject = projects.length === 0 || projects.includes(form.identifier.project.project);
     const hasMatchingBade =
       badges.length === 0 ||
       badges.some(badge =>
@@ -59,7 +59,7 @@ export default function Index() {
       <OverviewFilterBadges {...overviewFilter} />
       <OverviewContent isPending={isPending}>
         {sortedArtifacts.map(form => (
-          <FormCard key={`${form.identifier.project.pmv}/${form.namespace}/${form.name}`} form={form} />
+          <FormCard key={`${form.identifier.project.project}/${form.namespace}/${form.name}`} form={form} />
         ))}
       </OverviewContent>
     </Overview>
@@ -80,7 +80,7 @@ const FormCard = ({ form }: { form: HdBean }) => {
     <ArtifactCard
       ref={artifactCardRef}
       name={editor.name}
-      description={editor.project.pmv}
+      description={editor.project.project}
       preview={<PreviewSvg type='form' />}
       tooltip={editor.path}
       onClick={() => openEditor(editor)}
@@ -119,7 +119,7 @@ export const useFormExists = () => {
   const { data } = useForms();
   return ({ name, namespace, project }: NewArtifactIdentifier) =>
     data
-      ?.filter(form => form.identifier.project.pmv === project?.pmv)
+      ?.filter(form => form.identifier.project.project === project?.project)
       ?.some(form => form.name.toLowerCase() === name.toLowerCase() && form.namespace?.toLowerCase() === namespace.toLowerCase()) ?? false;
 };
 

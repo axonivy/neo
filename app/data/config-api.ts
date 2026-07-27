@@ -19,7 +19,7 @@ export const useConfigurations = () => {
     queryFn: () =>
       configurations({ headers: headers(base) }).then(res => {
         if (ok(res)) {
-          return res.data.sort((a, b) => projectSort(a.project.pmv, b.project.pmv, ws));
+          return res.data.sort((a, b) => projectSort(a.project.project, b.project.project, ws));
         }
         toast.error(t('toast.config.missing'), { description: t('toast.serverStatus') });
         return [];

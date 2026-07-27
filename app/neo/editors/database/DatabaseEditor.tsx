@@ -20,7 +20,7 @@ export const DatabaseEditor = ({ project }: Editor) => {
       <ThemeProvider disabled>
         <I18nextProvider i18n={i18next} defaultNS={'database-editor'}>
           <ReadonlyProvider readonly={project.isIar ?? false}>
-            <DbEditor context={{ app: project.app, file: 'config/databases.yaml', projects: [project.pmv] }} />
+            <DbEditor context={{ app: project.app, file: 'config/databases.yaml', projects: [project.project] }} />
           </ReadonlyProvider>
         </I18nextProvider>
       </ThemeProvider>

@@ -33,7 +33,7 @@ export const mapDataClassesToGraphNodes = (data: DataClassBean[] | undefined, se
   }
 
   //classes that are 'in' the project
-  const inProject = data.filter(dc => dc.dataClassIdentifier.project.pmv === selectedProject);
+  const inProject = data.filter(dc => dc.dataClassIdentifier.project.project === selectedProject);
   const inProjectIds = new Set(inProject.map(dc => dc.name));
 
   //classes that the project’s classes 'refer to'
@@ -79,8 +79,8 @@ export const DataClassGraphFilter = ({ selectedProject, setSelectedProject }: Da
       items={[
         { value: 'all', label: 'Show all Projects' },
         ...(projects ?? []).map(project => ({
-          value: project.id.pmv,
-          label: project.id.pmv
+          value: project.id.project,
+          label: project.id.project
         }))
       ]}
     />

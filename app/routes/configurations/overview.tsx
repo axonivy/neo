@@ -37,7 +37,7 @@ export default function Index() {
   const { allBadges, badgesFor } = useBadges();
 
   const { filteredAritfacts, ...overviewFilter } = useOverviewFilter(data ?? [], (config, search, projects, badges, types) => {
-    const hasMatchingProject = projects.length === 0 || projects.includes(config.project.pmv);
+    const hasMatchingProject = projects.length === 0 || projects.includes(config.project.project);
     const hasMatchingBadge =
       badges.length === 0 ||
       badges.some(badge =>
@@ -74,7 +74,7 @@ export default function Index() {
       <OverviewFilterBadges {...overviewFilter} />
       <OverviewContent isPending={isPending}>
         {sortedArtifacts.map(config => (
-          <ConfigCard key={`${config.project.pmv}/${config.path}`} config={config} />
+          <ConfigCard key={`${config.project.project}/${config.path}`} config={config} />
         ))}
       </OverviewContent>
     </Overview>
@@ -93,7 +93,7 @@ const ConfigCard = ({ config }: { config: ConfigurationIdentifier }) => {
     <ArtifactCard
       key={editor.id}
       name={editor.name}
-      description={editor.project.pmv}
+      description={editor.project.project}
       preview={<PreviewSvg type='config' />}
       icon={icon}
       tooltip={editor.path}

@@ -23,7 +23,7 @@ export const DataClassEditor = ({ project, path }: Editor) => {
             <App
               context={{
                 app: project.app,
-                pmv: project.pmv,
+                project: project.project,
                 file: path.endsWith(DATACLASS_EDITOR_SUFFIX) ? path : `${path}${DATACLASS_EDITOR_SUFFIX}`
               }}
               directSave={true}

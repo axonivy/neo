@@ -32,7 +32,7 @@ export const useActionHandler = (project: ProjectIdentifier, formEditorPath: str
           openUrl(action.payload);
           return;
         case 'openComponent':
-          getComponentForm({ componentId: action.payload, app: project.app, pmv: project.pmv })
+          getComponentForm({ componentId: action.payload, app: project.app, project: project.project })
             .unwrap()
             .then(form => {
               openEditor(createFormEditor(form));

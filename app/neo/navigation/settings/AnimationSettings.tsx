@@ -22,7 +22,7 @@ export const AnimationSettings = () => {
   const { t } = useTranslation();
   const { animation, enableAnimation, animationSpeed, animationMode } = useSettings();
   const { stopBpmEngine } = useStopBpmEngine();
-  const { app, pmv } = useParams();
+  const { app, project } = useParams();
   const hotkeys = useKnownHotkeys();
 
   return (
@@ -43,9 +43,9 @@ export const AnimationSettings = () => {
             <DropdownMenuShortcut>{hotkeyText(hotkeys.toggleAnimation.hotkey)}</DropdownMenuShortcut>
           </DropdownMenuCheckboxItem>
           <DropdownMenuItem
-            disabled={!app || !pmv}
+            disabled={!app || !project}
             onClick={() => {
-              if (app && pmv) stopBpmEngine({ app, pmv });
+              if (app && project) stopBpmEngine({ app, project });
             }}
             aria-label={hotkeys.resetEngine.label}
             title={hotkeys.resetEngine.label}

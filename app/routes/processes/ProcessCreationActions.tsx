@@ -15,7 +15,7 @@ export const useProcessExists = () => {
   const { data } = useProcesses();
   return ({ name, namespace, project }: NewArtifactIdentifier) =>
     data
-      ?.filter(process => process.processIdentifier.project.pmv === project?.pmv)
+      ?.filter(process => process.processIdentifier.project.project === project?.project)
       ?.some(process => process.name.toLowerCase() === name.toLowerCase() && process.namespace.toLowerCase() === namespace.toLowerCase()) ??
     false;
 };
@@ -24,7 +24,7 @@ export const useCaseMapExists = () => {
   const { data } = useCaseMaps();
   return ({ name, project }: NewArtifactIdentifier) =>
     data
-      ?.filter(caseMap => caseMap.caseMapIdentifier.project.pmv === project?.pmv)
+      ?.filter(caseMap => caseMap.caseMapIdentifier.project.project === project?.project)
       ?.some(caseMap => caseMap.name.toLowerCase() === name.toLowerCase()) ?? false;
 };
 
