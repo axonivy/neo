@@ -60,7 +60,6 @@ export const OverviewFilter = (props: OverviewFilterProps) => {
                 placeholder={t('common.label.search')}
                 value={props.search}
                 onChange={props.setSearch}
-                // eslint-disable-next-line jsx-a11y/no-autofocus
                 autoFocus={true}
                 autoComplete='off'
               />
