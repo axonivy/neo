@@ -21,9 +21,9 @@ test('navigate to home', async ({ page }) => {
 });
 
 test('recently opened projects', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/quickstart`);
+  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/process/quickstart`);
   await neo.controlBar.tab('quickstart').expectActive();
-  await Neo.openWorkspace(page, `processes/${APP}/unknown/processes/jump`);
+  await Neo.openWorkspace(page, `processes/${APP}/unknown/process/jump`);
   await neo.controlBar.tab('jump').expectActive();
   const overview = await neo.home();
   await expect(overview.title).toHaveCount(3);

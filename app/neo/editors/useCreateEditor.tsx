@@ -95,13 +95,13 @@ export const useCreateEditor = () => {
   };
 
   return {
-    createFormEditor: ({ name, path, identifier: { project } }: Form): Editor => createEditor(ws, 'forms', project, `src_hd/${path}`, name),
+    createFormEditor: ({ name, path, identifier: { project } }: Form): Editor => createEditor(ws, 'forms', project, `dialog/${path}`, name),
     createProcessEditor: ({ name, path, processIdentifier: { project }, kind, namespace }: Process): Editor => {
       if (kind === 'HTML_DIALOG') {
-        path = `src_hd/${namespace}/${name}`;
+        path = `dialog/${namespace}/${name}`;
         return createEditor(ws, 'processes', project, path, name);
       }
-      return createEditor(ws, 'processes', project, `processes/${path ?? name}`, name);
+      return createEditor(ws, 'processes', project, `process/${path ?? name}`, name);
     },
     createConfigurationEditor: ({ path, project }: ConfigurationIdentifier): Editor =>
       createEditor(ws, typeFromPath(path), project, path, lastSegment(path)),

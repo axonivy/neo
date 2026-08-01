@@ -6,7 +6,7 @@ import { Overview } from '../../page-objects/overview';
 import { APP, TEST_PROJECT, WORKSPACE } from '../constants';
 
 test('editor breadcrumbs', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page, `dataclasses/${APP}/${TEST_PROJECT}/dataclasses/neo/test/project/QuickStartTutorial`);
+  const neo = await Neo.openWorkspace(page, `dataclasses/${APP}/${TEST_PROJECT}/dataclass/neo/test/project/QuickStartTutorial`);
   const editor = new DataClassEditor(neo, 'QuickStartTutorial');
   await editor.expectOpen('product');
   await neo.breadcrumbs.expectItems(['Workspaces', WORKSPACE, 'Data Classes', TEST_PROJECT, 'QuickStartTutorial']);
@@ -32,7 +32,7 @@ test('editor breadcrumbs', async ({ page }) => {
 });
 
 test('casemap breadcrumbs', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/Lending.m.json`);
+  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/process/Lending.m.json`);
   const editor = new CaseMapEditor(neo, 'Lending.m.json');
   await editor.expectOpen('Identification');
   await neo.breadcrumbs.expectItems(['Workspaces', WORKSPACE, 'Processes', TEST_PROJECT, 'Lending.m.json']);

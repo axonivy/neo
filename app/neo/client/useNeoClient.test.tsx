@@ -50,7 +50,7 @@ describe('process animation', () => {
     processIdentifier: { project: { app: 'designer', project: 'glsp-test-project' }, pid: '1842D6FBB6A107AB' },
     requestPath: 'info.p',
     type: 'glsp.test.project.Data',
-    pathname: '/designer/processes/designer/glsp-test-project/processes/info'
+    pathname: '/designer/processes/designer/glsp-test-project/process/info'
   };
 
   const hdProcess: Process = {
