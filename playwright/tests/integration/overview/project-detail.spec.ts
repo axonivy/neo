@@ -26,9 +26,9 @@ test('project detail', async ({ page }) => {
 });
 
 test('recently opened', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/processes/quickstart`);
+  const neo = await Neo.openWorkspace(page, `processes/${APP}/${TEST_PROJECT}/process/quickstart`);
   await neo.controlBar.tab('quickstart').expectActive();
-  await Neo.openWorkspace(page, `processes/${APP}/unknown/processes/jump`);
+  await Neo.openWorkspace(page, `processes/${APP}/unknown/process/jump`);
   await neo.controlBar.tab('jump').expectActive();
   await neo.home();
   const { overview } = await projectDetail(page);

@@ -76,7 +76,7 @@ test('open add and delete dialog', async ({ page }) => {
 });
 
 test('open dialog inside editor deactivates shortcuts', async ({ page }) => {
-  const neo = await Neo.openWorkspace(page, `dataclasses/${APP}/${TEST_PROJECT}/src_hd/neo/test/project/EnterProduct/EnterProductData`);
+  const neo = await Neo.openWorkspace(page, `dataclasses/${APP}/${TEST_PROJECT}/dialog/neo/test/project/EnterProduct/EnterProductData`);
   const editor = new DataClassEditor(neo, 'EnterProductData');
   await editor.expectOpen('data');
 

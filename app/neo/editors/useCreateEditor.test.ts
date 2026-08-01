@@ -29,12 +29,12 @@ afterEach(() => {
 describe('createProcessEditor', () => {
   test('business process', () => {
     const result: Editor = {
-      id: '/test-ws/processes/designer/glsp-test-project/processes/info',
+      id: '/test-ws/processes/designer/glsp-test-project/process/info',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'info',
       project: { app: 'designer', project: 'glsp-test-project' },
-      path: 'processes/info'
+      path: 'process/info'
     };
     const process: Process = {
       kind: 'NORMAL',
@@ -52,12 +52,12 @@ describe('createProcessEditor', () => {
 
   test('sub process', () => {
     const result: Editor = {
-      id: '/test-ws/processes/designer/glsp-test-project/processes/subproc',
+      id: '/test-ws/processes/designer/glsp-test-project/process/subproc',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'subproc',
       project: { app: 'designer', project: 'glsp-test-project' },
-      path: 'processes/subproc'
+      path: 'process/subproc'
     };
     const process: Process = {
       name: 'subproc',
@@ -75,12 +75,12 @@ describe('createProcessEditor', () => {
 
   test('hd process', () => {
     const result: Editor = {
-      id: '/test-ws/processes/designer/glsp-test-project/src_hd/glsp/test/project/hd/hdProcess',
+      id: '/test-ws/processes/designer/glsp-test-project/dialog/glsp/test/project/hd/hdProcess',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'hdProcess',
       project: { app: 'designer', project: 'glsp-test-project' },
-      path: 'src_hd/glsp/test/project/hd/hdProcess'
+      path: 'dialog/glsp/test/project/hd/hdProcess'
     };
     const process: Process = {
       name: 'hdProcess',
@@ -105,12 +105,12 @@ describe('createProcessEditor', () => {
 describe('createFormEditor', () => {
   test('form', () => {
     const result: Editor = {
-      id: '/test-ws/forms/designer/workflow-demos/src_hd/workflow/demo/form/form',
+      id: '/test-ws/forms/designer/workflow-demos/dialog/workflow/demo/form/form',
       type: 'forms',
       icon: IvyIcons.File,
       name: 'form',
       project: { app: 'designer', project: 'workflow-demos' },
-      path: 'src_hd/workflow/demo/form/form'
+      path: 'dialog/workflow/demo/form/form'
     };
     const form: Form = {
       identifier: { project: { app: 'designer', project: 'workflow-demos' }, id: 'workflow.demo.form' },
@@ -249,18 +249,18 @@ describe('createConfigurationEditor', () => {
 describe('createEditorFromPath', () => {
   test('form', () => {
     const result: Editor = {
-      id: '/test-ws/forms/designer/workflow-demos/src_hd/workflow/demo/form/form',
+      id: '/test-ws/forms/designer/workflow-demos/dialog/workflow/demo/form/form',
       type: 'forms',
       icon: IvyIcons.File,
       name: 'form',
       project: { app: 'designer', project: 'workflow-demos' },
-      path: 'src_hd/workflow/demo/form/form'
+      path: 'dialog/workflow/demo/form/form'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
       view.result.current.createEditorFromPath(
         { app: 'designer', project: 'workflow-demos' },
-        'src_hd/workflow/demo/form/form.f.json',
+        'dialog/workflow/demo/form/form.f.json',
         'forms'
       )
     ).to.be.deep.equals(result);
@@ -268,18 +268,18 @@ describe('createEditorFromPath', () => {
 
   test('business process', () => {
     const result: Editor = {
-      id: '/test-ws/processes/designer/workflow-demos/processes/path/test/proc',
+      id: '/test-ws/processes/designer/workflow-demos/process/path/test/proc',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'proc',
       project: { app: 'designer', project: 'workflow-demos' },
-      path: 'processes/path/test/proc'
+      path: 'process/path/test/proc'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
       view.result.current.createEditorFromPath(
         { app: 'designer', project: 'workflow-demos' },
-        'processes/path/test/proc.p.json',
+        'process/path/test/proc.p.json',
         'processes'
       )
     ).to.be.deep.equals(result);
@@ -287,18 +287,18 @@ describe('createEditorFromPath', () => {
 
   test('hd process', () => {
     const result: Editor = {
-      id: '/test-ws/processes/designer/workflow-demos/src_hd/workflow/demo/form/form',
+      id: '/test-ws/processes/designer/workflow-demos/dialog/workflow/demo/form/form',
       type: 'processes',
       icon: IvyIcons.Process,
       name: 'form',
       project: { app: 'designer', project: 'workflow-demos' },
-      path: 'src_hd/workflow/demo/form/form'
+      path: 'dialog/workflow/demo/form/form'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
       view.result.current.createEditorFromPath(
         { app: 'designer', project: 'workflow-demos' },
-        'src_hd/workflow/demo/form/form.p.json',
+        'dialog/workflow/demo/form/form.p.json',
         'processes'
       )
     ).to.be.deep.equals(result);
@@ -396,18 +396,18 @@ describe('createEditorFromPath', () => {
 
   test('data class', () => {
     const result: Editor = {
-      id: '/test-ws/dataclasses/designer/workflow-demos/dataclasses/form/Data',
+      id: '/test-ws/dataclasses/designer/workflow-demos/dataclass/form/Data',
       type: 'dataclasses',
       icon: IvyIcons.Database,
       name: 'Data',
       project: { app: 'designer', project: 'workflow-demos' },
-      path: 'dataclasses/form/Data'
+      path: 'dataclass/form/Data'
     };
     const view = renderHook(() => useCreateEditor());
     expect(
       view.result.current.createEditorFromPath(
         { app: 'designer', project: 'workflow-demos' },
-        'dataclasses/form/Data.d.json',
+        'dataclass/form/Data.d.json',
         'dataclasses'
       )
     ).to.be.deep.equals(result);

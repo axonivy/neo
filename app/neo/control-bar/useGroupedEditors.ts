@@ -24,7 +24,7 @@ const editorSort = (a: Editor, b: Editor) => {
 
 const groupEditorPath = ({ id }: Editor) => {
   const path = removeStartSegmets(id, 2);
-  if (!path.includes('src_hd')) {
+  if (!removeStartSegmets(path, 2).startsWith('dialog')) {
     return path;
   }
   if (path.endsWith('Data')) {
