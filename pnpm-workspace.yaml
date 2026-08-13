@@ -8,6 +8,9 @@ allowBuilds:
 allowUnusedPatches: true
 minimumReleaseAgeExclude:
   - '@axonivy/*'
+  - js-yaml@4.3.1
+  - dompurify@3.4.13
+  - nanoid@3.3.17
 registries:
   '@axonivy': 'https://npmjs-registry.ivyteam.ch/'
 overrides:
