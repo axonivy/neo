@@ -1,5 +1,4 @@
 import config from '@axonivy/eslint-config';
-import a11y from 'eslint-plugin-jsx-a11y';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig(
@@ -14,8 +13,6 @@ export default defineConfig(
       }
     }
   },
-  // JSX a11y configs
-  a11y.flatConfigs.recommended,
   // Project specific configs
   {
     name: 'ignore-files',
