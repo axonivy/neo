@@ -91,6 +91,9 @@ test.describe('preview', () => {
     await expect(browser.dialogTitle).toHaveText('Preview');
     await expect(browser.dialogFrame.getByRole('button', { name: 'Proceed' })).toBeHidden();
 
+    // eslint-disable-next-line playwright/no-wait-for-timeout
+    await page.waitForTimeout(2000);
+
     await editor.canvas.getByRole('button', { name: 'Create from data' }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'Create' }).click();
     await expect(editor.blockByName('Proceed').block).toBeVisible();
