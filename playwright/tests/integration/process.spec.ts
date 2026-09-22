@@ -216,6 +216,18 @@ test.describe('inscription', () => {
     await expect(newPage).toHaveURL(/developer.axonivy.com/);
     await expect(newPage).toHaveURL(/user-dialog.html/);
   });
+
+  test('shows an error when opening an invalid page URL', async ({ page }) => {
+    const { neo, editor } = await openQuickStartProcess(page);
+    const element = editor.elementByPid('1907DDB3CA766818-f0');
+    const inscription = await element.openInscription();
+    await inscription.openAccordion('General');
+    await inscription.openSection('Means / Documents');
+    await inscription.inscription.getByRole('row', { name: /xss/ }).click();
+    await inscription.inscription.getByRole('button', { name: 'Open URL' }).click();
+
+    await neo.toast.expectError("Failed to open page: javascript.alert('hi') is not an URL");
+  });
 });
 
 const clearAll = async (page: Page) => {
