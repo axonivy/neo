@@ -15,6 +15,9 @@
           "name" : "Enter Product Task"
         }
       },
+      "docs" : {
+        "xss" : "javascript.alert('hi')"
+      },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
         "labelOffset" : { "x" : 12, "y" : 37 }

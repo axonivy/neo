@@ -1,4 +1,5 @@
 import type { InscriptionActionArgs, InscriptionNotificationTypes } from '@axonivy/process-editor-inscription-protocol';
+import { toast } from '@axonivy/ui-components';
 import { useCallback } from 'react';
 import { useCreateForm } from '~/data/form-api';
 import { useCreateProcess } from '~/data/process-api';
@@ -88,7 +89,12 @@ export const useOpenPageActionHandler = () => {
     if (!isActionWithId(data, 'openPage')) {
       return;
     }
-    window.open(data.params.payload as string);
+    try {
+      const url = new URL(data.params.payload as string);
+      window.open(url);
+    } catch {
+      toast.error(`Failed to open page: ${data.params.payload} is not an URL`);
+    }
   }, []);
 };
 
