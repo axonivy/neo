@@ -16,7 +16,7 @@
         }
       },
       "docs" : {
-        "xss" : "javascript.alert('hi')"
+        "xss" : "javascript:alert('hi')"
       },
       "visual" : {
         "at" : { "x" : 96, "y" : 64 },
