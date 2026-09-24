@@ -91,6 +91,10 @@ export const useOpenPageActionHandler = () => {
     }
     try {
       const url = new URL(data.params.payload as string);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        toast.error(`Failed to open page: ${data.params.payload} is not an HTTP(S) URL`);
+        return;
+      }
       window.open(url);
     } catch {
       toast.error(`Failed to open page: ${data.params.payload} is not an URL`);

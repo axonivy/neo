@@ -226,7 +226,7 @@ test.describe('inscription', () => {
     await inscription.inscription.getByRole('row', { name: /xss/ }).click();
     await inscription.inscription.getByRole('button', { name: 'Open URL' }).click();
 
-    await neo.toast.expectError("Failed to open page: javascript.alert('hi') is not an URL");
+    await neo.toast.expectError("Failed to open page: javascript:alert('hi') is not an HTTP(S) URL");
   });
 });
 
