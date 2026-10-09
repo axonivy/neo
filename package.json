@@ -1,7 +1,7 @@
 {
   "name": "@axonivy/neo-root",
   "private": true,
-  "version": "12.0.18-next",
+  "version": "12.0.19-next",
   "sideEffects": false,
   "type": "module",
   "scripts": {
@@ -52,12 +52,12 @@
   "devDependencies": {
     "@axonivy/eslint-config": "next-12.0.18",
     "@react-router/dev": "^7.18.4",
+    "@tanstack/react-query-devtools": "^5.104.1",
     "@testing-library/jest-dom": "^6.10.0",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^24.19.1",
     "@types/react": "^18.3.31",
     "@types/react-dom": "^18.3.7",
-    "@tanstack/react-query-devtools": "^5.104.1",
     "@vanilla-extract/recipes": "^0.5.7",
     "@vitejs/plugin-react": "^4.7.0",
     "happy-dom": "^20.14.5",
