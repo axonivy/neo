@@ -10,7 +10,7 @@ import {
   type MavenArtifactVersionModel
 } from './generated/market-client';
 
-export const MARKET_URL = 'https://market.axonivy.com';
+export const MARKET_URL = 'https://axonivya.myhostpoint.ch';
 
 const useMarketApi = () => {
   return {
