@@ -22,7 +22,7 @@ const useMarketApi = () => {
 const products = async (headers: HeadersInit) => {
   const params: FindProductsParams = { language: 'en', type: 'all' };
   return findProducts(params, { headers }).then(res => {
-    if (ok(res)) {
+    if (res.status === 200) {
       return res.data;
     }
     toast.error('Failed to load market products', { description: 'Maybe the market is currently not accessible' });
@@ -79,7 +79,7 @@ export const useBestMatchingVersion = (id: string, engineVersion?: string) => {
     queryFn: () => {
       if (engineVersion === undefined || id === undefined) return null;
       return findBestMatchProductDetailsByVersion(id, engineVersion, { isShowDevVersion: true }, { headers }).then(res => {
-        if (ok(res)) {
+        if (res.status === 200) {
           return res.data.version ?? '';
         }
         throw new Error(`Failed to load best matching market artifact version for ${id} with engine version ${engineVersion}`);
