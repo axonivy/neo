@@ -15,38 +15,38 @@ importers:
   .:
     dependencies:
       '@axonivy/dataclass-editor':
-        specifier: next-12.0.19
-        version: 12.0.19-next.764.06c6bb4(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react@18.3.1)
+        specifier: next-12.0.20
+        version: 12.0.20-next.768.90da775(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react@18.3.1)
       '@axonivy/dataclass-editor-protocol':
-        specifier: next-12.0.19
-        version: 12.0.19-next.764.06c6bb4
+        specifier: next-12.0.20
+        version: 12.0.20-next.768.90da775
       '@axonivy/form-editor':
-        specifier: next-12.0.19
-        version: 12.0.19-next.1063.638046e(@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
+        specifier: next-12.0.20
+        version: 12.0.20-next.1069.092e6a0(@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)
       '@axonivy/form-editor-core':
-        specifier: next-12.0.19
-        version: 12.0.19-next.1063.638046e(@axonivy/jsonrpc@12.0.19-next.848.4d98368)
+        specifier: next-12.0.20
+        version: 12.0.20-next.1069.092e6a0(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)
       '@axonivy/form-editor-protocol':
-        specifier: next-12.0.19
-        version: 12.0.19-next.1063.638046e
+        specifier: next-12.0.20
+        version: 12.0.20-next.1069.092e6a0
       '@axonivy/jsonrpc':
-        specifier: next-12.0.19
-        version: 12.0.19-next.848.4d98368
+        specifier: next-12.0.20
+        version: 12.0.20-next.854.c7508f5
       '@axonivy/process-editor-inscription-protocol':
         specifier: ~12.0.16-next
         version: 12.0.16-next.1738.f4e57a8e
       '@axonivy/ui-components':
-        specifier: next-12.0.19
-        version: 12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: next-12.0.20
+        version: 12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@axonivy/ui-icons':
-        specifier: next-12.0.19
-        version: 12.0.19-next.848.4d98368
+        specifier: next-12.0.20
+        version: 12.0.20-next.854.c7508f5
       '@axonivy/variable-editor':
-        specifier: next-12.0.19
-        version: 12.0.19-next.936.20727a4(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: next-12.0.20
+        version: 12.0.20-next.940.e0b046e(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@axonivy/variable-editor-protocol':
-        specifier: next-12.0.19
-        version: 12.0.19-next.936.20727a4
+        specifier: next-12.0.20
+        version: 12.0.20-next.940.e0b046e
       '@eclipse-glsp/protocol':
         specifier: 2.3.0
         version: 2.3.0(inversify@6.2.2(reflect-metadata@0.2.2))
@@ -82,8 +82,8 @@ importers:
         version: 5.0.16(@types/react@18.3.31)(immer@10.2.0)(react@18.3.1)(use-sync-external-store@1.7.0(react@18.3.1))
     devDependencies:
       '@axonivy/eslint-config':
-        specifier: next-12.0.19
-        version: 12.0.19-next.848.4d98368(jiti@2.7.0)(supports-color@7.2.0)(typescript@5.9.3)
+        specifier: next-12.0.20
+        version: 12.0.20-next.854.c7508f5(jiti@2.7.0)(supports-color@7.2.0)(typescript@5.9.3)
       '@react-router/dev':
         specifier: ^7.18.4
         version: 7.18.5(@types/node@26.6.6)(jiti@2.7.0)(react-router@7.18.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(supports-color@7.2.0)(typescript@5.9.3)(vite@7.3.7(@types/node@26.6.6)(jiti@2.7.0)(yaml@2.9.1))(yaml@2.9.1)
@@ -148,23 +148,23 @@ importers:
   webviews/process-editor:
     dependencies:
       '@axonivy/process-editor':
-        specifier: next-12.0.19
-        version: 12.0.19-next.1838.30cc99ed(@axonivy/ui-icons@12.0.19-next.848.4d98368)(inversify@6.2.2(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)(snabbdom@3.5.1)(sprotty@1.4.0(reflect-metadata@0.2.2))
+        specifier: next-12.0.20
+        version: 12.0.20-next.1844.73e5ae0c(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(inversify@6.2.2(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)(snabbdom@3.5.1)(sprotty@1.4.0(reflect-metadata@0.2.2))
       '@axonivy/process-editor-inscription':
-        specifier: next-12.0.19
-        version: 12.0.19-next.1838.30cc99ed(deaf92a4329804fd50d6a4cd7e9bdd00)
+        specifier: next-12.0.20
+        version: 12.0.20-next.1844.73e5ae0c(d8506f4a475c17df18ce381f6978ac52)
       '@axonivy/process-editor-inscription-core':
-        specifier: next-12.0.19
-        version: 12.0.19-next.1838.30cc99ed(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@codingame/monaco-vscode-api@1.83.3)
+        specifier: next-12.0.20
+        version: 12.0.20-next.1844.73e5ae0c(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@codingame/monaco-vscode-api@1.83.3)
       '@axonivy/process-editor-inscription-protocol':
-        specifier: next-12.0.19
-        version: 12.0.19-next.1838.30cc99ed
+        specifier: next-12.0.20
+        version: 12.0.20-next.1844.73e5ae0c
       '@axonivy/process-editor-inscription-view':
-        specifier: next-12.0.19
-        version: 12.0.19-next.1838.30cc99ed(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@codingame/monaco-vscode-api@1.83.3)(@radix-ui/react-dialog@1.3.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@radix-ui/react-tabs@1.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(@tanstack/react-table@8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(downshift@9.0.13(react@18.3.1))(monaco-editor@0.44.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: next-12.0.20
+        version: 12.0.20-next.1844.73e5ae0c(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@codingame/monaco-vscode-api@1.83.3)(@radix-ui/react-dialog@1.3.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@radix-ui/react-tabs@1.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(@tanstack/react-table@8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(downshift@9.0.13(react@18.3.1))(monaco-editor@0.44.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@axonivy/process-editor-protocol':
-        specifier: next-12.0.19
-        version: 12.0.19-next.1838.30cc99ed(inversify@6.2.2(reflect-metadata@0.2.2))
+        specifier: next-12.0.20
+        version: 12.0.20-next.1844.73e5ae0c(inversify@6.2.2(reflect-metadata@0.2.2))
       '@codingame/monaco-vscode-editor-service-override':
         specifier: 1.83.3
         version: 1.83.3
@@ -196,11 +196,11 @@ packages:
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
 
-  '@axonivy/dataclass-editor-protocol@12.0.19-next.764.06c6bb4':
-    resolution: {integrity: sha512-T+XvwkRdlNjK2D7uuIg02r/O8EwFKlq1w6XVMrHupwfnwmdqvEf498Scem5aRvv1lav5ACgqLvGhCdDUT9zF/A==}
+  '@axonivy/dataclass-editor-protocol@12.0.20-next.768.90da775':
+    resolution: {integrity: sha512-N+KwQkSUlOu0eFKI5r6912gnitWGY5U8HlHISgCPS512ek75KMV+B4tEwEJA8qalkatUqCYoXYWKrUgBbSs0kQ==}
 
-  '@axonivy/dataclass-editor@12.0.19-next.764.06c6bb4':
-    resolution: {integrity: sha512-Ix/qe4x+14j0I0AgIyXWyduZUOlJ3QL50iadTYJfxNyfxKat5AowQrLsfDWt7uQehQ8eg2JVzX3C/hRIClI6Cw==}
+  '@axonivy/dataclass-editor@12.0.20-next.768.90da775':
+    resolution: {integrity: sha512-m9A9Z0EnFsS3TCEGfVSKdq+y/KG4n3ZKp3rgcroQQRqjrVBKQFgPumLoALGRr2c3B+ECLvvbNDQ5mikAVS2oEQ==}
     peerDependencies:
       '@axonivy/jsonrpc': ~12.0.19-next
       '@axonivy/ui-components': ~12.0.19-next
@@ -208,41 +208,41 @@ packages:
       '@tanstack/react-query': ^5.32
       react: ^18.2 || ^19.0
 
-  '@axonivy/eslint-config@12.0.19-next.848.4d98368':
-    resolution: {integrity: sha512-puDd3CychykafhR7D73PhJ3H+fsBmVI5IOKoTmxur3vpYWezMIKvoEgWMRnYDR3nQ+5qYQQly2JJRCZefT8ZLg==}
+  '@axonivy/eslint-config@12.0.20-next.854.c7508f5':
+    resolution: {integrity: sha512-IJL6gFVtAuOWsdipSewgRkSqAf7wWxhLie0mJ4dP5jz+TqvYROhUcJJ2SJCcD+qx6gJWjMRBR7SEFh3ks2jaog==}
 
-  '@axonivy/form-editor-core@12.0.19-next.1063.638046e':
-    resolution: {integrity: sha512-sNlSMOC1farZXzht1kfPI9icWIxkNgvAkY6HRCSdJFgbOYDJY/yJcD6uZSgXkZOTENmYvynZAE8BeAb469wJ1g==}
+  '@axonivy/form-editor-core@12.0.20-next.1069.092e6a0':
+    resolution: {integrity: sha512-96W1blJt1UGo9fK/YyikyHZ2xR7mRGwPHY6ftLEOAKl1iZyPsw1dqRq/NKvJhhvRfoN47XhO8bNmFe1vl833uw==}
     peerDependencies:
       '@axonivy/jsonrpc': ~12.0.19-next
 
-  '@axonivy/form-editor-protocol@12.0.19-next.1063.638046e':
-    resolution: {integrity: sha512-Gh/dhdBrHZqs0UsM/1JHVOoIfLTcmGb02RKJQILTSGfX5p13EqYedvNp0osAfSnukerV49xqDNiGkqtZajKVEA==}
+  '@axonivy/form-editor-protocol@12.0.20-next.1069.092e6a0':
+    resolution: {integrity: sha512-bD7ODjWIISTG8b1tpG9kd4ABmvL6kjizj10vIhZV0CQ5oU/SmCro1rg4YZHOxWLB4RjbsRfbFFMHbhOHVZ05ew==}
 
-  '@axonivy/form-editor@12.0.19-next.1063.638046e':
-    resolution: {integrity: sha512-q9E6/3BYhbEeFUGRr2dx35lkHhr9nWFlXbhK1zvfeGd56wd4qrXgktYxHOp4TzArzZt5c3rP6xR7pO0zA99E2g==}
+  '@axonivy/form-editor@12.0.20-next.1069.092e6a0':
+    resolution: {integrity: sha512-Nzm+kuyqPfkHwiWmT5saiS7OCV8EHcgWhYqRGet/TyXOs0lE4oE4qIbRLp7kRO2EFM6t3NyngqPHLsWxtZnTlQ==}
     peerDependencies:
       '@axonivy/ui-components': ~12.0.19-next
       '@axonivy/ui-icons': ~12.0.19-next
       '@tanstack/react-query': ^5.32
       react: ^18.2 || ^19.0
 
-  '@axonivy/jsonrpc@12.0.19-next.848.4d98368':
-    resolution: {integrity: sha512-MyQ3DVEH3kL7UicZuo7hwRqg1v3K/So1+MKgHCHTfCs38G2GjwU0clbsvaCvP75WVfi8QG8ug0Bbh9JRfEwPUw==}
+  '@axonivy/jsonrpc@12.0.20-next.854.c7508f5':
+    resolution: {integrity: sha512-0w+senyZ7xTO/iCqP6nlZkl3Gr3o4g2r1J9Y5bNQkJA+eSOXcaAVkIvifqs0aCD+hcYFNnNUm2erMHZqUUlhSQ==}
 
-  '@axonivy/process-editor-inscription-core@12.0.19-next.1838.30cc99ed':
-    resolution: {integrity: sha512-VZqDagzKOFyck+XIqiocfODh2ZaYHYNVpZh9L+sisyHOfXRCaR5I1CZSdxlCY9SbJdzi9/MTX/9QqIoaxKcrQg==}
+  '@axonivy/process-editor-inscription-core@12.0.20-next.1844.73e5ae0c':
+    resolution: {integrity: sha512-ItaTKmN7m/gtaafRQJ87oaQkoe/9ARrTvlsYft1LBP/SiRy7DqqDtrZ261C1w9OYMyqf8hrUWo2xVn5UN45LMA==}
     peerDependencies:
       '@axonivy/jsonrpc': ~12.0.19-next
 
   '@axonivy/process-editor-inscription-protocol@12.0.16-next.1738.f4e57a8e':
     resolution: {integrity: sha512-BWpY1FAJYWoDZb+B0aDHaPHooad5L+2kazR6l8eywjlXDzuqsKP+GrUf0qfPq7v1bU8EZrOcMAkxb4OUj5s/3w==}
 
-  '@axonivy/process-editor-inscription-protocol@12.0.19-next.1838.30cc99ed':
-    resolution: {integrity: sha512-875QegL+mL5kOKsfQ7n2oCaKevKHsxepTPMD8Dw6R1dtdgrbqGa8urDlDj8btfUF2oDQ4eAV+8MIICBzqv1VRw==}
+  '@axonivy/process-editor-inscription-protocol@12.0.20-next.1844.73e5ae0c':
+    resolution: {integrity: sha512-1AUYSRGBgSOV4IAMNDI+X6wQotacVsbbQdZ2nvaekXdX+Iq+6U/39MmcsC3rdrZJqn5HIajBzAN6vX1IpUeyOg==}
 
-  '@axonivy/process-editor-inscription-view@12.0.19-next.1838.30cc99ed':
-    resolution: {integrity: sha512-wBAS9uegIXHLrnPUaeZ2XUwGfTn7eVLeb32WcwAoBlw90X4qSY+BphXbuFAZxH7//9iUIfcQjEqTPCpiolkj6g==}
+  '@axonivy/process-editor-inscription-view@12.0.20-next.1844.73e5ae0c':
+    resolution: {integrity: sha512-dWITOeCO1CCtdX7TM20ghUdxIx0/GUU9LJu5af+AYB+wFHHSy8dXbiGYnP+1uAffm9rANgCJOf9/d+S7BMBRWg==}
     peerDependencies:
       '@axonivy/ui-components': ~12.0.19-next
       '@axonivy/ui-icons': ~12.0.19-next
@@ -253,8 +253,8 @@ packages:
       downshift: ^9.0
       react: ^18.2 || ^19.0
 
-  '@axonivy/process-editor-inscription@12.0.19-next.1838.30cc99ed':
-    resolution: {integrity: sha512-IpvqDG2VgFnjT8uQ55dBSX/fUvXaM24DS1c+zr0e8DldHR8A0W1FxJrQfcW2tJxTEcmgYVLhzv4fJIuSJKHaqA==}
+  '@axonivy/process-editor-inscription@12.0.20-next.1844.73e5ae0c':
+    resolution: {integrity: sha512-gCG/3eBIg5lm7veNRxJjaE4OF+S/tsRawtS7v0l3+dB/9B8vG7GPLAbmMq/RE7AnXdlqa2tc3ZCEIwYc87ZEKQ==}
     peerDependencies:
       '@axonivy/jsonrpc': ~12.0.19-next
       '@axonivy/ui-icons': ~12.0.19-next
@@ -262,30 +262,30 @@ packages:
       react: ^18.2
       react-aria: ^3.38
 
-  '@axonivy/process-editor-protocol@12.0.19-next.1838.30cc99ed':
-    resolution: {integrity: sha512-A++S7TKvHC/oH5TiKRtVlk4kI2CzZ6LqDkK2PBQIa76eIddk1VgnREQgfZ7Op7Gw3i0mvynBPaPOrOHRP64GMA==}
+  '@axonivy/process-editor-protocol@12.0.20-next.1844.73e5ae0c':
+    resolution: {integrity: sha512-WrRDje/qb8kptKtAHU2GYn/AIwjhYYIqK529r0zdSeluX23uJRLNXzSmtmH88dPqO2yFsNOEuQr8pDsPMbTZCA==}
 
-  '@axonivy/process-editor@12.0.19-next.1838.30cc99ed':
-    resolution: {integrity: sha512-43NioSMRjmn1abr3ijyCxjk708YPPB1ifLImn78386mvX8JOkK/aCDm9/6ABSEvYvREVh6iwqdckmrox/xa0FA==}
+  '@axonivy/process-editor@12.0.20-next.1844.73e5ae0c':
+    resolution: {integrity: sha512-r+SAf0tH05P1w6ApIH67iSLInGJyDf7uovmoFZPWxs4rz6/nY05pZwODxMZSzpe8FNhtC4cS3YQN8J4ZinMTTw==}
     peerDependencies:
       '@axonivy/ui-icons': ~12.0.19-next
       snabbdom: 3.5.1
       sprotty: 1.4.0
 
-  '@axonivy/ui-components@12.0.19-next.848.4d98368':
-    resolution: {integrity: sha512-jdGc/XjYlB3i0cjgN0Eexi7ISZhYqfpBuJcL1pCo5BfUuW8iYKbptuPRfKkStel1lEquI2Y1tXCMvOGg962cLA==}
+  '@axonivy/ui-components@12.0.20-next.854.c7508f5':
+    resolution: {integrity: sha512-mlot0OfO5cBROQ1ui0MaMjUwtoVBLzV5cJwKzNWd2ibYquGgUXmlLkTnxbRTWO5UNw/lxGAeNZDa3Rs4X2zSfQ==}
     peerDependencies:
-      '@axonivy/ui-icons': ~12.0.19-next
+      '@axonivy/ui-icons': ~12.0.20-next
       react: ^18.2 || ^19.0
 
-  '@axonivy/ui-icons@12.0.19-next.848.4d98368':
-    resolution: {integrity: sha512-inXkRJfiVdAaNAqD2Prlaxo0qm5rE0qWFwcTGuD19/iNNcoFZNhzFa9G9iwY9H5WlworXIshwKcRcX+z4Bgiug==}
+  '@axonivy/ui-icons@12.0.20-next.854.c7508f5':
+    resolution: {integrity: sha512-L2/OiXNTQvPIp5A/1KW5Zhj/eA+hicbPWE2FhjBgXUVlC/QGQWd0wzZJLP+WSMzGX8luwbdGup7WINWsTgtyVQ==}
 
-  '@axonivy/variable-editor-protocol@12.0.19-next.936.20727a4':
-    resolution: {integrity: sha512-F4ejoHIjIesJiA9izNsU7jNXAgeaP436CBN+YMgOQRtWzaUEF4TXY2wX0Rcjtc+lRGY4hmbYojWLrf7NZ4JXGA==}
+  '@axonivy/variable-editor-protocol@12.0.20-next.940.e0b046e':
+    resolution: {integrity: sha512-cNgEpD0w5yIr7n/HWB2MXrr2EGzCpIeGba9LiWm16r+XIPJR0GY7yLxvYcp5euBn+S0SrpcNKLi0UvZmBAwNkg==}
 
-  '@axonivy/variable-editor@12.0.19-next.936.20727a4':
-    resolution: {integrity: sha512-pDeGU7W7LwhU3ybwTrU8N5dAMF3rwT3tnYdGpk4/ixOBMQtKTUjHrS67Z6mi1Sh++sqMu3+AMborCkUkAxwm2A==}
+  '@axonivy/variable-editor@12.0.20-next.940.e0b046e':
+    resolution: {integrity: sha512-fmgXgU5Zze2D8aCXOvF6ASuvQSS4XApq5qBTtE+SuUxi7RFRG/bwr2WrW/dso5X+On2kLq5CJ2UsFTlr7/2T9A==}
     peerDependencies:
       '@axonivy/jsonrpc': ~12.0.19-next
       '@axonivy/ui-components': ~12.0.19-next
@@ -1733,8 +1733,8 @@ packages:
   '@swc/helpers@0.5.23':
     resolution: {integrity: sha512-5lSsMOTXURePglDfvuAQUqkGek9Hg2kksOYay2m0+XR++b2NWYL/4sWyuvVBIs8oKnJaxkdi9whaL/sqN13afw==}
 
-  '@tanstack/eslint-plugin-query@5.105.0':
-    resolution: {integrity: sha512-nQTKJa7RMzhHAl03fVchPDDgt341Onxj7MmZTNt754awyQzjCLKLM+Ki36Y6gwq8UBz8M/xDxEg8it/JOTWifQ==}
+  '@tanstack/eslint-plugin-query@5.106.1':
+    resolution: {integrity: sha512-wNCdC4uMHpEDP3GnylIUiBOco+NS53/OJiV17Of64Leg+YF4GbnLiMycVLsXMFW9iVKpnklPDt2ENkPIR0DB8A==}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: ^5.6.0 || ^6.0.0 || ^7.0.0
@@ -2359,8 +2359,8 @@ packages:
     resolution: {integrity: sha512-OpYAiI2yejMPUlB1O2pkfyNfBQrKNWrMK6X2eOn2vg/q94roDiHnOYExK0isdNglKeaYHA5JtgmuBtokFdj0AA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  eslint-plugin-playwright@2.12.1:
-    resolution: {integrity: sha512-JhavNuYBIq7SE/Zg9Esf9RGHkXoDbzrEKS383cowzMyvZ4JMbmdNCN6CoW+RU1Cjzwcoea1tou0je58uXmT/9A==}
+  eslint-plugin-playwright@2.12.2:
+    resolution: {integrity: sha512-sYRCyAEACD3URVoFTfldZcvZNdlJ1r5414gilOTsDCu26PY7l4dUl/3o9ohIEltZgaDS1VXD1mG5xU1KlIGJSw==}
     engines: {node: '>=16.9.0'}
     peerDependencies:
       eslint: '>=8.40.0'
@@ -3795,26 +3795,26 @@ snapshots:
 
   '@adobe/css-tools@4.5.0': {}
 
-  '@axonivy/dataclass-editor-protocol@12.0.19-next.764.06c6bb4': {}
+  '@axonivy/dataclass-editor-protocol@12.0.20-next.768.90da775': {}
 
-  '@axonivy/dataclass-editor@12.0.19-next.764.06c6bb4(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react@18.3.1)':
+  '@axonivy/dataclass-editor@12.0.20-next.768.90da775(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@axonivy/dataclass-editor-protocol': 12.0.19-next.764.06c6bb4
-      '@axonivy/jsonrpc': 12.0.19-next.848.4d98368
-      '@axonivy/ui-components': 12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@axonivy/ui-icons': 12.0.19-next.848.4d98368
+      '@axonivy/dataclass-editor-protocol': 12.0.20-next.768.90da775
+      '@axonivy/jsonrpc': 12.0.20-next.854.c7508f5
+      '@axonivy/ui-components': 12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@axonivy/ui-icons': 12.0.20-next.854.c7508f5
       '@tanstack/react-query': 5.106.1(@types/react@18.3.31)(react@18.3.1)
       react: 18.3.1
 
-  '@axonivy/eslint-config@12.0.19-next.848.4d98368(jiti@2.7.0)(supports-color@7.2.0)(typescript@5.9.3)':
+  '@axonivy/eslint-config@12.0.20-next.854.c7508f5(jiti@2.7.0)(supports-color@7.2.0)(typescript@5.9.3)':
     dependencies:
       '@eslint/js': 9.39.5
-      '@tanstack/eslint-plugin-query': 5.105.0(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
+      '@tanstack/eslint-plugin-query': 5.106.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
       '@typescript-eslint/eslint-plugin': 8.72.1(@typescript-eslint/parser@8.72.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
       '@typescript-eslint/parser': 8.72.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
       eslint: 9.39.5(jiti@2.7.0)(supports-color@7.2.0)
       eslint-formatter-checkstyle: 8.40.0
-      eslint-plugin-playwright: 2.12.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
+      eslint-plugin-playwright: 2.12.2(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
       eslint-plugin-react: 7.37.5(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
       eslint-plugin-react-hooks: 5.2.0(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))
       eslint-plugin-testing-library: 7.16.2(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
@@ -3825,18 +3825,18 @@ snapshots:
       - supports-color
       - typescript
 
-  '@axonivy/form-editor-core@12.0.19-next.1063.638046e(@axonivy/jsonrpc@12.0.19-next.848.4d98368)':
+  '@axonivy/form-editor-core@12.0.20-next.1069.092e6a0(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)':
     dependencies:
-      '@axonivy/form-editor-protocol': 12.0.19-next.1063.638046e
-      '@axonivy/jsonrpc': 12.0.19-next.848.4d98368
+      '@axonivy/form-editor-protocol': 12.0.20-next.1069.092e6a0
+      '@axonivy/jsonrpc': 12.0.20-next.854.c7508f5
 
-  '@axonivy/form-editor-protocol@12.0.19-next.1063.638046e': {}
+  '@axonivy/form-editor-protocol@12.0.20-next.1069.092e6a0': {}
 
-  '@axonivy/form-editor@12.0.19-next.1063.638046e(@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)':
+  '@axonivy/form-editor@12.0.20-next.1069.092e6a0(@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.9.3)':
     dependencies:
-      '@axonivy/form-editor-protocol': 12.0.19-next.1063.638046e
-      '@axonivy/ui-components': 12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@axonivy/ui-icons': 12.0.19-next.848.4d98368
+      '@axonivy/form-editor-protocol': 12.0.20-next.1069.092e6a0
+      '@axonivy/ui-components': 12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@axonivy/ui-icons': 12.0.20-next.854.c7508f5
       '@dnd-kit/core': 6.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query': 5.106.1(@types/react@18.3.31)(react@18.3.1)
       i18next: 26.4.2(typescript@5.9.3)
@@ -3849,14 +3849,14 @@ snapshots:
       - react-native
       - typescript
 
-  '@axonivy/jsonrpc@12.0.19-next.848.4d98368':
+  '@axonivy/jsonrpc@12.0.20-next.854.c7508f5':
     dependencies:
       vscode-jsonrpc: 8.2.1
 
-  '@axonivy/process-editor-inscription-core@12.0.19-next.1838.30cc99ed(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@codingame/monaco-vscode-api@1.83.3)':
+  '@axonivy/process-editor-inscription-core@12.0.20-next.1844.73e5ae0c(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@codingame/monaco-vscode-api@1.83.3)':
     dependencies:
-      '@axonivy/jsonrpc': 12.0.19-next.848.4d98368
-      '@axonivy/process-editor-inscription-protocol': 12.0.19-next.1838.30cc99ed
+      '@axonivy/jsonrpc': 12.0.20-next.854.c7508f5
+      '@axonivy/process-editor-inscription-protocol': 12.0.20-next.1844.73e5ae0c
       monaco-editor: 0.44.0
       monaco-editor-workers: 0.44.0(monaco-editor@0.44.0)
       monaco-languageclient: 6.6.1(@codingame/monaco-vscode-api@1.83.3)(monaco-editor@0.44.0)
@@ -3866,14 +3866,14 @@ snapshots:
 
   '@axonivy/process-editor-inscription-protocol@12.0.16-next.1738.f4e57a8e': {}
 
-  '@axonivy/process-editor-inscription-protocol@12.0.19-next.1838.30cc99ed': {}
+  '@axonivy/process-editor-inscription-protocol@12.0.20-next.1844.73e5ae0c': {}
 
-  '@axonivy/process-editor-inscription-view@12.0.19-next.1838.30cc99ed(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@codingame/monaco-vscode-api@1.83.3)(@radix-ui/react-dialog@1.3.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@radix-ui/react-tabs@1.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(@tanstack/react-table@8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(downshift@9.0.13(react@18.3.1))(monaco-editor@0.44.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@axonivy/process-editor-inscription-view@12.0.20-next.1844.73e5ae0c(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@codingame/monaco-vscode-api@1.83.3)(@radix-ui/react-dialog@1.3.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@radix-ui/react-tabs@1.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(@tanstack/react-table@8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(downshift@9.0.13(react@18.3.1))(monaco-editor@0.44.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@axonivy/process-editor-inscription-core': 12.0.19-next.1838.30cc99ed(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@codingame/monaco-vscode-api@1.83.3)
-      '@axonivy/process-editor-inscription-protocol': 12.0.19-next.1838.30cc99ed
-      '@axonivy/ui-components': 12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@axonivy/ui-icons': 12.0.19-next.848.4d98368
+      '@axonivy/process-editor-inscription-core': 12.0.20-next.1844.73e5ae0c(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@codingame/monaco-vscode-api@1.83.3)
+      '@axonivy/process-editor-inscription-protocol': 12.0.20-next.1844.73e5ae0c
+      '@axonivy/ui-components': 12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@axonivy/ui-icons': 12.0.20-next.854.c7508f5
       '@monaco-editor/react': 4.7.0(monaco-editor@0.44.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-dialog': 1.3.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-tabs': 1.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3892,15 +3892,15 @@ snapshots:
       - react-dom
       - vscode
 
-  '@axonivy/process-editor-inscription@12.0.19-next.1838.30cc99ed(deaf92a4329804fd50d6a4cd7e9bdd00)':
+  '@axonivy/process-editor-inscription@12.0.20-next.1844.73e5ae0c(d8506f4a475c17df18ce381f6978ac52)':
     dependencies:
-      '@axonivy/jsonrpc': 12.0.19-next.848.4d98368
-      '@axonivy/process-editor': 12.0.19-next.1838.30cc99ed(@axonivy/ui-icons@12.0.19-next.848.4d98368)(inversify@6.2.2(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)(snabbdom@3.5.1)(sprotty@1.4.0(reflect-metadata@0.2.2))
-      '@axonivy/process-editor-inscription-core': 12.0.19-next.1838.30cc99ed(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@codingame/monaco-vscode-api@1.83.3)
-      '@axonivy/process-editor-inscription-protocol': 12.0.19-next.1838.30cc99ed
-      '@axonivy/process-editor-inscription-view': 12.0.19-next.1838.30cc99ed(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@codingame/monaco-vscode-api@1.83.3)(@radix-ui/react-dialog@1.3.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@radix-ui/react-tabs@1.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(@tanstack/react-table@8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(downshift@9.0.13(react@18.3.1))(monaco-editor@0.44.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@axonivy/process-editor-protocol': 12.0.19-next.1838.30cc99ed(inversify@6.2.2(reflect-metadata@0.2.2))
-      '@axonivy/ui-icons': 12.0.19-next.848.4d98368
+      '@axonivy/jsonrpc': 12.0.20-next.854.c7508f5
+      '@axonivy/process-editor': 12.0.20-next.1844.73e5ae0c(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(inversify@6.2.2(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)(snabbdom@3.5.1)(sprotty@1.4.0(reflect-metadata@0.2.2))
+      '@axonivy/process-editor-inscription-core': 12.0.20-next.1844.73e5ae0c(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@codingame/monaco-vscode-api@1.83.3)
+      '@axonivy/process-editor-inscription-protocol': 12.0.20-next.1844.73e5ae0c
+      '@axonivy/process-editor-inscription-view': 12.0.20-next.1844.73e5ae0c(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@codingame/monaco-vscode-api@1.83.3)(@radix-ui/react-dialog@1.3.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@radix-ui/react-tabs@1.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(@tanstack/react-table@8.21.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(downshift@9.0.13(react@18.3.1))(monaco-editor@0.44.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@axonivy/process-editor-protocol': 12.0.20-next.1844.73e5ae0c(inversify@6.2.2(reflect-metadata@0.2.2))
+      '@axonivy/ui-icons': 12.0.20-next.854.c7508f5
       '@codingame/monaco-vscode-editor-service-override': 1.83.3
       '@codingame/monaco-vscode-languages-service-override': 1.83.3
       '@codingame/monaco-vscode-model-service-override': 1.83.3
@@ -3922,16 +3922,16 @@ snapshots:
       - sprotty
       - vscode
 
-  '@axonivy/process-editor-protocol@12.0.19-next.1838.30cc99ed(inversify@6.2.2(reflect-metadata@0.2.2))':
+  '@axonivy/process-editor-protocol@12.0.20-next.1844.73e5ae0c(inversify@6.2.2(reflect-metadata@0.2.2))':
     dependencies:
       '@eclipse-glsp/protocol': 2.3.0(inversify@6.2.2(reflect-metadata@0.2.2))
     transitivePeerDependencies:
       - inversify
 
-  '@axonivy/process-editor@12.0.19-next.1838.30cc99ed(@axonivy/ui-icons@12.0.19-next.848.4d98368)(inversify@6.2.2(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)(snabbdom@3.5.1)(sprotty@1.4.0(reflect-metadata@0.2.2))':
+  '@axonivy/process-editor@12.0.20-next.1844.73e5ae0c(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(inversify@6.2.2(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)(snabbdom@3.5.1)(sprotty@1.4.0(reflect-metadata@0.2.2))':
     dependencies:
-      '@axonivy/process-editor-protocol': 12.0.19-next.1838.30cc99ed(inversify@6.2.2(reflect-metadata@0.2.2))
-      '@axonivy/ui-icons': 12.0.19-next.848.4d98368
+      '@axonivy/process-editor-protocol': 12.0.20-next.1844.73e5ae0c(inversify@6.2.2(reflect-metadata@0.2.2))
+      '@axonivy/ui-icons': 12.0.20-next.854.c7508f5
       '@eclipse-glsp/client': 2.3.0(inversify@6.2.2(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)
       '@eclipse-glsp/protocol': 2.3.0(inversify@6.2.2(reflect-metadata@0.2.2))
       '@eclipse-glsp/sprotty': 2.3.0(inversify@6.2.2(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)
@@ -3945,9 +3945,9 @@ snapshots:
       - inversify
       - reflect-metadata
 
-  '@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@axonivy/ui-icons': 12.0.19-next.848.4d98368
+      '@axonivy/ui-icons': 12.0.20-next.854.c7508f5
       '@radix-ui/react-accordion': 1.3.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-checkbox': 1.4.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-collapsible': 1.2.1(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3975,16 +3975,16 @@ snapshots:
       - '@types/react-dom'
       - react-dom
 
-  '@axonivy/ui-icons@12.0.19-next.848.4d98368': {}
+  '@axonivy/ui-icons@12.0.20-next.854.c7508f5': {}
 
-  '@axonivy/variable-editor-protocol@12.0.19-next.936.20727a4': {}
+  '@axonivy/variable-editor-protocol@12.0.20-next.940.e0b046e': {}
 
-  '@axonivy/variable-editor@12.0.19-next.936.20727a4(@axonivy/jsonrpc@12.0.19-next.848.4d98368)(@axonivy/ui-components@12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@axonivy/variable-editor@12.0.20-next.940.e0b046e(@axonivy/jsonrpc@12.0.20-next.854.c7508f5)(@axonivy/ui-components@12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@tanstack/react-query@5.106.1(@types/react@18.3.31)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@axonivy/jsonrpc': 12.0.19-next.848.4d98368
-      '@axonivy/ui-components': 12.0.19-next.848.4d98368(@axonivy/ui-icons@12.0.19-next.848.4d98368)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@axonivy/ui-icons': 12.0.19-next.848.4d98368
-      '@axonivy/variable-editor-protocol': 12.0.19-next.936.20727a4
+      '@axonivy/jsonrpc': 12.0.20-next.854.c7508f5
+      '@axonivy/ui-components': 12.0.20-next.854.c7508f5(@axonivy/ui-icons@12.0.20-next.854.c7508f5)(@types/react-dom@18.3.7(@types/react@18.3.31))(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@axonivy/ui-icons': 12.0.20-next.854.c7508f5
+      '@axonivy/variable-editor-protocol': 12.0.20-next.940.e0b046e
       '@tanstack/react-query': 5.106.1(@types/react@18.3.31)(react@18.3.1)
       '@tanstack/react-virtual': 3.14.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
@@ -5470,7 +5470,7 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@tanstack/eslint-plugin-query@5.105.0(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)':
+  '@tanstack/eslint-plugin-query@5.106.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)':
     dependencies:
       '@typescript-eslint/utils': 8.72.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@5.9.3)
       eslint: 9.39.5(jiti@2.7.0)(supports-color@7.2.0)
@@ -6249,7 +6249,7 @@ snapshots:
 
   eslint-formatter-checkstyle@8.40.0: {}
 
-  eslint-plugin-playwright@2.12.1(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0)):
+  eslint-plugin-playwright@2.12.2(eslint@9.39.5(jiti@2.7.0)(supports-color@7.2.0)):
     dependencies:
       eslint: 9.39.5(jiti@2.7.0)(supports-color@7.2.0)
       globals: 17.13.0
